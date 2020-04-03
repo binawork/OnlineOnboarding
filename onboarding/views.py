@@ -1,7 +1,10 @@
-from django.shortcuts import render
 from django.contrib.auth import login, authenticate
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from .forms import SignUpForm
+from django.shortcuts import render
+from django.views import generic
+from onboarding.models import Package
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
@@ -23,3 +26,12 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+class ListOfPackage(LoginRequiredMixin, generic.ListView):
+    """Generic class-based view listing books on loan to current user."""
+    model = Package
+    template_name = 'manager/base_manager.html'
+
+    def get_queryset(self):
+        return Package.objects.filter(owner=self.request.user)
