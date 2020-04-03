@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+    <div>
+        <a href="{% url 'index' %}">Create new package</a>
+    </div>
+
+    <div>
+    <h1>Your packages</h1>
+
+    {% if package_list %}
+    <table>
+        <td>
+            title
+        </td>
+        <td>
+            description
+        </td>
+        <td>
+            add users
+        </td>
+        <td>
+            edit
+        </td>
+        {% for package in package_list %}
+            <tr>
+                <td>
+                    {{ package.title }}
+                </td>
+                <td>
+                    {{ package.description }}
+                </td>
+                <td>
+                    add user (będzie link)
+                </td>
+                <td>
+                    X - del @ - edit (będą linki)
+                </td>
+            </tr>
+      {% endfor %}
+    </table>
+
+    {% else %}
+        <p>You haven't created any package yet.</p>
+    {% endif %}
+    </div>
+
+{% endblock %}

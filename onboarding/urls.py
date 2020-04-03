@@ -5,5 +5,7 @@ from . import views as core_views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    url(r'^signup/$', core_views.signup, name='signup'),
+    url('signup', core_views.signup, name='signup'),
+    path('manage/', views.ListOfPackage.as_view(), name='manage'),
 ]
+
