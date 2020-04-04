@@ -1,5 +1,7 @@
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
+from django.views.generic import CreateView
+
 from .forms import SignUpForm
 from django.shortcuts import render
 from django.views import generic
@@ -35,3 +37,9 @@ class ListOfPackage(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return Package.objects.filter(owner=self.request.user)
+
+
+class PackageCreate(CreateView):
+    model = Package
+    fields = '__all__'
+    template_name = 'manager/create_package.html'
