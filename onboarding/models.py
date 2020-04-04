@@ -39,7 +39,9 @@ class Package(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a particular author instance."""
-        return reverse('borrow', args=[str(self.id)])
+        print('index', str(self.id))
+        print(reverse('index', args=[str(self.id)]))
+        return reverse('index', args=[str(self.id)])
 
     def __str__(self):
         """String for representing the Model object."""
