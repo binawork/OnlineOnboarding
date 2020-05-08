@@ -7,6 +7,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     url('signup', core_views.signup, name='signup'),
     path('manage/', views.ListOfPackage.as_view(), name='manage'),
-    path('manage/create/package', views.PackageCreate.as_view(), name='packagecreate'),
+    path('package/<int:pk>/', views.PackageDetailView.as_view(), name='book-detail'),
 ]
 

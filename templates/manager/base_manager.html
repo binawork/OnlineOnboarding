@@ -3,7 +3,13 @@
 {% block content %}
 
     <div>
-        <a href="{% url 'packagecreate' %}">Create new package</a>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table>
+                {{ add_package_form.as_table }}
+            </table>
+            <input type="submit" value="Submit">
+        </form>
     </div>
 
     <div>
@@ -17,25 +23,13 @@
         <td>
             description
         </td>
-        <td>
-            add users
-        </td>
-        <td>
-            edit
-        </td>
         {% for package in package_list %}
             <tr>
                 <td>
-                    {{ package.title }}
+                    <a href="{% url 'package-detail' package.get_absolute_url %}">{{ package.title }}</a>
                 </td>
                 <td>
                     {{ package.description }}
-                </td>
-                <td>
-                    add user (będzie link)
-                </td>
-                <td>
-                    X - del @ - edit (będą linki)
                 </td>
             </tr>
       {% endfor %}

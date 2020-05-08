@@ -2,11 +2,13 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
 from django.views.generic import CreateView
 
-from .forms import SignUpForm
+from .forms import SignUpForm, CreatePackageForm
 from django.shortcuts import render
 from django.views import generic
-from onboarding.models import Package
+from onboarding.models import Package, Page
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 # Create your views here.
 
 
@@ -24,7 +26,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('index')
+            return render(request, 'index.html')
     else:
         form = SignUpForm()
     return render(request, 'registration/register.html', {'form': form})
@@ -39,7 +41,31 @@ class ListOfPackage(LoginRequiredMixin, generic.ListView):
         return Package.objects.filter(owner=self.request.user)
 
 
-class PackageCreate(CreateView):
-    model = Package
-    fields = '__all__'
-    template_name = 'manager/create_package.html'
+def manager_view(self, request):
+    """View function for manager page of site."""
+    package_list_by_user = Package.objects.filter(owner=self.request.user)
+
+    if request.method == 'POST':
+        add_package_form = SignUpForm(request.POST)
+        if add_package_form.is_valid():
+            add_package_form.save()
+            context = {
+                'add_package_form': add_package_form,
+                'package_list_by_user': package_list_by_user,
+            }
+            return render(request, 'manager/base_manager.html', context=context)
+    else:
+        add_package_form = SignUpForm()
+
+    context = {
+        'add_package_form': add_package_form,
+        'package_list_by_user': package_list_by_user,
+    }
+    return render(request, 'manager/base_manager.html', context=context)
+
+
+def PackageDetailView(self, request):
+    return None
+# important links knowlage base for project
+# https://docs.djangoproject.com/en/3.0/topics/http/shortcuts/#render - render or redirect
+# https://tutorial.djangogirls.org/pl/django_forms/ -  more about forms what and why?

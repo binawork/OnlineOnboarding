@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse  # Used to generate URLs by reversing the URL patterns
 from django.contrib.auth.models import User
 import uuid  # Required for unique book instances
-# Create your models here.
+from django.contrib.postgres.fields import JSONField  # Used to generate JSON in answers
 
 
 class Email(models.Model):
@@ -15,10 +15,44 @@ class Email(models.Model):
         return f'{self.name} ,  {self.email}'
 
 
-class Page(models.Model):
+class Answer(models.Model):
+    data = JSONField()
+    uuid = models.UUIDField(primary_key=False, editable=False)
 
+
+class Section(models.Model):
+    link = models.URLField()
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1500, help_text='Enter a brief description')
+    TYPES = [
+        ('msa', 'Multi select answer'),
+        ('osa', 'One select answer'),
+        ('oa', 'Open answer'),
+    ]
+    data = JSONField()
+
+    type = models.CharField(
+        max_length=3,
+        choices=TYPES,
+        blank=True,
+        default='msa',
+        help_text='Answer type',
+    )
+
+
+class SectionsAnswer(models.Model):
+    """Model representing a through for Section and Answer."""
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    sections = models.ForeignKey(Section, on_delete=models.CASCADE)
+    order = models.IntegerField()
+
+
+class Page(models.Model):
+    """Model representing a through for Page and Section."""
+    title = models.CharField(max_length=200)
+    description = models.TextField(max_length=1500, help_text='Enter a brief description')
+    link = models.URLField()
+    sections = models.ManyToManyField(Section, through='PageSections', blank=True)
 
     def get_absolute_url(self):
         """Returns the url to access a particular author instance."""
@@ -29,18 +63,24 @@ class Page(models.Model):
         return self.title
 
 
+class PageSections(models.Model):
+    """Model representing a through for Page and Section."""
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    sections = models.ForeignKey(Section, on_delete=models.CASCADE)
+    order = models.IntegerField()
+
+
 class Package(models.Model):
     """Model representing a Package."""
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text='Enter a brief description')
-    pages = models.ManyToManyField(Page)
+    pages = models.ManyToManyField(Page, through='PackagePage', blank=True)
     email = models.ManyToManyField(Email, through='Status', blank=True)
 
     def get_absolute_url(self):
         """Returns the url to access a particular author instance."""
         print('index', str(self.id))
-        print(reverse('index', args=[str(self.id)]))
         return reverse('index', args=[str(self.id)])
 
     def __str__(self):
@@ -48,15 +88,20 @@ class Package(models.Model):
         return f'{self.title} ,  {self.description},  {self.id}'
 
 
-class Status(models.Model):
-    uuid = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False)
-    email = models.ForeignKey(Email, on_delete=models.CASCADE)
+class PackagePage(models.Model):
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
+    order = models.IntegerField()
 
+
+class Status(models.Model):
     STATUS = [
         ('s', 'sent'),
         ('d', 'done'),
     ]
+    uuid = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False)
+    email = models.ForeignKey(Email, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
 
     status = models.CharField(
         max_length=1,
