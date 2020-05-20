@@ -15,7 +15,7 @@
     <div>
     <h1>Your packages</h1>
 
-    {% if package_list %}
+    {% if package_list_by_user %}
     <table>
         <td>
             title
@@ -23,10 +23,10 @@
         <td>
             description
         </td>
-        {% for package in package_list %}
+        {% for package in package_list_by_user %}
             <tr>
                 <td>
-                    <a href="{% url 'package-detail' package.get_absolute_url %}">{{ package.title }}</a>
+                    <a>{{ package.title }}</a>
                 </td>
                 <td>
                     {{ package.description }}

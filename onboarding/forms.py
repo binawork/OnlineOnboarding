@@ -14,8 +14,10 @@ class SignUpForm(UserCreationForm):
 
 
 class CreatePackageForm(forms.ModelForm):
-
+    """
+    if owner field is hidden user can change html for add other user
+    """
     class Meta:
         model = Package
-        fields = ('title',)
-
+        fields = ('title', 'owner',)
+        widgets = {'owner': forms.HiddenInput()}
