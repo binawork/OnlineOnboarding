@@ -1,5 +1,7 @@
 from django.contrib.auth import login, authenticate
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse
 from django.views.generic import CreateView
 
 from .forms import SignUpForm, CreatePackageForm
@@ -41,31 +43,31 @@ class ListOfPackage(LoginRequiredMixin, generic.ListView):
         return Package.objects.filter(owner=self.request.user)
 
 
-def manager_view(self, request):
+def manager_view(request):
     """View function for manager page of site."""
-    package_list_by_user = Package.objects.filter(owner=self.request.user)
+    package_list_by_user = Package.objects.filter(owner=request.user)
 
     if request.method == 'POST':
-        add_package_form = SignUpForm(request.POST)
-        if add_package_form.is_valid():
-            add_package_form.save()
+        form = CreatePackageForm(request.POST)
+        if form.is_valid():
+            form.cleaned_data['owner'] = request.user.id  # Todo: add author this Package
+            form.save()
+
+            add_package_form = CreatePackageForm()
             context = {
                 'add_package_form': add_package_form,
                 'package_list_by_user': package_list_by_user,
             }
             return render(request, 'manager/base_manager.html', context=context)
+
     else:
-        add_package_form = SignUpForm()
+        add_package_form = CreatePackageForm()
+        context = {
+            'add_package_form': add_package_form,
+            'package_list_by_user': package_list_by_user,
+        }
+        return render(request, 'manager/base_manager.html', context=context)
 
-    context = {
-        'add_package_form': add_package_form,
-        'package_list_by_user': package_list_by_user,
-    }
-    return render(request, 'manager/base_manager.html', context=context)
 
-
-def PackageDetailView(self, request):
-    return None
-# important links knowlage base for project
-# https://docs.djangoproject.com/en/3.0/topics/http/shortcuts/#render - render or redirect
-# https://tutorial.djangogirls.org/pl/django_forms/ -  more about forms what and why?
+def add_page_view(request):
+    pass

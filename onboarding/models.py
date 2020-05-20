@@ -95,6 +95,9 @@ class PackagePage(models.Model):
 
 
 class Status(models.Model):
+    """
+    Package status, give information about progress
+    """
     STATUS = [
         ('s', 'sent'),
         ('d', 'done'),
