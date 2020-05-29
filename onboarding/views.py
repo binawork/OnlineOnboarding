@@ -50,8 +50,9 @@ def manager_view(request):
     if request.method == 'POST':
         form = CreatePackageForm(request.POST)
         if form.is_valid():
-            form.cleaned_data['owner'] = request.user.id  # Todo: add author this Package
-            form.save()
+            package = form.save()
+            package.owner = request.user
+            package.save()
 
             add_package_form = CreatePackageForm()
             context = {
@@ -69,5 +70,7 @@ def manager_view(request):
         return render(request, 'manager/base_manager.html', context=context)
 
 
-def add_page_view(request):
-    pass
+def pages_in_package(request, pk):
+    context = {'this_package': Package.objects.get(id=pk)}
+
+    return render(request, 'manager/add_page.html', context=context)
