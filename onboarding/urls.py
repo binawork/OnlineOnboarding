@@ -7,6 +7,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     url('signup', core_views.signup, name='signup'),
     path('manage/', views.manager_view, name='manage'),
-    # path('package/<int:pk>/', views.PackageDetailView.as_view(), name='package-detail'),
+    path('package/<int:pk>/', views.pages_in_package, name='package'),
 ]
 

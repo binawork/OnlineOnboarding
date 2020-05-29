@@ -79,9 +79,9 @@ class Package(models.Model):
     email = models.ManyToManyField(Email, through='Status', blank=True)
 
     def get_absolute_url(self):
-        """Returns the url to access a particular author instance."""
-        print('index', str(self.id))
-        return reverse('index', args=[str(self.id)])
+        """Returns the url to access a particular package instance."""
+        print(str(self.id))
+        return reverse('page', args=['/package/'+str(self.id)])
 
     def __str__(self):
         """String for representing the Model object."""

@@ -19,5 +19,4 @@ class CreatePackageForm(forms.ModelForm):
     """
     class Meta:
         model = Package
-        fields = ('title', 'owner',)
-        widgets = {'owner': forms.HiddenInput()}
+        fields = ('title',)

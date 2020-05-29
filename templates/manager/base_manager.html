@@ -26,11 +26,12 @@
         {% for package in package_list_by_user %}
             <tr>
                 <td>
-                    <a>{{ package.title }}</a>
+                    <a href="{% url "package" package.id  %} ">{{ package.title }}</a>
                 </td>
                 <td>
                     {{ package.description }}
                 </td>
+
             </tr>
       {% endfor %}
     </table>
@@ -38,6 +39,7 @@
     {% else %}
         <p>You haven't created any package yet.</p>
     {% endif %}
+
     </div>
 
 {% endblock %}
