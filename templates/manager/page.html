@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div>
+
+    {% if data %}
+        <table>
+        <th>
+            title
+        </th>
+        {% for section in data %}
+            <tr>
+                {{ section }}
+            </tr>
+      {% endfor %}
+    </table>
+
+    {% else %}
+        <p>You haven't created any section yet.</p>
+    {% endif %}
+
+    </div>
+
+{% endblock %}
