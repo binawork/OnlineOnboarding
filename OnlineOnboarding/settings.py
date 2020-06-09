@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'OnlineOnboarding.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'myproject',
-        'USER': 'myprojectuser',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'NAME': os.environ.get('PSQL_DB_NAME'),
+        'USER': os.environ.get('PSQL_USER_NAME'),
+        'PASSWORD': os.environ.get('PSQL_PASSWORD'),
+        'HOST': os.environ.get('PSQL_HOST'),
         'PORT': '',
     }
 }
