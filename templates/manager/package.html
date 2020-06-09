@@ -1,0 +1,62 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+    <div>
+    aaaaa
+    </div>
+    <div>
+    {% if data %}
+        <table id="sortable">
+        <th>
+            Move
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Description
+        </th>
+        {% for page in data %}
+            <tr id="{{ data.count }}" class="ui-state-default">
+                <td>
+                    <i class="fa fa-bars" style="cursor: move">=</i>
+                </td>
+                <td>
+                    <a href="{% url "page" page.id  %} ">{{ page.title }}</a>
+                </td>
+                <td>
+                    {{ page.description }}
+                </td>
+                <td>
+                    {{ page.pk }}
+                </td>
+            </tr>
+      {% endfor %}
+    </table>
+
+    {% else %}
+        <p>You haven't created any page yet.</p>
+    {% endif %}
+    </div>
+
+    <script type="text/javascript">
+         $(function() {
+             $("#sortable tbody").sortable({
+                 cursor: "move",
+                 placeholder: "sortable-placeholder",
+                 helper: function(e, tr) {
+                  const $originals = tr.children();
+                  const $helper = tr.clone();
+                  $helper.children().each(function(index)
+                  {
+                $(this).width($originals.eq(index).width());
+                });
+                return $helper;
+              }
+            }).disableSelection();
+         });
+    </script>
+
+
+{% endblock %}

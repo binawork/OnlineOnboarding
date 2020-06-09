@@ -70,7 +70,15 @@ def manager_view(request):
         return render(request, 'manager/base_manager.html', context=context)
 
 
-def pages_in_package(request, pk):
-    context = {'this_package': Package.objects.get(id=pk)}
+def package_view(request, pk):
+    data = Page.objects.filter(package__id=pk)
+    context = {"data": data}
 
-    return render(request, 'manager/add_page.html', context=context)
+    return render(request, 'manager/package.html', context=context)
+
+
+def page_view(request, pk):
+    data = Page.objects.filter(package__id=pk)
+    context = {"data": data}
+
+    return render(request, 'manager/page.html', context=context)
