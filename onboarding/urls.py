@@ -11,6 +11,6 @@ urlpatterns = [
     path('page/<int:pk>/', views.page_view, name='page'),
 
     path('bootstrap/signin', views.bootstrap_signin, name='bootstrap_signin'),
-    path('bootstrap/signup', views.bootstrap_signup, name='bootstrap_signup'),
+    path('bootstrap/sign-up', views.bootstrap_signup, name='bootstrap_signup'),
 ]
 
