@@ -82,3 +82,7 @@ def page_view(request, pk):
     context = {"data": data}
 
     return render(request, 'manager/page.html', context=context)
+
+def bootstrap_signin(request):
+    return render(request, 'bootstrap/auth-signin-v1.html')
+
