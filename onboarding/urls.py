@@ -10,6 +10,7 @@ urlpatterns = [
     path('package/<int:pk>/', views.package_view, name='package'),
     path('page/<int:pk>/', views.page_view, name='page'),
 
-    path('bootstrap/signin', views.bootstrap_signin, name='boot'),
+    path('bootstrap/signin', views.bootstrap_signin, name='bootstrap_signin'),
+    path('bootstrap/signup', views.bootstrap_signup, name='bootstrap_signup'),
 ]
 
