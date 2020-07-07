@@ -76,7 +76,7 @@ class Package(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text='Enter a brief description')
     pages = models.ManyToManyField(Page, through='PackagePage', blank=True)
-    email = models.ManyToManyField(Email, through='Status', blank=True)
+    email = models.ManyToManyField(Email, through='PackageEmail', blank=True)
 
     def get_absolute_url(self):
         """Returns the url to access a particular package instance."""
@@ -94,22 +94,10 @@ class PackagePage(models.Model):
     order = models.IntegerField()
 
 
-class Status(models.Model):
+class PackageEmail(models.Model):
     """
     Package status, give information about progress
     """
-    STATUS = [
-        ('s', 'sent'),
-        ('d', 'done'),
-    ]
-    uuid = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False)
+
     email = models.ForeignKey(Email, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
-
-    status = models.CharField(
-        max_length=1,
-        choices=STATUS,
-        blank=True,
-        default='s',
-        help_text='user status',
-    )

@@ -9,5 +9,6 @@ urlpatterns = [
     path('manage/', views.manager_view, name='manage'),
     path('package/<int:pk>/', views.package_view, name='package'),
     path('page/<int:pk>/', views.page_view, name='page'),
+    path('api/packages/', views.PackageListView.as_view(), name='packages_list'),
 ]
 
