@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
     <!-- Begin SEO tag -->
-    <title> Sign Up | Looper - Bootstrap 4 Admin Theme </title>
+    <title> Onboarding Admin Theme </title>
     <meta property="og:title" content="Sign Up">
     <meta name="author" content="Beni Arisandi">
     <meta property="og:locale" content="en_US">
@@ -14,10 +14,10 @@
     <meta property="og:description" content="Responsive admin theme build on top of Bootstrap 4">
     <link rel="canonical" href="https://uselooper.com">
     <meta property="og:url" content="https://uselooper.com">
-    <meta property="og:site_name" content="Looper - Bootstrap 4 Admin Theme">
+    <meta property="og:site_name" content="Onboarding Admin Theme">
     <script type="application/ld+json">
       {
-        "name": "Looper - Bootstrap 4 Admin Theme",
+        "name": "Onboarding Admin Theme",
         "description": "Responsive admin theme build on top of Bootstrap 4",
         "author":
         {
@@ -70,26 +70,22 @@
         </h1>
         <p> Already have an account? please <a href="{% url 'bootstrap_signin' %}">Sign In</a>
         </p>
-      </header><!-- form -->
-      <form class="auth-form">
-        <!-- .form-group -->
-        <div class="form-group">
-          <div class="form-label-group">
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email" required="" autofocus=""> <label for="inputEmail">Email</label>
-          </div>
-        </div><!-- /.form-group -->
-        <!-- .form-group -->
-        <div class="form-group">
-          <div class="form-label-group">
-            <input type="text" id="inputUser" class="form-control" placeholder="Username" required=""> <label for="inputUser">Username</label>
-          </div>
-        </div><!-- /.form-group -->
-        <!-- .form-group -->
-        <div class="form-group">
-          <div class="form-label-group">
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required=""> <label for="inputPassword">Password</label>
-          </div>
-        </div><!-- /.form-group -->
+      </header>
+      <form class="auth-form" method="POST">
+        {% for field in form %}
+          <!-- form -->
+          <div class="form-group">
+            <div class="form-label-group">
+              {{ field }} {{ field.label_tag }}
+				{% if field.help_text %}
+				  <br /><small style="color: grey">{{ field.help_text }}</small>
+				{% endif %}
+				{% for error in field.errors %}
+				  <p style="color: red">{{ error }}</p>
+				{% endfor %}
+            </div>
+          </div><!-- /.form-group -->
+        {% endfor %}
         <!-- .form-group -->
         <div class="form-group">
           <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
@@ -102,6 +98,7 @@
         </div><!-- /.form-group -->
         <!-- recovery links -->
         <p class="text-center text-muted mb-0"> By creating an account you agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. </p><!-- /recovery links -->
+        {% csrf_token %}
       </form><!-- /.auth-form -->
       <!-- copyright -->
       <footer class="auth-footer">&copy; {% now "Y" %} All Rights Reserved. </footer>
