@@ -1,17 +1,13 @@
 from django.contrib.auth import login, authenticate
-from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, get_object_or_404
-from django.urls import reverse
-from django.views.generic import CreateView
+from rest_framework.response import Response
 
 from .forms import SignUpForm, CreatePackageForm
 from django.shortcuts import render
 from django.views import generic
 from onboarding.models import Package, Page
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
-# Create your views here.
+from rest_framework.generics import ListAPIView
+from .serializers import PackageSerializer
 
 
 def index(request):
@@ -82,3 +78,19 @@ def page_view(request, pk):
     context = {"data": data}
 
     return render(request, 'manager/page.html', context=context)
+
+
+"""
+REST
+"""
+
+
+class PackageListView(ListAPIView):
+    # serializer_class = PackageSerializer
+    queryset = False
+
+    def get(self, request):
+        snippets = Package.objects.filter(owner=request.user)
+        serializer = PackageSerializer(snippets, many=True)
+
+        return Response(serializer.data)
