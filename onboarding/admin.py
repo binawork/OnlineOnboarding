@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Package, Page, Email, Status, Section, PackagePage, PageSections, Answer, SectionsAnswer
+from .models import Package, Page, Email, PackageEmail, Section, PackagePage, PageSections, Answer, SectionsAnswer
 
 # information about django administration site
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
@@ -33,7 +33,7 @@ class PageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Email)
-admin.site.register(Status)
+admin.site.register(PackageEmail)
 admin.site.register(Section)
 admin.site.register(Answer)
 
