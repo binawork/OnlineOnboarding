@@ -71,7 +71,7 @@
         <p> Don't have a account? <a href="{% url 'bootstrap_signup' %}">Create One</a>
         </p>
       </header><!-- form -->
-      <form class="auth-form">
+      <form class="auth-form" method="POST">
         <!-- .form-group -->
         <div class="form-group">
           <div class="form-label-group">
@@ -98,6 +98,10 @@
         <div class="text-center pt-3">
           <a href="auth-recovery-username.html" class="link">Forgot Username?</a> <span class="mx-2">·</span> <a href="auth-recovery-password.html" class="link">Forgot Password?</a>
         </div><!-- /recovery links -->
+        {% csrf_token %}
+        {% if next %}
+			<input type="hidden" name="next" value="{{ next }}" />
+        {% endif %}
       </form><!-- /.auth-form -->
       <!-- copyright -->
       <footer class="auth-footer"> &copy; {% now "Y" %} All Rights Reserved. <a href="#">Privacy</a> and <a href="#">Terms</a>
