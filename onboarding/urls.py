@@ -13,5 +13,6 @@ urlpatterns = [
 
     path('bootstrap/signin', views.bootstrap_signin, name='bootstrap_signin'),
     path('bootstrap/sign-up', views.bootstrap_signup, name='bootstrap_signup'),
+    path('bootstrap/dashboard', views.bootstrap_dashboard, name='bootstrap_dashboard'),
 ]
 
