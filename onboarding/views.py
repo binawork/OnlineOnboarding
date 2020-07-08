@@ -107,3 +107,6 @@ def bootstrap_signup(request):
     form = SignUpForm()
     return render(request, 'bootstrap/auth-signup.html', {'form':form})
 
+def bootstrap_dashboard(request):
+    return render(request, 'bootstrap/dashboard.html')
+
