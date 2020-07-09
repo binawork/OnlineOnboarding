@@ -1,5 +1,9 @@
 # Online Onboarding system
 
+## Working on this Project
+1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
+2. After Daily Magda creates note for Wiktor with questions to Product Owner
+
 ## Quick Start
 
 To get this project up and running locally on your computer:
