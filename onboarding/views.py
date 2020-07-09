@@ -27,7 +27,7 @@ def signup(request):
             return render(request, 'index.html')
     else:
         form = SignUpForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'bootstrap/auth-signup.html', {'form': form})
 
 
 class ListOfPackage(LoginRequiredMixin, generic.ListView):
