@@ -55,7 +55,7 @@ def manager_view(request):
                 'add_package_form': add_package_form,
                 'package_list_by_user': package_list_by_user,
             }
-            return render(request, 'manager/base_manager.html', context=context)
+            return render(request, 'bootstrap/package_page.html', context=context)
 
     else:
         add_package_form = CreatePackageForm()
@@ -63,7 +63,7 @@ def manager_view(request):
             'add_package_form': add_package_form,
             'package_list_by_user': package_list_by_user,
         }
-        return render(request, 'manager/base_manager.html', context=context)
+        return render(request, 'bootstrap/package_page.html', context=context) # prevoius: manager/base_manager.html
 
 
 def package_view(request, pk):
