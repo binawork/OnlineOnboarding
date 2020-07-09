@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
+    <!-- Begin SEO tag -->
+    <title> Packages | Onboarding </title>
+    <meta property="og:title" content="Packages - Onboarding">
+    <meta name="author" content="Beni Arisandi">
+    <meta property="og:locale" content="en_US">
+    <meta name="description" content="Onboarding packages page">
+    <meta property="og:description" content="Responsive admin theme build on top of Bootstrap 4">
+    <link rel="canonical" href="https://uselooper.com">
+    <meta property="og:url" content="https://uselooper.com">
+    <meta property="og:site_name" content="Onboarding: packages">
+    <script type="application/ld+json">
+      {
+        "name": "Looper - Bootstrap 4 Admin Theme",
+        "description": "Responsive admin theme build on top of Bootstrap 4",
+        "author":
+        {
+          "@type": "Person",
+          "name": "Beni Arisandi"
+        },
+        "@type": "WebSite",
+        "url": "",
+        "headline": "Filter Columns",
+        "@context": "http://schema.org"
+      }
+    </script><!-- End SEO tag -->
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="144x144" href="bootstrap/apple-touch-icon.png">
+    <!-- <link rel="shortcut icon" href="bootstrap/favicon.ico"> -->
+    <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
+    <!-- BEGIN PLUGINS STYLES -->
+    <!--<link rel="stylesheet" href="bootstrap/vendor/open-iconic/css/open-iconic-bootstrap.min.css">-->
+    <link rel="stylesheet" href="{% static 'bootstrap/vendor/fontawesome/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.bootstrap4.min.css' %}"><!-- END PLUGINS STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme.min.css' %}" data-skin="default">
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}" data-skin="dark">
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/custom.css' %}">
+    <script>
+      var skin = localStorage.getItem('skin') || 'default';
+      var isCompact = JSON.parse(localStorage.getItem('hasCompactMenu'));
+      var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
+      // Disable unused skin immediately
+      disabledSkinStylesheet.setAttribute('rel', '');
+      disabledSkinStylesheet.setAttribute('disabled', true);
+      // add flag class to html immediately
+      if (isCompact == true) document.querySelector('html').classList.add('preparing-compact-menu');
+    </script><!-- END THEME STYLES -->
+  </head>
+  <body>
+    <!-- .app -->
+    <div class="app">
+      <!--[if lt IE 10]>
+      <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
+      <![endif]-->
+      <!-- .app-header -->
+      <header class="app-header app-header-dark">
+        <!-- .top-bar -->
+        <div class="top-bar">
+          <!-- .top-bar-brand -->
+          <div class="top-bar-brand">
+            <!-- toggle aside menu -->
+            <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
+            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
+                <defs>
+                </defs>
+                <g fill="none" fill-rule="evenodd">
+                  <use class="fill-warning" xlink:href="#a"></use>
+                </g>
+              </svg></a>
+          </div><!-- /.top-bar-brand -->
+          <!-- .top-bar-list -->
+          <div class="top-bar-list">
+            <!-- .top-bar-item -->
+            <div class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
+              <!-- toggle menu -->
+              <button class="hamburger hamburger-squeeze" type="button" data-toggle="aside" aria-label="toggle menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle menu -->
+            </div><!-- /.top-bar-item -->
+            <!-- .top-bar-item -->
+            <div class="top-bar-item top-bar-item-full">
+              <!-- .top-bar-search -->
+              <form class="top-bar-search">
+                <!-- .input-group -->
+                <div class="input-group input-group-search dropdown">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><span class="oi oi-magnifying-glass"></span></span>
+                  </div><input type="text" class="form-control" data-toggle="dropdown" aria-label="Search" placeholder="Search"> <!-- .dropdown-menu -->
+                  <div class="dropdown-menu dropdown-menu-rich dropdown-menu-xl ml-n4 mw-100">
+                    <div class="dropdown-arrow ml-3"></div><!-- .dropdown-scroll -->
+                    <div class="dropdown-scroll perfect-scrollbar h-auto" style="max-height: 360px">
+                      <!-- .list-group -->
+                      <div class="list-group list-group-flush list-group-reflow mb-2">
+                        <h6 class="list-group-header d-flex justify-content-between">
+                          <span>Shortcut</span>
+                        </h6><!-- .list-group-item -->
+                        <div class="list-group-item py-2">
+                          <a href="#" class="stretched-link"></a>
+                          <div class="tile tile-sm bg-muted">
+                            <i class="fas fa-user-plus"></i>
+                          </div>
+                          <div class="ml-2"> Create user </div>
+                        </div><!-- /.list-group-item -->
+                        <h6 class="list-group-header d-flex justify-content-between mt-2">
+                          <span>In projects</span> <a href="#" class="font-weight-normal">Show more</a>
+                        </h6><!-- .list-group-item -->
+                        <div class="list-group-item py-2">
+                          <a href="#" class="stretched-link"><span class="sr-only">Go to search result</span></a>
+                          <div class="user-avatar user-avatar-sm bg-muted">
+                            <img src="bootstrap/images/avatars/bootstrap.svg" alt="">
+                          </div>
+                          <div class="ml-2">
+                            <div class="mb-n1"> Bootstrap </div><small class="text-muted">Just now</small>
+                          </div>
+                        </div><!-- /.list-group-item -->
+                        <!-- .list-group-item -->
+                        <div class="list-group-item py-2">
+                          <a href="#" class="stretched-link"><span class="sr-only">Go to search result</span></a>
+                          <div class="user-avatar user-avatar-sm bg-muted">
+                            <img src="bootstrap/images/avatars/slack.svg" alt="">
+                          </div>
+                          <div class="ml-2">
+                            <div class="mb-n1"> Slack </div><small class="text-muted">Updated 25 minutes ago</small>
+                          </div>
+                        </div><!-- /.list-group-item -->
+                        <!-- /.list-group-item -->
+                        <h6 class="list-group-header d-flex justify-content-between mt-2">
+                          <span>Another section</span> <a href="#" class="font-weight-normal">Show more</a>
+                        </h6><!-- .list-group-item -->
+                        <div class="list-group-item py-2">
+                          <a href="#" class="stretched-link"><span class="sr-only">Go to search result</span></a>
+                          <div class="tile tile-sm bg-muted"> P </div>
+                          <div class="ml-2">
+                            <div class="mb-n1"> Product name </div>
+                          </div>
+                        </div><!-- /.list-group-item -->
+                      </div><!-- /.list-group -->
+                    </div><!-- /.dropdown-scroll -->
+                    <a href="#" class="dropdown-footer">Show all results</a>
+                  </div><!-- /.dropdown-menu -->
+                </div><!-- /.input-group -->
+              </form><!-- /.top-bar-search -->
+            </div><!-- /.top-bar-item -->
+            <!-- .top-bar-item -->
+            <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
+              <!-- .btn-account -->
+              <div class="dropdown d-flex">
+                <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">Wiktor Świątkowski</span> <span class="account-description">Marketing Manager</span></span></button> <!-- .dropdown-menu -->
+                <div class="dropdown-menu">
+                  <div class="dropdown-arrow ml-3"></div>
+                  <h6 class="dropdown-header d-none d-md-block d-lg-none"> Wiktor Świątkowski </h6><a class="dropdown-item" href="#"><span class="dropdown-icon oi oi-person"></span> Profile</a> <a class="dropdown-item" href="{% url 'bootstrap_signin' %}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+                  <div class="dropdown-divider"></div><!--<a class="dropdown-item" href="#">Help Center</a> <a class="dropdown-item" href="#">Ask Forum</a>-->
+                </div><!-- /.dropdown-menu -->
+              </div><!-- /.btn-account -->
+            </div><!-- /.top-bar-item -->
+          </div><!-- /.top-bar-list -->
+        </div><!-- /.top-bar -->
+      </header><!-- /.app-header -->
+      <!-- .app-aside -->
+      <aside class="app-aside app-aside-expand-md app-aside-light">
+        <!-- .aside-content -->
+        <div class="aside-content">
+          <!-- .aside-header -->
+          <header class="aside-header d-block d-md-none">
+          </header><!-- /.aside-header -->
+          <!-- .aside-menu -->
+          <div class="aside-menu overflow-hidden">
+            <!-- .stacked-menu -->
+            <nav id="stacked-menu" class="stacked-menu">
+              <!-- .menu -->
+              <ul class="menu">
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Packages</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item has-child">
+                  <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Decks</span></a> <!-- child menu -->
+                  <ul class="menu">
+                    <li class="menu-item">
+                      <a href="#" class="menu-link">Pizza Dreams</a>
+                    </li>
+                    <li class="menu-item has-child">
+                      <a href="#" class="menu-link">Pizza Dreams Onboarding</a> <!-- grand child menu -->
+                      <ul class="menu">
+                        <li class="menu-item">
+                          <a href="#" class="menu-link">PD Register Form</a>
+                        </li>
+                      </ul><!-- /grand child menu -->
+                    </li>
+                  </ul><!-- /child menu -->
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item has-child"><!-- class="menu-item has-active has-child" -->
+                  <a href="#" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Menu Item 1</span> <span class="badge badge-warning">New</span></a> <!-- child menu -->
+                  <ul class="menu">
+                    <!--<li class="menu-item">
+                      <a href="#" class="menu-link">Screen Locked</a>
+                    </li>-->
+                  </ul><!-- /child menu -->
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 2</span></a>
+                </li><!-- /.menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 3</span></a>
+                </li><!-- /.menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 4</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-header -->
+                <li class="menu-header">Interfaces </li><!-- /.menu-header -->
+              </ul><!-- /.menu -->
+            </nav><!-- /.stacked-menu -->
+          </div><!-- /.aside-menu -->
+          <!-- Skin changer -->
+          <footer class="aside-footer border-top p-2">
+            <button class="btn btn-light btn-block text-primary" data-toggle="skin"><span class="d-compact-menu-none">Night mode</span> <i class="fas fa-moon ml-1"></i></button>
+          </footer><!-- /Skin changer -->
+        </div><!-- /.aside-content -->
+      </aside><!-- /.app-aside -->
+      <!-- .app-main -->
+      <main class="app-main">
+        <!-- .wrapper -->
+        <div class="wrapper">
+          <!-- .page -->
+          <div class="page">
+            <!-- .page-inner -->
+            <div class="page-inner">
+              <!-- .page-title-bar -->
+              <header class="page-title-bar">
+                <!-- .card -->
+                  <div class="card card-fluid">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <h4 class="card-title">  </h4>
+                      <hr>
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                          <a href="#">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Packages </li>
+                      </ol>
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+              </header><!-- /.page-title-bar -->
+
+              <!-- .page-section -->
+              <div class="page-section">
+                <!-- .card -->
+                <div class="card card-fluid">
+                  <!-- .card-header -->
+                  <div class="card-header">
+                    View Content
+                  </div><!-- /.card-header -->
+                  <!-- .card-body -->
+                  <div class="card-body">
+                    <!-- .form-group -->
+                    <div class="form-group">
+                      <!-- .input-group -->
+                      <div class="input-group input-group-alt">
+                        <!-- .input-group -->
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter new Deck name">
+                        </div><!-- /.input-group -->
+                        <!-- .input-group-append -->
+                        <div class="input-group-append">
+                          <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Add New Deck</button>
+                        </div><!-- /.input-group-append -->
+                      </div><!-- /.input-group -->
+                    </div><!-- /.form-group -->
+                    <div class="table-responsive">
+                      <table class="table dataTable no-footer table-striped table-bordered" aria-describedby="myTable_info" role="grid">
+                        <thead style="background-color: #A0A092;">
+                          <tr role="row">
+                            <th class="align-middle sorting_asc" tabindex=0 aria-label="Package Name : active to sort column ascending">Package Name</th>
+                            <th class="align-middle sorting" tabindex=0>Pages Count</th>
+                            <th class="align-middle sorting" tabindex=0>Status</th>
+                            <th class="align-middle sorting" tabindex=0>Last Edit</th>
+                            <th class="align-middle" tabindex=0>Actions</th>
+                          </tr>
+                        </thead>
+                          <tr>
+                            <td class="align-middle" tabindex=0>Pizza Dreams Onboarding</td>
+                            <td class="align-middle" tabindex=0>4</td>
+                            <td class="align-middle" tabindex=0>Published</td>
+                            <td class="align-middle" tabindex=0>2020-04-06</td>
+                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
+                          </tr>
+                          <tr>
+                            <td class="align-middle" tabindex=0>COVID-19 How To</td>
+                            <td class="align-middle" tabindex=0>14</td>
+                            <td class="align-middle" tabindex=0>Draft</td>
+                            <td class="align-middle" tabindex=0>2020-04-06</td>
+                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
+                          </tr>
+                          <tr>
+                            <td class="align-middle" tabindex=0>Lekcja 1 - Temat: Krowa</td>
+                            <td class="align-middle" tabindex=0>21</td>
+                            <td class="align-middle" tabindex=0>Published</td>
+                            <td class="align-middle" tabindex=0>2020-04-06</td>
+                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
+                          </tr>
+                          <tr>
+                            <td class="align-middle" tabindex=0>Lekcja 1 - Temat: Etanol</td>
+                            <td class="align-middle" tabindex=0>42</td>
+                            <td class="align-middle" tabindex=0>Published</td>
+                            <td class="align-middle" tabindex=0>2020-04-06</td>
+                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
+                          </tr>
+                        <tbody>
+                        </tbody>
+                      </table>
+<!-- add table results -->
+                    </div>
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
+              </div><!-- /.page-section -->
+            </div><!-- /.page-inner -->
+          </div><!-- /.page -->
+        </div><!-- .app-footer -->
+        <footer class="app-footer">
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <a class="text-muted" href="#">Support</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="#">Help Center</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="#">Privacy</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="#">Terms of Service</a>
+            </li>
+          </ul>
+          <div class="copyright"> Copyright &copy; {% now 'Y' %}. All right reserved. </div>
+        </footer><!-- /.app-footer -->
+        <!-- /.wrapper -->
+      </main><!-- /.app-main -->
+    </div><!-- /.app -->
+    <!-- BEGIN BASE JS -->
+    <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script> <!-- END BASE JS -->
+    <!-- BEGIN PLUGINS JS -->
+    <script src="{% static 'bootstrap/vendor/pace/pace.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/stacked-menu/stacked-menu.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js' %}"></script> <!-- END PLUGINS JS -->
+    <!-- BEGIN THEME JS -->
+    <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
+    <!-- BEGIN PAGE LEVEL JS -->
+    <script src="{% static 'bootstrap/javascript/pages/dataTables.bootstrap.js' %}"></script><!-- END PAGE LEVEL JS -->
+  </body>
+</html>
