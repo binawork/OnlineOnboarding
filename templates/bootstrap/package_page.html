@@ -282,6 +282,7 @@
                         <div class="input-group-append">
                           <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Add New Page</button>
                         </div><!-- /.input-group-append -->
+                        {% csrf_token %}
                       </div><!-- /.input-group -->
                     </div><!-- /.form-group -->
                     <div class="table-responsive">
@@ -383,5 +384,6 @@
     <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
     <!-- BEGIN PAGE LEVEL JS -->
     <script src="{% static 'bootstrap/javascript/pages/dataTables.bootstrap.js' %}"></script><!-- END PAGE LEVEL JS -->
+    <script type="module" src="{% static 'js/script.js' %}"></script>
   </body>
 </html>
