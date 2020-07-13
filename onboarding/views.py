@@ -79,6 +79,7 @@ def page_view(request, pk):
 
     return render(request, 'manager/page.html', context=context)
 
+
 """
 REST
 """
@@ -95,27 +96,27 @@ class PackageListView(ListAPIView):
         return Response(serializer.data)
 
 
-
-
-
-
-
 """
 Bootstrap part
 """
 
+
 def bootstrap_signin(request):
     return render(request, 'bootstrap/auth-signin-v1.html')
 
+
 def bootstrap_signup(request):
     form = SignUpForm()
-    return render(request, 'bootstrap/auth-signup.html', {'form':form})
+    return render(request, 'bootstrap/auth-signup.html', {'form': form})
+
 
 def bootstrap_dashboard(request):
     return render(request, 'bootstrap/dashboard.html')
 
+
 def bootstrap_packages(request):
     return render(request, 'bootstrap/packages.html')
+
 
 def bootstrap_1_package(request):
     return render(request, 'bootstrap/package_page.html')
