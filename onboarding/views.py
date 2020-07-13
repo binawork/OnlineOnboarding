@@ -112,3 +112,7 @@ def bootstrap_packages(request):
 def bootstrap_1_package(request):
     return render(request, 'bootstrap/package_page.html')
 
+
+def landing_page_test(request):
+    return render(request, 'bootstrap/landing-page.html')
+

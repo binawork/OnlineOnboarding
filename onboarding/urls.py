@@ -16,5 +16,6 @@ urlpatterns = [
     path('bootstrap/dashboard', views.bootstrap_dashboard, name='bootstrap_dashboard'),
     path('bootstrap/packages', views.bootstrap_packages, name='bootstrap_packages'),
     path('bootstrap/package-page', views.bootstrap_1_package, name='bootstrap_1_package'),
+    path('bootstrap/landing-page', views.landing_page_test, name='bootstrap_landing_page'),
 ]
 
