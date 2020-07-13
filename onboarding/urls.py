@@ -17,4 +17,3 @@ urlpatterns = [
     path('bootstrap/packages', views.bootstrap_packages, name='bootstrap_packages'),
     path('bootstrap/package-page', views.bootstrap_1_package, name='bootstrap_1_package'),
 ]
-
