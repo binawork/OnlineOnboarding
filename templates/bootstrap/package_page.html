@@ -156,7 +156,7 @@
                 <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">{{ user.get_username }}</span> <span class="account-description">Marketing Manager</span></span></button> <!-- .dropdown-menu -->
                 <div class="dropdown-menu">
                   <div class="dropdown-arrow ml-3"></div>
-                  <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ user.get_username }} </h6><a class="dropdown-item" href="#"><span class="dropdown-icon oi oi-person"></span> Profile</a> <a class="dropdown-item" href="{% url 'logout' %}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+                  <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ user.get_username }} </h6><a class="dropdown-item" href="#"><span class="dropdown-icon oi oi-person"></span> Profile</a> <a class="dropdown-item" href="{% url 'logout'%}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
                   <div class="dropdown-divider"></div><!--<a class="dropdown-item" href="#">Help Center</a> <a class="dropdown-item" href="#">Ask Forum</a>-->
                 </div><!-- /.dropdown-menu -->
                {% else %}
