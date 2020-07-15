@@ -1,3 +1,4 @@
+import { clearTable } from "./ui.js";
 
 function getToken(){
 	var inputs = document.getElementsByTagName("input"), i, tok="";
@@ -21,4 +22,6 @@ fetch(path, fetchProps).then(function(res){return res.json();}).then(
 	(error) => {console.log("Can not load API, " + error);}
 );
 
+if(clearTable)
+	clearTable();
 
