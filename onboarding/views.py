@@ -96,8 +96,13 @@ class PackageListView(ListAPIView):
         return Response(serializer.data)
 
 
-# class PackageView(RetrieveUpdateDestroyAPIView):
-#     def get
+class PackageView(RetrieveUpdateDestroyAPIView):
+    serializer_class = PackageSerializer
+    lookup_url_kwarg = 'pk'
+
+    def get_queryset(self):
+        return Package.objects.filter()
+
 
 """
 Bootstrap part
@@ -114,4 +119,3 @@ def bootstrap_packages(request):
 
 def bootstrap_1_package(request):
     return render(request, 'bootstrap/package_page.html')
-
