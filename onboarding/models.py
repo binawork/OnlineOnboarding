@@ -75,6 +75,8 @@ class Package(models.Model):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text='Enter a brief description')
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
     pages = models.ManyToManyField(Page, through='PackagePage', blank=True)
     email = models.ManyToManyField(Email, through='PackageEmail', blank=True)
 
