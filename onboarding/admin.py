@@ -19,7 +19,7 @@ class SectionsInline(admin.TabularInline):
 
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'owner', 'description')
+    list_display = ('id', 'title', 'owner', 'description', "created_on", "updated_on",)
     list_filter = (
         ('owner', admin.RelatedOnlyFieldListFilter),
     )
