@@ -6,8 +6,8 @@ from django.shortcuts import render
 from django.views import generic
 from onboarding.models import Package, Page
 from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
-from .serializers import PackageSerializer
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
+from .serializers import PackageSerializer, CreatePackageSerializer
 
 
 def index(request):
@@ -102,6 +102,14 @@ class PackageView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Package.objects.filter()
+
+
+class CreatePackageView(CreateAPIView):
+    serializer_class = CreatePackageSerializer
+    queryset = Package.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 """
