@@ -29,15 +29,15 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'bootstrap/auth-signup.html', {'form': form})
 
-
+"""
 class ListOfPackage(LoginRequiredMixin, generic.ListView):
-    """Generic class-based view listing books on loan to current user."""
+    " ""Generic class-based view listing books on loan to current user."" "
     model = Package
     template_name = 'manager/base_manager.html'
 
     def get_queryset(self):
         return Package.objects.filter(owner=self.request.user)
-
+"""
 
 def manager_view(request):
     """View function for manager page of site."""
@@ -65,7 +65,7 @@ def manager_view(request):
         }
         return render(request, 'bootstrap/package_page.html', context=context)  # prevoius: manager/base_manager.html
 
-
+"""
 def package_view(request, pk):
     data = Page.objects.filter(package__id=pk)
     context = {"data": data}
@@ -78,7 +78,7 @@ def page_view(request, pk):
     context = {"data": data}
 
     return render(request, 'manager/page.html', context=context)
-
+"""
 
 """
 REST
@@ -127,3 +127,4 @@ def bootstrap_packages(request):
 
 def bootstrap_1_package(request):
     return render(request, 'bootstrap/package_page.html')
+
