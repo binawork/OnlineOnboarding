@@ -1,4 +1,4 @@
-import { printPackages, deleteNthRow, dTab } from "./ui.js";
+import { printPackages, deleteNthRow, dTab, newPackageForm } from "./ui.js";
 
 function getToken(){
 	var inputs = document.getElementsByTagName("input"), i, tok="";
@@ -12,7 +12,7 @@ function getToken(){
 	return tok;
 }
 
-var path = "http://localhost:8000/onboarding/api/packages/", tok, fetchProps;
+var path = "http://localhost:8000/onboarding/api/packages/", tok;
 
 	tok = getToken();
 
@@ -28,6 +28,15 @@ function contentGET(url, responseFun){
 	);
 }
 
+function newPackage(e){
+	e.preventDefault();
+	e.returnValue = false;
+	var button = e.target||e.srcElement, url = "http://localhost:8000/onboarding/api/package/create/",
+	packageName = pForm.input.value;
+
+	console.log(packageName);
+}
+
 if(dTab){
 	contentGET(path, printPackages);
 
@@ -37,4 +46,10 @@ if(dTab){
 	}
 }
 
+var pForm = newPackageForm();
+if(pForm != false){
+	if(pForm.button && pForm.input)
+		pForm.button.addEventListener("click", newPackage, false);
+
+}
 
