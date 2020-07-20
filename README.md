@@ -1,5 +1,13 @@
 # Online Onboarding system
 
+# Resources
+* [Google Drive](https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1)
+
+### Notion
+https://www.notion.so/plywoodandfriends/Kennedy-Onboarding-System-f5f463966bfd4741826f52f0114c30f6
+
+
+
 ## Working on this Project
 1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
 2. After Daily Magda creates note for Wiktor with questions to Product Owner
