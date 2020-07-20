@@ -1,5 +1,6 @@
 
 export var dTab = document.getElementById("package_table");
+export var pForm = document.getElementById("package_form");
 
 function clearTable(){
 	if(!dTab)
