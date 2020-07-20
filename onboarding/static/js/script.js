@@ -1,4 +1,4 @@
-import { clearTable } from "./ui.js";
+import { clearTable, deleteNthRow } from "./ui.js";
 
 function getToken(){
 	var inputs = document.getElementsByTagName("input"), i, tok="";
@@ -22,6 +22,10 @@ fetch(path, fetchProps).then(function(res){return res.json();}).then(
 	(error) => {console.log("Can not load API, " + error);}
 );
 
-if(clearTable)
-	clearTable();
+if(dTab){
+	let links = dTab.getElementsByTagName("a"), i;
+	for(i = links.length - 1; i >= 0; i--){
+		// todo: add event listeners;
+	}
+}
 
