@@ -1,6 +1,22 @@
 
 export var dTab = document.getElementById("package_table");
-export var pForm = document.getElementById("package_form");
+
+export function newPackageForm(){
+	var pForm = document.getElementById("package_form");
+	if(!pForm)
+		return false;
+
+	var result = {input:null, button:null}, btn, inputs, i;
+	btn = pForm.getElementsByTagName("button");
+	inputs = pForm.getElementsByTagName("input");
+
+	if(inputs.length > 0)
+		result.input = inputs[0];
+	if(btn.length > 0)
+		result.button = btn[0];
+
+	return result;
+}
 
 function clearTable(){
 	if(!dTab)
