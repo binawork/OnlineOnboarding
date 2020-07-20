@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.views import generic
 from onboarding.models import Package, Page
 from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from .serializers import PackageSerializer
 
 
@@ -95,6 +95,9 @@ class PackageListView(ListAPIView):
 
         return Response(serializer.data)
 
+
+# class PackageView(RetrieveUpdateDestroyAPIView):
+#     def get
 
 """
 Bootstrap part
