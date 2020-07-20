@@ -1,11 +1,10 @@
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 
-from .forms import SignUpForm, CreatePackageForm
+from .forms import SignUpForm
 from django.shortcuts import render
-from django.views import generic
-from onboarding.models import Package, Page
-from django.contrib.auth.mixins import LoginRequiredMixin
+from onboarding.models import Package
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
 from .serializers import PackageSerializer, CreatePackageSerializer
 
@@ -29,56 +28,33 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'bootstrap/auth-signup.html', {'form': form})
 
-"""
-class ListOfPackage(LoginRequiredMixin, generic.ListView):
-    " ""Generic class-based view listing books on loan to current user."" "
-    model = Package
-    template_name = 'manager/base_manager.html'
 
-    def get_queryset(self):
-        return Package.objects.filter(owner=self.request.user)
-"""
-
+@login_required
 def manager_view(request):
     """View function for manager page of site."""
-    package_list_by_user = Package.objects.filter(owner=request.user)
+    return render(request, 'bootstrap/package_page.html')
 
-    if request.method == 'POST':
-        form = CreatePackageForm(request.POST)
-        if form.is_valid():
-            package = form.save()
-            package.owner = request.user
-            package.save()
-
-            add_package_form = CreatePackageForm()
-            context = {
-                'add_package_form': add_package_form,
-                'package_list_by_user': package_list_by_user,
-            }
-            return render(request, 'bootstrap/package_page.html', context=context)
-
-    else:
-        add_package_form = CreatePackageForm()
-        context = {
-            'add_package_form': add_package_form,
-            'package_list_by_user': package_list_by_user,
-        }
-        return render(request, 'bootstrap/package_page.html', context=context)  # prevoius: manager/base_manager.html
-
-"""
-def package_view(request, pk):
-    data = Page.objects.filter(package__id=pk)
-    context = {"data": data}
-
-    return render(request, 'manager/package.html', context=context)
+# class ListOfPackage(LoginRequiredMixin, generic.ListView):
+#     " ""Generic class-based view listing books on loan to current user."" "
+#     model = Package
+#     template_name = 'manager/base_manager.html'
+#
+#     def get_queryset(self):
+#         return Package.objects.filter(owner=self.request.user)
 
 
-def page_view(request, pk):
-    data = Page.objects.filter(package__id=pk)
-    context = {"data": data}
-
-    return render(request, 'manager/page.html', context=context)
-"""
+# def package_view(request, pk):
+#     data = Page.objects.filter(package__id=pk)
+#     context = {"data": data}
+#
+#     return render(request, 'manager/package.html', context=context)
+#
+#
+# def page_view(request, pk):
+#     data = Page.objects.filter(package__id=pk)
+#     context = {"data": data}
+#
+#     return render(request, 'manager/page.html', context=context)
 
 """
 REST
@@ -113,7 +89,7 @@ class CreatePackageView(CreateAPIView):
 
 
 """
-Bootstrap part
+Bootstrap part - test part
 """
 
 
@@ -127,4 +103,3 @@ def bootstrap_packages(request):
 
 def bootstrap_1_package(request):
     return render(request, 'bootstrap/package_page.html')
-
