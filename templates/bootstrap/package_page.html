@@ -273,7 +273,7 @@
                     <!-- .form-group -->
                     <div class="form-group">
                       <!-- .input-group -->
-                      <div class="input-group input-group-alt">
+                      <form id="package_form" class="input-group input-group-alt">
                         <!-- .input-group -->
                         <div class="input-group">
                           <input type="text" class="form-control" placeholder="Enter new Page name">
@@ -283,23 +283,21 @@
                           <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Add New Page</button>
                         </div><!-- /.input-group-append -->
                         {% csrf_token %}
-                      </div><!-- /.input-group -->
+                      </form><!-- /.input-group -->
                     </div><!-- /.form-group -->
                     <div class="table-responsive">
                       <table id="package_table" class="table dataTable no-footer table-striped table-bordered" aria-describedby="myTable_info" role="grid">
                         <thead style="background-color: #A0A092;">
                           <tr role="row">
                             <th class="align-middle sorting_asc" tabindex=0 aria-label="Package Name : active to sort column ascending">Package Name</th>
-                            <th class="align-middle sorting" tabindex=0>Order</th>
-                            <th class="align-middle sorting" tabindex=0>Section</th>
-                            <th class="align-middle sorting" tabindex=0>Status</th>
+                            <th class="align-middle sorting" tabindex=0>Page count</th>
+                            <th class="align-middle sorting" tabindex=0>Created on</th>
                             <th class="align-middle sorting" tabindex=0>Last Edit</th>
                             <th class="align-middle" tabindex=0>Actions</th>
                           </tr>
                         </thead>
                           <tr>
                             <td class="align-middle" tabindex=0>PD Register Form</td>
-                            <td class="align-middle" tabindex=0>1</td>
                             <td class="align-middle" tabindex=0>4</td>
                             <td class="align-middle" tabindex=0>Published</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
@@ -307,7 +305,6 @@
                           </tr>
                           <tr>
                             <td class="align-middle" tabindex=0>Get Permissions</td>
-                            <td class="align-middle" tabindex=0>2</td>
                             <td class="align-middle" tabindex=0>14</td>
                             <td class="align-middle" tabindex=0>Draft</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
@@ -315,7 +312,6 @@
                           </tr>
                           <tr>
                             <td class="align-middle" tabindex=0>Select Your Pizza</td>
-                            <td class="align-middle" tabindex=0>3</td>
                             <td class="align-middle" tabindex=0>1</td>
                             <td class="align-middle" tabindex=0>Published</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
@@ -323,7 +319,6 @@
                           </tr>
                           <tr>
                             <td class="align-middle" tabindex=0>Pre work prep</td>
-                            <td class="align-middle" tabindex=0>4</td>
                             <td class="align-middle" tabindex=0>21</td>
                             <td class="align-middle" tabindex=0>Published</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
@@ -331,7 +326,6 @@
                           </tr>
                           <tr>
                             <td class="align-middle" tabindex=0>Project kickoff</td>
-                            <td class="align-middle" tabindex=0>4</td>
                             <td class="align-middle" tabindex=0>42</td>
                             <td class="align-middle" tabindex=0>Published</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
