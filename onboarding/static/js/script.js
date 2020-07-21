@@ -33,6 +33,10 @@ function newPackage(e){
 		packageName = pForm.input.value,
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "X-CSRFToken":tok}};
 
+	if(!packageName || packageName.length < 1){
+		return;
+	}
+
 	console.log(packageName);
 }
 

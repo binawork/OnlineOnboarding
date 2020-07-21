@@ -28,10 +28,16 @@ function clearTable(){
 		dTab.deleteRow(n - 1);
 		n--;
 	}
+	var tb = document.createElement("tbody");
+	dTab.appendChild(tb);
+	return tb;
 }
 
-function addRow(contentArray){
-	let tr, i, td = null;
+function addRow(contentArray, parent){
+	let tr, i, td = null, ptab = dTab;
+	if(parent)
+		ptab = parent;
+
 	tr = document.createElement("tr");
 
 	for(i = 0; i < contentArray.length; i++){
@@ -39,7 +45,7 @@ function addRow(contentArray){
 		td.className = "align-middle";
 		td.appendChild( document.createTextNode(contentArray[i]) );
 	}
-	dTab.appendChild(tr);
+	ptab.appendChild(tr);
 	return td;
 }
 
@@ -61,8 +67,8 @@ export function printPackages(result){
 	if(len < 1)
 		return;
 
-	clearTable();
-	var arr=["","","","",""], i, lastTd;
+	var arr=["","","","",""], i, lastTd, tbody;
+	tbody = clearTable();
 	for(i = 0; i < len; i++){
 		if(result[i].hasOwnProperty("title") ){
 			arr[0] = result[i].title;
@@ -89,7 +95,7 @@ export function printPackages(result){
 
 		// todo: create delete button;
 		arr[4] = "";
-		lastTd = addRow(arr);
+		lastTd = addRow(arr, tbody);
 		if(lastTd){
 			lastTd.appendChild( createDelete() );
 		}
