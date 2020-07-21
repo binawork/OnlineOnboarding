@@ -1,5 +1,6 @@
 
 export var dTab = document.getElementById("package_table");
+const dFormat = new Intl.DateTimeFormat(undefined, {year: 'numeric', month: 'long', day: 'numeric', weekday:'long'});
 
 export function newPackageForm(){
 	var pForm = document.getElementById("package_form");
@@ -30,13 +31,15 @@ function clearTable(){
 }
 
 function addRow(contentArray){
-	let tr = dTab.insertRow(), i, td = null;
+	let tr, i, td = null;
+	tr = document.createElement("tr");
 
 	for(i = 0; i < contentArray.length; i++){
 		td = tr.insertCell(-1);
 		td.className = "align-middle";
 		td.appendChild( document.createTextNode(contentArray[i]) );
 	}
+	dTab.appendChild(tr);
 	return td;
 }
 
@@ -74,13 +77,13 @@ export function printPackages(result){
 		let date;
 		if(result[i].hasOwnProperty("created_on")){
 			date = new Date( Date.parse(result[i].created_on) );
-			arr[2] = date;
+			arr[2] = dFormat.format(date);
 		} else
 			arr[2] = "";
 
 		if(result[i].hasOwnProperty("updated_on")){
 			date = new Date( Date.parse(result[i].updated_on) );
-			arr[3] = date;//.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
+			arr[3] = date.toDateString();//.getFullYear() + "-" + date.getMonth() + "-" + date.getDay();
 		} else
 			arr[3] = "";
 

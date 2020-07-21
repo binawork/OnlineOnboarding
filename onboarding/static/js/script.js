@@ -19,8 +19,6 @@ var path = "http://localhost:8000/onboarding/api/packages/", tok;
 function contentGET(url, responseFun){
 	var fetchProps;
 	fetchProps = {method:"GET", headers:{"Accept":"application/json", "X-CSRFToken":tok}};
-
-	fetchProps = {method:"GET", headers:{"Accept":"application/json", "X-CSRFToken":tok}};
 	
 	fetch(url, fetchProps).then(function(res){return res.json();}).then(
 		(resParsed) => {console.log(resParsed);responseFun(resParsed);},
@@ -32,7 +30,8 @@ function newPackage(e){
 	e.preventDefault();
 	e.returnValue = false;
 	var button = e.target||e.srcElement, url = "http://localhost:8000/onboarding/api/package/create/",
-	packageName = pForm.input.value;
+		packageName = pForm.input.value,
+		fetchProps = {method:"GET", headers:{"Accept":"application/json", "X-CSRFToken":tok}};
 
 	console.log(packageName);
 }
