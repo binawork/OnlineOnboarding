@@ -3,11 +3,7 @@
 # Resources
 * [Google Drive](https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1)
 * [Balsamiq](https://balsamiq.cloud/s353db/p2xgepg/r9870)
-
-### Notion
-https://www.notion.so/plywoodandfriends/Kennedy-Onboarding-System-f5f463966bfd4741826f52f0114c30f6
-
-
+* [Notion](https://www.notion.so/plywoodandfriends/Kennedy-Onboarding-System-f5f463966bfd4741826f52f0114c30f6)
 
 ## Working on this Project
 1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
