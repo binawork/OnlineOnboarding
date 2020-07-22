@@ -21,7 +21,7 @@ urlpatterns = [
     path('api/packages/', views.PackageListView.as_view(), name='packages_list'),
     path('api/package/<int:pk>/', views.PackageView.as_view(), name='package_view'),
     path('api/package/create/', views.CreatePackageView.as_view(), name='package_create'),
-    path('api/package/add/email/<int:pk>/', views.AddEmailToPackageView.as_view(), name='package_create'),
+    path('api/add/email/', views.AddEmailToPackageView.as_view(), name='add_email'),
 
 ]
 

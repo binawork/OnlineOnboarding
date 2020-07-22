@@ -7,8 +7,7 @@ from .forms import SignUpForm
 from django.shortcuts import render
 from onboarding.models import Package, Email
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, ListCreateAPIView
-from .serializers import PackageSerializer, CreatePackageSerializer, AddEmailToPackageSerializer
-from rest_framework import filters, viewsets
+from .serializers import PackageSerializer, CreatePackageSerializer, AddEmail
 
 
 def index(request):
@@ -93,24 +92,8 @@ class CreatePackageView(CreateAPIView):
 
 
 class AddEmailToPackageView(CreateAPIView):
+    serializer_class = AddEmail
     queryset = Email.objects.all()
-    serializer_class = AddEmailToPackageSerializer
-    # lookup_url_kwarg = 'package_pk'
-
-    def get_queryset(self):
-        queryset = Email.objects.all()
-        package_id = self.kwargs.get('package_pk', None)
-        if package_id is not None:
-            queryset = queryset.filter(package__id=package_id)
-        return queryset
-
-    def perform_create(self, serializer):
-        package_id = self.kwargs.get('package_pk', None)
-        try:
-            package = Package.objects.get(id=package_id)
-        except Package.DoesNotExist:
-            raise NotFound()
-        serializer.save(email=package)
 
 
 """
