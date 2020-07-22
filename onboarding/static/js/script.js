@@ -36,8 +36,7 @@ function newPackage(e){
 		return;
 	}
 
-	var fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":tok}, body:JSON.stringify({title: packageName, description: " "})};
-
+	var fetchProps = {method:"POST", headers:{"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken": tok}, body:JSON.stringify({title: packageName, description: "this is descryption"})};
 
 	fetch(url, fetchProps).then(function(res){return res.json();}).then(
 		(resParsed) => {console.log(resParsed);},
