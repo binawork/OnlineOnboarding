@@ -1,12 +1,14 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 
 from .forms import SignUpForm
 from django.shortcuts import render
-from onboarding.models import Package
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
-from .serializers import PackageSerializer, CreatePackageSerializer
+from onboarding.models import Package, Email
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, ListCreateAPIView
+from .serializers import PackageSerializer, CreatePackageSerializer, AddEmailToPackageSerializer
+from rest_framework import filters, viewsets
 
 
 def index(request):
@@ -31,7 +33,9 @@ def signup(request):
 
 @login_required
 def manager_view(request):
-    """View function for manager page of site."""
+    """View function for manager page of site.
+    """
+
     return render(request, 'bootstrap/package_page.html')
 
 # class ListOfPackage(LoginRequiredMixin, generic.ListView):
@@ -72,7 +76,7 @@ class PackageListView(ListAPIView):
         return Response(serializer.data)
 
 
-class PackageView(RetrieveUpdateDestroyAPIView):
+class PackageView(RetrieveUpdateDestroyAPIView):  # todo: should delete all relation (pages, email, etc.)?
     serializer_class = PackageSerializer
     lookup_url_kwarg = 'pk'
 
@@ -86,6 +90,27 @@ class CreatePackageView(CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+
+class AddEmailToPackageView(CreateAPIView):
+    queryset = Email.objects.all()
+    serializer_class = AddEmailToPackageSerializer
+    # lookup_url_kwarg = 'package_pk'
+
+    def get_queryset(self):
+        queryset = Email.objects.all()
+        package_id = self.kwargs.get('package_pk', None)
+        if package_id is not None:
+            queryset = queryset.filter(package__id=package_id)
+        return queryset
+
+    def perform_create(self, serializer):
+        package_id = self.kwargs.get('package_pk', None)
+        try:
+            package = Package.objects.get(id=package_id)
+        except Package.DoesNotExist:
+            raise NotFound()
+        serializer.save(email=package)
 
 
 """
@@ -103,3 +128,5 @@ def bootstrap_packages(request):
 
 def bootstrap_1_package(request):
     return render(request, 'bootstrap/package_page.html')
+
+
