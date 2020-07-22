@@ -16,6 +16,7 @@ urlpatterns = [
     path('bootstrap/dashboard', views.bootstrap_dashboard, name='bootstrap_dashboard'),
     path('bootstrap/packages', views.bootstrap_packages, name='bootstrap_packages'),
     path('bootstrap/package-page', views.bootstrap_1_package, name='bootstrap_1_package'),
+    path('bootstrap/forms', views.bootstrap_forms, name='bootstrap_forms'),
 
     # API
     path('api/packages/', views.PackageListView.as_view(), name='packages_list'),
