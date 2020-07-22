@@ -236,7 +236,7 @@
         <!-- .wrapper -->
         <div class="wrapper">
           <!-- .page -->
-          <div class="page">
+          <div class="page has-sidebar has-sidebar-expand-xl">
             <!-- .page-inner -->
             <div class="page-inner">
               <!-- .page-title-bar -->
@@ -338,6 +338,25 @@
                 </div><!-- /.card -->
               </div><!-- /.page-section -->
             </div><!-- /.page-inner -->
+		<!-- .page-sidebar -->
+		<div class="page-sidebar page-sidebar-fixed">
+			<!-- .sidebar-header -->
+			<header class="sidebar-header d-xl-none">
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item">
+                    <a class="prevent-default" href="#" onclick="Looper.toggleSidebar()"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Back</a>
+                  </li>
+                </ol>
+			</header><!-- /.sidebar-header -->
+			<!-- .nav -->
+			<nav id="nav-content" class="nav flex-column mt-4">
+                <a href="#base-style" class="nav-link smooth-scroll">Base style</a>
+                <a href="#labels" class="nav-link smooth-scroll">Labels</a>
+                <a href="#floating-label" class="nav-link smooth-scroll">Floating label</a>
+                <a href="#selects" class="nav-link smooth-scroll">Selects</a> <a href="#checkboxes" class="nav-link smooth-scroll">Checkboxes</a> <a href="#radios" class="nav-link smooth-scroll">Radios</a> <a href="#switcher" class="nav-link smooth-scroll">Switcher</a> <a href="#rating" class="nav-link smooth-scroll">Rating</a> <a href="#visual-picker" class="nav-link smooth-scroll">Visual picker</a> <a href="#publisher" class="nav-link smooth-scroll">Publisher</a> <a href="#input-group" class="nav-link smooth-scroll">Input group</a>
+                <a href="#validation-states" class="nav-link smooth-scroll">Validation states</a>
+			</nav><!-- /.nav -->
+		</div><!-- /.page-sidebar -->
           </div><!-- /.page -->
         </div><!-- .app-footer -->
         <footer class="app-footer">
@@ -358,21 +377,6 @@
           <div class="copyright"> Copyright &copy; {% now 'Y' %}. All right reserved. </div>
         </footer><!-- /.app-footer -->
         <!-- /.wrapper -->
-		<!-- .page-sidebar -->
-		<div class="page-sidebar page-sidebar-fixed">
-			<!-- .sidebar-header -->
-			<header class="sidebar-header d-xl-none">
-                <ol class="breadcrumb mb-0">
-                  <li class="breadcrumb-item">
-                    <a class="prevent-default" href="#" onclick="Looper.toggleSidebar()"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Back</a>
-                  </li>
-                </ol>
-			</header><!-- /.sidebar-header -->
-			<!-- .nav -->
-			<nav id="nav-content" class="nav flex-column mt-4">
-                <a href="#base-style" class="nav-link smooth-scroll">Base style</a> <a href="#labels" class="nav-link smooth-scroll">Labels</a> <a href="#floating-label" class="nav-link smooth-scroll">Floating label</a> <a href="#selects" class="nav-link smooth-scroll">Selects</a> <a href="#checkboxes" class="nav-link smooth-scroll">Checkboxes</a> <a href="#radios" class="nav-link smooth-scroll">Radios</a> <a href="#switcher" class="nav-link smooth-scroll">Switcher</a> <a href="#rating" class="nav-link smooth-scroll">Rating</a> <a href="#visual-picker" class="nav-link smooth-scroll">Visual picker</a> <a href="#publisher" class="nav-link smooth-scroll">Publisher</a> <a href="#input-group" class="nav-link smooth-scroll">Input group</a> <a href="#validation-states" class="nav-link smooth-scroll">Validation states</a>
-			</nav><!-- /.nav -->
-		</div><!-- /.page-sidebar -->
       </main><!-- /.app-main -->
     </div><!-- /.app -->
     <!-- BEGIN BASE JS -->
