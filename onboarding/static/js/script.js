@@ -30,14 +30,19 @@ function newPackage(e){
 	e.preventDefault();
 	e.returnValue = false;
 	var button = e.target||e.srcElement, url = "http://localhost:8000/onboarding/api/package/create/",
-		packageName = pForm.input.value,
-		fetchProps = {method:"GET", headers:{"Accept":"application/json", "X-CSRFToken":tok}};
+		packageName = pForm.input.value;
 
 	if(!packageName || packageName.length < 1){
 		return;
 	}
 
-	console.log(packageName);
+	var fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":tok}, body:JSON.stringify({title: packageName, description: " "})};
+
+
+	fetch(url, fetchProps).then(function(res){return res.json();}).then(
+		(resParsed) => {console.log(resParsed);},
+		(error) => {console.log("Can not load API, " + error);}
+	);
 }
 
 if(dTab){
