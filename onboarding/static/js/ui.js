@@ -60,14 +60,14 @@ function createDelete(){
 
 export function printPackages(result){
 	if( Object.prototype.toString.call(result) !=='[object Array]' )
-		return;// log-error;
+		return [];// log-error;
 
 	var len = result.length;
 
 	if(len < 1)
-		return;
+		return [];
 
-	var arr=["","","","",""], i, lastTd, tbody;
+	var arr=["","","","",""], i, lastTd, tbody, links = [], lnk;
 	tbody = clearTable();
 	for(i = 0; i < len; i++){
 		if(result[i].hasOwnProperty("title") ){
@@ -97,14 +97,17 @@ export function printPackages(result){
 		arr[4] = "";
 		lastTd = addRow(arr, tbody);
 		if(lastTd){
-			lastTd.appendChild( createDelete() );
+			lnk = createDelete();
+			lastTd.appendChild(lnk);
+			links.push(lnk);
 		}
 	}
-
+	return links;
 }
 
 export function deleteNthRow(e){
 	var aLink = e.target||e.srcElement, row = aLink.parentNode;
+	e.preventDefault();
 
 	while(row.nodeName.toLowerCase() != "tr" && row.nodeName.toLowerCase() != "body")
 		row = row.parentNode;
@@ -112,6 +115,10 @@ export function deleteNthRow(e){
 	if(row.nodeName.toLowerCase() == "body")
 		return;
 	row.parentNode.removeChild(row);
+}
+
+export function sidePanel(){
+
 }
 
 //export { clearTable as default };
