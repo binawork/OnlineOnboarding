@@ -73,7 +73,7 @@ class Package(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     pages = models.ManyToManyField(Page, through='PackagePage', blank=True)
-    # email = models.ManyToManyField(Email, through='PackageEmail', blank=True)
+    users = models.ManyToManyField(Email)
 
     def get_absolute_url(self):
         """Returns the url to access a particular package instance."""
@@ -89,4 +89,5 @@ class PackagePage(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
     order = models.IntegerField()
+
 
