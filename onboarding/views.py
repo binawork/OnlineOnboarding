@@ -32,9 +32,7 @@ def signup(request):
 
 @login_required
 def manager_view(request):
-    """View function for manager page of site.
-    """
-
+    """View function for manager page of site."""
     return render(request, 'bootstrap/package_page.html')
 
 # class ListOfPackage(LoginRequiredMixin, generic.ListView):
@@ -112,4 +110,6 @@ def bootstrap_packages(request):
 def bootstrap_1_package(request):
     return render(request, 'bootstrap/package_page.html')
 
+def bootstrap_forms(request):
+    return render(request, 'bootstrap/package_forms.html')
 
