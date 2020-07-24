@@ -26,6 +26,16 @@ function contentGET(url, responseFun){
 	);
 }
 
+function contentDEL(url, responseFun){
+	var fetchProps;
+	fetchProps = {method:"DELETE", headers:{"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken":tok}};
+
+	fetch(url, fetchProps).then(function(res){return res.json();}).then(
+		(resParsed) => {console.log(resParsed);responseFun(resParsed);},
+		(error) => {console.log("Can not load API, " + error);}
+	);
+}
+
 function newPackage(e){
 	e.preventDefault();
 	e.returnValue = false;
@@ -47,11 +57,29 @@ function newPackage(e){
 function delPackage(e){
 	e.preventDefault();
 	e.returnValue = false;
-	var url = "";
+	var link, id;
+
+	link = e.target||e.srcElement;
+	id = link.getAttribute("id");// link.dataset.id;
+	if(isNaN(parseFloat(id)) || isNaN(id - 0) ){
+		return;
+	}
+
+	var url = "http://localhost:8000/onboarding/api/package/", fetchProps;
+	url = url + id + "/";
+	contentDEL(url, function(res){console.log(res);});
+}
+
+
+function printPackagesWithLinks(response){
+	var links = printPackages(response), i;
+	for(i = links.length - 1; i >= 0; i--){
+		console.log(links[i]);
+	}
 }
 
 if(dTab){
-	contentGET(path, printPackages);
+	contentGET(path, printPackagesWithLinks);
 
 	let links = dTab.getElementsByTagName("a"), i;
 	for(i = links.length - 1; i >= 0; i--){
