@@ -49,11 +49,11 @@ function addRow(contentArray, parent){
 	return td;
 }
 
-function createDelete(){
+function createDelete(id){
 	var a = document.createElement("a");
 	a.appendChild( document.createTextNode("delete") );
 	a.href = "#";
-	a.addEventListener("click", deleteNthRow, false);
+	//a.addEventListener("click", deleteNthRow, false);
 	return a;
 }
 
@@ -93,11 +93,15 @@ export function printPackages(result){
 		} else
 			arr[3] = "";
 
-		// todo: create delete button;
 		arr[4] = "";
+		lnk = "";
+		if(result[i].hasOwnProperty("id")){
+			lnk = result[i].id;
+		}
+
 		lastTd = addRow(arr, tbody);
 		if(lastTd){
-			lnk = createDelete();
+			lnk = createDelete(lnk);
 			lastTd.appendChild(lnk);
 			links.push(lnk);
 		}
