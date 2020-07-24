@@ -477,19 +477,21 @@
               </div>
             </div><!-- /.sticker -->
             <!-- .card-body -->
-            <div class="card-body d-md-flex justify-content-between align-items-center text-center position-relative"><form method="POST">
-              <h3 class="font-weight-normal mb-3 mb-md-0 mr-md-3"> Singn up for newsletter - get info about new features and discounts </h3>
-              <div class="form-group">
+            <form class="card-body d-md-flex justify-content-between align-items-center text-center position-relative" method="POST">
+              <div>
+              	<h3 class="font-weight-normal mb-3 mb-md-0 mr-md-3"> Singn up for newsletter - get info about new features and discounts </h3>
               	<div class="form-label-group">
               		<input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required=""> <label for="email">Email address</label>
               	</div>
-              		<!-- <div class="input-group-append"> -->
+              	<div class="font-weight-normal mb-3 mb-md-0 mr-md-3 custom-checkbox">
+              		<label><input type="checkbox" name="agree" /> I agree to <a class="btn btn-lg btn-primary btn-outline-light" href="#">newsletter policy<i class="fa fa-angle-right ml-2"></i></a></label>
+              	</div>
+              </div>
+              <div class="form-group">
               		<button class="btn btn-lg btn-primary shadow" data-toggle="modal">Sign Up</button>
-
               </div><!-- /.form-group -->
-              <div class="font-weight-normal mb-3 mb-md-0 mr-md-3 custom-checkbox"><label><input type="checkbox" name="agree" /> I agree to <a class="btn btn-lg btn-primary btn-outline-light" href="#">newsletter policy<i class="fa fa-angle-right ml-2"></i></a></label></div>
               {% csrf_token %}
-            </form></div><!-- /.card-body -->
+            </form><!-- /.card-body -->
           </div><!-- /.card -->
         </div><!-- /.container -->
         <br />
