@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Package, Page, Section, Answer, Email
+from django.contrib.auth.models import User
 
 # information about django administration site
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
@@ -19,12 +20,11 @@ class SectionsInline(admin.TabularInline):
 
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'owner', 'description', "created_on", "updated_on",)
+    list_display = ('id', 'title', 'owner', 'description', "created_on", "updated_on")
     list_filter = (
         ('owner', admin.RelatedOnlyFieldListFilter),
     )
     inlines = [PagePackageInline]
-    inlines = [UserPackageInline]
 
 
 @admin.register(Page)

@@ -15,11 +15,17 @@ class CreatePackageSerializer(serializers.ModelSerializer):
         fields = ['title', 'description']
 
 
-class AddEmail(serializers.ModelSerializer):
+class AddEmailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Email
         fields = '__all__'
+
+
+class CurrentUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 'last_name')
 
 
 class CurrentUserSerializer(serializers.ModelSerializer):

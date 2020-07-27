@@ -6,8 +6,9 @@ from rest_framework.response import Response
 from .forms import SignUpForm
 from django.shortcuts import render
 from onboarding.models import Package, Email
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, ListCreateAPIView
-from .serializers import PackageSerializer, CreatePackageSerializer, AddEmail
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
+
+from .serializers import PackageSerializer, CreatePackageSerializer, AddEmailSerializer
 
 
 def index(request):
@@ -90,8 +91,12 @@ class CreatePackageView(CreateAPIView):
 
 
 class AddEmailToPackageView(CreateAPIView):
-    serializer_class = AddEmail
+    serializer_class = AddEmailSerializer
     queryset = Email.objects.all()
+
+
+class AddPageToPageView():
+    pass
 
 
 """

@@ -73,7 +73,7 @@ class Package(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     pages = models.ManyToManyField(Page, through='PackagePage', blank=True)
-    users = models.ManyToManyField(User, related_name='package_users')
+    users = models.ManyToManyField(User, related_name='package_users', blank=True)
 
     def get_absolute_url(self):
         """Returns the url to access a particular package instance."""
