@@ -19,10 +19,13 @@ urlpatterns = [
     path('bootstrap/forms', views.bootstrap_forms, name='bootstrap_forms'),
 
     # API
+    path('api/add/email/', views.AddEmailToPackageView.as_view(), name='add_email'),
+
     path('api/packages/', views.PackageListView.as_view(), name='packages_list'),
     path('api/package/<int:pk>/', views.PackageView.as_view(), name='package_view'),
     path('api/package/create/', views.CreatePackageView.as_view(), name='package_create'),
-    path('api/add/email/', views.AddEmailToPackageView.as_view(), name='add_email'),
+    path('api/package/<int:pk>/add/user/', views.AddEmailToPackageView.as_view(), name='add_user_to_package'),
+
 
 ]
 
