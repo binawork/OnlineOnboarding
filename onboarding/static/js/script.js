@@ -12,9 +12,22 @@ function getToken(){
 	return tok;
 }
 
-var path = "http://localhost:8000/onboarding/api/packages/", tok;
+function getPath(){
+	var url = "";
+	if(!window.location.origin){
+		url = window.location.protocol +"//"+ window.location.host;
+	} else url = window.location.origin;
 
+	if(url===null || !(url) || (typeof url==='string' && url=='null')) url="";
+	let rrs=/\/$/.test(url);
+	if(!rrs) url=url+"/";
+	return url;
+}
+
+
+var path = getPath() + "onboarding/api/", tok;
 	tok = getToken();
+
 
 function contentGET(url, responseFun){
 	var fetchProps;
@@ -39,7 +52,7 @@ function contentDEL(url, responseFun){
 function newPackage(e){
 	e.preventDefault();
 	e.returnValue = false;
-	var button = e.target||e.srcElement, url = "http://localhost:8000/onboarding/api/package/create/",
+	var button = e.target||e.srcElement, url = path + "package/create/",
 		packageName = pForm.input.value;
 
 	if(!packageName || packageName.length < 1){
@@ -49,7 +62,7 @@ function newPackage(e){
 	var fetchProps = {method:"POST", headers:{"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken": tok}, body:JSON.stringify({title: packageName, description: "Please fill description here"})};
 
 	fetch(url, fetchProps).then(function(res){return res.json();}).then(
-		(resParsed) => {console.log(resParsed);if(resParsed.hasOwnProperty("title"))contentGET(path, printPackagesWithLinks);},
+		(resParsed) => {console.log(resParsed);if(resParsed.hasOwnProperty("title"))contentGET(path+"packages/", printPackagesWithLinks);},
 		(error) => {console.log("Can not load API, " + error);}
 	);
 }
@@ -65,7 +78,7 @@ function delPackage(e){
 		return;
 	}
 
-	var url = "http://localhost:8000/onboarding/api/package/";
+	var url = path + "package/";
 	url = url + id;
 	contentDEL(url, function(res){deleteNthRow(e);});
 }
@@ -81,7 +94,7 @@ function printPackagesWithLinks(response){
 }
 
 if(dTab){
-	contentGET(path, printPackagesWithLinks);
+	contentGET(path+"packages/", printPackagesWithLinks);
 }
 
 var pForm = newPackageForm();
