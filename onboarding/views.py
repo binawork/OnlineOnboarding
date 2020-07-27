@@ -110,6 +110,7 @@ def bootstrap_packages(request):
 def bootstrap_1_package(request):
     return render(request, 'bootstrap/package_page.html')
 
+
 def bootstrap_forms(request):
     return render(request, 'bootstrap/package_forms.html')
 
