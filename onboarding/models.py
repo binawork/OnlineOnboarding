@@ -6,13 +6,8 @@ from django.contrib.postgres.fields import JSONField  # Used to generate JSON in
 
 
 class Email(models.Model):
-    """Model representing a user"""
+    """Model representing users who are want test etc this app"""
     email = models.EmailField(max_length=254)
-    name = models.CharField(max_length=200)
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return f'{self.name} ,  {self.email}'
 
 
 class Answer(models.Model):
@@ -78,7 +73,7 @@ class Package(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     pages = models.ManyToManyField(Page, through='PackagePage', blank=True)
-    email = models.ManyToManyField(Email, through='PackageEmail', blank=True)
+    users = models.ManyToManyField(User, related_name='package_users')
 
     def get_absolute_url(self):
         """Returns the url to access a particular package instance."""
@@ -96,10 +91,3 @@ class PackagePage(models.Model):
     order = models.IntegerField()
 
 
-class PackageEmail(models.Model):
-    """
-    Package status, give information about progress
-    """
-
-    email = models.ForeignKey(Email, on_delete=models.CASCADE)
-    package = models.ForeignKey(Package, on_delete=models.CASCADE)
