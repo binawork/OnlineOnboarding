@@ -30,8 +30,8 @@ function contentDEL(url, responseFun){
 	var fetchProps;
 	fetchProps = {method:"DELETE", headers:{"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken":tok}};
 
-	fetch(url, fetchProps).then(function(res){return res.json();}).then(
-		(resParsed) => {console.log(resParsed);responseFun(resParsed);},
+	fetch(url, fetchProps).then(
+		(res) => {responseFun(res);},
 		(error) => {console.log("Can not load API, " + error);}
 	);
 }
@@ -49,7 +49,7 @@ function newPackage(e){
 	var fetchProps = {method:"POST", headers:{"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken": tok}, body:JSON.stringify({title: packageName, description: "Please fill description here"})};
 
 	fetch(url, fetchProps).then(function(res){return res.json();}).then(
-		(resParsed) => {console.log(resParsed);if(resParsed.hasOwnProperty("title"))contentGET(path, printPackages);},
+		(resParsed) => {console.log(resParsed);if(resParsed.hasOwnProperty("title"))contentGET(path, printPackagesWithLinks);},
 		(error) => {console.log("Can not load API, " + error);}
 	);
 }
@@ -65,26 +65,23 @@ function delPackage(e){
 		return;
 	}
 
-	var url = "http://localhost:8000/onboarding/api/package/", fetchProps;
-	url = url + id + "/";
-	contentDEL(url, function(res){console.log(res);});
+	var url = "http://localhost:8000/onboarding/api/package/";
+	url = url + id;
+	contentDEL(url, function(res){deleteNthRow(e);});
 }
 
 
 function printPackagesWithLinks(response){
 	var links = printPackages(response), i;
 	for(i = links.length - 1; i >= 0; i--){
-		console.log(links[i]);
+		links[i].addEventListener("click", delPackage, false);
+		// clicking links fires contentDEL() after which row is removed if request is accepted;
+		// deleteNthRow(e);
 	}
 }
 
 if(dTab){
 	contentGET(path, printPackagesWithLinks);
-
-	let links = dTab.getElementsByTagName("a"), i;
-	for(i = links.length - 1; i >= 0; i--){
-		links[i].addEventListener("click", deleteNthRow, false);
-	}
 }
 
 var pForm = newPackageForm();

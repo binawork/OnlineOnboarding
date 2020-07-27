@@ -53,7 +53,7 @@ function createDelete(id){
 	var a = document.createElement("a");
 	a.appendChild( document.createTextNode("delete") );
 	a.href = "#";
-	//a.addEventListener("click", deleteNthRow, false);
+	a.setAttribute("id", id);
 	return a;
 }
 
