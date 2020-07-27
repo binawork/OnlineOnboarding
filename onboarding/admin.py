@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Package, Page, Email, PackageEmail, Section, PackagePage, PageSections, Answer, SectionsAnswer
+from .models import Package, Page, Section, Answer, Email
 
 # information about django administration site
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
@@ -9,8 +9,8 @@ class PagePackageInline(admin.TabularInline):
     model = Package.pages.through
 
 
-class EmailInline(admin.TabularInline):
-    model = Package.email.through
+class UserPackageInline(admin.TabularInline):
+    model = Package.users.through
 
 
 class SectionsInline(admin.TabularInline):
@@ -23,7 +23,8 @@ class PackageAdmin(admin.ModelAdmin):
     list_filter = (
         ('owner', admin.RelatedOnlyFieldListFilter),
     )
-    inlines = [PagePackageInline, EmailInline]
+    inlines = [PagePackageInline]
+    inlines = [UserPackageInline]
 
 
 @admin.register(Page)
@@ -32,13 +33,8 @@ class PageAdmin(admin.ModelAdmin):
     inlines = [PagePackageInline, SectionsInline]
 
 
-admin.site.register(Email)
-admin.site.register(PackageEmail)
 admin.site.register(Section)
 admin.site.register(Answer)
+admin.site.register(Email)
 
-
-# admin.site.register(SectionsAnswer)
-# admin.site.register(PackagePage)
-# admin.site.register(PageSections)
 
