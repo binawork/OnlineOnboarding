@@ -1,5 +1,6 @@
 
 export var dTab = document.getElementById("packages_table");
+var dMenu = document.getElementById("stacked-menu");
 const dFormat = new Intl.DateTimeFormat(undefined, {year: 'numeric', month: 'long', day: 'numeric', weekday:'long'});
 
 export function newPackageForm(){
@@ -106,6 +107,8 @@ export function printPackages(result){
 			links.push(lnk);
 		}
 	}
+
+	sidePanel(result);// here for now;
 	return links;
 }
 
@@ -121,7 +124,74 @@ export function deleteNthRow(e){
 	row.parentNode.removeChild(row);
 }
 
-export function sidePanel(){
+// - - - dynammic left menu;
+
+function deleteMenuItems(number){
+	if(!dMenu)
+		return null;
+
+	var list = dMenu.getElementsByTagName("ul");
+	if(list.length < 1)
+		return null;
+
+	list = list[0];
+	var lis = list.getElementsByTagName("li");
+	if(lis.length < 1)
+		return null;
+
+	// get number-th <li class=" menu-item "> from lis[]:
+	var i, j, item = null;
+	for(i = j = 0; i < lis.length; i++){
+		if((' ' + lis[i].className + ' ').indexOf(" menu-item ") > -1){// lis[i].classList.contains("menu-item");
+			if(j == number){
+				item = lis[i];
+				break;
+			}
+			j++;
+		}
+	}
+
+	if(item == null)
+		return null;
+
+	list = item.getElementsByTagName("ul");
+	for(i = 0; i < list.length; i++)
+		item.removeChild(list[i]);
+
+	return item;
+}
+
+export function sidePanel(result, url){
+	var liContainer = deleteMenuItems(0);
+	if(!liContainer || result.length < 1)
+		return;
+
+	if((' ' + liContainer.className + ' ').indexOf(" has-child ") < 0)// liContainer.classList.add("has-child");
+		liContainer.className += " has-child";
+	if((' ' + liContainer.className + ' ').indexOf(" has-open ") < 0)// liContainer.classList.add("has-open");
+		liContainer.className += " has-open";
+
+	var lis = document.createElement("ul");
+	lis.className = "menu";
+	liContainer.appendChild(lis);
+	liContainer = lis;
+
+	let i, len = result.length, link;
+	for(i = 0; i < len; i++){
+		if(!result[i].hasOwnProperty("title") )
+			continue;
+
+		lis = document.createElement("li");
+		lis.className="menu-item";
+
+		link = document.createElement("a");
+		link.appendChild(document.createTextNode(result[i].title) );
+		link.href="http://localhost:8000/onboarding/bootstrap/package-page";
+		link.className="menu-link";
+
+		lis.appendChild(link);
+		liContainer.appendChild(lis);
+	}
 
 }
 
@@ -258,20 +328,6 @@ export function sidePanel(){
         "updated_on": "2020-07-16T07:56:08.510864Z",
         "owner": 1,
         "pages": [],
-        "email": []
-    },
-    {
-        "id": 1,
-        "title": "aaa",
-        "description": "aaacvxvfffhhhh",
-        "created_on": "2020-07-15T18:07:00.630728Z",
-        "updated_on": "2020-07-15T18:08:04.703781Z",
-        "owner": 1,
-        "pages": [
-            1,
-            2,
-            3
-        ],
         "email": []
     }
 ]
