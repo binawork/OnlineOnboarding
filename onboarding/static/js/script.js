@@ -62,7 +62,7 @@ function newPackage(e){
 	var fetchProps = {method:"POST", headers:{"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken": tok}, body:JSON.stringify({title: packageName, description: "Please fill description here"})};
 
 	fetch(url, fetchProps).then(function(res){return res.json();}).then(
-		(resParsed) => {console.log(resParsed);if(resParsed.hasOwnProperty("title"))contentGET(path+"packages/", printPackagesWithLinks);},
+		(resParsed) => {console.log(resParsed);if(resParsed.hasOwnProperty("title")){contentGET(path+"packages/", printPackagesWithLinks);pForm.input.value="";} },
 		(error) => {console.log("Can not load API, " + error);}
 	);
 }
