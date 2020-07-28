@@ -33,7 +33,7 @@ def signup(request):
 @login_required
 def manager_view(request):
     """View function for manager page of site."""
-    return render(request, 'bootstrap/package_page.html')
+    return render(request, 'bootstrap/packages.html')
 
 # class ListOfPackage(LoginRequiredMixin, generic.ListView):
 #     " ""Generic class-based view listing books on loan to current user."" "

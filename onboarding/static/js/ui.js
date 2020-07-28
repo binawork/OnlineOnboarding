@@ -1,9 +1,9 @@
 
-export var dTab = document.getElementById("package_table");
+export var dTab = document.getElementById("packages_table");
 const dFormat = new Intl.DateTimeFormat(undefined, {year: 'numeric', month: 'long', day: 'numeric', weekday:'long'});
 
 export function newPackageForm(){
-	var pForm = document.getElementById("package_form");
+	var pForm = document.getElementById("packages_form");
 	if(!pForm)
 		return false;
 
