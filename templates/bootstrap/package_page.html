@@ -215,7 +215,7 @@
                   <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 2</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
-                  <a href="{% url 'bootstrap_packages' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 3</span></a>
+                  <a href="{% url 'manage' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 3</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
                   <a href="{% url 'bootstrap_forms' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 4</span></a>
@@ -266,7 +266,43 @@
                 <div class="card card-fluid">
                   <!-- .card-header -->
                   <div class="card-header">
-                    View Content
+                    Package information
+                  </div><!-- /.card-header -->
+                  <!-- .card-body -->
+                  <div class="card-body">
+                    <!-- .form-group -->
+                    <form method="POST" id="package_info">
+                      <!-- .input-group -->
+                      <div class="form-group">
+                        <!-- .input-group -->
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter new Page name">
+                        </div><!-- /.input-group -->
+                      </div><!-- /.input-group -->
+                      <div class="form-group">
+                        <!-- .input-group -->
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter new Desctiption">
+                        </div><!-- /.input-group -->
+                      </div><!-- /.input-group -->
+                      <div class="form-group">
+                        <!-- .input-group-append -->
+                        <div class="input-group-append">
+                          <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Save Package info</button>
+                        </div><!-- /.input-group-append -->
+                      </div><!-- /.input-group -->
+                      {% csrf_token %}
+                    </form><!-- /.form-group -->
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
+              </div><!-- /.page-section -->
+              <!-- .page-section -->
+              <div class="page-section">
+                <!-- .card -->
+                <div class="card card-fluid">
+                  <!-- .card-header -->
+                  <div class="card-header">
+                    Pages in package
                   </div><!-- /.card-header -->
                   <!-- .card-body -->
                   <div class="card-body">
@@ -297,34 +333,6 @@
                           </tr>
                         </thead>
                           <!--<tr>
-                            <td class="align-middle" tabindex=0>PD Register Form</td>
-                            <td class="align-middle" tabindex=0>4</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0> <a href="#">delete</a> </td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Get Permissions</td>
-                            <td class="align-middle" tabindex=0>14</td>
-                            <td class="align-middle" tabindex=0>Draft</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0> <a href="#">delete</a> </td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Select Your Pizza</td>
-                            <td class="align-middle" tabindex=0>1</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0> <a href="#">delete</a> </td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Pre work prep</td>
-                            <td class="align-middle" tabindex=0>21</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0> <a href="#">delete</a></td>
-                          </tr>
-                          <tr>
                             <td class="align-middle" tabindex=0>Project kickoff</td>
                             <td class="align-middle" tabindex=0>42</td>
                             <td class="align-middle" tabindex=0>Published</td>
@@ -332,7 +340,6 @@
                             <td class="align-middle" tabindex=0> <a href="#">delete</a></td>
                           </tr>-->
                       </table>
-<!-- add table results -->
                     </div>
                   </div><!-- /.card-body -->
                 </div><!-- /.card -->
