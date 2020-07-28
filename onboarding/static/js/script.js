@@ -39,6 +39,7 @@ function contentGET(url, responseFun){
 	);
 }
 
+// when new package created/requested, del button listens delPackage() which sends this function;
 function contentDEL(url, responseFun){
 	var fetchProps;
 	fetchProps = {method:"DELETE", headers:{"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken":tok}};
@@ -80,7 +81,7 @@ function delPackage(e){
 
 	var url = path + "package/";
 	url = url + id;
-	contentDEL(url, function(res){deleteNthRow(e);});
+	contentDEL(url, function(res){if(res.status==204/* && res.ok */)deleteNthRow(e);});
 }
 
 
