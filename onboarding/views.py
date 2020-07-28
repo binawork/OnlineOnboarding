@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from .forms import SignUpForm
 from django.shortcuts import render
 from onboarding.models import Package, Email
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, ListCreateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
 from .serializers import PackageSerializer, CreatePackageSerializer, AddEmail
 
 
@@ -35,27 +35,6 @@ def manager_view(request):
     """View function for manager page of site."""
     return render(request, 'bootstrap/package_page.html')
 
-# class ListOfPackage(LoginRequiredMixin, generic.ListView):
-#     " ""Generic class-based view listing books on loan to current user."" "
-#     model = Package
-#     template_name = 'manager/base_manager.html'
-#
-#     def get_queryset(self):
-#         return Package.objects.filter(owner=self.request.user)
-
-
-# def package_view(request, pk):
-#     data = Page.objects.filter(package__id=pk)
-#     context = {"data": data}
-#
-#     return render(request, 'manager/package.html', context=context)
-#
-#
-# def page_view(request, pk):
-#     data = Page.objects.filter(package__id=pk)
-#     context = {"data": data}
-#
-#     return render(request, 'manager/page.html', context=context)
 
 """
 REST

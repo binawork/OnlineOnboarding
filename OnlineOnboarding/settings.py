@@ -87,8 +87,6 @@ DATABASES = {
     }
 }
 
-LOGOUT_REDIRECT_URL = '/'
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -126,4 +124,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/onboarding/static/'
+LOGOUT_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'onboarding.User'
 
