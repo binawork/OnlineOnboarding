@@ -112,7 +112,7 @@ export function printPackages(result){
 	return links;
 }
 
-export function deleteNthRow(e){
+function deleteNthRow(e){
 	var aLink = e.target||e.srcElement, row = aLink.parentNode;
 	e.preventDefault();
 
@@ -124,9 +124,37 @@ export function deleteNthRow(e){
 	row.parentNode.removeChild(row);
 }
 
+export function deleteFromPackages(e){
+	var p_id=-1, aLink = e.target||e.srcElement;
+
+	p_id = aLink.getAttribute("id");// link.dataset.id;
+	deleteNthRow(e);
+
+	if(isNaN(parseFloat(p_id)) || isNaN(p_id - 0) ){
+		return;
+	}
+
+	var liContainer = getNthMenuItem(0);// first <li class="menu-item"> by now;
+	if(!liContainer)
+		return;
+
+	var list = liContainer.getElementsByTagName("li"), i = list.length - 1, idCheck;
+	for(; i >= 0; i--){
+		idCheck = list[i].getAttribute("id_1");// link.dataset.id;
+
+		if(isNaN(parseFloat(p_id)) || isNaN(p_id - 0) )
+			continue;
+
+		if(idCheck === p_id){
+			list[i].parentNode.removeChild(list[i]);
+			return;
+		}
+	}
+}
+
 // - - - dynammic left menu;
 
-function deleteMenuItems(number){
+function getNthMenuItem(number){
 	if(!dMenu)
 		return null;
 
@@ -151,18 +179,24 @@ function deleteMenuItems(number){
 		}
 	}
 
+	return item;
+}
+
+function deleteMenuItems(number){
+	var item = getNthMenuItem(number);
+
 	if(item == null)
 		return null;
 
-	list = item.getElementsByTagName("ul");
-	for(i = 0; i < list.length; i++)
+	var list = item.getElementsByTagName("ul");
+	for(let i = 0; i < list.length; i++)
 		item.removeChild(list[i]);
 
 	return item;
 }
 
 export function sidePanel(result, url){
-	var liContainer = deleteMenuItems(0);
+	var liContainer = deleteMenuItems(0);// first <li class="menu-item"> by now;
 	if(!liContainer || result.length < 1)
 		return;
 
@@ -183,6 +217,9 @@ export function sidePanel(result, url){
 
 		lis = document.createElement("li");
 		lis.className="menu-item";
+		if(result[i].hasOwnProperty("id")){
+			lis.setAttribute("id_1", result[i].id);
+		}
 
 		link = document.createElement("a");
 		link.appendChild(document.createTextNode(result[i].title) );

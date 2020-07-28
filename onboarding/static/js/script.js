@@ -1,4 +1,4 @@
-import { printPackages, deleteNthRow, dTab, newPackageForm } from "./ui.js";
+import { printPackages, deleteFromPackages, dTab, newPackageForm } from "./ui.js";
 
 function getToken(){
 	var inputs = document.getElementsByTagName("input"), i, tok="";
@@ -81,7 +81,7 @@ function delPackage(e){
 
 	var url = path + "package/";
 	url = url + id;
-	contentDEL(url, function(res){if(res.status==204/* && res.ok */)deleteNthRow(e);});
+	contentDEL(url, function(res){if(res.status==204/* && res.ok */)deleteFromPackages(e);});
 }
 
 
@@ -90,7 +90,7 @@ function printPackagesWithLinks(response){
 	for(i = links.length - 1; i >= 0; i--){
 		links[i].addEventListener("click", delPackage, false);
 		// clicking links fires contentDEL() after which row is removed if request is accepted;
-		// deleteNthRow(e);
+		// deleteFromPackages(e);
 	}
 }
 
