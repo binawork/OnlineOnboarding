@@ -1,8 +1,20 @@
 from django.db import models
 from django.urls import reverse  # Used to generate URLs by reversing the URL patterns
-from django.contrib.auth.models import User
 import uuid  # Required for unique book instances
 from django.contrib.postgres.fields import JSONField  # Used to generate JSON in answers
+
+from django.contrib.auth.models import AbstractUser
+
+
+class Company(models.Model):
+    name = models.TextField(max_length=500, blank=True)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    how_many_sent_packages = models.IntegerField(default=0)
+
+
+class User(AbstractUser):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
 
 
 class Email(models.Model):
@@ -89,5 +101,3 @@ class PackagePage(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
     order = models.IntegerField()
-
-

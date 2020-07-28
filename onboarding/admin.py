@@ -1,8 +1,11 @@
 from django.contrib import admin
-from .models import Package, Page, Section, Answer, Email
+from django.contrib.auth.admin import UserAdmin
+from .models import User, Package, Page, Section, Answer, Email
+
 
 # information about django administration site
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
+admin.site.register(User, UserAdmin)
 
 
 class PagePackageInline(admin.TabularInline):
