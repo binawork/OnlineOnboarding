@@ -69,7 +69,7 @@
           <div class="top-bar-brand">
             <!-- toggle aside menu -->
             <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
-            <a href=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
+            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
                 <defs>
                 </defs>
                 <g fill="none" fill-rule="evenodd">
@@ -186,7 +186,7 @@
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
                 <li class="menu-item has-active has-child">
-                  <a href="#" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Decks</span></a> <!-- child menu -->
+                  <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Decks</span></a> <!-- child menu -->
                   <ul class="menu">
                     <li class="menu-item">
                       <a href="#" class="menu-link">Pizza Dreams</a>
@@ -206,7 +206,7 @@
                   <a href="#" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Menu Item 1</span> <span class="badge badge-warning">New</span></a> <!-- child menu -->
                   <ul class="menu">
                     <!--<li class="menu-item">
-                      <a href="auth-lockscreen.html" class="menu-link">Screen Locked</a>
+                      <a href="#" class="menu-link">Screen Locked</a>
                     </li>-->
                   </ul><!-- /child menu -->
                 </li><!-- /.menu-item -->
@@ -290,7 +290,7 @@
                         <thead style="background-color: #A0A092;">
                           <tr role="row">
                             <th class="align-middle sorting_asc" tabindex=0 aria-label="Package Name : active to sort column ascending">Package Name</th>
-                            <th class="align-middle sorting" tabindex=0>Page count</th>
+                            <th class="align-middle sorting" tabindex=0>Page count - pages.length</th>
                             <th class="align-middle sorting" tabindex=0>Created on</th>
                             <th class="align-middle sorting" tabindex=0>Last Edit</th>
                             <th class="align-middle" tabindex=0>Actions</th>
@@ -369,13 +369,13 @@
     <script src="{% static 'bootstrap/vendor/stacked-menu/stacked-menu.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <!-- <script src="bootstrap/vendor/datatables/extensions/buttons/dataTables.buttons.min.js"></script>
-    <script src="bootstrap/vendor/datatables/extensions/buttons/buttons.bootstrap4.min.js"></script>
-    <script src="bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js"></script> <! - - END PLUGINS JS -->
+    <!-- <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js' %}"></script> <!- - END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
     <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
     <!-- BEGIN PAGE LEVEL JS -->
     <script src="{% static 'bootstrap/javascript/pages/dataTables.bootstrap.js' %}"></script><!-- END PAGE LEVEL JS -->
-    <script type="module" src="{% static 'js/script.js' %}"></script>
+	<script type="module" src="{% static 'js/script.js' %}"></script>
   </body>
 </html>
