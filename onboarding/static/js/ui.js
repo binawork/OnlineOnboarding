@@ -223,7 +223,7 @@ export function sidePanel(result, url){
 
 		link = document.createElement("a");
 		link.appendChild(document.createTextNode(result[i].title) );
-		link.href="http://localhost:8000/onboarding/bootstrap/package-page";
+		link.href="/onboarding/bootstrap/package-page";
 		link.className="menu-link";
 
 		lis.appendChild(link);
