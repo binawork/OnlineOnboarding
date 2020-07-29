@@ -11,10 +11,10 @@
     <meta name="author" content="Beni Arisandi">
     <meta property="og:locale" content="en_US">
     <meta name="description" content="Onboarding packages page">
-    <meta property="og:description" content="Onboarding admin packages page">
+    <meta property="og:description" content="Onboarding admin package forms">
     <link rel="canonical" href="https://uselooper.com">
     <meta property="og:url" content="https://uselooper.com">
-    <meta property="og:site_name" content="Onboarding: packages">
+    <meta property="og:site_name" content="Onboarding: package forms">
     <script type="application/ld+json">
       {
         "name": "Looper - Bootstrap 4 Admin Theme",
@@ -245,8 +245,7 @@
                   <div class="card card-fluid">
                     <!-- .card-body -->
                     <div class="card-body">
-                      <h4 class="card-title">  </h4>
-                      <hr>
+                      <hr />
                       <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                           <a href="{% url 'index' %}">Home</a>
@@ -254,7 +253,10 @@
                         <li class="breadcrumb-item">
                           <a href="{% url 'manage' %}">Packages</a>
                         </li>
-                        <li class="breadcrumb-item active">Pizza Dreams Onboarding </li>
+                        <li class="breadcrumb-item">
+                          <a href="{% url 'bootstrap_1_package' %}">BINA Onboarding</a>
+                        </li>
+                        <li class="breadcrumb-item active">BINA Application Form</li>
                       </ol>
                     </div><!-- /.card-body -->
                   </div><!-- /.card -->
@@ -266,7 +268,40 @@
                 <div class="card card-fluid">
                   <!-- .card-header -->
                   <div class="card-header">
-                    View Content
+                    Page section
+                  </div><!-- /.card-header -->
+                  <!-- .card-body -->
+                  <div class="card-body">
+                    <!-- .form-group -->
+                    <form method="POST" id="package_info">
+                      <!-- .input-group -->
+                      <div class="form-group">
+                        <!-- .input-group -->
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter new Page name" value="">
+                        </div><!-- /.input-group -->
+                      </div><!-- /.input-group -->
+                      <div class="form-group">
+                          <textarea class="form-control" placeholder="Description" rows=4></textarea>
+                      </div><!-- /.input-group -->
+                      <div class="form-group">
+                        <!-- .input-group-append -->
+                        <div class="input-group-append">
+                          <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Save</button>
+                        </div><!-- /.input-group-append -->
+                      </div><!-- /.input-group -->
+                      {% csrf_token %}
+                    </form><!-- /.form-group -->
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
+              </div><!-- /.page-section -->
+              <!-- .page-section -->
+              <div class="page-section">
+                <!-- .card -->
+                <div class="card card-fluid">
+                  <!-- .card-header -->
+                  <div class="card-header">
+                    Page section
                   </div><!-- /.card-header -->
                   <!-- .card-body -->
                   <div class="card-body">
@@ -285,54 +320,21 @@
                         {% csrf_token %}
                       </form><!-- /.input-group -->
                     </div><!-- /.form-group -->
-                    <div class="table-responsive">
-                      <table id="package_table" class="table dataTable no-footer table-striped table-bordered" aria-describedby="myTable_info" role="grid">
-                        <thead style="background-color: #A0A092;">
-                          <tr role="row">
-                            <th class="align-middle sorting_asc" tabindex=0 aria-label="Package Name : active to sort column ascending">Package Name</th>
-                            <th class="align-middle sorting" tabindex=0>Page count</th>
-                            <th class="align-middle sorting" tabindex=0>Created on</th>
-                            <th class="align-middle sorting" tabindex=0>Last Edit</th>
-                            <th class="align-middle" tabindex=0>Actions</th>
-                          </tr>
-                        </thead>
-                          <!--<tr>
-                            <td class="align-middle" tabindex=0>PD Register Form</td>
-                            <td class="align-middle" tabindex=0>4</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0> <a href="#">delete</a> </td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Get Permissions</td>
-                            <td class="align-middle" tabindex=0>14</td>
-                            <td class="align-middle" tabindex=0>Draft</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0> <a href="#">delete</a> </td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Select Your Pizza</td>
-                            <td class="align-middle" tabindex=0>1</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0> <a href="#">delete</a> </td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Pre work prep</td>
-                            <td class="align-middle" tabindex=0>21</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0> <a href="#">delete</a></td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Project kickoff</td>
-                            <td class="align-middle" tabindex=0>42</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0> <a href="#">delete</a></td>
-                          </tr>-->
-                      </table>
-<!-- add table results -->
+                    <div class="task-body" data-toggle="sortable" data-group="tasks" data-force-fallback="true">
+                    	<div class="task-issue">
+                    		<div class="card">
+                    			<div class="card-header"><span class="drag-indicator"></span> Open answer</div>
+                    			<div class="card-body">Form 1</div>
+                    			<div class="card-footer">.</div>
+                    		</div>
+                    	</div>
+                    	<div class="task-issue">
+                    		<div class="card">
+                    			<div class="card-header"><span class="drag-indicator"></span>One choice answer</div>
+                    			<div class="card-body">Form 2</div>
+                    			<div class="card-footer">.</div>
+                    		</div>
+                    	</div>
                     </div>
                   </div><!-- /.card-body -->
                 </div><!-- /.card -->
@@ -353,8 +355,8 @@
                 <a href="#base-style" class="nav-link smooth-scroll">Base style</a>
                 <a href="#labels" class="nav-link smooth-scroll">Labels</a>
                 <a href="#floating-label" class="nav-link smooth-scroll">Floating label</a>
-                <a href="#selects" class="nav-link smooth-scroll">Selects</a> <a href="#checkboxes" class="nav-link smooth-scroll">Checkboxes</a> <a href="#radios" class="nav-link smooth-scroll">Radios</a> <a href="#switcher" class="nav-link smooth-scroll">Switcher</a> <a href="#rating" class="nav-link smooth-scroll">Rating</a> <a href="#visual-picker" class="nav-link smooth-scroll">Visual picker</a> <a href="#publisher" class="nav-link smooth-scroll">Publisher</a> <a href="#input-group" class="nav-link smooth-scroll">Input group</a>
-                <a href="#validation-states" class="nav-link smooth-scroll">Validation states</a>
+                <a href="#selects" class="nav-link smooth-scroll">Selects</a> <a href="#checkboxes" class="nav-link smooth-scroll">Checkboxes</a> <a href="#radios" class="nav-link smooth-scroll">Radios</a> <a href="#switcher" class="nav-link smooth-scroll">Switcher</a> <a href="#rating" class="nav-link smooth-scroll">Rating</a> <a href="#visual-picker" class="nav-link smooth-scroll">Visual picker</a> <a href="#publisher" class="nav-link smooth-scroll">Publisher</a>
+                <a href="#input-group" class="nav-link smooth-scroll">Input group</a>
 			</nav><!-- /.nav -->
 		</div><!-- /.page-sidebar -->
           </div><!-- /.page -->
@@ -388,9 +390,9 @@
     <script src="{% static 'bootstrap/vendor/stacked-menu/stacked-menu.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <!-- <script src="bootstrap/vendor/datatables/extensions/buttons/dataTables.buttons.min.js"></script>
-    <script src="bootstrap/vendor/datatables/extensions/buttons/buttons.bootstrap4.min.js"></script>
-    <script src="bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js"></script> <! - - END PLUGINS JS -->
+<script src="bootstrap/vendor/sortablejs/Sortable.js"></script>
+<script src="bootstrap/vendor/flatpickr/flatpickr.min.js"></script>
+    <!-- <script src="bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js"></script> <! - - END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
     <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
     <!-- BEGIN PAGE LEVEL JS -->
