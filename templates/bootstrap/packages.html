@@ -277,7 +277,7 @@
                       <form mathod="POST" id="packages_form" class="input-group input-group-alt">
                         <!-- .input-group -->
                         <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Enter new Deck name">
+                          <input type="text" class="form-control" placeholder="Enter new Deck name" />
                         </div><!-- /.input-group -->
                         <!-- .input-group-append -->
                         <div class="input-group-append">
@@ -329,6 +329,20 @@
 <!-- add table results -->
                     </div>
                   </div><!-- /.card-body -->
+                  <div class="modal" aria-hidden="true" tabindex=-1><!-- style="display: block; padding-right: 12px;" + <body class="modal-open" -->
+                  	<div class="modal-dialog">
+                  		<div class="modal-content">
+                  			<div class="modal-header">
+                  				<h4 class="modal-title">Please confirm removing</h4>
+                  				<button class="close" type="button" data-dismiss="modal" aria-hidden="true">&otimes;</button>
+                  			</div>
+                  			<div class="modal-body"></div>
+                  			<div class="modal-footer">
+                  				<input class="btn btn-primary note-btn note-btn-primary" type="button" value="Confirm" />
+                  			</div>
+                  		</div>
+                  	</div>
+                  </div>
                 </div><!-- /.card -->
               </div><!-- /.page-section -->
             </div><!-- /.page-inner -->
@@ -371,5 +385,6 @@
     <!-- BEGIN PAGE LEVEL JS -->
     <script src="{% static 'bootstrap/javascript/pages/dataTables.bootstrap.js' %}"></script><!-- END PAGE LEVEL JS -->
 	<script type="module" src="{% static 'js/script.js' %}"></script>
+	<!--<div class="modal-backdrop show"></div>-->
   </body>
 </html>
