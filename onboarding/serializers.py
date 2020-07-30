@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from onboarding.models import Package, Email, User, Page
+from onboarding.models import Package, Email, User, Page, PackagePage
 
 '''
 Core arguments in serializer fields
@@ -57,6 +57,30 @@ class AddEmailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Page
+        fields = '__all__'
+
+
+class PackagePagesSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='page.id')
+    title = serializers.ReadOnlyField(source='page.title')
+
+    class Meta:
+        model = PackagePage
+        fields = ('id', 'title', 'order',)
+
+
+class PagesListSerializer(serializers.ModelSerializer):
+    pages = PackagePagesSerializer(many=True, read_only=True, source='page_package')
+
+    class Meta:
+        model = Package
+        fields = ('id', 'title', 'description', 'owner', 'pages')
+
+
 class AddNewPageToPackageSerializer(serializers.ModelSerializer):
     package = PackageSerializer(many=True)
 
@@ -69,14 +93,6 @@ class AddNewPageToPackageSerializer(serializers.ModelSerializer):
         page = Page.objects.create(**validated_data)
         Package.objects.create(page=page, **package_data)
         return Page
-
-
-class PagesListSerializer(serializers.ModelSerializer):
-    packages = PackageSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Page
-        fields = ('id', 'title', 'description', 'link', 'sections', 'packages')
 
 
 # class HyperLinkUserSerializer(serializers.HyperlinkedModelSerializer):

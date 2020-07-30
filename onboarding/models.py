@@ -76,8 +76,8 @@ class Package(models.Model):
     description = models.TextField(max_length=1000, help_text='Enter a brief description', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    pages = models.ManyToManyField(Page, through='PackagePage', blank=True)
-    users = models.ManyToManyField(User, related_name='package_users', blank=True)
+    pages = models.ManyToManyField(Page, related_name='page_package', through='PackagePage', blank=True)
+    users = models.ManyToManyField(User, related_name='users_package', blank=True)
 
 
 class PackagePage(models.Model):
