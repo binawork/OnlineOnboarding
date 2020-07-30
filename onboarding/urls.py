@@ -23,7 +23,7 @@ urlpatterns += [
     path('api/package/<int:pk>/', views.PackageView.as_view(), name='package_view'),
     path('api/package/create/', views.CreatePackageView.as_view(), name='package_create'),
 
-    path('api/pages/by/package/<int:pk>/', views.PageListByPackageIdView.as_view(), name='pages_list_by_package_pk'),
+    path('api/package/<int:pk>/pages/', views.PageListByPackageIdView.as_view(), name='pages_list_by_package_pk'),
 
 
 ]

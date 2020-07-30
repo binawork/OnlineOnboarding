@@ -91,18 +91,34 @@ class AddEmailVew(generics.CreateAPIView):
 
 
 class AddNewPageToPackage(generics.GenericAPIView):  # todo: idk how i can do it
-    # https://www.django-rest-framework.org/api-guide/serializers/#writing-create-methods-for-nested-representations
-    # https://stackoverflow.com/questions/43853588/django-rest-framework-create-object-with-relationship-many-to-many
+    # 1) create page
+    # 2) join this page to package by pk
+    # 3)
 
     serializer_class = AddNewPageToPackageSerializer
 
+    def get_queryset(self):
+        queryset = Page.objects.all()
+        package_id = self.kwargs.get('pk', None)
+        if package_id is not None:
+            queryset = queryset.filter(page=package_id)
+        return queryset
 
-class PageListByPackageIdView(generics.ListAPIView):  # todo: this queryset its ok?
+    def perform_create(self, serializer):
+        package_id = self.kwargs.get('pk', None)
+        try:
+            package = Package.objects.get(package__id__exact=package_id)
+        except Page.DoesNotExist:
+            raise NotFound()
+        serializer.save(page=package)
+
+
+class PageListByPackageIdView(generics.ListAPIView):
+
     serializer_class = PagesListSerializer
-    # lookup_url_kwarg = 'pk'
 
     def get_queryset(self):
-        queryset = Page.objects.filter(package__id=self.kwargs['pk'], package__owner=self.request.user)
+        queryset = Package.objects.filter(id=self.kwargs['pk'], owner=self.request.user)
         return queryset
 
 
