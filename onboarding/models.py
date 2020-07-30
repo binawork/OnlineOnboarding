@@ -28,9 +28,9 @@ class Answer(models.Model):
 
 
 class Section(models.Model):
-    link = models.URLField()
+    link = models.URLField(null=True, blank=True)
     title = models.CharField(max_length=200)
-    description = models.TextField(max_length=1500, help_text='Enter a brief description')
+    description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)
     TYPES = [
         ('msa', 'Multi select answer'),
         ('osa', 'One select answer'),
@@ -57,17 +57,9 @@ class SectionsAnswer(models.Model):
 class Page(models.Model):
     """Model representing a through for Page and Section."""
     title = models.CharField(max_length=200)
-    description = models.TextField(max_length=1500, help_text='Enter a brief description')
-    link = models.URLField()
+    description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
     sections = models.ManyToManyField(Section, through='PageSections', blank=True)
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular author instance."""
-        return reverse('borrow', args=[str(self.id)])
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return self.title
 
 
 class PageSections(models.Model):
@@ -81,20 +73,11 @@ class Package(models.Model):
     """Model representing a Package."""
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200)
-    description = models.TextField(max_length=1000, help_text='Enter a brief description')
+    description = models.TextField(max_length=1000, help_text='Enter a brief description', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     pages = models.ManyToManyField(Page, through='PackagePage', blank=True)
-    users = models.ManyToManyField(User, related_name='package_users')
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular package instance."""
-        print(str(self.id))
-        return reverse('page', args=['/package/'+str(self.id)])
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return f'{self.title} ,  {self.description},  {self.id}'
+    users = models.ManyToManyField(User, related_name='package_users', blank=True)
 
 
 class PackagePage(models.Model):

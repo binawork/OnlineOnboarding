@@ -1,13 +1,17 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from rest_framework.exceptions import NotFound
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
+from rest_framework import viewsets
 
 from .forms import SignUpForm
 from django.shortcuts import render
-from onboarding.models import Package, Email
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
-from .serializers import PackageSerializer, CreatePackageSerializer, AddEmail
+from onboarding.models import Package, Email, User, Page
+from rest_framework import generics
+from .serializers import PackageSerializer, CreatePackageSerializer, AddEmailSerializer
+# from .serializers import HyperLinkPackageSerializer, HyperLinkUserSerializer
+from .serializers import AddNewPageToPackageSerializer, PagesListSerializer
 
 
 def index(request):
@@ -41,18 +45,31 @@ REST
 """
 
 
-class PackageListView(ListAPIView):
+# class PackageHyperLinkView(viewsets.ModelViewSet):  # test
+#     queryset = Package.objects.all()
+#     serializer_class = HyperLinkPackageSerializer
+#
+#     def perform_create(self, serializer):
+#         serializer.save(owner=self.request.user)
+#
+#
+# class UserHyperLinkView(viewsets.ModelViewSet): # test
+#     queryset = User.objects.all()
+#     serializer_class = HyperLinkUserSerializer
+
+
+class PackageListView(generics.ListAPIView):
     # serializer_class = PackageSerializer
     queryset = False
 
     def get(self, request):
-        snippets = Package.objects.filter(owner=request.user)
-        serializer = PackageSerializer(snippets, many=True)
+        package = Package.objects.filter(owner=request.user)
+        serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
 
 
-class PackageView(RetrieveUpdateDestroyAPIView):  # todo: should delete all relation (pages, email, etc.)?
+class PackageView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PackageSerializer
     lookup_url_kwarg = 'pk'
 
@@ -60,7 +77,7 @@ class PackageView(RetrieveUpdateDestroyAPIView):  # todo: should delete all rela
         return Package.objects.filter()
 
 
-class CreatePackageView(CreateAPIView):
+class CreatePackageView(generics.CreateAPIView):
     serializer_class = CreatePackageSerializer
     queryset = Package.objects.all()
 
@@ -68,9 +85,25 @@ class CreatePackageView(CreateAPIView):
         serializer.save(owner=self.request.user)
 
 
-class AddEmailToPackageView(CreateAPIView):
-    serializer_class = AddEmail
+class AddEmailVew(generics.CreateAPIView):
+    serializer_class = AddEmailSerializer
     queryset = Email.objects.all()
+
+
+class AddNewPageToPackage(generics.GenericAPIView):  # todo: idk how i can do it
+    # https://www.django-rest-framework.org/api-guide/serializers/#writing-create-methods-for-nested-representations
+    # https://stackoverflow.com/questions/43853588/django-rest-framework-create-object-with-relationship-many-to-many
+
+    serializer_class = AddNewPageToPackageSerializer
+
+
+class PageListByPackageIdView(generics.ListAPIView):  # todo: this queryset its ok?
+    serializer_class = PagesListSerializer
+    # lookup_url_kwarg = 'pk'
+
+    def get_queryset(self):
+        queryset = Page.objects.filter(package__id=self.kwargs['pk'], package__owner=self.request.user)
+        return queryset
 
 
 """

@@ -26,14 +26,13 @@ class PackageAdmin(admin.ModelAdmin):
     list_filter = (
         ('owner', admin.RelatedOnlyFieldListFilter),
     )
-    inlines = [PagePackageInline]
-    inlines = [UserPackageInline]
+    inlines = [PagePackageInline, UserPackageInline]
 
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'description')
-    inlines = [PagePackageInline, SectionsInline]
+    inlines = [SectionsInline]
 
 
 admin.site.register(Section)
