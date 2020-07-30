@@ -24,13 +24,25 @@ function clearTable(){
 	if(!dTab)
 		return
 
-	var i, n = dTab.rows.length;
+	var i, n = dTab.rows.length, tb;
+	tb = dTab.getElementsByTagName("tbody");
+
 	while(n > 1){
 		dTab.deleteRow(n - 1);
 		n--;
 	}
-	var tb = document.createElement("tbody");
-	dTab.appendChild(tb);
+
+	if(tb){// tbody exists?
+		n=true;// exists
+		if(tb.length < 1)
+			n=false;
+	} else
+		n = false;// not exists;
+
+	if(!n){
+		tb = document.createElement("tbody");
+		dTab.appendChild(tb);
+	}
 	return tb;
 }
 
@@ -223,8 +235,9 @@ export function sidePanel(result, url){
 
 		link = document.createElement("a");
 		link.appendChild(document.createTextNode(result[i].title) );
-		link.href="/onboarding/bootstrap/package-page";
+		link.href="/onboarding/bootstrap/package-page/";
 		link.className="menu-link";
+		link.onclick=function(){console.log(this);};
 
 		lis.appendChild(link);
 		liContainer.appendChild(lis);
@@ -353,16 +366,6 @@ export function sidePanel(result, url){
         "description": "1st api test",
         "created_on": "2020-07-16T08:18:38.969347Z",
         "updated_on": "2020-07-16T08:18:38.969386Z",
-        "owner": 1,
-        "pages": [],
-        "email": []
-    },
-    {
-        "id": 4,
-        "title": "api test 1",
-        "description": "1st api test",
-        "created_on": "2020-07-16T07:56:08.510825Z",
-        "updated_on": "2020-07-16T07:56:08.510864Z",
         "owner": 1,
         "pages": [],
         "email": []
