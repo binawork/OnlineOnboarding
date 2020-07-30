@@ -1,4 +1,4 @@
-import { printPackages, deleteFromPackages, dTab, newPackageForm } from "./ui.js";
+import { printPackages, deleteFromPackages, dTab, pForm } from "./ui.js";
 
 function getToken(){
 	var inputs = document.getElementsByTagName("input"), i, tok="";
@@ -98,7 +98,6 @@ if(dTab.table){
 	contentGET(path+"packages/", printPackagesWithLinks);
 }
 
-var pForm = newPackageForm();
 if(pForm != false){
 	if(pForm.button && pForm.input)
 		pForm.button.addEventListener("click", newPackage, false);
