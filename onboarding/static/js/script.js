@@ -94,7 +94,7 @@ function printPackagesWithLinks(response){
 	}
 }
 
-if(dTab){
+if(dTab.table){
 	contentGET(path+"packages/", printPackagesWithLinks);
 }
 

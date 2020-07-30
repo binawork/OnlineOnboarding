@@ -1,7 +1,48 @@
 
-export var dTab = document.getElementById("packages_table");
+export var dTab = centralTable();
 var dMenu = document.getElementById("stacked-menu");
 const dFormat = new Intl.DateTimeFormat(undefined, {year: 'numeric', month: 'long', day: 'numeric', weekday:'long'});
+
+function centralTable(){
+	var tab = {table:null, tbody:null, head:null, names:{}}, nms;
+	nms = {packages:"Package Name"};
+	tab.names = nms;// names for translations;
+
+	tab.table = document.getElementById("packages_table");
+	if(!tab.table)
+		return tab;
+
+	tab.head = document.getElementsByTagName("thead");
+	let testCase = false;
+	if(tab.head){
+		testCase = true;
+		if(tab.head.length < 1)
+			testCase = false;
+	}
+
+	if(!testCase){	console.log(tab.head);
+		tab.head = document.createElement("thead");
+		tab.table.appendChild(tab.head);
+	} else
+		tab.head = tab.head[0];
+
+	tab.tbody = tab.table.getElementsByTagName("tbody");
+	testCase = false;
+	if(tab.tbody){
+		testCase = true;
+		if(tab.tbody.length < 1)
+			testCase = false;
+	}
+
+	if(!testCase){
+		tab.tbody = document.createElement("tbody");
+		tab.table.appendChild(tab.tbody);
+	} else
+		tab.tbody = tab.tbody.tbody;
+console.log(tab);
+	return tab;
+}
+
 
 export function newPackageForm(){
 	var pForm = document.getElementById("packages_form");
@@ -20,34 +61,25 @@ export function newPackageForm(){
 	return result;
 }
 
+function clearNode(node){
+	var nod = node.firstChild;
+	while(nod){
+		node.removeChild(nod);
+		nod = node.firstChild;
+	}
+}
+
 function clearTable(){
-	if(!dTab)
+	if(!dTab.table)
 		return
 
-	var i, n = dTab.rows.length, tb;
-	tb = dTab.getElementsByTagName("tbody");
+	clearNode(dTab.tbody);
 
-	while(n > 1){
-		dTab.deleteRow(n - 1);
-		n--;
-	}
-
-	if(tb){// tbody exists?
-		n=true;// exists
-		if(tb.length < 1)
-			n=false;
-	} else
-		n = false;// not exists;
-
-	if(!n){
-		tb = document.createElement("tbody");
-		dTab.appendChild(tb);
-	}
-	return tb;
+	return dTab.tbody;
 }
 
 function addRow(contentArray, parent){
-	let tr, i, td = null, ptab = dTab;
+	let tr, i, td = null, ptab = dTab.table;
 	if(parent)
 		ptab = parent;
 
