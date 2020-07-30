@@ -1,6 +1,7 @@
 
 export var dTab = centralTable();
-var dMenu = document.getElementById("stacked-menu");
+export var pForm = newPackageForm();
+var menuAndForm = firstMenuAndFormInfo();
 const dFormat = new Intl.DateTimeFormat(undefined, {year: 'numeric', month: 'long', day: 'numeric', weekday:'long'});
 
 function centralTable(){
@@ -20,7 +21,7 @@ function centralTable(){
 			testCase = false;
 	}
 
-	if(!testCase){	console.log(tab.head);
+	if(!testCase){
 		tab.head = document.createElement("thead");
 		tab.table.appendChild(tab.head);
 	} else
@@ -39,12 +40,11 @@ function centralTable(){
 		tab.table.appendChild(tab.tbody);
 	} else
 		tab.tbody = tab.tbody.tbody;
-console.log(tab);
+
 	return tab;
 }
 
-
-export function newPackageForm(){
+function newPackageForm(){
 	var pForm = document.getElementById("packages_form");
 	if(!pForm)
 		return false;
@@ -59,6 +59,30 @@ export function newPackageForm(){
 		result.button = btn[0];
 
 	return result;
+}
+
+function formInfo(){
+	var form = {container:null, title:null, desc:null, button:null};
+	form.container = document.getElementById("page_info");
+
+	return form;
+}
+
+function firstMenuAndFormInfo(){
+	var nodes = {menu:null, iForm:{}};
+	nodes.iForm = formInfo();
+
+	nodes.menu = document.getElementById("stacked-menu");
+	return nodes;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function unDisplay(node){
+	if(node.style.display=="none")
+		node.style.display="";// default;
+	else
+		node.style.display="none";
 }
 
 function clearNode(node){
@@ -199,10 +223,10 @@ export function deleteFromPackages(e){
 // - - - dynammic left menu;
 
 function getNthMenuItem(number){
-	if(!dMenu)
+	if(!menuAndForm.menu)
 		return null;
 
-	var list = dMenu.getElementsByTagName("ul");
+	var list = menuAndForm.menu.getElementsByTagName("ul");
 	if(list.length < 1)
 		return null;
 
@@ -269,7 +293,8 @@ export function sidePanel(result, url){
 		link.appendChild(document.createTextNode(result[i].title) );
 		link.href="/onboarding/bootstrap/package-page/";
 		link.className="menu-link";
-		link.onclick=function(){console.log(this);};
+		if(menuAndForm.iForm.container)
+			link.onclick=function(){unDisplay(menuAndForm.iForm.container);};
 
 		lis.appendChild(link);
 		liContainer.appendChild(lis);
