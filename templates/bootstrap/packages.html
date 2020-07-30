@@ -261,6 +261,43 @@
                   </div><!-- /.card -->
               </header><!-- /.page-title-bar -->
 
+			<!-- .page-section -->
+			<div id="page_info" class="page-section" style="display:none;">
+				<!-- .card -->
+				<div class="card card-fluid">
+					<!-- .card-header -->
+					<div class="card-header">
+						Package information
+					</div><!-- /.card-header -->
+					<!-- .card-body -->
+					<div class="card-body">
+						<!-- .form-group -->
+						<form method="POST" id="package_info">
+							<!-- .input-group -->
+							<div class="form-group">
+								<!-- .input-group -->
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Enter new Page name">
+								</div><!-- /.input-group -->
+							</div><!-- /.input-group -->
+							<div class="form-group">
+								<!-- .input-group -->
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Enter new Desctiption">
+								</div><!-- /.input-group -->
+							</div><!-- /.input-group -->
+							<div class="form-group">
+								<!-- .input-group-append -->
+								<div class="input-group-append">
+									<button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Save Package info</button>
+								</div><!-- /.input-group-append -->
+							</div><!-- /.input-group -->
+							{% csrf_token %}
+						</form><!-- /.form-group -->
+					</div><!-- /.card-body -->
+				</div><!-- /.card -->
+			</div><!-- /.page-section -->
+
               <!-- .page-section -->
               <div class="page-section">
                 <!-- .card -->
