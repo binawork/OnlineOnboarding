@@ -64,6 +64,14 @@ function newPackageForm(){
 function formInfo(){
 	var form = {container:null, title:null, desc:null, button:null};
 	form.container = document.getElementById("page_info");
+	if(!form.container)
+		return form;
+
+	form.button = form.container.getElementsByTagName("button");
+	if(form.button.length > 0)
+		form.button = form.button[0];
+	else
+		form.button = null;
 
 	return form;
 }
@@ -71,7 +79,7 @@ function formInfo(){
 function firstMenuAndFormInfo(){
 	var nodes = {menu:null, iForm:{}};
 	nodes.iForm = formInfo();
-
+// todo: finish getting left menu and title-description-form;
 	nodes.menu = document.getElementById("stacked-menu");
 	return nodes;
 }
