@@ -114,3 +114,6 @@ def bootstrap_1_package(request):
 def bootstrap_forms(request):
     return render(request, 'bootstrap/package_forms.html')
 
+def bootstrap_users(request):
+	return render(request, 'bootstrap/users-list.html')
+
