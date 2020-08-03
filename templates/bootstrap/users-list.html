@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
+    <!-- Begin SEO tag -->
+    <title> Bootstrap Team Members | Looper - Bootstrap 4 Admin Theme </title>
+    <meta property="og:title" content="Bootstrap Team Members">
+    <meta name="author" content="Beni Arisandi">
+    <meta property="og:locale" content="en_US">
+    <meta name="description" content="Responsive admin theme build on top of Bootstrap 4">
+    <meta property="og:description" content="Responsive admin theme build on top of Bootstrap 4">
+    <link rel="canonical" href="https://uselooper.com">
+    <meta property="og:url" content="https://uselooper.com">
+    <meta property="og:site_name" content="Looper - Bootstrap 4 Admin Theme">
+    <script type="application/ld+json">
+      {
+        "name": "Looper - Bootstrap 4 Admin Theme",
+        "description": "Responsive admin theme build on top of Bootstrap 4",
+        "author":
+        {
+          "@type": "Person",
+          "name": "Beni Arisandi"
+        },
+        "@type": "WebSite",
+        "url": "",
+        "headline": "Bootstrap Team Members",
+        "@context": "http://schema.org"
+      }
+    </script><!-- End SEO tag -->
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/apple-touch-icon.png">
+    <link rel="shortcut icon" href="assets/favicon.ico">
+    <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
+    <!-- BEGIN PLUGINS STYLES -->
+    <link rel="stylesheet" href="assets/vendor/open-iconic/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.css">
+    <link rel="stylesheet" href="assets/vendor/tributejs/tribute.css"><!-- END PLUGINS STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <link rel="stylesheet" href="assets/stylesheets/theme.min.css" data-skin="default">
+    <link rel="stylesheet" href="assets/stylesheets/theme-dark.min.css" data-skin="dark">
+    <link rel="stylesheet" href="assets/stylesheets/custom.css">
+    <script>
+      var skin = localStorage.getItem('skin') || 'default';
+      var isCompact = JSON.parse(localStorage.getItem('hasCompactMenu'));
+      var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
+      // Disable unused skin immediately
+      disabledSkinStylesheet.setAttribute('rel', '');
+      disabledSkinStylesheet.setAttribute('disabled', true);
+      // add flag class to html immediately
+      if (isCompact == true) document.querySelector('html').classList.add('preparing-compact-menu');
+    </script><!-- END THEME STYLES -->
+  </head>
+  <body>
+    <!-- .app -->
+    <div class="app">
+      <!--[if lt IE 10]>
+      <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
+      <![endif]-->
+      <!-- .app-header -->
+      <header class="app-header app-header-dark">
+        <!-- .top-bar -->
+        <div class="top-bar">
+          <!-- .top-bar-brand -->
+          <div class="top-bar-brand">
+            <!-- toggle aside menu -->
+            <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
+            <a href="index.html"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
+                <defs>
+                </defs>
+                <g fill="none" fill-rule="evenodd">
+                  <use class="fill-warning" xlink:href="#a"></use>
+                </g>
+              </svg></a>
+          </div><!-- /.top-bar-brand -->
+          <!-- .top-bar-list -->
+          <div class="top-bar-list">
+            <!-- .top-bar-item -->
+            <div class="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
+              <!-- toggle menu -->
+              <button class="hamburger hamburger-squeeze" type="button" data-toggle="aside" aria-label="toggle menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle menu -->
+            </div><!-- /.top-bar-item -->
+            <!-- .top-bar-item -->
+            <div class="top-bar-item top-bar-item-full">
+              <!-- .top-bar-search -->
+              <form class="top-bar-search">
+                <!-- .input-group -->
+                <div class="input-group input-group-search dropdown">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><span class="oi oi-magnifying-glass"></span></span>
+                  </div><input type="text" class="form-control" data-toggle="dropdown" aria-label="Search" placeholder="Search"> <!-- .dropdown-menu -->
+                  <div class="dropdown-menu dropdown-menu-rich dropdown-menu-xl ml-n4 mw-100">
+                    <div class="dropdown-arrow ml-3"></div><!-- .dropdown-scroll -->
+                    <div class="dropdown-scroll perfect-scrollbar h-auto" style="max-height: 360px">
+                      <!-- .list-group -->
+                      <div class="list-group list-group-flush list-group-reflow mb-2">
+                        <h6 class="list-group-header d-flex justify-content-between">
+                          <span>Shortcut</span>
+                        </h6><!-- .list-group-item -->
+                        <div class="list-group-item py-2">
+                          <a href="#" class="stretched-link"></a>
+                          <div class="tile tile-sm bg-muted">
+                            <i class="fas fa-user-plus"></i>
+                          </div>
+                          <div class="ml-2"> Create user </div>
+                        </div><!-- /.list-group-item -->
+                        <h6 class="list-group-header d-flex justify-content-between mt-2">
+                          <span>In projects</span> <a href="#" class="font-weight-normal">Show more</a>
+                        </h6><!-- .list-group-item -->
+                        <div class="list-group-item py-2">
+                          <a href="#" class="stretched-link"><span class="sr-only">Go to search result</span></a>
+                          <div class="user-avatar user-avatar-sm bg-muted">
+                            <img src="bootstrap/images/avatars/bootstrap.svg" alt="">
+                          </div>
+                          <div class="ml-2">
+                            <div class="mb-n1"> Bootstrap </div><small class="text-muted">Just now</small>
+                          </div>
+                        </div><!-- /.list-group-item -->
+                        <!-- .list-group-item -->
+                        <div class="list-group-item py-2">
+                          <a href="#" class="stretched-link"><span class="sr-only">Go to search result</span></a>
+                          <div class="user-avatar user-avatar-sm bg-muted">
+                            <img src="bootstrap/images/avatars/slack.svg" alt="">
+                          </div>
+                          <div class="ml-2">
+                            <div class="mb-n1"> Slack </div><small class="text-muted">Updated 25 minutes ago</small>
+                          </div>
+                        </div><!-- /.list-group-item -->
+                        <!-- /.list-group-item -->
+                        <h6 class="list-group-header d-flex justify-content-between mt-2">
+                          <span>Another section</span> <a href="#" class="font-weight-normal">Show more</a>
+                        </h6><!-- .list-group-item -->
+                        <div class="list-group-item py-2">
+                          <a href="#" class="stretched-link"><span class="sr-only">Go to search result</span></a>
+                          <div class="tile tile-sm bg-muted"> P </div>
+                          <div class="ml-2">
+                            <div class="mb-n1"> Product name </div>
+                          </div>
+                        </div><!-- /.list-group-item -->
+                      </div><!-- /.list-group -->
+                    </div><!-- /.dropdown-scroll -->
+                    <a href="#" class="dropdown-footer">Show all results</a>
+                  </div><!-- /.dropdown-menu -->
+                </div><!-- /.input-group -->
+              </form><!-- /.top-bar-search -->
+            </div><!-- /.top-bar-item -->
+            <!-- .top-bar-item -->
+            <div class="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
+              <!-- .nav -->
+              <ul class="header-nav nav">
+                <!-- .nav-item -->
+                <li class="nav-item dropdown header-nav-dropdown">
+                  <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="oi oi-grid-three-up"></span></a> <!-- .dropdown-menu -->
+                  <div class="dropdown-menu dropdown-menu-rich dropdown-menu-right">
+                    <div class="dropdown-arrow"></div><!-- .dropdown-sheets -->
+                    <div class="dropdown-sheets">
+                      <!-- .dropdown-sheet-item -->
+                      <div class="dropdown-sheet-item">
+                        <a href="#" class="tile-wrapper"><span class="tile tile-lg bg-indigo"><i class="oi oi-people"></i></span> <span class="tile-peek">Teams</span></a>
+                      </div><!-- /.dropdown-sheet-item -->
+                      <!-- .dropdown-sheet-item -->
+                      <div class="dropdown-sheet-item">
+                        <a href="#" class="tile-wrapper"><span class="tile tile-lg bg-teal"><i class="oi oi-fork"></i></span> <span class="tile-peek">Projects</span></a>
+                      </div><!-- /.dropdown-sheet-item -->
+                      <!-- .dropdown-sheet-item -->
+                      <div class="dropdown-sheet-item">
+                        <a href="#" class="tile-wrapper"><span class="tile tile-lg bg-pink"><i class="fa fa-tasks"></i></span> <span class="tile-peek">Tasks</span></a>
+                      </div><!-- /.dropdown-sheet-item -->
+                      <!-- .dropdown-sheet-item -->
+                      <div class="dropdown-sheet-item">
+                        <a href="#" class="tile-wrapper"><span class="tile tile-lg bg-yellow"><i class="oi oi-fire"></i></span> <span class="tile-peek">Feeds</span></a>
+                      </div><!-- /.dropdown-sheet-item -->
+                      <!-- .dropdown-sheet-item -->
+                      <div class="dropdown-sheet-item">
+                        <a href="#" class="tile-wrapper"><span class="tile tile-lg bg-cyan"><i class="oi oi-document"></i></span> <span class="tile-peek">Files</span></a>
+                      </div><!-- /.dropdown-sheet-item -->
+                    </div><!-- .dropdown-sheets -->
+                  </div><!-- .dropdown-menu -->
+                </li><!-- /.nav-item -->
+              </ul><!-- /.nav -->
+              <!-- .btn-account -->
+              <div class="dropdown d-flex">
+               {% if user.is_authenticated %}
+                <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">{{ user.get_username }}</span> <span class="account-description">Marketing Manager</span></span></button> <!-- .dropdown-menu -->
+                <div class="dropdown-menu">
+                  <div class="dropdown-arrow ml-3"></div>
+                  <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ user.get_username }} </h6><a class="dropdown-item" href="#"><span class="dropdown-icon oi oi-person"></span> Profile</a> <a class="dropdown-item" href="{% url 'logout' %}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+                  <div class="dropdown-divider"></div><!--<a class="dropdown-item" href="#">Help Center</a> <a class="dropdown-item" href="#">Ask Forum</a>-->
+                </div><!-- /.dropdown-menu -->
+               {% else %}
+                <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">Anonymous user</span> <span class="account-description">unknown</span></span></button>
+               {% endif %}
+              </div><!-- /.btn-account -->
+            </div><!-- /.top-bar-item -->
+          </div><!-- /.top-bar-list -->
+        </div><!-- /.top-bar -->
+      </header><!-- /.app-header -->
+      <!-- .app-aside -->
+      <aside class="app-aside app-aside-expand-md app-aside-light">
+        <!-- .aside-content -->
+        <div class="aside-content">
+          <!-- .aside-header -->
+          <header class="aside-header d-block d-md-none">
+            <!-- .btn-account -->
+           {% if user.is_authenticated %}
+            <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">{{ user.get_username }}</span> <span class="account-description">Marketing Manager</span></span></button> <!-- .dropdown-menu -->
+            <div class="dropdown-menu">
+              <div class="dropdown-arrow ml-3"></div>
+              <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ user.get_username }} </h6><a class="dropdown-item" href="#"><span class="dropdown-icon oi oi-person"></span> Profile</a> <a class="dropdown-item" href="{% url 'logout' %}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+              <div class="dropdown-divider"></div><!--<a class="dropdown-item" href="#">Help Center</a> <a class="dropdown-item" href="#">Ask Forum</a>-->
+            </div><!-- /.dropdown-menu -->
+           {% else %}
+            <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">Anonymous user</span> <span class="account-description">unknown</span></span></button>
+           {% endif %}
+          </header><!-- /.aside-header -->
+          <!-- .aside-menu -->
+          <div class="aside-menu overflow-hidden">
+            <!-- .stacked-menu -->
+            <nav id="stacked-menu" class="stacked-menu">
+              <!-- .menu -->
+              <ul class="menu">
+                <!-- .menu-header -->
+                <li class="menu-header">
+                	<a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Dashboard</span></a>
+                </li><!-- /.menu-header -->
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Packages</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item has-child">
+                  <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Decks</span></a> <!-- child menu -->
+                  <ul class="menu">
+                    <li class="menu-item">
+                      <a href="#" class="menu-link">Pizza Dreams</a>
+                    </li>
+                    <li class="menu-item has-child">
+                      <a href="#" class="menu-link">Pizza Dreams Onboarding</a> <!-- grand child menu -->
+                      <ul class="menu">
+                        <li class="menu-item">
+                          <a href="#" class="menu-link">PD Register Form</a>
+                        </li>
+                      </ul><!-- /grand child menu -->
+                    </li>
+                  </ul><!-- /child menu -->
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item has-child"><!-- class="menu-item has-active has-child" -->
+                  <a href="#" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Menu Item 1</span> <span class="badge badge-warning">New</span></a> <!-- child menu -->
+                  <ul class="menu">
+                    <!--<li class="menu-item">
+                      <a href="#" class="menu-link">Screen Locked</a>
+                    </li>-->
+                  </ul><!-- /child menu -->
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 2</span></a>
+                </li><!-- /.menu-item -->
+                <li class="menu-item">
+                  <a href="{% url 'bootstrap_1_package' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 3</span></a>
+                </li><!-- /.menu-item -->
+                <li class="menu-item">
+                  <a href="{% url 'bootstrap_forms' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 4</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-header -->
+                <li class="menu-header">Interfaces </li><!-- /.menu-header -->
+              </ul><!-- /.menu -->
+            </nav><!-- /.stacked-menu -->
+          </div><!-- /.aside-menu -->
+          <!-- Skin changer -->
+          <footer class="aside-footer border-top p-2">
+            <button class="btn btn-light btn-block text-primary" data-toggle="skin"><span class="d-compact-menu-none">Night mode</span> <i class="fas fa-moon ml-1"></i></button>
+          </footer><!-- /Skin changer -->
+        </div><!-- /.aside-content -->
+      </aside><!-- /.app-aside -->
+      <!-- .app-main -->
+      <main class="app-main">
+        <!-- .wrapper -->
+        <div class="wrapper">
+          <!-- .page -->
+          <div class="page"><!-- class "page has-sidebar has-sidebar-expand-xl" -->
+            <!-- .page-inner -->
+            <div class="page-inner">
+              <!-- .page-title-bar -->
+              <header class="page-title-bar">
+                <!-- .card -->
+                  <div class="card card-fluid">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <h4 class="card-title">  </h4>
+                      <hr>
+                      <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                          <a href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Accounts</li>
+                      </ol>
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+              </header><!-- /.page-title-bar -->
+
+              <!-- .page-section -->
+              <div class="page-section">
+                <!-- .section-block -->
+                <div class="card card-fluid">
+                  <!-- .card-header -->
+                  <div class="card-header">
+                    Page Packages
+                  </div><!-- /.card-header -->
+                  <!-- .card-body -->
+                  <div class="card-body">
+                  <!-- grid row -->
+                  <div class="row mb-4">
+                    <!-- .col -->
+                    <div class="col">
+                      <!-- .has-clearable -->
+                      <div class="has-clearable">
+                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button> <input type="text" class="form-control" placeholder="Search">
+                      </div><!-- /.has-clearable -->
+                    </div><!-- /.col -->
+                    <!-- .col-auto -->
+                    <div class="col-auto">
+                      <!-- invite members -->
+                      <div class="dropdown">
+                        <button class="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">Update users</button>
+                      </div><!-- /invite members -->
+                    </div><!-- /.col-auto -->
+                  </div><!-- /grid row -->
+                  <!-- grid row -->
+                  <div class="row mb-4">
+                    <!-- .col -->
+                    <div class="col">
+                      <!-- .has-clearable -->
+                      <div class="has-clearable">
+                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button> <input type="text" class="form-control" placeholder="Department">
+                      </div><!-- /.has-clearable -->
+                    </div><!-- /.col -->
+                    <!-- .col -->
+                    <div class="col">
+                      <!-- .has-clearable -->
+                      <div class="has-clearable">
+                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button> <input type="text" class="form-control" placeholder="Position">
+                      </div><!-- /.has-clearable -->
+                    </div><!-- /.col -->
+                    <!-- .col -->
+                    <div class="col">
+                      <!-- .has-clearable -->
+                      <div class="has-clearable">
+                        <button type="button" class="close" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button> <input type="text" class="form-control" placeholder="Localization">
+                      </div><!-- /.has-clearable -->
+                    </div><!-- /.col -->
+                    <!-- .col-auto -->
+                    <div class="col-auto">
+                      <div class="dropdown"></div>
+                    </div><!-- /.col-auto -->
+                  </div><!-- /grid row -->
+                  </div>
+                  <div class="card-body">
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-lg"><img src="assets/images/avatars/uifaces5.jpg" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Craig Hansen</a> <small class="text-muted"><a href="#">chansen@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted"> Software Developer </h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="assets/images/avatars/uifaces9.jpg" alt=""> <span class="avatar-badge idle" title="idle"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Jane Barrnes</a> <small class="text-muted"><a href="#">barnes@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted"> Social Worker </h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-lg"><img src="assets/images/avatars/uifaces4.jpg" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Nicole Barnett</a> <small class="text-muted"><a href="#">barnett@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted"> Marketing Manager </h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-lg"><img src="assets/images/avatars/uifaces6.jpg" alt=""> <span class="avatar-badge busy" title="buse"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Michael Ward</a> <small class="text-muted"><a href="#">ward@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted"> Lawyer </h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-lg"><img src="assets/images/avatars/unknown-profile.jpg" alt=""> <span class="avatar-badge idle" title="idle"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Juan Fuller</a> <small class="text-muted"><a href="#">jfuller@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted"> Budget analyst </h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-lg"><img src="assets/images/avatars/unknown-profile.jpg" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Julia Silva</a> <small class="text-muted"><a href="#">jsilva@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted"> Photographer </h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-lg"><img src="assets/images/avatars/unknown-profile.jpg" alt=""> <span class="avatar-badge offline" title="offline"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Joe Hanson</a> <small class="text-muted"><a href="#">jhanson@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted"> Logistician </h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-lg"><img src="assets/images/avatars/uifaces11.jpg" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Brenda Griffin</a> <small class="text-muted"><a href="#">bgriffin@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted"> Medical Assistant</h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-lg"><img src="assets/images/avatars/unknown-profile.jpg" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Ryan Jimenez</a> <small class="text-muted"><a href="#">rjimenez@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted">Photographer</h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+                  <!-- .card -->
+                  <div class="card mb-2">
+                    <!-- .card-body -->
+                    <div class="card-body">
+                      <!-- grid row -->
+                      <div class="row align-items-center">
+                        <!-- grid column -->
+                        <div class="col-auto">
+                          <a href="#" class="user-avatar user-avatar-lg"><img src="assets/images/avatars/unknown-profile.jpg" alt=""> <span class="avatar-badge busy" title="busy"></span></a>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                            <a href="#">Bryan Hayes</a> <small class="text-muted"><a href="#">bhayes@example.com</a></small>
+                          </h3>
+                          <h6 class="card-subtitle text-muted">Computer Systems Analyst</h6>
+                        </div><!-- /grid column -->
+                        <!-- grid column -->
+                        <div class="col">
+                          <h3 class="card-title">
+                             <small class="text-muted">Department:</small> Foo Bar
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Localization:</small> Lorem Ipsum
+                          </h3>
+                        </div><!-- /grid column -->
+                        <!-- /grid column -->
+                        <div class="col-auto">
+                          <h3 class="card-title">
+                             <small class="text-muted">Packages sent:</small> 4
+                          </h3>
+                          <h3 class="card-title">
+                             <small class="text-muted">Finished Packages:</small> 2
+                          </h3>
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                        </div><!-- /grid column -->
+                      </div><!-- /grid row -->
+                    </div><!-- /.card-body -->
+                  </div><!-- /.card -->
+                  </div>
+                </div><!-- /.section-block -->
+              </div><!-- /.page-section -->
+            </div><!-- /.page-inner -->
+
+          </div><!-- /.page -->
+        </div><!-- /.wrapper -->
+      </main><!-- /.app-main -->
+    </div><!-- /.app -->
+    <!-- BEGIN BASE JS -->
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script> <!-- END BASE JS -->
+    <!-- BEGIN PLUGINS JS -->
+    <script src="assets/vendor/pace/pace.min.js"></script>
+    <script src="assets/vendor/stacked-menu/stacked-menu.min.js"></script>
+    <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <!-- <script src="assets/vendor/tributejs/tribute.min.js"></script> < ! - - END PLUGINS JS -->
+    <!-- BEGIN THEME JS -->
+    <script src="assets/javascript/theme.min.js"></script> <!-- END THEME JS -->
+  </body>
+</html>
