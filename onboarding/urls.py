@@ -17,6 +17,7 @@ urlpatterns = [
     path('bootstrap/packages', views.bootstrap_packages, name='bootstrap_packages'),
     path('bootstrap/package-page', views.bootstrap_1_package, name='bootstrap_1_package'),
     path('bootstrap/forms', views.bootstrap_forms, name='bootstrap_forms'),
+    path('bootstrap/users-list', views.bootstrap_users, name='bootstrap_users_list'),
 
     # API
     path('api/add/email/', views.AddEmailToPackageView.as_view(), name='add_email'),
