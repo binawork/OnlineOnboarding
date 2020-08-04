@@ -5,7 +5,7 @@ var menuAndForm = firstMenuAndFormInfo();
 const dFormat = new Intl.DateTimeFormat(undefined, {year: 'numeric', month: 'long', day: 'numeric', weekday:'long'});
 
 function centralTable(){
-	var tab = {table:null, tbody:null, head:null, names:{}}, nms;
+	var tab = {table:null, tbody:null, head:null, names:{}, packages: true}, nms;
 	nms = {packages:"Package Name"};
 	tab.names = nms;// names for translations;
 
@@ -13,7 +13,7 @@ function centralTable(){
 	if(!tab.table)
 		return tab;
 
-	tab.head = document.getElementsByTagName("thead");
+	tab.head = tab.table.getElementsByTagName("thead");
 	let testCase = false;
 	if(tab.head){
 		testCase = true;
@@ -110,6 +110,25 @@ function clearTable(){
 	return dTab.tbody;
 }
 
+function changeHeader(contentArray, head){
+	if(!head)
+		return
+
+	clearNode(head);
+
+	var tr = document.createElement("tr"), td, i, n = contentArray.length - 1;
+
+	for(i = 0; i <= n; i++){
+		td = tr.insertCell(-1);
+		td.className = "align-middle";
+		if(i < n)
+			td.className += " sorting";// sorting_asc;
+
+		td.appendChild( document.createTextNode(contentArray[i]) );
+	}
+	head.appendChild(tr);
+}
+
 function addRow(contentArray, parent){
 	let tr, i, td = null, ptab = dTab.table;
 	if(parent)
@@ -134,6 +153,18 @@ function createDelete(id){
 	return a;
 }
 
+function deleteNthRow(e){
+	var aLink = e.target||e.srcElement, row = aLink.parentNode;
+	e.preventDefault();
+
+	while(row.nodeName.toLowerCase() != "tr" && row.nodeName.toLowerCase() != "body")
+		row = row.parentNode;
+
+	if(row.nodeName.toLowerCase() == "body")
+		return;
+	row.parentNode.removeChild(row);
+}
+
 
 export function printPackages(result){
 	if( Object.prototype.toString.call(result) !=='[object Array]' )
@@ -143,6 +174,11 @@ export function printPackages(result){
 
 	if(len < 1)
 		return [];
+
+	if(!dTab.packages){
+		changeHeader(["Package Name", "Pages Count", "Created on", "Last Edit", "Actions"], dTab.head);
+		dTab.packages = true;
+	}
 
 	var arr=["","","","",""], i, lastTd, tbody, links = [], lnk;
 	tbody = clearTable();
@@ -186,18 +222,6 @@ export function printPackages(result){
 
 	sidePanel(result);// here for now;
 	return links;
-}
-
-function deleteNthRow(e){
-	var aLink = e.target||e.srcElement, row = aLink.parentNode;
-	e.preventDefault();
-
-	while(row.nodeName.toLowerCase() != "tr" && row.nodeName.toLowerCase() != "body")
-		row = row.parentNode;
-
-	if(row.nodeName.toLowerCase() == "body")
-		return;
-	row.parentNode.removeChild(row);
 }
 
 export function deleteFromPackages(e){
