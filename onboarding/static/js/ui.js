@@ -224,6 +224,23 @@ export function printPackages(result){
 	return links;
 }
 
+function printPages(result){
+	if( Object.prototype.toString.call(result) !=='[object Array]' )
+		return [];// log-error;
+
+	var len = result.length;
+
+	if(len < 1)
+		return [];
+
+	if(dTab.packages){
+		changeHeader(["Page Name", "Order", "Last Edit", "Actions"], dTab.head);
+		dTab.packages = false;
+	}
+
+}
+
+
 export function deleteFromPackages(e){
 	var p_id=-1, aLink = e.target||e.srcElement;
 
