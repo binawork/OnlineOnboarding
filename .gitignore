@@ -92,3 +92,5 @@ ENV/
 
 # environment script to set DB constants
 setenv.sh
+
+pgdump_schema.sql
