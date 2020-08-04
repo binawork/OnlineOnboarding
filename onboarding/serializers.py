@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from onboarding.models import Package, Email, User, Page, PackagePage
+from onboarding.models import Package, Email, Page, PackagePage
 
 '''
 Core arguments in serializer fields
@@ -129,4 +129,3 @@ class AddNewPageToPackageSerializer(serializers.ModelSerializer):
 #         fields = '__all__'
 #         fields = ['id', 'url', 'owner', 'title', 'description', 'pages', 'users', 'created_on']
 #
-
