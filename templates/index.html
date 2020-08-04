@@ -1,6 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
+
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -32,16 +33,16 @@
     </script><!-- End SEO tag -->
     <!-- FAVICONS -->
     <link rel="apple-touch-icon" sizes="144x144" href="bootstrap/apple-touch-icon.png">
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+    <link rel="shortcut icon" href="/onboarding/static/images/favicon.ico" />
     <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
     <!-- BEGIN PLUGINS STYLES -->
     <link rel="stylesheet" href="bootstrap/vendor/aos/aos.css"><!-- END PLUGINS STYLES -->
     <!-- BEGIN THEME STYLES -->
-    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme.min.css' %}" data-skin="default">
-    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}" data-skin="dark">
-    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/custom.css' %}">
+    <link rel="stylesheet" href="/onboarding/static/bootstrap/stylesheets/theme.min.css" data-skin="default">
+    <link rel="stylesheet" href="/onboarding/static/bootstrap/stylesheets/theme-dark.min.css" data-skin="dark">
+    <link rel="stylesheet" href="/onboarding/static/bootstrap/stylesheets/custom.css">
     <script>
       var skin = localStorage.getItem('skin') || 'default';
       var isCompact = JSON.parse(localStorage.getItem('hasCompactMenu'));
@@ -74,14 +75,10 @@
                 <use class="fill-primary" xlink:href="#a"></use>
               </g>
             </svg></a> <!-- /.navbar-brand -->
-{% if user.is_authenticated %}
-                    <span class="ml-auto order-lg-2">User: {{ user.get_username }}</span>
-                    <a  class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
-                    <a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'manage'%}" >Manage</a>
-                {% else %}
-                    <a  class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'login'%}?next=/onboarding/manage/">Login</a>
-                    <a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'signup'%}?next=/onboarding/manage/">Register</a>
-                {% endif %}
+
+                    <a  class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="/accounts/login/?next=/onboarding/manage/">Login</a>
+                    <a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="/onboarding/signup?next=/onboarding/manage/">Register</a>
+
            <!-- .navbar-collapse -->
           <div class="navbar-collapse collapse" id="navbarTogglerDemo01">
             <ul class="navbar-nav mx-auto">
@@ -110,7 +107,7 @@
           <div class="row align-items-center">
             <!-- .col-md-6 -->
             <div class="col-12 col-md-6 order-md-2" data-aos="fade-left">
-              <img class="img-fluid img-float-md-6 mb-5 mb-md-0" src="{% static 'bootstrap/images/illustration/launch.svg' %}" alt="">
+              <img class="img-fluid img-float-md-6 mb-5 mb-md-0" src="/onboarding/static/bootstrap/images/illustration/launch.svg" alt="">
             </div><!-- /.col-md-6 -->
             <!-- .col-md-6 -->
             <div class="col-12 col-md-6 order-md-1" data-aos="fade-in">
@@ -130,22 +127,22 @@
           <div class="row text-center text-md-left">
             <!-- .col -->
             <div class="col-6 col-md-3 py-4" data-aos="fade-up" data-aos-delay="0">
-              <img class="mb-4" src="{% static 'bootstrap/images/illustration/lab.svg' %}" alt="" height="72">
+              <img class="mb-4" src="/onboarding/static/bootstrap/images/illustration/lab.svg" alt="" height="72">
               <h2 class="lead"> Simple and Rich </h2>
             </div><!-- /.col -->
             <!-- .col -->
             <div class="col-6 col-md-3 py-4" data-aos="fade-up" data-aos-delay="100">
-              <img class="mb-4" src="{% static 'bootstrap/images/illustration/easy-config.svg' %}" alt="" height="72">
+              <img class="mb-4" src="/onboarding/static/bootstrap/images/illustration/easy-config.svg" alt="" height="72">
               <h2 class="lead"> Easy Cuztomizable </h2>
             </div><!-- /.col -->
             <!-- .col -->
             <div class="col-6 col-md-3 py-4" data-aos="fade-up" data-aos-delay="200">
-              <img class="mb-4" src="{% static 'bootstrap/images/illustration/scale.svg' %}" alt="" height="72">
+              <img class="mb-4" src="/onboarding/static/bootstrap/images/illustration/scale.svg" alt="" height="72">
               <h2 class="lead"> Fast and scalable </h2>
             </div><!-- /.col -->
             <!-- .col -->
             <div class="col-6 col-md-3 py-4" data-aos="fade-up" data-aos-delay="300">
-              <img class="mb-4" src="{% static 'bootstrap/images/illustration/support.svg' %}" alt="" height="72">
+              <img class="mb-4" src="/onboarding/static/bootstrap/images/illustration/support.svg" alt="" height="72">
               <h2 class="lead"> Excellent Support </h2>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -173,7 +170,7 @@
           <div class="row align-items-center">
             <!-- .col-md-6 -->
             <div class="col-12 col-md-6" data-aos="fade-right">
-              <img class="img-fluid mb-4 mb-md-0" src="{% static 'bootstrap/images/illustration/solution.svg' %}" alt="">
+              <img class="img-fluid mb-4 mb-md-0" src="/onboarding/static/bootstrap/images/illustration/solution.svg" alt="">
             </div><!-- /.col-md-6 -->
             <!-- .col-md-6 -->
             <div class="col-12 col-md-6 text-center text-sm-left">
@@ -190,7 +187,7 @@
           <div class="row align-items-center">
             <!-- .col-md-6 -->
             <div class="col-12 col-md-6 order-md-2" data-aos="fade-left">
-              <img class="img-fluid mb-4 mb-md-0" src="{% static 'bootstrap/images/illustration/testimony.svg' %}" alt="">
+              <img class="img-fluid mb-4 mb-md-0" src="/onboarding/static/bootstrap/images/illustration/testimony.svg" alt="">
             </div><!-- /.col-md-6 -->
             <!-- .col-md-6 -->
             <div class="col-12 col-md-6 order-md-1 text-center text-sm-left">
@@ -212,10 +209,10 @@
         <!-- .sticker -->
         <div class="sticker">
           <div class="sticker-item sticker-top-right sticker-soften">
-            <img src="{% static 'bootstrap/images/cubes.svg' %}" alt="" data-aos="zoom-in">
+            <img src="/onboarding/static/bootstrap/images/cubes.svg" alt="" data-aos="zoom-in">
           </div>
           <div class="sticker-item sticker-bottom-left sticker-soften scale-150">
-            <img src="{% static 'bootstrap/images/cubes.svg' %}" alt="" data-aos="zoom-in">
+            <img src="/onboarding/static/bootstrap/images/cubes.svg" alt="" data-aos="zoom-in">
           </div>
         </div><!-- /.sticker -->
         <!-- .container -->
@@ -228,7 +225,7 @@
               <!-- .card-body -->
               <div class="card-body p-4">
                 <div class="d-sm-flex align-items-start text-center text-sm-left">
-                  <img src="{% static 'bootstrap/images/illustration/rocket.svg' %}" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
+                  <img src="/onboarding/static/bootstrap/images/illustration/rocket.svg" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
                   <div class="flex-fill">
                     <h5 class="mt-0"> Ready-to-go </h5>
                     <p class="text-muted font-size-lg"> Provides a tons of useful Components and Pages that allow you to focus on your application logic rather than re-touching pixels. </p>
@@ -241,7 +238,7 @@
               <!-- .card-body -->
               <div class="card-body p-4">
                 <div class="d-sm-flex align-items-start text-center text-sm-left">
-                  <img src="{% static 'bootstrap/images/illustration/setting.svg' %}" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
+                  <img src="/onboarding/static/bootstrap/images/illustration/setting.svg" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
                   <div class="flex-fill">
                     <h5 class="mt-0"> Highly functionality </h5>
                     <p class="text-muted font-size-lg"> Looper is not 1001 in 1 shit theme, there's not an obscene amount of wasted space, and we are carefully in adding useful features without going overboard. </p>
@@ -257,7 +254,7 @@
               <!-- .card-body -->
               <div class="card-body p-4">
                 <div class="d-sm-flex align-items-start text-center text-sm-left">
-                  <img src="{% static 'bootstrap/images/illustration/brain.svg' %}" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
+                  <img src="/onboarding/static/bootstrap/images/illustration/brain.svg" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
                   <div class="flex-fill">
                     <h5 class="mt-0"> Boost your creativity </h5>
                     <p class="text-muted font-size-lg"> The design is clean, simple, modern, and essential, with Lots of refined graphics and tons of 3rd party support. </p>
@@ -270,7 +267,7 @@
               <!-- .card-body -->
               <div class="card-body p-4">
                 <div class="d-sm-flex align-items-start text-center text-sm-left">
-                  <img src="{% static 'bootstrap/images/illustration/horse.svg' %}" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
+                  <img src="/onboarding/static/bootstrap/images/illustration/horse.svg" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
                   <div class="flex-fill">
                     <h5 class="mt-0"> Simple workflow </h5>
                     <p class="text-muted font-size-lg"> We make sure you can make a magic by running just two command. It was very easy, extremely powerful, and modern. </p>
@@ -286,7 +283,7 @@
               <!-- .card-body -->
               <div class="card-body p-4">
                 <div class="d-sm-flex align-items-start text-center text-sm-left">
-                  <img src="{% static 'bootstrap/images/illustration/savings.svg' %}" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
+                  <img src="/onboarding/static/bootstrap/images/illustration/savings.svg" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
                   <div class="flex-fill">
                     <h5 class="mt-0"> One time payment </h5>
                     <p class="text-muted font-size-lg"> After you make a purchase you will get a free update forever. We will make Looper better and better again for you. </p>
@@ -299,7 +296,7 @@
               <!-- .card-body -->
               <div class="card-body p-4">
                 <div class="d-sm-flex align-items-start text-center text-sm-left">
-                  <img src="{% static 'bootstrap/images/illustration/document.svg' %}" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
+                  <img src="/onboarding/static/bootstrap/images/illustration/document.svg" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
                   <div class="flex-fill">
                     <h5 class="mt-0"> Well Documented </h5>
                     <p class="text-muted font-size-lg"> Each component is well explained with example, code block and best practices. We also provide extensive information about customizing Looper. </p>
@@ -315,7 +312,7 @@
         <!-- .sticker -->
         <div class="sticker">
           <div class="sticker-item sticker-top-right sticker-soften translate-x-50">
-            <img src="{%  static 'bootstrap/images/bubble1.svg' %}" alt="" data-aos="fade-left">
+            <img src="/onboarding/static/bootstrap/images/bubble1.svg" alt="" data-aos="fade-left">
           </div>
         </div><!-- /.sticker -->
         <!-- .container -->
@@ -334,19 +331,19 @@
                   <p class="text-center text-muted mb-5"> If you are a freelancer, team, or you just create an app for your internal company, this offers is great for you. </p>
                   <ul class="list-icons">
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> Build a Single End Product </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> Build a Single End Product </li>
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> Use for Personal or a Client </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> Use for Personal or a Client </li>
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> Make unlimited copies </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> Make unlimited copies </li>
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> Modify the Theme </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> Modify the Theme </li>
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> Combine with another works </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> Combine with another works </li>
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> Free update forever </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> Free update forever </li>
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> 24/7 support </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> 24/7 support </li>
                   </ul>
                 </div>
                 <div class="card-footer">
@@ -365,11 +362,11 @@
                   <p class="text-center text-muted-light mb-5"> Build your app, sell and charge your users. You don't need to pay us anymore. </p>
                   <ul class="list-icons">
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> Include all the Standar License </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> Include all the Standar License </li>
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> Use in an End Product that is "Sold" </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> Use in an End Product that is "Sold" </li>
                     <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}" alt="" width="16"></span> Can have multiple paying users </li>
+                      <span class="list-icon"><img class="mr-2" src="/onboarding/static/bootstrap/images/check.svg" alt="" width="16"></span> Can have multiple paying users </li>
                   </ul>
                 </div>
                 <div class="card-footer">
@@ -385,7 +382,7 @@
         <!-- .sticker -->
         <div class="sticker">
           <div class="sticker-item sticker-bottom-left sticker-soften">
-            <img src="{% static 'bootstrap/images/bubble2.svg' %}" alt="" data-aos="zoom-in" data-aos-delay="200">
+            <img src="/onboarding/static/bootstrap/images/bubble2.svg" alt="" data-aos="zoom-in" data-aos-delay="200">
           </div>
         </div><!-- /.sticker -->
         <!-- .container -->
@@ -398,34 +395,34 @@
               <!-- .row -->
               <div class="row justify-content-center text-center">
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="0">
-                  <img src="{% static 'bootstrap/images/logo/airbnb.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/airbnb.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="100">
-                  <img src="{% static 'bootstrap/images/logo/amazon.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/amazon.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="200">
-                  <img src="{% static 'bootstrap/images/logo/apple.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/apple.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="300">
-                  <img src="{% static 'bootstrap/images/logo/dropbox.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/dropbox.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="400">
-                  <img src="{% static 'bootstrap/images/logo/google.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/google.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="500">
-                  <img src="{% static 'bootstrap/images/logo/linkedin.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/linkedin.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="600">
-                  <img src="{% static 'bootstrap/images/logo/paypal.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/paypal.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="700">
-                  <img src="{% static 'bootstrap/images/logo/shopify.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/shopify.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="900">
-                  <img src="{% static 'bootstrap/images/logo/sketch.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/sketch.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
                 <div class="col-4 col-md-3 col-lg-2 mb-5" data-aos="fade-up" data-aos-delay="1000">
-                  <img src="{% static 'bootstrap/images/logo/slack.svg' %}" alt="" class="img-fluid" style="max-height: 32px">
+                  <img src="/onboarding/static/bootstrap/images/logo/slack.svg" alt="" class="img-fluid" style="max-height: 32px">
                 </div>
               </div><!-- /.row -->
             </div><!-- /.col -->
@@ -436,7 +433,7 @@
             <div class="col-12 col-md-6 col-lg-4 offset-lg-1 mr-md-0">
               <!-- .card -->
               <div class="card shadow-none rounded-lg mb-0 mr-md-n5 mt-md-n5 scale-125" data-aos="fade-in">
-                <img class="img-fluid rounded-lg" src="{% static 'bootstrap/images/illustration/happy-client.jpg' %}" alt="">
+                <img class="img-fluid rounded-lg" src="/onboarding/static/bootstrap/images/illustration/happy-client.jpg" alt="">
               </div><!-- /.card -->
             </div><!-- /.col -->
             <!-- .col -->
@@ -445,7 +442,7 @@
               <div class="card shadow-lg rounded-lg p-4 ml-md-n5 mt-md-5" data-aos="fade-up">
                 <blockquote class="blockquote text-center border-0 p-3 p-md-4">
                   <figure>
-                    <img class="mr-2" src="{% static 'bootstrap/images/quote.svg' %}" alt="" height="32">
+                    <img class="mr-2" src="/onboarding/static/bootstrap/images/quote.svg" alt="" height="32">
                   </figure>
                   <p> I am a Looper enthusiast in many ways. First, the design is modern and essential, yet very pleasant and rich of refined graphics. Plus, it has some serious gems like rich-text editor, timeline activity, autocompletes and many other components that literally boost your creativity and the features you can put in a website. On top of all that, the creator offers excellent support on a few hours response time! </p>
                   <footer class="blockquote-footer"> Marco, through <cite title="Bootstrap Themes">Bootstrap Themes</cite>
@@ -473,7 +470,7 @@
             <!-- .sticker -->
             <div class="sticker">
               <div class="sticker-item sticker-middle-left">
-                <img class="flip-y" src="{% static 'bootstrap/images/bubble4.svg' %}" alt="">
+                <img class="flip-y" src="/onboarding/static/bootstrap/images/bubble4.svg" alt="">
               </div>
             </div><!-- /.sticker -->
             <!-- .card-body -->
@@ -504,16 +501,16 @@
                 <abbr title="US phone code">+1</abbr> (234) 567-8910 </address><!-- Social -->
               <ul class="list-inline mb-5 mb-md-0">
                 <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="0">
-                  <a href="#" class="text-muted text-decoration-none" title="twitter"><img class="grayscale" src="{% static 'bootstrap/images/logo/twitter.svg' %}" alt="" width="24"></a>
+                  <a href="#" class="text-muted text-decoration-none" title="twitter"><img class="grayscale" src="/onboarding/static/bootstrap/images/logo/twitter.svg" alt="" width="24"></a>
                 </li>
                 <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="100">
-                  <a href="#" class="text-muted text-decoration-none" title="instagram"><img class="grayscale" src="{% static 'bootstrap/images/logo/instagram.svg' %}" alt="" width="24"></a>
+                  <a href="#" class="text-muted text-decoration-none" title="instagram"><img class="grayscale" src="/onboarding/static/bootstrap/images/logo/instagram.svg" alt="" width="24"></a>
                 </li>
                 <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="200">
-                  <a href="#" class="text-muted text-decoration-none" title="dribbble"><img class="grayscale" src="{% static 'bootstrap/images/logo/dribbble.svg' %}" alt="" width="24"></a>
+                  <a href="#" class="text-muted text-decoration-none" title="dribbble"><img class="grayscale" src="/onboarding/static/bootstrap/images/logo/dribbble.svg" alt="" width="24"></a>
                 </li>
                 <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="300">
-                  <a href="#" class="text-muted text-decoration-none" title="medium"><img class="grayscale" src="{% static 'bootstrap/images/logo/medium.svg' %}" alt="" width="24"></a>
+                  <a href="#" class="text-muted text-decoration-none" title="medium"><img class="grayscale" src="/onboarding/static/bootstrap/images/logo/medium.svg" alt="" width="24"></a>
                 </li>
               </ul>
             </div><!-- /.col -->
@@ -594,17 +591,17 @@
               </ul>
             </div><!-- /.col -->
           </div><!-- /.row -->
-          <p class="text-muted text-center mt-5"> &copy; {% now 'Y' %} Looper, Inc. All rights reserved. </p>
+          <p class="text-muted text-center mt-5"> &copy; 2020 Looper, Inc. All rights reserved. </p>
         </div><!-- /.container -->
       </section><!-- /footer -->
     </main><!-- /.app -->
     <!-- BEGIN BASE JS -->
-    <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'bootstrap/vendor/bootstrap/js/popper.min.js' %}"></script>
-    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script> <!-- END BASE JS -->
+    <script src="/onboarding/static/bootstrap/vendor/jquery/jquery.min.js"></script>
+    <script src="/onboarding/static/bootstrap/vendor/bootstrap/js/popper.min.js"></script>
+    <script src="/onboarding/static/bootstrap/vendor/bootstrap/js/bootstrap.min.js"></script> <!-- END BASE JS -->
     <!-- BEGIN PLUGINS JS -->
-    <script src="{% static 'bootstrap/vendor/aos/aos.js' %}"></script> <!-- END PLUGINS JS -->
+    <script src="/onboarding/static/bootstrap/vendor/aos/aos.js"></script> <!-- END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
-    <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
+    <script src="/onboarding/static/bootstrap/javascript/theme.min.js"></script> <!-- END THEME JS -->
   </body>
 </html>
