@@ -5,15 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
     <!-- Begin SEO tag -->
-    <title> Users List | Onboarding</title>
-    <meta property="og:title" content="Users List - Onboarding">
+    <title> Employees List | Onboarding</title>
+    <meta property="og:title" content="Employees list - Onboarding">
     <meta name="author" content="Beni Arisandi">
     <meta property="og:locale" content="en_US">
-    <meta name="description" content="Onboarding list of users">
+    <meta name="description" content="Onboarding list of employees">
     <meta property="og:description" content="Responsive admin theme build on top of Bootstrap 4">
     <link rel="canonical" href="https://uselooper.com">
     <meta property="og:url" content="https://uselooper.com">
-    <meta property="og:site_name" content="Onboarding - Users list">
+    <meta property="og:site_name" content="Onboarding - Employees list">
     <script type="application/ld+json">
       {
         "name": "Looper - Bootstrap 4 Admin Theme",
@@ -31,18 +31,18 @@
     </script><!-- End SEO tag -->
     <!-- FAVICONS -->
     <link rel="apple-touch-icon" sizes="144x144" href="bootstrap/apple-touch-icon.png">
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
     <!-- BEGIN PLUGINS STYLES -->
     <!--<link rel="stylesheet" href="bootstrap/vendor/open-iconic/css/open-iconic-bootstrap.min.css"> -->
-    <link rel="stylesheet" href="{% static 'bootstrap/vendor/fontawesome/css/all.css' %}">
-    <link rel="stylesheet" href="{% static 'bootstrap/vendor/tributejs/tribute.css' %}"><!-- END PLUGINS STYLES -->
+    <link rel="stylesheet" href="{% static 'bootstrap/vendor/fontawesome/css/all.css' %}" />
+    <link rel="stylesheet" href="{% static 'bootstrap/vendor/tributejs/tribute.css' %}" /><!-- END PLUGINS STYLES -->
     <!-- BEGIN THEME STYLES -->
     <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme.min.css' %}" data-skin="default">
     <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}" data-skin="dark">
-    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/custom.css' %}" />
     <script>
       var skin = localStorage.getItem('skin') || 'default';
       var isCompact = JSON.parse(localStorage.getItem('hasCompactMenu'));
@@ -258,13 +258,13 @@
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
                 <li class="menu-item">
-                  <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 2</span></a>
+                  <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - dashboard</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
                   <a href="{% url 'bootstrap_1_package' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 3</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
-                  <a href="{% url 'bootstrap_forms' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 4</span></a>
+                  <a href="{% url 'bootstrap_forms' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - forms</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-header -->
                 <li class="menu-header">Interfaces </li><!-- /.menu-header -->
@@ -309,7 +309,7 @@
                 <div class="card card-fluid">
                   <!-- .card-header -->
                   <div class="card-header">
-                    Page Packages
+                    Employees list
                   </div><!-- /.card-header -->
                   <!-- .card-body -->
                   <div class="card-body">
@@ -368,7 +368,7 @@
                       <div class="row align-items-center">
                         <!-- grid column -->
                         <div class="col-auto">
-                          <a href="#" class="user-avatar user-avatar-lg"><img src="{% static 'bootstrap/images/uifaces5.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="{% static 'bootstrap/images/uifaces5.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
                         </div><!-- /grid column -->
                         <!-- grid column -->
                         <div class="col">
@@ -394,7 +394,8 @@
                           <h3 class="card-title">
                              <small class="text-muted">Finished Packages:</small> 2
                           </h3>
-                          <button type="button" class="btn btn-secondary" data-toggle="tooltip" title="Private message">Edit Profile</button> <!-- .dropdown -->
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip">Edit Profile</button> <!-- .dropdown -->
+                          <button type="button" class="btn btn-secondary" data-toggle="tooltip">Add package</button>
                         </div><!-- /grid column -->
                       </div><!-- /grid row -->
                     </div><!-- /.card-body -->
@@ -446,7 +447,7 @@
                       <div class="row align-items-center">
                         <!-- grid column -->
                         <div class="col-auto">
-                          <a href="#" class="user-avatar user-avatar-lg"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
                         </div><!-- /grid column -->
                         <!-- grid column -->
                         <div class="col">
@@ -485,7 +486,7 @@
                       <div class="row align-items-center">
                         <!-- grid column -->
                         <div class="col-auto">
-                          <a href="#" class="user-avatar user-avatar-lg"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge busy" title="buse"></span></a>
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge busy" title="buse"></span></a>
                         </div><!-- /grid column -->
                         <!-- grid column -->
                         <div class="col">
@@ -524,7 +525,7 @@
                       <div class="row align-items-center">
                         <!-- grid column -->
                         <div class="col-auto">
-                          <a href="#" class="user-avatar user-avatar-lg"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge idle" title="idle"></span></a>
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge idle" title="idle"></span></a>
                         </div><!-- /grid column -->
                         <!-- grid column -->
                         <div class="col">
@@ -563,7 +564,7 @@
                       <div class="row align-items-center">
                         <!-- grid column -->
                         <div class="col-auto">
-                          <a href="#" class="user-avatar user-avatar-lg"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
                         </div><!-- /grid column -->
                         <!-- grid column -->
                         <div class="col">
@@ -602,7 +603,7 @@
                       <div class="row align-items-center">
                         <!-- grid column -->
                         <div class="col-auto">
-                          <a href="#" class="user-avatar user-avatar-lg"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge offline" title="offline"></span></a>
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge offline" title="offline"></span></a>
                         </div><!-- /grid column -->
                         <!-- grid column -->
                         <div class="col">
@@ -641,7 +642,7 @@
                       <div class="row align-items-center">
                         <!-- grid column -->
                         <div class="col-auto">
-                          <a href="#" class="user-avatar user-avatar-lg"><img src="{% static 'bootstrap/images/uifaces11.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="{% static 'bootstrap/images/uifaces11.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
                         </div><!-- /grid column -->
                         <!-- grid column -->
                         <div class="col">
@@ -681,7 +682,7 @@
                       <div class="row align-items-center">
                         <!-- grid column -->
                         <div class="col-auto">
-                          <a href="#" class="user-avatar user-avatar-lg"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge online" title="online"></span></a>
                         </div><!-- /grid column -->
                         <!-- grid column -->
                         <div class="col">
@@ -720,7 +721,7 @@
                       <div class="row align-items-center">
                         <!-- grid column -->
                         <div class="col-auto">
-                          <a href="#" class="user-avatar user-avatar-lg"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge busy" title="busy"></span></a>
+                          <a href="#" class="user-avatar user-avatar-xl"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""> <span class="avatar-badge busy" title="busy"></span></a>
                         </div><!-- /grid column -->
                         <!-- grid column -->
                         <div class="col">
