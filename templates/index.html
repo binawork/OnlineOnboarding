@@ -74,14 +74,7 @@
                 <use class="fill-primary" xlink:href="#a"></use>
               </g>
             </svg></a> <!-- /.navbar-brand -->
-{% if user.is_authenticated %}
-                    <span class="ml-auto order-lg-2">User: {{ user.get_username }}</span>
-                    <a  class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
-                    <a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'manage'%}" >Manage</a>
-                {% else %}
-                    <a  class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'login'%}?next=/onboarding/manage/">Login</a>
-                    <a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'signup'%}?next=/onboarding/manage/">Register</a>
-                {% endif %}
+            <!-- acc. -->
            <!-- .navbar-collapse -->
           <div class="navbar-collapse collapse" id="navbarTogglerDemo01">
             <ul class="navbar-nav mx-auto">
