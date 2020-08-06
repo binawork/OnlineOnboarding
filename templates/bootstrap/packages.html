@@ -182,11 +182,19 @@
               <ul class="menu">
                 <!-- .menu-header -->
                 <li class="menu-header">
-                	<a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Dashboard</span></a>
+                	<a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Dashboard</span></a>
                 </li><!-- /.menu-header -->
                 <!-- .menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Packages</span></a>
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Forms</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Add employee</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Feedbacks</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
                 <li class="menu-item has-child">
@@ -216,13 +224,16 @@
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
                 <li class="menu-item">
-                  <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 2</span></a>
+                  <a href="{% url 'bootstrap_1_package' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - 1 package</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
-                  <a href="{% url 'bootstrap_forms' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - forms</span></a>
+                  <a href="{% url 'bootstrap_forms' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - app. forms</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
                   <a href="{% url 'bootstrap_users_list' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - users</span></a>
+                </li><!-- /.menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-header -->
                 <li class="menu-header">Interfaces </li><!-- /.menu-header -->
@@ -255,7 +266,7 @@
                         <li class="breadcrumb-item">
                           <a href="{% url 'index' %}">Home</a>
                         </li>
-                        <li class="breadcrumb-item active">Packages</li>
+                        <li class="breadcrumb-item active">Forms</li>
                       </ol>
                     </div><!-- /.card-body -->
                   </div><!-- /.card -->
