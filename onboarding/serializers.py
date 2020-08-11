@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from onboarding.models import Package, Email, Page, PackagePage
+from onboarding.models import Package, Email, Page, Section
 
 '''
 Core arguments in serializer fields
@@ -57,28 +57,27 @@ class AddEmailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class PageSerializer(serializers.ModelSerializer):
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        fields = '__all__'
+
+
+class SectionsInPageSerializer(serializers.ModelSerializer):
+    # sections = SectionSerializer(many=True, read_only=True)
 
     class Meta:
         model = Page
         fields = '__all__'
 
 
-class PackagePagesSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='page.id')
-    title = serializers.ReadOnlyField(source='page.title')
-
-    class Meta:
-        model = PackagePage
-        fields = ('id', 'title', 'order',)
-
-
-class PagesListSerializer(serializers.ModelSerializer):
-    pages = PackagePagesSerializer(many=True, read_only=True, source='page_package')
+class SectionsInPagesInPackage(serializers.ModelSerializer):
+    pages = SectionsInPageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Package
-        fields = ('id', 'title', 'description', 'owner', 'pages')
+        # fields = ("id", "pages", "title", "description", "created_on", "updated_on", "owner", "users", "pages")
+        fields = '__all__'
 
 
 class AddNewPageToPackageSerializer(serializers.ModelSerializer):

@@ -1,17 +1,15 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from rest_framework.exceptions import NotFound
-from rest_framework.generics import get_object_or_404
-from rest_framework.response import Response
-from rest_framework import viewsets
-
-from .forms import SignUpForm
 from django.shortcuts import render
-from onboarding.models import Package, Email, User, Page
 from rest_framework import generics
-from .serializers import PackageSerializer, CreatePackageSerializer, AddEmailSerializer
+from rest_framework.exceptions import NotFound
+from rest_framework.response import Response
+
+from onboarding.models import Package, Email, Page
+from .forms import SignUpForm
 # from .serializers import HyperLinkPackageSerializer, HyperLinkUserSerializer
-from .serializers import AddNewPageToPackageSerializer, PagesListSerializer
+from .serializers import AddNewPageToPackageSerializer,SectionsInPagesInPackage
+from .serializers import PackageSerializer, CreatePackageSerializer, AddEmailSerializer
 
 
 def index(request):
@@ -90,6 +88,20 @@ class AddEmailVew(generics.CreateAPIView):
     queryset = Email.objects.all()
 
 
+class test(generics.ListAPIView):
+
+    serializer_class = SectionsInPagesInPackage
+
+    def get_queryset(self):
+        queryset = Package.objects.filter(id=self.kwargs['pk'], owner=self.request.user)
+        return queryset
+
+
+class test_2(generics.ListAPIView):
+    serializer_class = SectionsInPagesInPackage
+    queryset = Package.objects.all()
+
+
 class AddNewPageToPackage(generics.GenericAPIView):  # todo: idk how i can do it
     # 1) create page
     # 2) join this page to package by pk
@@ -112,14 +124,6 @@ class AddNewPageToPackage(generics.GenericAPIView):  # todo: idk how i can do it
             raise NotFound()
         serializer.save(page=package)
 
-
-class PageListByPackageIdView(generics.ListAPIView):
-
-    serializer_class = PagesListSerializer
-
-    def get_queryset(self):
-        queryset = Package.objects.filter(id=self.kwargs['pk'], owner=self.request.user)
-        return queryset
 
 
 """

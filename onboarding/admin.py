@@ -23,19 +23,26 @@ class SectionsInline(admin.TabularInline):
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'owner', 'description', "created_on", "updated_on",)
-    list_filter = (
-        ('owner', admin.RelatedOnlyFieldListFilter),
-    )
+    # list_filter = (
+    #     ('owner', admin.RelatedOnlyFieldListFilter),
+    # )
     inlines = [PagePackageInline, UserPackageInline]
+    ordering = ('id',)
 
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'description')
     inlines = [SectionsInline]
+    ordering = ('id',)
 
 
-admin.site.register(Section)
+@admin.register(Section)
+class SectionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'description', 'type', )
+    ordering = ('id',)
+
+
 admin.site.register(Answer)
 admin.site.register(Email)
 
