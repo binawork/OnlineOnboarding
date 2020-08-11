@@ -12,6 +12,9 @@ class Company(models.Model):
     date_joined = models.DateTimeField(auto_now_add=True)
     how_many_sent_packages = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.name
+
 
 class User(AbstractUser):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
@@ -24,13 +27,13 @@ class Email(models.Model):
 
 class Answer(models.Model):
     data = JSONField()
-    uuid = models.UUIDField(primary_key=False, editable=False)
 
 
 class Section(models.Model):
-    link = models.URLField(null=True, blank=True)
+    order = models.IntegerField()
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
     TYPES = [
         ('msa', 'Multi select answer'),
         ('osa', 'One select answer'),
@@ -46,27 +49,32 @@ class Section(models.Model):
         help_text='Answer type',
     )
 
+    def __str__(self):
+        return self.title
+
 
 class SectionsAnswer(models.Model):
     """Model representing a through for Section and Answer."""
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
     sections = models.ForeignKey(Section, on_delete=models.CASCADE)
-    order = models.IntegerField()
 
 
 class Page(models.Model):
     """Model representing a through for Page and Section."""
+    order = models.IntegerField()
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     sections = models.ManyToManyField(Section, through='PageSections', blank=True)
+
+    def __str__(self):
+        return self.title
 
 
 class PageSections(models.Model):
     """Model representing a through for Page and Section."""
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
     sections = models.ForeignKey(Section, on_delete=models.CASCADE)
-    order = models.IntegerField()
 
 
 class Package(models.Model):
@@ -79,8 +87,11 @@ class Package(models.Model):
     pages = models.ManyToManyField(Page, related_name='page_package', through='PackagePage', blank=True)
     users = models.ManyToManyField(User, related_name='users_package', blank=True)
 
+    def __str__(self):
+        return self.title
+
 
 class PackagePage(models.Model):
     page = models.ForeignKey(Page, on_delete=models.CASCADE)
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
-    order = models.IntegerField()
+
