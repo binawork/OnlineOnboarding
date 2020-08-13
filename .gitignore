@@ -80,6 +80,9 @@ ENV/
 # PyCharm
 .idea/
 
+# VSCode
+.vscode/
+
 # Spyder project settings
 .spyderproject
 .spyproject
