@@ -127,3 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/onboarding/static/'
 
+# On a server:
+#STATIC_ROOT = 'your path'
+# then python manage.py collectstatic
+
