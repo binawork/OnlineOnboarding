@@ -1,15 +1,15 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from rest_framework import generics
-from rest_framework.exceptions import NotFound
+from rest_framework import viewsets, filters
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
-from onboarding.models import Package, Email, Page
+
+from onboarding.models import Package, ContactForm, Page, Section, User, Answer
 from .forms import SignUpForm
-# from .serializers import HyperLinkPackageSerializer, HyperLinkUserSerializer
-from .serializers import AddNewPageToPackageSerializer,SectionsInPagesInPackage
-from .serializers import PackageSerializer, CreatePackageSerializer, AddEmailSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, \
+    ContactFormTestSerializer, UserSerializer, AnswerSerializer
 
 
 def index(request):
@@ -41,89 +41,110 @@ def manager_view(request):
 """
 REST
 """
+# ViewSets define the view behavior.
 
 
-# class PackageHyperLinkView(viewsets.ModelViewSet):  # test
-#     queryset = Package.objects.all()
-#     serializer_class = HyperLinkPackageSerializer
-#
-#     def perform_create(self, serializer):
-#         serializer.save(owner=self.request.user)
-#
-#
-# class UserHyperLinkView(viewsets.ModelViewSet): # test
-#     queryset = User.objects.all()
-#     serializer_class = HyperLinkUserSerializer
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
-class PackageListView(generics.ListAPIView):
-    # serializer_class = PackageSerializer
-    queryset = False
+class ContactFormViewSet(viewsets.ModelViewSet):
+    """
+    List all packages, update or create a new package.
+    """
+    queryset = ContactForm.objects.all()
+    serializer_class = ContactFormTestSerializer
 
-    def get(self, request):
+
+class PackageViewSet(viewsets.ModelViewSet):
+    """
+    List all package, or create a new package.
+    """
+    queryset = Package.objects.all()
+    serializer_class = PackageSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    @action(detail=False)
+    def list_by_user(self, request):
+        """
+        :param request: user
+        :return: all packages with param request.user = owner
+        """
         package = Package.objects.filter(owner=request.user)
         serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
 
 
-class PackageView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = PackageSerializer
-    lookup_url_kwarg = 'pk'
+class PageViewSet(viewsets.ModelViewSet):
+    """
+    Page Model View Set
+    """
+    queryset = Page.objects.all()
+    serializer_class = PageSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['release_date']
 
-    def get_queryset(self):
-        return Package.objects.filter()
+    @action(detail=True)
+    def list_by_package(self, request, pk):
+        """
+        :param request:
+        :param pk: this is package ID
+        :return: pages list by package Pk, filter by package and pages owner
+        """
+        page = Page.objects.filter(package__id=pk)
+        serializer = PageSerializer(page, many=True)
+
+        return Response(serializer.data)
 
 
-class CreatePackageView(generics.CreateAPIView):
-    serializer_class = CreatePackageSerializer
-    queryset = Package.objects.all()
+class SectionViewSet(viewsets.ModelViewSet):
+
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['release_date']
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+    @action(detail=True)
+    def list_by_page(self, request, pk):
+        """
+        :param request:
+        :param pk: this is page ID
+        :return: sections list by page id
+        """
+        section = Section.objects.filter(page__id=pk)
+        serializer = SectionSerializer(section, many=True)
 
-class AddEmailVew(generics.CreateAPIView):
-    serializer_class = AddEmailSerializer
-    queryset = Email.objects.all()
-
-
-class test(generics.ListAPIView):
-
-    serializer_class = SectionsInPagesInPackage
-
-    def get_queryset(self):
-        queryset = Package.objects.filter(id=self.kwargs['pk'], owner=self.request.user)
-        return queryset
+        return Response(serializer.data)
 
 
-class test_2(generics.ListAPIView):
-    serializer_class = SectionsInPagesInPackage
-    queryset = Package.objects.all()
+class AnswerViewSet(viewsets.ModelViewSet):
 
-
-class AddNewPageToPackage(generics.GenericAPIView):  # todo: idk how i can do it
-    # 1) create page
-    # 2) join this page to package by pk
-    # 3)
-
-    serializer_class = AddNewPageToPackageSerializer
-
-    def get_queryset(self):
-        queryset = Page.objects.all()
-        package_id = self.kwargs.get('pk', None)
-        if package_id is not None:
-            queryset = queryset.filter(page=package_id)
-        return queryset
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['release_date']
 
     def perform_create(self, serializer):
-        package_id = self.kwargs.get('pk', None)
-        try:
-            package = Package.objects.get(package__id__exact=package_id)
-        except Page.DoesNotExist:
-            raise NotFound()
-        serializer.save(page=package)
+        serializer.save(owner=self.request.user)
 
+    @action(detail=True)
+    def list_by_section(self, request, pk):
+        """
+        :param request:
+        :param pk: this is section ID
+        :return: answers list by section id
+        """
+        answer = Answer.objects.filter(section__id=pk)
+        serializer = AnswerSerializer(answer, many=True)
+
+        return Response(serializer.data)
 
 
 """
@@ -145,4 +166,3 @@ def bootstrap_1_package(request):
 
 def bootstrap_forms(request):
     return render(request, 'bootstrap/package_forms.html')
-

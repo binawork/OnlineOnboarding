@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from onboarding.models import Package, Email, Page, Section
+from onboarding.models import ContactForm, Package, Page, Section, User, Answer, Company
 
 '''
 Core arguments in serializer fields
@@ -37,94 +37,92 @@ initial	        A value that should be used for pre-populating the value of HTML
 '''
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+
+
+class ContactFormTestSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        ordering = ['-id']
+        model = ContactForm
+        fields = ('id', 'first_name', 'last_name', 'company_name', 'email')
+
+
+# PACKAGE
 class PackageSerializer(serializers.ModelSerializer):
 
     class Meta:
+        ordering = ['-id']
         model = Package
-        fields = '__all__'
+        fields = ('id', 'title', 'owner', 'description', 'created_on', 'updated_on', 'users')
 
 
-class CreatePackageSerializer(serializers.ModelSerializer):
+# PAGE
+class PackageSpecialTestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Package
-        fields = ['title', 'description']
+        ordering = ['-id']
+        model = Page
+        fields = ('id',
+                  'order',
+                  'owner',
+                  'title',
+                  'description',
+                  'link',
+                  'package',
+                  )
+        extra_kwargs = {
+            'package': {'required': False},
+        }
 
 
-class AddEmailSerializer(serializers.ModelSerializer):
+class PageSerializer(serializers.ModelSerializer):
+    # package = serializers.SlugRelatedField()
+    # package = PackageSerializer()
 
     class Meta:
-        model = Email
-        fields = '__all__'
+        ordering = ['-id']
+        model = Page
+        fields = ('id',
+                  'order',
+                  'owner',
+                  'title',
+                  'description',
+                  'link',
+                  'package',
+                  )
+        extra_kwargs = {
+            'package': {'required': False},
+        }
 
 
 class SectionSerializer(serializers.ModelSerializer):
+
     class Meta:
+        ordering = ['-id']
         model = Section
-        fields = '__all__'
+        fields = ("id",
+                  "order",
+                  "title",
+                  "description",
+                  'link',
+                  'type',
+                  'data',
+                  'page'
+                  )
 
 
-class SectionsInPageSerializer(serializers.ModelSerializer):
-    # sections = SectionSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Page
-        fields = '__all__'
-
-
-class SectionsInPagesInPackage(serializers.ModelSerializer):
-    pages = SectionsInPageSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Package
-        # fields = ("id", "pages", "title", "description", "created_on", "updated_on", "owner", "users", "pages")
-        fields = '__all__'
-
-
-class AddNewPageToPackageSerializer(serializers.ModelSerializer):
-    package = PackageSerializer(many=True)
+class AnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Page
-        fields = ('package', 'id', 'title', 'description', 'link', 'sections')
+        ordering = ['-id']
+        model = Answer
+        fields = ("id",
+                  'section',
+                  'data',
+                  'owner'
+                  )
 
-    def create(self, validated_data):
-        package_data = validated_data.pop('package')
-        page = Page.objects.create(**validated_data)
-        Package.objects.create(page=page, **package_data)
-        return Page
 
-
-# class HyperLinkUserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = '__all__'
-#
-#
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = '__all__'
-#
-#
-# class HyperLinkPackageSerializer(serializers.HyperlinkedModelSerializer):
-#     owner = serializers.HyperlinkedRelatedField(
-#         many=True,
-#         read_only=True,
-#         view_name='user_test'
-#     )
-#     users = serializers.HyperlinkedRelatedField(
-#         many=True,
-#         read_only=True,
-#         view_name='user_test'
-#     )
-#
-#     extra_kwargs = {
-#         'url': {'view_name': 'accounts', 'lookup_field': 'account_name'},
-#         'users': {'lookup_field': 'username'}
-#     }
-#
-#     class Meta:
-#         model = Package
-#         fields = '__all__'
-#         fields = ['id', 'url', 'owner', 'title', 'description', 'pages', 'users', 'created_on']
-#

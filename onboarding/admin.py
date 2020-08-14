@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Package, Page, Section, Answer, Email
+from .models import User, Package, Page, Section, Answer, ContactForm
 
 
 # information about django administration site
@@ -8,42 +8,40 @@ from .models import User, Package, Page, Section, Answer, Email
 admin.site.register(User, UserAdmin)
 
 
-class PagePackageInline(admin.TabularInline):
-    model = Package.pages.through
+class PageInline(admin.StackedInline):
+    model = Page
 
 
-class UserPackageInline(admin.TabularInline):
-    model = Package.users.through
+class SectionsInline(admin.StackedInline):
+    model = Section
 
 
-class SectionsInline(admin.TabularInline):
-    model = Page.sections.through
+class AnswerInline(admin.StackedInline):
+    model = Answer
 
 
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'owner', 'description', "created_on", "updated_on",)
-    # list_filter = (
-    #     ('owner', admin.RelatedOnlyFieldListFilter),
-    # )
-    inlines = [PagePackageInline, UserPackageInline]
+    list_display = ('id', 'owner', 'title',  'description', "created_on", "updated_on",)
+    inlines = [PageInline, ]
     ordering = ('id',)
 
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'description')
+    list_display = ('id', 'package', 'order', 'owner', 'title', 'description', 'link')
     inlines = [SectionsInline]
     ordering = ('id',)
 
 
 @admin.register(Section)
 class SectionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'description', 'type', )
+    list_display = ('id', 'page', 'order', 'title', 'description', 'type', )
     ordering = ('id',)
+    inlines = [AnswerInline, ]
 
 
 admin.site.register(Answer)
-admin.site.register(Email)
+admin.site.register(ContactForm)
 
 
