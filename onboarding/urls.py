@@ -1,8 +1,14 @@
 from django.urls import path, include
 from . import views
-from django.conf.urls import url
 from . import views as core_views
+from django.conf.urls import url
+from django.contrib import admin
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework import routers
+
+from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -16,24 +22,20 @@ urlpatterns = [
 ]
 
 # API
+
+router = DefaultRouter()
+router.register(r'api/users', UserViewSet, basename='User')
+router.register(r'api/package', PackageViewSet, basename='Package')
+router.register(r'api/page', PageViewSet, basename='Page')
+router.register(r'api/section', SectionViewSet, basename='Section')
+router.register(r'api/answer', AnswerViewSet, basename='Answer')
+
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browsable API.
+
 urlpatterns += [
-    path('api/add/email/', views.AddEmailVew.as_view(), name='add_email'),
-
-    path('api/packages/', views.PackageListView.as_view(), name='packages_list'),
-    path('api/package/<int:pk>/', views.PackageView.as_view(), name='package_view'),
-    path('api/package/create/', views.CreatePackageView.as_view(), name='package_create'),
-
-    path('api/package/<int:pk>/pages/', views.test.as_view(), name='pages_list_by_package_pk'),
-    path('api/test', views.test_2.as_view(), name='test'),
-
+    path(r'', include(router.urls)),
+    path(r'api/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-token-auth/', obtain_auth_token, name='api-token-auth')
 
 ]
-
-
-
-
-# router = routers.DefaultRouter()
-# router.register('api/package/test', views.PackageHyperLinkView)
-# router.register('api/user/test', views.UserHyperLinkView, basename='user_test')
-#
-# urlpatterns += [path('', include(router.urls))]
