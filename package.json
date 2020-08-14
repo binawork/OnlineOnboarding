@@ -1,0 +1,31 @@
+{
+  "name": "onlineonboarding",
+  "version": "1.0.0",
+  "description": "Online Onboarding system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/binawork/OnlineOnboarding.git"
+  },
+  "keywords": [
+    "onboarding"
+  ],
+  "author": "Bina",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/binawork/OnlineOnboarding/issues"
+  },
+  "homepage": "https://github.com/binawork/OnlineOnboarding#readme",
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
