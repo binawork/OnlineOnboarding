@@ -18,12 +18,12 @@ from django.urls import path
 from django.urls import include
 from django.views.generic import RedirectView
 from django.conf import settings
-#from django.conf.urls.static import static
+# from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('onboarding/', include('onboarding.urls')),
-    path('', RedirectView.as_view(url='onboarding/', permanent=True)),
+    path('', include('onboarding.urls')),
+    # path('', RedirectView.as_view(url='onboarding/', permanent=True)),
 ]
 
 # settings.STATIC_ROOT = None!
