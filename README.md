@@ -12,6 +12,16 @@
 1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
 2. After Daily Magda creates note for Wiktor with questions to Product Owner
 
+### Github - Dodawanie ticketów
+NAZWA:
+OPIS: co trzeba zrobić, jak to ma działać
+Podpięcie makiety (jeżeli nie ma napisać do Michała żeby zrobił)
+Zadania:
+  FRONTEND: Ustalić z Adamem co trzeba zrobić
+  BACKEND: Ustalić z Michałem co trzeba zrobić
+  NIESTANDARDOWE: Ustalić jakie to zadania i kto ma je zrobić
+Warunkiem ukończenia zadania jest spełnienie wszystkich warunków
+
 ## Quick Start
 
 To get this project up and running locally on your computer:
