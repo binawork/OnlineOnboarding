@@ -78,8 +78,13 @@ kontakt@bina.work
 ```
 kontakt@onlineonboarding.net - jest aliasem powyższego
 
-## MyDevil - server
+## Hosting- MyDevil - server
+https://github.com/binawork/OnlineOnboarding/issues/28
+
+Panel
+
 https://panel47.mydevil.net/
+
 Login
 ```
 bina
