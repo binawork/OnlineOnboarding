@@ -25,12 +25,15 @@ https://calendar.google.com/calendar?cid=Zzdocm82YXZrOG45Nzl2cWI1b2wzcHRxZ2NAZ3J
 
 ## Github - Dodawanie ticketów
 NAZWA:
+
 OPIS: co trzeba zrobić, jak to ma działać
+
 Podpięcie makiety (jeżeli nie ma napisać do Michała żeby zrobił)
+
 Zadania:
-  FRONTEND: Ustalić z Adamem co trzeba zrobić
-  BACKEND: Ustalić z Michałem co trzeba zrobić
-  NIESTANDARDOWE: Ustalić jakie to zadania i kto ma je zrobić
+FRONTEND: Ustalić z Adamem co trzeba zrobić
+BACKEND: Ustalić z Michałem co trzeba zrobić
+NIESTANDARDOWE: Ustalić jakie to zadania i kto ma je zrobić
 Warunkiem ukończenia zadania jest spełnienie wszystkich warunków
 
 # Paswswords
@@ -62,6 +65,9 @@ psql -d p1253_onboarding -U p1253_onboarding -h pgsql47.mydevil.net
 Klucz ssh na serwer SSH/SFTP: s47.mydevil.net
 ma też swoje hasło-klucz (klucz ma klucz   :p)
 MAM#Onboarding
+
+kontakt@bina.work - 8lk4SnV4jgeb5gjAtT7u
+kontakt@onlineonboarding.net - jest aliasem powyższego
 
 # Quick Start
 
