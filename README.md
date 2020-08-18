@@ -3,16 +3,27 @@
 
 * **email** onlineonboardingnet@gmail.com
 
-# Resources
-* [Google Drive](https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1)
-* [Balsamiq](https://balsamiq.cloud/suqbkva/pmu54yy/r0B9B)
-* [Notion](https://www.notion.so/plywoodandfriends/Kennedy-Onboarding-System-f5f463966bfd4741826f52f0114c30f6)
+# Links & Resources
+GitHub:
+https://github.com/binawork/OnlineOnboarding
 
-## Working on this Project
+Google Drive:
+https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1
+
+BalsamiQ:
+https://balsamiq.cloud/sviuzng/p1y6lm3
+
+Diagram bazy danych:
+https://drive.google.com/file/d/1v__3IoSzLdQVxtVwABCnvgfaCTsj9M7U/view?usp=sharing
+
+# Working on this Project
 1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
+Google Calendar - kliknij link i dołącz
+https://calendar.google.com/calendar?cid=Zzdocm82YXZrOG45Nzl2cWI1b2wzcHRxZ2NAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+
 2. After Daily Magda creates note for Wiktor with questions to Product Owner
 
-### Github - Dodawanie ticketów
+## Github - Dodawanie ticketów
 NAZWA:
 OPIS: co trzeba zrobić, jak to ma działać
 Podpięcie makiety (jeżeli nie ma napisać do Michała żeby zrobił)
@@ -22,7 +33,37 @@ Zadania:
   NIESTANDARDOWE: Ustalić jakie to zadania i kto ma je zrobić
 Warunkiem ukończenia zadania jest spełnienie wszystkich warunków
 
-## Quick Start
+# Paswswords
+Hasła dostępu:
+
+https://balsamiq.cloud/#login
+Login: 
+onlineonboardingnet@gmail.com
+Hasło:
+mwUS@VQR8qCwD.#
+
+https://mail.google.com/
+Login: 
+onlineonboardingnet@gmail.com
+Hasło:
+Cgr7Yy=n-H'2:$7b
+
+https://panel47.mydevil.net/
+bina
+1lv6PPT^czlYzVtk@825
+Adres serwera SSH/SFTP:    s47.mydevil.net
+
+DB: p1253_onboarding
+U: p1253_onboarding
+H: HTFoDP=+-*yRkZ3pM>EboKq^
+Po ssh w terminalu wpisujemy:
+psql -d p1253_onboarding -U p1253_onboarding -h pgsql47.mydevil.net
+
+Klucz ssh na serwer SSH/SFTP: s47.mydevil.net
+ma też swoje hasło-klucz (klucz ma klucz   :p)
+MAM#Onboarding
+
+# Quick Start
 
 To get this project up and running locally on your computer:
 1. Set up the [Python development environment](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/development_environment).
