@@ -4,7 +4,7 @@ This project is online onboarding system for small, medium and huge organization
 # Links & Resources
 * **www** www.onlineonboarding.net
 * **email** onlineonboardingnet@gmail.com
-* ***GitHub** https://github.com/binawork/OnlineOnboarding
+* **GitHub** https://github.com/binawork/OnlineOnboarding
 * **Google Drive** https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1
 * **Balsamiq** https://balsamiq.cloud/sviuzng/p1y6lm3
 * **Diagram bazy danych** https://drive.google.com/file/d/1v__3IoSzLdQVxtVwABCnvgfaCTsj9M7U/view?usp=sharing
@@ -13,7 +13,6 @@ This project is online onboarding system for small, medium and huge organization
 1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
 Google Calendar - kliknij link i dołącz
 https://calendar.google.com/calendar?cid=Zzdocm82YXZrOG45Nzl2cWI1b2wzcHRxZ2NAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-
 2. After Daily Magda creates note for Wiktor with questions to Product Owner
 
 ## Github - Dodawanie ticketów
@@ -25,13 +24,15 @@ https://calendar.google.com/calendar?cid=Zzdocm82YXZrOG45Nzl2cWI1b2wzcHRxZ2NAZ3J
 4. Wszystkie tickety dodajemy w głównym repozytorium https://github.com/binawork/OnlineOnboarding/issues
 
 ### Zawartrtość ticketu
-* NAZWA:
-* OPIS: co trzeba zrobić, jak to ma działać. Podpięcie makiety (jeżeli nie ma napisać do Michała żeby zrobił)
-* Zadania:
-** FRONTEND: Ustalić z Adamem co trzeba zrobić
-** BACKEND: Ustalić z Michałem co trzeba zrobić
-** NIESTANDARDOWE: Ustalić jakie to zadania i kto ma je zrobić
-* Warunkiem ukończenia zadania jest spełnienie wszystkich warunków
+1. Nazwa:
+2. Opis: co trzeba zrobić, jak to ma działać. Podpięcie makiety (jeżeli nie ma napisać do Michała żeby zrobił)
+   * User Story - Jako <rola> chcę <co> aby <podać cel>, np. As a starup we want to know stars of our landing page and who is visiting (bits or real people) so we can track our landing performance.
+   * Tasks - Ogólnie lub szczegółówo subtaski aby zrobić zadanie, np. 1. create Google Analitics account, 2. add GA dode to <head>
+   * Definition of Done / Definition of Ready - Jaki ma być konkretny efekt po wykonaniu zadania, żeby User Story faktycznie działało w praktyce np. Google analytics tracking landing page performance
+3. Zadania:
+   * FRONTEND: Ustalić z Adamem co trzeba zrobić
+   * BACKEND: Ustalić z Michałem co trzeba zrobić
+   * NIESTANDARDOWE: Ustalić jakie to zadania i kto ma je zrobić
 
 ## Github - Tickets, branch workflow, commit workflow
 * Each ticket (issue) that is in developement should have it own branch in repo
@@ -42,62 +43,66 @@ https://calendar.google.com/calendar?cid=Zzdocm82YXZrOG45Nzl2cWI1b2wzcHRxZ2NAZ3J
 # Paswswords
 
 ## Balsamiq - makiety
-**read**
+Read
+
 https://balsamiq.cloud/sviuzng/p1y6lm3
 
-**write**
+Write
 https://balsamiq.cloud/#login
 
 Login 
-
+```
 onlineonboardingnet@gmail.com
-
+```
 Pass
-
+```
 mwUS@VQR8qCwD.#
+```
 
 ## Gmail - Google Analitics
-* https://mail.google.com/
-* Login 
+https://mail.google.com/
+
+Login 
 ```
 onlineonboardingnet@gmail.com
 ```
-* Pass
+Pass
 ```
 Cgr7Yy=n-H'2:$7b
 ```
+
 ### Email Alias
 kontakt@bina.work
-
+```
 8lk4SnV4jgeb5gjAtT7u
-
+```
 kontakt@onlineonboarding.net - jest aliasem powyższego
 
 ## MyDevil - server
 https://panel47.mydevil.net/
-* login
+Login
 ```
 bina
 ````
-* pass
+Pass
 ```
 1lv6PPT^czlYzVtk@825
 ```
-* Adres serwera SSH/SFTP
+Adres serwera SSH/SFTP
 ```
 s47.mydevil.net
 ```
 
 ### Database
-* DB
+DB
 ```
 p1253_onboarding
 ```
-* User
+User
 ```
 p1253_onboarding
 ```
-* Pass
+Pass
 ```
 HTFoDP=+-*yRkZ3pM>EboKq^
 ```
@@ -107,11 +112,11 @@ psql -d p1253_onboarding -U p1253_onboarding -h pgsql47.mydevil.net
 ```
 
 ### SSH SFTP
-* Klucz ssh na serwer SSH/SFTP:
+Klucz ssh na serwer SSH/SFTP:
 ```
 s47.mydevil.net
 ```
-* ma też swoje hasło-klucz (klucz ma klucz :p)
+Ma też swoje hasło-klucz (klucz ma klucz :p)
 ```
 MAM#Onboarding
 ```
