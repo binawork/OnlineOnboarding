@@ -1,16 +1,13 @@
 # Online Onboarding system
-* **www** www.onlineonboarding.net
-
-* **email** onlineonboardingnet@gmail.com
+This project is online onboarding system for small, medium and huge organization. It is specially designed to for remote work, home office during coronavirus pandemia.
 
 # Links & Resources
-* GitHub: https://github.com/binawork/OnlineOnboarding
-
-* Google Drive: https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1
-
-* Balsamiq: https://balsamiq.cloud/sviuzng/p1y6lm3
-
-* Diagram bazy danych: https://drive.google.com/file/d/1v__3IoSzLdQVxtVwABCnvgfaCTsj9M7U/view?usp=sharing
+* **www** www.onlineonboarding.net
+* **email** onlineonboardingnet@gmail.com
+* ***GitHub** https://github.com/binawork/OnlineOnboarding
+* **Google Drive** https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1
+* **Balsamiq** https://balsamiq.cloud/sviuzng/p1y6lm3
+* **Diagram bazy danych** https://drive.google.com/file/d/1v__3IoSzLdQVxtVwABCnvgfaCTsj9M7U/view?usp=sharing
 
 # Working on this Project
 1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
@@ -60,16 +57,15 @@ Pass
 mwUS@VQR8qCwD.#
 
 ## Gmail - Google Analitics
-https://mail.google.com/
-
-Login 
-
+* https://mail.google.com/
+* Login 
+```
 onlineonboardingnet@gmail.com
-
-Pass
-
+```
+* Pass
+```
 Cgr7Yy=n-H'2:$7b
-
+```
 ### Email Alias
 kontakt@bina.work
 
@@ -79,44 +75,48 @@ kontakt@onlineonboarding.net - jest aliasem powyższego
 
 ## MyDevil - server
 https://panel47.mydevil.net/
-
+* login
+```
 bina
-
+````
+* pass
+```
 1lv6PPT^czlYzVtk@825
-
-Adres serwera SSH/SFTP
-
+```
+* Adres serwera SSH/SFTP
+```
 s47.mydevil.net
+```
 
 ### Database
-DB
-
+* DB
+```
 p1253_onboarding
-
-User
-
+```
+* User
+```
 p1253_onboarding
-
-Pass
-
+```
+* Pass
+```
 HTFoDP=+-*yRkZ3pM>EboKq^
-
-Po ssh w terminalu wpisujemy:
+```
+* Po ssh w terminalu wpisujemy:
 ```
 psql -d p1253_onboarding -U p1253_onboarding -h pgsql47.mydevil.net
 ```
 
 ### SSH SFTP
-Klucz ssh na serwer SSH/SFTP:
-
+* Klucz ssh na serwer SSH/SFTP:
+```
 s47.mydevil.net
-
-ma też swoje hasło-klucz (klucz ma klucz :p)
-
+```
+* ma też swoje hasło-klucz (klucz ma klucz :p)
+```
 MAM#Onboarding
+```
 
 # Quick Start
-
 To get this project up and running locally on your computer:
 1. Set up the [Python development environment](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/development_environment).
    We recommend using a Python virtual environment.
