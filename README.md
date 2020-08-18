@@ -4,17 +4,13 @@
 * **email** onlineonboardingnet@gmail.com
 
 # Links & Resources
-GitHub:
-https://github.com/binawork/OnlineOnboarding
+* GitHub: https://github.com/binawork/OnlineOnboarding
 
-Google Drive:
-https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1
+* Google Drive: https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1
 
-BalsamiQ:
-https://balsamiq.cloud/sviuzng/p1y6lm3
+* Balsamiq: https://balsamiq.cloud/sviuzng/p1y6lm3
 
-Diagram bazy danych:
-https://drive.google.com/file/d/1v__3IoSzLdQVxtVwABCnvgfaCTsj9M7U/view?usp=sharing
+* Diagram bazy danych: https://drive.google.com/file/d/1v__3IoSzLdQVxtVwABCnvgfaCTsj9M7U/view?usp=sharing
 
 # Working on this Project
 1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
@@ -24,50 +20,86 @@ https://calendar.google.com/calendar?cid=Zzdocm82YXZrOG45Nzl2cWI1b2wzcHRxZ2NAZ3J
 2. After Daily Magda creates note for Wiktor with questions to Product Owner
 
 ## Github - Dodawanie ticketów
-NAZWA:
-
-OPIS: co trzeba zrobić, jak to ma działać
-
-Podpięcie makiety (jeżeli nie ma napisać do Michała żeby zrobił)
-
-Zadania:
-FRONTEND: Ustalić z Adamem co trzeba zrobić
-BACKEND: Ustalić z Michałem co trzeba zrobić
-NIESTANDARDOWE: Ustalić jakie to zadania i kto ma je zrobić
-Warunkiem ukończenia zadania jest spełnienie wszystkich warunków
+* NAZWA:
+* OPIS: co trzeba zrobić, jak to ma działać. Podpięcie makiety (jeżeli nie ma napisać do Michała żeby zrobił)
+* Zadania:
+** FRONTEND: Ustalić z Adamem co trzeba zrobić
+** BACKEND: Ustalić z Michałem co trzeba zrobić
+** NIESTANDARDOWE: Ustalić jakie to zadania i kto ma je zrobić
+* Warunkiem ukończenia zadania jest spełnienie wszystkich warunków
 
 # Paswswords
-Hasła dostępu:
 
+## Balsamiq - makiety
+**read**
+https://balsamiq.cloud/sviuzng/p1y6lm3
+
+**write**
 https://balsamiq.cloud/#login
-Login: 
+
+Login 
+
 onlineonboardingnet@gmail.com
-Hasło:
+
+Pass
+
 mwUS@VQR8qCwD.#
 
+## Gmail - Google Analitics
 https://mail.google.com/
-Login: 
+
+Login 
+
 onlineonboardingnet@gmail.com
-Hasło:
+
+Pass
+
 Cgr7Yy=n-H'2:$7b
 
-https://panel47.mydevil.net/
-bina
-1lv6PPT^czlYzVtk@825
-Adres serwera SSH/SFTP:    s47.mydevil.net
+### Email Alias
+kontakt@bina.work
 
-DB: p1253_onboarding
-U: p1253_onboarding
-H: HTFoDP=+-*yRkZ3pM>EboKq^
-Po ssh w terminalu wpisujemy:
-psql -d p1253_onboarding -U p1253_onboarding -h pgsql47.mydevil.net
+8lk4SnV4jgeb5gjAtT7u
 
-Klucz ssh na serwer SSH/SFTP: s47.mydevil.net
-ma też swoje hasło-klucz (klucz ma klucz   :p)
-MAM#Onboarding
-
-kontakt@bina.work - 8lk4SnV4jgeb5gjAtT7u
 kontakt@onlineonboarding.net - jest aliasem powyższego
+
+## MyDevil - server
+https://panel47.mydevil.net/
+
+bina
+
+1lv6PPT^czlYzVtk@825
+
+Adres serwera SSH/SFTP
+
+s47.mydevil.net
+
+### Database
+DB
+
+p1253_onboarding
+
+User
+
+p1253_onboarding
+
+Pass
+
+HTFoDP=+-*yRkZ3pM>EboKq^
+
+Po ssh w terminalu wpisujemy:
+```
+psql -d p1253_onboarding -U p1253_onboarding -h pgsql47.mydevil.net
+```
+
+### SSH SFTP
+Klucz ssh na serwer SSH/SFTP:
+
+s47.mydevil.net
+
+ma też swoje hasło-klucz (klucz ma klucz :p)
+
+MAM#Onboarding
 
 # Quick Start
 
