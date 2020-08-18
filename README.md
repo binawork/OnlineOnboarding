@@ -20,6 +20,14 @@ https://calendar.google.com/calendar?cid=Zzdocm82YXZrOG45Nzl2cWI1b2wzcHRxZ2NAZ3J
 2. After Daily Magda creates note for Wiktor with questions to Product Owner
 
 ## Github - Dodawanie ticketów
+
+### Zgłaszanie ticketu
+1. Propozycje zadań zgłaszamy na Discord na kanale propozycje
+2. Po zaakceptowaniu propozycji przez zespół można założyć ticket
+3. Za dodanie i opisanie ticketu odpowiada Srum Mastger - Magda
+4. Wszystkie tickety dodajemy w głównym repozytorium https://github.com/binawork/OnlineOnboarding/issues
+
+### Zawartrtość ticketu
 * NAZWA:
 * OPIS: co trzeba zrobić, jak to ma działać. Podpięcie makiety (jeżeli nie ma napisać do Michała żeby zrobił)
 * Zadania:
@@ -27,6 +35,12 @@ https://calendar.google.com/calendar?cid=Zzdocm82YXZrOG45Nzl2cWI1b2wzcHRxZ2NAZ3J
 ** BACKEND: Ustalić z Michałem co trzeba zrobić
 ** NIESTANDARDOWE: Ustalić jakie to zadania i kto ma je zrobić
 * Warunkiem ukończenia zadania jest spełnienie wszystkich warunków
+
+## Github - Tickets, branch workflow, commit workflow
+* Each ticket (issue) that is in developement should have it own branch in repo
+* Branch should be named <issue numbar> <issue name>
+* In this way all developers will know why given changes in code were made (you will have biz req described in ticket)
+* If you are commiting to branch created this way you dont have to tag ticket in the commit message. In other cases always tag issue in commit message for project transparency oand organisation.
 
 # Paswswords
 
