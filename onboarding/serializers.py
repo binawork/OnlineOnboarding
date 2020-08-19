@@ -37,12 +37,14 @@ initial	        A value that should be used for pre-populating the value of HTML
 '''
 
 
+# USER
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'password')
 
 
+# CONTACT FORM
 class ContactFormTestSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -78,6 +80,7 @@ class PackageSpecialTestSerializer(serializers.ModelSerializer):
         }
 
 
+#PAGE
 class PageSerializer(serializers.ModelSerializer):
     # package = serializers.SlugRelatedField()
     # package = PackageSerializer()
@@ -98,6 +101,7 @@ class PageSerializer(serializers.ModelSerializer):
         }
 
 
+# SECTION
 class SectionSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -114,6 +118,7 @@ class SectionSerializer(serializers.ModelSerializer):
                   )
 
 
+# ANSWER
 class AnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
