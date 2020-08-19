@@ -1,44 +1,47 @@
 from django.contrib import admin
-from .models import Package, Page, Email, PackageEmail, Section, PackagePage, PageSections, Answer, SectionsAnswer
+from django.contrib.auth.admin import UserAdmin
+from .models import User, Package, Page, Section, Answer, ContactForm
+
 
 # information about django administration site
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
+admin.site.register(User, UserAdmin)
 
 
-class PagePackageInline(admin.TabularInline):
-    model = Package.pages.through
+class PageInline(admin.StackedInline):
+    model = Page
 
 
-class EmailInline(admin.TabularInline):
-    model = Package.email.through
+class SectionsInline(admin.StackedInline):
+    model = Section
 
 
-class SectionsInline(admin.TabularInline):
-    model = Page.sections.through
+class AnswerInline(admin.StackedInline):
+    model = Answer
 
 
 @admin.register(Package)
 class PackageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'owner', 'description')
-    list_filter = (
-        ('owner', admin.RelatedOnlyFieldListFilter),
-    )
-    inlines = [PagePackageInline, EmailInline]
+    list_display = ('id', 'owner', 'title',  'description', "created_on", "updated_on",)
+    inlines = [PageInline, ]
+    ordering = ('id',)
+
 
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'description')
-    inlines = [PagePackageInline, SectionsInline]
+    list_display = ('id', 'package', 'order', 'owner', 'title', 'description', 'link')
+    inlines = [SectionsInline]
+    ordering = ('id',)
 
 
-admin.site.register(Email)
-admin.site.register(PackageEmail)
-admin.site.register(Section)
+@admin.register(Section)
+class SectionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'page', 'order', 'title', 'description', 'type', )
+    ordering = ('id',)
+    inlines = [AnswerInline, ]
+
+
 admin.site.register(Answer)
-
-
-# admin.site.register(SectionsAnswer)
-# admin.site.register(PackagePage)
-# admin.site.register(PageSections)
+admin.site.register(ContactForm)
 

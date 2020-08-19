@@ -180,9 +180,21 @@
             <nav id="stacked-menu" class="stacked-menu">
               <!-- .menu -->
               <ul class="menu">
+                <!-- .menu-header -->
+                <li class="menu-header">
+                	<a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Dashboard</span></a>
+                </li><!-- /.menu-header -->
                 <!-- .menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Packages</span></a>
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Forms</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Add employee</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Feedbacks</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
                 <li class="menu-item has-child">
@@ -212,13 +224,13 @@
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 2</span></a>
+                  <a href="{% url 'bootstrap_1_package' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - 1 package</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 3</span></a>
+                  <a href="{% url 'bootstrap_forms' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - app. forms</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 4</span></a>
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-header -->
                 <li class="menu-header">Interfaces </li><!-- /.menu-header -->
@@ -249,83 +261,132 @@
                       <hr>
                       <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                          <a href="#">Home</a>
+                          <a href="{% url 'index' %}">Home</a>
                         </li>
-                        <li class="breadcrumb-item active">Packages </li>
+                        <li class="breadcrumb-item active">Forms</li>
                       </ol>
                     </div><!-- /.card-body -->
                   </div><!-- /.card -->
               </header><!-- /.page-title-bar -->
 
+			<!-- .page-section -->
+			<div id="page_info" class="page-section" style="display:none;">
+				<!-- .card -->
+				<div class="card card-fluid">
+					<!-- .card-header -->
+					<div class="card-header">
+						Package information
+					</div><!-- /.card-header -->
+					<!-- .card-body -->
+					<div class="card-body">
+						<!-- .form-group -->
+						<form method="POST" id="package_info">
+							<!-- .input-group -->
+							<div class="form-group">
+								<!-- .input-group -->
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Enter new Page name">
+								</div><!-- /.input-group -->
+							</div><!-- /.input-group -->
+							<div class="form-group">
+								<!-- .input-group -->
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Enter new Desctiption">
+								</div><!-- /.input-group -->
+							</div><!-- /.input-group -->
+							<div class="form-group">
+								<!-- .input-group-append -->
+								<div class="input-group-append">
+									<button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Save Package info</button>
+								</div><!-- /.input-group-append -->
+							</div><!-- /.input-group -->
+							{% csrf_token %}
+						</form><!-- /.form-group -->
+					</div><!-- /.card-body -->
+				</div><!-- /.card -->
+			</div><!-- /.page-section -->
               <!-- .page-section -->
               <div class="page-section">
                 <!-- .card -->
                 <div class="card card-fluid">
                   <!-- .card-header -->
                   <div class="card-header">
-                    View Content
+                    Packages
                   </div><!-- /.card-header -->
                   <!-- .card-body -->
                   <div class="card-body">
                     <!-- .form-group -->
                     <div class="form-group">
                       <!-- .input-group -->
-                      <div class="input-group input-group-alt">
+                      <form mathod="POST" id="packages_form" class="input-group input-group-alt">
                         <!-- .input-group -->
                         <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Enter new Deck name">
+                          <input type="text" class="form-control" placeholder="Enter new Deck name" />
                         </div><!-- /.input-group -->
                         <!-- .input-group-append -->
                         <div class="input-group-append">
                           <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Add New Deck</button>
                         </div><!-- /.input-group-append -->
-                      </div><!-- /.input-group -->
+                        {% csrf_token %}
+                      </form><!-- /.input-group -->
                     </div><!-- /.form-group -->
                     <div class="table-responsive">
-                      <table class="table dataTable no-footer table-striped table-bordered" aria-describedby="myTable_info" role="grid">
+                      <table id="packages_table" class="table dataTable no-footer table-striped table-bordered" aria-describedby="myTable_info" role="grid">
                         <thead style="background-color: #A0A092;">
                           <tr role="row">
                             <th class="align-middle sorting_asc" tabindex=0 aria-label="Package Name : active to sort column ascending">Package Name</th>
                             <th class="align-middle sorting" tabindex=0>Pages Count</th>
-                            <th class="align-middle sorting" tabindex=0>Status</th>
+                            <th class="align-middle sorting" tabindex=0>Created on</th>
                             <th class="align-middle sorting" tabindex=0>Last Edit</th>
                             <th class="align-middle" tabindex=0>Actions</th>
                           </tr>
                         </thead>
-                          <tr>
+                          <!--<tr>
                             <td class="align-middle" tabindex=0>Pizza Dreams Onboarding</td>
                             <td class="align-middle" tabindex=0>4</td>
                             <td class="align-middle" tabindex=0>Published</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
+                            <td class="align-middle" tabindex=0> <a href="#">delete</a></td>
                           </tr>
                           <tr>
                             <td class="align-middle" tabindex=0>COVID-19 How To</td>
                             <td class="align-middle" tabindex=0>14</td>
                             <td class="align-middle" tabindex=0>Draft</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
+                            <td class="align-middle" tabindex=0> <a href="#">delete</a></td>
                           </tr>
                           <tr>
                             <td class="align-middle" tabindex=0>Lekcja 1 - Temat: Krowa</td>
                             <td class="align-middle" tabindex=0>21</td>
                             <td class="align-middle" tabindex=0>Published</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
+                            <td class="align-middle" tabindex=0> <a href="#">delete</a></td>
                           </tr>
                           <tr>
                             <td class="align-middle" tabindex=0>Lekcja 1 - Temat: Etanol</td>
                             <td class="align-middle" tabindex=0>42</td>
                             <td class="align-middle" tabindex=0>Published</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
-                          </tr>
-                        <tbody>
-                        </tbody>
+                            <td class="align-middle" tabindex=0> <a href="#">delete</a></td>
+                          </tr>-->
                       </table>
 <!-- add table results -->
                     </div>
                   </div><!-- /.card-body -->
+                  <div class="modal" aria-hidden="true" tabindex=-1 role="dialog"><!-- class+=" show"; style="display: block; padding-right: 12px;" + <body class="modal-open" -->
+                  	<div class="modal-dialog">
+                  		<div class="modal-content">
+                  			<div class="modal-header">
+                  				<h4 class="modal-title">Please confirm removing</h4>
+                  				<button class="close" type="button" data-dismiss="modal" aria-hidden="true">&otimes;</button>
+                  			</div>
+                  			<div class="modal-body"></div>
+                  			<div class="modal-footer">
+                  				<input class="btn btn-primary note-btn note-btn-primary" type="button" value="Confirm" />
+                  			</div>
+                  		</div>
+                  	</div>
+                  </div>
                 </div><!-- /.card -->
               </div><!-- /.page-section -->
             </div><!-- /.page-inner -->
@@ -360,12 +421,15 @@
     <script src="{% static 'bootstrap/vendor/stacked-menu/stacked-menu.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/dataTables.buttons.min.js' %}"></script>
+    <!-- <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/dataTables.buttons.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js' %}"></script> <!-- END PLUGINS JS -->
+    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js' %}"></script> < ! - - END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
     <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
     <!-- BEGIN PAGE LEVEL JS -->
     <script src="{% static 'bootstrap/javascript/pages/dataTables.bootstrap.js' %}"></script><!-- END PAGE LEVEL JS -->
+	<script type="module" src="{% static 'js/script.js' %}"></script>
+	<!--<div class="modal-backdrop show"></div>-->
   </body>
 </html>
+

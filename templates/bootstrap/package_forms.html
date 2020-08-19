@@ -6,15 +6,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
     <!-- Begin SEO tag -->
-    <title> Dashboard | Onboarding </title>
-    <meta property="og:title" content="Dashboard - Onboarding">
+    <title> Package | Onboarding </title>
+    <meta property="og:title" content="Packages - Onboarding">
     <meta name="author" content="Beni Arisandi">
     <meta property="og:locale" content="en_US">
-    <meta name="description" content="Onboarding dashboard page">
-    <meta property="og:description" content="Responsive admin theme build on top of Bootstrap 4">
+    <meta name="description" content="Onboarding packages page">
+    <meta property="og:description" content="Onboarding admin package forms">
     <link rel="canonical" href="https://uselooper.com">
     <meta property="og:url" content="https://uselooper.com">
-    <meta property="og:site_name" content="Onboarding: dashboard">
+    <meta property="og:site_name" content="Onboarding: package forms">
     <script type="application/ld+json">
       {
         "name": "Looper - Bootstrap 4 Admin Theme",
@@ -26,19 +26,20 @@
         },
         "@type": "WebSite",
         "url": "",
-        "headline": "Invoices List",
+        "headline": "Filter Columns",
         "@context": "http://schema.org"
       }
     </script><!-- End SEO tag -->
     <!-- FAVICONS -->
-    <link rel="apple-touch-icon" sizes="144x144" href="assets/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="bootstrap/apple-touch-icon.png">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
     <!-- GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
     <!-- BEGIN PLUGINS STYLES -->
     <!--<link rel="stylesheet" href="bootstrap/vendor/open-iconic/css/open-iconic-bootstrap.min.css">-->
-    <link rel="stylesheet" href="{% static 'bootstrap/vendor/fontawesome/css/all.css' %}"><!-- END PLUGINS STYLES -->
+    <link rel="stylesheet" href="{% static 'bootstrap/vendor/fontawesome/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.bootstrap4.min.css' %}"><!-- END PLUGINS STYLES -->
     <!-- BEGIN THEME STYLES -->
     <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme.min.css' %}" data-skin="default">
     <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}" data-skin="dark">
@@ -68,7 +69,7 @@
           <div class="top-bar-brand">
             <!-- toggle aside menu -->
             <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
-            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
+            <a href=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
                 <defs>
                 </defs>
                 <g fill="none" fill-rule="evenodd">
@@ -113,7 +114,7 @@
                         <div class="list-group-item py-2">
                           <a href="#" class="stretched-link"><span class="sr-only">Go to search result</span></a>
                           <div class="user-avatar user-avatar-sm bg-muted">
-                            <img src="assets/images/avatars/bootstrap.svg" alt="">
+                            <img src="bootstrap/images/avatars/bootstrap.svg" alt="">
                           </div>
                           <div class="ml-2">
                             <div class="mb-n1"> Bootstrap </div><small class="text-muted">Just now</small>
@@ -123,7 +124,7 @@
                         <div class="list-group-item py-2">
                           <a href="#" class="stretched-link"><span class="sr-only">Go to search result</span></a>
                           <div class="user-avatar user-avatar-sm bg-muted">
-                            <img src="assets/images/avatars/slack.svg" alt="">
+                            <img src="bootstrap/images/avatars/slack.svg" alt="">
                           </div>
                           <div class="ml-2">
                             <div class="mb-n1"> Slack </div><small class="text-muted">Updated 25 minutes ago</small>
@@ -181,7 +182,7 @@
               <ul class="menu">
                 <!-- .menu-item -->
                 <li class="menu-header">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Dashboard</span></a>
+                  <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Dashboard</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
                 <li class="menu-item">
@@ -196,8 +197,8 @@
                   <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Feedbacks</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
-                <li class="menu-item has-child">
-                  <a href="{% url 'bootstrap_packages' %}" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Decks</span></a> <!-- child menu -->
+                <li class="menu-item has-active has-child">
+                  <a href="#" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Decks</span></a> <!-- child menu -->
                   <ul class="menu">
                     <li class="menu-item">
                       <a href="#" class="menu-link">Pizza Dreams</a>
@@ -226,10 +227,11 @@
                   <a href="{% url 'bootstrap_1_package' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - 1 package</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
-                  <a href="{% url 'bootstrap_forms' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - app. forms</span></a>
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - app. forms</span></a>
                 </li><!-- /.menu-item -->
+                <!-- .menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item</span></a>
+                  <a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 2</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-header -->
                 <li class="menu-header">Interfaces </li><!-- /.menu-header -->
@@ -247,22 +249,27 @@
         <!-- .wrapper -->
         <div class="wrapper">
           <!-- .page -->
-          <div class="page">
+          <div class="page has-sidebar has-sidebar-expand-xl">
             <!-- .page-inner -->
             <div class="page-inner">
               <!-- .page-title-bar -->
               <header class="page-title-bar">
-                  <!-- .card -->
+                <!-- .card -->
                   <div class="card card-fluid">
                     <!-- .card-body -->
                     <div class="card-body">
-                      <h4 class="card-title">  </h4>
-                      <hr>
+                      <hr />
                       <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                           <a href="{% url 'index' %}">Home</a>
                         </li>
-                        <li class="breadcrumb-item active">Dashboard </li>
+                        <li class="breadcrumb-item">
+                          <a href="{% url 'manage' %}">Forms</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          <a href="{% url 'bootstrap_1_package' %}">BINA Onboarding</a>
+                        </li>
+                        <li class="breadcrumb-item active">BINA Application Form</li>
                       </ol>
                     </div><!-- /.card-body -->
                   </div><!-- /.card -->
@@ -274,21 +281,117 @@
                 <div class="card card-fluid">
                   <!-- .card-header -->
                   <div class="card-header">
-                    View Content
+                    Page section
                   </div><!-- /.card-header -->
                   <!-- .card-body -->
                   <div class="card-body">
-                  	<h3>Welcome to Kennedy Onboarding Tool!</h3>
-                  	<h3>This is <a href="#">Pizza Dreams Project</a> </h3>
-                  	<h3>Here is our <a href="#">Business Plan</a> </h3>
-                  	<h3>If you have some ideas or want to contribute please join our <a href="#">Discord</a> </h3>
-                  	<h3>Happy Hacking!</h3>
+                    <!-- .form-group -->
+                    <form method="POST" id="package_info">
+                      <!-- .input-group -->
+                      <div class="form-group">
+                        <!-- .input-group -->
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter new Page name" value="">
+                        </div><!-- /.input-group -->
+                      </div><!-- /.input-group -->
+                      <div class="form-group">
+                          <textarea class="form-control" placeholder="Description" rows=4></textarea>
+                      </div><!-- /.input-group -->
+                      <div class="form-group">
+                        <!-- .input-group-append -->
+                        <div class="input-group-append">
+                          <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Save</button>
+                        </div><!-- /.input-group-append -->
+                      </div><!-- /.input-group -->
+                      {% csrf_token %}
+                    </form><!-- /.form-group -->
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
+              </div><!-- /.page-section -->
+              <!-- .page-section -->
+              <div class="page-section">
+                <!-- .card -->
+                <div class="card card-fluid">
+                  <!-- .card-header -->
+                  <div class="card-header">
+                    Page section
+                  </div><!-- /.card-header -->
+                  <!-- .card-body -->
+                  <div class="card-body">
+                    <!-- .form-group -->
+                    <div class="form-group">
+                      <!-- .input-group -->
+                      <form id="package_form" class="input-group input-group-alt">
+                        <!-- .input-group -->
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter new Page name">
+                        </div><!-- /.input-group -->
+                        <!-- .input-group-append -->
+                        <div class="input-group-append">
+                          <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Add New Page</button>
+                        </div><!-- /.input-group-append -->
+                        {% csrf_token %}
+                      </form><!-- /.input-group -->
+                    </div><!-- /.form-group -->
+                    <div class="task-body" data-toggle="sortable" data-group="tasks" data-force-fallback="true">
+                    	<div class="task-issue">
+                    		<div class="card">
+                    			<div class="card-header"><span class="drag-indicator"></span> Open answer</div>
+                    			<div class="card-body">Form 1</div>
+                    			<div class="card-footer">.</div>
+                    		</div>
+                    	</div>
+                    	<div class="task-issue">
+                    		<div class="card">
+                    			<div class="card-header"><span class="drag-indicator"></span>One choice answer</div>
+                    			<div class="card-body">Form 2</div>
+                    			<div class="card-footer">.</div>
+                    		</div>
+                    	</div>
+                    </div>
                   </div><!-- /.card-body -->
                 </div><!-- /.card -->
               </div><!-- /.page-section -->
             </div><!-- /.page-inner -->
+		<!-- .page-sidebar -->
+		<div class="page-sidebar page-sidebar-fixed">
+			<!-- .sidebar-header -->
+			<header class="sidebar-header d-xl-none">
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item">
+                    <a class="prevent-default" href="#" onclick="Looper.toggleSidebar()"><i class="breadcrumb-icon fa fa-angle-left mr-2"></i>Back</a>
+                  </li>
+                </ol>
+			</header><!-- /.sidebar-header -->
+			<!-- .nav -->
+			<nav id="nav-content" class="nav flex-column mt-4">
+                <a href="#base-style" class="nav-link smooth-scroll">Base style</a>
+                <a href="#labels" class="nav-link smooth-scroll">Labels</a>
+                <a href="#floating-label" class="nav-link smooth-scroll">Floating label</a>
+                <a href="#selects" class="nav-link smooth-scroll">Selects</a> <a href="#checkboxes" class="nav-link smooth-scroll">Checkboxes</a> <a href="#radios" class="nav-link smooth-scroll">Radios</a> <a href="#switcher" class="nav-link smooth-scroll">Switcher</a> <a href="#rating" class="nav-link smooth-scroll">Rating</a> <a href="#visual-picker" class="nav-link smooth-scroll">Visual picker</a> <a href="#publisher" class="nav-link smooth-scroll">Publisher</a>
+                <a href="#input-group" class="nav-link smooth-scroll">Input group</a>
+			</nav><!-- /.nav -->
+		</div><!-- /.page-sidebar -->
           </div><!-- /.page -->
-        </div><!-- /.wrapper -->
+        </div><!-- .app-footer -->
+        <footer class="app-footer">
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <a class="text-muted" href="#">Support</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="#">Help Center</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="#">Privacy</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="text-muted" href="#">Terms of Service</a>
+            </li>
+          </ul>
+          <div class="copyright"> Copyright &copy; {% now 'Y' %}. All right reserved. </div>
+        </footer><!-- /.app-footer -->
+        <!-- /.wrapper -->
       </main><!-- /.app-main -->
     </div><!-- /.app -->
     <!-- BEGIN BASE JS -->
@@ -300,11 +403,13 @@
     <script src="{% static 'bootstrap/vendor/stacked-menu/stacked-menu.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <!-- <script src="{% static 'bootstrap/vendor/moment/moment.min.js' %}"></script> < ! - - END PLUGINS JS -->
+<script src="bootstrap/vendor/sortablejs/Sortable.js"></script>
+<script src="bootstrap/vendor/flatpickr/flatpickr.min.js"></script>
+    <!-- <script src="bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js"></script> <! - - END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
-    <script src="{% static 'bootstrap/javascript/theme.js' %}"></script> <!-- END THEME JS -->
+    <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
     <!-- BEGIN PAGE LEVEL JS -->
-    <script src="{% static 'bootstrap/javascript/pages/dataTables.bootstrap.js' %}"></script>
-    <script src="{% static 'bootstrap/javascript/pages/datetime-moment.js' %}"></script> <!-- END PAGE LEVEL JS -->
+    <script src="{% static 'bootstrap/javascript/pages/dataTables.bootstrap.js' %}"></script><!-- END PAGE LEVEL JS -->
+    <script type="module" src="{% static 'js/script.js' %}"></script>
   </body>
 </html>
