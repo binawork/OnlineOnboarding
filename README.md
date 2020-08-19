@@ -9,13 +9,8 @@ This project is online onboarding system for small, medium and huge organization
 * **Balsamiq** https://balsamiq.cloud/sviuzng/p1y6lm3
 * **Diagram bazy danych** https://drive.google.com/file/d/1v__3IoSzLdQVxtVwABCnvgfaCTsj9M7U/view?usp=sharing
 
-# Working on this Project
-1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
-Google Calendar - kliknij link i dołącz
-https://calendar.google.com/calendar?cid=Zzdocm82YXZrOG45Nzl2cWI1b2wzcHRxZ2NAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-2. After Daily Magda creates note for Wiktor with questions to Product Owner
-
 # Quick Start
+
 To get this project up and running locally on your computer:
 1. Set up the [Python development environment](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/development_environment).
    We recommend using a Python virtual environment.
