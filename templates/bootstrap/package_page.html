@@ -11,10 +11,10 @@
     <meta name="author" content="Beni Arisandi">
     <meta property="og:locale" content="en_US">
     <meta name="description" content="Onboarding packages page">
-    <meta property="og:description" content="Responsive admin theme build on top of Bootstrap 4">
+    <meta property="og:description" content="Onboarding admin package page">
     <link rel="canonical" href="https://uselooper.com">
     <meta property="og:url" content="https://uselooper.com">
-    <meta property="og:site_name" content="Onboarding: packages">
+    <meta property="og:site_name" content="Onboarding: package page">
     <script type="application/ld+json">
       {
         "name": "Looper - Bootstrap 4 Admin Theme",
@@ -69,7 +69,7 @@
           <div class="top-bar-brand">
             <!-- toggle aside menu -->
             <button class="hamburger hamburger-squeeze mr-2" type="button" data-toggle="aside-menu" aria-label="toggle aside menu"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /toggle aside menu -->
-            <a href=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
+            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
                 <defs>
                 </defs>
                 <g fill="none" fill-rule="evenodd">
@@ -156,7 +156,7 @@
                 <button class="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="user-avatar user-avatar-md"><img src="{% static 'bootstrap/images/unknown-profile.jpg' %}" alt=""></span> <span class="account-summary pr-lg-4 d-none d-lg-block"><span class="account-name">{{ user.get_username }}</span> <span class="account-description">Marketing Manager</span></span></button> <!-- .dropdown-menu -->
                 <div class="dropdown-menu">
                   <div class="dropdown-arrow ml-3"></div>
-                  <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ user.get_username }} </h6><a class="dropdown-item" href="#"><span class="dropdown-icon oi oi-person"></span> Profile</a> <a class="dropdown-item" href="{% url 'logout'%}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
+                  <h6 class="dropdown-header d-none d-md-block d-lg-none"> {{ user.get_username }} </h6><a class="dropdown-item" href="#"><span class="dropdown-icon oi oi-person"></span> Profile</a> <a class="dropdown-item" href="{% url 'logout' %}"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
                   <div class="dropdown-divider"></div><!--<a class="dropdown-item" href="#">Help Center</a> <a class="dropdown-item" href="#">Ask Forum</a>-->
                 </div><!-- /.dropdown-menu -->
                {% else %}
@@ -180,9 +180,21 @@
             <nav id="stacked-menu" class="stacked-menu">
               <!-- .menu -->
               <ul class="menu">
+                <!-- .menu-header -->
+                <li class="menu-header">
+                	<a href="{% url 'bootstrap_dashboard' %}" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Dashboard</span></a>
+                </li><!-- /.menu-header -->
                 <!-- .menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Packages</span></a>
+                  <a href="{% url 'manage' %}" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Forms</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Add employee</span></a>
+                </li><!-- /.menu-item -->
+                <!-- .menu-item -->
+                <li class="menu-item">
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-home"></span> <span class="menu-text">Feedbacks</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
                 <li class="menu-item has-active has-child">
@@ -206,19 +218,19 @@
                   <a href="#" class="menu-link"><span class="menu-icon far fa-file"></span> <span class="menu-text">Menu Item 1</span> <span class="badge badge-warning">New</span></a> <!-- child menu -->
                   <ul class="menu">
                     <!--<li class="menu-item">
-                      <a href="auth-lockscreen.html" class="menu-link">Screen Locked</a>
+                      <a href="#" class="menu-link">Screen Locked</a>
                     </li>-->
                   </ul><!-- /child menu -->
                 </li><!-- /.menu-item -->
                 <!-- .menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 2</span></a>
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - 1 package</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 3</span></a>
+                  <a href="{% url 'bootstrap_forms' %}" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu - app. forms</span></a>
                 </li><!-- /.menu-item -->
                 <li class="menu-item">
-                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item 4</span></a>
+                  <a href="#" class="menu-link"><span class="menu-icon fas fa-file"></span> <span class="menu-text">Menu Item</span></a>
                 </li><!-- /.menu-item -->
                 <!-- .menu-header -->
                 <li class="menu-header">Interfaces </li><!-- /.menu-header -->
@@ -249,12 +261,12 @@
                       <hr>
                       <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                          <a href="#">Home</a>
+                          <a href="{% url 'index' %}">Home</a>
                         </li>
                         <li class="breadcrumb-item">
-                          <a href="{% url 'bootstrap_packages' %}">Packages</a>
+                          <a href="{% url 'manage' %}">Forms</a>
                         </li>
-                        <li class="breadcrumb-item active">Pizza Dreams Onboarding </li>
+                        <li class="breadcrumb-item active">BINA Onboarding </li>
                       </ol>
                     </div><!-- /.card-body -->
                   </div><!-- /.card -->
@@ -266,14 +278,50 @@
                 <div class="card card-fluid">
                   <!-- .card-header -->
                   <div class="card-header">
-                    View Content
+                    Package information
+                  </div><!-- /.card-header -->
+                  <!-- .card-body -->
+                  <div class="card-body">
+                    <!-- .form-group -->
+                    <form method="POST" id="package_info">
+                      <!-- .input-group -->
+                      <div class="form-group">
+                        <!-- .input-group -->
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter new Page name">
+                        </div><!-- /.input-group -->
+                      </div><!-- /.input-group -->
+                      <div class="form-group">
+                        <!-- .input-group -->
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Enter new Desctiption">
+                        </div><!-- /.input-group -->
+                      </div><!-- /.input-group -->
+                      <div class="form-group">
+                        <!-- .input-group-append -->
+                        <div class="input-group-append">
+                          <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Save Package info</button>
+                        </div><!-- /.input-group-append -->
+                      </div><!-- /.input-group -->
+                      {% csrf_token %}
+                    </form><!-- /.form-group -->
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
+              </div><!-- /.page-section -->
+              <!-- .page-section -->
+              <div class="page-section">
+                <!-- .card -->
+                <div class="card card-fluid">
+                  <!-- .card-header -->
+                  <div class="card-header">
+                    Pages in package
                   </div><!-- /.card-header -->
                   <!-- .card-body -->
                   <div class="card-body">
                     <!-- .form-group -->
                     <div class="form-group">
                       <!-- .input-group -->
-                      <div class="input-group input-group-alt">
+                      <form id="package_form" class="input-group input-group-alt">
                         <!-- .input-group -->
                         <div class="input-group">
                           <input type="text" class="form-control" placeholder="Enter new Page name">
@@ -283,64 +331,27 @@
                           <button class="btn btn-secondary" data-toggle="modal" data-target="#modalFilterColumns">Add New Page</button>
                         </div><!-- /.input-group-append -->
                         {% csrf_token %}
-                      </div><!-- /.input-group -->
+                      </form><!-- /.input-group -->
                     </div><!-- /.form-group -->
                     <div class="table-responsive">
-                      <table class="table dataTable no-footer table-striped table-bordered" aria-describedby="myTable_info" role="grid">
+                      <table id="package_table" class="table dataTable no-footer table-striped table-bordered" aria-describedby="myTable_info" role="grid">
                         <thead style="background-color: #A0A092;">
                           <tr role="row">
-                            <th class="align-middle sorting_asc" tabindex=0 aria-label="Package Name : active to sort column ascending">Package Name</th>
-                            <th class="align-middle sorting" tabindex=0>Order</th>
-                            <th class="align-middle sorting" tabindex=0>Section</th>
-                            <th class="align-middle sorting" tabindex=0>Status</th>
+                            <th class="align-middle sorting_asc" tabindex=0 aria-label="Package Name : active to sort column ascending">Page name</th>
+                            <th class="align-middle sorting" tabindex=0>Page count - pages.length</th>
+                            <th class="align-middle sorting" tabindex=0>Created on</th>
                             <th class="align-middle sorting" tabindex=0>Last Edit</th>
                             <th class="align-middle" tabindex=0>Actions</th>
                           </tr>
                         </thead>
                           <tr>
-                            <td class="align-middle" tabindex=0>PD Register Form</td>
-                            <td class="align-middle" tabindex=0>1</td>
-                            <td class="align-middle" tabindex=0>4</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Get Permissions</td>
-                            <td class="align-middle" tabindex=0>2</td>
-                            <td class="align-middle" tabindex=0>14</td>
-                            <td class="align-middle" tabindex=0>Draft</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Select Your Pizza</td>
-                            <td class="align-middle" tabindex=0>3</td>
-                            <td class="align-middle" tabindex=0>1</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
-                          </tr>
-                          <tr>
-                            <td class="align-middle" tabindex=0>Pre work prep</td>
-                            <td class="align-middle" tabindex=0>4</td>
-                            <td class="align-middle" tabindex=0>21</td>
-                            <td class="align-middle" tabindex=0>Published</td>
-                            <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
-                          </tr>
-                          <tr>
                             <td class="align-middle" tabindex=0>Project kickoff</td>
-                            <td class="align-middle" tabindex=0>4</td>
                             <td class="align-middle" tabindex=0>42</td>
-                            <td class="align-middle" tabindex=0>Published</td>
+                            <td class="align-middle" tabindex=0>Tue Jul 28 2020</td>
                             <td class="align-middle" tabindex=0>2020-04-06</td>
-                            <td class="align-middle" tabindex=0><a href="#">edit</a>/<a href="#">delete</a></td>
+                            <td class="align-middle" tabindex=0> <a href="#">delete</a></td>
                           </tr>
-                        <tbody>
-                        </tbody>
                       </table>
-<!-- add table results -->
                     </div>
                   </div><!-- /.card-body -->
                 </div><!-- /.card -->
@@ -377,13 +388,13 @@
     <script src="{% static 'bootstrap/vendor/stacked-menu/stacked-menu.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/datatables/jquery.dataTables.min.js' %}"></script>
-    <!-- <script src="bootstrap/vendor/datatables/extensions/buttons/dataTables.buttons.min.js"></script>
-    <script src="bootstrap/vendor/datatables/extensions/buttons/buttons.bootstrap4.min.js"></script>
-    <script src="bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js"></script> <! - - END PLUGINS JS -->
+    <!-- <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/datatables/extensions/buttons/buttons.html5.min.js' %}"></script> <!- - END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
     <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
     <!-- BEGIN PAGE LEVEL JS -->
     <script src="{% static 'bootstrap/javascript/pages/dataTables.bootstrap.js' %}"></script><!-- END PAGE LEVEL JS -->
-    <script type="module" src="{% static 'js/script.js' %}"></script>
+	<script type="module" src="{% static 'js/script.js' %}"></script>
   </body>
 </html>
