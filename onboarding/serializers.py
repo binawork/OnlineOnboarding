@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from onboarding.models import ContactForm, Package, Page, Section, User, Answer, Company
+from onboarding.models import ContactForm, Package, Page, Section, User, Answer
 
 '''
 Core arguments in serializer fields
@@ -129,5 +129,3 @@ class AnswerSerializer(serializers.ModelSerializer):
                   'data',
                   'owner'
                   )
-
-
