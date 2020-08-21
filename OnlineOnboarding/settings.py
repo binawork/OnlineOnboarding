@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+import onboarding.dont_touch_it_Wiktor as mail
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -105,6 +107,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Email system config
+# https://medium.com/@frfahim/django-registration-with-confirmation-email-bb5da011e4ef
+
+EMAIL_USE_TLS = mail.EMAIL_USE_TLS
+EMAIL_HOST = mail.EMAIL_HOST
+EMAIL_HOST_USER = mail.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = mail.EMAIL_HOST_PASSWORD
+EMAIL_PORT = mail.EMAIL_PORT
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
