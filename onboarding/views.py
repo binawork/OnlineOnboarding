@@ -1,6 +1,4 @@
-from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -44,7 +42,7 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
-def signup(request):
+def signup(request):  # todo valid username/email (no duplicate in db)
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
