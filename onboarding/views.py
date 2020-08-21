@@ -27,6 +27,8 @@ def signup(request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return render(request, 'index.html')
+
+
     else:
         form = SignUpForm()
     return render(request, 'bootstrap/auth-signup.html', {'form': form})
