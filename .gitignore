@@ -102,4 +102,4 @@ setenv.sh
 pgdump_schema.sql
 
 # file with nontouchable things
-onboarding/dont_touch_it_Wiktor.py
+OnlineOnboarding/dont_touch_it_Wiktor.py
