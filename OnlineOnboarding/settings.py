@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-akb#of%g5eplnyyv^a1qk)^t042+8wsaavlz)gifyy$x416^p' # todo: os.environ.get('DJANGO_SECRET')
+SECRET_KEY = '-akb#of%g5eplnyyv^a1qk)^t042+8wsaavlz)gifyy$x416^p'  # todo: os.environ.get('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -126,9 +126,7 @@ STATIC_URL = '/onboarding/static/'
 LOGOUT_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'onboarding.User'
 
-
-
 # On a server:
-#STATIC_ROOT = 'your path'
+# STATIC_ROOT = 'your path'
 # then python manage.py collectstatic
 
