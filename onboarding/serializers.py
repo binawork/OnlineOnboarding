@@ -80,7 +80,7 @@ class PackageSpecialTestSerializer(serializers.ModelSerializer):
         }
 
 
-#PAGE
+# PAGE
 class PageSerializer(serializers.ModelSerializer):
     # package = serializers.SlugRelatedField()
     # package = PackageSerializer()
