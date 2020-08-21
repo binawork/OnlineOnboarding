@@ -5,13 +5,12 @@ from rest_framework.decorators import action
 
 
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth import login, authenticate
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
-from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 
 
@@ -19,6 +18,7 @@ from onboarding.models import Package, ContactForm, Page, Section, User, Answer
 from .forms import SignUpForm
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, \
     ContactFormTestSerializer, UserSerializer, AnswerSerializer
+from .tokens import account_activation_token
 
 
 def index(request):

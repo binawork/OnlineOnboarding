@@ -16,9 +16,7 @@ urlpatterns = [
     url('signup', core_views.signup, name='signup'),
     path('manage/', views.manager_view, name='manage'),
 
-    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        views.activate, name='activate'),
-
+    path('activate/<uidb64>/<token>/', views.activate, name='activate'),  
     path('bootstrap/dashboard', views.bootstrap_dashboard, name='bootstrap_dashboard'),
     path('bootstrap/packages', views.bootstrap_packages, name='bootstrap_packages'),
     path('bootstrap/package-page', views.bootstrap_1_package, name='bootstrap_1_package'),

@@ -2,5 +2,5 @@
     Hi {{ user.username }},
     This is test email
     Please click on the link to confirm your registration,
-    http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+    http://{{ domain }} {% url 'activate' uidb64=uid token=token %}
 {% endautoescape %}
