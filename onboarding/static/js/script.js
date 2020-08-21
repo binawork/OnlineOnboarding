@@ -25,7 +25,7 @@ function getPath(){
 }
 
 
-var path = getPath() + "onboarding/api/", tok;
+var path = getPath() + "api/", tok;
 	tok = getToken();
 
 
