@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.core import mail
+from django.utils.html import strip_tags
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -46,24 +48,26 @@ def signup(request):  # todo valid username/email (no duplicate in db)
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
+
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
 
             current_site = get_current_site(request)
-            mail_subject = 'Activate your account.'
-            message = render_to_string('acc_active_email.html', {
+            subject = 'html test'
+            html_message = render_to_string('templated_email/acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                mail_subject, message, to=[to_email]
-            )
-            email.send()
+            plain_message = strip_tags(html_message)
+            from_email = 'onlineonboardingnet@gmail.com'
+            to = 'eejdzent@gmail.com'
+
+            mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
             return HttpResponse(
                 'Please confirm your email address to complete the registration'
             )
@@ -82,6 +86,8 @@ def manager_view(request):
 """
 REST
 """
+
+
 # ViewSets define the view behavior.
 
 
@@ -129,7 +135,7 @@ class PageViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
 
-    def perform_create(self, serializer): 
+    def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
     def create(self, request, *args, **kwargs):
@@ -153,7 +159,6 @@ class PageViewSet(viewsets.ModelViewSet):
 
 
 class SectionViewSet(viewsets.ModelViewSet):
-
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
     filter_backends = [filters.OrderingFilter]
@@ -176,7 +181,6 @@ class SectionViewSet(viewsets.ModelViewSet):
 
 
 class AnswerViewSet(viewsets.ModelViewSet):
-
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     filter_backends = [filters.OrderingFilter]
