@@ -13,7 +13,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
 
 
 from onboarding.models import Package, ContactForm, Page, Section, User, Answer
@@ -26,6 +25,27 @@ from .tokens import account_activation_token
 def index(request):
     """View function for home page of site."""
     return render(request, 'index.html')
+
+
+def reminder(request, user_id, package_id):
+
+    current_site = get_current_site(request)
+    subject = 'Przypomnienie'
+    # validacja?
+    employee = User.objects.get(id=user_id)
+    package = Package.objects.get(id=package_id)
+    html_message = render_to_string('templated_email/button_reminder.html', {
+        'user': employee.first_name,
+        'package_name': package.title,
+        'domain': current_site.domain,
+
+    })
+    plain_message = strip_tags(html_message)
+    from_email = 'onlineonboardingnet@gmail.com'
+    to = employee.email
+
+    mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+    return HttpResponse(current_site)
 
 
 def activate(request, uidb64, token):
@@ -44,7 +64,7 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
-def signup(request):  # todo valid username/email (no duplicate in db)
+def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -55,7 +75,7 @@ def signup(request):  # todo valid username/email (no duplicate in db)
             user = authenticate(username=username, password=raw_password)
 
             current_site = get_current_site(request)
-            subject = 'html test'
+            subject = 'Rejestracja w Online Onboarding '
             html_message = render_to_string('templated_email/acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
@@ -64,7 +84,7 @@ def signup(request):  # todo valid username/email (no duplicate in db)
             })
             plain_message = strip_tags(html_message)
             from_email = 'onlineonboardingnet@gmail.com'
-            to = 'eejdzent@gmail.com'
+            to = form.cleaned_data.get('email')
 
             mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
 
