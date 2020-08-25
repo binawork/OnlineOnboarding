@@ -82,6 +82,7 @@ def signup(request):
 
 
 def password_reset_request(request):
+
     if request.method == "POST":
         password_reset_form = PasswordResetForm(request.POST)  # bazowy formulam maila
         if password_reset_form.is_valid():
@@ -111,8 +112,13 @@ def password_reset_request(request):
 
     password_reset_form = PasswordResetForm()
 
-    return render(request=request, template_name="registration/password_reset_form.html", context={
-        "password_reset_form": password_reset_form})
+    return render(
+        request=request,
+        template_name="registration/password_reset_form.html",
+        context={
+            "password_reset_form": password_reset_form
+        }
+    )
 
 
 def reminder(request, employee_id, package_id):
@@ -124,14 +130,13 @@ def reminder(request, employee_id, package_id):
     html_message = render_to_string('templated_email/button_reminder.html', {
         'user': employee,
         'package': package,
-        'domain': current_site.domain,  # w przyszłości przekieruje na adres danej paczki
+        'domain': current_site.domain,
 
     })
 
     plain_message = strip_tags(html_message)
     from_email = 'onlineonboardingnet@gmail.com'
     to = employee.email
-    print("email:" + to)
 
     mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
     return HttpResponse(current_site)
