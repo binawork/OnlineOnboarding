@@ -5,15 +5,19 @@ from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail, BadHeaderError
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.db.models.query_utils import Q
+from django.contrib.auth.tokens import default_token_generator
 
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.contrib.auth import login, authenticate
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
-
 
 from onboarding.models import Package, ContactForm, Page, Section, User, Answer, Company
 from .forms import SignUpForm
@@ -25,29 +29,6 @@ from .tokens import account_activation_token
 def index(request):
     """View function for home page of site."""
     return render(request, 'index.html')
-
-
-def reminder(request, employee_id, package_id):
-
-    current_site = get_current_site(request)
-    subject = 'Przypomnienie'
-    # validacja?
-    employee = User.objects.get(id=employee_id)
-    package = Package.objects.get(id=package_id)
-    html_message = render_to_string('templated_email/button_reminder.html', {
-        'user': employee,
-        'package': package,
-        'domain': current_site.domain,  # w przyszłości przekieruje na adres danej paczki
-
-    })
-
-    plain_message = strip_tags(html_message)
-    from_email = 'onlineonboardingnet@gmail.com'
-    to = employee.email
-    print("email:" + to)
-
-    mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
-    return HttpResponse(current_site)
 
 
 def activate(request, uidb64, token):
@@ -71,7 +52,6 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-
             form.save()
 
             username = form.cleaned_data.get('username')
@@ -99,6 +79,62 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'bootstrap/auth-signup.html', {'form': form})
+
+
+def password_reset_request(request):
+    if request.method == "POST":
+        password_reset_form = PasswordResetForm(request.POST)
+        if password_reset_form.is_valid():
+            data = password_reset_form.cleaned_data['email']
+            associated_users = User.objects.filter(Q(email=data))
+            if associated_users.exists():
+                for user in associated_users:
+                    subject = "Zmiana hasła"
+                    html_message = render_to_string(
+                        'templated_email/password_reset_email.html', {
+                            "email": user.email,
+                            'domain': '127.0.0.1:8000',
+                            'site_name': 'Website',
+                            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                            "user": user,
+                            'token': default_token_generator.make_token(user),
+                            'protocol': 'http',
+                        }
+                    )
+                    plain_message = strip_tags(html_message)
+
+                    try:
+                        send_mail(subject, plain_message, 'admin@example.com', [user.email], fail_silently=False)
+                    except BadHeaderError:
+                        return HttpResponse('Invalid header found.')
+                    return redirect("/password_reset/done/")
+
+    password_reset_form = PasswordResetForm()
+
+    return render(request=request, template_name="registration/password_reset_form.html", context={
+        "password_reset_form": password_reset_form})
+
+
+def reminder(request, employee_id, package_id):
+    current_site = get_current_site(request)
+    subject = 'Przypomnienie'
+    # validacja?
+    employee = User.objects.get(id=employee_id)
+    package = Package.objects.get(id=package_id)
+    html_message = render_to_string('templated_email/button_reminder.html', {
+        'user': employee,
+        'package': package,
+        'domain': current_site.domain,  # w przyszłości przekieruje na adres danej paczki
+
+    })
+
+    plain_message = strip_tags(html_message)
+    from_email = 'onlineonboardingnet@gmail.com'
+    to = employee.email
+    print("email:" + to)
+
+    mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+    return HttpResponse(current_site)
 
 
 @login_required
