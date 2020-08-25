@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from onboarding.models import ContactForm, Package, Page, Section, User, Answer
+from onboarding.models import ContactForm, Package, Page, Section, User, Answer, Company
 
 '''
 Core arguments in serializer fields
@@ -35,6 +35,16 @@ help_text	    A text string that may be used as a description of the field in HT
 
 initial	        A value that should be used for pre-populating the value of HTML form fields.
 '''
+
+
+# Company
+
+
+class CompanySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Company
+        fields = '__all__'
 
 
 # USER

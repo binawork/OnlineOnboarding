@@ -15,10 +15,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 
 
-from onboarding.models import Package, ContactForm, Page, Section, User, Answer
+from onboarding.models import Package, ContactForm, Page, Section, User, Answer, Company
 from .forms import SignUpForm
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, \
-    ContactFormTestSerializer, UserSerializer, AnswerSerializer
+    ContactFormTestSerializer, UserSerializer, AnswerSerializer, CompanySerializer
 from .tokens import account_activation_token
 
 
@@ -27,22 +27,24 @@ def index(request):
     return render(request, 'index.html')
 
 
-def reminder(request, user_id, package_id):
+def reminder(request, employee_id, package_id):
 
     current_site = get_current_site(request)
     subject = 'Przypomnienie'
     # validacja?
-    employee = User.objects.get(id=user_id)
+    employee = User.objects.get(id=employee_id)
     package = Package.objects.get(id=package_id)
     html_message = render_to_string('templated_email/button_reminder.html', {
-        'user': employee.first_name,
-        'package_name': package.title,
-        'domain': current_site.domain,
+        'user': employee,
+        'package': package,
+        'domain': current_site.domain,  # w przyszłości przekieruje na adres danej paczki
 
     })
+
     plain_message = strip_tags(html_message)
     from_email = 'onlineonboardingnet@gmail.com'
     to = employee.email
+    print("email:" + to)
 
     mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
     return HttpResponse(current_site)
@@ -58,6 +60,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
+        user.company.name = 'Null'
         # return redirect('home')
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
@@ -70,6 +73,7 @@ def signup(request):
         if form.is_valid():
 
             form.save()
+
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
@@ -114,6 +118,11 @@ REST
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
 
 
 class ContactFormViewSet(viewsets.ModelViewSet):
