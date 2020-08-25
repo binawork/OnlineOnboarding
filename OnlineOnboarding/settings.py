@@ -80,14 +80,6 @@ WSGI_APPLICATION = 'OnlineOnboarding.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('PSQL_DB_NAME'),
-        'USER': os.environ.get('PSQL_USER_NAME'),
-        'PASSWORD': os.environ.get('PSQL_PASSWORD'),
-        'HOST': os.environ.get('PSQL_HOST'),
-        'PORT': '',
-    }
 }
 
 # Password validation
@@ -141,3 +133,8 @@ AUTH_USER_MODEL = 'onboarding.User'
 # STATIC_ROOT = 'your path'
 # then python manage.py collectstatic
 
+try:
+    from local_settings import *
+except ImportError:
+    print("Please create local file 'local_settings.py' (unversioned) to store all your personal settings "
+          "like DATABASE, STATIC_ROOT, etc. \n")
