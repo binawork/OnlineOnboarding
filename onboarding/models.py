@@ -4,10 +4,10 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Company(models.Model):
-    name = models.TextField(max_length=500, blank=True)
+    name = models.TextField(max_length=500)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
-    how_many_sent_packages = models.IntegerField(default=0)
+    how_many_sent_packages = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
