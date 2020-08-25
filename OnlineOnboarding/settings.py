@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+import OnlineOnboarding.dont_touch_it_Wiktor as mail
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-akb#of%g5eplnyyv^a1qk)^t042+8wsaavlz)gifyy$x416^p' # todo: os.environ.get('DJANGO_SECRET')
+SECRET_KEY = '-akb#of%g5eplnyyv^a1qk)^t042+8wsaavlz)gifyy$x416^p'  # todo: os.environ.get('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -98,6 +100,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Email system config
+# https://medium.com/@frfahim/django-registration-with-confirmation-email-bb5da011e4ef
+
+EMAIL_USE_TLS = mail.EMAIL_USE_TLS
+EMAIL_HOST = mail.EMAIL_HOST
+EMAIL_HOST_USER = mail.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = mail.EMAIL_HOST_PASSWORD
+EMAIL_PORT = mail.EMAIL_PORT
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -118,9 +129,8 @@ STATIC_URL = '/onboarding/static/'
 LOGOUT_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'onboarding.User'
 
-
 # On a server:
-#STATIC_ROOT = 'your path'
+# STATIC_ROOT = 'your path'
 # then python manage.py collectstatic
 
 try:
