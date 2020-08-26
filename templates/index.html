@@ -79,8 +79,8 @@
 				<a  class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
 				<a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'manage'%}" >Manage</a>
 			{% else %}
-				<a  class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'login'%}?next=/onboarding/manage/">Login</a>
-				<a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'signup'%}?next=/onboarding/manage/">Register</a>
+				<a  class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'login'%}?next=/manage/">Login</a>
+				<a class="navbar-btn btn btn-subtle-primary ml-auto order-lg-2" href="{% url 'signup'%}?next=/manage/">Register</a>
 			{% endif %}
            <!-- .navbar-collapse -->
           <div class="navbar-collapse collapse" id="navbarTogglerDemo01">
