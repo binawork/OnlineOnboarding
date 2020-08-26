@@ -223,17 +223,23 @@ class PackageViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    # @action(detail=True)
-    # def add_user_to_package(self, request, pk=None, user_id=None, *args, **kwargs):
-    #     print(user_id)
-    #     partial = kwargs.pop('partial', False)
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_update(serializer)
-    #     serializer.save()
-    #
-    #     return Response(serializer.data)
+    @action(detail=True)
+    def add_user_to_package(self, request, pk=None, user_id=None):
+        # 1. czy pracownik wskazany po ID należy do danej firmy
+        # 2. czy ten pracownik nie jest już przypisany do wskazanej paczki
+        # 3. do wskazanej paczki dodać pracownika
+        # 4. jeżeli dodanie przebiegło pomyślnie wysłać mail zgodnie z szablonem
+        #
+        # subject = 'odpowiedni temat maila'
+        # html_message = render_to_string('templated_email/remove_acc_email.html', {
+        #     dane w postaci słownika
+        # })
+        # plain_message = strip_tags(html_message)
+        # from_email = 'onlineonboardingnet@gmail.com'
+        # to = user_email - określamy do kogo wysłać maila
+        #
+        # mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message
+        pass
 
 
 class PageViewSet(viewsets.ModelViewSet):
