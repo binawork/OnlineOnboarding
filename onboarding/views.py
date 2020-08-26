@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from django.shortcuts import render, redirect
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import BadHeaderError
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
@@ -82,7 +82,6 @@ def signup(request):
 
 
 def password_reset_request(request):
-
     if request.method == "POST":
         password_reset_form = PasswordResetForm(request.POST)  # bazowy formulam maila
         if password_reset_form.is_valid():
@@ -105,7 +104,13 @@ def password_reset_request(request):
                     plain_message = strip_tags(html_message)
 
                     try:
-                        send_mail(subject, plain_message, 'admin@example.com', [user.email], fail_silently=False)
+                        mail.send_mail(subject,
+                                       plain_message,
+                                       'admin@example.com',
+                                       [user.email],
+                                       html_message=html_message,
+                                       fail_silently=False
+                                       )
                     except BadHeaderError:
                         return HttpResponse('Invalid header found.')
                     return redirect("/password_reset/done/")
@@ -155,10 +160,33 @@ REST
 
 # ViewSets define the view behavior.
 
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    @action(detail=False)
+    def remove_user(self, request, pk=None):
+        user_email = request.user.email
+        username = request.user.username
+        request.user.email = 'removed'
+        request.user.first_name = 'removed'
+        request.user.last_name = 'removed'
+        request.user.is_active = False
+        request.user.save()
+
+        subject = 'Usunięcie konta'
+
+        html_message = render_to_string('templated_email/remove_acc_email.html', {
+            'username': username,
+        })
+
+        plain_message = strip_tags(html_message)
+        from_email = 'onlineonboardingnet@gmail.com'
+        to = user_email
+
+        mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
+        return Response(status=204)
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
@@ -182,18 +210,30 @@ class PackageViewSet(viewsets.ModelViewSet):
     serializer_class = PackageSerializer
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(owner=self.request.user.company)
 
     @action(detail=False)
-    def list_by_user(self, request):
+    def list_by_company(self, request):
         """
         :param request: user
         :return: all packages with param request.user = owner
         """
-        package = Package.objects.filter(owner=request.user)
+        package = Package.objects.filter(owner=request.user.company)
         serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
+
+    # @action(detail=True)
+    # def add_user_to_package(self, request, pk=None, user_id=None, *args, **kwargs):
+    #     print(user_id)
+    #     partial = kwargs.pop('partial', False)
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_update(serializer)
+    #     serializer.save()
+    #
+    #     return Response(serializer.data)
 
 
 class PageViewSet(viewsets.ModelViewSet):
@@ -206,7 +246,7 @@ class PageViewSet(viewsets.ModelViewSet):
     ordering_fields = ['release_date']
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(owner=self.request.user.company)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -222,7 +262,7 @@ class PageViewSet(viewsets.ModelViewSet):
         :param pk: this is package ID
         :return: pages list by package Pk, filter by package and pages owner
         """
-        page = Page.objects.filter(package__id=pk)
+        page = Page.objects.filter(package__id=pk)  # add in the future ,owner__page=request.user.company
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
@@ -235,7 +275,7 @@ class SectionViewSet(viewsets.ModelViewSet):
     ordering_fields = ['release_date']
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(owner=self.request.user.company)
 
     @action(detail=True)
     def list_by_page(self, request, pk):
@@ -244,7 +284,7 @@ class SectionViewSet(viewsets.ModelViewSet):
         :param pk: this is page ID
         :return: sections list by page id
         """
-        section = Section.objects.filter(page__id=pk)
+        section = Section.objects.filter(page__id=pk)  # add in the future ,owner__page=request.user.company
         serializer = SectionSerializer(section, many=True)
 
         return Response(serializer.data)

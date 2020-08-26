@@ -23,8 +23,6 @@ urlpatterns = [
 
 urlpatterns += [  # password reset
     path('accounts/', include('django.contrib.auth.urls')),
-
-
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
         template_name='registration/password_reset_done.html'),
          name='password_reset_done'),
@@ -43,7 +41,6 @@ urlpatterns += [
 ]
 
 # API
-
 router = DefaultRouter()
 router.register(r'api/users', UserViewSet, basename='User')
 router.register(r'api/company', CompanyViewSet, basename='Company')
