@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
+    <!-- Begin SEO tag -->
+    <title> Online onboarding </title>
+    <meta property="og:title" content="Contact us - Onboarding">
+    <meta name="author" content="Beni Arisandi">
+    <meta property="og:locale" content="en_US">
+    <meta name="description" content="Contact us page for dev-test">
+    <meta property="og:description" content="Contact us page for dev-test">
+    <link rel="canonical" href="https://uselooper.com">
+    <meta property="og:url" content="https://uselooper.com">
+    <meta property="og:site_name" content="Onboarding: contact us test">
+    <script type="application/ld+json">
+      {
+        "name": "Looper - Bootstrap 4 Admin Theme",
+        "description": "Responsive admin theme build on top of Bootstrap 4",
+        "author":
+        {
+          "@type": "Person",
+          "name": "Beni Arisandi"
+        },
+        "@type": "WebSite",
+        "url": "",
+        "headline": "Simple & Beautiful Admin Theme",
+        "@context": "http://schema.org"
+      }
+    </script><!-- End SEO tag -->
+    <!-- FAVICONS -->
+    <link rel="apple-touch-icon" sizes="144x144" href="bootstrap/apple-touch-icon.png">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+    <meta name="theme-color" content="#3063A0"><!-- End FAVICONS -->
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End GOOGLE FONT -->
+    <!-- BEGIN PLUGINS STYLES -->
+    <link rel="stylesheet" href="{% static 'bootstrap/vendor/aos/aos.css' %}"><!-- END PLUGINS STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme.min.css' %}" data-skin="default">
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}" data-skin="dark">
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/custom.css' %}">
+    <script>
+      var skin = localStorage.getItem('skin') || 'default';
+      var isCompact = JSON.parse(localStorage.getItem('hasCompactMenu'));
+      var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
+      // Disable unused skin immediately
+      disabledSkinStylesheet.setAttribute('rel', '');
+      disabledSkinStylesheet.setAttribute('disabled', true);
+      // add flag class to html immediately
+      if (isCompact == true) document.querySelector('html').classList.add('preparing-compact-menu');
+    </script><!-- END THEME STYLES -->
+  </head>
+  <body>
+    <!-- .app -->
+    <main class="app app-site">
+      <!--[if lt IE 10]>
+      <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
+      <![endif]-->
+      <!-- site header -->
+      <!-- .navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light py-4" data-aos="fade-in">
+        <!-- .container -->
+        <div class="container">
+          <!-- .hamburger -->
+          <button class="hamburger hamburger-squeeze hamburger-light d-flex d-lg-none" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /.hamburger -->
+          <!-- .navbar-brand -->
+          <a class="navbar-brand ml-auto mr-0" href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
+              <defs>
+              </defs>
+              <g fill="none" fill-rule="evenodd">
+                <use class="fill-primary" xlink:href="#a"></use>
+              </g>
+            </svg></a> <!-- /.navbar-brand -->
+            <!-- "app" -->
+           <!-- .navbar-collapse -->
+          <div class="navbar-collapse collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav mx-auto">
+{#            <li class="nav-item mr-lg-3 active">#}
+{#                <a class="nav-link py-2" href="#">tu powinno być logo</a>#}
+{#              </li> #}
+              <li class="nav-item mr-lg-3">
+                <a class="nav-link py-2" href="#">Onboarding</a>
+              </li>
+              <li class="nav-item mr-lg-3">
+                <a class="nav-link py-2" href="#">Feedback</a>
+              </li>
+              <li class="nav-item mr-lg-3">
+                <a class="nav-link py-2" href="#">Oferta</a>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+      </nav><!-- /.navbar -->
+      <!-- /site header -->
+      <section class="pt-5">
+        <!-- .container -->
+        <div class="container">
+          <!-- .row -->
+          <div class="row align-items-center">
+            <!-- .col-md-6 -->
+            <div class="col-12 col-md-6 order-md-2" data-aos="fade-left">
+              <img class="img-fluid mb-4 mb-md-0" src="{% static 'bootstrap/images/illustration/testimony.svg' %}" alt="" />
+            </div><!-- /.col-md-6 -->
+            <!-- .col-md-6 -->
+            <div class="col-12 col-md-6 order-md-1 text-center text-sm-left">
+              <h3 class="mb-4"> Umów spotkanie z naszym </h3>
+              <p class="font-size-lg mb-4">Jeśli chcesz poznać naszą ofertę zostaw nam dane kontaktowe, a nasz zespół skontaktuje się w celu przedstawienia oferty.</p>
+
+              <form>
+                <div class="form-group">
+                	<input type="text" class="form-control" placeholder="Imię" value="" />
+                </div>
+                <div class="form-group">
+                	<div class="input-group">
+                		<input type="text" class="form-control" placeholder="Nazwisko" value="" />
+                	</div>
+                </div>
+                <div class="form-group">
+                	<div class="input-group">
+                		<input type="text" class="form-control" placeholder="Nazwa firmy" value="" />
+                	</div>
+                </div>
+                <div class="form-group">
+                	<div class="input-group">
+                		<input type="email" class="form-control" placeholder="Służbowy adres e-mail" value="" />
+                	</div>
+                </div>
+                <div class="form-group">
+                	<textarea class="form-control" placeholder="Opcjonalne uwagi lub pytania" rows="3"></textarea>
+                </div>
+                <button class="btn btn-subtle-primary">Wyślij</button>
+              </form>
+            </div><!-- /.col-md-6 -->
+          </div><!-- /.row -->
+        </div><!-- /.container -->
+      </section><!-- /feature -->
+      <!-- divider -->
+      <section class="position-relative">
+        <!-- wave2.svg -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="192" viewbox="0 0 1440 240" preserveaspectratio="none">
+          <path class="fill-light" fill-rule="evenodd" d="M0 240V0c19.985 5.919 41.14 11.008 63.964 14.89 40.293 6.855 82.585 9.106 125.566 9.106 74.151 0 150.382-6.697 222.166-8.012 13.766-.252 27.51-.39 41.21-.39 99.76 0 197.087 7.326 282.907 31.263C827.843 72.527 860.3 117.25 906.926 157.2c43.505 37.277 115.38 51.186 208.485 53.076 7.584.153 15.156.224 22.714.224 40.887 0 81.402-2.062 121.914-4.125 40.512-2.062 81.027-4.125 121.902-4.125 1.01 0 2.019.002 3.03.004 16.208.042 34.959.792 55.029 2.234V240H0z"></path>
+        </svg>
+      </section><!-- /divider -->
+      <!-- call to action -->
+      <section class="py-5 position-relative bg-light">
+        <!-- .sticker -->
+        <div class="sticker">
+          <div class="sticker-item sticker-bottom-left w-100">
+            <!-- wave1.svg -->
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="120" viewbox="0 0 1440 240" preserveaspectratio="none">
+            </svg>
+          </div>
+        </div><!-- /.sticker -->
+        <!-- .container -->
+      </section><!-- /call to action -->
+      <!-- footer -->
+      <section class="py-5 bg-black text-white">
+        <!-- .container -->
+        <div class="container">
+          <!-- .row -->
+          <div class="row">
+            <!-- .col -->
+            <div class="col-12 col-md-4 col-lg-3">
+              <!-- Brand -->
+              <svg class="mb-3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
+                <defs>
+                </defs>
+                <g fill="none" fill-rule="evenodd">
+                  <use class="fill-primary" xlink:href="#a"></use>
+                </g>
+              </svg> <!-- Description -->
+              <p class="text-muted mb-2"> The theme for your project. </p>
+              <address class="text-muted">
+                <abbr title="US phone code">+1</abbr> (234) 567-8910 </address><!-- Social -->
+              <ul class="list-inline mb-5 mb-md-0">
+                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="0">
+                  <a href="#" class="text-muted text-decoration-none" title="twitter"><img class="grayscale" src="{% static 'bootstrap/images/logo/twitter.svg' %}" alt="" width="24"></a>
+                </li>
+                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="100">
+                  <a href="#" class="text-muted text-decoration-none" title="instagram"><img class="grayscale" src="{% static 'bootstrap/images/logo/instagram.svg' %}" alt="" width="24"></a>
+                </li>
+                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="200">
+                  <a href="#" class="text-muted text-decoration-none" title="dribbble"><img class="grayscale" src="{% static 'bootstrap/images/logo/dribbble.svg' %}" alt="" width="24"></a>
+                </li>
+                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="300">
+                  <a href="#" class="text-muted text-decoration-none" title="medium"><img class="grayscale" src="{% static 'bootstrap/images/logo/medium.svg' %}" alt="" width="24"></a>
+                </li>
+              </ul>
+            </div><!-- /.col -->
+            <!-- .col -->
+            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">
+              <!-- Heading -->
+              <h6 class="mb-4"> Company </h6><!-- links -->
+              <ul class="list-unstyled">
+                <li class="mb-3">
+                  <a href="#" class="text-muted">About Us</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Blog</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Knowledge Base</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Press</a>
+                </li>
+              </ul>
+            </div><!-- /.col -->
+            <!-- .col -->
+            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">
+              <!-- Heading -->
+              <h6 class="mb-4"> Product </h6><!-- links -->
+              <ul class="list-unstyled">
+                <li class="mb-3">
+                  <a href="#" class="text-muted">SaaS</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Project Management</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">eCommerce</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">CRM</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">CMS</a>
+                </li>
+              </ul>
+            </div><!-- /.col -->
+            <!-- .col -->
+            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">
+              <!-- Heading -->
+              <h6 class="mb-4"> Help </h6><!-- links -->
+              <ul class="list-unstyled">
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Help Center</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Documentation</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Technical Support</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">FAQ</a>
+                </li>
+              </ul>
+            </div><!-- /.col -->
+            <!-- .col -->
+            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">
+              <!-- Heading -->
+              <h6 class="mb-4"> Legal </h6><!-- links -->
+              <ul class="list-unstyled">
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Privacy Policy</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Terms of Service</a>
+                </li>
+                <li class="mb-3">
+                  <a href="#" class="text-muted">Cookies Policy</a>
+                </li>
+              </ul>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+          <p class="text-muted text-center mt-5"> &copy; {% now 'Y' %} Looper, Inc. All rights reserved. </p>
+        </div><!-- /.container -->
+      </section><!-- /footer -->
+    </main><!-- /.app -->
+    <!-- BEGIN BASE JS -->
+    <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script> <!-- END BASE JS -->
+    <!-- BEGIN PLUGINS JS -->
+    <script src="{% static 'bootstrap/vendor/aos/aos.js' %}"></script> <!-- END PLUGINS JS -->
+    <!-- BEGIN THEME JS -->
+    <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
+  </body>
+</html>
+

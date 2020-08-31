@@ -30,6 +30,10 @@ def index(request):
     """View function for home page of site."""
     return render(request, 'index.html')
 
+def contact(request):
+    """View function for home page of site."""
+    return render(request, 'contact.html')
+
 
 def activate(request, uidb64, token):
     try:

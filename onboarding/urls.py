@@ -11,6 +11,7 @@ from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, Ans
 urlpatterns = [
 
     path('', views.index, name='index'),
+    path('contact', views.contact, name='contact'),
 
     url('signup', core_views.signup, name='signup'),
     path('manage/', views.manager_view, name='manage'),
