@@ -1,3 +1,4 @@
+from .tokens import account_activation_token
 from django.contrib.auth.decorators import login_required
 from django.core import mail
 from django.utils.html import strip_tags
@@ -19,11 +20,12 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 
-from onboarding.models import Package, ContactForm, Page, Section, User, Answer, Company
-from .forms import SignUpForm
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, \
-    ContactFormTestSerializer, UserSerializer, AnswerSerializer, CompanySerializer
-from .tokens import account_activation_token
+from onboarding.models import Package, ContactForm, Page, Section, User, \
+    Answer, Company
+from .forms import SignUpForm, CompanyForm
+from .serializers import PackageSerializer, PageSerializer, \
+    SectionSerializer, ContactFormTestSerializer, UserSerializer, \
+    AnswerSerializer, CompanySerializer
 
 
 def index(request):
@@ -70,7 +72,8 @@ def signup(request):
             from_email = 'onlineonboardingnet@gmail.com'
             to = form.cleaned_data.get('email')
 
-            mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+            mail.send_mail(subject, plain_message, from_email,
+                           [to], html_message=html_message)
 
             return HttpResponse(
                 'Please confirm your email address to complete the registration'
@@ -81,9 +84,23 @@ def signup(request):
     return render(request, 'bootstrap/auth-signup.html', {'form': form})
 
 
+def register_company(request):
+    if request.method == 'POST':
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(
+                'Registered new company'
+            )
+    else:
+        form = CompanyForm()
+    return render(request, 'bootstrap/auth-signup.html', {'form': form})
+
+
 def password_reset_request(request):
     if request.method == "POST":
-        password_reset_form = PasswordResetForm(request.POST)  # bazowy formulam maila
+        password_reset_form = PasswordResetForm(
+            request.POST)  # bazowy formulam maila
         if password_reset_form.is_valid():
             data = password_reset_form.cleaned_data['email']
             associated_users = User.objects.filter(Q(email=data))
@@ -143,7 +160,8 @@ def reminder(request, employee_id, package_id):
     from_email = 'onlineonboardingnet@gmail.com'
     to = employee.email
 
-    mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+    mail.send_mail(subject, plain_message, from_email,
+                   [to], html_message=html_message)
     return HttpResponse(current_site)
 
 
@@ -184,7 +202,8 @@ class UserViewSet(viewsets.ModelViewSet):
         from_email = 'onlineonboardingnet@gmail.com'
         to = user_email
 
-        mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+        mail.send_mail(subject, plain_message, from_email,
+                       [to], html_message=html_message)
 
         return Response(status=204)
 
@@ -268,7 +287,8 @@ class PageViewSet(viewsets.ModelViewSet):
         :param pk: this is package ID
         :return: pages list by package Pk, filter by package and pages owner
         """
-        page = Page.objects.filter(package__id=pk)  # add in the future ,owner__page=request.user.company
+        page = Page.objects.filter(
+            package__id=pk)  # add in the future ,owner__page=request.user.company
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
@@ -290,7 +310,8 @@ class SectionViewSet(viewsets.ModelViewSet):
         :param pk: this is page ID
         :return: sections list by page id
         """
-        section = Section.objects.filter(page__id=pk)  # add in the future ,owner__page=request.user.company
+        section = Section.objects.filter(
+            page__id=pk)  # add in the future ,owner__page=request.user.company
         serializer = SectionSerializer(section, many=True)
 
         return Response(serializer.data)
