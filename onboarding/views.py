@@ -353,7 +353,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         :return: answers list by section id
         """
         answer = Answer.objects.filter(section__id=pk,
-                                       owner=self.request.user.company)
+                                       section__page_package__owner=self.request.user.company)
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
@@ -366,7 +366,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         :return: answers list by section id
         """
         answer = Answer.objects.filter(section__id=pk,
-                                       owner=self.request.user.company,
+                                       owner=self.request.user,
                                        section__page_package__user=self.request.user)
         serializer = AnswerSerializer(answer, many=True)
 
