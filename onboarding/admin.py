@@ -1,11 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Package, Page, Section, Answer, ContactForm
+from .models import User, Package, Page, Section, Answer, ContactForm, Company
 
 
 # information about django administration site
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
 admin.site.register(User, UserAdmin)
+admin.site.register(Answer)
+admin.site.register(ContactForm)
+admin.site.register(Company)
 
 
 class PageInline(admin.StackedInline):
@@ -40,8 +43,5 @@ class SectionAdmin(admin.ModelAdmin):
     ordering = ('id',)
     inlines = [AnswerInline, ]
 
-
-admin.site.register(Answer)
-admin.site.register(ContactForm)
 
 

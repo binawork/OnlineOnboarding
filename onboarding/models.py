@@ -15,7 +15,7 @@ class Company(models.Model):
 
 class User(AbstractUser):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
-    is_hr = models.BooleanField()
+    is_hr = models.BooleanField(default=False)
 
 
 class ContactForm(models.Model):
