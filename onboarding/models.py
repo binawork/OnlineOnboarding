@@ -28,7 +28,7 @@ class ContactForm(models.Model):
 
 class Package(models.Model):
     """Model representing a Package."""
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    owner = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text='Enter a brief description', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -43,7 +43,7 @@ class Page(models.Model):
     """Model representing a through for Page and Section."""
     package = models.ForeignKey(Package, on_delete=models.SET_NULL, null=True, blank=True)
     order = models.IntegerField()
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    owner = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -54,7 +54,7 @@ class Page(models.Model):
 
 class Section(models.Model):
     page = models.ForeignKey(Page, on_delete=models.SET_NULL, null=True, blank=True)
-    owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    owner = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
     order = models.IntegerField()
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)

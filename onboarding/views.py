@@ -164,7 +164,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     @action(detail=False)
-    def remove_user(self, request, pk=None):
+    def remove_user(self, request):
         user_email = request.user.email
         username = request.user.username
         request.user.email = 'removed'
@@ -212,12 +212,23 @@ class PackageViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user.company)
 
     @action(detail=False)
-    def list_by_company(self, request):
+    def list_by_company_hr(self, request):
         """
         :param request: user
         :return: all packages with param request.user = owner
         """
         package = Package.objects.filter(owner=request.user.company)
+        serializer = PackageSerializer(package, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=False)
+    def list_by_company_employee(self, request):
+        """
+        :param request: user
+        :return: all packages with param request.user = owner
+        """
+        package = Package.objects.filter(owner=request.user.company, users=request.user)
         serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
@@ -261,13 +272,27 @@ class PageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(detail=True)
-    def list_by_package(self, request, pk):
+    def list_by_package_hr(self, request, pk):
         """
         :param request:
         :param pk: this is package ID
         :return: pages list by package Pk, filter by package and pages owner
         """
         page = Page.objects.filter(package__id=pk)  # add in the future ,owner__page=request.user.company
+        serializer = PageSerializer(page, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=True)
+    def list_by_package_employee(self, request, pk):
+        """
+        :param request:
+        :param pk: this is package ID
+        :return: pages list by package Pk, filter by package and pages owner
+        """
+        page = Page.objects.filter(package__id=pk,
+                                   owner=self.request.user.company,
+                                   package__users=self.request.user)
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
@@ -283,13 +308,29 @@ class SectionViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user.company)
 
     @action(detail=True)
-    def list_by_page(self, request, pk):
+    def list_by_page_hr(self, request, pk):
         """
         :param request:
         :param pk: this is page ID
         :return: sections list by page id
         """
-        section = Section.objects.filter(page__id=pk)  # add in the future ,owner__page=request.user.company
+        section = Section.objects.filter(page__id=pk,
+                                         owner=self.request.user.company)  # add in the future ,
+        # owner__page=request.user.company
+        serializer = SectionSerializer(section, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=True)
+    def list_by_page_employee(self, request, pk):
+        """
+        :param request:
+        :param pk: this is page ID
+        :return: sections list by page id
+        """
+        section = Section.objects.filter(page__id=pk,
+                                         owner=self.request.user.company,
+                                         page__package__users=self.request.user)
         serializer = SectionSerializer(section, many=True)
 
         return Response(serializer.data)
@@ -305,13 +346,28 @@ class AnswerViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
     @action(detail=True)
-    def list_by_section(self, request, pk):
+    def list_by_section_hr(self, request, pk):
         """
         :param request:
         :param pk: this is section ID
         :return: answers list by section id
         """
-        answer = Answer.objects.filter(section__id=pk)
+        answer = Answer.objects.filter(section__id=pk,
+                                       owner=self.request.user.company)
+        serializer = AnswerSerializer(answer, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=True)
+    def list_by_section_employee(self, request, pk):
+        """
+        :param request:
+        :param pk: this is section ID
+        :return: answers list by section id
+        """
+        answer = Answer.objects.filter(section__id=pk,
+                                       owner=self.request.user.company,
+                                       section__page_package__user=self.request.user)
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
