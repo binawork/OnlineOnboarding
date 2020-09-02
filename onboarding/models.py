@@ -7,7 +7,7 @@ class Company(models.Model):
     name = models.TextField(max_length=500)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
-    how_many_sent_packages = models.IntegerField(default=1)
+    how_many_sent_packages = models.IntegerField(default=1) 
 
     def __str__(self):
         return self.name
@@ -15,6 +15,7 @@ class Company(models.Model):
 
 class User(AbstractUser):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    is_hr = models.BooleanField()
 
 
 class ContactForm(models.Model):
@@ -22,6 +23,7 @@ class ContactForm(models.Model):
     last_name = models.CharField(max_length=30, help_text='')
     company_name = models.CharField(max_length=30, help_text='')
     email = models.EmailField(max_length=50, help_text='')
+    text_field = models.EmailField(max_length=500, help_text='')
 
 
 class Package(models.Model):
