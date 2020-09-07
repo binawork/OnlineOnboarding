@@ -9,15 +9,14 @@ class SignUpForm(UserCreationForm):
                              widget=forms.EmailInput(
                                  attrs={'class': 'form-control'}
                              ))
+    company = forms.CharField(max_length=500)
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2',)
+        fields = ('username', 'email', 'password1', 'password2', 'company')
 
 
 class CompanyForm(forms.ModelForm):
-    name = forms.CharField(max_length=500)
-
     class Meta:
         model = Company
         fields = ('name',)

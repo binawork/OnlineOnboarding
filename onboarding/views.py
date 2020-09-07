@@ -1,3 +1,4 @@
+from django import forms
 from .tokens import account_activation_token
 from django.contrib.auth.decorators import login_required
 from django.core import mail
@@ -8,12 +9,13 @@ from rest_framework.decorators import action
 
 from django.shortcuts import render, redirect
 from django.core.mail import BadHeaderError
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
 from django.contrib.auth.tokens import default_token_generator
 
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.contrib.auth import login, authenticate
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
@@ -49,9 +51,32 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
+def postprocessing_signup(request):
+    # company_form = CompanyForm()
+    signup_form = SignUpForm()
+    request_data = request.POST
+    company_name = request_data['company']
+    try:
+        company = Company.objects.get(name=company_name)
+    except ObjectDoesNotExist:
+        company = Company.objects.create(name=company_name)
+
+    # company_form = CompanyForm(instance=company)
+
+    request_data = request_data.copy()
+    request_data['company'] = company
+    user = User(company=request_data['company'],)
+    print(user.company)
+    signup_form = SignUpForm(instance=user)
+    
+    signup_form.is_valid()
+    return signup_form
+
+
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = postprocessing_signup(request)
+
         if form.is_valid():
             form.save()
 
