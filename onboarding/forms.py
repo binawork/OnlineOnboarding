@@ -9,11 +9,20 @@ class SignUpForm(UserCreationForm):
                              widget=forms.EmailInput(
                                  attrs={'class': 'form-control'}
                              ))
-    company = forms.CharField(max_length=500)
+    company_name = forms.CharField(max_length=500)
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'company')
+        fields = ('username', 'email', 'password1', 'password2', 'company_name')
+
+    def save(self, commit=True):
+        user = super(SignUpForm, self).save(commit=False)
+
+        user.company = Company.objects.create(name=self.cleaned_data["company_name"])
+
+        if commit:
+            user.save()
+        return user
 
 
 class CompanyForm(forms.ModelForm):

@@ -52,7 +52,7 @@ def activate(request, uidb64, token):
 
 
 def postprocessing_signup(request):
-    # company_form = CompanyForm()
+    company_form = CompanyForm()
     signup_form = SignUpForm()
     request_data = request.POST
     company_name = request_data['company']
@@ -68,33 +68,36 @@ def postprocessing_signup(request):
     user = User(company=request_data['company'],)
     print(user.company)
     signup_form = SignUpForm(instance=user)
-    
+
     signup_form.is_valid()
     return signup_form
 
 
 def signup(request):
     if request.method == 'POST':
-        form = postprocessing_signup(request)
+        # form = postprocessing_signup(request)
+        signup_form = SignUpForm(request.POST)
 
-        if form.is_valid():
-            form.save()
+        if signup_form.is_valid():
+            print(signup_form.cleaned_data.get)
+            signup_form.save()
 
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
+            username = signup_form.cleaned_data.get('username')
+            raw_password = signup_form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
 
             current_site = get_current_site(request)
             subject = 'Rejestracja w Online Onboarding '
-            html_message = render_to_string('templated_email/acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
+            html_message = render_to_string(
+                'templated_email/acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
             plain_message = strip_tags(html_message)
             from_email = 'onlineonboardingnet@gmail.com'
-            to = form.cleaned_data.get('email')
+            to = signup_form.cleaned_data.get('email')
 
             mail.send_mail(subject, plain_message, from_email,
                            [to], html_message=html_message)
@@ -104,8 +107,8 @@ def signup(request):
             )
 
     else:
-        form = SignUpForm()
-    return render(request, 'bootstrap/auth-signup.html', {'form': form})
+        signup_form = SignUpForm()
+    return render(request, 'bootstrap/auth-signup.html', {'form': signup_form})
 
 
 def register_company(request):
