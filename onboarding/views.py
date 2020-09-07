@@ -4,21 +4,18 @@ from django.utils.html import strip_tags
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
-
 from django.shortcuts import render, redirect
 from django.core.mail import BadHeaderError
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
 from django.contrib.auth.tokens import default_token_generator
-
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
-
 from onboarding.models import Package, ContactForm, Page, Section, User, Answer, Company
 from .forms import SignUpForm
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, \

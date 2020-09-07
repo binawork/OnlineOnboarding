@@ -19,8 +19,8 @@ urlpatterns = [
     path('bootstrap/package-page', views.bootstrap_1_package, name='bootstrap_1_package'),
     path('bootstrap/forms', views.bootstrap_forms, name='bootstrap_forms'),
 ]
-# Email
 
+# Email
 urlpatterns += [  # password reset
     path('accounts/', include('django.contrib.auth.urls')),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
