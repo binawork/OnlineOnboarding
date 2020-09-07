@@ -24,7 +24,7 @@ from django.template.loader import render_to_string
 
 from onboarding.models import Package, ContactForm, Page, Section, User, \
     Answer, Company
-from .forms import SignUpForm, CompanyForm
+from .forms import SignUpForm
 from .serializers import PackageSerializer, PageSerializer, \
     SectionSerializer, ContactFormTestSerializer, UserSerializer, \
     AnswerSerializer, CompanySerializer
@@ -51,35 +51,10 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
-def postprocessing_signup(request):
-    company_form = CompanyForm()
-    signup_form = SignUpForm()
-    request_data = request.POST
-    company_name = request_data['company']
-    try:
-        company = Company.objects.get(name=company_name)
-    except ObjectDoesNotExist:
-        company = Company.objects.create(name=company_name)
-
-    # company_form = CompanyForm(instance=company)
-
-    request_data = request_data.copy()
-    request_data['company'] = company
-    user = User(company=request_data['company'],)
-    print(user.company)
-    signup_form = SignUpForm(instance=user)
-
-    signup_form.is_valid()
-    return signup_form
-
-
 def signup(request):
     if request.method == 'POST':
-        # form = postprocessing_signup(request)
         signup_form = SignUpForm(request.POST)
-
         if signup_form.is_valid():
-            print(signup_form.cleaned_data.get)
             signup_form.save()
 
             username = signup_form.cleaned_data.get('username')
