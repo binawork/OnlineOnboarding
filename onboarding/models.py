@@ -7,7 +7,7 @@ class Company(models.Model):
     name = models.TextField(max_length=500)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
-    how_many_sent_packages = models.IntegerField(default=1)
+    how_many_sent_packages = models.IntegerField(default=1) 
 
     def __str__(self):
         return self.name
@@ -15,6 +15,7 @@ class Company(models.Model):
 
 class User(AbstractUser):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    is_hr = models.BooleanField(default=False)
 
 
 class ContactForm(models.Model):
@@ -22,11 +23,12 @@ class ContactForm(models.Model):
     last_name = models.CharField(max_length=30, help_text='')
     company_name = models.CharField(max_length=30, help_text='')
     email = models.EmailField(max_length=50, help_text='')
+    text_field = models.EmailField(max_length=500, help_text='')
 
 
 class Package(models.Model):
     """Model representing a Package."""
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    owner = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text='Enter a brief description', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -41,7 +43,7 @@ class Page(models.Model):
     """Model representing a through for Page and Section."""
     package = models.ForeignKey(Package, on_delete=models.SET_NULL, null=True, blank=True)
     order = models.IntegerField()
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    owner = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)
     link = models.URLField(null=True, blank=True)
@@ -52,7 +54,7 @@ class Page(models.Model):
 
 class Section(models.Model):
     page = models.ForeignKey(Page, on_delete=models.SET_NULL, null=True, blank=True)
-    owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    owner = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
     order = models.IntegerField()
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)
