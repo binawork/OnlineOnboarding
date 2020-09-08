@@ -54,6 +54,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL = 'onboarding.User'
+
 ROOT_URLCONF = 'OnlineOnboarding.urls'
 
 TEMPLATES = [
@@ -120,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/onboarding/static/'
 LOGOUT_REDIRECT_URL = '/'
-AUTH_USER_MODEL = 'onboarding.User'
+
 
 # On a server:
 # STATIC_ROOT = 'your path'
