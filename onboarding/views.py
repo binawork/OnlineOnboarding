@@ -1,4 +1,3 @@
-from django import forms
 from .tokens import account_activation_token
 from django.contrib.auth.decorators import login_required
 from django.core import mail
@@ -8,7 +7,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.shortcuts import render, redirect
 from django.core.mail import BadHeaderError
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
@@ -84,23 +82,9 @@ def signup(request):
     return render(request, 'bootstrap/auth-signup.html', {'form': signup_form})
 
 
-def register_company(request):
-    if request.method == 'POST':
-        form = CompanyForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse(
-                'Registered new company'
-            )
-    else:
-        form = CompanyForm()
-    return render(request, 'bootstrap/auth-signup.html', {'form': form})
-
-
 def password_reset_request(request):
     if request.method == "POST":
-        password_reset_form = PasswordResetForm(
-            request.POST)  # bazowy formulam maila
+        password_reset_form = PasswordResetForm(request.POST)
         if password_reset_form.is_valid():
             data = password_reset_form.cleaned_data['email']
             associated_users = User.objects.filter(Q(email=data))
@@ -257,7 +241,7 @@ class PackageViewSet(viewsets.ModelViewSet):
     def add_user_to_package(self, request, pk=None, user_id=None):
         # 1. czy pracownik wskazany po ID należy do danej firmy
         # 2. czy ten pracownik nie jest już przypisany do wskazanej paczki
-        # 3. do wskazanej paczki dodać pracownika
+        # 3. do wskazanej paczki dodać pracownika (z tej samej firmy)
         # 4. jeżeli dodanie przebiegło pomyślnie wysłać mail zgodnie z szablonem
         #
         # subject = 'odpowiedni temat maila'

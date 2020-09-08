@@ -13,7 +13,6 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     url('signup', core_views.signup, name='signup'),
-    url('register/company', core_views.register_company, name='register_company'),
     path('manage/', views.manager_view, name='manage'),
     path('bootstrap/dashboard', views.bootstrap_dashboard, name='bootstrap_dashboard'),
     path('bootstrap/packages', views.bootstrap_packages, name='bootstrap_packages'),
