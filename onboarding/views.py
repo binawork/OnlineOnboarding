@@ -246,11 +246,12 @@ class PackageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True)
-    def add_user_to_package(self, request, pk=None, user_id=None):
-        # 1. czy pracownik wskazany po ID należy do danej firmy
+    def add_user_to_package(self, request, pk=None):
+        # 1. czy pracownik wskazany po ID należy do firmy osoby chcącej ją dołączyć
         # 2. czy ten pracownik nie jest już przypisany do wskazanej paczki
         # 3. do wskazanej paczki dodać pracownika (z tej samej firmy)
         # 4. jeżeli dodanie przebiegło pomyślnie wysłać mail zgodnie z szablonem
+        # 5. serialaizer powinien pozwalać dodać tylko podpiętego usera
         #
         # subject = 'odpowiedni temat maila'
         # html_message = render_to_string('templated_email/remove_acc_email.html', {
