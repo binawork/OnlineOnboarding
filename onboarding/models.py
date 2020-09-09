@@ -48,7 +48,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    # username = None
+    username = models.CharField(max_length=500, blank=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     is_hr = models.BooleanField(default=False)
     email = models.EmailField(_('email address'), unique=True)
