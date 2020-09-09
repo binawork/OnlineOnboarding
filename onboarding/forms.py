@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User, Company
 
 
-class SignUpForm(UserCreationForm):
+class HrSignUpForm(UserCreationForm):
     email = forms.EmailField(
                     max_length=254,
                     help_text='Required. Inform a valid email address.',
@@ -14,16 +14,20 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
-                    'username', 
-                    'email', 
+                    'email',
+                    'first_name',
+                    'last_name',
                     'password1', 
                     'password2', 
                     'company_name'
         )
 
     def save(self, commit=True):
-        user = super(SignUpForm, self).save(commit=False)
+        user = super(HrSignUpForm, self).save(commit=False)
         user.company = Company.objects.create(name=self.cleaned_data["company_name"])
+        user.is_hr = True
+        user.username = self.cleaned_data['email']
+        user.is_active = False
         if commit:
             user.save()
         return user

@@ -54,6 +54,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'password')
 
 
+
+
 # CONTACT FORM
 class ContactFormTestSerializer(serializers.ModelSerializer):
 

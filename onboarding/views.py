@@ -17,10 +17,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
-
 from onboarding.models import Package, ContactForm, Page, Section, User, \
     Answer, Company
-from .forms import SignUpForm
+from .forms import HrSignUpForm
 from .serializers import PackageSerializer, PageSerializer, \
     SectionSerializer, ContactFormTestSerializer, UserSerializer, \
     AnswerSerializer, CompanySerializer
@@ -49,13 +48,13 @@ def activate(request, uidb64, token):
 
 def signup(request):
     if request.method == 'POST':
-        signup_form = SignUpForm(request.POST)
+        signup_form = HrSignUpForm(request.POST)
         if signup_form.is_valid():
             signup_form.save()
 
-            username = signup_form.cleaned_data.get('username')
+            email = signup_form.cleaned_data.get('email')
             raw_password = signup_form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate(email=email, password=raw_password)
 
             current_site = get_current_site(request)
             subject = 'Rejestracja w Online Onboarding '
@@ -78,7 +77,7 @@ def signup(request):
             )
 
     else:
-        signup_form = SignUpForm()
+        signup_form = HrSignUpForm()
     return render(request, 'bootstrap/auth-signup.html', {'form': signup_form})
 
 
