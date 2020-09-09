@@ -42,6 +42,16 @@
     <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme.min.css' %}" data-skin="default">
     <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}" data-skin="dark">
     <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/custom.css' %}">
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176965703-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-176965703-1');
+	</script>
     <script>
       var skin = localStorage.getItem('skin') || 'default';
       var isCompact = JSON.parse(localStorage.getItem('hasCompactMenu'));
@@ -78,18 +88,18 @@
            <!-- .navbar-collapse -->
           <div class="navbar-collapse collapse" id="navbarTogglerDemo01">
             <ul class="navbar-nav mx-auto">
-              <li class="nav-item mr-lg-3 active">
-                <a class="nav-link py-2" href="#">tu powinno być logo</a>
-              </li>
-              <li class="nav-item mr-lg-3">
-                <a class="nav-link py-2" href="#">Onboarding</a>
-              </li>
-              <li class="nav-item mr-lg-3">
-                <a class="nav-link py-2" href="#">Feedback</a>
-              </li>
-              <li class="nav-item mr-lg-3">
-                <a class="nav-link py-2" href="#">Oferta</a>
-              </li>
+{#            <li class="nav-item mr-lg-3 active">#}
+{#                <a class="nav-link py-2" href="#">tu powinno być logo</a>#}
+{#              </li> #}
+{#              <li class="nav-item mr-lg-3">#}
+{#                <a class="nav-link py-2" href="#">Onboarding</a>#}
+{#              </li>#}
+{#              <li class="nav-item mr-lg-3">#}
+{#                <a class="nav-link py-2" href="#">Feedback</a>#}
+{#              </li>#}
+{#              <li class="nav-item mr-lg-3">#}
+{#                <a class="nav-link py-2" href="#">Oferta</a>#}
+{#              </li>#}
             </ul>
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container -->
@@ -111,12 +121,11 @@
                 <h1 class="display-4 enable-responsive-font-size mb-4"> Internetowa aplikacja <strong>ONLINE
                     ONBOARDING</strong> już niedługo będzie dostępna! </h1>
                 <p class="lead text-muted mb-5"> Cały proces onboardingu nowego pracownika w jednym miejscu,
-                    daje możliwośc nadzorowania całęgo procesu na bierząco. Aplikacja dostępna na
-                    smartfonach, tabletach i komputerach!
-                </p><a href="#" class="btn btn-lg btn-primary d-block d-sm-inline-block
-                    mr-sm-2 my-3" data-aos="zoom-in" data-aos-delay="200">Wypróbuj <i class="fa fa-angle-right
-                    ml-2"></i></a> <a href="#" class="btn btn-lg btn-subtle-primary d-block d-sm-inline-block my-3"
-                                      target="_blank" data-aos="zoom-in" data-aos-delay="300">Dowiedz się więcej</a>
+                    daje możliwośc nadzorowania całego procesu na bieżąco. Aplikacja dostępna na
+                    smartfonach, tabletach i komputerach!</p>
+{#                <a href="#" class="btn btn-lg btn-primary d-block d-sm-inline-block mr-sm-2 my-3" data-aos="zoom-in" data-aos-delay="200">Wypróbuj <i class="fa fa-angle-right ml-2"></i></a>#}
+{#                <a href="#" class="btn btn-lg btn-subtle-primary d-block d-sm-inline-block my-3"#}
+{#                                      target="_blank" data-aos="zoom-in" data-aos-delay="300">Dowiedz się więcej</a>#}
               </div>
             </div><!-- /.col-md-6 -->
           </div><!-- /.row -->
@@ -181,10 +190,8 @@
             <div class="col-12 col-md-6 text-center text-sm-left">
               <h3 class="mb-4"> Onboarding </h3>
               <p class="text-muted font-size-lg mb-4"> Spraw aby twoi nowi pracownicy od pierwszego dnia w twojej
-                  firmie czuli się jej częścią, zwiększ jakość wdrażania nowych pracowników oraz przyspiesz ten proces!
-              </p><a
-                    href="#" class="btn
-              btn-subtle-primary">Doziedz się więcej</a>
+                  firmie czuli się jej częścią, zwiększ jakość wdrażania nowych pracowników oraz przyspiesz ten proces!</p>
+{#              <a href="#" class="btn btn-subtle-primary">Dowiedz się więcej</a>#}
             </div><!-- /.col-md-6 -->
           </div><!-- /.row -->
         </div><!-- /.container -->
@@ -205,7 +212,7 @@
                   proces wdrażania jeszcze lepszym! Wystarczy że dołączysz formularz feedbacku do procesu onboardingu
                   aby zbierać dane które pozwolą ulepszyć proces wdrożenia nowego pracownika.
               </p>
-                <a href="#" class="btn btn-subtle-primary">Dowiedz się więcej</a>
+{#                <a href="#" class="btn btn-subtle-primary">Dowiedz się więcej</a>#}
             </div><!-- /.col-md-6 -->
           </div><!-- /.row -->
         </div><!-- /.container -->
@@ -242,7 +249,7 @@
                   <div class="flex-fill">
                     <h5 class="mt-0"> Szybki start </h5>
                     <p class="text-muted font-size-lg"> Dzięki intuicyjnemu interfejsowi i prostemu procesowi
-                        umieszczania informacji w formularzach onboardingowych zaczniesz szybko wdrażąc nowych
+                        umieszczania informacji w formularzach onboardingowych zaczniesz szybko wdrażać nowych
                         pracowników</p>
                   </div>
                 </div>
@@ -272,9 +279,8 @@
                 <div class="d-sm-flex align-items-start text-center text-sm-left">
                   <img src="{% static 'bootstrap/images/illustration/brain.svg' %}" class="mr-sm-4 mb-3 mb-sm-0" alt="" width="72">
                   <div class="flex-fill">
-                    <h5 class="mt-0"> Feedback </h5>
-                    <p class="text-muted font-size-lg"> Wykorzystaj feedback aby sprawić aby twój proses wdrożenia
-                        nowych pracowników był jeszcze lepszy. </p>
+                    <h5 class="mt-0"> Zwiększ wydajność </h5>
+                    <p class="text-muted font-size-lg"> Oszczędzając czas pracownika HR dzięki czemu może zająć się innymi zadaniami. </p>
                   </div>
                 </div>
               </div><!-- /.card-body -->
@@ -337,82 +343,81 @@
           </div>
         </div><!-- /.sticker -->
         <!-- .container -->
-        <div class="container position-relative">
-          <h2 class="text-center"> System płatności </h2>
-          <p class="lead text-muted text-center mb-5"> Wystarczy wybrać odpowiedni pakiet </p><!-- .row -->
-          <div class="row align-items-center">
-            <!-- .col -->
-            <div class="col-12 col-md-5 offset-md-1 py-md-4 pr-md-0">
-              <div class="card font-size-lg shadow-lg" data-aos="fade-up">
-                <h5 class="card-header text-center text-success p-4 px-lg-5"> Za jednego użytkownika </h5>
-                <div class="card-body p-4 p-lg-5">
-                  <h3 class="display-3 text-center">
-                    <sup><small>zł</small></sup>49<small><small></small></small>
-                  </h3>
-                  <p class="text-center text-muted mb-5"> Jeżeli nie zatródniasz nowyh pracowników regularnie możesz
-                      wykupić potrzebną liczbę wdrożeń dla nowyh pracowników </p>
-                  <ul class="list-icons">
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> Samodzielnie dopasowane do potrzeb </li>
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> Zakupione wdrożenia wykożystaj kiedy chcesz </li>
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> 3 </li>
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> 4 </li>
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> 5 </li>
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> 6 </li>
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> 7 </li>
-                  </ul>
-                </div>
-                <div class="card-footer">
-                  <a href="https://themes.getbootstrap.com/product/looper-responsive-admin-template"
-                     class="card-footer-item p-4 px-lg-5">kup teraz
-                  </a>
-                </div>
-              </div>
-            </div><!-- /.col -->
-            <!-- .col -->
-            <div class="col-12 col-md-5 py-md-4 pl-md-0">
-              <div class="card font-size-lg card-inverse bg-primary shadow" data-aos="fade-up" data-aos-delay="200">
-                <h5 class="card-header text-center p-4 px-lg-5"> Nielimitowane </h5>
-                <div class="card-body p-4 p-lg-5">
-                  <h3 class="display-3 text-center">
-                    <sup><small>zł</small></sup>1999<small><small> </small>/miesiąc</small>
-                  </h3>
-                  <p class="text-center text-muted-light mb-5"> Miesięczna subskrybcja idealna dla film
-                      zatródnijących comiesiąc wielu pracowników </p>
-                  <ul class="list-icons">
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> Nielimitowane liczba wdrożeń
-                        miesięcznie</li>
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> Jedna faktóra miesięcznie </li>
-                    <li class="mb-2 pl-1">
-                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"
-                                                   alt="" width="16"></span> Wsparcie 7 dni w tygodniu </li>
-                  </ul>
-                </div>
-                <div class="card-footer">
-                  <a href="https://themes.getbootstrap.com/product/looper-responsive-admin-template"
-                     class="card-footer-item text-white p-4 px-lg-5">Kup teraz</a>
-                </div>
-              </div>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container -->
+{#        <div class="container position-relative">#}
+{#          <h2 class="text-center"> Simple pricing </h2>#}
+{#          <p class="lead text-muted text-center mb-5"> Quality design and excellent support at an affordable price. </p><!-- .row -->#}
+{#          <div class="row align-items-center">#}
+{#            <!-- .col -->#}
+{#            <div class="col-12 col-md-5 offset-md-1 py-md-4 pr-md-0">#}
+{#              <div class="card font-size-lg shadow-lg" data-aos="fade-up">#}
+{#                <h5 class="card-header text-center text-success p-4 px-lg-5"> Za jednego użytkownika </h5>#}
+{#                <div class="card-body p-4 p-lg-5">#}
+{#                  <h3 class="display-3 text-center">#}
+{#                    <sup><small>zł</small></sup>49<small><small></small></small>#}
+{#                  </h3>#}
+{#                  <p class="text-center text-muted mb-5"> Jeżeli nie zatrudniasz nowyh pracowników regularnie możesz#}
+{#                      wykupić potrzebną liczbę wdrożeń dla nowyh pracowników </p>#}
+{#                  <ul class="list-icons">#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> Samodzielnie dopasowane do potrzeb </li>#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> Zakupione wdrożenia wykożystaj kiedy chcesz </li>#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> 3 </li>#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> 4 </li>#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> 5 </li>#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> 6 </li>#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> 7 </li>#}
+{#                  </ul>#}
+{#                </div>#}
+{#                <div class="card-footer">#}
+{#                  <a href="https://themes.getbootstrap.com/product/looper-responsive-admin-template"#}
+{#                     class="card-footer-item p-4 px-lg-5">kup teraz#}
+{#                  </a>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div><!-- /.col -->#}
+{#            <!-- .col -->#}
+{#            <div class="col-12 col-md-5 py-md-4 pl-md-0">#}
+{#              <div class="card font-size-lg card-inverse bg-primary shadow" data-aos="fade-up" data-aos-delay="200">#}
+{#                <h5 class="card-header text-center p-4 px-lg-5"> Nielimitowane </h5>#}
+{#                <div class="card-body p-4 p-lg-5">#}
+{#                  <h3 class="display-3 text-center">#}
+{#                    <sup><small>zł</small></sup>1999<small><small> </small>/miesiąc</small>#}
+{#                  </h3>#}
+{#                  <p class="text-center text-muted-light mb-5"> Miesięczna subskrybcja idealna dla film#}
+{#                      zatrudniających co miesiąc wielu pracowników </p>#}
+{#                  <ul class="list-icons">#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> Nielimitowana liczba wdrożeń#}
+{#                        miesięcznie</li>#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> Jedna faktura miesięcznie </li>#}
+{#                    <li class="mb-2 pl-1">#}
+{#                      <span class="list-icon"><img class="mr-2" src="{% static 'bootstrap/images/check.svg' %}"#}
+{#                                                   alt="" width="16"></span> Wsparcie 7 dni w tygodniu </li>#}
+{#                  </ul>#}
+{#                </div>#}
+{#                <div class="card-footer">#}
+{#                  <a href="https://themes.getbootstrap.com/product/looper-responsive-admin-template" class="card-footer-item text-white p-4 px-lg-5">Purchase now</a>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div><!-- /.col -->#}
+{#          </div><!-- /.row -->#}
+{#        </div><!-- /.container -->#}
       </section><!-- /feature -->
       <!-- testimonials -->
       <section class="position-relative py-5 bg-light">
@@ -423,7 +428,7 @@
           </div>
         </div><!-- /.sticker -->
         <!-- .container -->
-{#        <div class="container position-relative mb-5">#}
+        <div class="container position-relative mb-5">
 {#          <h2 class="text-center"> You are in a good company </h2>#}
 {#          <p class="text-center text-muted font-size-lg mb-5"> We are nothing without you! Thanks to all of you who have contributed in every update. </p><!-- .row -->#}
 {#          <div class="row mb-6">#}
@@ -470,7 +475,7 @@
             <div class="col-12 col-md-6 col-lg-4 offset-lg-1 mr-md-0">
               <!-- .card -->
               <div class="card shadow-none rounded-lg mb-0 mr-md-n5 mt-md-n5 scale-125" data-aos="fade-in">
-                <img class="img-fluid rounded-lg" src="{% static 'bootstrap/images/illustration/happy-client.jpg' %}" alt="">
+                <img class="img-fluid rounded-lg" src="{% static 'images/client_0581.jpg' %}" alt="">
               </div><!-- /.card -->
             </div><!-- /.col -->
             <!-- .col -->
@@ -481,13 +486,10 @@
                   <figure>
                     <img class="mr-2" src="{% static 'bootstrap/images/quote.svg' %}" alt="" height="32">
                   </figure>
-                  <p> Dzięki wdrożeniu nowych członków w naszej organizacji za pomocą Online Onboarding nowi
-                      człownkowie naszej organizacji szybciej zaczynają produktywną prace. Dodatkowym atutem jest
-                      feedback który otrzymujemy od każdego nowego członka organizacji i sprawiamy że proces
-                      onboardingu kolejnych osób jest coraz lepszy!
+                  <p> BINA.work to społeczność programistów, project managerów, grafików i osób chcących robić fajne rzeczy w sieci. Działamy jako wirtualna szkoła programowania i software house w jednym. Wszyscy członkowie naszej społeczności są rozproszeni po całej Polsce i pracują jak prawdziwi digital nomadzi. Nie wyobrażam sobie wdrażania nowych osób, przechodzenia procesu onboardingu, nadawania uprawnień czy sprawdzania nabytych umiejętności bez odpowiedniego narzędzia.
 
                   </p>
-                  <footer class="blockquote-footer"> Maciej J, <cite title="Bootstrap Themes"> Bina Work</cite>
+                  <footer class="blockquote-footer">Maciej Jankowski, <cite title="Bootstrap Themes">BINA.work</cite>
                   </footer>
                 </blockquote>
               </div><!-- /.card -->
@@ -543,111 +545,111 @@
           <!-- .row -->
           <div class="row">
             <!-- .col -->
-            <div class="col-12 col-md-4 col-lg-3">
+{#            <div class="col-12 col-md-4 col-lg-3">#}
               <!-- Brand -->
-              <svg class="mb-3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
-                <defs>
-                </defs>
-                <g fill="none" fill-rule="evenodd">
-                  <use class="fill-primary" xlink:href="#a"></use>
-                </g>
-              </svg> <!-- Description -->
-              <p class="text-muted mb-2"> The theme for your project. </p>
-              <address class="text-muted">
-                <abbr title="US phone code">+1</abbr> (234) 567-8910 </address><!-- Social -->
-              <ul class="list-inline mb-5 mb-md-0">
-                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="0">
-                  <a href="#" class="text-muted text-decoration-none" title="twitter"><img class="grayscale" src="{% static 'bootstrap/images/logo/twitter.svg' %}" alt="" width="24"></a>
-                </li>
-                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="100">
-                  <a href="#" class="text-muted text-decoration-none" title="instagram"><img class="grayscale" src="{% static 'bootstrap/images/logo/instagram.svg' %}" alt="" width="24"></a>
-                </li>
-                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="200">
-                  <a href="#" class="text-muted text-decoration-none" title="dribbble"><img class="grayscale" src="{% static 'bootstrap/images/logo/dribbble.svg' %}" alt="" width="24"></a>
-                </li>
-                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="300">
-                  <a href="#" class="text-muted text-decoration-none" title="medium"><img class="grayscale" src="{% static 'bootstrap/images/logo/medium.svg' %}" alt="" width="24"></a>
-                </li>
-              </ul>
-            </div><!-- /.col -->
+{#              <svg class="mb-3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">#}
+{#                <defs>#}
+{#                </defs>#}
+{#                <g fill="none" fill-rule="evenodd">#}
+{#                  <use class="fill-primary" xlink:href="#a"></use>#}
+{#                </g>#}
+{#              </svg> <!-- Description -->#}
+{#              <p class="text-muted mb-2"> The theme for your project. </p>#}
+{#              <address class="text-muted">#}
+{#                <abbr title="US phone code">+1</abbr> (234) 567-8910 </address><!-- Social -->#}
+{#              <ul class="list-inline mb-5 mb-md-0">#}
+{#                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="0">#}
+{#                  <a href="#" class="text-muted text-decoration-none" title="twitter"><img class="grayscale" src="{% static 'bootstrap/images/logo/twitter.svg' %}" alt="" width="24"></a>#}
+{#                </li>#}
+{#                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="100">#}
+{#                  <a href="#" class="text-muted text-decoration-none" title="instagram"><img class="grayscale" src="{% static 'bootstrap/images/logo/instagram.svg' %}" alt="" width="24"></a>#}
+{#                </li>#}
+{#                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="200">#}
+{#                  <a href="#" class="text-muted text-decoration-none" title="dribbble"><img class="grayscale" src="{% static 'bootstrap/images/logo/dribbble.svg' %}" alt="" width="24"></a>#}
+{#                </li>#}
+{#                <li class="list-inline-item mr-3" data-aos="fade-in" data-aos-delay="300">#}
+{#                  <a href="#" class="text-muted text-decoration-none" title="medium"><img class="grayscale" src="{% static 'bootstrap/images/logo/medium.svg' %}" alt="" width="24"></a>#}
+{#                </li>#}
+{#              </ul>#}
+{#            </div><!-- /.col -->#}
             <!-- .col -->
-            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">
+{#            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">#}
               <!-- Heading -->
-              <h6 class="mb-4"> Company </h6><!-- links -->
-              <ul class="list-unstyled">
-                <li class="mb-3">
-                  <a href="#" class="text-muted">About Us</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Blog</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Knowledge Base</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Press</a>
-                </li>
-              </ul>
-            </div><!-- /.col -->
+{#              <h6 class="mb-4"> Company </h6><!-- links -->#}
+{#              <ul class="list-unstyled">#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">About Us</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Blog</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Knowledge Base</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Press</a>#}
+{#                </li>#}
+{#              </ul>#}
+{#            </div><!-- /.col -->#}
             <!-- .col -->
-            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">
+{#            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">#}
               <!-- Heading -->
-              <h6 class="mb-4"> Product </h6><!-- links -->
-              <ul class="list-unstyled">
-                <li class="mb-3">
-                  <a href="#" class="text-muted">SaaS</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Project Management</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">eCommerce</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">CRM</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">CMS</a>
-                </li>
-              </ul>
-            </div><!-- /.col -->
+{#              <h6 class="mb-4"> Product </h6><!-- links -->#}
+{#              <ul class="list-unstyled">#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">SaaS</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Project Management</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">eCommerce</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">CRM</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">CMS</a>#}
+{#                </li>#}
+{#              </ul>#}
+{#            </div><!-- /.col -->#}
             <!-- .col -->
-            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">
+{#            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">#}
               <!-- Heading -->
-              <h6 class="mb-4"> Help </h6><!-- links -->
-              <ul class="list-unstyled">
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Help Center</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Documentation</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Technical Support</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">FAQ</a>
-                </li>
-              </ul>
-            </div><!-- /.col -->
+{#              <h6 class="mb-4"> Help </h6><!-- links -->#}
+{#              <ul class="list-unstyled">#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Help Center</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Documentation</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Technical Support</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">FAQ</a>#}
+{#                </li>#}
+{#              </ul>#}
+{#            </div><!-- /.col -->#}
             <!-- .col -->
-            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">
+{#            <div class="col-6 col-md-4 col-lg-2 mb-3 mb-md-0">#}
               <!-- Heading -->
-              <h6 class="mb-4"> Legal </h6><!-- links -->
-              <ul class="list-unstyled">
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Privacy Policy</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Terms of Service</a>
-                </li>
-                <li class="mb-3">
-                  <a href="#" class="text-muted">Cookies Policy</a>
-                </li>
-              </ul>
-            </div><!-- /.col -->
+{#              <h6 class="mb-4"> Legal </h6><!-- links -->#}
+{#              <ul class="list-unstyled">#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Privacy Policy</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Terms of Service</a>#}
+{#                </li>#}
+{#                <li class="mb-3">#}
+{#                  <a href="#" class="text-muted">Cookies Policy</a>#}
+{#                </li>#}
+{#              </ul>#}
+{#            </div><!-- /.col -->#}
           </div><!-- /.row -->
-          <p class="text-muted text-center mt-5"> &copy; {% now 'Y' %} Looper, Inc. All rights reserved. </p>
+          <p class="text-muted text-center mt-5"> &copy; {% now 'Y' %} Onboarding, Inc. All rights reserved. </p>
         </div><!-- /.container -->
       </section><!-- /footer -->
     </main><!-- /.app -->
@@ -661,3 +663,4 @@
     <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
   </body>
 </html>
+
