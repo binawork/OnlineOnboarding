@@ -384,24 +384,3 @@ class AnswerViewSet(viewsets.ModelViewSet):
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
-
-
-"""
-Bootstrap part - test part
-"""
-
-
-def bootstrap_dashboard(request):
-    return render(request, 'bootstrap/dashboard.html')
-
-
-def bootstrap_packages(request):
-    return render(request, 'bootstrap/packages.html')
-
-
-def bootstrap_1_package(request):
-    return render(request, 'bootstrap/package_page.html')
-
-
-def bootstrap_forms(request):
-    return render(request, 'bootstrap/package_forms.html')
