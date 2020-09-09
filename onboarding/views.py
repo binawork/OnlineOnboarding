@@ -150,8 +150,15 @@ def reminder(request, employee_id, package_id):
 
 @login_required
 def manager_view(request):
-    """View function for manager page of site."""
-    return render(request, 'bootstrap/packages.html')
+    """
+    hr/employee have different template
+    :param request: need information this user is hr?
+    :return: template for hr and for employee
+    """
+    if request.user.is_hr:  # for hr
+        return render(request, 'react/hr.html')
+    if not request.user.is_hr:  # for employee
+        return render(request, 'react/employee.html')
 
 
 """
