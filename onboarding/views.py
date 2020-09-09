@@ -126,25 +126,27 @@ def password_reset_request(request):
     )
 
 
+@login_required()  # should send information to front about send reminder or not?
 def reminder(request, employee_id, package_id):
     current_site = get_current_site(request)
     subject = 'Przypomnienie'
-    # validacja?
     employee = User.objects.get(id=employee_id)
     package = Package.objects.get(id=package_id)
-    html_message = render_to_string('templated_email/button_reminder.html', {
-        'user': employee,
-        'package': package,
-        'domain': current_site.domain,
+    if request.user.company == employee.company:
+        html_message = render_to_string('templated_email/button_reminder.html', {
+            'user': employee,
+            'package': package,
+            'domain': current_site.domain,
 
-    })
+        })
 
-    plain_message = strip_tags(html_message)
-    from_email = 'onlineonboardingnet@gmail.com'
-    to = employee.email
+        plain_message = strip_tags(html_message)
+        from_email = 'onlineonboardingnet@gmail.com'
+        to = employee.email
 
-    mail.send_mail(subject, plain_message, from_email,
-                   [to], html_message=html_message)
+        mail.send_mail(subject, plain_message, from_email,
+                       [to], html_message=html_message)
+
     return HttpResponse(current_site)
 
 
