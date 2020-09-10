@@ -41,7 +41,6 @@ initial	        A value that should be used for pre-populating the value of HTML
 
 
 class CompanySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Company
         fields = '__all__'
@@ -54,9 +53,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'password')
 
 
+class EmployeeRegisterUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name',)
+
+
 # CONTACT FORM
 class ContactFormTestSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = ContactForm
@@ -65,7 +69,6 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
 
 # PACKAGE
 class PackageSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = Package
@@ -113,7 +116,6 @@ class PageSerializer(serializers.ModelSerializer):
 
 # SECTION
 class SectionSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = Section
@@ -130,7 +132,6 @@ class SectionSerializer(serializers.ModelSerializer):
 
 # ANSWER
 class AnswerSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = Answer

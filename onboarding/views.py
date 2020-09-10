@@ -199,6 +199,15 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(status=204)
 
+    @action(detail=False)
+    def create_employee_user(self):
+        serialized = UserSerializer(data=self.request.DATA)
+        if serialized.is_valid():
+
+            return Response(serialized.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
