@@ -203,10 +203,10 @@ class UserViewSet(viewsets.ModelViewSet):
     def create_employee_user(self):
         serialized = UserSerializer(data=self.request.DATA)
         if serialized.is_valid():
-
-            return Response(serialized.data, status=status.HTTP_201_CREATED)
+            serialized.save()
+            return Response(serialized.data, status=204)
         else:
-            return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serialized.errors, status=400)
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
