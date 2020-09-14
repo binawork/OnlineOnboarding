@@ -41,7 +41,8 @@ def activate(request, uidb64, token):
         user.save()
         login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return HttpResponse('Thank you for your email confirmation. Now you ' +
+                            'can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
 
@@ -69,11 +70,15 @@ def signup(request):
             from_email = 'onlineonboardingnet@gmail.com'
             to = signup_form.cleaned_data.get('email')
 
-            mail.send_mail(subject, plain_message, from_email,
-                           [to], html_message=html_message)
-
+            mail.send_mail(
+                            subject, 
+                            plain_message, 
+                            from_email,
+                            [to], html_message=html_message
+            )
             return HttpResponse(
-                'Please confirm your email address to complete the registration'
+                'Please confirm your email address to complete the ' +
+                'registration'
             )
 
     else:
@@ -104,13 +109,14 @@ def password_reset_request(request):
                     plain_message = strip_tags(html_message)
 
                     try:
-                        mail.send_mail(subject,
-                                       plain_message,
-                                       'admin@example.com',
-                                       [user.email],
-                                       html_message=html_message,
-                                       fail_silently=False
-                                       )
+                        mail.send_mail(
+                                        subject,
+                                        plain_message,
+                                        'admin@example.com',
+                                        [user.email],
+                                        html_message=html_message,
+                                        fail_silently=False
+                        )
                     except BadHeaderError:
                         return HttpResponse('Invalid header found.')
                     return redirect("/password_reset/done/")
@@ -126,26 +132,29 @@ def password_reset_request(request):
     )
 
 
-@login_required()  # should send information to front about send reminder or not?
+# should send information to front about send reminder or not?
+@login_required() 
 def reminder(request, employee_id, package_id):
     current_site = get_current_site(request)
     subject = 'Przypomnienie'
     employee = User.objects.get(id=employee_id)
     package = Package.objects.get(id=package_id)
     if request.user.company == employee.company:
-        html_message = render_to_string('templated_email/button_reminder.html', {
+        html_message = render_to_string('templated_email/button_reminder.html',
+        {
             'user': employee,
             'package': package,
             'domain': current_site.domain,
-
         })
 
         plain_message = strip_tags(html_message)
         from_email = 'onlineonboardingnet@gmail.com'
         to = employee.email
 
-        mail.send_mail(subject, plain_message, from_email,
-                       [to], html_message=html_message)
+        mail.send_mail(
+                        subject, plain_message, from_email,
+                        [to], html_message=html_message
+        )
 
     return HttpResponse(current_site)
 
@@ -186,16 +195,21 @@ class UserViewSet(viewsets.ModelViewSet):
 
         subject = 'Usunięcie konta'
 
-        html_message = render_to_string('templated_email/remove_acc_email.html', {
-            'username': username,
-        })
+        html_message = render_to_string(
+            'templated_email/remove_acc_email.html', 
+            {
+                'username': username,
+            }
+        )
 
         plain_message = strip_tags(html_message)
         from_email = 'onlineonboardingnet@gmail.com'
         to = user_email
 
-        mail.send_mail(subject, plain_message, from_email,
-                       [to], html_message=html_message)
+        mail.send_mail(
+                        subject, plain_message, from_email,
+                        [to], html_message=html_message
+        )
 
         return Response(status=204)
 
@@ -240,7 +254,10 @@ class PackageViewSet(viewsets.ModelViewSet):
         :param request: user
         :return: all packages with param request.user = owner
         """
-        package = Package.objects.filter(owner=request.user.company, users=request.user)
+        package = Package.objects.filter(
+                                            owner=request.user.company, 
+                                            users=request.user
+        )
         serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
@@ -252,6 +269,9 @@ class PackageViewSet(viewsets.ModelViewSet):
         # 3. do wskazanej paczki dodać pracownika (z tej samej firmy)
         # 4. jeżeli dodanie przebiegło pomyślnie wysłać mail zgodnie z szablonem
         # 5. serialaizer powinien pozwalać dodać tylko podpiętego usera
+        #
+        #
+        #
         #
         # subject = 'odpowiedni temat maila'
         # html_message = render_to_string('templated_email/remove_acc_email.html', {
@@ -282,7 +302,11 @@ class PageViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+                        serializer.data, 
+                        status=status.HTTP_201_CREATED, 
+                        headers=headers
+        )
 
     @action(detail=True)
     def list_by_package_hr(self, request, pk):
@@ -292,7 +316,8 @@ class PageViewSet(viewsets.ModelViewSet):
         :return: pages list by package Pk, filter by package and pages owner
         """
         page = Page.objects.filter(
-            package__id=pk)  # add in the future ,owner__page=request.user.company
+            package__id=pk # add in the future,owner__page=request.user.company
+        )
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
@@ -304,9 +329,11 @@ class PageViewSet(viewsets.ModelViewSet):
         :param pk: this is package ID
         :return: pages list by package Pk, filter by package and pages owner
         """
-        page = Page.objects.filter(package__id=pk,
-                                   owner=self.request.user.company,
-                                   package__users=self.request.user)
+        page = Page.objects.filter(
+                                    package__id=pk,
+                                    owner=self.request.user.company,
+                                    package__users=self.request.user
+        )
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
@@ -328,8 +355,11 @@ class SectionViewSet(viewsets.ModelViewSet):
         :param pk: this is page ID
         :return: sections list by page id
         """
-        section = Section.objects.filter(page__id=pk,
-                                         owner=self.request.user.company)  # add in the future ,
+        section = Section.objects.filter(
+                                            page__id=pk,
+                                            owner=self.request.user.company
+        ) # add in the future
+        
         # owner__page=request.user.company
         serializer = SectionSerializer(section, many=True)
 
@@ -342,9 +372,11 @@ class SectionViewSet(viewsets.ModelViewSet):
         :param pk: this is page ID
         :return: sections list by page id
         """
-        section = Section.objects.filter(page__id=pk,
-                                         owner=self.request.user.company,
-                                         page__package__users=self.request.user)
+        section = Section.objects.filter(
+                                        page__id=pk,
+                                        owner=self.request.user.company,
+                                        page__package__users=self.request.user
+        )
         serializer = SectionSerializer(section, many=True)
 
         return Response(serializer.data)
@@ -366,8 +398,10 @@ class AnswerViewSet(viewsets.ModelViewSet):
         :param pk: this is section ID
         :return: answers list by section id
         """
-        answer = Answer.objects.filter(section__id=pk,
-                                       section__page_package__owner=self.request.user.company)
+        answer = Answer.objects.filter(
+                        section__id=pk,
+                        section__page_package__owner=self.request.user.company
+        )
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
@@ -379,9 +413,11 @@ class AnswerViewSet(viewsets.ModelViewSet):
         :param pk: this is section ID
         :return: answers list by section id
         """
-        answer = Answer.objects.filter(section__id=pk,
-                                       owner=self.request.user,
-                                       section__page_package__user=self.request.user)
+        answer = Answer.objects.filter(
+                                section__id=pk,
+                                owner=self.request.user,
+                                section__page_package__user=self.request.user
+        )
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
