@@ -98,8 +98,10 @@ ENV/
 
 # environment script to set DB constants
 setenv.sh
-
 pgdump_schema.sql
 
 # file with nontouchable things
 OnlineOnboarding/dont_touch_it_Wiktor.py
+
+# notes and dump files
+.notes
