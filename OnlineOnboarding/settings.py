@@ -56,7 +56,7 @@ MIDDLEWARE = [
 ]
 
 AUTH_USER_MODEL = 'onboarding.User'
-AUTHENTICATION_BACKENDS = ['onboarding.backends.EmailBackend',]
+AUTHENTICATION_BACKENDS = ['onboarding.backends.EmailBackend']
 
 ROOT_URLCONF = 'OnlineOnboarding.urls'
 

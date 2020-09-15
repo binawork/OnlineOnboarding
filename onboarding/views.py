@@ -50,11 +50,7 @@ def signup(request):
     if request.method == 'POST':
         signup_form = HrSignUpForm(request.POST)
         if signup_form.is_valid():
-            signup_form.save()
-
-            email = signup_form.cleaned_data.get('email')
-            raw_password = signup_form.cleaned_data.get('password1')
-            user = authenticate(email=email, password=raw_password)
+            user = signup_form.save()
 
             current_site = get_current_site(request)
             subject = 'Rejestracja w Online Onboarding '
@@ -69,8 +65,11 @@ def signup(request):
             from_email = 'onlineonboardingnet@gmail.com'
             to = signup_form.cleaned_data.get('email')
 
-            mail.send_mail(subject, plain_message, from_email,
-                           [to], html_message=html_message)
+            mail.send_mail(subject,
+                           plain_message,
+                           from_email,
+                           [to],
+                           html_message=html_message)
 
             return HttpResponse(
                 'Please confirm your email address to complete the registration'
