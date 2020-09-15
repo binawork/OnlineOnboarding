@@ -67,7 +67,7 @@ class ContactForm(models.Model):
     last_name = models.CharField(max_length=30, help_text='')
     company_name = models.CharField(max_length=30, help_text='')
     email = models.EmailField(max_length=50, help_text='')
-    text_field = models.EmailField(max_length=500, help_text='')
+    text_field = models.CharField(max_length=500, help_text='')
 
 
 class Package(models.Model):
