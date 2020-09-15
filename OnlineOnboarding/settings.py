@@ -123,6 +123,7 @@ USE_TZ = True
 
 STATIC_URL = '/onboarding/static/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/manage'
 
 # On a server:
 # STATIC_ROOT = 'your path'
