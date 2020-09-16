@@ -23,6 +23,7 @@ from .forms import HrSignUpForm
 from .serializers import PackageSerializer, PageSerializer, \
     SectionSerializer, ContactFormTestSerializer, UserSerializer, \
     AnswerSerializer, CompanySerializer
+from OnlineOnboarding.settings import EMAIL_HOST_USER
 
 
 def index(request):
@@ -62,7 +63,7 @@ def signup(request):
                     'token': account_activation_token.make_token(user),
                 })
             plain_message = strip_tags(html_message)
-            from_email = 'onlineonboardingnet@gmail.com'
+            from_email = EMAIL_HOST_USER
             to = signup_form.cleaned_data.get('email')
 
             mail.send_mail(subject,
@@ -140,7 +141,7 @@ def reminder(request, employee_id, package_id):
         })
 
         plain_message = strip_tags(html_message)
-        from_email = 'onlineonboardingnet@gmail.com'
+        from_email = EMAIL_HOST_USER
         to = employee.email
 
         mail.send_mail(subject, plain_message, from_email,
@@ -190,7 +191,7 @@ class UserViewSet(viewsets.ModelViewSet):
         })
 
         plain_message = strip_tags(html_message)
-        from_email = 'onlineonboardingnet@gmail.com'
+        from_email = EMAIL_HOST_USER
         to = user_email
 
         mail.send_mail(subject, plain_message, from_email,
@@ -257,7 +258,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         #     dane w postaci słownika
         # })
         # plain_message = strip_tags(html_message)
-        # from_email = 'onlineonboardingnet@gmail.com'
+        # from_email = EMAIL_HOST_USER
         # to = user_email - określamy do kogo wysłać maila
         #
         # mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message
