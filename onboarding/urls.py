@@ -5,7 +5,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 from django.contrib.auth import views as auth_views
-from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet
+from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, ContactFormViewSet
 
 # base
 urlpatterns = [
@@ -43,6 +43,8 @@ router.register(r'api/package', PackageViewSet, basename='Package')
 router.register(r'api/page', PageViewSet, basename='Page')
 router.register(r'api/section', SectionViewSet, basename='Section')
 router.register(r'api/answer', AnswerViewSet, basename='Answer')
+router.register(r'api/contact_form', ContactFormViewSet, basename='contact_form')
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

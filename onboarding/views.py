@@ -23,6 +23,7 @@ from .forms import HrSignUpForm
 from .serializers import PackageSerializer, PageSerializer, \
     SectionSerializer, ContactFormTestSerializer, UserSerializer, \
     AnswerSerializer, CompanySerializer
+from OnlineOnboarding.settings import EMAIL_HOST_USER
 
 
 def index(request):
@@ -51,11 +52,7 @@ def signup(request):
     if request.method == 'POST':
         signup_form = HrSignUpForm(request.POST)
         if signup_form.is_valid():
-            signup_form.save()
-
-            email = signup_form.cleaned_data.get('email')
-            raw_password = signup_form.cleaned_data.get('password1')
-            user = authenticate(email=email, password=raw_password)
+            user = signup_form.save()
 
             current_site = get_current_site(request)
             subject = 'Rejestracja w Online Onboarding '
@@ -67,15 +64,15 @@ def signup(request):
                     'token': account_activation_token.make_token(user),
                 })
             plain_message = strip_tags(html_message)
-            from_email = 'onlineonboardingnet@gmail.com'
+            from_email = EMAIL_HOST_USER
             to = signup_form.cleaned_data.get('email')
 
-            mail.send_mail(
-                            subject, 
-                            plain_message, 
-                            from_email,
-                            [to], html_message=html_message
-            )
+            mail.send_mail(subject,
+                           plain_message,
+                           from_email,
+                           [to],
+                           html_message=html_message)
+
             return HttpResponse(
                 'Please confirm your email address to complete the ' +
                 'registration'
@@ -148,7 +145,7 @@ def reminder(request, employee_id, package_id):
         })
 
         plain_message = strip_tags(html_message)
-        from_email = 'onlineonboardingnet@gmail.com'
+        from_email = EMAIL_HOST_USER
         to = employee.email
 
         mail.send_mail(
@@ -203,7 +200,7 @@ class UserViewSet(viewsets.ModelViewSet):
         )
 
         plain_message = strip_tags(html_message)
-        from_email = 'onlineonboardingnet@gmail.com'
+        from_email = EMAIL_HOST_USER
         to = user_email
 
         mail.send_mail(
@@ -278,7 +275,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         #     dane w postaci słownika
         # })
         # plain_message = strip_tags(html_message)
-        # from_email = 'onlineonboardingnet@gmail.com'
+        # from_email = EMAIL_HOST_USER
         # to = user_email - określamy do kogo wysłać maila
         #
         # mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message

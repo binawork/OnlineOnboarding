@@ -20,7 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-akb#of%g5eplnyyv^a1qk)^t042+8wsaavlz)gifyy$x416^p'  # todo: os.environ.get('DJANGO_SECRET')
+# TODO os.environ.get('DJANGO_SECRET')
+SECRET_KEY = '-akb#of%g5eplnyyv^a1qk)^t042+8wsaavlz)gifyy$x416^p'  
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -61,8 +62,7 @@ ROOT_URLCONF = 'OnlineOnboarding.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/onboarding/static/'
 LOGOUT_REDIRECT_URL = '/'
-
+LOGIN_REDIRECT_URL = '/manage'
 
 # On a server:
 # STATIC_ROOT = 'your path'
@@ -131,5 +131,6 @@ LOGOUT_REDIRECT_URL = '/'
 try:
     from local_settings import *
 except ImportError:
-    print("Please create local file 'local_settings.py' (unversioned) to store all your personal settings "
-          "like DATABASE, STATIC_ROOT, etc. \n")
+    print("Please create local file 'local_settings.py' ", end="")
+    print("(unversioned) to store all your personal settings like ", end="")
+    print("DATABASE, STATIC_ROOT, etc.")

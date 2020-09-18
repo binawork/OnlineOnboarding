@@ -60,7 +60,7 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
         model = ContactForm
-        fields = ('id', 'first_name', 'last_name', 'company_name', 'email')
+        fields = ('id', 'first_name', 'last_name', 'company_name', 'email', 'text_field')
 
 
 # PACKAGE
