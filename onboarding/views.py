@@ -1,29 +1,31 @@
-from .tokens import account_activation_token
-from django.contrib.auth.decorators import login_required
 from django.core import mail
+from django.core.mail import BadHeaderError
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.db.models.query_utils import Q
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from django.shortcuts import render, redirect
-from django.core.mail import BadHeaderError
-from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth.models import User
-from django.db.models.query_utils import Q
-from django.contrib.auth.tokens import default_token_generator
-from django.http import HttpResponse
-from django.contrib.auth import login, authenticate
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template.loader import render_to_string
-from onboarding.models import Package, ContactForm, Page, Section, User, \
-    Answer, Company
-from .forms import HrSignUpForm
-from .serializers import PackageSerializer, PageSerializer, \
-    SectionSerializer, ContactFormTestSerializer, UserSerializer, \
-    AnswerSerializer, CompanySerializer
+
 from OnlineOnboarding.settings import EMAIL_HOST_USER
+from onboarding.models import Package, ContactForm, Page, Section, Answer
+from onboarding.models import User, Company
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
+from .serializers import ContactFormTestSerializer, UserSerializer
+from .serializers import AnswerSerializer, CompanySerializer
+from .tokens import account_activation_token
+from .forms import HrSignUpForm
 
 
 def index(request):
@@ -42,8 +44,8 @@ def activate(request, uidb64, token):
         user.save()
         login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you ' +
-                            'can login your account.')
+        return HttpResponse('Thank you for your email confirmation. Now ' +
+                            'you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
 
@@ -57,54 +59,59 @@ def signup(request):
             current_site = get_current_site(request)
             subject = 'Rejestracja w Online Onboarding '
             html_message = render_to_string(
-                'templated_email/acc_active_email.html', {
+                'templated_email/acc_active_email.html', 
+                {
                     'user': user,
                     'domain': current_site.domain,
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
-                })
+                }
+            )
             plain_message = strip_tags(html_message)
             from_email = EMAIL_HOST_USER
             to = signup_form.cleaned_data.get('email')
-
-            mail.send_mail(subject,
-                           plain_message,
-                           from_email,
-                           [to],
-                           html_message=html_message)
-
+            mail.send_mail(
+                            subject,
+                            plain_message,
+                            from_email,
+                            [to],
+                            html_message=html_message
+            )
             return HttpResponse(
                 'Please confirm your email address to complete the ' +
                 'registration'
             )
-
     else:
         signup_form = HrSignUpForm()
-    return render(request, 'bootstrap/auth-signup.html', {'form': signup_form})
+    return render(
+                    request, 
+                    'bootstrap/auth-signup.html', 
+                    {'form': signup_form},
+    )
 
 
 def password_reset_request(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         password_reset_form = PasswordResetForm(request.POST)
         if password_reset_form.is_valid():
             data = password_reset_form.cleaned_data['email']
             associated_users = User.objects.filter(Q(email=data))
             if associated_users.exists():
                 for user in associated_users:
-                    subject = "Zmiana hasła"
+                    subject = 'Zmiana hasła' # eng. "password change"
                     html_message = render_to_string(
-                        'templated_email/password_reset_email.html', {
-                            "email": user.email,
+                        'templated_email/password_reset_email.html', 
+                        {
+                            'email': user.email,
                             'domain': '127.0.0.1:8000',
                             'site_name': 'Website',
-                            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                            "user": user,
+                            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                            'user': user,
                             'token': default_token_generator.make_token(user),
                             'protocol': 'http',
                         }
                     )
                     plain_message = strip_tags(html_message)
-
                     try:
                         mail.send_mail(
                                         subject,
@@ -116,16 +123,14 @@ def password_reset_request(request):
                         )
                     except BadHeaderError:
                         return HttpResponse('Invalid header found.')
-                    return redirect("/password_reset/done/")
+                    return redirect('/password_reset/done/')
 
     password_reset_form = PasswordResetForm()
 
     return render(
         request=request,
-        template_name="registration/password_reset_form.html",
-        context={
-            "password_reset_form": password_reset_form
-        }
+        template_name='registration/password_reset_form.html',
+        context={'password_reset_form': password_reset_form}
     )
 
 
@@ -137,22 +142,24 @@ def reminder(request, employee_id, package_id):
     employee = User.objects.get(id=employee_id)
     package = Package.objects.get(id=package_id)
     if request.user.company == employee.company:
-        html_message = render_to_string('templated_email/button_reminder.html',
-        {
-            'user': employee,
-            'package': package,
-            'domain': current_site.domain,
-        })
-
+        html_message = render_to_string(
+            'templated_email/button_reminder.html',
+            {
+                'user': employee,
+                'package': package,
+                'domain': current_site.domain,
+            }
+        )
         plain_message = strip_tags(html_message)
         from_email = EMAIL_HOST_USER
         to = employee.email
-
         mail.send_mail(
-                        subject, plain_message, from_email,
-                        [to], html_message=html_message
+                        subject, 
+                        plain_message, 
+                        from_email,
+                        [to], 
+                        html_message=html_message,
         )
-
     return HttpResponse(current_site)
 
 
@@ -169,16 +176,14 @@ def manager_view(request):
         return render(request, 'react/employee.html')
 
 
-"""
-REST
-"""
+# REST
 
-
-# ViewSets define the view behavior.
+# ViewSets define the view behavior
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
 
     @action(detail=False)
     def remove_user(self, request):
@@ -190,7 +195,7 @@ class UserViewSet(viewsets.ModelViewSet):
         request.user.is_active = False
         request.user.save()
 
-        subject = 'Usunięcie konta'
+        subject = 'Usunięcie konta' # eng. "deletion of the account"
 
         html_message = render_to_string(
             'templated_email/remove_acc_email.html', 
@@ -198,16 +203,16 @@ class UserViewSet(viewsets.ModelViewSet):
                 'username': username,
             }
         )
-
         plain_message = strip_tags(html_message)
         from_email = EMAIL_HOST_USER
         to = user_email
-
         mail.send_mail(
-                        subject, plain_message, from_email,
-                        [to], html_message=html_message
+                        subject, 
+                        plain_message, 
+                        from_email,
+                        [to], 
+                        html_message=html_message,
         )
-
         return Response(status=204)
 
 
@@ -231,8 +236,10 @@ class PackageViewSet(viewsets.ModelViewSet):
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
 
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
+
 
     @action(detail=False)
     def list_by_company_hr(self, request):
@@ -245,6 +252,7 @@ class PackageViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+
     @action(detail=False)
     def list_by_company_employee(self, request):
         """
@@ -252,12 +260,13 @@ class PackageViewSet(viewsets.ModelViewSet):
         :return: all packages with param request.user = owner
         """
         package = Package.objects.filter(
-                                            owner=request.user.company, 
-                                            users=request.user
+                                        owner=request.user.company, 
+                                        users=request.user
         )
         serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
+
 
     @action(detail=True)
     def add_user_to_package(self, request, pk=None):
@@ -266,8 +275,6 @@ class PackageViewSet(viewsets.ModelViewSet):
         # 3. do wskazanej paczki dodać pracownika (z tej samej firmy)
         # 4. jeżeli dodanie przebiegło pomyślnie wysłać mail zgodnie z szablonem
         # 5. serialaizer powinien pozwalać dodać tylko podpiętego usera
-        #
-        #
         #
         #
         # subject = 'odpowiedni temat maila'
@@ -291,19 +298,23 @@ class PageViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
 
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
+
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
+
         return Response(
                         serializer.data, 
                         status=status.HTTP_201_CREATED, 
-                        headers=headers
+                        headers=headers,
         )
+
 
     @action(detail=True)
     def list_by_package_hr(self, request, pk):
@@ -319,6 +330,7 @@ class PageViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+
     @action(detail=True)
     def list_by_package_employee(self, request, pk):
         """
@@ -329,7 +341,7 @@ class PageViewSet(viewsets.ModelViewSet):
         page = Page.objects.filter(
                                     package__id=pk,
                                     owner=self.request.user.company,
-                                    package__users=self.request.user
+                                    package__users=self.request.user,
         )
         serializer = PageSerializer(page, many=True)
 
@@ -342,8 +354,10 @@ class SectionViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
 
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
+
 
     @action(detail=True)
     def list_by_page_hr(self, request, pk):
@@ -356,11 +370,11 @@ class SectionViewSet(viewsets.ModelViewSet):
                                             page__id=pk,
                                             owner=self.request.user.company
         ) # add in the future
-        
         # owner__page=request.user.company
         serializer = SectionSerializer(section, many=True)
 
         return Response(serializer.data)
+
 
     @action(detail=True)
     def list_by_page_employee(self, request, pk):
@@ -372,7 +386,7 @@ class SectionViewSet(viewsets.ModelViewSet):
         section = Section.objects.filter(
                                         page__id=pk,
                                         owner=self.request.user.company,
-                                        page__package__users=self.request.user
+                                        page__package__users=self.request.user,
         )
         serializer = SectionSerializer(section, many=True)
 
@@ -385,8 +399,10 @@ class AnswerViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
 
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
 
     @action(detail=True)
     def list_by_section_hr(self, request, pk):
@@ -397,11 +413,12 @@ class AnswerViewSet(viewsets.ModelViewSet):
         """
         answer = Answer.objects.filter(
                         section__id=pk,
-                        section__page_package__owner=self.request.user.company
+                        section__page_package__owner=self.request.user.company,
         )
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
+
 
     @action(detail=True)
     def list_by_section_employee(self, request, pk):
