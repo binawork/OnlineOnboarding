@@ -1,12 +1,12 @@
-const path = require('path');
+//const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
-  output: {
-    path: path.join(__dirname, '/dist'),
-    filename: 'script_bundle.js'
-  },
+  //entry: './onboarding/src/index.js',
+  //output: {
+  //  path: path.join(__dirname, '/onboarding/static/js'),
+  //  filename: 'main.js'
+  //},
   module: {
     rules: [
       {
@@ -15,14 +15,21 @@ module.exports = {
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       // Load a custom template (lodash by default)
-      template: './src/index.html'
+      template: './templates/react/index.html'
     })
-  ]
+  ],
+  stats: {
+    children: false
+  }
 };
 

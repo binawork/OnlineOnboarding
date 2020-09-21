@@ -105,3 +105,6 @@ OnlineOnboarding/dont_touch_it_Wiktor.py
 
 # notes and dump files
 .notes
+
+# React/node.js etc.
+onboarding/static/js/index.html
