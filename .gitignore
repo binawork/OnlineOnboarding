@@ -99,4 +99,11 @@ ENV/
 # environment script to set DB constants
 setenv.sh
 
+# notes and dump files
 pgdump_schema.sql
+notes.txt
+
+
+# React/node.js etc.
+node_modules/
+onboarding/static/js/index.html
