@@ -16,7 +16,7 @@ function FormListPage() {
                 <div className="wrapper">
                     <div className="page">
                         <div className="page-inner">
-                            <PageAddressBar page = { "Packages" } />
+                            <PageAddressBar page = { "Formularze" } />
                             <FormListTable />
                         </div>
                     </div>

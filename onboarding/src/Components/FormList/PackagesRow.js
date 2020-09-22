@@ -6,8 +6,8 @@ function PackagesRow(props) {
     return(
         <tr>
             <td><Link to="/package_page">{props.row.name}</Link></td>
-            <td>{ dateToString(props.row.last_edit) }</td>
-            <td>edit/delete/stats</td>
+            <td>{ dateToString(props.row.last_edit) }</td>{/* na polski; */}
+            <td>edytuj / usuń</td>
         </tr>
     )
 }

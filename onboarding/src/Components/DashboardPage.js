@@ -19,12 +19,12 @@ function DashboardPage() {
             <main className="app-main">
                 <div className="wrapper"><div className="page">
                     <div className="page-inner">
-                        <PageAddressBar page = { "Dashboard" } /> {/* placeholder */}
+                        <PageAddressBar page = { "Pulpit" } /> {/* placeholder */}
 
                         <div className="page-section"> {/* placeholder */}
                             <div className="card card-fluid">
                                 <div className="card-header">
-                                    Dashboard
+                                    Pulpit
                                 </div>
                                 <div className="card-body">
                                     Lorem ipsum

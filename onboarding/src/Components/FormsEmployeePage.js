@@ -37,7 +37,7 @@ function FormsEmployeePage() {
     					<div className="page-section">
     						<div className="card card-fluid">
     							<div className="card-header">
-    							View content
+    							Ankieta
     							</div>
     							<div className="card-body">Opis lorem ipsum ...</div>
 

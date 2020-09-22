@@ -13,14 +13,14 @@ function EmployePageFillTable() {
         <div className="page-section">
             <div className="card card-fluid">
                 <div className="card-header">
-                    Lista Formularzy
+                    Do zrobienia
                 </div>
                 <div className="card-body">
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style={{width: "80%"}}>List Formularzy</th>
-                            <th scope="col" style={{width: "20%"}}>Progress</th>
+                            <th scope="col" style={{width: "80%"}}>Lista zadań</th>
+                            <th scope="col" style={{width: "20%"}}>Postęp</th>
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">

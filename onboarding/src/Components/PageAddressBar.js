@@ -10,7 +10,7 @@ function PageAddressBar(props) {
                     <hr />
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
-                            <Link to='/'>Home</Link>
+                            <Link to='/'>Pulpit</Link>
                         </li>
                         <li className="breadcrumb-item active">{ props.page }</li>
                     </ol>

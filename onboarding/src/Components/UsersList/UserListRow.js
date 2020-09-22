@@ -35,7 +35,7 @@ function UserListRow(props) {
                             <small className="text-muted">Skończone formularze:</small> { props.user.finished }
                         </h3>
                         <button type="button" className="btn btn-secondary" data-toggle="tooltip" style={{color: '#000'}}>Edytuj profil</button>
-                        <button type="button" className="btn btn-secondary" data-toggle="tooltip" style={{color: '#000'}}>Dodaj "package"</button>
+                        <button type="button" className="btn btn-secondary" data-toggle="tooltip" style={{color: '#000'}}>Dodaj "formularz"</button>{/* do listy formularzy */}
                     </div>
                 </div>
             </div>

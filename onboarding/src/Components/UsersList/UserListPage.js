@@ -24,7 +24,7 @@ function UserListPage() {
 			<main className="app-main">
 				<div className="wrapper"><div className="page">
 					<div className="page-inner">
-						<PageAddressBar page = { "Accounts" } />
+						<PageAddressBar page = { "Konta" } />
 
 						<UsersList users = { allUsers } />
 					</div>

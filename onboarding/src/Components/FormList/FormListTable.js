@@ -34,7 +34,7 @@ function FormListTable() {
         <div className="page-section">
             <div className="card card-fluid">
                 <div className="card-header">
-                    Dodanie nowego formularza
+                    Dodanie nowego dokumentu
                 </div>
                 <div className="card-body">
                     <PackagesAddNew />
@@ -48,9 +48,9 @@ function FormListTable() {
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style={{width: "50%"}}>Package Name</th>
-                            <th scope="col" style={{width: "25%"}}>Last Edit</th>
-                            <th scope="col" style={{width: "15%"}}>Action</th>
+                            <th scope="col" style={{width: "50%"}}>Nazwa</th>{/* sortowanie po * */}
+                            <th scope="col" style={{width: "25%"}}>Edytowany</th>
+                            <th scope="col" style={{width: "15%"}}>Działanie</th>
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">

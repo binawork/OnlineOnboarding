@@ -27,27 +27,27 @@ function UserProfileManage() {
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="tel" className="form-control" placeholder="phone number" value="" />
+                    <input type="tel" className="form-control" placeholder="telefon" value="" />
                 </div>
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="team" value="" />
+                    <input type="text" className="form-control" placeholder="dział" value="" />{/* może lista rozwijana/do wyboru */}
                 </div>
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Localizacja" value="" />
+                    <input type="text" className="form-control" placeholder="lokalizacja" value="" />{/* może lista rozwijana/do wyboru */}
                 </div>
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Position/stanowisko" value="" />
+                    <input type="text" className="form-control" placeholder="stanowisko" value="" />
                 </div>
             </div>
             <div className="form-group">
 				<div className="input-group-append">
-					<button className="btn btn-secondary" style={{color: '#000'}}>Register new user</button>
+					<button className="btn btn-secondary" style={{color: '#000'}}>Dodaj/edytuj</button>
 				</div>
 			</div>
         </form>

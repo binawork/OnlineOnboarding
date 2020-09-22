@@ -20,16 +20,16 @@ function UserManagerProfilePage() {
     		<main className="app-main">
     			<div className="wrapper"><div className="page">
     				<div className="page-inner">
-    					<PageAddressBar page = { "User profile" } />
+    					<PageAddressBar page = { "Profil pracownika" } />
 
     					<div className="page-section">
     						<div className="card card-fluid">
-    							<div className="card-header">View content</div>
+    							<div className="card-header">Pracownik</div>
     							<div className="row"> {/* placeholder */}
     								<div className="col">
     									<div className="card-body align-items-center text-center">
     										<div className="user-avatar user-avatar-xl fileinput-button">
-    											<div className="fileinput-button-label"> Change photo </div><img src="/onboarding/static/images/unknown-profile.jpg" alt="" />
+    											<div className="fileinput-button-label"> Dodaj/zmień zdjęcie </div><img src="/onboarding/static/images/unknown-profile.jpg" alt="" />
     											<input id="fileupload-avatar" type="file" name="avatar" />
     										</div>
     									</div>

@@ -10,10 +10,10 @@ function NavbarEmployee() {
             <div className="top-bar-item top-bar-item-full">
                 <ul className="navbar-nav d-flex breadcrumb my-2 my-lg-0">
                     <li className="breadcrumb-item">
-                        <a style={{ color:"#000" }}>Dashboard</a>
+                        <Link to="/employe_forms_list" style={{ color:"#000" }}>Pulpit</Link>
                     </li>
                     <li className="breadcrumb-item active">
-                        tytuł folmularza
+                        tytuł formularza
                     </li>
                 </ul>
 
