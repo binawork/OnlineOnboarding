@@ -30,10 +30,10 @@ function FormTable() {
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style={{width: "50%"}}>Page Name</th>
-                            <th scope="col" style={{width: "10%"}}>Order</th>
-                            <th scope="col" style={{width: "25%"}}>Last Edit</th>
-                            <th scope="col" style={{width: "15%"}}>Action</th>
+                            <th scope="col" style={{width: "50%"}}>Nazwa formularza</th>
+                            <th scope="col" style={{width: "10%"}}>Kolejność</th>
+                            <th scope="col" style={{width: "25%"}}>Edytowany</th>
+                            <th scope="col" style={{width: "15%"}}>Działanie</th>
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">

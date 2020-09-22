@@ -34,7 +34,7 @@ function AddUserTable() {
                             <th scope="col" style={{width: "8%"}}>Dział</th>
                             <th scope="col" style={{width: "20%"}}>Stanowisko</th>
                             <th scope="col" style={{width: "20%"}}>email</th>
-                            <th scope="col" style={{width: "12%"}}>Action</th>
+                            <th scope="col" style={{width: "12%"}}>Działanie</th>
                         </tr>
                         </thead>
                         <tbody id="add_user_table_data_container">

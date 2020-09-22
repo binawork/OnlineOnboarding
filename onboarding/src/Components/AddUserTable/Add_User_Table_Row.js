@@ -8,7 +8,7 @@ function AddUserTableRow(props) {
             <td>{props.row.dzial}</td>
             <td>{props.row.stanowisko}</td>
             <td>{props.row.email}</td>
-            <td>add</td>
+            <td>dodaj</td>
         </tr>
     )
 }

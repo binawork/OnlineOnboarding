@@ -25,7 +25,7 @@ function LeftMenu() {
                                     <Link to="/package_page" className="menu-link">Lista formularzy</Link>
                                 </li>
                                 <li className="menu-item">
-                                    <Link to="/form_list" className="menu-link">- wyślij pracownikowi</Link>
+                                    <Link to="/form_list" className="menu-link">- Wyślij pracownikowi</Link>
                                 </li>
                             </ul>
                         </li>

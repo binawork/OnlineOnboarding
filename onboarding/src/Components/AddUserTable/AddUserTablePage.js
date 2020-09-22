@@ -16,7 +16,7 @@ function AddUserTablePage() {
                 <div className="wrapper">
                     <div className="page">
                         <div className="page-inner">
-                            <PageAddressBar page = { "Accounts" } />
+                            <PageAddressBar page = { "Wyślij pracownikowi" } />
                             <AddUserTable />
                         </div>
                     </div>

@@ -38,10 +38,10 @@ function EmployeProfileTable() {
                         <thead>
                         <tr>
                             <th scope="col" style={{width: "50%"}}>Form</th>
-                            <th scope="col" style={{width: "10%"}}>Progress</th>
+                            <th scope="col" style={{width: "10%"}}>Postęp</th>
                             <th scope="col" style={{width: "15%"}}>Send Date</th>
                             <th scope="col" style={{width: "15%"}}>Finish Date</th>
-                            <th scope="col" style={{width: "15%"}}>Action</th>
+                            <th scope="col" style={{width: "15%"}}>Działanie</th>
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
@@ -62,7 +62,7 @@ function EmployeProfileTable() {
                             <th scope="col" style={{width: "10%"}}>Pages</th>
                             <th scope="col" style={{width: "15%"}}>Created</th>
                             <th scope="col" style={{width: "15%"}}>Last Edit</th>
-                            <th scope="col" style={{width: "10%"}}>Action</th>
+                            <th scope="col" style={{width: "10%"}}>Działanie</th>
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
