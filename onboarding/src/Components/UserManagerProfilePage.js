@@ -29,7 +29,7 @@ function UserManagerProfilePage() {
     								<div className="col">
     									<div className="card-body align-items-center text-center">
     										<div className="user-avatar user-avatar-xl fileinput-button">
-    											<div className="fileinput-button-label"> Change photo </div><img src={process.env.PUBLIC_URL+"/images/unknown-profile.jpg"} alt="" />
+    											<div className="fileinput-button-label"> Change photo </div><img src="/onboarding/static/images/unknown-profile.jpg" alt="" />
     											<input id="fileupload-avatar" type="file" name="avatar" />
     										</div>
     									</div>

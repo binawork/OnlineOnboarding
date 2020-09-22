@@ -11,10 +11,11 @@ function PackagesAddNew() {
             </div>
             <div className="col-auto">
                 <div className="dropdown">
-                    <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>Add New Package</button>
+                    <button className="btn btn-secondary" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>Add New Package</button>
                 </div>
             </div>
         </div>
     )
 }
 export default PackagesAddNew;
+

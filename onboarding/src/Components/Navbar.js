@@ -51,7 +51,7 @@ function Navbar() {
                             <div className="dropdown-arrow ml-3"></div>
                             {/*<h6 className="dropdown-header d-none d-md-block d-lg-none">  user username</h6> */}
                             <Link className="dropdown-item" to="/profile/employee"><span className="dropdown-icon oi oi-person"></span> Profile</Link>
-                            <a className="dropdown-item" href={process.env.PUBLIC_URL+"/accounts/logout/"}><span className="dropdown-icon oi oi-account-logout"></span> Logout</a>
+                            <a className="dropdown-item" href={"/accounts/logout/"}><span className="dropdown-icon oi oi-account-logout"></span> Logout</a>
                             <div className="dropdown-divider"></div>
                         </div>
                     </div>
