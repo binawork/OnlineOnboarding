@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { getPath } from "../utils.js";
 import FormTableRow from "../FormTable/FormTableRow";
 
+/**
+ * Get pages for package with defined id from Onboarding API when FormTable component is loaded;
+ */
 function PackagePage(id){
 	var [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);

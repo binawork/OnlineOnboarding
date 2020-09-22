@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { getPath } from "../utils.js";
 import PackagesRow from "../FormList/PackagesRow";
 
+/**
+ * Get packages from Onboarding API when Packages component is loaded;
+ */
 function Packages(){
 	var [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
