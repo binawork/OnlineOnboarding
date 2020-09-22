@@ -1,43 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React/*, { useState, useEffect }*/ from "react";
 import PackagesAddNew from "./PackagesAddNew";
-import PackagesRow from "./PackagesRow";
-import { formDataList } from "../FormTable/FormTableData";
-
-function getPath(){
-	var url = "";
-	if(!window.location.origin){
-		url = window.location.protocol +"//"+ window.location.host;
-	} else url = window.location.origin;
-
-	if(url===null || !(url) || (typeof url==='string' && url=='null')) url="";
-	let rrs=/\/$/.test(url);
-	if(!rrs) url=url+"/";
-	return url;
-}
+//import PackagesRow from "./PackagesRow";
+//import { formDataList } from "../FormTable/FormTableData";
+//import { getPath } from "../utils.js";
+import Packages from "../hooks/Packages";
 
 function FormListTable() {
-	var [rows , setRows] = useState([]);
-	let form_table= [], url = "http://localhost:8000/";// getPath();
-	let fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":"", 'Access-Control-Allow-Origin':'http://localhost:8000'}};
+	/*var [rows , setRows] = useState([]),
+		[loaded, isLoaded] = useState(false);
+	let form_table= [], url = getPath();
+	let fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
-	form_table.push(<PackagesRow row={ {name: "Loading ...", last_edit: ""} }/>);
-
-	useEffect(() => {
-		fetch(url + "api/package/", fetchProps).then(res => {console.log(res);res.json()}).then(
+	/*useEffect(() => {
+		fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
 			(result) => {
-				console.log(result);
+				isLoaded(true);
+				setRows(result);
 			},
 			(error) => {
 				console.log(error);
 			}
 		);
-	});
+	}, []);
 
-    if (formDataList) {
-        formDataList.forEach(function (element) {
-            form_table.push(<PackagesRow row={element}/>)
+    if(!loaded){
+		form_table.push(<PackagesRow key={0} row={ {name: "Loading ...", last_edit: ""} }/>);
+    } else {
+        rows.forEach(function (element) {
+            form_table.push(<PackagesRow key = { element.id } row={ {name: element['title'], last_edit:element['updated_on']} }/>)
         });
-    }
+    }*/
     return(
         <div className="page-section">
             <div className="card card-fluid">
@@ -62,7 +54,7 @@ function FormListTable() {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                            { form_table }
+                            { <Packages /> }
                         </tbody>
                     </table>
                 </div>
