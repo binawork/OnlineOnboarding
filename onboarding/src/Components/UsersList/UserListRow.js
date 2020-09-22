@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from 'react-router-dom';
 
 function UserListRow(props) {
     return(
@@ -8,12 +8,12 @@ function UserListRow(props) {
                 <div className="row align-items-center">
 
                     <div className="col-auto">
-                        <a href="#" className="user-avatar user-avatar-xl"><img src={process.env.PUBLIC_URL+"/images/unknown-profile.jpg"} alt="" /> <span className="avatar-badge idle" title="idle"></span></a>
+                        <a href="#" className="user-avatar user-avatar-xl"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /> <span className="avatar-badge idle" title="idle"></span></a>
                     </div>
 
                     <div className="col">
                         <h3 className="card-title">
-                            <a href="#">{ props.user.name }</a> <small className="text-muted"><a href="#">{ props.user.email }</a></small>
+                            <Link to="/profile/employee">{ props.user.name }</Link> <small className="text-muted"><a href="#">{ props.user.email }</a></small>
                         </h3>
                         <h6 className="card-subtitle text-muted"> { props.user.position } </h6>
                     </div>
@@ -34,7 +34,7 @@ function UserListRow(props) {
                         <h3 className="card-title">
                             <small className="text-muted">Skończone formularze:</small> { props.user.finished }
                         </h3>
-                        <button type="button" className="btn btn-secondary" data-toggle="tooltip" style={{color: '#000'}}>Edytuj profil</button>
+                        <Link to="/add_user" className="btn btn-secondary" data-toggle="tooltip" style={{color: '#000'}}>Edytuj profil</Link>
                         <button type="button" className="btn btn-secondary" data-toggle="tooltip" style={{color: '#000'}}>Dodaj "formularz"</button>{/* do listy formularzy */}
                     </div>
                 </div>

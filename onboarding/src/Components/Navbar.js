@@ -50,7 +50,7 @@ function Navbar() {
                         <div className="dropdown-menu">
                             <div className="dropdown-arrow ml-3"></div>
                             {/*<h6 className="dropdown-header d-none d-md-block d-lg-none">  user username</h6> */}
-                            <Link className="dropdown-item" to="/profile/employee"><span className="dropdown-icon oi oi-person"></span> Profil</Link>
+                            <a className="dropdown-item" href="#"><span className="dropdown-icon oi oi-person"></span> Profil</a>
                             <a className="dropdown-item" href={"/accounts/logout/"}><span className="dropdown-icon oi oi-account-logout"></span> Wyloguj</a>
                             <div className="dropdown-divider"></div>
                         </div>
