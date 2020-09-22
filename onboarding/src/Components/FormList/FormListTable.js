@@ -34,7 +34,7 @@ function FormListTable() {
         <div className="page-section">
             <div className="card card-fluid">
                 <div className="card-header">
-                    Lorem Ipsum
+                    Dodanie nowego formularza
                 </div>
                 <div className="card-body">
                     <PackagesAddNew />
