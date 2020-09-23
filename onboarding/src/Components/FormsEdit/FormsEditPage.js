@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //import "../../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
@@ -14,10 +14,14 @@ import FormAddSection from "./FormAddSection";
 
 
 function FormsEditPage() {
-    var form_sections = [];
-    form_sections.push(<div className="card-body"><FormOpenText /></div>)
-    form_sections.push(<div className="card-body"><FormChoiceEdit /></div>)
-    form_sections.push(<div className="card-body"><FormMultiChoiceEdit /></div>)
+	const [form_sections, setForms] = useState([]);
+
+    if(form_sections.length < 3){
+    	form_sections.push(<div className="card-body"><FormOpenText /></div>);
+    	form_sections.push(<div className="card-body"><FormChoiceEdit /></div>);
+    	form_sections.push(<div className="card-body"><FormMultiChoiceEdit /></div>);
+    	setForms(form_sections);
+    }
 
     return(
     	<div className="app">
