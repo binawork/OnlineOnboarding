@@ -1,6 +1,6 @@
 import React from "react";
 
-import "../../static/looper/stylesheets/theme.min.css";
+//import "../../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 //import "../static/looper/vendor/fontawesome/all.min.css";
 
@@ -14,6 +14,10 @@ import FormAddSection from "./FormAddSection";
 
 
 function FormsEditPage() {
+    var form_sections = [];
+    form_sections.push(<div className="card-body"><FormOpenText /></div>)
+    form_sections.push(<div className="card-body"><FormChoiceEdit /></div>)
+    form_sections.push(<div className="card-body"><FormMultiChoiceEdit /></div>)
 
     return(
     	<div className="app">
@@ -63,17 +67,7 @@ function FormsEditPage() {
     							</div>
     							<div className="row">
     								<div className="col">
-    									<div className="card-body">
-    										<FormOpenText /> {/* placeholder */}
-    									</div>
-
-    									<div className="card-body">
-    										<FormChoiceEdit /> {/* placeholder */}
-    									</div>
-
-    									<div className="card-body">
-    										<FormMultiChoiceEdit /> {/* placeholder */}
-    									</div>
+    									{ form_sections }
     								</div>
     								<div className="col-auto">
     									<div className="card-body">
