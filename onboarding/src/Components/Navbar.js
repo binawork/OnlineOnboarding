@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import { getPath } from "./utils.js";
 
 function Navbar() {
+    let path = getPath();
     return(
         <nav className="top-bar navbar navbar-expand-lg navbar-dark bg-dark">
             <a className="navbar-brand">Online Onboarding</a>
@@ -13,7 +15,7 @@ function Navbar() {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav d-flex">
                     <li className="nav-item active">
-                        <a className="nav-link">Home <span className="sr-only">(current)</span></a>
+                        <a href={ path } className="nav-link">Home <span className="sr-only">(current)</span></a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link">Link</a>
