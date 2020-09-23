@@ -19,6 +19,13 @@ function FormTable() {
                 </div>
                 <div className="card-body">
                     <FormTableSearch />
+                </div>
+            </div>
+            <div className="card card-fluid">
+                <div className="card-header">
+                    Lorem Ipsum
+                </div>
+                <div className="card-body">
                     <FormTableAddNew />
                 </div>
             </div>
