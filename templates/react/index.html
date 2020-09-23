@@ -4,6 +4,7 @@
 {% load static %}
     <title>Title</title>
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title> Online onboarding </title>
     <meta property="og:title" content="Landing page test - Onboarding">
@@ -17,8 +18,8 @@
     <meta name="theme-color" content="#3063A0">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet">
     <link type="text/css" href="../src/static/looper/vendor/aos/aos.css">
-    <link type="text/css" href="../src/static/looper/stylesheets/theme.min.css" data-skin="default">
-    <link type="text/css" href="../src/static/looper/stylesheets/theme-dark.min.css" data-skin="dark">
+    <link type="text/css" href="{% static 'bootstrap/stylesheets/theme.min.css' %}" data-skin="default">
+    <link type="text/css" href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}" data-skin="dark">
     <link type="text/css" href="../src/static/looper/stylesheets/custom.css">
     <script>
         var skin = localStorage.getItem('skin') || 'default';
