@@ -46,7 +46,10 @@ function Navbar() {
             <div className="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
                 <div className="dropdown d-flex">
                     <div className="form-inline my-2 my-lg-0">
-                        <button className="btn-account d-none d-md-flex" type="button" data-toggle="dropdown"><p><em>Witaj username #login</em></p></button>
+                        <button className="btn-account d-none d-md-flex" type="button" data-toggle="dropdown">
+                            <span className="user-avatar user-avatar-md"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /></span>
+                            <span className="account-summary pr-lg-4 d-none d-lg-block">Witaj <span className="account-name">useranme #login</span></span>
+                        </button>
                         <div className="dropdown-menu">
                             <div className="dropdown-arrow ml-3"></div>
                             {/*<h6 className="dropdown-header d-none d-md-block d-lg-none">  user username</h6> */}
