@@ -4,7 +4,17 @@ import "../../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 //import "../static/looper/vendor/fontawesome/all.min.css";
 
-function FormAddSection() {
+function FormAddSection(props) {
+
+    var openAnswerClick = function(){
+    	props.handleClicks.openText();
+	}
+	var oneChoiceClick = function(){
+		props.handleClicks.singleChoice();
+	}
+	var multiChoiceClick = function(){
+
+	}
 
     return(
       <div className="card card-fluid">
@@ -15,7 +25,7 @@ function FormAddSection() {
                     <div className="col-auto">&#9776;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" style={{color: '#000'}}>Open answer</button>
+                            <button className="btn btn-secondary" onClick={ openAnswerClick } style={{color: '#000'}}>Open answer</button>
                         </div>
                     </div>
                 </div>
@@ -23,7 +33,7 @@ function FormAddSection() {
                     <div className="col-auto">&#9711;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" style={{color: '#000'}}>One choice answer</button>
+                            <a className="btn btn-secondary" onClick={ oneChoiceClick } style={{color: '#000'}}>One choice answer</a>
                         </div>
                     </div>
                 </div>
@@ -31,7 +41,7 @@ function FormAddSection() {
                     <div className="col-auto">&#9745; &#9989;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" style={{color: '#000'}}>Multi choice answer</button>
+                            <button className="btn btn-secondary" onClick={ multiChoiceClick } style={{color: '#000'}}>Multi choice answer</button>
                         </div>
                     </div>
                 </div>

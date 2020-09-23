@@ -7,21 +7,9 @@ import React, { useState } from "react";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
-import FormOpenText from "./FormOpenText";
-import FormChoiceEdit from "./FormChoiceEdit";
-import FormMultiChoiceEdit from "./FormMultiChoiceEdit";
-import FormAddSection from "./FormAddSection";
-
+import FormSections from "./FormSections";
 
 function FormsEditPage() {
-	const [form_sections, setForms] = useState([]);
-
-    if(form_sections.length < 3){
-    	form_sections.push(<div className="card-body"><FormOpenText /></div>);
-    	form_sections.push(<div className="card-body"><FormChoiceEdit /></div>);
-    	form_sections.push(<div className="card-body"><FormMultiChoiceEdit /></div>);
-    	setForms(form_sections);
-    }
 
     return(
     	<div className="app">
@@ -69,16 +57,7 @@ function FormsEditPage() {
     							<div className="card-header">
     							Sekcje strony
     							</div>
-    							<div className="row">
-    								<div className="col">
-    									{ form_sections }
-    								</div>
-    								<div className="col-auto">
-    									<div className="card-body">
-    										<FormAddSection />
-    									</div>
-    								</div>
-    							</div>
+    							<FormSections />{/* placeholder */}
     						</div>
     					</div>
     				</div>
