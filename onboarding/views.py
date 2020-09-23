@@ -158,7 +158,7 @@ def manager_view(request):
     :return: template for hr and for employee
     """
     if request.user.is_hr:  # for hr
-        return render(request, 'react/index.html')
+        return render(request, 'react/hr.html')
     if not request.user.is_hr:  # for employee
         return render(request, 'react/employee.html')
 
