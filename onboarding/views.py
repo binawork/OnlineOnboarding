@@ -268,25 +268,68 @@ class PackageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-    @action(detail=True)
+    @action(detail=True, methods=['post'])
     def add_user_to_package(self, request, pk=None):
-        # 1. czy pracownik wskazany po ID należy do firmy osoby chcącej ją dołączyć
-        # 2. czy ten pracownik nie jest już przypisany do wskazanej paczki
-        # 3. do wskazanej paczki dodać pracownika (z tej samej firmy)
-        # 4. jeżeli dodanie przebiegło pomyślnie wysłać mail zgodnie z szablonem
-        # 5. serialaizer powinien pozwalać dodać tylko podpiętego usera
-        #
-        #
-        # subject = 'odpowiedni temat maila'
-        # html_message = render_to_string('templated_email/remove_acc_email.html', {
-        #     dane w postaci słownika
-        # })
-        # plain_message = strip_tags(html_message)
-        # from_email = EMAIL_HOST_USER
-        # to = user_email - określamy do kogo wysłać maila
-        #
-        # mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message
-        pass
+        """
+        :param request: user id in request.data.users
+        :param pk: package primary key
+        """
+        print(request.data)
+        package = Package.objects.get(id=pk)
+        pkg_company = package.owner
+        pkg_company_name = pkg_company.name.strip()
+
+        hr_user = request.user
+        hr_user_company_name = hr_user.company.name.strip()
+
+        user_id = request.data["users"]
+        user = User.objects.get(id=user_id)
+        user_company_name = user.company.name.strip()
+        
+        # check if the hr_user is from the same company as the package (form) 
+        # to which he /she wants to add a new user
+        if hr_user_company_name == pkg_company_name:
+            pass
+        else:
+            e = "Możesz dodawać tylko do formularzy firmy, do której należysz."
+            raise ValueError(e)
+        
+        # check if the hr_user is from the same company as the user 
+        # he /she wants to add to the package (form)
+        if hr_user_company_name == user_company_name:
+            pass
+        else:
+            e2 = "Możesz dodawać do formularzy tylko tych użytowników, którzy"
+            e3 = " są z tej samej firmy."
+            e4 = e2 + e3
+            raise ValueError(e4)
+
+        if user not in package.users.all():
+            package.users.add(user)
+
+            subject = f'Dodano użytkownika {user} do {package}'
+            html_message = render_to_string(
+                'templated_email/add_user_to_form.html', 
+                {
+                    "username": user,
+                    "package": package
+                }
+            )
+            plain_message = strip_tags(html_message)
+            from_email = EMAIL_HOST_USER
+            to = hr_user.email
+
+            mail.send_mail(
+                            subject, 
+                            plain_message, 
+                            from_email, 
+                            [to], 
+                            html_message=html_message,
+            )
+
+        serializer = PackageSerializer(package)
+
+        return Response(serializer.data)
 
 
 class PageViewSet(viewsets.ModelViewSet):
