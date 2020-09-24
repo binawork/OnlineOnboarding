@@ -16,7 +16,7 @@ function FormOpenText() {
                   <form> {/* form placeholder */}
                     <div className="form-group">
                         <div className="input-group">
-                            <input type="text" className="form-control" placeholder="Title" value="" />
+                            <input type="text" className="form-control" placeholder="Title" />
                         </div>
                     </div>
                     <div className="form-group">

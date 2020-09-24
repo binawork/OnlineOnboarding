@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 
-import "../../static/looper/stylesheets/theme.min.css";
+//import "../../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 //import "../static/looper/vendor/fontawesome/all.min.css";
 
 import Switcher from "../Switcher"
 
 function FormMultiChoiceEdit() {
+    const [multiChoices, addMultiChoice] = useState([]);
+    const classes = {
+        checked: "custom-control-input is-valid",
+        unchecked: "custom-control-input"
+    };
+
+    var handleAddAnswer = function(){
+        let i = multiChoices.length, idStr = "ckb" + i;
+        addMultiChoice([...multiChoices,
+            <tr><td><i className="fa fa-arrows">&#10018;</i></td>
+                <td>
+                    <div className="custom-control custom-control-inline custom-checkbox">
+                        <input type="checkbox" className={ classes.unchecked } id={ idStr } /> <label className="custom-control-label" htmlFor={ idStr }>Answer { i+1 }</label>
+                    </div>
+                </td>
+                <td> <a className="btn" href="#">&#9997; Edit</a> </td>
+                <td> <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Delete</a> </td>
+            </tr>]);
+
+    }
 
     return(
       <div className="task-issue">
@@ -24,47 +44,12 @@ function FormMultiChoiceEdit() {
                     </div>
                     <hr />
                     <table className="table table-hover"><tbody>
-                        <tr><td><i className="fa fa-arrows">&#10018;</i></td>
-                            <td>
-                                <div className="custom-control custom-control-inline custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="ckb1" /> <label className="custom-control-label" htmlFor="ckb1">Answer One</label>
-                                </div>
-                            </td>
-                            <td> <a className="btn" href="#">&#9997; Edit</a> </td>
-                            <td> <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Delete</a> </td>
-                        </tr>
-                        <tr><td><i className="fa fa-arrows">&#10018;</i></td>
-                            <td>
-                                <div className="custom-control custom-control-inline custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="ckb2" checked /> <label className="custom-control-label" htmlFor="ckb2">Answer Two</label>
-                                </div>
-                            </td>
-                            <td> <a className="btn" href="#">&#9997; Edit</a> </td>
-                            <td> <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Delete</a> </td>
-                        </tr>
-                        <tr><td><i className="fa fa-arrows">&#10018;</i></td>
-                            <td>
-                                <div className="custom-control custom-control-inline custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input is-valid" id="ckb3" /> <label className="custom-control-label" htmlFor="ckb3">Answer Three</label>
-                                </div>
-                            </td>
-                            <td> <a className="btn" href="#">&#9997; Edit</a> </td>
-                            <td> <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Delete</a> </td>
-                        </tr>
-                        <tr><td><i className="fa fa-arrows">&#10018;</i></td>
-                            <td>
-                                <div className="custom-control custom-control-inline custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="ckb4" /> <label className="custom-control-label" htmlFor="ckb4">Answer Four</label>
-                                </div>
-                            </td>
-                            <td> <a className="btn" href="#">&#9997; Edit</a> </td>
-                            <td> <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Delete</a> </td>
-                        </tr>
+                        { multiChoices }
                     </tbody></table>
                     <hr />
                     <div className="form-group">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" style={{color: '#000'}}>Add answer</button>
+                            <button className="btn btn-secondary" onClick={ handleAddAnswer } style={{color: '#000'}}>Add answer</button>
                         </div>
                     </div>
                   </form>
