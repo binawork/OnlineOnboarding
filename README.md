@@ -1,18 +1,15 @@
 # Online Onboarding system
+This project is online onboarding system for small, medium and huge organization. It is specially designed to for remote work, home office during coronavirus pandemia.
+
+# Links & Resources
 * **www** www.onlineonboarding.net
-
 * **email** onlineonboardingnet@gmail.com
+* **GitHub** https://github.com/binawork/OnlineOnboarding
+* **Google Drive** https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1
+* **Balsamiq** https://balsamiq.cloud/sviuzng/p1y6lm3
+* **Diagram bazy danych** https://drive.google.com/file/d/1v__3IoSzLdQVxtVwABCnvgfaCTsj9M7U/view?usp=sharing
 
-# Resources
-* [Google Drive](https://drive.google.com/drive/folders/1_l1zUqGpWLETLL0MxekPrqh3OUcHVxz1)
-* [Balsamiq](https://balsamiq.cloud/suqbkva/pmu54yy/r0B9B)
-* [Notion](https://www.notion.so/plywoodandfriends/Kennedy-Onboarding-System-f5f463966bfd4741826f52f0114c30f6)
-
-## Working on this Project
-1. Daily MON - THU at 10:30 on Discord #kennedy-głosowy, TUE @ 11:15
-2. After Daily Magda creates note for Wiktor with questions to Product Owner
-
-## Quick Start
+# Quick Start
 
 To get this project up and running locally on your computer:
 1. Set up the [Python development environment](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/development_environment).
