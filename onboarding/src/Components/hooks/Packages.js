@@ -19,6 +19,7 @@ function Packages(){
 				setRows(result);
 			},
 			(error) => {
+				showError(error);
 				console.log(error);
 			}
 		);

@@ -8,27 +8,23 @@ import FormAddSection from "./FormAddSection";
 function FormSections(){
     const [form_sections, setForms] = useState([]);
 
-	let i;
     function handleOpenText(){
-    	i = form_sections.length;
-    	form_sections.push(<div className="card-body" key = { i }><FormOpenText /></div>);console.log(form_sections);
-    	setForms(form_sections);
+    	let i = form_sections.length;
+    	setForms([...form_sections, <div className="card-body" key = { i }><FormOpenText /></div>]);
     }
 
     var handleChoiceEdit = function(){
-    	i = form_sections.length;
-    	form_sections.push(<div className="card-body" key = { i }><FormChoiceEdit /></div>);
-    	setForms(form_sections);
+    	let i = form_sections.length;
+    	setForms([...form_sections, <div className="card-body" key = { i }><FormChoiceEdit /></div>]);
     }
 
     var handleMultiChoice = function(){
-    	i = form_sections.length;
-    	form_sections.push(<div className="card-body" key = { i }><FormMultiChoiceEdit /></div>);
-    	setForms(form_sections);
+    	let i = form_sections.length;
+    	setForms([...form_sections, <div className="card-body" key = { i }><FormMultiChoiceEdit /></div>]);
     }
 
     /*if(form_sections.length < 3){
-    	i = 0;
+    	let i = 0;
     	form_sections.push(<div key = { i } className="card-body"><FormOpenText /></div>);
     	form_sections.push(<div key = { i+1 } className="card-body"><FormChoiceEdit /></div>);
     	form_sections.push(<div key = { i+2 } className="card-body"><FormMultiChoiceEdit /></div>);

@@ -13,7 +13,7 @@ function FormAddSection(props) {
 		props.handleClicks.singleChoice();
 	}
 	var multiChoiceClick = function(){
-
+		props.handleClicks.multiChoiceEdit();
 	}
 
     return(
