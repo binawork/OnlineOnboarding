@@ -1,32 +1,22 @@
 import React, { useState } from "react";
+import Switcher from "../Switcher";
+import RadioButton from "./RadioButton";
 
 //import "../../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 //import "../static/looper/vendor/fontawesome/all.min.css";
 
-import Switcher from "../Switcher"
 
-function FormChoiceEdit() {
+function FormChoiceEdit(props) {
     const [singleChoices, addSingleChoice] = useState([]);
-    const classes = {
-        checked: "custom-control-input is-valid",
-        unchecked: "custom-control-input"
-    };
 
 
-    var handleAddAnswer = function(){
-        let i = singleChoices.length, idStr = "rd" + i;
-        addSingleChoice([...singleChoices,
-            <tr key = { i }><td><i className="fa fa-arrows">&#10018;</i></td>
-                <td>
-                    <div className="custom-control custom-control-inline custom-radio">
-                        <input type="radio" className={ classes.unchecked } id={ idStr } /> <label className="custom-control-label" htmlFor={ idStr }>Answer { i+1 }</label>
-                    </div>
-                </td>
-                <td> <a className="btn" href="#">&#9997; Edit</a> </td>
-                <td> <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Delete</a> </td>
-            </tr>]);
+    var handleAddAnswer = function(e){
+        e.preventDefault();
+        let i = singleChoices.length;
+        addSingleChoice([...singleChoices, <RadioButton key = { i } id={ i } name = { props.name } />]);
     }
+
 
     return(
       <div className="task-issue">

@@ -14,13 +14,13 @@ function FormSections(){
     }
 
     var handleChoiceEdit = function(){
-    	let i = form_sections.length;
-    	setForms([...form_sections, <div className="card-body" key = { i }><FormChoiceEdit /></div>]);
+    	let i = form_sections.length, name = "radios" + i;
+    	setForms([...form_sections, <div className="card-body" key = { i }><FormChoiceEdit name = { name } /></div>]);
     }
 
     var handleMultiChoice = function(){
-    	let i = form_sections.length;
-    	setForms([...form_sections, <div className="card-body" key = { i }><FormMultiChoiceEdit /></div>]);
+    	let i = form_sections.length, name = "checks" + i;
+    	setForms([...form_sections, <div className="card-body" key = { i }><FormMultiChoiceEdit name = { name } /></div>]);
     }
 
     /*if(form_sections.length < 3){

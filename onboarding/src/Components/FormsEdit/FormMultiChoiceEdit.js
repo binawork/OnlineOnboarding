@@ -13,7 +13,9 @@ function FormMultiChoiceEdit() {
         unchecked: "custom-control-input"
     };
 
-    var handleAddAnswer = function(){
+    var handleAddAnswer = function(e){
+        e.preventDefault();
+
         let i = multiChoices.length, idStr = "ckb" + i;
         addMultiChoice([...multiChoices,
             <tr><td><i className="fa fa-arrows">&#10018;</i></td>

@@ -6,15 +6,18 @@ import "../../static/looper/stylesheets/theme.min.css";
 
 function FormAddSection(props) {
 
-    var openAnswerClick = function(){
+    var openAnswerClick = function(e){
+        e.preventDefault();
     	props.handleClicks.openText();
-	}
-	var oneChoiceClick = function(){
-		props.handleClicks.singleChoice();
-	}
-	var multiChoiceClick = function(){
+    }
+    var oneChoiceClick = function(e){
+        e.preventDefault();
+        props.handleClicks.singleChoice();
+    }
+    var multiChoiceClick = function(e){
+        e.preventDefault();
 		props.handleClicks.multiChoiceEdit();
-	}
+    }
 
     return(
       <div className="card card-fluid">
@@ -33,7 +36,7 @@ function FormAddSection(props) {
                     <div className="col-auto">&#9711;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <a className="btn btn-secondary" onClick={ oneChoiceClick } style={{color: '#000'}}>One choice answer</a>
+                            <button className="btn btn-secondary" onClick={ oneChoiceClick } style={{color: '#000'}}>One choice answer</button>
                         </div>
                     </div>
                 </div>
