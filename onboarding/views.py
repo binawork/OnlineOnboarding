@@ -1,6 +1,6 @@
 from django.core import mail
 from django.core.mail import BadHeaderError
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordResetForm
@@ -19,11 +19,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from OnlineOnboarding.settings import EMAIL_HOST_USER
-from onboarding.models import Package, ContactForm, Page, Section, Answer
+from onboarding.models import Package, ContactForm, Page, Section, Answer, CompanyQuestionAndAnswer
 from onboarding.models import User, Company
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
-from .serializers import ContactFormTestSerializer, UserSerializer
-from .serializers import AnswerSerializer, CompanySerializer
+from .serializers import UserSerializer
+from .serializers import AnswerSerializer, CompanySerializer, CompanyQuestionAndAnswerSerializer
 from .tokens import account_activation_token
 from .forms import HrSignUpForm
 
@@ -184,7 +184,6 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
     @action(detail=False)
     def remove_user(self, request):
         user_email = request.user.email
@@ -195,7 +194,7 @@ class UserViewSet(viewsets.ModelViewSet):
         request.user.is_active = False
         request.user.save()
 
-        subject = 'Usunięcie konta' # eng. "deletion of the account"
+        subject = 'Usunięcie konta'  # eng. "deletion of the account"
 
         html_message = render_to_string(
             'templated_email/remove_acc_email.html', 
@@ -221,12 +220,31 @@ class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = CompanySerializer
 
 
+class CompanyQuestionAndAnswerViewSet(viewsets.ModelViewSet):
+    queryset = CompanyQuestionAndAnswer.objects.all()
+    serializer_class = CompanyQuestionAndAnswerSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(company=self.request.user.company)
+
+    @action(detail=False)
+    def list_by_company(self, request):
+        """
+        :param request: user
+        :return: all Q-and-A with param request.user.company
+        """
+        q_and_a = CompanyQuestionAndAnswer.objects.filter(company=request.user.company)
+        serializer = CompanyQuestionAndAnswerSerializer(q_and_a, many=True)
+
+        return Response(serializer.data)
+
+
 class ContactFormViewSet(viewsets.ModelViewSet):
     """
     List all packages, update or create a new package.
     """
     queryset = ContactForm.objects.all()
-    serializer_class = ContactFormTestSerializer
+    serializer_class = ContactForm
 
 
 class PackageViewSet(viewsets.ModelViewSet):
@@ -236,10 +254,8 @@ class PackageViewSet(viewsets.ModelViewSet):
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
 
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
-
 
     @action(detail=False)
     def list_by_company_hr(self, request):
@@ -251,7 +267,6 @@ class PackageViewSet(viewsets.ModelViewSet):
         serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
-
 
     @action(detail=False)
     def list_by_company_employee(self, request):
@@ -266,7 +281,6 @@ class PackageViewSet(viewsets.ModelViewSet):
         serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
-
 
     @action(detail=True, methods=['post'])
     def add_user_to_package(self, request, pk=None):

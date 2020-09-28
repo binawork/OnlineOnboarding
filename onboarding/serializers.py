@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from onboarding.models import ContactForm, Package, Page, Section, User, Answer, Company
+from onboarding.models import ContactForm, Package, Page, Section, User, Answer, Company, CompanyQuestionAndAnswer
 
 '''
 Core arguments in serializer fields
@@ -45,6 +45,13 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = '__all__'
+
+
+class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CompanyQuestionAndAnswer
+        fields = ('company', 'question', 'answer')
 
 
 # USER

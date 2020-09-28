@@ -15,6 +15,12 @@ class Company(models.Model):
         return self.name
 
 
+class CompanyQuestionAndAnswer(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
+    question = models.TextField(max_length=500)
+    answer = models.TextField(max_length=500)
+
+
 class CustomUserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers
