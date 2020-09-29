@@ -15,7 +15,7 @@ function FormTable() {
         <div className="page-section">
             <div className="card card-fluid">
                 <div className="card-header">
-                    Lorem Ipsum
+                    Edytuj formularz
                 </div>
                 <div className="card-body">
                     <FormTableSearch />
@@ -23,7 +23,7 @@ function FormTable() {
             </div>
             <div className="card card-fluid">
                 <div className="card-header">
-                    Lorem Ipsum
+                    Stwórz strone
                 </div>
                 <div className="card-body">
                     <FormTableAddNew />

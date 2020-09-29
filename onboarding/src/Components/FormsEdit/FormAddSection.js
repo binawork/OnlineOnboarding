@@ -21,14 +21,14 @@ function FormAddSection(props) {
 
     return(
       <div className="card card-fluid">
-          <div className="card-header">Add section</div>
+          <div className="card-header">Rodzaj pytania</div>
           <div className="card-body align-items-center">
               <form> {/* form placeholder */}
                 <div className="form-group row">
                     <div className="col-auto">&#9776;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ openAnswerClick } style={{color: '#000'}}>Open answer</button>
+                            <button className="btn btn-secondary" onClick={ openAnswerClick } style={{color: '#000'}}>Pytanie otwarte</button>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ function FormAddSection(props) {
                     <div className="col-auto">&#9711;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ oneChoiceClick } style={{color: '#000'}}>One choice answer</button>
+                            <button className="btn btn-secondary" onClick={ oneChoiceClick } style={{color: '#000'}}>Jedna odpowiedź</button>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@ function FormAddSection(props) {
                     <div className="col-auto">&#9745; &#9989;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ multiChoiceClick } style={{color: '#000'}}>Multi choice answer</button>
+                            <button className="btn btn-secondary" onClick={ multiChoiceClick } style={{color: '#000'}}>Wiele odpowiedzi</button>
                         </div>
                     </div>
                 </div>

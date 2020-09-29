@@ -15,7 +15,7 @@ function AddUserTable() {
         <div className="page-section">
             <div className="card card-fluid">
                 <div className="card-header">
-                    Lorem Ipsum
+                    Szukaj pracownika
                 </div>
                 <div className="card-body">
                     <UserListSearch />

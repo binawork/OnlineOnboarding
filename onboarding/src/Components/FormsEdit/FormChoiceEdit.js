@@ -21,7 +21,7 @@ function FormChoiceEdit(props) {
     return(
       <div className="task-issue">
           <div className="card">
-              <div className="card-header"><span className="drag-indicator"></span> One choice answer</div>
+              <div className="card-header"><span className="drag-indicator"></span> Jedna odpowiedź</div>
               <div className="card-body">
                   <form> {/* form placeholder */}
                     <div className="form-group">
@@ -39,7 +39,7 @@ function FormChoiceEdit(props) {
                     <hr />
                     <div className="form-group">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ handleAddAnswer } style={{color: '#000'}}>Add answer</button>
+                            <button className="btn btn-secondary" onClick={ handleAddAnswer } style={{color: '#000'}}>Dodaj odpowiedź</button>
                         </div>
                     </div>
                   </form>
@@ -47,14 +47,14 @@ function FormChoiceEdit(props) {
               <div className="card-footer align-items-center">
 
                   <div className="col">
-                      <Switcher /> Required {/* form placeholder */}
+                      <Switcher /> Odp. wymagana {/* form placeholder */}
                   </div>
                   <div className="col">
-                      <a className="btn" href="#"><i className="fa fa-clone fa-lg"> </i> Duplicate</a>
-                      <a className="btn" href="#"><i className="fa fa-files-o fa-lg">&#61637;</i> Duplicate</a>
+                      <a className="btn" href="#"><i className="fa fa-clone fa-lg"> </i> Duplikuj pytanie</a>
+                      <a className="btn" href="#"><i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie</a>
                   </div>
                   <div className="col">
-                      <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Delete</a>
+                      <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń</a>
                   </div>
               </div>
 

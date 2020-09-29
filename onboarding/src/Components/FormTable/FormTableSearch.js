@@ -13,7 +13,7 @@ function FormTableSearch() {
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>zapisz</button>
+                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>Zapisz</button>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@ function FormTableSearch() {
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>zapisz</button>
+                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>Zapisz</button>
                     </div>
                 </div>
             </div>

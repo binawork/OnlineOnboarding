@@ -11,7 +11,7 @@ function RadioButton(props) {
         id = props.id;
 
     const [checkedState, checkUncheck] = useState({check:false, className:"custom-control-input"});
-    const [titleId, setTitleId] = useState({title:"Answer " + (id+1), id:id});
+    const [titleId, setTitleId] = useState({title:"Odpowiedź " + (id+1), id:id});
 	let idStr = props.name + "_rd" + id;
 
 
@@ -31,8 +31,8 @@ function RadioButton(props) {
                     <input type="radio" name={ props.name } onClick={ handleCheck } className={ checkedState.className } id={ idStr } checked={ checkedState.check===true } /> <label className="custom-control-label" htmlFor={ idStr }>{ titleId.title }</label>
                 </div>
             </td>
-            <td> <a className="btn" href="#">&#9997; Edit</a> </td>
-            <td> <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Delete</a> </td>
+            <td> <a className="btn" href="#">&#9997; Edytuj</a> </td>
+            <td> <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń</a> </td>
         </tr>
     )
 }
