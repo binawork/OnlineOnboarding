@@ -31,13 +31,13 @@ function FormTable() {
             </div>
             <div className="card card-fluid">
                 <div className="card-header">
-                    Lista Formularzy
+                    Lista Stron
                 </div>
                 <div className="card-body">
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style={{width: "50%"}}>Nazwa formularza</th>
+                            <th scope="col" style={{width: "50%"}}>Nazwa strony</th>
                             <th scope="col" style={{width: "10%"}}>Kolejność</th>
                             <th scope="col" style={{width: "25%"}}>Edytowany</th>
                             <th scope="col" style={{width: "15%"}}>Działanie</th>

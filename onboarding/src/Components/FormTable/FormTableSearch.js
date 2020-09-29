@@ -8,12 +8,12 @@ function FormTableSearch() {
             <div className="row mb-4">
                 <div className="col">
                     <div className="has-clearable">
-                        <input type="text" className="form-control" placeholder="Bina OnBoarding" />
+                        <input type="text" className="form-control" placeholder="Nazwa formularza" />
                     </div>
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>*</button>
+                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>zapisz</button>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@ function FormTableSearch() {
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>*</button>
+                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>zapisz</button>
                     </div>
                 </div>
             </div>

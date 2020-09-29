@@ -20,7 +20,7 @@ function FormsEditPage() {
     		<main className="app-main">
 				<div className="wrapper"><div className="page has-sidebar-expand-xl">
 					<div className="page-inner">
-						<PageAddressBar page = { "Page 1" } /> {/* placeholder */}
+						<PageAddressBar page = { "Formularz / \"#pageName\"" } /> {/* placeholder */}
 
     					<div className="page-section">
     						<div className="card card-fluid">
@@ -31,12 +31,12 @@ function FormsEditPage() {
     								<form> {/* form placeholder */}
     									<div className="form-group">
     										<div className="input-group">
-    											<input type="text" className="form-control" placeholder="Enter new Page name" value="" />
+    											<input type="text" className="form-control" placeholder="Nazwa strony" value="" />
     										</div>
     									</div>
     									<div className="form-group">
     										<div className="input-group">
-    											<input type="text" className="form-control" placeholder="Add video url/doc etc." value="" />
+    											<input type="text" className="form-control" placeholder="Podłącz link do video / link do dokumentu" value="" />
     										</div>
     									</div>
     									<div className="form-group">

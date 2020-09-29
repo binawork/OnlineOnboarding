@@ -16,7 +16,7 @@ function EmployeProfilePage() {
                 <div className="wrapper">
                     <div className="page">
                         <div className="page-inner">
-                            <PageAddressBar page = { "Accounts" } />
+                            <PageAddressBar page = { "Podgląd procesu pracownika" } />
                             <EmployeProfileTable />
                         </div>
                     </div>

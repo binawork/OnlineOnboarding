@@ -31,28 +31,28 @@ const formsSent = [
         progress: "1/3",
         send_date: "2020-03-30",
         finish_date: "2020-06-13",
-        note: "reminder"
+        note: "Przypomnienie"
     },
     {
         form: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
         progress: "2/3",
         send_date: "2020-01-18",
         finish_date: "2020-06-13",
-        note: "reminder"
+        note: "Przypomnienie"
     },
     {
         form: "Vestibulum faucibus quam id urna sollicitudin, at dapibus odio efficitur",
         progress: "4/6",
         send_date: "2020-03-30",
         finish_date: "2020-06-13",
-        note: "reminder"
+        note: "Przypomnienie"
     },
     {
         form: "Vestibulum bibendum diam eu iaculis condimentum",
         progress: "3/5",
         send_date: "2020-01-18",
         finish_date: "2020-06-13",
-        note: "reminder"
+        note: "Przypomnienie"
     }
 
 ]

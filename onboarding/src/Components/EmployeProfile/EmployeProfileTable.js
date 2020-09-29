@@ -23,7 +23,7 @@ function EmployeProfileTable() {
         <div className="page-section">
             <div className="card card-fluid">
                 <div className="card-header">
-                    Lorem Ipsum
+                    Status procesu
                 </div>
                 <div className="card-body">
                     <EmployeProfileUser user = { employeProfile }/>
@@ -37,10 +37,10 @@ function EmployeProfileTable() {
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style={{width: "50%"}}>Form</th>
+                            <th scope="col" style={{width: "50%"}}>Formularze</th>
                             <th scope="col" style={{width: "10%"}}>Postęp</th>
-                            <th scope="col" style={{width: "15%"}}>Send Date</th>
-                            <th scope="col" style={{width: "15%"}}>Finish Date</th>
+                            <th scope="col" style={{width: "15%"}}>Data wysłania</th>
+                            <th scope="col" style={{width: "15%"}}>Data zakończenia</th>
                             <th scope="col" style={{width: "15%"}}>Działanie</th>
                         </tr>
                         </thead>
@@ -58,10 +58,10 @@ function EmployeProfileTable() {
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style={{width: "50%"}}>Page Name</th>
-                            <th scope="col" style={{width: "10%"}}>Pages</th>
-                            <th scope="col" style={{width: "15%"}}>Created</th>
-                            <th scope="col" style={{width: "15%"}}>Last Edit</th>
+                            <th scope="col" style={{width: "50%"}}>Formularze</th>
+                            <th scope="col" style={{width: "10%"}}>Liczba zadań</th>
+                            <th scope="col" style={{width: "15%"}}>Utworzony</th>
+                            <th scope="col" style={{width: "15%"}}>Ostatnia edycja</th>
                             <th scope="col" style={{width: "10%"}}>Działanie</th>
                         </tr>
                         </thead>
@@ -75,3 +75,4 @@ function EmployeProfileTable() {
     )
 }
 export default EmployeProfileTable;
+
