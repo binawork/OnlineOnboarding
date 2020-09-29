@@ -24,9 +24,16 @@ class HrSignUpForm(UserCreationForm):
                     'company_name'
         )
 
+    def get_or_create_company(self, company_name):
+        company = Company.objects.filter(name=company_name).first()
+        if not company:
+            company = Company.objects.create(name=company_name)
+        return company
+
     def save(self, commit=True):
         user = super(HrSignUpForm, self).save(commit=False)
-        user.company = Company.objects.create(name=self.cleaned_data["company_name"])
+        user.company = self.get_or_create_company(
+                                            self.cleaned_data["company_name"])
         user.is_hr = True
         user.username = self.cleaned_data['email']
         user.is_active = False
