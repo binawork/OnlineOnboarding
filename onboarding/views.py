@@ -288,7 +288,6 @@ class PackageViewSet(viewsets.ModelViewSet):
         :param request: user id in request.data.users
         :param pk: package primary key
         """
-        print(request.data)
         package = Package.objects.get(id=pk)
         pkg_company = package.owner
         pkg_company_name = pkg_company.name.strip()
