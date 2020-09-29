@@ -11,20 +11,20 @@ function FormOpenText() {
     return(
       <div className="task-issue">
           <div className="card">
-              <div className="card-header"><span className="drag-indicator"></span> Open answer</div>
+              <div className="card-header"><span className="drag-indicator"></span> Pytanie otwarte</div>
               <div className="card-body">
                   <form> {/* form placeholder */}
                     <div className="form-group">
                         <div className="input-group">
-                            <input type="text" className="form-control" placeholder="Title" />
+                            <input type="text" className="form-control" placeholder="Wpisz pytanie" />
                         </div>
                     </div>
-                    <div className="form-group">
+                    {/*<div className="form-group">{/ * moze usunac * /}
                         <textarea className="form-control" placeholder="Description (markdown)" rows="4"></textarea>
-                    </div>
+                    </div>*/}
                     <hr />
                     <div className="form-group">
-                        <textarea className="form-control" placeholder="User answer (plain text)" rows="4"></textarea>
+                        <textarea className="form-control" placeholder="Tekst odpowiedzi użytkownika" rows="4"></textarea>
                     </div>
                   </form>
               </div>
