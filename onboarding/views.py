@@ -26,6 +26,7 @@ from .serializers import PackageSerializer, PageSerializer, SectionSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer
 from .serializers import AnswerSerializer, CompanySerializer
 from .permissions import IsHrUser
+from .mailing import UserEmailCRUD
 from .tokens import account_activation_token
 from .forms import HrSignUpForm
 
@@ -184,34 +185,21 @@ def manager_view(request):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    permission_classes = [IsHrUser,]
+    permission_classes = (IsHrUser,)
     serializer_class = UserSerializer
 
     @action(detail=False, methods=['post'])
     def create_user(self, request):
-        user_email = request.data['email']
-        company = request.user.company
-        subject = f'Dodano Cię do onboardingu firmy {company}' 
-                                                    # eng. "You've been added 
-                                                    # to XYZ's onboarding"
-        html_message = render_to_string(
-            'templated_email/create_acc_email.html', 
-            {
-                'username': user_email,
-                'company': company,
-            }
-        )
-        plain_message = strip_tags(html_message)
-        from_email = EMAIL_HOST_USER
-        to = user_email
-        mail.send_mail(
-                        subject, 
-                        plain_message, 
-                        from_email,
-                        [to], 
-                        html_message=html_message,
-        )
-        return Response(status=201)
+        user_serializer = self.serializer_class(data=request.data)
+        if user_serializer.is_valid():
+            user = user_serializer.save()
+            user.company = request.user.company
+            user.save()
+            mail = UserEmailCRUD()
+            mail.send_to_user_created_by_hr(request)
+            return Response(status=201)
+        else:
+            return Response(status=204)
 
     @action(detail=False)
     def remove_user(self, request):
