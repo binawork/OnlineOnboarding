@@ -1,6 +1,6 @@
 from django.core import mail
 from django.core.mail import BadHeaderError
-from django.contrib.auth import login
+from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordResetForm
@@ -17,13 +17,15 @@ from django.utils.encoding import force_bytes, force_text
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny
 
 from OnlineOnboarding.settings import EMAIL_HOST_USER
-from onboarding.models import Package, ContactForm, Page, Section, Answer, CompanyQuestionAndAnswer
-from onboarding.models import User, Company
+from onboarding.models import Package, ContactForm, Page, Section, Answer 
+from onboarding.models import User, Company, CompanyQuestionAndAnswer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
-from .serializers import UserSerializer
-from .serializers import AnswerSerializer, CompanySerializer, CompanyQuestionAndAnswerSerializer
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer
+from .serializers import AnswerSerializer, CompanySerializer
+from .permissions import IsHrUser
 from .tokens import account_activation_token
 from .forms import HrSignUpForm
 
@@ -182,7 +184,34 @@ def manager_view(request):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    permission_classes = [IsHrUser,]
     serializer_class = UserSerializer
+
+    @action(detail=False, methods=['post'])
+    def create_user(self, request):
+        user_email = request.data['email']
+        company = request.user.company
+        subject = f'Dodano Cię do onboardingu firmy {company}' 
+                                                    # eng. "You've been added 
+                                                    # to XYZ's onboarding"
+        html_message = render_to_string(
+            'templated_email/create_acc_email.html', 
+            {
+                'username': user_email,
+                'company': company,
+            }
+        )
+        plain_message = strip_tags(html_message)
+        from_email = EMAIL_HOST_USER
+        to = user_email
+        mail.send_mail(
+                        subject, 
+                        plain_message, 
+                        from_email,
+                        [to], 
+                        html_message=html_message,
+        )
+        return Response(status=201)
 
     @action(detail=False)
     def remove_user(self, request):
