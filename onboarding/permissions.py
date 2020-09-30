@@ -7,6 +7,6 @@ class IsHrUser(permissions.BasePermission):
         try:
             has_perm = request.user.is_hr
         except AttributeError:
-            return False
-        else:
+            has_perm = False
+        finally:
             return has_perm
