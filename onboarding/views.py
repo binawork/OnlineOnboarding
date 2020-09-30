@@ -290,18 +290,12 @@ class PackageViewSet(viewsets.ModelViewSet):
         """
         package = Package.objects.get(id=pk)
         pkg_company = package.owner
-        pkg_company_name = pkg_company.name.strip()
-
-        hr_user = request.user
-        hr_user_company_name = hr_user.company.name.strip()
-
-        user_id = request.data["users"]
-        user = User.objects.get(id=user_id)
-        user_company_name = user.company.name.strip()
+        hr_user = User.objects.get(id=request.user.id)
+        user = User.objects.get(id=request.data["users"])
         
         # check if the hr_user is from the same company as the package (form) 
         # to which he /she wants to add a new user
-        if hr_user_company_name == pkg_company_name:
+        if hr_user.company_id == pkg_company.id:
             pass
         else:
             e = "Możesz dodawać tylko do formularzy firmy, do której należysz."
@@ -309,7 +303,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         
         # check if the hr_user is from the same company as the user 
         # he /she wants to add to the package (form)
-        if hr_user_company_name == user_company_name:
+        if hr_user.company_id == user.company_id:
             pass
         else:
             e2 = "Możesz dodawać do formularzy tylko tych użytowników, którzy"
