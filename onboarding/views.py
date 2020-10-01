@@ -1,6 +1,6 @@
 from django.core import mail
 from django.core.mail import BadHeaderError
-from django.contrib.auth import login
+from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordResetForm
@@ -17,13 +17,16 @@ from django.utils.encoding import force_bytes, force_text
 from rest_framework import viewsets, filters, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny
 
 from OnlineOnboarding.settings import EMAIL_HOST_USER
-from onboarding.models import Package, ContactForm, Page, Section, Answer, CompanyQuestionAndAnswer
-from onboarding.models import User, Company
+from onboarding.models import Package, ContactForm, Page, Section, Answer 
+from onboarding.models import User, Company, CompanyQuestionAndAnswer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
-from .serializers import UserSerializer
-from .serializers import AnswerSerializer, CompanySerializer, CompanyQuestionAndAnswerSerializer
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer
+from .serializers import AnswerSerializer, CompanySerializer
+from .permissions import IsHrUser
+from .mailing import UserEmailCRUD
 from .tokens import account_activation_token
 from .forms import HrSignUpForm
 
@@ -182,7 +185,21 @@ def manager_view(request):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    permission_classes = (IsHrUser,)
     serializer_class = UserSerializer
+
+    @action(detail=False, methods=['post'])
+    def create_user(self, request):
+        user_serializer = self.serializer_class(data=request.data)
+        if user_serializer.is_valid():
+            user = user_serializer.save()
+            user.company = request.user.company
+            user.save()
+            mail = UserEmailCRUD()
+            mail.send_to_user_created_by_hr(request)
+            return Response(status=201)
+        else:
+            return Response(status=204)
 
     @action(detail=False)
     def remove_user(self, request):

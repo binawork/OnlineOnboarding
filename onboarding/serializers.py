@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from onboarding.models import ContactForm, Package, Page, Section, User, Answer, Company, CompanyQuestionAndAnswer
+from django.contrib.auth import get_user_model
+from onboarding.models import ContactForm, Package, Page, Section, User 
+from onboarding.models import Answer, Company, CompanyQuestionAndAnswer
 
 '''
 Core arguments in serializer fields
@@ -56,9 +58,21 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 
 # USER
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
-        model = User
-        fields = ('username', 'password')
+        model = get_user_model()
+        fields = ('email', 'password')
+
+    def create(self, validated_data):
+        password = validated_data['password']
+        email = validated_data['email']
+        user = User(**validated_data)
+        user.set_password(password)
+        user.username = email
+        user.is_active = False
+        user.save()
+        return user
 
 
 # CONTACT FORM
@@ -67,7 +81,14 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
         model = ContactForm
-        fields = ('id', 'first_name', 'last_name', 'company_name', 'email', 'text_field')
+        fields = (
+                    'id', 
+                    'first_name', 
+                    'last_name', 
+                    'company_name', 
+                    'email', 
+                    'text_field'
+        )
 
 
 # PACKAGE
@@ -76,7 +97,15 @@ class PackageSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
         model = Package
-        fields = ('id', 'title', 'owner', 'description', 'created_on', 'updated_on', 'users')
+        fields = (
+                    'id', 
+                    'title', 
+                    'owner', 
+                    'description', 
+                    'created_on', 
+                    'updated_on', 
+                    'users'
+        )
 
 
 # PAGE
@@ -84,14 +113,15 @@ class PackageSpecialTestSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
         model = Page
-        fields = ('id',
-                  'order',
-                  'owner',
-                  'title',
-                  'description',
-                  'link',
-                  'package',
-                  )
+        fields = (
+                    'id',
+                    'order',
+                    'owner',
+                    'title',
+                    'description',
+                    'link',
+                    'package',
+        )
         extra_kwargs = {
             'package': {'required': False},
         }
@@ -105,14 +135,15 @@ class PageSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
         model = Page
-        fields = ('id',
-                  'order',
-                  'owner',
-                  'title',
-                  'description',
-                  'link',
-                  'package',
-                  )
+        fields = (
+                    'id',
+                    'order',
+                    'owner',
+                    'title',
+                    'description',
+                    'link',
+                    'package',
+        )
         extra_kwargs = {
             'package': {'required': False},
         }
@@ -124,15 +155,16 @@ class SectionSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
         model = Section
-        fields = ("id",
-                  "order",
-                  "title",
-                  "description",
-                  'link',
-                  'type',
-                  'data',
-                  'page'
-                  )
+        fields = (
+                    'id',
+                    'order',
+                    'title',
+                    'description',
+                    'link',
+                    'type',
+                    'data',
+                    'page',
+        )
 
 
 # ANSWER
@@ -141,8 +173,9 @@ class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
         model = Answer
-        fields = ("id",
-                  'section',
-                  'data',
-                  'owner'
-                  )
+        fields = (
+                    'id',
+                    'section',
+                    'data',
+                    'owner',
+        )
