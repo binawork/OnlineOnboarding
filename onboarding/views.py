@@ -192,11 +192,11 @@ class UserViewSet(viewsets.ModelViewSet):
     def create_user(self, request):
         user_serializer = self.serializer_class(data=request.data)
         if user_serializer.is_valid():
-            user = user_serializer.save()
+            user, password = user_serializer.save()
             user.company = request.user.company
             user.save()
             mail = UserEmailCRUD()
-            mail.send_to_user_created_by_hr(request)
+            mail.send_to_user_created_by_hr(request, password, user)
             return Response(status=201)
         else:
             return Response(status=204)

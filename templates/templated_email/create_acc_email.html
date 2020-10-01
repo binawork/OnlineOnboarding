@@ -13,14 +13,24 @@
 
         <div style="background-color: #1aa3e8; padding-top: 10px; padding-bottom: 10px">
             <div style="margin-left: 20px">
-                <h2>Witaj {{ username }},</h2>
+                <h2>Witaj {{ full_name }},</h2>
             </div>
             <div style="margin-left: 20px; margin-right: 20px">
-
                 <p>
-                    Otrzymujesz tę wiadomość, ponieważ zostało utworzone konto i jesteś zaproszony_a do onboardingu.
+                    Otrzymujesz tę wiadomość, ponieważ zostało utworzone twoje konto w domenie firmy {{ company }} 
+                    i jesteś zaproszony_a do procesu onboardingu.
                 </p>
-
+                <h3>Aktywacja konta</h3>
+                <p>
+                    Aby kontynuować i aktywowoać konto wystarczy kliknąć link aktywacyjny znajdujący się ponizej. Twoje
+                    aktualne hasło to <strong>{{ password }}</strong><br />
+                    Zmień je zaraz po pierwszym logowaniu do aplikacji.
+                </p>
+                <p>
+                    {% autoescape off %}
+                        http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+                    {% endautoescape %}
+                </p>
             </div>
         </div>
 

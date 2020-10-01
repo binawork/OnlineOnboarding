@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from onboarding.models import ContactForm, Package, Page, Section, User 
 from onboarding.models import Answer, Company, CompanyQuestionAndAnswer
+from . import mock_password
 
 '''
 Core arguments in serializer fields
@@ -58,21 +59,25 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 
 # USER
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    # password = serializers.CharField(write_only=True)
 
     class Meta:
         model = get_user_model()
-        fields = ('email', 'password')
+        fields = (
+                    'email', 
+                    )
 
     def create(self, validated_data):
-        password = validated_data['password']
-        email = validated_data['email']
+        password = mock_password.generate()
         user = User(**validated_data)
         user.set_password(password)
-        user.username = email
+        user.email = validated_data['email']
+        user.username = validated_data['email']
+        # user.first_name = validated_data['first_name']
+        # user.second_name = validated_data['second_name']
         user.is_active = False
         user.save()
-        return user
+        return user, password
 
 
 # CONTACT FORM
