@@ -9,6 +9,10 @@ function FormListTable() {
 
 	let packages = Packages();
 
+	var updatePackages = function(){
+		packages = Packages();
+	}
+
     return (
         <div className="page-section">
             <div className="card card-fluid">
@@ -16,7 +20,7 @@ function FormListTable() {
                     Dodanie nowego dokumentu
                 </div>
                 <div className="card-body">
-                    <PackagesAddNew />
+                    <PackagesAddNew handleUpdate = { updatePackages } />
                 </div>
             </div>
             <div className="card card-fluid">

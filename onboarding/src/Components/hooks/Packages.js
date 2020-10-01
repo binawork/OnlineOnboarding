@@ -32,7 +32,7 @@ function Packages(){
 	else {
 		var form_table = [], i, count = rows.length;
 		for(i = 0; i < count; i++)
-			form_table.push(<PackagesRow key={ rows[i].id } row={ {name: rows[i].title, last_edit: rows[i].updated_on} }/>);
+			form_table.push(<PackagesRow key={ rows[i].id } row={ {name: rows[i].title, last_edit: rows[i].updated_on, key: rows[i].id } }/>);
 		return ( <>{ form_table }</> )
 	}
 
@@ -42,36 +42,24 @@ function Packages(){
 /**
  * Add package/combo into Packages (todo: set owner as a logged HR manager?);
  */
-export function addCombo(title, owner){
-	var [saved, isSaved] = useState(false);
-	const [saveError, showSaveError] = useState(null);
-
+export function addCombo(handleSuccess, title, owner){
 	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
-		return;
+		return false;
 
 	let url = getPath(), data, token = getCookie('csrftoken'),
-		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token, "body":null}};
+		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
 	data = {"title": title};// {"title": "", "owner": null, "description": "", "users": []}
-	fetchProps.headers.body = JSON.stringify(data);
+	fetchProps.body = JSON.stringify(data);
 
-	useEffect(() => {
 		fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
 			(result) => {
-				isSaved(true);
+				handleSuccess(result);
 			},
 			(error) => {
-				showSaveError(error);
 				console.log(error);
 			}
 		);
-	}, []);
-
-	if(saveError){
-		console.log(saveError.message);// todo: modal with message;
-		return false;
-	} else if(saved){
-		return true;
-	}
+	return true;
 }
 
 export default Packages;
