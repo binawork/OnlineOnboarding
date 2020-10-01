@@ -25,3 +25,19 @@ export function dateToString(str){
 	return formatted;
 }
 
+
+export function getCookie(name) {
+	var cookieValue = null;
+	if(document.cookie && document.cookie !== ''){
+		let cookies = document.cookie.split(';'), i, cookie;
+		for(i = 0; i < cookies.length; i++){
+			cookie = cookies[i].trim();
+			if(cookie.substring(0, name.length + 1) === (name + '=')){
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
+	}
+	return cookieValue;
+}
+

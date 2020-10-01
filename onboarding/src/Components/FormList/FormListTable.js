@@ -6,31 +6,10 @@ import PackagesAddNew from "./PackagesAddNew";
 import Packages from "../hooks/Packages";
 
 function FormListTable() {
-	/*var [rows , setRows] = useState([]),
-		[loaded, isLoaded] = useState(false);
-	let form_table= [], url = getPath();
-	let fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
-	/*useEffect(() => {
-		fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
-			(result) => {
-				isLoaded(true);
-				setRows(result);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
-	}, []);
+	let packages = Packages();
 
-    if(!loaded){
-		form_table.push(<PackagesRow key={0} row={ {name: "Loading ...", last_edit: ""} }/>);
-    } else {
-        rows.forEach(function (element) {
-            form_table.push(<PackagesRow key = { element.id } row={ {name: element['title'], last_edit:element['updated_on']} }/>)
-        });
-    }*/
-    return(
+    return (
         <div className="page-section">
             <div className="card card-fluid">
                 <div className="card-header">
@@ -54,7 +33,7 @@ function FormListTable() {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                            { <Packages /> }
+                            { packages }
                         </tbody>
                     </table>
                 </div>

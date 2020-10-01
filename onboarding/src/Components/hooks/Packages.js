@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPath } from "../utils.js";
+import { getPath, getCookie } from "../utils.js";
 import PackagesRow from "../FormList/PackagesRow";
 
 /**
@@ -36,6 +36,42 @@ function Packages(){
 		return ( <>{ form_table }</> )
 	}
 
+}
+
+
+/**
+ * Add package/combo into Packages (todo: set owner as a logged HR manager?);
+ */
+export function addCombo(title, owner){
+	var [saved, isSaved] = useState(false);
+	const [saveError, showSaveError] = useState(null);
+
+	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
+		return;
+
+	let url = getPath(), data, token = getCookie('csrftoken'),
+		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token, "body":null}};
+	data = {"title": title};// {"title": "", "owner": null, "description": "", "users": []}
+	fetchProps.headers.body = JSON.stringify(data);
+
+	useEffect(() => {
+		fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
+			(result) => {
+				isSaved(true);
+			},
+			(error) => {
+				showSaveError(error);
+				console.log(error);
+			}
+		);
+	}, []);
+
+	if(saveError){
+		console.log(saveError.message);// todo: modal with message;
+		return false;
+	} else if(saved){
+		return true;
+	}
 }
 
 export default Packages;
