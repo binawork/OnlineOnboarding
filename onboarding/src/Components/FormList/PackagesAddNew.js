@@ -2,23 +2,23 @@ import React, { useState } from "react";
 import { addCombo } from "../hooks/Packages";
 
 function PackagesAddNew(props) {
-	const [title, setTitle] = useState("");
+    const [title, setTitle] = useState("");
 
 
-	var addSuccess = (result) => {
-		//props.handleUpdate();/ / update list of packages;
-		console.log(result);
-	};
+    var addSuccess = (result) => {
+        //props.handleUpdate();/ / update list of packages;
+        console.log(result);
+    };
 
-	var handleClick = function(e){
-		let accepted = addCombo(addSuccess, title);
-		console.log(accepted);
-		setTitle("");
-	}
+    var handleClick = function(e){
+        let accepted = addCombo(addSuccess, title);
+        console.log(accepted);
+        setTitle("");
+    };
 
-	var handleInput = function(e){
-		setTitle(e.target.value);
-	}
+    var handleInput = function(e){
+        setTitle(e.target.value);
+    }
 
 
     return(

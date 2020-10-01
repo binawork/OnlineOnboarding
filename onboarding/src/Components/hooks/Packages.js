@@ -62,5 +62,9 @@ export function addCombo(handleSuccess, title, owner){
 	return true;
 }
 
+export function removeCombo(handleSuccess, packageId, title){
+	console.log(packageId);
+}
+
 export default Packages;
 

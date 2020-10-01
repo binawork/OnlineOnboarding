@@ -7,11 +7,11 @@ import Packages from "../hooks/Packages";
 
 function FormListTable() {
 
-	let packages = Packages();
+    let packages = Packages();
 
-	var updatePackages = function(){
-		packages = Packages();
-	}
+    var updatePackages = function(){
+        packages = Packages();
+    }
 
     return (
         <div className="page-section">
