@@ -1,41 +1,63 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
-//import "../../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-//import "../static/looper/vendor/fontawesome/all.min.css";
+const RadioButton = ({
+  id,
+  name,
+  title,
+  answChecked,
+  handleRadioChange,
+  deleteAnswer,
+  editAnswer,
+}) => {
 
+  return (
+    <tr>
+      <td>
+        <i className="fa fa-arrows">&#10018;</i>
+      </td>
+      <td>
+        <div className="custom-control custom-control-inline custom-radio">
+          <input
+            className={`custom-control-input ${
+              answChecked === id ? "is-valid" : ""
+            }`}
+            id={ id }
+            name={ name }
+            type="radio"
+            value={ title }
+            onChange={ handleRadioChange }
+            checked={ answChecked === id }
+          />{" "}
+          <label className="custom-control-label" htmlFor={ id }>
+            {title}
+          </label>
+        </div>
+      </td>
+      <td>
+        {" "}
+        <button className="btn" onClick={ editAnswer }>
+          &#9997; Edytuj
+        </button>{" "}
+      </td>
+      <td>
+        {" "}
+        <button className="btn text-danger" onClick={ deleteAnswer }>
+          <i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń
+        </button>{" "}
+      </td>
+    </tr>
+  );
+};
 
-function RadioButton(props) {
-    let id = 0;
-    if(props.id)
-        id = props.id;
-
-    const [checkedState, checkUncheck] = useState({check:false, className:"custom-control-input"});
-    const [titleId, setTitleId] = useState({title:"Odpowiedź " + (id+1), id:id});
-	let idStr = props.name + "_rd" + id;
-
-
-    var handleCheck = () => {
-        if(checkedState.check){
-            checkUncheck({check:false, className:"custom-control-input"});
-        } else {
-            checkUncheck({check:true, className:"custom-control-input is-valid"});
-            //props.handle.uncheck(titleId.id);
-        }
-    }
-
-    return(
-        <tr><td><i className="fa fa-arrows">&#10018;</i></td>
-            <td>
-                <div className="custom-control custom-control-inline custom-radio">
-                    <input type="radio" name={ props.name } onClick={ handleCheck } className={ checkedState.className } id={ idStr } checked={ checkedState.check===true } /> <label className="custom-control-label" htmlFor={ idStr }>{ titleId.title }</label>
-                </div>
-            </td>
-            <td> <a className="btn" href="#">&#9997; Edytuj</a> </td>
-            <td> <a className="btn" href="#"><i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń</a> </td>
-        </tr>
-    )
+RadioButton.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  answChecked: PropTypes.string.isRequired,
+  handleRadioChange: PropTypes.func.isRequired,
+  deleteAnswer: PropTypes.func.isRequired,
+  editAnswer: PropTypes.func.isRequired,
 }
 
 export default RadioButton;
-
