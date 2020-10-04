@@ -6,7 +6,10 @@ import FormTable from "./FormTable";
 import FormTableSearch from "./FormTableSearch";
 
 function FormTablePage(props) {
-console.log(props.location);
+	let packageId = 0;
+	if(props.location.state.packageId)
+		packageId = props.location.state.packageId;
+
     return(
         <div className="app">
             <header className="app-header app-header-dark">
@@ -18,7 +21,7 @@ console.log(props.location);
                     <div className="page">
                         <div className="page-inner">
                             <PageAddressBar page = { "Formularze" } />
-                            <FormTable />
+                            <FormTable packageId = { packageId } />
                         </div>
                     </div>
                 </div>

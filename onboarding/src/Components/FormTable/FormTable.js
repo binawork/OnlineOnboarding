@@ -4,7 +4,8 @@ import FormTableAddNew from "./FormTableAddNew";
 import FormTableRow from "./FormTableRow";
 import { formDataList } from "./FormTableData";
 
-function FormTable() {
+function FormTable(props) {
+    // todo: use console.log(props.packageId);
     let form_table= [];
     if (formDataList) {
         formDataList.forEach(function (element) {
