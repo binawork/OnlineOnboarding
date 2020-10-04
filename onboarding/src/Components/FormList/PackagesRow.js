@@ -16,7 +16,7 @@ function PackagesRow(props) {
 
     return(
         <tr>
-            <td><Link to="/package_page">{props.row.name}</Link></td>
+            <td><Link to={{ pathname: "/package_page", state: { packageId: props.row.key } }}>{props.row.name}</Link></td>
             <td>{ dateToString(props.row.last_edit) }</td>{/* na polski; */}
             <td><a href="">edytuj</a> / <button className="btn btn-secondary" style={{color: "black"}} onClick={ handleRemove }>usuń</button> </td>
         </tr>

@@ -25,13 +25,13 @@ function PackagePage(id){
 	}, []);
 
 	if(error){
-		return <PackagesRow key={0} row={ {name: error.message, last_edit: ""} }/>
+		return <FormTableRow key={0} row={ {name: error.message, last_edit: ""} }/>
 	} else if(!loaded)
-		return <PackagesRow key={0} row={ {name: "Loading ...", last_edit: ""} }/>
+		return <FormTableRow key={0} row={ {name: "Loading ...", last_edit: ""} }/>
 	else {
 		var form_table = [], i, count = rows.length;
 		for(i = 0; i < count; i++)
-			form_table.push(<PackagesRow key={ rows[i].id } row={ {name: rows[i].title, last_edit: rows[i].updated_on} }/>);
+			form_table.push(<FormTableRow key={ rows[i].id } row={ {name: rows[i].title, last_edit: rows[i].updated_on} }/>);
 		return ( <>{ form_table }</> )
 	}
 

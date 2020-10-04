@@ -51,19 +51,33 @@ export function addCombo(handleSuccess, title, owner){
 	data = {"title": title};// {"title": "", "owner": null, "description": "", "users": []}
 	fetchProps.body = JSON.stringify(data);
 
-		fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
-			(result) => {
-				handleSuccess(result);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
+	fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
+		(result) => {
+			handleSuccess(result);
+		},
+		(error) => {
+			console.log(error);
+		}
+	);
 	return true;
 }
 
 export function removeCombo(handleSuccess, packageId, title){
 	console.log(packageId);
+	let url = getPath(), data, token = getCookie('csrftoken'),
+		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
+	data = {"id": packageId, "title": title};
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
+		(result) => {
+			handleSuccess(result);
+		},
+		(error) => {
+			console.log(error);
+		}
+	);
+	return true;
 }
 
 export default Packages;

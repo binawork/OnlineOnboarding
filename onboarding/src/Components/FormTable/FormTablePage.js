@@ -5,8 +5,8 @@ import PageAddressBar from "../PageAddressBar";
 import FormTable from "./FormTable";
 import FormTableSearch from "./FormTableSearch";
 
-function FormTablePage() {
-
+function FormTablePage(props) {
+console.log(props.location);
     return(
         <div className="app">
             <header className="app-header app-header-dark">
