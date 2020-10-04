@@ -1,71 +1,61 @@
-import React, { Component } from "react";
-import Switcher from "../Switcher";
+import React, { useState } from "react";
 import RadioButton from "./RadioButton";
+import Switcher from "../../Switcher";
 import { v4 as uuidv4 } from "uuid";
 
-class FormChoiceEdit extends Component {
-  state = {
-    title: "",
-    description: "",
-    singleChoices: [],
-    answChecked: "",
-    answRequired: true,
+//import "../../static/looper/stylesheets/theme.min.css";
+//import "../static/looper/stylesheets/theme-dark.min.css";
+//import "../static/looper/vendor/fontawesome/all.min.css";
+
+const FormChoiceEdit = ({
+  id,
+  name,
+  copyForm,
+  deleteForm,
+  answRequired,
+  switcherChange,
+}) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [singleChoices, setSingleChoices] = useState([
+    { id: uuidv4(), title: "Odpowiedź 1" },
+    { id: uuidv4(), title: "Odpowiedź 2" },
+    { id: uuidv4(), title: "Odpowiedź 3" },
+  ]);
+  const [checked, setChecked] = useState("");
+
+  const handleRadioChange = (id) => {
+    setChecked(id);
   };
 
-  handleChangeChecked = (e) => {
-    this.setState({ answChecked: e.target.id });
-  };
-
-  handleTitleChange = (e) => {
+  const handleTitleChange = (e) => {
     console.log(e.target);
-    this.setState({ title: e.target.value });
+    setTitle(e.target.value);
   };
 
-  handleDescriptionChange = (e) => {
+  const handleDescriptionChange = (e) => {
     console.log(e.target);
-    this.setState({ description: e.target.value });
+    setDescription(e.target.value);
   };
 
-  handleSwitcherChange = () => {
-    this.setState({
-      answRequired: this.state.answRequired === true ? false : true,
-    });
-  };
-
-  handleEditAnswer = (id) => {
+  const handleEditAnswer = (id) => {
     console.log(id);
   };
-  
-  handleDeleteAnswer = (id) => {
-    this.setState((prevState) => {
-      const singleChoices = prevState.singleChoices.filter(
-        (choice) => choice.id !== id
-      );
-      return { singleChoices };
-    });
+
+  const handleDeleteAnswer = (id) => {
+    const choices = singleChoices.filter((choice) => choice.id !== id);
+    setSingleChoices(choices);
   };
 
-  handleAddAnswer = (e) => {
+  const handleAddAnswer = (e) => {
     e.preventDefault();
-    const { singleChoices } = this.state;
-    let i = singleChoices.length ? singleChoices.length + 1 : 1;
-
+    const i = singleChoices.length ? singleChoices.length + 1 : 1;
     const choice = { id: uuidv4(), title: "Odpowiedź " + i };
-    this.setState({
-      singleChoices: [...this.state.singleChoices, choice],
-    });
+    setSingleChoices([...singleChoices, choice]);
   };
 
-  render() {
-    const {
-      title,
-      description,
-      answChecked,
-      answRequired,
-      singleChoices,
-    } = this.state;
-
-    return (
+  return (
+    <div className="card-body">
       <div className="task-issue">
         <div className="card">
           <div className="card-header">
@@ -81,7 +71,7 @@ class FormChoiceEdit extends Component {
                     className="form-control"
                     placeholder="Tytuł"
                     value={title}
-                    onChange={this.handleTitleChange}
+                    onChange={handleTitleChange}
                   />
                 </div>
               </div>
@@ -91,7 +81,7 @@ class FormChoiceEdit extends Component {
                   placeholder="Opis (markdown)"
                   rows="4"
                   value={description}
-                  onChange={this.handleDescriptionChange}
+                  onChange={handleDescriptionChange}
                 ></textarea>
               </div>
               <hr />
@@ -101,12 +91,12 @@ class FormChoiceEdit extends Component {
                     <RadioButton
                       key={choice.id}
                       id={choice.id}
-                      name={this.props.name}
+                      name={name}
                       title={choice.title}
-                      answChecked={answChecked}
-                      handleRadioChange={this.handleChangeChecked}
-                      deleteAnswer={() => this.handleDeleteAnswer(choice.id)}
-                      editAnswer={() => this.handleEditAnswer(choice.id)}
+                      answChecked={checked}
+                      handleRadioChange={() => handleRadioChange(choice.id)}
+                      deleteAnswer={() => handleDeleteAnswer(choice.id)}
+                      editAnswer={() => handleEditAnswer(choice.id)}
                     />
                   ))}
                 </tbody>
@@ -116,7 +106,7 @@ class FormChoiceEdit extends Component {
                 <div className="input-group-append">
                   <button
                     className="btn btn-secondary"
-                    onClick={this.handleAddAnswer}
+                    onClick={handleAddAnswer}
                     style={{ color: "#000" }}
                   >
                     Dodaj odpowiedź
@@ -128,34 +118,37 @@ class FormChoiceEdit extends Component {
           <div className="card-footer align-items-center">
             <div className="col">
               <Switcher
+                id={id}
                 answRequired={answRequired}
-                handleSwitcherChange={this.handleSwitcherChange}
+                switcherChange={switcherChange}
               />{" "}
               Odp. wymagana
             </div>
             <div className="col">
               <button
                 className="btn"
-                // onClick={ this.handleCopyForm }
+                onClick={copyForm}
                 // style={{ color: "#000" }}
               >
-                &#61637; Duplikuj pytanie
+                <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie
               </button>
             </div>
             <div className="col">
               <button
                 className="btn btn-outline-danger"
-                // onClick={ this.handleDeleteForm }
+                onClick={deleteForm}
                 // style={{ color: "#000" }}
               >
-                &#61944; Usuń
+              <i className="fa fa-trash-o fa-lg">&#61944;</i>
+                Usuń
               </button>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+  // }
+};
 
 export default FormChoiceEdit;

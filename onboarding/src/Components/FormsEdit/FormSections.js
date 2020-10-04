@@ -1,49 +1,123 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-import FormOpenText from "./FormOpenText";
-import FormChoiceEdit from "./FormChoiceEdit";
-import FormMultiChoiceEdit from "./FormMultiChoiceEdit";
+import FormOpenText from "./OpenAnswerForm/FormOpenText";
+import FormChoiceEdit from "./SingleChoiceForm/FormChoiceEdit";
+import FormMultiChoiceEdit from "./MultiChoiceForm/FormMultiChoiceEdit";
 import FormAddSection from "./FormAddSection";
 
-function FormSections(){
-    const [form_sections, setForms] = useState([]);
+function FormSections() {
+  const [form_sections, setForms] = useState([]);
 
-    function handleOpenText(){
-    	let i = form_sections.length;
-    	setForms([...form_sections, <div className="card-body" key = { i }><FormOpenText /></div>]);
-    }
+  const handleOpenText = () => {
+    const id = uuidv4();
+    const formSection = {
+      id: id,
+      name: "openAnswers" + id,
+      type: "openAnswers",
+      answRequired: true,
+    };
+    setForms([...form_sections, formSection]);
+  };
+  
+  const handleChoiceEdit = () => {
+    const id = uuidv4();
+    const formSection = {
+      id: id,
+      name: "radios" + id,
+      type: "radios",
+      answRequired: true,
+    };
+    setForms([...form_sections, formSection]);
+  };
+  
+  const handleMultiChoice = () => {
+    const id = uuidv4();
+    const formSection = {
+      id: id,
+      name: "checks" + id,
+      type: "checks",
+      answRequired: true,
+    };
+    setForms([...form_sections, formSection]);
+  };
 
-    var handleChoiceEdit = function(){
-    	let i = form_sections.length, name = "radios" + i;
-    	setForms([...form_sections, <div className="card-body" key = { i }><FormChoiceEdit name = { name } /></div>]);
-    }
+  const handleCopyForm = (e) => {
+    console.log(e.target);
 
-    var handleMultiChoice = function(){
-    	let i = form_sections.length, name = "checks" + i;
-    	setForms([...form_sections, <div className="card-body" key = { i }><FormMultiChoiceEdit name = { name } /></div>]);
-    }
+    // setForms([...form_sections, e.target]);
+  };
+  const handleDeleteForm = (e) => {
+    console.log(e.target);
 
-    /*if(form_sections.length < 3){
-    	let i = 0;
-    	form_sections.push(<div key = { i } className="card-body"><FormOpenText /></div>);
-    	form_sections.push(<div key = { i+1 } className="card-body"><FormChoiceEdit /></div>);
-    	form_sections.push(<div key = { i+2 } className="card-body"><FormMultiChoiceEdit /></div>);
-    	setForms(form_sections);
-    }*/
+    // setForms(form_sections.filter(form => form != e.target))
+  };
 
-    return (
-    	<div className="row">
-    		<div className="col">
-    			{ form_sections }
-    		</div>
-    		<div className="col-auto">
-    			<div className="card-body">
-					<FormAddSection handleClicks = { {openText: handleOpenText, singleChoice: handleChoiceEdit, multiChoiceEdit: handleMultiChoice} } />
-				</div>
-			</div>
-		</div>
-    )
+
+  const handleSwitcherChange = (e) => {
+    const forms = form_sections.map((form) => {
+      form.id === e.target.id
+        ? form.answRequired === true
+          ? (form.answRequired = false)
+          : (form.answRequired = true)
+        : form;
+      return form;
+    });
+    setForms(forms);
+  };
+
+  return (
+    <div className="row">
+      <div className="col">
+        {form_sections.map((form) =>
+          form.type === "radios" ? (
+            <FormChoiceEdit
+              key={form.id}
+              id={form.id}
+              name={form.name}
+              copyForm={(e) => handleCopyForm(e)}
+              deleteForm={(e) => handleDeleteForm(e)}
+              answRequired={form.answRequired}
+              switcherChange={(e) => handleSwitcherChange(e)}
+            />
+          ) : form.type === "checks" ? (
+            <FormMultiChoiceEdit
+              key={form.id}
+              id={form.id}
+              name={form.name}
+              copyForm={(e) => handleCopyForm(e)}
+              deleteForm={(e) => handleDeleteForm(e)}
+              answRequired={form.answRequired}
+              switcherChange={(e) => handleSwitcherChange(e)}
+            />
+          ) : form.type === "openAnswers" ? (
+            <FormOpenText
+              key={form.id}
+              id={form.id}
+              name={form.name}
+              copyForm={(e) => handleCopyForm(e)}
+              deleteForm={(e) => handleDeleteForm(e)}
+              answRequired={form.answRequired}
+              switcherChange={(e) => handleSwitcherChange(e)}
+            />
+          ) : (
+            console.info("Wrong type of form")
+          )
+        )}
+      </div>
+      <div className="col-auto">
+        <div className="card-body">
+          <FormAddSection
+            handleClicks={{
+              openText: handleOpenText,
+              singleChoice: handleChoiceEdit,
+              multiChoiceEdit: handleMultiChoice,
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default FormSections;
-

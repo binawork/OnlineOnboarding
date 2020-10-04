@@ -10,7 +10,6 @@ const RadioButton = ({
   deleteAnswer,
   editAnswer,
 }) => {
-
   return (
     <tr>
       <td>
@@ -22,27 +21,27 @@ const RadioButton = ({
             className={`custom-control-input ${
               answChecked === id ? "is-valid" : ""
             }`}
-            id={ id }
-            name={ name }
+            id={id}
+            name={name}
             type="radio"
-            value={ title }
-            onChange={ handleRadioChange }
-            checked={ answChecked === id }
+            value={title}
+            onChange={handleRadioChange}
+            checked={answChecked === id}
           />{" "}
-          <label className="custom-control-label" htmlFor={ id }>
+          <label className="custom-control-label" htmlFor={id}>
             {title}
           </label>
         </div>
       </td>
       <td>
         {" "}
-        <button className="btn" onClick={ editAnswer }>
+        <button className="btn" onClick={editAnswer}>
           &#9997; Edytuj
         </button>{" "}
       </td>
       <td>
         {" "}
-        <button className="btn text-danger" onClick={ deleteAnswer }>
+        <button className="btn text-danger" onClick={deleteAnswer}>
           <i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń
         </button>{" "}
       </td>
@@ -58,6 +57,6 @@ RadioButton.propTypes = {
   handleRadioChange: PropTypes.func.isRequired,
   deleteAnswer: PropTypes.func.isRequired,
   editAnswer: PropTypes.func.isRequired,
-}
+};
 
 export default RadioButton;
