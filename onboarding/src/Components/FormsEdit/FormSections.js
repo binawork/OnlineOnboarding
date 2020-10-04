@@ -47,10 +47,8 @@ function FormSections() {
 
     // setForms([...form_sections, e.target]);
   };
-  const handleDeleteForm = (e) => {
-    console.log(e.target);
-
-    // setForms(form_sections.filter(form => form != e.target))
+  const handleDeleteForm = (id) => {
+    setForms(form_sections.filter(form => form.id != id))
   };
 
 
@@ -76,7 +74,7 @@ function FormSections() {
               id={form.id}
               name={form.name}
               copyForm={(e) => handleCopyForm(e)}
-              deleteForm={(e) => handleDeleteForm(e)}
+              deleteForm={() => handleDeleteForm(form.id)}
               answRequired={form.answRequired}
               switcherChange={(e) => handleSwitcherChange(e)}
             />
@@ -86,7 +84,7 @@ function FormSections() {
               id={form.id}
               name={form.name}
               copyForm={(e) => handleCopyForm(e)}
-              deleteForm={(e) => handleDeleteForm(e)}
+              deleteForm={() => handleDeleteForm(form.id)}
               answRequired={form.answRequired}
               switcherChange={(e) => handleSwitcherChange(e)}
             />
@@ -96,7 +94,7 @@ function FormSections() {
               id={form.id}
               name={form.name}
               copyForm={(e) => handleCopyForm(e)}
-              deleteForm={(e) => handleDeleteForm(e)}
+              deleteForm={() => handleDeleteForm(form.id)}
               answRequired={form.answRequired}
               switcherChange={(e) => handleSwitcherChange(e)}
             />
