@@ -65,11 +65,11 @@ export function addCombo(handleSuccess, title, owner){
 export function removeCombo(handleSuccess, packageId, title){
 	console.log(packageId);
 	let url = getPath(), data, token = getCookie('csrftoken'),
-		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
-	data = {"id": packageId, "title": title};
+		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}};
+	data = {"id": packageId};
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
+	fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
 		(result) => {
 			handleSuccess(result);
 		},

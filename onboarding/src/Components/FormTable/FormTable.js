@@ -3,10 +3,13 @@ import FormTableSearch from "./FormTableSearch";
 import FormTableAddNew from "./FormTableAddNew";
 import FormTableRow from "./FormTableRow";
 import { formDataList } from "./FormTableData";
+import PackagePage from "../hooks/PackagePage";
 
 function FormTable(props) {
     // todo: use console.log(props.packageId);
-    let form_table= [];
+    let form_table= [];// = PackagePage(props.packageId);
+
+
     if (formDataList) {
         formDataList.forEach(function (element) {
             form_table.push(<FormTableRow row={element}/>)

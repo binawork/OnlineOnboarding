@@ -7,7 +7,7 @@ import FormTableSearch from "./FormTableSearch";
 
 function FormTablePage(props) {
 	let packageId = 0;
-	if(props.location.state.packageId)
+	if(props.location.state)
 		packageId = props.location.state.packageId;
 
     return(
