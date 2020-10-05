@@ -3,9 +3,9 @@ import Checkbox from "./Checkbox";
 import Switcher from "../../Switcher";
 import { v4 as uuidv4 } from "uuid";
 
-//import "../../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-//import "../static/looper/vendor/fontawesome/all.min.css";
+// import "../../../static/looper/stylesheets/theme.min.css";
+// import "../../../static/looper/stylesheets/theme-dark.min.css";
+// import "../../../static/looper/vendor/fontawesome/all.min.css";
 
 
 const FormMultiChoiceEdit = ({
@@ -37,17 +37,20 @@ const FormMultiChoiceEdit = ({
   };
 
   const handleTitleChange = (e) => {
-    console.log(e.target);
     setTitle(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
-    console.log(e.target);
     setDescription(e.target.value);
   };
 
-  const handleEditAnswer = (id) => {
-    console.log(id);
+  const handleEditAnswer = (e) => {
+    const id = (e.target.id).slice(4);
+    const choices = multiChoices.map(choice => {
+      if(choice.id === id) choice.title = e.target.value;
+      return choice;
+    });
+    setMultiChoices(choices);
   };
 
   const handleDeleteAnswer = (id) => {
@@ -70,8 +73,6 @@ const FormMultiChoiceEdit = ({
           </div>
           <div className="card-body">
             <form>
-              {" "}
-              {/* form placeholder */}
               <div className="form-group">
                 <div className="input-group">
                   <input
@@ -105,7 +106,7 @@ const FormMultiChoiceEdit = ({
                       answChecked={checked}
                       handleCheck={() => handleCheck(choice.id)}
                       deleteAnswer={() => handleDeleteAnswer(choice.id)}
-                      editAnswer={() => handleEditAnswer(choice.id)}
+                      editAnswer={handleEditAnswer}
                     />
                   ))}
                 </tbody>
@@ -130,8 +131,8 @@ const FormMultiChoiceEdit = ({
                 id={id}
                 answRequired={answRequired}
                 switcherChange={switcherChange}
-              />{" "}
-              Odp. wymagane {/* form placeholder */}
+              />
+              Odp. wymagana
             </div>
             <div className="col">
               <button
@@ -144,7 +145,7 @@ const FormMultiChoiceEdit = ({
             </div>
             <div className="col">
               <button
-                className="btn btn-outline-danger"
+                className="btn text-danger"
                 onClick={deleteForm}
                 // style={{ color: "#000" }}
               >
