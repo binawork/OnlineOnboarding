@@ -3,9 +3,9 @@ import RadioButton from "./RadioButton";
 import Switcher from "../../Switcher";
 import { v4 as uuidv4 } from "uuid";
 
-//import "../../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-//import "../static/looper/vendor/fontawesome/all.min.css";
+// import "../../../static/looper/stylesheets/theme.min.css";
+// import "../../../static/looper/stylesheets/theme-dark.min.css";
+// import "../../../static/looper/vendor/fontawesome/all.min.css";
 
 const FormChoiceEdit = ({
   id,
@@ -29,17 +29,20 @@ const FormChoiceEdit = ({
   };
 
   const handleTitleChange = (e) => {
-    console.log(e.target);
     setTitle(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
-    console.log(e.target);
     setDescription(e.target.value);
   };
 
-  const handleEditAnswer = (id) => {
-    console.log(id);
+  const handleEditAnswer = (e) => {
+    const id = (e.target.id).slice(4);
+    const choices = singleChoices.map(choice => {
+      if(choice.id === id) choice.title = e.target.value;
+      return choice;
+    });
+    setSingleChoices(choices);
   };
 
   const handleDeleteAnswer = (id) => {
@@ -96,7 +99,7 @@ const FormChoiceEdit = ({
                       answChecked={checked}
                       handleRadioChange={() => handleRadioChange(choice.id)}
                       deleteAnswer={() => handleDeleteAnswer(choice.id)}
-                      editAnswer={() => handleEditAnswer(choice.id)}
+                      editAnswer={handleEditAnswer}
                     />
                   ))}
                 </tbody>
@@ -135,11 +138,11 @@ const FormChoiceEdit = ({
             </div>
             <div className="col">
               <button
-                className="btn btn-outline-danger"
+                className="btn text-danger"
                 onClick={deleteForm}
                 // style={{ color: "#000" }}
               >
-              <i className="fa fa-trash-o fa-lg">&#61944;</i>
+                <i className="fa fa-trash-o fa-lg">&#61944;</i>
                 Usuń
               </button>
             </div>

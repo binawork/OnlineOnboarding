@@ -41,7 +41,7 @@ function FormAddSection(props) {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <div className="col-auto">&#9745; &#9989;</div>
+                    <div className="col-auto">&#9745;</div>
                     <div className="col">
                         <div className="input-group-append">
                             <button className="btn btn-secondary" onClick={ multiChoiceClick } style={{color: '#000'}}>Wiele odpowiedzi</button>

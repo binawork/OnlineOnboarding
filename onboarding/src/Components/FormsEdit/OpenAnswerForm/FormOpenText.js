@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-//import "../../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-//import "../static/looper/vendor/fontawesome/all.min.css";
+// import "../../../static/looper/stylesheets/theme.min.css";
+// import "../../../static/looper/stylesheets/theme-dark.min.css";
+// import "../../../static/looper/vendor/fontawesome/all.min.css";
 
 import Switcher from "../../Switcher";
 
@@ -35,7 +35,6 @@ const FormOpenText = ({
           </div>
           <div className="card-body">
             <form>
-              {" "}
               <div className="form-group">
                 <div className="input-group">
                   <input
@@ -65,7 +64,7 @@ const FormOpenText = ({
                 id={id}
                 answRequired={answRequired}
                 switcherChange={switcherChange}
-              />{" "}
+              />
               Odp. wymagana
             </div>
             <div className="col">
@@ -79,7 +78,7 @@ const FormOpenText = ({
             </div>
             <div className="col">
               <button
-                className="btn btn-outline-danger"
+                className="btn text-danger"
                 onClick={deleteForm}
                 // style={{ color: "#000" }}
               >
