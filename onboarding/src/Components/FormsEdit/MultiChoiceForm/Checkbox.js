@@ -81,4 +81,15 @@ const Checkbox = ({
   );
 };
 
+Checkbox.propTypes = {
+  id: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  answChecked: PropTypes.array.isRequired,
+  handleCheck: PropTypes.func.isRequired,
+  deleteAnswer: PropTypes.func.isRequired,
+  editAnswer: PropTypes.func.isRequired,
+};
+
 export default Checkbox;

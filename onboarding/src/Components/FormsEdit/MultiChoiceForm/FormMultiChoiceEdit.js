@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 // import "../../../static/looper/stylesheets/theme-dark.min.css";
 // import "../../../static/looper/vendor/fontawesome/all.min.css";
 
-
 const FormMultiChoiceEdit = ({
   id,
   name,
