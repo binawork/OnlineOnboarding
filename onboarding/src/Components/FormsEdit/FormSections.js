@@ -9,48 +9,37 @@ import FormAddSection from "./FormAddSection";
 function FormSections() {
   const [form_sections, setForms] = useState([]);
 
-  const handleOpenText = () => {
+  const handleAddSection = (type) => {
     const id = uuidv4();
     const formSection = {
       id: id,
-      name: "openAnswers" + id,
-      type: "openAnswers",
-      answRequired: true,
-    };
-    setForms([...form_sections, formSection]);
-  };
-  
-  const handleChoiceEdit = () => {
-    const id = uuidv4();
-    const formSection = {
-      id: id,
-      name: "radios" + id,
-      type: "radios",
-      answRequired: true,
-    };
-    setForms([...form_sections, formSection]);
-  };
-  
-  const handleMultiChoice = () => {
-    const id = uuidv4();
-    const formSection = {
-      id: id,
-      name: "checks" + id,
-      type: "checks",
+      name: type + id,
+      type: type,
       answRequired: true,
     };
     setForms([...form_sections, formSection]);
   };
 
   const handleCopyForm = (e) => {
-    console.log(e.target);
-
-    // setForms([...form_sections, e.target]);
+    console.log(e.target)
+    // const newId = uuidv4();
+    // setForms(form_sections.map(form => {
+    //   if(form.id === id) {
+    //     const newForm = {};
+    //     newForm.id = newId;
+    //     newForm.name = form.type + newId;
+    //     newForm.type = form.type;
+    //     newForm.answRequired = form.answRequired
+    //     console.log(newForm);
+    //     return (form, newForm);
+    //   }
+    //   return form;
+    // }));
   };
+  
   const handleDeleteForm = (id) => {
     setForms(form_sections.filter(form => form.id != id))
   };
-
 
   const handleSwitcherChange = (e) => {
     const forms = form_sections.map((form) => {
@@ -73,7 +62,7 @@ function FormSections() {
               key={form.id}
               id={form.id}
               name={form.name}
-              copyForm={(e) => handleCopyForm(e)}
+              copyForm={handleCopyForm}
               deleteForm={() => handleDeleteForm(form.id)}
               answRequired={form.answRequired}
               switcherChange={(e) => handleSwitcherChange(e)}
@@ -83,7 +72,7 @@ function FormSections() {
               key={form.id}
               id={form.id}
               name={form.name}
-              copyForm={(e) => handleCopyForm(e)}
+              copyForm={handleCopyForm}
               deleteForm={() => handleDeleteForm(form.id)}
               answRequired={form.answRequired}
               switcherChange={(e) => handleSwitcherChange(e)}
@@ -93,7 +82,7 @@ function FormSections() {
               key={form.id}
               id={form.id}
               name={form.name}
-              copyForm={(e) => handleCopyForm(e)}
+              copyForm={handleCopyForm}
               deleteForm={() => handleDeleteForm(form.id)}
               answRequired={form.answRequired}
               switcherChange={(e) => handleSwitcherChange(e)}
@@ -107,9 +96,9 @@ function FormSections() {
         <div className="card-body">
           <FormAddSection
             handleClicks={{
-              openText: handleOpenText,
-              singleChoice: handleChoiceEdit,
-              multiChoiceEdit: handleMultiChoice,
+              openText: () => handleAddSection("openAnswers"),
+              singleChoice: () => handleAddSection("radios"),
+              multiChoiceEdit: () => handleAddSection("checks"),
             }}
           />
         </div>
