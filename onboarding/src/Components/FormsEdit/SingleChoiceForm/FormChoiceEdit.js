@@ -97,6 +97,7 @@ const FormChoiceEdit = ({
                       name={name}
                       title={choice.title}
                       answChecked={checked}
+                      answRequired={answRequired}
                       handleRadioChange={() => handleRadioChange(choice.id)}
                       deleteAnswer={() => handleDeleteAnswer(choice.id)}
                       editAnswer={handleEditAnswer}
@@ -130,6 +131,7 @@ const FormChoiceEdit = ({
             <div className="col">
               <button
                 className="btn"
+                id={id}
                 onClick={copyForm}
                 // style={{ color: "#000" }}
               >

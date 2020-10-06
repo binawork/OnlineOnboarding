@@ -136,6 +136,7 @@ const FormMultiChoiceEdit = ({
             <div className="col">
               <button
                 className="btn"
+                id={id}
                 onClick={copyForm}
                 // style={{ color: "#000" }}
               >

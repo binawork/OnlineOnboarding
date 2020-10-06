@@ -53,6 +53,7 @@ const FormOpenText = ({
                   rows="4"
                   value={userAnswer}
                   onChange={handleUserAnswerChange}
+                  required={answRequired}
                 ></textarea>
               </div>
             </form>
@@ -69,6 +70,7 @@ const FormOpenText = ({
             <div className="col">
               <button
                 className="btn"
+                id={id}
                 onClick={copyForm}
                 // style={{ color: "#000" }}
               >

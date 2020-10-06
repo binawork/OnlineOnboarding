@@ -7,6 +7,7 @@ const Checkbox = ({
   name,
   title,
   answChecked,
+  answRequired,
   handleCheck,
   deleteAnswer,
   editAnswer,

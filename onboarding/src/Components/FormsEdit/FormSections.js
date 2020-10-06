@@ -21,20 +21,22 @@ function FormSections() {
   };
 
   const handleCopyForm = (e) => {
-    console.log(e.target)
-    // const newId = uuidv4();
-    // setForms(form_sections.map(form => {
-    //   if(form.id === id) {
-    //     const newForm = {};
-    //     newForm.id = newId;
-    //     newForm.name = form.type + newId;
-    //     newForm.type = form.type;
-    //     newForm.answRequired = form.answRequired
-    //     console.log(newForm);
-    //     return (form, newForm);
-    //   }
-    //   return form;
-    // }));
+    const newId = uuidv4();
+    const newForm = {};
+    const index = form_sections.findIndex(form => form.id === e.target.id);
+    form_sections.map(form => {
+      if(form.id === e.target.id) {
+        newForm.id = newId;
+        newForm.name = form.type + newId;
+        newForm.type = form.type;
+        newForm.answRequired = form.answRequired
+      }
+      return form;
+    });
+    const forms = form_sections.slice(0);
+    forms.splice(index + 1, 0, newForm);
+    setForms(forms);
+    console.log(form_sections)
   };
   
   const handleDeleteForm = (id) => {

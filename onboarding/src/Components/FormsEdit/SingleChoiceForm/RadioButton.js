@@ -6,6 +6,7 @@ const RadioButton = ({
   name,
   title,
   answChecked,
+  answRequired,
   handleRadioChange,
   deleteAnswer,
   editAnswer,
@@ -27,6 +28,7 @@ const RadioButton = ({
               type="text"
               value={title}
               onChange={editAnswer}
+              required={answRequired}
             />
           </div>
         ) : (
@@ -41,6 +43,7 @@ const RadioButton = ({
               value={title}
               onChange={handleRadioChange}
               checked={answChecked === id}
+              required={answRequired}
             />
             <label className="custom-control-label" htmlFor={id}>
               {title}
