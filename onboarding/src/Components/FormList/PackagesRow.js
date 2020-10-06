@@ -6,12 +6,12 @@ import { removeCombo } from "../hooks/Packages";
 function PackagesRow(props) {
 
     var removeSuccess = (result) => {
-        //props.handleUpdate();/ / update list of packages;
+        props.handleUpdate();// update list of packages;
         console.log(result);
     };
 
     var handleRemove = function(){
-        removeCombo(removeSuccess, props.row.key);
+        removeCombo(props.handleUpdate, props.row.key);
     }
 
     return(
@@ -23,3 +23,4 @@ function PackagesRow(props) {
     )
 }
 export default PackagesRow;
+

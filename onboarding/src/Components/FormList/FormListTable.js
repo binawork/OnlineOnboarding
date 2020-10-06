@@ -1,4 +1,4 @@
-import React/*, { useState, useEffect }*/ from "react";
+import React, { useState/*, useEffect*/ } from "react";
 import PackagesAddNew from "./PackagesAddNew";
 //import PackagesRow from "./PackagesRow";
 //import { formDataList } from "../FormTable/FormTableData";
@@ -6,11 +6,12 @@ import PackagesAddNew from "./PackagesAddNew";
 import Packages from "../hooks/Packages";
 
 function FormListTable() {
-
-    let packages = Packages();
+    const [countUpdate, update] = useState(0);
+    //let packages = <Packages count = countUpdate />;
 
     var updatePackages = function(){
-        packages = Packages();
+    	update(countUpdate + 1);
+        //packages = Packages(countUpdate);
     }
 
     return (
@@ -37,7 +38,7 @@ function FormListTable() {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                            { packages }
+                            <Packages count = { countUpdate } handleUpdate = { updatePackages } />
                         </tbody>
                     </table>
                 </div>

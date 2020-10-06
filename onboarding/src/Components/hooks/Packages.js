@@ -5,7 +5,7 @@ import PackagesRow from "../FormList/PackagesRow";
 /**
  * Get packages from Onboarding API when Packages component is loaded;
  */
-function Packages(){
+function Packages(props){
 	var [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
@@ -23,7 +23,7 @@ function Packages(){
 				console.log(error);
 			}
 		);
-	}, []);
+	}, [props.count]);
 
 	if(error){
 		return <PackagesRow key={0} row={ {name: error.message, last_edit: ""} }/>
@@ -32,10 +32,9 @@ function Packages(){
 	else {
 		var form_table = [], i, count = rows.length;
 		for(i = 0; i < count; i++)
-			form_table.push(<PackagesRow key={ rows[i].id } row={ {name: rows[i].title, last_edit: rows[i].updated_on, key: rows[i].id } }/>);
+			form_table.push(<PackagesRow key={ rows[i].id } row={ {name: rows[i].title, last_edit: rows[i].updated_on, key: rows[i].id } } handleUpdate = { props.handleUpdate } />);
 		return ( <>{ form_table }</> )
 	}
-
 }
 
 
@@ -74,7 +73,7 @@ export function removeCombo(handleSuccess, packageId, title){
 			handleSuccess(result);
 		},
 		(error) => {
-			console.log(error);
+			handleSuccess(error);
 		}
 	);
 	return true;
