@@ -6,24 +6,17 @@ import Switcher from "../../Switcher";
 // import "../../../static/looper/stylesheets/theme-dark.min.css";
 // import "../../../static/looper/vendor/fontawesome/all.min.css";
 
-
 const FormOpenText = ({
   id,
+  title,
+  userAnswer,
   copyForm,
   deleteForm,
   answRequired,
+  titleChange,
+  editOpenAnswer,
   switcherChange,
 }) => {
-  const [question, setQuestion] = useState("");
-  const [userAnswer, setUserAnswer] = useState("");
-
-  const handleQuestionChange = (e) => {
-    setQuestion(e.target.value);
-  };
-
-  const handleUserAnswerChange = (e) => {
-    setUserAnswer(e.target.value);
-  };
 
   return (
     <div className="card-body">
@@ -37,22 +30,24 @@ const FormOpenText = ({
               <div className="form-group">
                 <div className="input-group">
                   <input
+                    id={'title' + id}
                     type="text"
                     className="form-control"
                     placeholder="Wpisz pytanie"
-                    value={question}
-                    onChange={handleQuestionChange}
+                    value={title}
+                    onChange={titleChange}
                   />
                 </div>
               </div>
               <hr />
               <div className="form-group">
                 <textarea
+                  id={'answer' + id}
                   className="form-control"
                   placeholder="Tekst odpowiedzi użytkownika"
                   rows="4"
                   value={userAnswer}
-                  onChange={handleUserAnswerChange}
+                  onChange={editOpenAnswer}
                   required={answRequired}
                 ></textarea>
               </div>

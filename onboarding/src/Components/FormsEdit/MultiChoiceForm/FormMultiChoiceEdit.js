@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Checkbox from "./Checkbox";
 import Switcher from "../../Switcher";
-import { v4 as uuidv4 } from "uuid";
 
 // import "../../../static/looper/stylesheets/theme.min.css";
 // import "../../../static/looper/stylesheets/theme-dark.min.css";
@@ -10,58 +9,21 @@ import { v4 as uuidv4 } from "uuid";
 const FormMultiChoiceEdit = ({
   id,
   name,
+  title,
+  description,
+  choices,
+  checked,
   copyForm,
   deleteForm,
   answRequired,
   switcherChange,
+  titleChange,
+  descriptionChange,
+  addAnswer,
+  deleteAnswer,
+  editAnswer,
+  changeChecked,
 }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [multiChoices, setMultiChoices] = useState([
-    { id: uuidv4(), title: "Odpowiedź 1" },
-    { id: uuidv4(), title: "Odpowiedź 2" },
-    { id: uuidv4(), title: "Odpowiedź 3" },
-  ]);
-  const [checked, setChecked] = useState([]);
-  const classes = {
-    checked: "custom-control-input is-valid",
-    unchecked: "custom-control-input",
-  };
-
-  const handleAddAnswer = (e) => {
-    e.preventDefault();
-    const i = multiChoices.length ? multiChoices.length + 1 : 1;
-    const choice = { id: uuidv4(), title: "Odpowiedź " + i };
-    setMultiChoices([...multiChoices, choice]);
-  };
-
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleEditAnswer = (e) => {
-    const id = (e.target.id).slice(4);
-    const choices = multiChoices.map(choice => {
-      if(choice.id === id) choice.title = e.target.value;
-      return choice;
-    });
-    setMultiChoices(choices);
-  };
-
-  const handleDeleteAnswer = (id) => {
-    const choices = multiChoices.filter((choice) => choice.id !== id);
-    setMultiChoices(choices);
-  };
-
-  const handleCheck = (id) => {
-    checked.includes(id) 
-      ? setChecked(checked.filter(checkedId => checkedId !== id))
-      : setChecked([...checked, id])    
-  }
 
   return (
     <div className="card-body">
@@ -75,37 +37,39 @@ const FormMultiChoiceEdit = ({
               <div className="form-group">
                 <div className="input-group">
                   <input
+                    id={'title' + id}
                     type="text"
                     className="form-control"
                     placeholder="Tytuł"
                     value={title}
-                    onChange={handleTitleChange}
+                    onChange={titleChange}
                   />
                 </div>
               </div>
               <div className="form-group">
                 <textarea
+                  id={'descr' + id}
                   className="form-control"
                   placeholder="Opis (markdown)"
                   rows="4"
                   value={description}
-                  onChange={handleDescriptionChange}
+                  onChange={descriptionChange}
                 ></textarea>
               </div>
               <hr />
               <table className="table table-hover">
                 <tbody>
-                  {multiChoices.map((choice) => (
+                  {choices.map((choice) => (
                     <Checkbox
                       key={choice.id}
                       id={choice.id}
-                      classes={classes}
                       name={name}
                       title={choice.title}
                       answChecked={checked}
-                      handleCheck={() => handleCheck(choice.id)}
-                      deleteAnswer={() => handleDeleteAnswer(choice.id)}
-                      editAnswer={handleEditAnswer}
+                      changeChecked={changeChecked}
+                      deleteAnswer={deleteAnswer}
+                      editAnswer={editAnswer}
+                      // answRequired={answRequired}
                     />
                   ))}
                 </tbody>
@@ -115,7 +79,8 @@ const FormMultiChoiceEdit = ({
                 <div className="input-group-append">
                   <button
                     className="btn btn-secondary"
-                    onClick={handleAddAnswer}
+                    id={'addansw' + id}
+                    onClick={addAnswer}
                     style={{ color: "#000" }}
                   >
                     Dodaj odpowiedź

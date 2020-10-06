@@ -6,10 +6,10 @@ const RadioButton = ({
   name,
   title,
   answChecked,
-  answRequired,
-  handleRadioChange,
+  changeChecked,
   deleteAnswer,
   editAnswer,
+  answRequired,
 }) => {
   const [editing, setEditing] = useState(false);
 
@@ -35,14 +35,14 @@ const RadioButton = ({
           <div className="custom-control custom-control-inline custom-radio">
             <input
               className={`custom-control-input ${
-                answChecked === id ? "is-valid" : ""
+                answChecked.includes(id) ? "is-valid" : ""
               }`}
               id={id}
               name={name}
               type="radio"
               value={title}
-              onChange={handleRadioChange}
-              checked={answChecked === id}
+              onChange={changeChecked}
+              checked={answChecked[0] === id}
               required={answRequired}
             />
             <label className="custom-control-label" htmlFor={id}>
@@ -75,7 +75,7 @@ const RadioButton = ({
         )}
       </td>
       <td>
-        <button className="btn text-danger" onClick={deleteAnswer}>
+        <button className="btn text-danger" id={'del' + id} name={name} onClick={deleteAnswer}>
           <i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń
         </button>
       </td>
@@ -87,10 +87,11 @@ RadioButton.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  answChecked: PropTypes.string.isRequired,
-  handleRadioChange: PropTypes.func.isRequired,
+  answChecked: PropTypes.array.isRequired,
+  changeChecked: PropTypes.func.isRequired,
   deleteAnswer: PropTypes.func.isRequired,
   editAnswer: PropTypes.func.isRequired,
+  answRequired: PropTypes.bool,
 };
 
 export default RadioButton;

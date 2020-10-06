@@ -9,6 +9,8 @@ import FormAddSection from "./FormAddSection";
 function FormSections() {
   const [form_sections, setForms] = useState([]);
 
+  /* Create new question */
+
   const handleAddSection = (type) => {
     const id = uuidv4();
     const formSection = {
@@ -16,31 +18,49 @@ function FormSections() {
       name: type + id,
       type: type,
       answRequired: true,
+      title: "",
+      description: "",
+      choices: [
+        { id: uuidv4(), title: "Odpowiedź 1" },
+        { id: uuidv4(), title: "Odpowiedź 2" },
+        { id: uuidv4(), title: "Odpowiedź 3" },
+      ],
+      checked: [],
+      userOpenAnswer: ""
     };
     setForms([...form_sections, formSection]);
   };
 
+  /* Functions to manage questions */
+
   const handleCopyForm = (e) => {
     const newId = uuidv4();
     const newForm = {};
-    const index = form_sections.findIndex(form => form.id === e.target.id);
-    form_sections.map(form => {
-      if(form.id === e.target.id) {
+    const index = form_sections.findIndex((form) => form.id === e.target.id);
+    form_sections.map((form) => {
+      if (form.id === e.target.id) {
         newForm.id = newId;
         newForm.name = form.type + newId;
         newForm.type = form.type;
-        newForm.answRequired = form.answRequired
+        newForm.answRequired = form.answRequired;
+        newForm.title = form.title;
+        newForm.description = form.description;
+        newForm.choices = form.choices;
+        newForm.checked = form.checked;
+        newForm.userOpenAnswer = form.userOpenAnswer;
       }
       return form;
     });
+    // slice() to get shallow copy of form_sections
     const forms = form_sections.slice(0);
+    // splice() to put copied form at the right index (next after its origin)
     forms.splice(index + 1, 0, newForm);
     setForms(forms);
-    console.log(form_sections)
+    console.log(form_sections);
   };
-  
+
   const handleDeleteForm = (id) => {
-    setForms(form_sections.filter(form => form.id != id))
+    setForms(form_sections.filter((form) => form.id != id));
   };
 
   const handleSwitcherChange = (e) => {
@@ -55,6 +75,104 @@ function FormSections() {
     setForms(forms);
   };
 
+  const handleTitleChange = (e) => {
+    const forms = form_sections.map((form) => {
+      // slice(5) - because e.target.id = 'title' + id
+      form.id === e.target.id.slice(5) ? (form.title = e.target.value) : form;
+      return form;
+    });
+    setForms(forms);
+  };
+
+  const handleDescriptionChange = (e) => {
+    const forms = form_sections.map((form) => {
+      // slice(5) - because e.target.id = 'descr' + id
+      form.id === e.target.id.slice(5)
+        ? (form.description = e.target.value)
+        : form;
+      return form;
+    });
+    setForms(forms);
+  };
+
+  /* Functions to manage question's answers */
+
+  const handleAddAnswer = (e) => {
+    e.preventDefault();
+    const forms = form_sections.map((form) => {
+      // slice(7) - because e.target.id = 'addansw' + id
+      if (form.id === e.target.id.slice(7)) {
+        const i = form.choices.length ? form.choices.length + 1 : 1;
+        const choice = { id: uuidv4(), title: "Odpowiedź " + i };
+        form.choices = [...form.choices, choice];
+      }
+      return form;
+    });
+    setForms(forms);
+  };
+
+  const handleDeleteAnswer = (e) => {
+    e.preventDefault();
+    const forms = form_sections.map((form) => {
+      // slice(6) - because e.target.name = ('radios' || 'checks') + id
+      if (form.id === e.target.name.slice(6)) {
+        form.choices = form.choices.filter(
+          (choice) => choice.id !== e.target.id.slice(3)
+        );
+      }
+      return form;
+    });
+    setForms(forms);
+  };
+
+  const handleEditAnswer = (e) => {
+    const forms = form_sections.map((form) => {
+      // slice(6) - because e.target.name = ('radios' || 'checks')  + id
+      if (form.id === e.target.name.slice(6)) {
+        // slice(4) - because e.target.name = 'edit' + id
+        form.choices = form.choices.map((choice) => {
+          choice.title = choice.id === e.target.id.slice(4) 
+            ? e.target.value 
+            : choice.title;
+
+          return choice;
+        });
+      }
+      return form;
+    });
+    setForms(forms);
+  };
+  const handleEditOpenAnswer = (e) => {
+    const forms = form_sections.map((form) => {
+      // slice(6) - because e.target.name = 'answer'  + id
+      form.userOpenAnswer = form.id === e.target.id.slice(6)
+        ? e.target.value
+        : form.userOpenAnswer
+
+      return form;
+    });
+    setForms(forms);
+  }
+
+  const handleChangeChecked = (e) => {
+    const forms = form_sections.map((form) => {
+      // slice(6) - because e.target.name = form.type + id
+      if (form.id === e.target.name.slice(6)) {
+        if (e.target.type === "radio") {
+          form.checked = [e.target.id];
+        } 
+        else if (e.target.type === "checkbox") {
+          form.checked.includes(e.target.id)
+            ? form.checked = form.checked.filter((checkedId) => checkedId !== e.target.id)
+            : form.checked = [...form.checked, e.target.id];
+        }
+        else { console.log("Wrong type of answer sent to 'handleChangeChecked' function inside 'FormSections' component") }
+      }
+      return form;
+    });
+    setForms(forms);
+  };
+
   return (
     <div className="row">
       <div className="col">
@@ -64,9 +182,19 @@ function FormSections() {
               key={form.id}
               id={form.id}
               name={form.name}
+              title={form.title}
+              description={form.description}
+              choices={form.choices}
+              checked={form.checked}
               copyForm={handleCopyForm}
               deleteForm={() => handleDeleteForm(form.id)}
               answRequired={form.answRequired}
+              titleChange={(e) => handleTitleChange(e)}
+              descriptionChange={(e) => handleDescriptionChange(e)}
+              addAnswer={(e) => handleAddAnswer(e)}
+              deleteAnswer={(e) => handleDeleteAnswer(e)}
+              editAnswer={(e) => handleEditAnswer(e)}
+              changeChecked={(e) => handleChangeChecked(e)}
               switcherChange={(e) => handleSwitcherChange(e)}
             />
           ) : form.type === "checks" ? (
@@ -74,19 +202,33 @@ function FormSections() {
               key={form.id}
               id={form.id}
               name={form.name}
+              title={form.title}
+              description={form.description}
+              choices={form.choices}
+              checked={form.checked}
               copyForm={handleCopyForm}
               deleteForm={() => handleDeleteForm(form.id)}
               answRequired={form.answRequired}
+              titleChange={(e) => handleTitleChange(e)}
+              descriptionChange={(e) => handleDescriptionChange(e)}
+              addAnswer={(e) => handleAddAnswer(e)}
+              deleteAnswer={(e) => handleDeleteAnswer(e)}
+              editAnswer={(e) => handleEditAnswer(e)}
+              changeChecked={(e) => handleChangeChecked(e)}
               switcherChange={(e) => handleSwitcherChange(e)}
             />
-          ) : form.type === "openAnswers" ? (
+          ) : form.type === "opAnsw" ? (
             <FormOpenText
               key={form.id}
               id={form.id}
               name={form.name}
+              title={form.title}
+              userAnswer={form.userOpenAnswer}
               copyForm={handleCopyForm}
               deleteForm={() => handleDeleteForm(form.id)}
               answRequired={form.answRequired}
+              titleChange={(e) => handleTitleChange(e)}
+              editOpenAnswer={(e) => handleEditOpenAnswer(e)}
               switcherChange={(e) => handleSwitcherChange(e)}
             />
           ) : (
@@ -98,7 +240,7 @@ function FormSections() {
         <div className="card-body">
           <FormAddSection
             handleClicks={{
-              openText: () => handleAddSection("openAnswers"),
+              openText: () => handleAddSection("opAnsw"),
               singleChoice: () => handleAddSection("radios"),
               multiChoiceEdit: () => handleAddSection("checks"),
             }}

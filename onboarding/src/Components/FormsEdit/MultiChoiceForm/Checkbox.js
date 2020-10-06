@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 
 const Checkbox = ({
   id,
-  classes,
   name,
   title,
   answChecked,
-  answRequired,
-  handleCheck,
+  changeChecked,
   deleteAnswer,
   editAnswer,
+  answRequired,
 }) => {
   const [editing, setEditing] = useState(false);
 
@@ -34,14 +33,14 @@ const Checkbox = ({
         ) : (
           <div className="custom-control custom-control-inline custom-checkbox">
             <input
-              className={
-                answChecked.includes(id) ? classes.checked : classes.unchecked
-              }
+              className={`custom-control-input ${
+                answChecked.includes(id) ? "is-valid" : ""
+              }`}
               id={id}
               name={name}
               type="checkbox"
               value={title}
-              onChange={handleCheck}
+              onChange={changeChecked}
               checked={answChecked.includes(id)}
             />
             <label className="custom-control-label" htmlFor={id}>
@@ -74,7 +73,7 @@ const Checkbox = ({
         )}
       </td>
       <td>
-        <button className="btn text-danger" onClick={deleteAnswer}>
+        <button className="btn text-danger" id={'del' + id} name={name} onClick={deleteAnswer}>
           <i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń
         </button>
       </td>
@@ -84,11 +83,10 @@ const Checkbox = ({
 
 Checkbox.propTypes = {
   id: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   answChecked: PropTypes.array.isRequired,
-  handleCheck: PropTypes.func.isRequired,
+  changeChecked: PropTypes.func.isRequired,
   deleteAnswer: PropTypes.func.isRequired,
   editAnswer: PropTypes.func.isRequired,
 };
