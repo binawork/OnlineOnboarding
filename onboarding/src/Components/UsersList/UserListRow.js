@@ -34,8 +34,8 @@ function UserListRow(props) {
                         <h3 className="card-title">
                             <small className="text-muted">Skończone formularze:</small> { props.user.finished }
                         </h3>
-                        <Link to="/add_user" className="btn btn-secondary" data-toggle="tooltip" style={{color: '#000'}}>Edytuj profil</Link>
-                        <Link to="/profile/employee" className="btn btn-secondary" data-toggle="tooltip" style={{color: '#000'}}>Dodaj "formularz"</Link>
+                        <Link to="/add_user" className="btn btn-secondary" data-toggle="tooltip">Edytuj profil</Link>
+                        <Link to="/profile/employee" className="btn btn-secondary" data-toggle="tooltip">Dodaj "formularz"</Link>
                     </div>
                 </div>
             </div>

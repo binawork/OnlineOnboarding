@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 function NavbarEmployee() {
     return(
       <nav className="top-bar navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="top-bar-brand"><a className="navbar-brand" style={{ color:"#FFF" }}>Online Onboarding</a></div>
+        <div className="top-bar-brand"><a className="navbar-brand">Online Onboarding</a></div>
         
         <div className="top-bar-list" id="navbarSupportedContent">
             <div className="top-bar-item top-bar-item-full">
                 <ul className="navbar-nav d-flex breadcrumb my-2 my-lg-0">
                     <li className="breadcrumb-item">
-                        <Link to="/employe_forms_list" style={{ color:"#000" }}>Pulpit</Link>
+                        <Link to="/employe_forms_list">Pulpit</Link>
                     </li>
                     <li className="breadcrumb-item active">
                         tytuł formularza

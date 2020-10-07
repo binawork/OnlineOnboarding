@@ -28,7 +28,7 @@ function FormAddSection(props) {
                     <div className="col-auto">&#9776;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ openAnswerClick } style={{color: '#000'}}>Pytanie otwarte</button>
+                            <button className="btn btn-secondary" onClick={ openAnswerClick }>Pytanie otwarte</button>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ function FormAddSection(props) {
                     <div className="col-auto">&#9711;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ oneChoiceClick } style={{color: '#000'}}>Jedna odpowiedź</button>
+                            <button className="btn btn-secondary" onClick={ oneChoiceClick } >Jedna odpowiedź</button>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@ function FormAddSection(props) {
                     <div className="col-auto">&#9745;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ multiChoiceClick } style={{color: '#000'}}>Wiele odpowiedzi</button>
+                            <button className="btn btn-secondary" onClick={ multiChoiceClick } >Wiele odpowiedzi</button>
                         </div>
                     </div>
                 </div>

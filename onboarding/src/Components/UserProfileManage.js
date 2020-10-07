@@ -1,6 +1,6 @@
 import React from "react";
 
-import "../static/looper/stylesheets/theme.min.css";
+//import "../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 
 
@@ -47,7 +47,7 @@ function UserProfileManage() {
             </div>
             <div className="form-group">
 				<div className="input-group-append">
-					<button className="btn btn-secondary" style={{color: '#000'}}>Dodaj/edytuj</button>
+					<button className="btn btn-secondary">Dodaj/edytuj</button>
 				</div>
 			</div>
         </form>

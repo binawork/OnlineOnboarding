@@ -44,7 +44,7 @@ function FormsEditPage() {
     									</div>
     									<div className="form-group">
     										<div className="input-group-append">
-    											<button className="btn btn-secondary" style={{color: '#000'}}>Zapisz</button>
+    											<button className="btn btn-secondary">Zapisz</button>
     										</div>
     									</div>
     								</form>

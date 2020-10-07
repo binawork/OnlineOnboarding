@@ -13,7 +13,7 @@ function UserListSearch() {
             </div>
             <div className="col-auto">
                 <div className="dropdown">
-                    <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" style={{color: '#000'}} aria-haspopup="true" aria-expanded="false">Wyszukaj</button>
+                    <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">Wyszukaj</button>
                 </div>
             </div>
         </div>
