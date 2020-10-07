@@ -2,7 +2,16 @@ import React from "react";
 import FormTableAddNew from "./FormTableAddNew";
 
 
-function FormTableSearch() {
+function FormTableSearch(props) {
+   if(! props.pack){
+        return (
+            <div>
+                Ładowanie ...
+
+            </div>
+        )
+   }
+
     return(
         <div>
             <div className="row mb-4">
@@ -13,7 +22,7 @@ function FormTableSearch() {
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>Zapisz</button>
+                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">Zapisz</button>
                     </div>
                 </div>
             </div>
@@ -25,7 +34,7 @@ function FormTableSearch() {
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>Zapisz</button>
+                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">Zapisz</button>
                     </div>
                 </div>
             </div>

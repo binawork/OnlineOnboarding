@@ -11,7 +11,7 @@ function FormTableAddNew() {
             </div>
             <div className="col-auto">
                 <div className="dropdown">
-                    <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" style={{color: "black"}}>Dodaj</button>
+                    <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">Dodaj</button>
                 </div>
             </div>
         </div>
