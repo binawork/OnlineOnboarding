@@ -33,7 +33,7 @@ const FormChoiceEdit = ({
             <span className="drag-indicator"></span> Jedna odpowiedź
           </div>
           <div className="card-body">
-            <form>
+            {/* <form> */}
               {" "}
               <div className="form-group">
                 <div className="input-group">
@@ -70,7 +70,7 @@ const FormChoiceEdit = ({
                       changeChecked={changeChecked}
                       deleteAnswer={deleteAnswer}
                       editAnswer={editAnswer}
-                      answRequired={answRequired}
+                      // answRequired={answRequired}
                     />
                   ))}
                 </tbody>
@@ -82,13 +82,13 @@ const FormChoiceEdit = ({
                     className="btn btn-secondary"
                     id={'addansw' + id}
                     onClick={addAnswer}
-                    style={{ color: "#000" }}
+                    // style={{ color: "#000" }}
                   >
                     Dodaj odpowiedź
                   </button>
                 </div>
               </div>
-            </form>
+            {/* </form> */}
           </div>
           <div className="card-footer align-items-center">
             <div className="col">
@@ -97,7 +97,7 @@ const FormChoiceEdit = ({
                 answRequired={answRequired}
                 switcherChange={switcherChange}
               />
-              Odp. wymagana
+              {" "}Odp. wymagana
             </div>
             <div className="col">
               <button

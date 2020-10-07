@@ -26,7 +26,7 @@ const FormOpenText = ({
             <span className="drag-indicator"></span> Pytanie otwarte
           </div>
           <div className="card-body">
-            <form>
+            {/* <form> */}
               <div className="form-group">
                 <div className="input-group">
                   <input
@@ -36,6 +36,7 @@ const FormOpenText = ({
                     placeholder="Wpisz pytanie"
                     value={title}
                     onChange={titleChange}
+                    required
                   />
                 </div>
               </div>
@@ -48,10 +49,10 @@ const FormOpenText = ({
                   rows="4"
                   value={userAnswer}
                   onChange={editOpenAnswer}
-                  required={answRequired}
+                  // required={answRequired}
                 ></textarea>
               </div>
-            </form>
+            {/* </form> */}
           </div>
           <div className="card-footer align-items-center">
             <div className="col">
@@ -60,7 +61,7 @@ const FormOpenText = ({
                 answRequired={answRequired}
                 switcherChange={switcherChange}
               />
-              Odp. wymagana
+              {" "}Odp. wymagana
             </div>
             <div className="col">
               <button

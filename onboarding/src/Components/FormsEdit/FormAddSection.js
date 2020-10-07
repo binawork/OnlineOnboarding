@@ -23,7 +23,7 @@ function FormAddSection(props) {
       <div className="card card-fluid">
           <div className="card-header">Rodzaj pytania</div>
           <div className="card-body align-items-center">
-              <form> {/* form placeholder */}
+              {/* <form> form placeholder */}
                 <div className="form-group row">
                     <div className="col-auto">&#9776;</div>
                     <div className="col">
@@ -48,7 +48,7 @@ function FormAddSection(props) {
                         </div>
                     </div>
                 </div>
-              </form>
+              {/* </form> */}
           </div>
       </div>
     )

@@ -33,7 +33,7 @@ const FormMultiChoiceEdit = ({
             <span className="drag-indicator"></span> Wiele odpowiedzi
           </div>
           <div className="card-body">
-            <form>
+            {/* <form> */}
               <div className="form-group">
                 <div className="input-group">
                   <input
@@ -81,13 +81,13 @@ const FormMultiChoiceEdit = ({
                     className="btn btn-secondary"
                     id={'addansw' + id}
                     onClick={addAnswer}
-                    style={{ color: "#000" }}
+                    // style={{ color: "#000" }}
                   >
                     Dodaj odpowiedź
                   </button>
                 </div>
               </div>
-            </form>
+            {/* </form> */}
           </div>
           <div className="card-footer align-items-center">
             <div className="col">
@@ -96,7 +96,7 @@ const FormMultiChoiceEdit = ({
                 answRequired={answRequired}
                 switcherChange={switcherChange}
               />
-              Odp. wymagana
+              {" "}Odp. wymagana
             </div>
             <div className="col">
               <button

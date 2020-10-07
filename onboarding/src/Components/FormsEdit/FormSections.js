@@ -6,9 +6,9 @@ import FormChoiceEdit from "./SingleChoiceForm/FormChoiceEdit";
 import FormMultiChoiceEdit from "./MultiChoiceForm/FormMultiChoiceEdit";
 import FormAddSection from "./FormAddSection";
 
-function FormSections() {
-  const [form_sections, setForms] = useState([]);
-
+function FormSections({sections, setSections}) {
+  // const [form_sections, setForms] = useState([]);
+  // setSections(form_sections)
   /* Create new question */
 
   const handleAddSection = (type) => {
@@ -28,7 +28,7 @@ function FormSections() {
       checked: [],
       userOpenAnswer: ""
     };
-    setForms([...form_sections, formSection]);
+    setSections([...sections, formSection]);
   };
 
   /* Functions to manage questions */
@@ -36,8 +36,8 @@ function FormSections() {
   const handleCopyForm = (e) => {
     const newId = uuidv4();
     const newForm = {};
-    const index = form_sections.findIndex((form) => form.id === e.target.id);
-    form_sections.map((form) => {
+    const index = sections.findIndex((form) => form.id === e.target.id);
+    sections.map((form) => {
       if (form.id === e.target.id) {
         newForm.id = newId;
         newForm.name = form.type + newId;
@@ -51,20 +51,19 @@ function FormSections() {
       }
       return form;
     });
-    // slice() to get shallow copy of form_sections
-    const forms = form_sections.slice(0);
+    // slice() to get shallow copy of sections
+    const forms = sections.slice(0);
     // splice() to put copied form at the right index (next after its origin)
     forms.splice(index + 1, 0, newForm);
-    setForms(forms);
-    console.log(form_sections);
+    setSections(forms);
   };
 
   const handleDeleteForm = (id) => {
-    setForms(form_sections.filter((form) => form.id != id));
+    setSections(sections.filter((form) => form.id != id));
   };
 
   const handleSwitcherChange = (e) => {
-    const forms = form_sections.map((form) => {
+    const forms = sections.map((form) => {
       form.id === e.target.id
         ? form.answRequired === true
           ? (form.answRequired = false)
@@ -72,34 +71,34 @@ function FormSections() {
         : form;
       return form;
     });
-    setForms(forms);
+    setSections(forms);
   };
 
   const handleTitleChange = (e) => {
-    const forms = form_sections.map((form) => {
+    const forms = sections.map((form) => {
       // slice(5) - because e.target.id = 'title' + id
       form.id === e.target.id.slice(5) ? (form.title = e.target.value) : form;
       return form;
     });
-    setForms(forms);
+    setSections(forms);
   };
 
   const handleDescriptionChange = (e) => {
-    const forms = form_sections.map((form) => {
+    const forms = sections.map((form) => {
       // slice(5) - because e.target.id = 'descr' + id
       form.id === e.target.id.slice(5)
         ? (form.description = e.target.value)
         : form;
       return form;
     });
-    setForms(forms);
+    setSections(forms);
   };
 
   /* Functions to manage question's answers */
 
   const handleAddAnswer = (e) => {
     e.preventDefault();
-    const forms = form_sections.map((form) => {
+    const forms = sections.map((form) => {
       // slice(7) - because e.target.id = 'addansw' + id
       if (form.id === e.target.id.slice(7)) {
         const i = form.choices.length ? form.choices.length + 1 : 1;
@@ -108,12 +107,12 @@ function FormSections() {
       }
       return form;
     });
-    setForms(forms);
+    setSections(forms);
   };
 
   const handleDeleteAnswer = (e) => {
     e.preventDefault();
-    const forms = form_sections.map((form) => {
+    const forms = sections.map((form) => {
       // slice(6) - because e.target.name = ('radios' || 'checks') + id
       if (form.id === e.target.name.slice(6)) {
         form.choices = form.choices.filter(
@@ -122,11 +121,11 @@ function FormSections() {
       }
       return form;
     });
-    setForms(forms);
+    setSections(forms);
   };
 
   const handleEditAnswer = (e) => {
-    const forms = form_sections.map((form) => {
+    const forms = sections.map((form) => {
       // slice(6) - because e.target.name = ('radios' || 'checks')  + id
       if (form.id === e.target.name.slice(6)) {
         // slice(4) - because e.target.name = 'edit' + id
@@ -140,10 +139,10 @@ function FormSections() {
       }
       return form;
     });
-    setForms(forms);
+    setSections(forms);
   };
   const handleEditOpenAnswer = (e) => {
-    const forms = form_sections.map((form) => {
+    const forms = sections.map((form) => {
       // slice(6) - because e.target.name = 'answer'  + id
       form.userOpenAnswer = form.id === e.target.id.slice(6)
         ? e.target.value
@@ -151,11 +150,11 @@ function FormSections() {
 
       return form;
     });
-    setForms(forms);
+    setSections(forms);
   }
 
   const handleChangeChecked = (e) => {
-    const forms = form_sections.map((form) => {
+    const forms = sections.map((form) => {
       // slice(6) - because e.target.name = form.type + id
       if (form.id === e.target.name.slice(6)) {
         if (e.target.type === "radio") {
@@ -170,13 +169,13 @@ function FormSections() {
       }
       return form;
     });
-    setForms(forms);
+    setSections(forms);
   };
 
   return (
     <div className="row">
       <div className="col">
-        {form_sections.map((form) =>
+        {sections.map((form) =>
           form.type === "radios" ? (
             <FormChoiceEdit
               key={form.id}
@@ -245,6 +244,7 @@ function FormSections() {
               multiChoiceEdit: () => handleAddSection("checks"),
             }}
           />
+            {/* <button className={"btn btn-success btn-lg"} type="submit">Zapisz stronę</button> */}
         </div>
       </div>
     </div>
