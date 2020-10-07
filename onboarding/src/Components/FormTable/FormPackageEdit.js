@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormTableAddNew from "./FormTableAddNew";
 
 
@@ -11,14 +11,20 @@ function FormPackageEdit(props) {
         )
    }
 
-    const [title, setTitle] = useState(props.pack.title),
-        [desc, setDesc] = useState(props.pack.description);
+    const [pack, setPackage] = useState(props.pack);
+
+    useEffect(() => {
+        setPackage(props.pack);
+    }, [props.pack])
+
 
     var handleInputTitle = function(e){
-        setTitle(e.target.value);
+        //pack.title = e.target.value;
+        setPackage({title: e.target.value, description: pack.description});
     }
     var handleInputDesc = function(e){
-        setDesc(e.target.value);
+        //pack.description = e.target.value;
+        setPackage({title: pack.title, description: e.target.value});
     }
 
     return(
@@ -26,7 +32,7 @@ function FormPackageEdit(props) {
             <div className="row mb-4">
                 <div className="col">
                     <div className="has-clearable">
-                        <input type="text" value={ props.pack.title } onChange = { handleInputTitle } className="form-control" placeholder="Nazwa formularza" />
+                        <input type="text" value={ pack.title } onChange = { handleInputTitle } className="form-control" placeholder="Nazwa formularza" />
                     </div>
                 </div>
                 <div className="col-auto">
@@ -38,7 +44,7 @@ function FormPackageEdit(props) {
             <div className="row mb-4">
                 <div className="col">
                     <div className="has-clearable">
-                        <input type="text" value={ props.pack.description } onChange = { handleInputDesc } className="form-control" placeholder="Opis Formularza" />
+                        <input type="text" value={ pack.description } onChange = { handleInputDesc } className="form-control" placeholder="Opis Formularza" />
                     </div>
                 </div>
                 <div className="col-auto">

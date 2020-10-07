@@ -23,7 +23,7 @@ function PackagePage(props){
 				console.log(error);
 			}
 		);
-	}, []);
+	}, [props.count]);
 
 	if(error){
 		return <FormTableRow key={0} row={ {name: error.message, last_edit: ""} }/>
@@ -32,7 +32,7 @@ function PackagePage(props){
 	else {
 		var form_table = [], i, count = rows.length;
 		for(i = 0; i < count; i++)
-			form_table.push(<FormTableRow key={ rows[i].id } row={ {name: rows[i].title, order: rows[i].order, last_edit: "<do poprawy po stronie api>" } }/>);
+			form_table.push(<FormTableRow key={ rows[i].id } row={ {name: rows[i].title, order: rows[i].order, last_edit: "<do poprawy po stronie api>", key: rows[i].id } } handleUpdate = { props.handleUpdate } />);
 		return ( <>{ form_table }</> )
 	}
 
@@ -48,6 +48,9 @@ export function OnePackageEdit(props){
 	useEffect(() => {
 		fetch(url + "api/package/" + props.packageId, fetchProps).then(res => res.json()).then(
 			(result) => {
+			    if(!result.description)
+			        result.description = "";
+
 				isLoaded(true);
 				setElement(result);
 			},
@@ -63,8 +66,26 @@ export function OnePackageEdit(props){
 	} else if(!loaded)
 		return <FormPackageEdit key={0} />
 	else {
-		return <FormPackageEdit pack={ {title: element.title, description: element.description} } /*handleSave = { props.handleSave }*/ />
+		return <FormPackageEdit key={0} pack={ {title: element.title, description: element.description} } /*handleSave = { props.handleSave }*/ />
 	}
+}
+
+export function removePage(handleSuccess, pageId, title){
+	console.log(pageId);
+	let url = getPath(), data, token = getCookie('csrftoken'),
+		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}};
+	data = {"id": pageId};
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => res.json()).then(
+		(result) => {
+			handleSuccess(result);
+		},
+		(error) => {
+			handleSuccess(error);
+		}
+	);
+	return true;
 }
 
 export default PackagePage;
