@@ -5,15 +5,16 @@ function PackagesAddNew(props) {
     const [title, setTitle] = useState("");
 
 
-    var addSuccess = (result) => {
-        //props.handleUpdate();/ / update list of packages;
+    /*var addSuccess = (result) => {
+        props.handleUpdate();/ / update list of packages;
         console.log(result);
-    };
+    };*/
 
     var handleClick = function(e){
-        let accepted = addCombo(addSuccess, title);
+        let accepted = addCombo(props.handleUpdate, title);
         console.log(accepted);
         setTitle("");
+        e.target.value = "";
     };
 
     var handleInput = function(e){

@@ -5,7 +5,10 @@ import PageAddressBar from "../PageAddressBar";
 import FormTable from "./FormTable";
 import FormTableSearch from "./FormTableSearch";
 
-function FormTablePage() {
+function FormTablePage(props) {
+	let packageId = 0;
+	if(props.location.state)
+		packageId = props.location.state.packageId;
 
     return(
         <div className="app">
@@ -18,7 +21,7 @@ function FormTablePage() {
                     <div className="page">
                         <div className="page-inner">
                             <PageAddressBar page = { "Formularze" } />
-                            <FormTable />
+                            <FormTable packageId = { packageId } />
                         </div>
                     </div>
                 </div>
