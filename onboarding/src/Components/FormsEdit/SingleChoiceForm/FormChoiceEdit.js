@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import RadioButton from "./RadioButton";
 import Switcher from "../../Switcher";
-import { v4 as uuidv4 } from "uuid";
 
 // import "../../../static/looper/stylesheets/theme.min.css";
 // import "../../../static/looper/stylesheets/theme-dark.min.css";
@@ -10,53 +9,22 @@ import { v4 as uuidv4 } from "uuid";
 const FormChoiceEdit = ({
   id,
   name,
+  title,
+  description,
+  choices,
+  checked,
   copyForm,
   deleteForm,
   answRequired,
   switcherChange,
+  titleChange,
+  descriptionChange,
+  addAnswer,
+  deleteAnswer,
+  editAnswer,
+  changeChecked,
 }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [singleChoices, setSingleChoices] = useState([
-    { id: uuidv4(), title: "Odpowiedź 1" },
-    { id: uuidv4(), title: "Odpowiedź 2" },
-    { id: uuidv4(), title: "Odpowiedź 3" },
-  ]);
-  const [checked, setChecked] = useState("");
-
-  const handleRadioChange = (id) => {
-    setChecked(id);
-  };
-
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleEditAnswer = (e) => {
-    const id = (e.target.id).slice(4);
-    const choices = singleChoices.map(choice => {
-      if(choice.id === id) choice.title = e.target.value;
-      return choice;
-    });
-    setSingleChoices(choices);
-  };
-
-  const handleDeleteAnswer = (id) => {
-    const choices = singleChoices.filter((choice) => choice.id !== id);
-    setSingleChoices(choices);
-  };
-
-  const handleAddAnswer = (e) => {
-    e.preventDefault();
-    const i = singleChoices.length ? singleChoices.length + 1 : 1;
-    const choice = { id: uuidv4(), title: "Odpowiedź " + i };
-    setSingleChoices([...singleChoices, choice]);
-  };
-
+ 
   return (
     <div className="card-body">
       <div className="task-issue">
@@ -70,36 +38,39 @@ const FormChoiceEdit = ({
               <div className="form-group">
                 <div className="input-group">
                   <input
+                    id={'title' + id}
                     type="text"
                     className="form-control"
                     placeholder="Tytuł"
                     value={title}
-                    onChange={handleTitleChange}
+                    onChange={titleChange}
                   />
                 </div>
               </div>
               <div className="form-group">
                 <textarea
+                  id={'descr' + id}
                   className="form-control"
                   placeholder="Opis (markdown)"
                   rows="4"
                   value={description}
-                  onChange={handleDescriptionChange}
+                  onChange={descriptionChange}
                 ></textarea>
               </div>
               <hr />
               <table className="table table-hover">
                 <tbody>
-                  {singleChoices.map((choice) => (
+                  {choices.map((choice) => (
                     <RadioButton
                       key={choice.id}
                       id={choice.id}
                       name={name}
                       title={choice.title}
                       answChecked={checked}
-                      handleRadioChange={() => handleRadioChange(choice.id)}
-                      deleteAnswer={() => handleDeleteAnswer(choice.id)}
-                      editAnswer={handleEditAnswer}
+                      changeChecked={changeChecked}
+                      deleteAnswer={deleteAnswer}
+                      editAnswer={editAnswer}
+                      answRequired={answRequired}
                     />
                   ))}
                 </tbody>
@@ -109,7 +80,8 @@ const FormChoiceEdit = ({
                 <div className="input-group-append">
                   <button
                     className="btn btn-secondary"
-                    onClick={handleAddAnswer}
+                    id={'addansw' + id}
+                    onClick={addAnswer}
                     style={{ color: "#000" }}
                   >
                     Dodaj odpowiedź
@@ -124,12 +96,13 @@ const FormChoiceEdit = ({
                 id={id}
                 answRequired={answRequired}
                 switcherChange={switcherChange}
-              />{" "}
+              />
               Odp. wymagana
             </div>
             <div className="col">
               <button
                 className="btn"
+                id={id}
                 onClick={copyForm}
                 // style={{ color: "#000" }}
               >

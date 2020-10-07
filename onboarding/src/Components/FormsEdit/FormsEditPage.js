@@ -10,6 +10,9 @@ import PageAddressBar from "../PageAddressBar";
 import FormSections from "./FormSections";
 
 function FormsEditPage() {
+	const [pageName, setPageName] = useState("");
+	const [link, setLink] = useState("");
+	const [description, setDescription] = useState("");
 
     return(
     	<div className="app">
@@ -31,12 +34,12 @@ function FormsEditPage() {
     								<form> {/* form placeholder */}
     									<div className="form-group">
     										<div className="input-group">
-    											<input type="text" className="form-control" placeholder="Nazwa strony" value="" />
+    											<input type="text" className="form-control" placeholder="Nazwa strony" value={pageName} onChange={e => setPageName(e.target.value)}/>
     										</div>
     									</div>
     									<div className="form-group">
     										<div className="input-group">
-    											<input type="text" className="form-control" placeholder="Podłącz link do video / link do dokumentu" value="" />
+    											<input type="url" className="form-control" placeholder="Podłącz link do video / link do dokumentu" value={link} onChange={e => setLink(e.target.value)}/>
     										</div>
     									</div>
     									<div className="form-group">
