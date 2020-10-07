@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import FormTableAddNew from "./FormTableAddNew";
 
 
-function FormTableSearch(props) {
+function FormPackageEdit(props) {
    if(! props.pack){
         return (
             <div>
                 Ładowanie ...
-
             </div>
         )
    }
+
+    const [title, setTitle] = useState(props.pack.title),
+        [desc, setDesc] = useState(props.pack.description);
+
+    var handleInputTitle = function(e){
+        setTitle(e.target.value);
+    }
+    var handleInputDesc = function(e){
+        setDesc(e.target.value);
+    }
 
     return(
         <div>
             <div className="row mb-4">
                 <div className="col">
                     <div className="has-clearable">
-                        <input type="text" className="form-control" placeholder="Nazwa formularza" />
+                        <input type="text" value={ props.pack.title } onChange = { handleInputTitle } className="form-control" placeholder="Nazwa formularza" />
                     </div>
                 </div>
                 <div className="col-auto">
@@ -29,7 +38,7 @@ function FormTableSearch(props) {
             <div className="row mb-4">
                 <div className="col">
                     <div className="has-clearable">
-                        <input type="text" className="form-control" placeholder="Opis Formularza" />
+                        <input type="text" value={ props.pack.description } onChange = { handleInputDesc } className="form-control" placeholder="Opis Formularza" />
                     </div>
                 </div>
                 <div className="col-auto">
@@ -42,5 +51,5 @@ function FormTableSearch(props) {
     )
 }
 
-export default FormTableSearch;
+export default FormPackageEdit;
 

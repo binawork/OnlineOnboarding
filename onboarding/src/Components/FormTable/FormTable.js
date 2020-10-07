@@ -1,9 +1,9 @@
 import React from "react";
-import FormTableSearch from "./FormTableSearch";
+import FormPackageEdit from "./FormPackageEdit";
 import FormTableAddNew from "./FormTableAddNew";
 import FormTableRow from "./FormTableRow";
 import { formDataList } from "./FormTableData";
-import PackagePage from "../hooks/PackagePage";
+import PackagePage, { OnePackageEdit } from "../hooks/PackagePage";
 
 function FormTable(props) {
     // todo: use console.log(props.packageId);
@@ -22,7 +22,7 @@ function FormTable(props) {
                     Edytuj formularz
                 </div>
                 <div className="card-body">
-                    <FormTableSearch />
+                    <OnePackageEdit packageId = { props.packageId } />
                 </div>
             </div>
             <div className="card card-fluid">
@@ -48,7 +48,7 @@ function FormTable(props) {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                            { form_table }
+                            <PackagePage id = { props.packageId } />
                         </tbody>
                     </table>
                 </div>

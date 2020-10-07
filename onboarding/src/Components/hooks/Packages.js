@@ -28,7 +28,7 @@ function Packages(props){
 	if(error){
 		return <PackagesRow key={0} row={ {name: error.message, last_edit: ""} }/>
 	} else if(!loaded)
-		return <PackagesRow key={0} row={ {name: "Loading ...", last_edit: ""} }/>
+		return <PackagesRow key={0} row={ {name: "Ładowanie ...", last_edit: ""} }/>
 	else {
 		var form_table = [], i, count = rows.length;
 		for(i = 0; i < count; i++)
