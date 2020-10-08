@@ -8,6 +8,7 @@ import FormMultiChoiceEdit from "./MultiChoiceForm/FormMultiChoiceEdit";
 import FormAddSection from "./FormAddSection";
 
 function FormSections({ sections, setSections }) {
+  console.log(sections);
   /* Create new question */
 
   const handleAddSection = (type) => {
@@ -113,7 +114,7 @@ function FormSections({ sections, setSections }) {
     pageSections.splice(source.index, 1);
     pageSections.splice(destination.index, 0, droppedSection);
 
-    setSections( pageSections );
+    setSections(pageSections);
   };
 
   /* Functions to manage question's answers */
@@ -195,6 +196,15 @@ function FormSections({ sections, setSections }) {
     });
     setSections(forms);
   };
+  const handleChangeAnswersOrder = (id, sectionAnswers) => {
+    const forms = sections.map((form) => {
+      if (form.id === id) {
+        form.choices = sectionAnswers;
+      }
+      return form;
+    });
+    setSections(forms);
+  };
 
   return (
     <div className="row">
@@ -212,7 +222,7 @@ function FormSections({ sections, setSections }) {
                   draggableId={"draggable-" + form.id}
                   index={index}
                 >
-                  {(provided) => (
+                  {(provided) =>
                     form.type === "radios" ? (
                       <FormChoiceEdit
                         innerRef={provided.innerRef}
@@ -234,6 +244,9 @@ function FormSections({ sections, setSections }) {
                         editAnswer={(e) => handleEditAnswer(e)}
                         changeChecked={(e) => handleChangeChecked(e)}
                         switcherChange={(e) => handleSwitcherChange(e)}
+                        changeAnswersOrder={(id, sectionAnswers) =>
+                          handleChangeAnswersOrder(id, sectionAnswers)
+                        }
                       />
                     ) : form.type === "checks" ? (
                       <FormMultiChoiceEdit
@@ -256,6 +269,9 @@ function FormSections({ sections, setSections }) {
                         editAnswer={(e) => handleEditAnswer(e)}
                         changeChecked={(e) => handleChangeChecked(e)}
                         switcherChange={(e) => handleSwitcherChange(e)}
+                        changeAnswersOrder={(id, sectionAnswers) =>
+                          handleChangeAnswersOrder(id, sectionAnswers)
+                        }
                       />
                     ) : form.type === "opAnsw" ? (
                       <FormOpenText
@@ -276,7 +292,7 @@ function FormSections({ sections, setSections }) {
                     ) : (
                       console.info("Wrong type of form")
                     )
-                  )}
+                  }
                 </Draggable>
               ))}
               {provided.placeholder}

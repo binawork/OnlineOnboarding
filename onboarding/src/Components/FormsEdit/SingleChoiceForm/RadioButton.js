@@ -10,11 +10,17 @@ const RadioButton = ({
   deleteAnswer,
   editAnswer,
   answRequired,
+  provided,
+  innerRef,
 }) => {
   const [editing, setEditing] = useState(false);
 
   return (
-    <tr>
+    <tr
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      ref={innerRef}
+    >
       <td>
         <i className="fa fa-arrows">&#10018;</i>
       </td>
@@ -75,7 +81,12 @@ const RadioButton = ({
         )}
       </td>
       <td>
-        <button className="btn text-danger" id={'del' + id} name={name} onClick={deleteAnswer}>
+        <button
+          className="btn text-danger"
+          id={"del" + id}
+          name={name}
+          onClick={deleteAnswer}
+        >
           <i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń
         </button>
       </td>

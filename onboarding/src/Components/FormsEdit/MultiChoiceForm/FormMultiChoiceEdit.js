@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Checkbox from "./Checkbox";
 import Switcher from "../../Switcher";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // import "../../../static/looper/stylesheets/theme.min.css";
 // import "../../../static/looper/stylesheets/theme-dark.min.css";
@@ -23,12 +24,39 @@ const FormMultiChoiceEdit = ({
   deleteAnswer,
   editAnswer,
   changeChecked,
+  changeAnswersOrder,
   provided,
-  innerRef
+  innerRef,
 }) => {
+  const onDragEnd = (result) => {
+    // destination, source -> objects in which you can find the index of the destination and index of source item
+    const { destination, source, reason } = result;
+    // Not a thing to do...
+    if (!destination || reason === "CANCEL") {
+      return;
+    }
+    //If drop an element to the same place, it should do nothing
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return;
+
+    const sectionAnswers = Object.assign([], choices);
+    const droppedAnswers = choices[source.index];
+    sectionAnswers.splice(source.index, 1);
+    sectionAnswers.splice(destination.index, 0, droppedAnswers);
+
+    changeAnswersOrder(id, sectionAnswers);
+  };
 
   return (
-    <div className="card-body" {...provided.draggableProps}{...provided.dragHandleProps} ref={innerRef}>
+    <div
+      className="card-body"
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      ref={innerRef}
+    >
       <div className="task-issue">
         <div className="card">
           <div className="card-header">
@@ -36,59 +64,76 @@ const FormMultiChoiceEdit = ({
           </div>
           <div className="card-body">
             {/* <form> */}
-              <div className="form-group">
-                <div className="input-group">
-                  <input
-                    id={'title' + id}
-                    type="text"
-                    className="form-control"
-                    placeholder="Tytuł"
-                    value={title}
-                    onChange={titleChange}
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <textarea
-                  id={'descr' + id}
+            <div className="form-group">
+              <div className="input-group">
+                <input
+                  id={"title" + id}
+                  type="text"
                   className="form-control"
-                  placeholder="Opis (markdown)"
-                  rows="4"
-                  value={description}
-                  onChange={descriptionChange}
-                ></textarea>
+                  placeholder="Tytuł"
+                  value={title}
+                  onChange={titleChange}
+                />
               </div>
-              <hr />
-              <table className="table table-hover">
-                <tbody>
-                  {choices.map((choice) => (
-                    <Checkbox
-                      key={choice.id}
-                      id={choice.id}
-                      name={name}
-                      title={choice.title}
-                      answChecked={checked}
-                      changeChecked={changeChecked}
-                      deleteAnswer={deleteAnswer}
-                      editAnswer={editAnswer}
-                      // answRequired={answRequired}
-                    />
-                  ))}
-                </tbody>
-              </table>
-              <hr />
-              <div className="form-group">
-                <div className="input-group-append">
-                  <button
-                    className="btn btn-secondary"
-                    id={'addansw' + id}
-                    onClick={addAnswer}
-                    // style={{ color: "#000" }}
-                  >
-                    Dodaj odpowiedź
-                  </button>
-                </div>
+            </div>
+            <div className="form-group">
+              <textarea
+                id={"descr" + id}
+                className="form-control"
+                placeholder="Opis (markdown)"
+                rows="4"
+                value={description}
+                onChange={descriptionChange}
+              ></textarea>
+            </div>
+            <hr />
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="dp1">
+                {(provided) => (
+                  <table className="table table-hover">
+                    <tbody ref={provided.innerRef} {...provided.droppableProps}>
+                      {choices.map((choice, index) => (
+                        <Draggable
+                          key={choice.id}
+                          draggableId={"draggable-" + choice.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <Checkbox
+                              innerRef={provided.innerRef}
+                              provided={provided}
+                              key={choice.id}
+                              id={choice.id}
+                              name={name}
+                              title={choice.title}
+                              answChecked={checked}
+                              changeChecked={changeChecked}
+                              deleteAnswer={deleteAnswer}
+                              editAnswer={editAnswer}
+                              // answRequired={answRequired}
+                            />
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </tbody>
+                  </table>
+                )}
+              </Droppable>
+            </DragDropContext>
+            <hr />
+            <div className="form-group">
+              <div className="input-group-append">
+                <button
+                  className="btn btn-secondary"
+                  id={"addansw" + id}
+                  onClick={addAnswer}
+                  // style={{ color: "#000" }}
+                >
+                  Dodaj odpowiedź
+                </button>
               </div>
+            </div>
             {/* </form> */}
           </div>
           <div className="card-footer align-items-center">
@@ -97,8 +142,8 @@ const FormMultiChoiceEdit = ({
                 id={id}
                 answRequired={answRequired}
                 switcherChange={switcherChange}
-              />
-              {" "}Odp. wymagana
+              />{" "}
+              Odp. wymagana
             </div>
             <div className="col">
               <button
