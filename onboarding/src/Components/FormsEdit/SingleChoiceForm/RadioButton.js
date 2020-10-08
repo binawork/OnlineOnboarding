@@ -15,15 +15,31 @@ const RadioButton = ({
 }) => {
   const [editing, setEditing] = useState(false);
 
+  const onEditTitleMode = (e) => {
+    e.preventDefault();
+    setEditing(true);
+    setTimeout(() => {
+      document.getElementById("edit" + id).focus();
+      document.getElementById("edit" + id).select();
+    }, 0);
+  };
+  const offEditTitleMode = (e) => {
+    e.preventDefault();
+    setEditing(false);
+  };
+  const clickSave = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.getElementById("saveInput" + id).click();
+    }
+  };
+
   return (
     <tr
       {...provided.draggableProps}
       {...provided.dragHandleProps}
       ref={innerRef}
     >
-      <td>
-        <i className="fa fa-arrows">&#10018;</i>
-      </td>
       <td>
         {editing === true ? (
           <div className="input-group">
@@ -35,6 +51,7 @@ const RadioButton = ({
               value={title}
               onChange={editAnswer}
               required={answRequired}
+              onKeyDown={clickSave}
             />
           </div>
         ) : (
@@ -60,21 +77,17 @@ const RadioButton = ({
       <td>
         {editing === true ? (
           <button
+            id={"saveInput" + id}
             className="btn"
-            onClick={(e) => {
-              e.preventDefault();
-              setEditing(false);
-            }}
+            onClick={offEditTitleMode}
           >
             &#9997; Zapisz
           </button>
         ) : (
           <button
             className="btn"
-            onClick={(e) => {
-              e.preventDefault();
-              setEditing(true);
-            }}
+            onClick={onEditTitleMode}
+            onMouseDown={(e) => e.preventDefault}
           >
             &#9997; Edytuj
           </button>
