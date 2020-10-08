@@ -23,10 +23,12 @@ const FormChoiceEdit = ({
   deleteAnswer,
   editAnswer,
   changeChecked,
+  provided,
+  innerRef
 }) => {
  
   return (
-    <div className="card-body">
+    <div className="card-body" {...provided.draggableProps}{...provided.dragHandleProps} ref={innerRef}>
       <div className="task-issue">
         <div className="card">
           <div className="card-header">

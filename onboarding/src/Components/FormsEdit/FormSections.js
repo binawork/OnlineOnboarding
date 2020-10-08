@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import FormOpenText from "./OpenAnswerForm/FormOpenText";
 import FormChoiceEdit from "./SingleChoiceForm/FormChoiceEdit";
 import FormMultiChoiceEdit from "./MultiChoiceForm/FormMultiChoiceEdit";
 import FormAddSection from "./FormAddSection";
 
-function FormSections({sections, setSections}) {
-  // const [form_sections, setForms] = useState([]);
-  // setSections(form_sections)
+function FormSections({ sections, setSections }) {
   /* Create new question */
 
   const handleAddSection = (type) => {
@@ -26,7 +25,7 @@ function FormSections({sections, setSections}) {
         { id: uuidv4(), title: "Odpowiedź 3" },
       ],
       checked: [],
-      userOpenAnswer: ""
+      userOpenAnswer: "",
     };
     setSections([...sections, formSection]);
   };
@@ -34,6 +33,7 @@ function FormSections({sections, setSections}) {
   /* Functions to manage questions */
 
   const handleCopyForm = (e) => {
+    e.preventDefault();
     const newId = uuidv4();
     const newForm = {};
     const index = sections.findIndex((form) => form.id === e.target.id);
@@ -94,6 +94,28 @@ function FormSections({sections, setSections}) {
     setSections(forms);
   };
 
+  const onDragEnd = (result) => {
+    // destination, source -> objects in which you can find the index of the destination and index of source item
+    const { destination, source, reason } = result;
+    // Not a thing to do...
+    if (!destination || reason === "CANCEL") {
+      return;
+    }
+    //If dorp an element to the same place, it should do nothing
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return;
+
+    const pageSections = Object.assign([], sections);
+    const droppedSection = sections[source.index];
+    pageSections.splice(source.index, 1);
+    pageSections.splice(destination.index, 0, droppedSection);
+
+    setSections( pageSections );
+  };
+
   /* Functions to manage question's answers */
 
   const handleAddAnswer = (e) => {
@@ -130,9 +152,8 @@ function FormSections({sections, setSections}) {
       if (form.id === e.target.name.slice(6)) {
         // slice(4) - because e.target.name = 'edit' + id
         form.choices = form.choices.map((choice) => {
-          choice.title = choice.id === e.target.id.slice(4) 
-            ? e.target.value 
-            : choice.title;
+          choice.title =
+            choice.id === e.target.id.slice(4) ? e.target.value : choice.title;
 
           return choice;
         });
@@ -144,14 +165,13 @@ function FormSections({sections, setSections}) {
   const handleEditOpenAnswer = (e) => {
     const forms = sections.map((form) => {
       // slice(6) - because e.target.name = 'answer'  + id
-      form.userOpenAnswer = form.id === e.target.id.slice(6)
-        ? e.target.value
-        : form.userOpenAnswer
+      form.userOpenAnswer =
+        form.id === e.target.id.slice(6) ? e.target.value : form.userOpenAnswer;
 
       return form;
     });
     setSections(forms);
-  }
+  };
 
   const handleChangeChecked = (e) => {
     const forms = sections.map((form) => {
@@ -159,13 +179,17 @@ function FormSections({sections, setSections}) {
       if (form.id === e.target.name.slice(6)) {
         if (e.target.type === "radio") {
           form.checked = [e.target.id];
-        } 
-        else if (e.target.type === "checkbox") {
+        } else if (e.target.type === "checkbox") {
           form.checked.includes(e.target.id)
-            ? form.checked = form.checked.filter((checkedId) => checkedId !== e.target.id)
-            : form.checked = [...form.checked, e.target.id];
+            ? (form.checked = form.checked.filter(
+                (checkedId) => checkedId !== e.target.id
+              ))
+            : (form.checked = [...form.checked, e.target.id]);
+        } else {
+          console.log(
+            "Wrong type of answer sent to 'handleChangeChecked' function inside 'FormSections' component"
+          );
         }
-        else { console.log("Wrong type of answer sent to 'handleChangeChecked' function inside 'FormSections' component") }
       }
       return form;
     });
@@ -174,67 +198,92 @@ function FormSections({sections, setSections}) {
 
   return (
     <div className="row">
-      <div className="col">
-        {sections.map((form) =>
-          form.type === "radios" ? (
-            <FormChoiceEdit
-              key={form.id}
-              id={form.id}
-              name={form.name}
-              title={form.title}
-              description={form.description}
-              choices={form.choices}
-              checked={form.checked}
-              copyForm={handleCopyForm}
-              deleteForm={() => handleDeleteForm(form.id)}
-              answRequired={form.answRequired}
-              titleChange={(e) => handleTitleChange(e)}
-              descriptionChange={(e) => handleDescriptionChange(e)}
-              addAnswer={(e) => handleAddAnswer(e)}
-              deleteAnswer={(e) => handleDeleteAnswer(e)}
-              editAnswer={(e) => handleEditAnswer(e)}
-              changeChecked={(e) => handleChangeChecked(e)}
-              switcherChange={(e) => handleSwitcherChange(e)}
-            />
-          ) : form.type === "checks" ? (
-            <FormMultiChoiceEdit
-              key={form.id}
-              id={form.id}
-              name={form.name}
-              title={form.title}
-              description={form.description}
-              choices={form.choices}
-              checked={form.checked}
-              copyForm={handleCopyForm}
-              deleteForm={() => handleDeleteForm(form.id)}
-              answRequired={form.answRequired}
-              titleChange={(e) => handleTitleChange(e)}
-              descriptionChange={(e) => handleDescriptionChange(e)}
-              addAnswer={(e) => handleAddAnswer(e)}
-              deleteAnswer={(e) => handleDeleteAnswer(e)}
-              editAnswer={(e) => handleEditAnswer(e)}
-              changeChecked={(e) => handleChangeChecked(e)}
-              switcherChange={(e) => handleSwitcherChange(e)}
-            />
-          ) : form.type === "opAnsw" ? (
-            <FormOpenText
-              key={form.id}
-              id={form.id}
-              name={form.name}
-              title={form.title}
-              userAnswer={form.userOpenAnswer}
-              copyForm={handleCopyForm}
-              deleteForm={() => handleDeleteForm(form.id)}
-              answRequired={form.answRequired}
-              titleChange={(e) => handleTitleChange(e)}
-              editOpenAnswer={(e) => handleEditOpenAnswer(e)}
-              switcherChange={(e) => handleSwitcherChange(e)}
-            />
-          ) : (
-            console.info("Wrong type of form")
-          )
-        )}
-      </div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="dp1">
+          {(provided) => (
+            <div
+              className="col"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {sections.map((form, index) => (
+                <Draggable
+                  key={form.id}
+                  draggableId={"draggable-" + form.id}
+                  index={index}
+                >
+                  {(provided) => (
+                    form.type === "radios" ? (
+                      <FormChoiceEdit
+                        innerRef={provided.innerRef}
+                        provided={provided}
+                        key={form.id}
+                        id={form.id}
+                        name={form.name}
+                        title={form.title}
+                        description={form.description}
+                        choices={form.choices}
+                        checked={form.checked}
+                        copyForm={handleCopyForm}
+                        deleteForm={() => handleDeleteForm(form.id)}
+                        answRequired={form.answRequired}
+                        titleChange={(e) => handleTitleChange(e)}
+                        descriptionChange={(e) => handleDescriptionChange(e)}
+                        addAnswer={(e) => handleAddAnswer(e)}
+                        deleteAnswer={(e) => handleDeleteAnswer(e)}
+                        editAnswer={(e) => handleEditAnswer(e)}
+                        changeChecked={(e) => handleChangeChecked(e)}
+                        switcherChange={(e) => handleSwitcherChange(e)}
+                      />
+                    ) : form.type === "checks" ? (
+                      <FormMultiChoiceEdit
+                        innerRef={provided.innerRef}
+                        provided={provided}
+                        key={form.id}
+                        id={form.id}
+                        name={form.name}
+                        title={form.title}
+                        description={form.description}
+                        choices={form.choices}
+                        checked={form.checked}
+                        copyForm={handleCopyForm}
+                        deleteForm={() => handleDeleteForm(form.id)}
+                        answRequired={form.answRequired}
+                        titleChange={(e) => handleTitleChange(e)}
+                        descriptionChange={(e) => handleDescriptionChange(e)}
+                        addAnswer={(e) => handleAddAnswer(e)}
+                        deleteAnswer={(e) => handleDeleteAnswer(e)}
+                        editAnswer={(e) => handleEditAnswer(e)}
+                        changeChecked={(e) => handleChangeChecked(e)}
+                        switcherChange={(e) => handleSwitcherChange(e)}
+                      />
+                    ) : form.type === "opAnsw" ? (
+                      <FormOpenText
+                        innerRef={provided.innerRef}
+                        provided={provided}
+                        key={form.id}
+                        id={form.id}
+                        name={form.name}
+                        title={form.title}
+                        userAnswer={form.userOpenAnswer}
+                        copyForm={handleCopyForm}
+                        deleteForm={() => handleDeleteForm(form.id)}
+                        answRequired={form.answRequired}
+                        titleChange={(e) => handleTitleChange(e)}
+                        editOpenAnswer={(e) => handleEditOpenAnswer(e)}
+                        switcherChange={(e) => handleSwitcherChange(e)}
+                      />
+                    ) : (
+                      console.info("Wrong type of form")
+                    )
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       <div className="col-auto">
         <div className="card-body">
           <FormAddSection
@@ -244,7 +293,7 @@ function FormSections({sections, setSections}) {
               multiChoiceEdit: () => handleAddSection("checks"),
             }}
           />
-            {/* <button className={"btn btn-success btn-lg"} type="submit">Zapisz stronę</button> */}
+          {/* <button className={"btn btn-success btn-lg"} type="submit">Zapisz stronę</button> */}
         </div>
       </div>
     </div>
