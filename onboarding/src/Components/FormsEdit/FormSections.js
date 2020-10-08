@@ -8,7 +8,7 @@ import FormMultiChoiceEdit from "./MultiChoiceForm/FormMultiChoiceEdit";
 import FormAddSection from "./FormAddSection";
 
 function FormSections({ sections, setSections }) {
-  console.log(sections);
+
   /* Create new question */
 
   const handleAddSection = (type) => {
@@ -309,7 +309,6 @@ function FormSections({ sections, setSections }) {
               multiChoiceEdit: () => handleAddSection("checks"),
             }}
           />
-          {/* <button className={"btn btn-success btn-lg"} type="submit">Zapisz stronę</button> */}
         </div>
       </div>
     </div>

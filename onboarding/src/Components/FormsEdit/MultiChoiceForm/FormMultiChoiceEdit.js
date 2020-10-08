@@ -51,15 +51,10 @@ const FormMultiChoiceEdit = ({
   };
 
   return (
-    <div
-      className="card-body"
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
-      ref={innerRef}
-    >
+    <div className="card-body" {...provided.draggableProps} ref={innerRef}>
       <div className="task-issue">
         <div className="card">
-          <div className="card-header">
+          <div className="card-header" {...provided.dragHandleProps}>
             <span className="drag-indicator"></span> Wiele odpowiedzi
           </div>
           <div className="card-body">
@@ -73,6 +68,7 @@ const FormMultiChoiceEdit = ({
                   placeholder="Tytuł"
                   value={title}
                   onChange={titleChange}
+                  autoFocus
                 />
               </div>
             </div>
@@ -86,7 +82,7 @@ const FormMultiChoiceEdit = ({
                 onChange={descriptionChange}
               ></textarea>
             </div>
-            <hr />
+            {/* <hr /> */}
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="dp1">
                 {(provided) => (

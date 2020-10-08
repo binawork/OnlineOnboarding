@@ -28,13 +28,12 @@ const FormChoiceEdit = ({
   provided,
   innerRef,
 }) => {
+
   const onDragEnd = (result) => {
     // destination, source -> objects in which you can find the index of the destination and index of source item
     const { destination, source, reason } = result;
     // Not a thing to do...
-    if (!destination || reason === "CANCEL") {
-      return;
-    }
+    if (!destination || reason === "CANCEL") return;
     //If drop an element to the same place, it should do nothing
     if (
       destination.droppableId === source.droppableId &&
@@ -51,19 +50,13 @@ const FormChoiceEdit = ({
   };
 
   return (
-    <div
-      className="card-body"
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
-      ref={innerRef}
-    >
+    <div className="card-body" {...provided.draggableProps} ref={innerRef}>
       <div className="task-issue">
         <div className="card">
-          <div className="card-header">
+          <div className="card-header" {...provided.dragHandleProps}>
             <span className="drag-indicator"></span> Jedna odpowiedź
           </div>
           <div className="card-body">
-            {/* <form> */}{" "}
             <div className="form-group">
               <div className="input-group">
                 <input
@@ -73,6 +66,7 @@ const FormChoiceEdit = ({
                   placeholder="Tytuł"
                   value={title}
                   onChange={titleChange}
+                  autoFocus
                 />
               </div>
             </div>
@@ -86,7 +80,6 @@ const FormChoiceEdit = ({
                 onChange={descriptionChange}
               ></textarea>
             </div>
-            <hr />
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="dp1">
                 {(provided) => (
@@ -128,13 +121,11 @@ const FormChoiceEdit = ({
                   className="btn btn-secondary"
                   id={"addansw" + id}
                   onClick={addAnswer}
-                  // style={{ color: "#000" }}
                 >
                   Dodaj odpowiedź
                 </button>
               </div>
             </div>
-            {/* </form> */}
           </div>
           <div className="card-footer align-items-center">
             <div className="col">
@@ -150,7 +141,6 @@ const FormChoiceEdit = ({
                 className="btn"
                 id={id}
                 onClick={copyForm}
-                // style={{ color: "#000" }}
               >
                 <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie
               </button>
@@ -159,7 +149,6 @@ const FormChoiceEdit = ({
               <button
                 className="btn text-danger"
                 onClick={deleteForm}
-                // style={{ color: "#000" }}
               >
                 <i className="fa fa-trash-o fa-lg">&#61944;</i>
                 Usuń
@@ -170,7 +159,6 @@ const FormChoiceEdit = ({
       </div>
     </div>
   );
-  // }
 };
 
 export default FormChoiceEdit;

@@ -17,44 +17,42 @@ const FormOpenText = ({
   editOpenAnswer,
   switcherChange,
   provided,
-  innerRef
+  innerRef,
 }) => {
-
   return (
-    <div className="card-body" {...provided.draggableProps}{...provided.dragHandleProps} ref={innerRef}>
+    <div className="card-body" {...provided.draggableProps} ref={innerRef}>
       <div className="task-issue">
         <div className="card">
-          <div className="card-header">
+          <div className="card-header" {...provided.dragHandleProps}>
             <span className="drag-indicator"></span> Pytanie otwarte
           </div>
           <div className="card-body">
-            {/* <form> */}
-              <div className="form-group">
-                <div className="input-group">
-                  <input
-                    id={'title' + id}
-                    type="text"
-                    className="form-control"
-                    placeholder="Wpisz pytanie"
-                    value={title}
-                    onChange={titleChange}
-                    required
-                  />
-                </div>
-              </div>
-              <hr />
-              <div className="form-group">
-                <textarea
-                  id={'answer' + id}
+            <div className="form-group">
+              <div className="input-group">
+                <input
+                  id={"title" + id}
+                  type="text"
                   className="form-control"
-                  placeholder="Tekst odpowiedzi użytkownika"
-                  rows="4"
-                  value={userAnswer}
-                  onChange={editOpenAnswer}
-                  // required={answRequired}
-                ></textarea>
+                  placeholder="Wpisz pytanie"
+                  value={title}
+                  onChange={titleChange}
+                  required
+                  autoFocus
+                />
               </div>
-            {/* </form> */}
+            </div>
+            <hr />
+            <div className="form-group">
+              <textarea
+                id={"answer" + id}
+                className="form-control"
+                placeholder="Tekst odpowiedzi użytkownika"
+                rows="4"
+                value={userAnswer}
+                onChange={editOpenAnswer}
+                // required={answRequired}
+              ></textarea>
+            </div>
           </div>
           <div className="card-footer align-items-center">
             <div className="col">
@@ -62,15 +60,14 @@ const FormOpenText = ({
                 id={id}
                 answRequired={answRequired}
                 switcherChange={switcherChange}
-              />
-              {" "}Odp. wymagana
+              />{" "}
+              Odp. wymagana
             </div>
             <div className="col">
               <button
                 className="btn"
                 id={id}
                 onClick={copyForm}
-                // style={{ color: "#000" }}
               >
                 <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie
               </button>
@@ -79,7 +76,6 @@ const FormOpenText = ({
               <button
                 className="btn text-danger"
                 onClick={deleteForm}
-                // style={{ color: "#000" }}
               >
                 <i className="fa fa-trash-o fa-lg">&#61944;</i>
                 Usuń
@@ -98,6 +94,6 @@ FormOpenText.propTypes = {
   deleteForm: PropTypes.func.isRequired,
   answRequired: PropTypes.bool.isRequired,
   switcherChange: PropTypes.func.isRequired,
-}
+};
 
 export default FormOpenText;
