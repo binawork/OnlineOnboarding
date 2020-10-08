@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPath } from "../utils.js";
+import { getPath, getCookie } from "../utils.js";
 import FormTableRow from "../FormTable/FormTableRow";
 import FormPackageEdit from "../FormTable/FormPackageEdit";
 
@@ -66,8 +66,66 @@ export function OnePackageEdit(props){
 	} else if(!loaded)
 		return <FormPackageEdit key={0} />
 	else {
-		return <FormPackageEdit key={0} pack={ {title: element.title, description: element.description} } /*handleSave = { props.handleSave }*/ />
+		return <FormPackageEdit key={0} pack={ {title: element.title, description: element.description, packageId: props.packageId} } />
 	}
+}
+
+export function savePackageDetails(handleSuccess, packageId, title, description){
+	let data = {}, dontUpdate = true;
+	if(title){
+		if(typeof title === "string" && title.length > 0){
+			data.title = title;
+			dontUpdate = false;
+		}
+	}
+	if(description){
+		if(typeof description === "string" && description.length > 0){
+			data.description = description;
+			dontUpdate = false;
+		}
+	}
+
+	if(dontUpdate)
+		return false;
+
+	let url = getPath(), token = getCookie('csrftoken'),
+		fetchProps = {method:"PATCH", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}};
+
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
+		(result) => {
+			handleSuccess(result);
+		},
+		(error) => {
+			handleSuccess(error);
+			console.log(error);
+		}
+	);
+	return true;
+}
+
+/**
+ * Add page into Pages for Package (todo: set owner as a logged HR manager?);
+ */
+export function addPage(handleSuccess, title, owner){
+	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
+		return false;
+
+	let url = getPath(), data, token = getCookie('csrftoken'),
+		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
+	data = {"title": title};// {"title": "", "owner": null, "description": "", "users": []}
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
+		(result) => {
+			handleSuccess(result);
+		},
+		(error) => {
+			console.log(error);
+		}
+	);
+	return true;
 }
 
 export function removePage(handleSuccess, pageId, title){

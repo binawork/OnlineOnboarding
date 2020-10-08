@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FormTableAddNew from "./FormTableAddNew";
+import { savePackageDetails } from "../hooks/PackagePage";
 
 
 function FormPackageEdit(props) {
@@ -20,11 +21,14 @@ function FormPackageEdit(props) {
 
     var handleInputTitle = function(e){
         //pack.title = e.target.value;
-        setPackage({title: e.target.value, description: pack.description});
+        setPackage({title: e.target.value, description: pack.description, packageId: pack.packageId});
     }
     var handleInputDesc = function(e){
         //pack.description = e.target.value;
-        setPackage({title: pack.title, description: e.target.value});
+        setPackage({title: pack.title, description: e.target.value, packageId: pack.packageId});
+    }
+    var handleSave = (e) => {
+        savePackageDetails(function(res){}, pack.packageId, pack.title, pack.description);// pack as one argument;
     }
 
     return(
@@ -37,7 +41,7 @@ function FormPackageEdit(props) {
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">Zapisz</button>
+                        <button className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
                     </div>
                 </div>
             </div>
@@ -49,7 +53,7 @@ function FormPackageEdit(props) {
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">Zapisz</button>
+                        <button className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
                     </div>
                 </div>
             </div>
