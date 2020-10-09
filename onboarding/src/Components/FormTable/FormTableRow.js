@@ -14,7 +14,7 @@ function FormTableRow(props) {
             <td><Link to="/form_edit">{props.row.name}</Link></td>
             <td>{props.row.order}</td>
             <td>{props.row.last_edit}</td>
-            <td>edytuj / <button className="btn btn-secondary">usuń</button></td>
+            <td>edytuj / <button className="btn btn-secondary" onClick={ handleRemove }>usuń</button></td>
         </tr>
     )
 }
