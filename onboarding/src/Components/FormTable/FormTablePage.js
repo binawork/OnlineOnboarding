@@ -3,7 +3,7 @@ import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import FormTable from "./FormTable";
-import FormTableSearch from "./FormTableSearch";
+//import FormPackageEdit from "./FormPackageEdit";
 
 function FormTablePage(props) {
 	let packageId = 0;
