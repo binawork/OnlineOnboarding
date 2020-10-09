@@ -68,7 +68,7 @@ function LeftMenu() {
                             <Link to="/user_list" className="menu-link"> UserList</Link>
                         </li>
                         <li className="menu-item">
-                            <Link to="/packages" className="menu-link"> FormList </Link>
+                            <Link to="/packages" className="menu-link"> PackagesList </Link>
                         </li>
                         <li className="menu-item">
                            <Link to="/form_list" className="menu-link"> AddUserTable </Link>

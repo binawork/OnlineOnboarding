@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getPath, getCookie } from "../utils.js";
-import PackagesRow from "../FormList/PackagesRow";
+import PackagesRow from "../PackagesList/PackagesRow";
 
 /**
  * Get packages from Onboarding API when Packages component is loaded;

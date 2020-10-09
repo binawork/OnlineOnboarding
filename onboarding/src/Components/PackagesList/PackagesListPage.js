@@ -2,9 +2,9 @@ import React from "react";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
-import FormListTable from "./FormListTable";
+import PackagesListTable from "./PackagesListTable";
 
-function FormListPage() {
+function PackagesListPage() {
 
     return(
         <div className="app">
@@ -17,7 +17,7 @@ function FormListPage() {
                     <div className="page">
                         <div className="page-inner">
                             <PageAddressBar page = { "Formularze" } />
-                            <FormListTable />
+                            <PackagesListTable />
                         </div>
                     </div>
                 </div>
@@ -25,4 +25,5 @@ function FormListPage() {
         </div>
     )
 }
-export default FormListPage;
+export default PackagesListPage;
+

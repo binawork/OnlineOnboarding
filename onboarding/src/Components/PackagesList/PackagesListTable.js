@@ -5,7 +5,7 @@ import PackagesAddNew from "./PackagesAddNew";
 //import { getPath } from "../utils.js";
 import Packages from "../hooks/Packages";
 
-function FormListTable() {
+function PackagesListTable() {
     const [countUpdate, update] = useState(0);
     //let packages = <Packages count = countUpdate />;
 
@@ -46,5 +46,5 @@ function FormListTable() {
         </div>
     )
 }
-export default FormListTable;
+export default PackagesListTable;
 
