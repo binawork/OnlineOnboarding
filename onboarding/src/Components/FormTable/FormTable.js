@@ -29,7 +29,7 @@ function FormTable(props) {
                     Stwórz strone
                 </div>
                 <div className="card-body">
-                    <FormTableAddNew handleUpdate = { updatePackages } />
+                    <FormTableAddNew id = { props.packageId } handleUpdate = { updatePackages } />
                 </div>
             </div>
             <div className="card card-fluid">

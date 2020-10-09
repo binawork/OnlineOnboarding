@@ -108,16 +108,16 @@ export function savePackageDetails(handleSuccess, packageId, title, description)
 /**
  * Add page into Pages for Package (todo: set owner as a logged HR manager?);
  */
-export function addPage(handleSuccess, title, owner){
+export function addPage(handleSuccess, title, packageId, owner){
 	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
 		return false;
 
 	let url = getPath(), data, token = getCookie('csrftoken'),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
-	data = {"title": title};// {"title": "", "owner": null, "description": "", "users": []}
+	data = {"title": title, "package": packageId, "order": 1};
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/package/", fetchProps).then(res => res.json()).then(
+	fetch(url + "api/page/", fetchProps).then(res => res.json()).then(
 		(result) => {
 			handleSuccess(result);
 		},
