@@ -75,7 +75,7 @@ function LeftMenu() {
                         </li>
 
                         <li className="menu-item">
-                            <Link to="/employe_forms_list" className="menu-link"> EmployePageFillCopy</Link>
+                            <Link to="/employe_forms_list" className="menu-link"> EmployeeFormsList</Link>
                         </li>
                         <li className="menu-item">
                             <Link to="/employe_page_fill" className="menu-link"> FormsEmployee</Link>

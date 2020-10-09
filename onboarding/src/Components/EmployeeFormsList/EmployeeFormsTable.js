@@ -1,12 +1,12 @@
 import React from "react";
 import { employePageCopy } from "./EmployePageFillData";
-import EmployePageFillRow from "./EmployePageFillRow";
+import EmployeeFormsRow from "./EmployeeFormsRow";
 
-function EmployePageFillTable() {
+function EmployeeFormsTable() {
     let employePageCopylist= [];
     if (employePageCopy) {
         employePageCopy.forEach(function (element) {
-            employePageCopylist.push(<EmployePageFillRow row={element}/>)
+            employePageCopylist.push(<EmployeeFormsRow row={element}/>)
         });
     }
     return(
@@ -32,4 +32,5 @@ function EmployePageFillTable() {
         </div>
     )
 }
-export default EmployePageFillTable;
+export default EmployeeFormsTable;
+

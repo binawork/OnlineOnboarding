@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 // todos: add key = { ... }
 
-function EmployePageFillRow(props) {
+function EmployeeFormsRow(props) {
     return(
         <tr>
             <td><Link to="/employe_page_fill">{props.row.name}</Link></td>
@@ -10,5 +10,5 @@ function EmployePageFillRow(props) {
         </tr>
     )
 }
-export default EmployePageFillRow;
+export default EmployeeFormsRow;
 

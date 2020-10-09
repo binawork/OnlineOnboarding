@@ -1,8 +1,8 @@
 import React from "react";
 import NavbarEmployee from "../NavbarEmployee";
-import EmployePageFillTable from "./EmployePageFillTable";
+import EmployeeFormsTable from "./EmployeeFormsTable";
 
-function EmployePageFillCopyPage() {
+function EmployeeFormsListPage() {
 
     return(
         <div className="app">
@@ -13,7 +13,7 @@ function EmployePageFillCopyPage() {
                 <div className="wrapper">
                     <div className="page">
                         <div className="page-inner">
-                            <EmployePageFillTable />
+                            <EmployeeFormsTable />
                         </div>
                     </div>
                 </div>
@@ -21,4 +21,5 @@ function EmployePageFillCopyPage() {
         </div>
     )
 }
-export default EmployePageFillCopyPage;
+export default EmployeeFormsListPage;
+
