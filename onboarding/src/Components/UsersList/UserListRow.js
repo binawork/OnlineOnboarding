@@ -13,7 +13,7 @@ function UserListRow(props) {
 
                     <div className="col">
                         <h3 className="card-title">
-                            <Link to="/profile/employee">{ props.user.name }</Link> <small className="text-muted"><a href="#">{ props.user.email }</a></small>
+                            <Link to="/employee_profile">{ props.user.name }</Link> <small className="text-muted"><a href="#">{ props.user.email }</a></small>
                         </h3>
                         <h6 className="card-subtitle text-muted"> { props.user.position } </h6>
                     </div>
@@ -35,7 +35,7 @@ function UserListRow(props) {
                             <small className="text-muted">Skończone formularze:</small> { props.user.finished }
                         </h3>
                         <Link to="/add_user" className="btn btn-secondary" data-toggle="tooltip">Edytuj profil</Link>
-                        <Link to="/profile/employee" className="btn btn-secondary" data-toggle="tooltip">Dodaj "formularz"</Link>
+                        <Link to="/employee_profile" className="btn btn-secondary" data-toggle="tooltip">Dodaj "formularz"</Link>
                     </div>
                 </div>
             </div>

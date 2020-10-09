@@ -1,4 +1,4 @@
-const employeFormDataList = [
+const employeeFormDataList = [
     {
         name: "Bina Application form for Volounteer",
         pages: "1",
@@ -57,5 +57,5 @@ const formsSent = [
 
 ]
 
+export {employeeFormDataList, formsSent}
 
-export {employeFormDataList, formsSent}

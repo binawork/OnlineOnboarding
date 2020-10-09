@@ -1,21 +1,21 @@
 import React from "react";
-import { employeFormDataList } from "./EmployeProfileData";
-import { formsSent } from "./EmployeProfileData";
-import EmployeProfileUser from "./EmployeProfileUser";
-import EmployeProfileTableFirstRow from "./EmployeProfileTableFirstRow";
-import EmployeProfileTableSecondRow from "./EmployeProfileTableSecondRow";
+import { employeeFormDataList } from "./EmployeeProfileData";
+import { formsSent } from "./EmployeeProfileData";
+import EmployeeProfileUser from "./EmployeeProfileUser";
+import EmployeeProfileTableFirstRow from "./EmployeeProfileTableFirstRow";
+import EmployeeProfileTableSecondRow from "./EmployeeProfileTableSecondRow";
 
-function EmployeProfileTable() {
+function EmployeeProfileTable() {
     let form_table= [];
-    if (employeFormDataList) {
-        employeFormDataList.forEach(function (element) {
-            form_table.push(<EmployeProfileTableFirstRow row={element}/>)
+    if (employeeFormDataList) {
+        employeeFormDataList.forEach(function (element) {
+            form_table.push(<EmployeeProfileTableFirstRow row={element}/>)
         });
     }
     let user_table =[];
     if (formsSent) {
         formsSent.forEach(function (element) {
-            user_table.push(<EmployeProfileTableSecondRow row={element}/>)
+            user_table.push(<EmployeeProfileTableSecondRow row={element}/>)
         });
     }
     let employeProfile = {name: "Craig Hansen", email: "chansen@example.com", number: "624056846", position: "Software Developer", department: "Foo Bar", localization: "Lorem Ipsum", sent: 4, finished: 2}
@@ -26,7 +26,7 @@ function EmployeProfileTable() {
                     Status procesu
                 </div>
                 <div className="card-body">
-                    <EmployeProfileUser user = { employeProfile }/>
+                    <EmployeeProfileUser user = { employeProfile }/>
                 </div>
             </div>
             <div className="card card-fluid">
@@ -74,5 +74,5 @@ function EmployeProfileTable() {
         </div>
     )
 }
-export default EmployeProfileTable;
+export default EmployeeProfileTable;
 

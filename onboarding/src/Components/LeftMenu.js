@@ -53,7 +53,7 @@ function LeftMenu() {
                             <Link to="/profile/manager" className="menu-link"> UserManagerProfile</Link>
                         </li>
                         <li className="menu-item">
-                            <Link to="/profile/employee" className="menu-link"> EmployeProfile</Link>
+                            <Link to="/employee_profile" className="menu-link"> EmployeeProfile</Link>
                         </li>
                         <li className="menu-item">
                             <Link to="/add_user" className="menu-link"> UserManagerProfile</Link>

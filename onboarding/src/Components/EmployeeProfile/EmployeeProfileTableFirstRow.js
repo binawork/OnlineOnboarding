@@ -1,6 +1,6 @@
 import React from "react";
 
-function EmployeProfileTableFirstRow(props) {
+function EmployeeProfileTableFirstRow(props) {
     return(
         <tr>
             <td>{props.row.name}</td>
@@ -11,4 +11,5 @@ function EmployeProfileTableFirstRow(props) {
         </tr>
     )
 }
-export default EmployeProfileTableFirstRow;
+export default EmployeeProfileTableFirstRow;
+

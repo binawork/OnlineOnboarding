@@ -15,7 +15,7 @@ import PackagesListPage from "./Components/PackagesList/PackagesListPage";
 
 import FormsEmployeePage from "./Components/FormsEmployeePage";
 import FormsManagerCheckPage from "./Components/FormsManagerCheckPage";// where manager checks how form was filled;
-import EmployeProfilePage from "./Components/EmployeProfile/EmployeProfilePage";
+import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
 import EmployeeFormsListPage from "./Components/EmployeeFormsList/EmployeeFormsListPage";
 
 
@@ -23,7 +23,7 @@ function App() {
     return (
         <HashRouter>
             <Route path="/profile/manager" component={ UserManagerProfilePage } />
-            <Route path="/profile/employee" component={ EmployeProfilePage } />
+            <Route path="/employee_profile" component={ EmployeeProfilePage } />
             <Route path="/add_user" component={ UserManagerProfilePage } />
             <Route path="/employe_page_fill" component={ FormsEmployeePage } />
             <Route path="/employe_forms_list" component={ EmployeeFormsListPage } />

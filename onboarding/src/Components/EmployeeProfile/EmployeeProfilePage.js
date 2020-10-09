@@ -2,9 +2,9 @@ import React from "react";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
-import EmployeProfileTable from "./EmployeProfileTable";
+import EmployeeProfileTable from "./EmployeeProfileTable";
 
-function EmployeProfilePage() {
+function EmployeeProfilePage() {
 
     return(
         <div className="app">
@@ -17,7 +17,7 @@ function EmployeProfilePage() {
                     <div className="page">
                         <div className="page-inner">
                             <PageAddressBar page = { "Podgląd procesu pracownika" } />
-                            <EmployeProfileTable />
+                            <EmployeeProfileTable />
                         </div>
                     </div>
                 </div>
@@ -25,5 +25,5 @@ function EmployeProfilePage() {
         </div>
     )
 }
-export default EmployeProfilePage;
+export default EmployeeProfilePage;
 

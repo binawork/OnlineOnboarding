@@ -1,6 +1,6 @@
 import React from "react";
 
-function EmployeProfileTableSecondRow(props) {
+function EmployeeProfileTableSecondRow(props) {
     return(
         <tr>
             <td>{props.row.form}</td>
@@ -11,4 +11,5 @@ function EmployeProfileTableSecondRow(props) {
         </tr>
     )
 }
-export default EmployeProfileTableSecondRow;
+export default EmployeeProfileTableSecondRow;
+

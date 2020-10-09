@@ -1,7 +1,7 @@
 import React from "react";
 
 
-function EmployeProfileUser(props) {
+function EmployeeProfileUser(props) {
     return(
         <div className="card mb-2">
             <div className="card-body">
@@ -44,5 +44,5 @@ function EmployeProfileUser(props) {
     )
 }
 
-export default EmployeProfileUser;
+export default EmployeeProfileUser;
 
