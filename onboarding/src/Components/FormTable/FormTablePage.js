@@ -15,7 +15,7 @@ function FormTablePage(props) {
             <header className="app-header app-header-dark">
                 <Navbar />
             </header>
-            <LeftMenu />
+            <LeftMenu packageId = { packageId } />
             <main className="app-main">
                 <div className="wrapper">
                     <div className="page">

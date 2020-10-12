@@ -7,7 +7,7 @@ function PackagesRow(props) {
 
     var removeSuccess = (result) => {
         props.handleUpdate();// update list of packages;
-        console.log(result);
+        //console.log(result);
     };
 
     var handleRemove = function(){

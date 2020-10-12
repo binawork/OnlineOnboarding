@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ModeButton from './ModeButton'
 import { Link } from 'react-router-dom';
 
 
-function LeftMenu() {
+function LeftMenu(props){
+    const [packageId, setId] = useState(props.packageId);
+
+    /*if(props.packageId && isFinite(String(props.packageId) ) ){
+        formMenuId = props.packageId;
+    }*/
+
     return(
         <aside className="app-aside app-aside-expand-md app-aside-light">
             <div className="aside-content">
@@ -20,14 +26,16 @@ function LeftMenu() {
 
                         <li className="menu-item has-child has-active">
                             <Link to='/packages' className="menu-link"><span className="menu-icon far fa-file"></span> <span className="menu-text">Wdrożenia</span></Link>
+                            { packageId > 0 &&
                             <ul className="menu">
                                 <li className="menu-item">
-                                    <Link to="/package_page" className="menu-link">Lista formularzy</Link>
+                                    <Link to={{ pathname: "/package_page", state: { packageId: packageId } }} className="menu-link">Lista formularzy</Link>
                                 </li>
                                 <li className="menu-item">
                                     <Link to="/form_list" className="menu-link">- Wyślij pracownikowi</Link>
                                 </li>
                             </ul>
+                            }
                         </li>
 
                         <li className="menu-item">
