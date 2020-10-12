@@ -8,7 +8,7 @@ function EmployeeProfileUser(props) {
                 <div className="row align-items-center">
 
                     <div className="col-auto">
-                        <a href="#" className="user-avatar user-avatar-xl"><img src={process.env.PUBLIC_URL+"/images/unknown-profile.jpg"} alt="" /> <span className="avatar-badge idle" title="idle"></span></a>
+                        <a href="#" className="user-avatar user-avatar-xl"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /> <span className="avatar-badge idle" title="idle"></span></a>
                     </div>
 
                     <div className="col">

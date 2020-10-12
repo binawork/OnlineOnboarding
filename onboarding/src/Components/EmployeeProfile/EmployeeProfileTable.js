@@ -8,13 +8,13 @@ import EmployeeProfileTableSecondRow from "./EmployeeProfileTableSecondRow";
 function EmployeeProfileTable() {
     let form_table= [];
     if (employeeFormDataList) {
-        employeeFormDataList.forEach(function (element) {
+        employeeFormDataList.forEach(function (element, i) {
             form_table.push(<EmployeeProfileTableFirstRow row={element}/>)
         });
     }
     let user_table =[];
     if (formsSent) {
-        formsSent.forEach(function (element) {
+        formsSent.forEach(function (element, i) {
             user_table.push(<EmployeeProfileTableSecondRow row={element}/>)
         });
     }
