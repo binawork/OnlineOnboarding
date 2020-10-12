@@ -32,7 +32,10 @@ function PackagePage(props){
 	else {
 		var form_table = [], i, count = rows.length;
 		for(i = 0; i < count; i++)
-			form_table.push(<FormTableRow key={ rows[i].id } row={ {name: rows[i].title, order: rows[i].order, last_edit: "<do poprawy po stronie api>", key: rows[i].id } } handleUpdate = { props.handleUpdate } />);
+			form_table.push(<FormTableRow key={ rows[i].id }
+								row={ {name: rows[i].title, order: rows[i].order, last_edit: "<do poprawy po stronie api>",
+									description: rows[i].description, link: rows[i].link, key: rows[i].id } }
+								handleUpdate = { props.handleUpdate } />);
 		return ( <>{ form_table }</> )
 	}
 
