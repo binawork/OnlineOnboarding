@@ -4,7 +4,7 @@ import React from "react";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 
 
-function UserProfileManage() {
+function UserProfileManage(props) {
 
     return (
       <div className="card-body">

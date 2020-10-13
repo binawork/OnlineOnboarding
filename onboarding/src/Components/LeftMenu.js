@@ -1,14 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef } from "react";
 import ModeButton from './ModeButton'
 import { Link } from 'react-router-dom';
 
 
 function LeftMenu(props){
-    const [packageId, setId] = useState(props.packageId);
+    const packageIdRef = useRef(0);
 
-    /*if(props.packageId && isFinite(String(props.packageId) ) ){
-        formMenuId = props.packageId;
-    }*/
+    if(props.packageId && isFinite(String(props.packageId) ) ){
+        packageIdRef.current = props.packageId;
+    }
+    
+    let userListUrls = [];
+    if(packageIdRef.current > 0){
+        userListUrls.push(<Link to={{ pathname: "/add_user", state: { packageId: packageIdRef.current } }}
+        				className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Dodaj pracownika</span></Link>);
+        userListUrls.push(<Link to={{ pathname: "/user_list", state: { packageId: packageIdRef.current } }}
+        				className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Lista pracowników</span></Link>);
+    } else {
+        userListUrls.push(<Link to='/add_user' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Dodaj pracownika</span></Link>);
+        userListUrls.push(<Link to='/user_list' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Lista pracowników</span></Link>);
+    }
+
 
     return(
         <aside className="app-aside app-aside-expand-md app-aside-light">
@@ -26,10 +38,10 @@ function LeftMenu(props){
 
                         <li className="menu-item has-child has-active">
                             <Link to='/packages' className="menu-link"><span className="menu-icon far fa-file"></span> <span className="menu-text">Wdrożenia</span></Link>
-                            { packageId > 0 &&
+                            { packageIdRef.current > 0 &&
                             <ul className="menu">
                                 <li className="menu-item">
-                                    <Link to={{ pathname: "/package_page", state: { packageId: packageId } }} className="menu-link">Lista formularzy</Link>
+                                    <Link to={{ pathname: "/package_page", state: { packageId: packageIdRef.current } }} className="menu-link">Lista formularzy</Link>
                                 </li>
                                 <li className="menu-item">
                                     <Link to="/form_list" className="menu-link">- Wyślij pracownikowi</Link>
@@ -37,13 +49,9 @@ function LeftMenu(props){
                             </ul>
                             }
                         </li>
-
-                        <li className="menu-item">
-                            <Link to='/add_user' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Dodaj pracownika</span></Link>
-                        </li>
-                        <li className="menu-item">
-                            <Link to='/user_list' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Lista pracowników</span></Link>
-                        </li>
+                        { userListUrls.map(
+                        		(link, keyProp) => (<li className="menu-item" key={ keyProp }>{ link }</li>)
+                        ) }
                       </ul>
 
                       {/*<ul className="menu">
