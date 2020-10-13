@@ -7,7 +7,14 @@ import FormChoiceEdit from "./SingleChoiceForm/FormChoiceEdit";
 import FormMultiChoiceEdit from "./MultiChoiceForm/FormMultiChoiceEdit";
 import FormAddSection from "./FormAddSection";
 
-function FormSections({ sections, setSections }) {
+function FormSections() {
+  const [sections, setSections] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    //TODO: send sections to Data Base
+    console.log("zapisywanie");
+  };
 
   /* Create new question */
 
@@ -39,7 +46,7 @@ function FormSections({ sections, setSections }) {
     const newForm = {};
     const index = sections.findIndex((form) => form.id === e.target.id);
     sections.map((form) => {
-      if (form.id === e.target.id) {
+      if (form.id === (e.target.id).slice(5)) {
         newForm.id = newId;
         newForm.name = form.type + newId;
         newForm.type = form.type;
@@ -207,111 +214,118 @@ function FormSections({ sections, setSections }) {
   };
 
   return (
-    <div className="row">
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="dp1">
-          {(provided) => (
-            <div
-              className="col"
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {sections.map((form, index) => (
-                <Draggable
-                  key={form.id}
-                  draggableId={"draggable-" + form.id}
-                  index={index}
-                >
-                  {(provided) =>
-                    form.type === "radios" ? (
-                      <FormChoiceEdit
-                        innerRef={provided.innerRef}
-                        provided={provided}
-                        key={form.id}
-                        id={form.id}
-                        name={form.name}
-                        title={form.title}
-                        description={form.description}
-                        choices={form.choices}
-                        checked={form.checked}
-                        copyForm={handleCopyForm}
-                        deleteForm={() => handleDeleteForm(form.id)}
-                        answRequired={form.answRequired}
-                        titleChange={(e) => handleTitleChange(e)}
-                        descriptionChange={(e) => handleDescriptionChange(e)}
-                        addAnswer={(e) => handleAddAnswer(e)}
-                        deleteAnswer={(e) => handleDeleteAnswer(e)}
-                        editAnswer={(e) => handleEditAnswer(e)}
-                        changeChecked={(e) => handleChangeChecked(e)}
-                        switcherChange={(e) => handleSwitcherChange(e)}
-                        changeAnswersOrder={(id, sectionAnswers) =>
-                          handleChangeAnswersOrder(id, sectionAnswers)
-                        }
-                      />
-                    ) : form.type === "checks" ? (
-                      <FormMultiChoiceEdit
-                        innerRef={provided.innerRef}
-                        provided={provided}
-                        key={form.id}
-                        id={form.id}
-                        name={form.name}
-                        title={form.title}
-                        description={form.description}
-                        choices={form.choices}
-                        checked={form.checked}
-                        copyForm={handleCopyForm}
-                        deleteForm={() => handleDeleteForm(form.id)}
-                        answRequired={form.answRequired}
-                        titleChange={(e) => handleTitleChange(e)}
-                        descriptionChange={(e) => handleDescriptionChange(e)}
-                        addAnswer={(e) => handleAddAnswer(e)}
-                        deleteAnswer={(e) => handleDeleteAnswer(e)}
-                        editAnswer={(e) => handleEditAnswer(e)}
-                        changeChecked={(e) => handleChangeChecked(e)}
-                        switcherChange={(e) => handleSwitcherChange(e)}
-                        changeAnswersOrder={(id, sectionAnswers) =>
-                          handleChangeAnswersOrder(id, sectionAnswers)
-                        }
-                      />
-                    ) : form.type === "opAnsw" ? (
-                      <FormOpenText
-                        innerRef={provided.innerRef}
-                        provided={provided}
-                        key={form.id}
-                        id={form.id}
-                        name={form.name}
-                        title={form.title}
-                        userAnswer={form.userOpenAnswer}
-                        copyForm={handleCopyForm}
-                        deleteForm={() => handleDeleteForm(form.id)}
-                        answRequired={form.answRequired}
-                        titleChange={(e) => handleTitleChange(e)}
-                        editOpenAnswer={(e) => handleEditOpenAnswer(e)}
-                        switcherChange={(e) => handleSwitcherChange(e)}
-                      />
-                    ) : (
-                      console.info("Wrong type of form")
-                    )
-                  }
-                </Draggable>
-              ))}
-              {provided.placeholder}
+    <form>
+      <div className="row">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="dp1">
+            {(provided) => (
+              <div
+                className="col"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {sections.map((form, index) => (
+                  <Draggable
+                    key={form.id}
+                    draggableId={"draggable-" + form.id}
+                    index={index}
+                  >
+                    {(provided) =>
+                      form.type === "radios" ? (
+                        <FormChoiceEdit
+                          innerRef={provided.innerRef}
+                          provided={provided}
+                          key={form.id}
+                          id={form.id}
+                          name={form.name}
+                          title={form.title}
+                          description={form.description}
+                          choices={form.choices}
+                          checked={form.checked}
+                          copyForm={handleCopyForm}
+                          deleteForm={() => handleDeleteForm(form.id)}
+                          answRequired={form.answRequired}
+                          titleChange={(e) => handleTitleChange(e)}
+                          descriptionChange={(e) => handleDescriptionChange(e)}
+                          addAnswer={(e) => handleAddAnswer(e)}
+                          deleteAnswer={(e) => handleDeleteAnswer(e)}
+                          editAnswer={(e) => handleEditAnswer(e)}
+                          changeChecked={(e) => handleChangeChecked(e)}
+                          switcherChange={(e) => handleSwitcherChange(e)}
+                          changeAnswersOrder={(id, sectionAnswers) =>
+                            handleChangeAnswersOrder(id, sectionAnswers)
+                          }
+                        />
+                      ) : form.type === "checks" ? (
+                        <FormMultiChoiceEdit
+                          innerRef={provided.innerRef}
+                          provided={provided}
+                          key={form.id}
+                          id={form.id}
+                          name={form.name}
+                          title={form.title}
+                          description={form.description}
+                          choices={form.choices}
+                          checked={form.checked}
+                          copyForm={handleCopyForm}
+                          deleteForm={() => handleDeleteForm(form.id)}
+                          answRequired={form.answRequired}
+                          titleChange={(e) => handleTitleChange(e)}
+                          descriptionChange={(e) => handleDescriptionChange(e)}
+                          addAnswer={(e) => handleAddAnswer(e)}
+                          deleteAnswer={(e) => handleDeleteAnswer(e)}
+                          editAnswer={(e) => handleEditAnswer(e)}
+                          changeChecked={(e) => handleChangeChecked(e)}
+                          switcherChange={(e) => handleSwitcherChange(e)}
+                          changeAnswersOrder={(id, sectionAnswers) =>
+                            handleChangeAnswersOrder(id, sectionAnswers)
+                          }
+                        />
+                      ) : form.type === "opAnsw" ? (
+                        <FormOpenText
+                          innerRef={provided.innerRef}
+                          provided={provided}
+                          key={form.id}
+                          id={form.id}
+                          name={form.name}
+                          title={form.title}
+                          userAnswer={form.userOpenAnswer}
+                          copyForm={handleCopyForm}
+                          deleteForm={() => handleDeleteForm(form.id)}
+                          answRequired={form.answRequired}
+                          titleChange={(e) => handleTitleChange(e)}
+                          editOpenAnswer={(e) => handleEditOpenAnswer(e)}
+                          switcherChange={(e) => handleSwitcherChange(e)}
+                        />
+                      ) : (
+                        console.info("Wrong type of form")
+                      )
+                    }
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        <div className="col-auto">
+          <div className="card-body">
+            <FormAddSection
+              handleClicks={{
+                openText: () => handleAddSection("opAnsw"),
+                singleChoice: () => handleAddSection("radios"),
+                multiChoiceEdit: () => handleAddSection("checks"),
+              }}
+            />
+            <div className="form-group">
+              <div className="input-group-append">
+                <button type="submit" className="btn btn-success" onClick={handleSubmit}>Zapisz pytania</button>
+              </div>
             </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-      <div className="col-auto">
-        <div className="card-body">
-          <FormAddSection
-            handleClicks={{
-              openText: () => handleAddSection("opAnsw"),
-              singleChoice: () => handleAddSection("radios"),
-              multiChoiceEdit: () => handleAddSection("checks"),
-            }}
-          />
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 

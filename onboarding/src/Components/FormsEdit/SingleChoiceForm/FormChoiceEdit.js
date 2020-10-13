@@ -1,7 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RadioButton from "./RadioButton";
 import Switcher from "../../Switcher";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+import $ from 'jquery' // summernote needs it
+import 'bootstrap' // ibid.
+import 'popper.js'
+import ReactSummernote from "react-summernote";
+// import "react-summernote/dist/react-summernote.js"; 
+import "react-summernote/dist/react-summernote.css"; // import styles
+// import "../../../../static/js/fonts/summernote.woff2"; // import styles
+
+// Import bootstrap(v3 or v4) dependencies
+// import "bootstrap/js/modal";
+// import "bootstrap/js/dropdown";
+// import "bootstrap/js/tooltip";
+// import "../../../../static/bootstrap/vendor/bootstrap/css/bootstrap.css";
 
 // import "../../../static/looper/stylesheets/theme.min.css";
 // import "../../../static/looper/stylesheets/theme-dark.min.css";
@@ -28,7 +42,6 @@ const FormChoiceEdit = ({
   provided,
   innerRef,
 }) => {
-
   const onDragEnd = (result) => {
     // destination, source -> objects in which you can find the index of the destination and index of source item
     const { destination, source, reason } = result;
@@ -47,6 +60,15 @@ const FormChoiceEdit = ({
     sectionAnswers.splice(destination.index, 0, droppedAnswers);
 
     changeAnswersOrder(id, sectionAnswers);
+  };
+
+  useEffect(() => {
+    // Update the document title using the browser API
+      $('#summernote').summernote();
+  });
+
+  const onChange = (content) => {
+    console.log("onChange", content);
   };
 
   return (
@@ -70,6 +92,53 @@ const FormChoiceEdit = ({
                 />
               </div>
             </div>
+            
+            {/* <div id="summernote">Hello Summernote</div>
+            
+            <div className="card card-fluid">
+              <div
+                data-toggle="summernote"
+                data-placeholder="Write here..."
+                data-height="200"
+              ></div>
+            </div>
+            <div className="card card-fluid">
+              <div id="summernote-click2edit" className="card-body">
+                <h5>Hi,</h5>
+                <blockquote>We are summernote.</blockquote>
+                <p>Click edit button to change me.</p>
+                <p className="lead">
+                  Super simple WYSIWYG editor on bootstrap.
+                </p>
+              </div>
+              <div className="card-body rounded-bottom border-top">
+                <button id="summernote-edit" className="btn btn-primary">
+                  Edit
+                </button>
+                <button id="summernote-save" className="btn btn-primary d-none">
+                  Save Change
+                </button>
+              </div>
+            </div> */}
+
+            <ReactSummernote
+              value="Default value"
+              options={{
+                height: 350,
+                dialogsInBody: true,
+                toolbar: [
+                  ["style", ["style"]],
+                  ["font", ["bold", "underline", "clear"]],
+                  ["fontname", ["fontname"]],
+                  ["para", ["ul", "ol", "paragraph"]],
+                  ["table", ["table"]],
+                  ["insert", ["link", "picture", "video"]],
+                  ["view", ["fullscreen", "codeview"]],
+                ],
+              }}
+              onChange={onChange}
+            />
+
             <div className="form-group">
               <textarea
                 id={"descr" + id}
@@ -137,19 +206,12 @@ const FormChoiceEdit = ({
               Odp. wymagana
             </div>
             <div className="col">
-              <button
-                className="btn"
-                id={id}
-                onClick={copyForm}
-              >
+              <button className="btn" id={'copy-' + id} onClick={copyForm}>
                 <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie
               </button>
             </div>
             <div className="col">
-              <button
-                className="btn text-danger"
-                onClick={deleteForm}
-              >
+              <button className="btn text-danger" onClick={deleteForm}>
                 <i className="fa fa-trash-o fa-lg">&#61944;</i>
                 Usuń
               </button>

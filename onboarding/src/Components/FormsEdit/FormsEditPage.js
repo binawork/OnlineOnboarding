@@ -11,20 +11,30 @@ import FormSections from "./FormSections";
 import { savePageDetails } from "../hooks/FormsEdit";
 
 function FormsEditPage(props) {
-  const [pageName, setPageName] = useState(props.location.state.pageName?props.location.state.pageName:"");
-  const [link, setLink] = useState(props.location.state.link?props.location.state.link:"");
-	const [description, setDescription] = useState(props.location.state.description?props.location.state.description:"");
-	const [sections, setSections] = useState([])
-
-  const handleSubmit = (e) => {
-		e.preventDefault();
-		console.log("wysyłanie")
-  }
+  // const [pageName, setPageName] = useState(
+  //   props.location.state.pageName ? props.location.state.pageName : ""
+  // );
+  // const [link, setLink] = useState(
+  //   props.location.state.link ? props.location.state.link : ""
+  // );
+  // const [description, setDescription] = useState(
+  //   props.location.state.description ? props.location.state.description : ""
+  // );
+  const [pageName, setPageName] = useState("");
+  const [link, setLink] = useState("");
+	const [description, setDescription] = useState("");
+  // const [sections, setSections] = useState([])
 
   const handleSave = (e) => {
-      e.preventDefault();
-      savePageDetails(function(res){}, props.location.state.pageId, pageName, link, description);// pack as one argument;
-  }
+    e.preventDefault();
+    savePageDetails(
+      function (res) {},
+      props.location.state.pageId,
+      pageName,
+      link,
+      description
+    ); // pack as one argument;
+  };
 
   return (
     <div className="app">
@@ -38,7 +48,7 @@ function FormsEditPage(props) {
             <div className="page-inner">
               <PageAddressBar page={'Formularz / "#pageName"'} />{" "}
               {/* placeholder */}
-              <form onSubmit={handleSubmit}>
+              <form>
                 {" "}
                 {/* form placeholder */}
                 <div className="page-section">
@@ -53,7 +63,7 @@ function FormsEditPage(props) {
                             placeholder="Nazwa strony"
                             value={pageName}
                             onChange={(e) => setPageName(e.target.value)}
-														required
+                            required
                           />
                         </div>
                       </div>
@@ -79,20 +89,26 @@ function FormsEditPage(props) {
                       </div>
                       <div className="form-group">
                         <div className="input-group-append">
-                          <button className="btn btn-success" onClick={ handleSave }>Zapisz stronę</button>
+                          <button
+                            type="submit" 
+                            className="btn btn-success"
+                            onClick={handleSave}
+                          >
+                            Zapisz stronę
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="page-section">
-                  <div className="card card-fluid">
-                    <div className="card-header">Sekcje strony</div>
-                    <FormSections sections={sections} setSections={setSections}/>
-                    {/* placeholder */}
-                  </div>
-                </div>
               </form>
+              <div className="page-section">
+                <div className="card card-fluid">
+                  <div className="card-header">Sekcje strony</div>
+                  <FormSections />
+                  {/* placeholder */}
+                </div>
+              </div>
             </div>
           </div>
         </div>
