@@ -1,7 +1,7 @@
 import React from "react";
 
 //import "../static/looper/stylesheets/theme.min.css";
-import "../static/looper/stylesheets/theme-dark.min.css";
+//import "../static/looper/stylesheets/theme-dark.min.css";
 
 import Navbar from "./Navbar";
 import LeftMenu from "./LeftMenu";
