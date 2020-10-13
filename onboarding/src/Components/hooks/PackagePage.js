@@ -30,12 +30,20 @@ function PackagePage(props){
 	} else if(!loaded)
 		return <FormTableRow key={0} row={ {name: "Ładowanie ...", last_edit: ""} }/>
 	else {
-		var form_table = [], i, count = rows.length;
-		for(i = 0; i < count; i++)
+		var form_table = [], count = rows.length, maxOrder = -1, order;
+		let i;
+		for(i = 0; i < count; i++){
+			order = parseInt(rows[i].order, 10);
 			form_table.push(<FormTableRow key={ rows[i].id }
-								row={ {name: rows[i].title, order: rows[i].order, last_edit: "<do poprawy po stronie api>",
+								row={ {name: rows[i].title, order: order, last_edit: "<do poprawy po stronie api>",
 									description: rows[i].description, link: rows[i].link, key: rows[i].id } }
 								handleUpdate = { props.handleUpdate } />);
+			if(order > maxOrder)
+				maxOrder = order;
+		}
+
+		props.updateOrder(maxOrder);
+
 		return ( <>{ form_table }</> )
 	}
 
@@ -111,13 +119,18 @@ export function savePackageDetails(handleSuccess, packageId, title, description)
 /**
  * Add page into Pages for Package (todo: set owner as a logged HR manager?);
  */
-export function addPage(handleSuccess, title, packageId, owner){
+export function addPage(handleSuccess, title, packageId, order, owner){
 	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
 		return false;
 
 	let url = getPath(), data, token = getCookie('csrftoken'),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
+
 	data = {"title": title, "package": packageId, "order": 1};
+	if(order){
+		data.order = order;
+	}
+
 	fetchProps.body = JSON.stringify(data);
 
 	fetch(url + "api/page/", fetchProps).then(res => res.json()).then(
