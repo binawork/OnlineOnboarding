@@ -58,6 +58,23 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 
 
 # USER
+class UsersListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = get_user_model()
+        fields = (
+            'email',
+            'first_name',
+            'last_name',
+            'phone_number',
+            'location',
+            'team',
+            'job_position',
+            'last_login',
+
+        )
+
+
 class UserSerializer(serializers.ModelSerializer):
     # password = serializers.CharField(write_only=True)
 

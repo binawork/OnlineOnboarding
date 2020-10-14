@@ -53,5 +53,5 @@ router.register(r'api/q_and_a', CompanyQuestionAndAnswerViewSet, basename='conta
 urlpatterns += [
     path(r'', include(router.urls)),
     path(r'api/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api-token-auth/', obtain_auth_token, name='api-token-auth')
+    path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
 ]

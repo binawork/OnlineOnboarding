@@ -59,6 +59,11 @@ class User(AbstractUser):
     is_hr = models.BooleanField(default=False)
     email = models.EmailField(_('email address'), unique=True)
 
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    location = models.CharField(max_length=50, blank=True, null=True)
+    team = models.CharField(max_length=50, blank=True, null=True)
+    job_position = models.CharField(max_length=50, blank=True, null=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 

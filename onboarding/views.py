@@ -14,7 +14,7 @@ from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
-from rest_framework import viewsets, filters, status
+from rest_framework import viewsets, filters, status, generics
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
@@ -22,9 +22,11 @@ from rest_framework.permissions import AllowAny
 from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactForm, Page, Section, Answer 
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
+
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer
-from .serializers import AnswerSerializer, CompanySerializer
+from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer
+
 from .permissions import IsHrUser
 from .mailing import UserEmailCRUD
 from .tokens import account_activation_token
@@ -187,6 +189,13 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = (IsHrUser,)
     serializer_class = UserSerializer
+
+
+    def list(self, request):
+
+        queryset = User.objects.filter(company=self.request.user.company)
+        serializer = UsersListSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
     def create_user(self, request):
