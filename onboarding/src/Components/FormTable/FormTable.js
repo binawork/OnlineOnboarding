@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import FormPackageEdit from "./FormPackageEdit";
 import FormTableAddNew from "./FormTableAddNew";
 import FormTableRow from "./FormTableRow";
@@ -6,13 +6,21 @@ import { formDataList } from "./FormTableData";
 import PackagePage, { OnePackageEdit } from "../hooks/PackagePage";
 
 function FormTable(props) {
-    const [countUpdate, update] = useState(0);
+    const [countUpdate, update] = useState(0),
+    order = useRef(0);
     //let packages = <Packages count = countUpdate />;
 
     var updatePackages = function(){
     	update(countUpdate + 1);
         //packages = Packages(countUpdate);
     }
+
+    const updateOrder = (nr) => {
+        if(nr > order.current)
+            order.current = nr;
+    }
+
+    const getOrder = () => order.current;
 
     return(
         <div className="page-section">
@@ -29,7 +37,7 @@ function FormTable(props) {
                     Stwórz strone
                 </div>
                 <div className="card-body">
-                    <FormTableAddNew id = { props.packageId } handleUpdate = { updatePackages } />
+                    <FormTableAddNew id = { props.packageId } handleUpdate = { updatePackages } getOrder={ getOrder } />
                 </div>
             </div>
             <div className="card card-fluid">
@@ -47,7 +55,7 @@ function FormTable(props) {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                            <PackagePage id = { props.packageId } count = { countUpdate } handleUpdate = { updatePackages } />
+                            <PackagePage id = { props.packageId } count={ countUpdate } handleUpdate={ updatePackages } updateOrder={ updateOrder } />
                         </tbody>
                     </table>
                 </div>
@@ -56,3 +64,4 @@ function FormTable(props) {
     )
 }
 export default FormTable;
+

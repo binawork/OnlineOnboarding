@@ -5,7 +5,8 @@ function FormTableAddNew(props) {
     const [title, setTitle] = useState("");
 
     var handleClick = function(e){
-        let accepted = addPage(props.handleUpdate, title, props.id);
+        let order = props.getOrder();
+        let accepted = addPage(props.handleUpdate, title, props.id, order+1);
         setTitle("");
     }
 

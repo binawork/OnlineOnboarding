@@ -6,7 +6,7 @@ import UserListSearch from "../UserListSearch";
 function AddUserTable() {
     let user_table = [];
     if (addUserFormTableData) {
-        addUserFormTableData.forEach(function (element) {
+        addUserFormTableData.forEach(function (element, i) {
             user_table.push(<AddUserTableRow row={element}/>)
         });
     }
