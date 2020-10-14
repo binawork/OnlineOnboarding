@@ -7,6 +7,8 @@ import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import Calendar from "./Calendar";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
 
 function CalendarPage(props) {
     const packageIdRef = useRef(0);
@@ -24,7 +26,7 @@ function CalendarPage(props) {
                     <div className="page-inner">
                         <PageAddressBar page = { "Kalendarz" } /> {/* placeholder */}
 
-                        <nav className="page-navs pr-3">
+                        {/*<nav className="page-navs pr-3">
                             <div className="btn-group">
                                 <button id="calendar-prev" className="btn btn-secondary"><i className="fa fa-chevron-left">&larr;</i></button>
                                 <button id="calendar-today" className="btn btn-secondary">Today</button>
@@ -34,9 +36,9 @@ function CalendarPage(props) {
                                 <button type="button" className="btn btn-success">Add event</button>
                                 <button type="button" className="btn btn-secondary d-xl-none" data-toggle="sidebar"><i className="fas fa-tasks"></i></button>
                             </div>
-                        </nav>
+                        </nav>*/}
 
-                        <Calendar />
+                        <FullCalendar plugins={[ dayGridPlugin ]} initialView="dayGridMonth" />
 
                     </div>
                 </div></div>
