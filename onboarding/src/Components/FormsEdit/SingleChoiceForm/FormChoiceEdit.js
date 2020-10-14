@@ -3,19 +3,24 @@ import RadioButton from "./RadioButton";
 import Switcher from "../../Switcher";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import $ from 'jquery' // summernote needs it
-import 'bootstrap' // ibid.
-import 'popper.js'
 import ReactSummernote from "react-summernote";
-// import "react-summernote/dist/react-summernote.js"; 
-import "react-summernote/dist/react-summernote.css"; // import styles
-// import "../../../../static/js/fonts/summernote.woff2"; // import styles
+import "react-summernote/dist/react-summernote.css";
+import 'react-summernote/lang/summernote-pl-PL';
+import $ from 'jquery';
 
-// Import bootstrap(v3 or v4) dependencies
-// import "bootstrap/js/modal";
-// import "bootstrap/js/dropdown";
-// import "bootstrap/js/tooltip";
-// import "../../../../static/bootstrap/vendor/bootstrap/css/bootstrap.css";
+window.$ = $;
+window.jQuery = $;
+// import $ from 'jquery';
+import 'popper.js/dist/popper';
+// import 'bootstrap';
+import 'bootstrap/js/dist/modal';
+import 'bootstrap/js/dist/dropdown';
+import 'bootstrap/js/dist/tooltip';
+import 'summernote/dist/summernote-bs4.min.css';
+import 'summernote/dist/summernote-bs4.js';
+// import 'bootstrap/dist/css/bootstrap.css';
+
+// import "react-summernote/dist/summernote.woff2";
 
 // import "../../../static/looper/stylesheets/theme.min.css";
 // import "../../../static/looper/stylesheets/theme-dark.min.css";
@@ -62,10 +67,10 @@ const FormChoiceEdit = ({
     changeAnswersOrder(id, sectionAnswers);
   };
 
-  useEffect(() => {
-    // Update the document title using the browser API
-      $('#summernote').summernote();
-  });
+  // useEffect(() => {
+  //   // Update the document title using the browser API
+  //     $('#summernote').summernote();
+  // });
 
   const onChange = (content) => {
     console.log("onChange", content);
@@ -124,8 +129,10 @@ const FormChoiceEdit = ({
             <ReactSummernote
               value="Default value"
               options={{
-                height: 350,
+                lang: "pl-PL",
+                height: 250,
                 dialogsInBody: true,
+                placeholder:"Opis (markdown)",
                 toolbar: [
                   ["style", ["style"]],
                   ["font", ["bold", "underline", "clear"]],
@@ -133,7 +140,6 @@ const FormChoiceEdit = ({
                   ["para", ["ul", "ol", "paragraph"]],
                   ["table", ["table"]],
                   ["insert", ["link", "picture", "video"]],
-                  ["view", ["fullscreen", "codeview"]],
                 ],
               }}
               onChange={onChange}
