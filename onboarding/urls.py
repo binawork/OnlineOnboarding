@@ -55,3 +55,4 @@ urlpatterns += [
     path(r'api/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_auth_token, name='api-token-auth')
 ]
+

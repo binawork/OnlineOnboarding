@@ -106,12 +106,12 @@ class PackageSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Package
         fields = (
-                    'id', 
-                    'title', 
-                    'owner', 
-                    'description', 
-                    'created_on', 
-                    'updated_on', 
+                    'id',
+                    'title',
+                    'owner',
+                    'description',
+                    'created_on',
+                    'updated_on',
                     'users'
         )
 
@@ -137,8 +137,6 @@ class PackageSpecialTestSerializer(serializers.ModelSerializer):
 
 # PAGE
 class PageSerializer(serializers.ModelSerializer):
-    # package = serializers.SlugRelatedField()
-    # package = PackageSerializer()
 
     class Meta:
         ordering = ['-id']

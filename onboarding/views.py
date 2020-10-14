@@ -502,3 +502,15 @@ class AnswerViewSet(viewsets.ModelViewSet):
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
+
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+    def list(self, request):
+        # Note the use of `get_queryset()` instead of `self.queryset`
+        queryset = User.objects.filter()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)

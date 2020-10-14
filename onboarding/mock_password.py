@@ -9,6 +9,7 @@ def prepare_data():
     words = xp.generate_wordlist(wordfile=wordfile, min_length=5, max_length=8)
     return words
 
+
 def generate():
     """
     Generate password with random words like e.g. 'unroll-greeter-audacity'.
