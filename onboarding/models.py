@@ -1,8 +1,10 @@
+import os
 from django.db import models
 from django.contrib.postgres.fields import JSONField  # Used to generate JSON in answers
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 
 class Company(models.Model):
@@ -53,7 +55,15 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+def upload_to(instance, filename):
+    now = timezone.now()
+    base, extension = os.path.splitext(filename.lower())
+    milliseconds = now.microsecond // 1000
+    return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+
+
 class User(AbstractUser):
+    avatar = models.ImageField(_("Avatar"), upload_to=upload_to, blank=True)
     username = models.CharField(max_length=500, blank=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
     is_hr = models.BooleanField(default=False)

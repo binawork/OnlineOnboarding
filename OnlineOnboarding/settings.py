@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     # rest_framework
     'rest_framework',
-
-    #'reactDev',
+    # 'reactDev',
 ]
 
 MIDDLEWARE = [
@@ -114,6 +113,12 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "onboarding", "site_static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "onboarding", "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "onboarding", "media")
+MEDIA_URL = "/media/"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

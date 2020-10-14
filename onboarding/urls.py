@@ -5,8 +5,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 from django.contrib.auth import views as auth_views
-from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet,\
-    ContactFormViewSet, CompanyQuestionAndAnswerViewSet
+from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
+    ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload
 
 # base
 urlpatterns = [
@@ -54,4 +54,6 @@ urlpatterns += [
     path(r'', include(router.urls)),
     path(r'api/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
+    path("api/user-avatar/", UserAvatarUpload.as_view(), name="rest_user_avatar_upload"),
+
 ]

@@ -14,10 +14,12 @@ from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
-from rest_framework import viewsets, filters, status, generics
+from rest_framework import viewsets, filters, status, generics, views, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
+
 
 from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactForm, Page, Section, Answer 
@@ -185,9 +187,22 @@ def manager_view(request):
 
 # ViewSets define the view behavior
 
+class UserAvatarUpload(views.APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        serializer = UserAvatarSerializer(data=request.data, instance=request.user)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    permission_classes = (IsHrUser,)
+    permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
 
 
@@ -242,6 +257,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class CompanyViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
@@ -249,6 +265,8 @@ class CompanyViewSet(viewsets.ModelViewSet):
 class CompanyQuestionAndAnswerViewSet(viewsets.ModelViewSet):
     queryset = CompanyQuestionAndAnswer.objects.all()
     serializer_class = CompanyQuestionAndAnswerSerializer
+    permission_classes = [IsAuthenticated]
+
 
     def perform_create(self, serializer):
         serializer.save(company=self.request.user.company)
@@ -279,6 +297,8 @@ class PackageViewSet(viewsets.ModelViewSet):
     """
     queryset = Package.objects.all()
     serializer_class = PackageSerializer
+    permission_classes = [IsAuthenticated]
+
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
@@ -373,6 +393,8 @@ class PageViewSet(viewsets.ModelViewSet):
     serializer_class = PageSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
+    permission_classes = [IsAuthenticated]
+
 
 
     def perform_create(self, serializer):
@@ -429,6 +451,7 @@ class SectionViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
+    permission_classes = [IsAuthenticated]
 
 
     def perform_create(self, serializer):
@@ -474,6 +497,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     serializer_class = AnswerSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
+    permission_classes = [IsAuthenticated]
 
 
     def perform_create(self, serializer):

@@ -58,6 +58,17 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 
 
 # USER
+class UserAvatarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ["avatar"]
+
+    def save(self, *args, **kwargs):
+        if self.instance.avatar:
+            self.instance.avatar.delete()
+        return super().save(**kwargs)
+
+
 class UsersListSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -89,11 +100,11 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         password = mock_password.generate()
         user = User.objects.create(
-            username = validated_data['email'],
-            email = validated_data['email'],
-            first_name = validated_data['first_name'],
-            last_name = validated_data['last_name'],
-            is_active = False,
+            username=validated_data['email'],
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            is_active=False,
         )
         user.set_password(password)
         user.save()
