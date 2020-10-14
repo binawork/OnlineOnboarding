@@ -12,6 +12,7 @@ import FormTablePage from "./Components/FormTable/FormTablePage";
 import AddUserTablePage from "./Components/AddUserTable/AddUserTablePage";
 import UserManagerProfilePage from "./Components/UserManagerProfilePage";
 import PackagesListPage from "./Components/PackagesList/PackagesListPage";
+import CalendarPage from "./Components/Calendar/CalendarPage";
 
 import FormsEmployeePage from "./Components/FormsEmployeePage";
 import FormsManagerCheckPage from "./Components/FormsManagerCheckPage";// where manager checks how form was filled;
@@ -32,6 +33,7 @@ function App() {
             <Route path="/package_page" component={ FormTablePage } />
             <Route path="/user_list" component={ UserListPage } />
             <Route path="/form_list" component={ AddUserTablePage } />
+            <Route path="/calendar" component={ CalendarPage } />
             <Route path="/" exact component={ DashboardPage } />
         </HashRouter>
     );

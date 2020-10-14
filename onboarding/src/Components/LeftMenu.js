@@ -16,9 +16,12 @@ function LeftMenu(props){
         				className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Dodaj pracownika</span></Link>);
         userListUrls.push(<Link to={{ pathname: "/user_list", state: { packageId: packageIdRef.current } }}
         				className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Lista pracowników</span></Link>);
+        userListUrls.push(<Link to={{ pathname: "/calendar", state: { packageId: packageIdRef.current } }}
+        				className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Kalendarz</span></Link>);
     } else {
         userListUrls.push(<Link to='/add_user' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Dodaj pracownika</span></Link>);
         userListUrls.push(<Link to='/user_list' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Lista pracowników</span></Link>);
+        userListUrls.push(<Link to='/calendar' className="menu-link"><span className="menu-icon fas"></span> <span className="menu-text">Kalendarz</span></Link>);
     }
 
 
