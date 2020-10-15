@@ -8,7 +8,7 @@ function UserListRow(props) {
                 <div className="row align-items-center">
 
                     <div className="col-auto">
-                        <a href="#" className="user-avatar user-avatar-xl"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /> <span className="avatar-badge idle" title="idle"></span></a>
+                        <Link to="/employee_profile" className="user-avatar user-avatar-xl"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /> <span className="avatar-badge idle" title="idle"></span></Link>
                     </div>
 
                     <div className="col">
