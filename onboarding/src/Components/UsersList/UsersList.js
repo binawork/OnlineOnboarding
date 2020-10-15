@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
 //import "../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 
 import UserListRow from "./UserListRow";
+import Users from "../hooks/Users";
 import UserListSearch from "../UserListSearch";
 
 function UsersList(props) {
-    var usersList = [];
-    if(props.users){
-        //usersList = props.users.map((single, i) => (<UserListRow user = { single } key = { i } />));
-        var i, n = props.users.length;
-        for(i = 0; i < n; i++){
-            usersList.push(<UserListRow user = { props.users[i] } key = { i } />);
-        }
+    const [countUpdate, update] = useState(0);
+
+    var updatePackages = function(){// simple to refresh component when anything chnages inside;
+    	update(countUpdate + 1);
     }
 
     return(
@@ -26,7 +24,7 @@ function UsersList(props) {
                     <UserListSearch />
                 </div>
                 <div className="card-body">
-                    { usersList }
+                    <Users />
                 </div>
             </div>
         </div>

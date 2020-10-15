@@ -6,27 +6,25 @@
         <div style="background-color: #0d5bdd; text-align: center; padding-top: 20px;
         padding-bottom: 20px; border-top-left-radius: 10px; border-top-right-radius: 10px">
             <h1 style="color: #343a40">
-                Rejestracja w Online Onboarding
+                Dodano Cię do onboardingu firmy {{ company }}
             </h1>
         </div>
 
 
         <div style="background-color: #1aa3e8; padding-top: 10px; padding-bottom: 10px">
             <div style="margin-left: 20px">
-                <h2>Hi {{ user.username }},</h2>
+                <h2>Witaj {{ full_name }},</h2>
             </div>
             <div style="margin-left: 20px; margin-right: 20px">
-
                 <p>
-                    Wysłaliśmy ten e-mail ponieważ został on użyty do zarejestrowania użytkownika
-                    {{ user.email }} w aplikacji Online Onboarding, jeżeli mail został wykorzystany bez twojej
-                    wiedzy proszę go zignorować.
-
+                    Otrzymujesz tę wiadomość, ponieważ zostało utworzone twoje konto w domenie firmy {{ company }} 
+                    i jesteś zaproszony_a do procesu onboardingu.
                 </p>
                 <h3>Aktywacja konta</h3>
-
                 <p>
-                    Żeby aktywowoać konto wystarczy kliknąć link aktywacyjny znajdujący się ponizej.
+                    Aby kontynuować i aktywowoać konto wystarczy kliknąć link aktywacyjny znajdujący się ponizej. Twoje
+                    aktualne hasło to <strong>{{ password }}</strong><br />
+                    Zmień je zaraz po pierwszym logowaniu do aplikacji.
                 </p>
                 <p>
                     {% autoescape off %}

@@ -8,7 +8,7 @@ function UserListRow(props) {
                 <div className="row align-items-center">
 
                     <div className="col-auto">
-                        <a href="#" className="user-avatar user-avatar-xl"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /> <span className="avatar-badge idle" title="idle"></span></a>
+                        <Link to="/employee_profile" className="user-avatar user-avatar-xl"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /> <span className="avatar-badge idle" title="idle"></span></Link>
                     </div>
 
                     <div className="col">
@@ -34,8 +34,8 @@ function UserListRow(props) {
                         <h3 className="card-title">
                             <small className="text-muted">Skończone formularze:</small> { props.user.finished }
                         </h3>
-                        <Link to="/add_user" className="btn btn-secondary" data-toggle="tooltip">Edytuj profil</Link>
-                        <Link to="/employee_profile" className="btn btn-secondary" data-toggle="tooltip">Dodaj "formularz"</Link>
+                        <Link to={{ pathname: "/add_user", state: { user: props.user } }} className="btn btn-secondary" data-toggle="tooltip">Edytuj profil</Link>
+                        <Link to={{ pathname: "/employee_profile", state: { user: props.user } }} className="btn btn-secondary" data-toggle="tooltip">Dodaj "formularz"</Link>
                     </div>
                 </div>
             </div>
