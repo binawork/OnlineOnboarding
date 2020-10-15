@@ -29,22 +29,32 @@ function Users(props){
 	if(error){
 		return error.message;
 	} else if(!loaded){
-		singleUser = {name: "Ładowanie ...", email: "Ładowanie ...", position: "Ładowanie ...", department: "Ładowanie ...", localization: "Ładowanie ...", sent: "-", finished: "-"};
+		singleUser = {name: "Ładowanie ...", first_name: "", last_name: "", email: "Ładowanie ...", tel: "",
+			position: "Ładowanie ...", department: "Ładowanie ...", localization: "Ładowanie ...",
+			sent: "-", finished: "-"};
+
 		return <UserListRow user = { singleUser } key = { 0 } />;
 	} else {
 		var users = [], count = rows.length;
 		let i;
-		console.log(rows);
 		for(i = 0; i < count; i++){
-			singleUser = {name: "-", email: "-", position: "-", department: "-", localization: "-", sent: "-", finished: "-"};
+			// todos: get user ID for further editing;
+			singleUser = {name: "-", first_name: "", last_name: "", email: "-", tel: "",
+				position: "-", department: "-", localization: "-", sent: "-", finished: "-"};
 
-			if(typeof rows[i].first_name === "string" && rows[i].first_name.length > 0)
+			if(typeof rows[i].first_name === "string" && rows[i].first_name.length > 0){
 				singleUser.name = rows[i].first_name;
-			if(typeof rows[i].last_name === "string" && rows[i].last_name.length > 0)
+				singleUser.first_name = rows[i].first_name;
+			}
+			if(typeof rows[i].last_name === "string" && rows[i].last_name.length > 0){
 				singleUser.name = singleUser.name + " " + rows[i].last_name;
+				singleUser.last_name = rows[i].last_name;
+			}
 
 			if(typeof rows[i].email === "string" && rows[i].email.length > 0)
 				singleUser.email = rows[i].email;
+			if(typeof rows[i].phone_number === "string" && rows[i].phone_number.length > 0)
+				singleUser.tel = rows[i].phone_number;
 
 			if(typeof rows[i].location === "string" && rows[i].location.length > 0)
 				singleUser.localization = rows[i].location;
