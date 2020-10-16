@@ -10,11 +10,15 @@ import PageAddressBar from "./PageAddressBar"
 
 function UserManagerProfilePage(props) {
     const packageIdRef = useRef(0);
-    if(props.location.state)
-        packageIdRef.current = props.location.state.packageId;
-
     const singleUser = {name: "", last_name: "", email: "", tel: "", position: "", department: "", localization: ""};
-    if(props.location.state.user){
+    let stateExists = false;
+
+    if(props.location.state){
+        packageIdRef.current = props.location.state.packageId;
+        stateExists = true;
+    }
+
+    if(stateExists && props.location.state.user){
         let user = props.location.state.user;
         if(typeof user.first_name === "string" && user.first_name !== "-")
             singleUser.name = user.first_name;
