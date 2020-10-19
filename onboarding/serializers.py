@@ -61,7 +61,7 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 class UserAvatarSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ["avatar"]
+        fields = ['id', 'avatar']
 
     def save(self, *args, **kwargs):
         if self.instance.avatar:
@@ -74,6 +74,7 @@ class UsersListSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = (
+            'id',
             'email',
             'first_name',
             'last_name',
