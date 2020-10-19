@@ -1,26 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import MarkdownArea from "../MarkdownArea";
 import RadioButton from "./RadioButton";
 import Switcher from "../../Switcher";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
-import ReactSummernote from "react-summernote";
-import "react-summernote/dist/react-summernote.css";
-import 'react-summernote/lang/summernote-pl-PL';
-import $ from 'jquery';
-
-window.$ = $;
-window.jQuery = $;
-// import $ from 'jquery';
-import 'popper.js/dist/popper';
-// import 'bootstrap';
-import 'bootstrap/js/dist/modal';
-import 'bootstrap/js/dist/dropdown';
-import 'bootstrap/js/dist/tooltip';
-import 'summernote/dist/summernote-bs4.min.css';
-import 'summernote/dist/summernote-bs4.js';
-// import 'bootstrap/dist/css/bootstrap.css';
-
-// import "react-summernote/dist/summernote.woff2";
 
 // import "../../../static/looper/stylesheets/theme.min.css";
 // import "../../../static/looper/stylesheets/theme-dark.min.css";
@@ -50,9 +32,8 @@ const FormChoiceEdit = ({
   const onDragEnd = (result) => {
     // destination, source -> objects in which you can find the index of the destination and index of source item
     const { destination, source, reason } = result;
-    // Not a thing to do...
     if (!destination || reason === "CANCEL") return;
-    //If drop an element to the same place, it should do nothing
+    // If drop an element to the same place, it should do nothing
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -65,15 +46,6 @@ const FormChoiceEdit = ({
     sectionAnswers.splice(destination.index, 0, droppedAnswers);
 
     changeAnswersOrder(id, sectionAnswers);
-  };
-
-  // useEffect(() => {
-  //   // Update the document title using the browser API
-  //     $('#summernote').summernote();
-  // });
-
-  const onChange = (content) => {
-    console.log("onChange", content);
   };
 
   return (
@@ -97,64 +69,11 @@ const FormChoiceEdit = ({
                 />
               </div>
             </div>
-            
-            {/* <div id="summernote">Hello Summernote</div>
-            
-            <div className="card card-fluid">
-              <div
-                data-toggle="summernote"
-                data-placeholder="Write here..."
-                data-height="200"
-              ></div>
-            </div>
-            <div className="card card-fluid">
-              <div id="summernote-click2edit" className="card-body">
-                <h5>Hi,</h5>
-                <blockquote>We are summernote.</blockquote>
-                <p>Click edit button to change me.</p>
-                <p className="lead">
-                  Super simple WYSIWYG editor on bootstrap.
-                </p>
-              </div>
-              <div className="card-body rounded-bottom border-top">
-                <button id="summernote-edit" className="btn btn-primary">
-                  Edit
-                </button>
-                <button id="summernote-save" className="btn btn-primary d-none">
-                  Save Change
-                </button>
-              </div>
-            </div> */}
-
-            <ReactSummernote
-              value="Default value"
-              options={{
-                lang: "pl-PL",
-                height: 250,
-                dialogsInBody: true,
-                placeholder:"Opis (markdown)",
-                toolbar: [
-                  ["style", ["style"]],
-                  ["font", ["bold", "underline", "clear"]],
-                  ["fontname", ["fontname"]],
-                  ["para", ["ul", "ol", "paragraph"]],
-                  ["table", ["table"]],
-                  ["insert", ["link", "picture", "video"]],
-                ],
-              }}
-              onChange={onChange}
+            <MarkdownArea
+              id={id}
+              description={description}
+              descriptionChange={descriptionChange}
             />
-
-            <div className="form-group">
-              <textarea
-                id={"descr" + id}
-                className="form-control"
-                placeholder="Opis (markdown)"
-                rows="4"
-                value={description}
-                onChange={descriptionChange}
-              ></textarea>
-            </div>
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="dp1">
                 {(provided) => (
@@ -212,7 +131,7 @@ const FormChoiceEdit = ({
               Odp. wymagana
             </div>
             <div className="col">
-              <button className="btn" id={'copy-' + id} onClick={copyForm}>
+              <button className="btn" id={"copy-" + id} onClick={copyForm}>
                 <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie
               </button>
             </div>

@@ -85,21 +85,42 @@ function FormSections() {
   const handleTitleChange = (e) => {
     const forms = sections.map((form) => {
       // slice(5) - because e.target.id = 'title' + id
-      form.id === e.target.id.slice(5) ? (form.title = e.target.value) : form;
+      form.id === e.target.id.slice(5) 
+      ? (form.title = e.target.value) 
+      : form;
       return form;
     });
     setSections(forms);
   };
 
-  const handleDescriptionChange = (e) => {
+  // const handleDescriptionChange = (e) => {
+  //   const content = e.target.nextSibling.children[2].children[3].innerHTML;
+  //   // slice(5) - because id = 'descr' + id
+  //   const id = (e.target.id).slice(5);
+  //   // console.log('textarea: ', content)
+  //   // console.log('id: ', id)
+  //   const forms = sections.map((form) => {
+  //     form.id === id
+  //       ? (form.description = content)
+  //       : form;
+  //     return form;
+  //   });
+  //   // console.log('pytania: ', forms)
+  //   setSections(forms);
+  // };
+  const handleDescriptionChange = (content, mdId) => {
+    console.log('pytania przed: ', sections)
+    console.log('textarea: ', content)
+    // console.log('id: ', mdId.prevObject[0].previousElementSibling.id)
     const forms = sections.map((form) => {
-      // slice(5) - because e.target.id = 'descr' + id
-      form.id === e.target.id.slice(5)
-        ? (form.description = e.target.value)
+      // slice(5) - because id = 'descr' + id
+      form.id === (mdId)
+        ? (form.description = content)
         : form;
       return form;
     });
     setSections(forms);
+    console.log('pytania po: ', sections)
   };
 
   const onDragEnd = (result) => {
@@ -246,7 +267,7 @@ function FormSections() {
                           deleteForm={() => handleDeleteForm(form.id)}
                           answRequired={form.answRequired}
                           titleChange={(e) => handleTitleChange(e)}
-                          descriptionChange={(e) => handleDescriptionChange(e)}
+                          descriptionChange={(id, content) => handleDescriptionChange(id, content)}
                           addAnswer={(e) => handleAddAnswer(e)}
                           deleteAnswer={(e) => handleDeleteAnswer(e)}
                           editAnswer={(e) => handleEditAnswer(e)}
@@ -271,7 +292,7 @@ function FormSections() {
                           deleteForm={() => handleDeleteForm(form.id)}
                           answRequired={form.answRequired}
                           titleChange={(e) => handleTitleChange(e)}
-                          descriptionChange={(e) => handleDescriptionChange(e)}
+                          descriptionChange={(id, content) => handleDescriptionChange(id, content)}
                           addAnswer={(e) => handleAddAnswer(e)}
                           deleteAnswer={(e) => handleDeleteAnswer(e)}
                           editAnswer={(e) => handleEditAnswer(e)}
@@ -294,6 +315,7 @@ function FormSections() {
                           deleteForm={() => handleDeleteForm(form.id)}
                           answRequired={form.answRequired}
                           titleChange={(e) => handleTitleChange(e)}
+                          descriptionChange={(id, content) => handleDescriptionChange(id, content)}
                           editOpenAnswer={(e) => handleEditOpenAnswer(e)}
                           switcherChange={(e) => handleSwitcherChange(e)}
                         />
