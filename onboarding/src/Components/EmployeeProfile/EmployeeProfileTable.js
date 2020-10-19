@@ -5,20 +5,24 @@ import EmployeeProfileUser from "./EmployeeProfileUser";
 import EmployeeProfileTableFirstRow from "./EmployeeProfileTableFirstRow";
 import EmployeeProfileTableSecondRow from "./EmployeeProfileTableSecondRow";
 
-function EmployeeProfileTable() {
+function EmployeeProfileTable(props) {
+    let userCp = {name: "", last_name: "", email: "", tel: "", position: "", department: "", localization: "", sent: "-", finished: "-"};
+    if(props.user)
+        userCp = {...props.user};
+
     let form_table= [];
     if (employeeFormDataList) {
         employeeFormDataList.forEach(function (element, i) {
-            form_table.push(<EmployeeProfileTableFirstRow row={element}/>)
+            form_table.push(<EmployeeProfileTableFirstRow key={ i } row={element}/>)
         });
     }
     let user_table =[];
     if (formsSent) {
         formsSent.forEach(function (element, i) {
-            user_table.push(<EmployeeProfileTableSecondRow row={element}/>)
+            user_table.push(<EmployeeProfileTableSecondRow key={ i } row={element}/>)
         });
     }
-    let employeProfile = {name: "Craig Hansen", email: "chansen@example.com", number: "624056846", position: "Software Developer", department: "Foo Bar", localization: "Lorem Ipsum", sent: 4, finished: 2}
+
     return(
         <div className="page-section">
             <div className="card card-fluid">
@@ -26,7 +30,7 @@ function EmployeeProfileTable() {
                     Status procesu
                 </div>
                 <div className="card-body">
-                    <EmployeeProfileUser user = { employeProfile }/>
+                    <EmployeeProfileUser user = { userCp }/>
                 </div>
             </div>
             <div className="card card-fluid">

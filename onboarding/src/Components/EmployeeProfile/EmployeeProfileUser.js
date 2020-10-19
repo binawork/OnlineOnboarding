@@ -15,7 +15,7 @@ function EmployeeProfileUser(props) {
                         <h3 className="card-title">
                             <a href="#">{ props.user.name }</a> <small className="text-muted"><a href="#">{ props.user.email }</a></small>
                         </h3>
-                        <h6 className="card-subtitle text-muted"> { props.user.number } </h6>
+                        <h6 className="card-subtitle text-muted"> { props.user.tel } </h6>
                     </div>
 
                     <div className="col">
