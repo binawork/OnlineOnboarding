@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import $ from "jquery";
+
 
 import FormOpenText from "./OpenAnswerForm/FormOpenText";
 import FormChoiceEdit from "./SingleChoiceForm/FormChoiceEdit";
@@ -9,6 +11,10 @@ import FormAddSection from "./FormAddSection";
 
 function FormSections() {
   const [sections, setSections] = useState([]);
+  const refValue = useRef(sections);
+  useEffect(() => {
+    refValue.current = sections;
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,8 +51,8 @@ function FormSections() {
     const newId = uuidv4();
     const newForm = {};
     const index = sections.findIndex((form) => form.id === e.target.id);
-    sections.map((form) => {
-      if (form.id === (e.target.id).slice(5)) {
+    refValue.current.map((form) => {
+      if (form.id === e.target.id.slice(5)) {
         newForm.id = newId;
         newForm.name = form.type + newId;
         newForm.type = form.type;
@@ -85,42 +91,24 @@ function FormSections() {
   const handleTitleChange = (e) => {
     const forms = sections.map((form) => {
       // slice(5) - because e.target.id = 'title' + id
-      form.id === e.target.id.slice(5) 
-      ? (form.title = e.target.value) 
-      : form;
+      form.id === e.target.id.slice(5) ? (form.title = e.target.value) : form;
       return form;
     });
     setSections(forms);
   };
 
-  // const handleDescriptionChange = (e) => {
-  //   const content = e.target.nextSibling.children[2].children[3].innerHTML;
-  //   // slice(5) - because id = 'descr' + id
-  //   const id = (e.target.id).slice(5);
-  //   // console.log('textarea: ', content)
-  //   // console.log('id: ', id)
-  //   const forms = sections.map((form) => {
-  //     form.id === id
-  //       ? (form.description = content)
-  //       : form;
-  //     return form;
-  //   });
-  //   // console.log('pytania: ', forms)
-  //   setSections(forms);
-  // };
   const handleDescriptionChange = (content, mdId) => {
-    console.log('pytania przed: ', sections)
-    console.log('textarea: ', content)
-    // console.log('id: ', mdId.prevObject[0].previousElementSibling.id)
-    const forms = sections.map((form) => {
-      // slice(5) - because id = 'descr' + id
-      form.id === (mdId)
-        ? (form.description = content)
+    console.info("Value in event handler: ", refValue.current);
+    console.log("id: ", mdId);
+    console.log("zawartość: ", content);
+
+    const forms = refValue.current.map((form) => {
+      form.id === mdId 
+        ? (form.description = content) 
         : form;
       return form;
     });
     setSections(forms);
-    console.log('pytania po: ', sections)
   };
 
   const onDragEnd = (result) => {
@@ -267,7 +255,9 @@ function FormSections() {
                           deleteForm={() => handleDeleteForm(form.id)}
                           answRequired={form.answRequired}
                           titleChange={(e) => handleTitleChange(e)}
-                          descriptionChange={(id, content) => handleDescriptionChange(id, content)}
+                          descriptionChange={(content, id) =>
+                            handleDescriptionChange(content, id)
+                          }
                           addAnswer={(e) => handleAddAnswer(e)}
                           deleteAnswer={(e) => handleDeleteAnswer(e)}
                           editAnswer={(e) => handleEditAnswer(e)}
@@ -292,7 +282,9 @@ function FormSections() {
                           deleteForm={() => handleDeleteForm(form.id)}
                           answRequired={form.answRequired}
                           titleChange={(e) => handleTitleChange(e)}
-                          descriptionChange={(id, content) => handleDescriptionChange(id, content)}
+                          descriptionChange={(content, id) =>
+                            handleDescriptionChange(content, id)
+                          }
                           addAnswer={(e) => handleAddAnswer(e)}
                           deleteAnswer={(e) => handleDeleteAnswer(e)}
                           editAnswer={(e) => handleEditAnswer(e)}
@@ -315,7 +307,9 @@ function FormSections() {
                           deleteForm={() => handleDeleteForm(form.id)}
                           answRequired={form.answRequired}
                           titleChange={(e) => handleTitleChange(e)}
-                          descriptionChange={(id, content) => handleDescriptionChange(id, content)}
+                          descriptionChange={(content, id) =>
+                            handleDescriptionChange(content, id)
+                          }
                           editOpenAnswer={(e) => handleEditOpenAnswer(e)}
                           switcherChange={(e) => handleSwitcherChange(e)}
                         />
@@ -341,7 +335,13 @@ function FormSections() {
             />
             <div className="form-group">
               <div className="input-group-append">
-                <button type="submit" className="btn btn-success" onClick={handleSubmit}>Zapisz pytania</button>
+                <button
+                  type="submit"
+                  className="btn btn-success"
+                  onClick={handleSubmit}
+                >
+                  Zapisz pytania
+                </button>
               </div>
             </div>
           </div>
