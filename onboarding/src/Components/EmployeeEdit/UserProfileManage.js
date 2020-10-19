@@ -23,7 +23,7 @@ function UserProfileManage(props) {
 
     const handleSave = function(e){
         e.preventDefault();
-        console.log(user);
+        props.handleSaveEdit(user);
     };
 
     return (
