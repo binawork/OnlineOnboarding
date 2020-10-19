@@ -4,9 +4,7 @@ import React, { useRef } from "react";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 
 import UserProfileManage from "./UserProfileManage";
-import Navbar from "../Navbar";
-import LeftMenu from "../LeftMenu";
-import PageAddressBar from "../PageAddressBar"
+import { uploadAvatar, employeeAddEdit } from "../hooks/EmployeeEdit";
 
 function EmployeeEditForm(props) {
     const fileNameRef = useRef("");
@@ -15,8 +13,11 @@ function EmployeeEditForm(props) {
         userCp = {...props.user};
 
     const handleSaveEdit = user => {
-    	console.log(fileNameRef.current.files[0].name);
+    	if(fileNameRef.current.files.length > 0){
+    		uploadAvatar(fileNameRef.current.files[0]);
+    	}
     	console.log(user);
+    	//employeeAddEdit(function(resp){}, user);
     }
 
     return (

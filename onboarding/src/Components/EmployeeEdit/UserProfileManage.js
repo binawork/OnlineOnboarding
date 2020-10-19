@@ -10,7 +10,6 @@ function UserProfileManage(props) {
         userCp = {...props.user};
     const [user, setUser] = useState(userCp);
 
-    // option to manage all inputs: https://stackoverflow.com/a/61242889;
     const handleChangeName = e => {
         setUser({...user, name: e.target.value});
     };

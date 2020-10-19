@@ -7,7 +7,7 @@ function EmployeeProfileTableFirstRow(props) {
             <td>{props.row.pages}</td>
             <td>{props.row.created}</td>
             <td>{props.row.last_edit}</td>
-            <td>Wyślij</td>
+            <td><button className="btn btn-secondary">Wyślij</button></td>
         </tr>
     )
 }

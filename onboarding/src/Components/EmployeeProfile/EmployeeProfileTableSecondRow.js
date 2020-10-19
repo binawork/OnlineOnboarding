@@ -7,7 +7,7 @@ function EmployeeProfileTableSecondRow(props) {
             <td>{props.row.progress}</td>
             <td>{props.row.send_date}</td>
             <td>{props.row.finish_date}</td>
-            <td>{props.row.note}</td>
+            <td><button className="btn btn-secondary">{props.row.note}</button></td>
         </tr>
     )
 }
