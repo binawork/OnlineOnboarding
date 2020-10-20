@@ -26,7 +26,7 @@ from onboarding.models import Package, ContactRequestDetail, Page, Section, Answ
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer
 
 from .permissions import IsHrUser
