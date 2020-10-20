@@ -10,7 +10,7 @@ import UserListPage from "./Components/UsersList/UserListPage";
 import FormsEditPage from "./Components/FormsEdit/FormsEditPage";
 import FormTablePage from "./Components/FormTable/FormTablePage";
 import AddUserTablePage from "./Components/AddUserTable/AddUserTablePage";
-import UserManagerProfilePage from "./Components/UserManagerProfilePage";
+import UserManagerProfilePage from "./Components/EmployeeEdit/UserManagerProfilePage";
 import PackagesListPage from "./Components/PackagesList/PackagesListPage";
 
 import FormsEmployeePage from "./Components/FormsEmployeePage";
