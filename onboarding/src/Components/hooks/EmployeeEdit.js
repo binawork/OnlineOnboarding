@@ -60,7 +60,7 @@ export function employeeAddEdit(handleSuccess, employeeObject){
 	return true;
 }
 
-export function uploadAvatar(avatarFile){
+export function uploadAvatar(handleSuccess, avatarFile){
 	let url = getPath(), data, token = getCookie('csrftoken'),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "X-CSRFToken":token, "Authorization": "Token " + token}, body:null};
 
@@ -70,8 +70,8 @@ export function uploadAvatar(avatarFile){
 
 	fetch(url + 'api/user-avatar/', fetchProps).then(response => response.json()).then(
 		data => {
-			console.log("Avatar result");
 			console.log(data);
+			handleSuccess(data);
 		},
 		(error) => {
 			console.error('Error:', error);

@@ -19,11 +19,21 @@ function UserProfileManage(props) {
     const handleTel = e => {
         setUser({...user, tel: e.target.value});
     };
+    const handleLocalization = function(e){
+        setUser({...user, localization: e.target.value});
+    };
+
 
     const handleSave = function(e){
         e.preventDefault();
         props.handleSaveEdit(user);
     };
+
+    let localizations = ["Warszawa", "Łódź", "Poznań", "Gdańsk", "Wrocław"], dataOptions = [];
+    dataOptions = localizations.map( (city, i) =>
+        <option key={ i } value={ city } />
+    );
+
 
     return (
       <div className="card-body">
@@ -56,12 +66,13 @@ function UserProfileManage(props) {
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="lokalizacja" value={ props.user.localization } />{/* może lista rozwijana/do wyboru */}
+                    <input type="text" className="form-control" placeholder="lokalizacja" value={ user.localization } onChange={ handleLocalization } list="localization" />{/* może lista rozwijana/do wyboru */}
+                    <datalist id="localization">{ dataOptions }</datalist>
                 </div>
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="stanowisko" value={ props.user.position } />
+                    <input type="text" className="form-control" placeholder="stanowisko" value={ user.position } />
                 </div>
             </div>
             <div className="form-group">
