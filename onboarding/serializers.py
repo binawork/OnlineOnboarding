@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from onboarding.models import ContactForm, Package, Page, Section, User 
+from onboarding.models import ContactRequestDetail, Package, Page, Section, User
 from onboarding.models import Answer, Company, CompanyQuestionAndAnswer
 from . import mock_password
 
@@ -117,7 +117,7 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
 
     class Meta:
         ordering = ['-id']
-        model = ContactForm
+        model = ContactRequestDetail
         fields = (
                     'id', 
                     'first_name', 
