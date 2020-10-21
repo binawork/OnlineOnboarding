@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import $ from "jquery";
 import "popper.js/dist/popper";
 
-import ReactSummernote from "react-summernote";
-import "react-summernote/lang/summernote-pl-PL";
-import "react-summernote/dist/react-summernote.css";
 import "summernote/dist/summernote-bs4.min.css";
-import "summernote/dist/summernote-bs4.js";
+import "summernote/dist/summernote-bs4.min.js";
+import "summernote/lang/summernote-pl-PL";
 
 try {
   window.$ = window.jQuery = require("jquery");
@@ -16,26 +14,29 @@ try {
   console.log(e);
 }
 
-const MarkdownArea = ({ id, descriptionChange }) => {
-  useEffect(() => {
-
-    $(`#${"summernote" + id}`)
-    .summernote({
-      id: `${"descr" + id}`,
-      lang: "pl-PL",
-      height: 200,
+const MarkdownArea = ({ id, description, descriptionChange }) => {
+  $(document).ready(function() {
+    $(`#${"summernote" + id}`).summernote({
       dialogsInBody: true,
+      minHeight: 200,
+      lang: "pl-PL",
       placeholder: "Opis",
       toolbar: [
         ["style", ["style"]],
         ["font", ["bold", "italic", "underline", "strikethrough", "clear"]],
+        ['fontsize', ['fontsize']],
         ["fontname", ["fontname"]],
         ["color", ["color"]],
         ["para", ["ul", "ol", "paragraph"]],
         ["insert", ["link", "picture", "video"]],
       ],
       callbacks: {
-        onChange: function(content) { descriptionChange(content, id)}
+        onChange: function(content) {
+          descriptionChange(content, id);
+        },
+        onInit: function() {
+            $(this).summernote('code', description);
+        },
       },
     });
     $(".dropdown-toggle").dropdown();

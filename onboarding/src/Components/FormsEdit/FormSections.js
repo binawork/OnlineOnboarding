@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import $ from "jquery";
-
 
 import FormOpenText from "./OpenAnswerForm/FormOpenText";
 import FormChoiceEdit from "./SingleChoiceForm/FormChoiceEdit";
@@ -50,8 +48,8 @@ function FormSections() {
     e.preventDefault();
     const newId = uuidv4();
     const newForm = {};
-    const index = sections.findIndex((form) => form.id === e.target.id);
-    refValue.current.map((form) => {
+    const index = sections.findIndex((form) => form.id === e.target.id.slice(5));
+    sections.map((form) => {
       if (form.id === e.target.id.slice(5)) {
         newForm.id = newId;
         newForm.name = form.type + newId;
@@ -59,8 +57,11 @@ function FormSections() {
         newForm.answRequired = form.answRequired;
         newForm.title = form.title;
         newForm.description = form.description;
-        newForm.choices = form.choices;
-        newForm.checked = form.checked;
+        newForm.choices = form.choices.map(choice => {
+          const newChoiceId = uuidv4();
+          return {...choice, id: newChoiceId};
+        });
+        newForm.checked = [];
         newForm.userOpenAnswer = form.userOpenAnswer;
       }
       return form;
@@ -98,14 +99,10 @@ function FormSections() {
   };
 
   const handleDescriptionChange = (content, mdId) => {
-    console.info("Value in event handler: ", refValue.current);
-    console.log("id: ", mdId);
-    console.log("zawartość: ", content);
-
     const forms = refValue.current.map((form) => {
       form.id === mdId 
-        ? (form.description = content) 
-        : form;
+      ? (form.description = content) 
+      : form;
       return form;
     });
     setSections(forms);
@@ -302,6 +299,7 @@ function FormSections() {
                           id={form.id}
                           name={form.name}
                           title={form.title}
+                          description={form.description}
                           userAnswer={form.userOpenAnswer}
                           copyForm={handleCopyForm}
                           deleteForm={() => handleDeleteForm(form.id)}
