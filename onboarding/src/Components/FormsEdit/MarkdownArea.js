@@ -1,6 +1,5 @@
 import React from "react";
 import $ from "jquery";
-import "popper.js/dist/popper";
 
 import "summernote/dist/summernote-bs4.min.css";
 import "summernote/dist/summernote-bs4.min.js";
@@ -28,7 +27,7 @@ const MarkdownArea = ({ id, description, descriptionChange }) => {
         ["fontname", ["fontname"]],
         ["color", ["color"]],
         ["para", ["ul", "ol", "paragraph"]],
-        ["insert", ["link", "picture", "video"]],
+        ["insert", ["link", "picture", "video", "hr"]],
       ],
       callbacks: {
         onChange: function(content) {

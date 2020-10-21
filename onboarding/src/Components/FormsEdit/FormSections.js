@@ -30,7 +30,7 @@ function FormSections() {
       type: type,
       answRequired: true,
       title: "",
-      description: "",
+      description: "<div></div>",
       choices: [
         { id: uuidv4(), title: "Odpowiedź 1" },
         { id: uuidv4(), title: "Odpowiedź 2" },
