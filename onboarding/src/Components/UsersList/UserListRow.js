@@ -8,12 +8,12 @@ function UserListRow(props) {
                 <div className="row align-items-center">
 
                     <div className="col-auto">
-                        <Link to="/employee_profile" className="user-avatar user-avatar-xl"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /> <span className="avatar-badge idle" title="idle"></span></Link>
+                        <Link to={{ pathname: "/employee_profile", state: { user: props.user } }} className="user-avatar user-avatar-xl"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /> <span className="avatar-badge idle" title="idle"></span></Link>
                     </div>
 
                     <div className="col">
                         <h3 className="card-title">
-                            <Link to="/employee_profile">{ props.user.name }</Link> <small className="text-muted"><a href="#">{ props.user.email }</a></small>
+                            <Link to={{ pathname: "/employee_profile", state: { user: props.user } }}>{ props.user.name }</Link> <small className="text-muted"><Link to={{ pathname: "/employee_profile", state: { user: props.user } }}>{ props.user.email }</Link></small>
                         </h3>
                         <h6 className="card-subtitle text-muted"> { props.user.position } </h6>
                     </div>

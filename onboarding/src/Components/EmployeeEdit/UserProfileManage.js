@@ -29,8 +29,8 @@ function UserProfileManage(props) {
         props.handleSaveEdit(user);
     };
 
-    let localizations = ["Warszawa", "Łódź", "Poznań", "Gdańsk", "Wrocław"], dataOptions = [];
-    dataOptions = localizations.map( (city, i) =>
+    let locations = ["Warszawa", "Łódź", "Poznań", "Gdańsk", "Wrocław"], dataOptions = [];
+    dataOptions = locations.map( (city, i) =>
         <option key={ i } value={ city } />
     );
 
@@ -66,8 +66,8 @@ function UserProfileManage(props) {
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="lokalizacja" value={ user.localization } onChange={ handleLocalization } list="localization" />{/* może lista rozwijana/do wyboru */}
-                    <datalist id="localization">{ dataOptions }</datalist>
+                    <input type="text" className="form-control" placeholder="lokalizacja" value={ user.localization } onChange={ handleLocalization } list="location" />{/* może lista rozwijana/do wyboru */}
+                    <datalist id="location">{ dataOptions }</datalist>
                 </div>
             </div>
             <div className="form-group">
