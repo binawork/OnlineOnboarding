@@ -1,13 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getPath } from "./utils.js";
+import { getPath } from "../utils.js";
+import { v4 as uuidv4 } from "uuid";
+
+import Navbar from "../Navbar";
+import LeftMenu from "../LeftMenu";
+import PageAddressBar from "../PageAddressBar";
+import Employee from "./Employee";
 
 //import "../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
-
-import Navbar from "./Navbar";
-import LeftMenu from "./LeftMenu";
-import PageAddressBar from "./PageAddressBar";
 
 function DashboardPage(props) {
   const packageIdRef = useRef(0);
@@ -32,7 +34,13 @@ function DashboardPage(props) {
       .then(
         (result) => {
           console.log(result);
-          result === [] ? setIsEmployee(false) : setIsEmployee(true);
+          if (result === []) {
+            setIsEmployee(false);
+          } else {
+            setIsEmployee(true);
+            setEmployees(result);
+          }
+
           setIsLoaded(true);
         },
         (error) => {
@@ -56,11 +64,12 @@ function DashboardPage(props) {
                 {" "}
                 {/* placeholder */}
                 {isLoaded ? (
-                  isEmployee ? (
-                    <div className="card card-fluid p-4">
-
-                    </div>
-                  ) : (
+                  isEmployee ?
+                      employees.map((employee) => {
+                        console.log(employee);
+                        return <Employee employee={employee} key={uuidv4()} />
+                      })
+                  : (
                     <div className="card card-fluid p-4">
                       <div className="card-body">
                         Nie masz jeszcze wdrażanych pracowników (żeby wdrażać
