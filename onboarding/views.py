@@ -22,11 +22,11 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 
 from OnlineOnboarding.settings import EMAIL_HOST_USER
-from onboarding.models import Package, ContactForm, Page, Section, Answer 
+from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer
 
 from .permissions import IsHrUser
@@ -287,8 +287,8 @@ class ContactFormViewSet(viewsets.ModelViewSet):
     """
     List all packages, update or create a new package.
     """
-    queryset = ContactForm.objects.all()
-    serializer_class = ContactForm
+    queryset = ContactRequestDetail.objects.all()
+    serializer_class = ContactRequestDetail
 
 
 class PackageViewSet(viewsets.ModelViewSet):
