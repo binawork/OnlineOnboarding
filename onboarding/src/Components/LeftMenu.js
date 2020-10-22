@@ -1,60 +1,103 @@
 import React, { useRef } from "react";
-import ModeButton from './ModeButton'
-import { Link } from 'react-router-dom';
+import ModeButton from "./ModeButton";
+import { Link } from "react-router-dom";
 
+function LeftMenu(props) {
+  const packageIdRef = useRef(0);
 
-function LeftMenu(props){
-    const packageIdRef = useRef(0);
+  if (props.packageId && isFinite(String(props.packageId))) {
+    packageIdRef.current = props.packageId;
+  }
 
-    if(props.packageId && isFinite(String(props.packageId) ) ){
-        packageIdRef.current = props.packageId;
-    }
-    
-    let userListUrls = [];
-    if(packageIdRef.current > 0){
-        userListUrls.push(<Link to={{ pathname: "/add_user", state: { packageId: packageIdRef.current } }}
-        				className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Dodaj pracownika</span></Link>);
-        userListUrls.push(<Link to={{ pathname: "/user_list", state: { packageId: packageIdRef.current } }}
-        				className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Lista pracowników</span></Link>);
-    } else {
-        userListUrls.push(<Link to='/add_user' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Dodaj pracownika</span></Link>);
-        userListUrls.push(<Link to='/user_list' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Lista pracowników</span></Link>);
-    }
+  let userListUrls = [];
+  if (packageIdRef.current > 0) {
+    userListUrls.push(
+      <Link
+        to={{
+          pathname: "/add_user",
+          state: { packageId: packageIdRef.current },
+        }}
+        className="menu-link"
+      >
+        <span className="menu-icon fas fa-file"></span>{" "}
+        <span className="menu-text">Dodaj pracownika</span>
+      </Link>
+    );
+    userListUrls.push(
+      <Link
+        to={{
+          pathname: "/user_list",
+          state: { packageId: packageIdRef.current },
+        }}
+        className="menu-link"
+      >
+        <span className="menu-icon fas fa-file"></span>{" "}
+        <span className="menu-text">Lista pracowników</span>
+      </Link>
+    );
+  } else {
+    userListUrls.push(
+      <Link to="/add_user" className="menu-link">
+        <span className="menu-icon fas fa-file"></span>{" "}
+        <span className="menu-text">Dodaj pracownika</span>
+      </Link>
+    );
+    userListUrls.push(
+      <Link to="/user_list" className="menu-link">
+        <span className="menu-icon fas fa-file"></span>{" "}
+        <span className="menu-text">Lista pracowników</span>
+      </Link>
+    );
+  }
 
+  return (
+    <aside className="app-aside app-aside-expand-md app-aside-light">
+      <div className="aside-content">
+        <header className="aside-header d-block d-md-none"></header>
+        <div className="aside-menu overflow-hidden">
+          <nav id="stacked-menu" className="stacked-menu">
+            <ul className="menu">
+              <li className="menu-header px-0">
+                <Link to="/" className="menu-link p-0">
+                    <span className="menu-icon fas fa-home"></span>{" "}
+                    <span className="menu-text">Dashboard</span>
+                </Link>
+              </li>
 
-    return(
-        <aside className="app-aside app-aside-expand-md app-aside-light">
-            <div className="aside-content">
-                <header className="aside-header d-block d-md-none">
+              <li className="menu-item has-child has-active">
+                <Link to="/packages" className="menu-link">
+                  <span className="menu-icon far fa-file"></span>{" "}
+                  <span className="menu-text">Wdrożenia</span>
+                </Link>
+                {packageIdRef.current > 0 && (
+                  <ul className="menu">
+                    <li className="menu-item">
+                      <Link
+                        to={{
+                          pathname: "/package_page",
+                          state: { packageId: packageIdRef.current },
+                        }}
+                        className="menu-link"
+                      >
+                        Lista formularzy
+                      </Link>
+                    </li>
+                    <li className="menu-item">
+                      <Link to="/form_list" className="menu-link">
+                        - Wyślij pracownikowi
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              {userListUrls.map((link, keyProp) => (
+                <li className="menu-item" key={keyProp}>
+                  {link}
+                </li>
+              ))}
+            </ul>
 
-                </header>
-                <div className="aside-menu overflow-hidden">
-                    <nav id="stacked-menu" className="stacked-menu">
-
-                      <ul className="menu">
-                        <li className="menu-header">
-                            <span className="menu-icon fas fa-home"></span> <span className="menu-text">Dashboard</span>
-                        </li>
-
-                        <li className="menu-item has-child has-active">
-                            <Link to='/packages' className="menu-link"><span className="menu-icon far fa-file"></span> <span className="menu-text">Wdrożenia</span></Link>
-                            { packageIdRef.current > 0 &&
-                            <ul className="menu">
-                                <li className="menu-item">
-                                    <Link to={{ pathname: "/package_page", state: { packageId: packageIdRef.current } }} className="menu-link">Lista formularzy</Link>
-                                </li>
-                                <li className="menu-item">
-                                    <Link to="/form_list" className="menu-link">- Wyślij pracownikowi</Link>
-                                </li>
-                            </ul>
-                            }
-                        </li>
-                        { userListUrls.map(
-                        		(link, keyProp) => (<li className="menu-item" key={ keyProp }>{ link }</li>)
-                        ) }
-                      </ul>
-
-                      {/*<ul className="menu">
+            {/*<ul className="menu">
                         <li className="menu-header">
                             <span className="menu-icon fas fa-home"></span> <span className="menu-text">Components</span>
                         </li>
@@ -97,12 +140,11 @@ function LeftMenu(props){
                             <Link to="/employe_page_fill" className="menu-link"> FormsEmployee</Link>
                         </li>
                       </ul>*/}
-                    </nav>
-                </div>
-                <ModeButton />
-            </div>
-        </aside>
-    )
+          </nav>
+        </div>
+        <ModeButton />
+      </div>
+    </aside>
+  );
 }
 export default LeftMenu;
-
