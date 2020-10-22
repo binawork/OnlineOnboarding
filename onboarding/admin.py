@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Package, Page, Section, Answer, ContactForm, Company
+from .models import User, Package, Page, Section, Answer, Company, ContactRequestDetail
 
 # information about django administration site
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
 admin.site.register(User, UserAdmin)
 admin.site.register(Answer)
-admin.site.register(ContactForm)
+admin.site.register(ContactRequestDetail)
 admin.site.register(Company)
 
 

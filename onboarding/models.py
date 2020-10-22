@@ -18,6 +18,9 @@ class Company(models.Model):
 
 
 class CompanyQuestionAndAnswer(models.Model):
+    """
+
+    """
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     question = models.TextField(max_length=500)
     answer = models.TextField(max_length=500)
@@ -40,22 +43,14 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
-        """
-        Create and save a SuperUser with the given email and password.
-        """
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError(_('Superuser must have is_staff=True.'))
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError(_('Superuser must have is_superuser=True.'))
-        return self.create_user(email, password, **extra_fields)
-
 
 def upload_to(instance, filename):
+    """
+
+    :param instance:
+    :param filename:
+    :return:
+    """
     now = timezone.now()
     base, extension = os.path.splitext(filename.lower())
     milliseconds = now.microsecond // 1000
@@ -63,6 +58,9 @@ def upload_to(instance, filename):
 
 
 class User(AbstractUser):
+    """
+
+    """
     avatar = models.ImageField(_("Avatar"), upload_to=upload_to, blank=True)
     username = models.CharField(max_length=500, blank=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
@@ -83,7 +81,10 @@ class User(AbstractUser):
         return self.email
 
 
-class ContactForm(models.Model):
+class ContactRequestDetail(models.Model):
+    """
+
+    """
     first_name = models.CharField(max_length=30, help_text='')
     last_name = models.CharField(max_length=30, help_text='')
     company_name = models.CharField(max_length=30, help_text='')
@@ -92,7 +93,11 @@ class ContactForm(models.Model):
 
 
 class Package(models.Model):
-    """Model representing a Package."""
+    """
+    Model representing Package
+    Owner - Company that owns this package
+    users - List of users connected to this package via HR
+    """
     owner = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=1000, help_text='Enter a brief description', null=True, blank=True)
@@ -105,7 +110,10 @@ class Package(models.Model):
 
 
 class Page(models.Model):
-    """Model representing a through for Page and Section."""
+    """
+    Model representing a through for Page and Section.
+    Owner - Company that owns this package
+    """
     package = models.ForeignKey(Package, on_delete=models.SET_NULL, null=True, blank=True)
     order = models.IntegerField()
     owner = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True,)
@@ -118,6 +126,9 @@ class Page(models.Model):
 
 
 class Section(models.Model):
+    """
+    Owner - Company that owns this package
+    """
     page = models.ForeignKey(Page, on_delete=models.SET_NULL, null=True, blank=True)
     owner = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
     order = models.IntegerField()
@@ -144,6 +155,9 @@ class Section(models.Model):
 
 
 class Answer(models.Model):
+    """
+    Owner - Company that owns this package
+    """
     section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True, blank=True)
     data = JSONField(null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)

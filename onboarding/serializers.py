@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from onboarding.models import ContactForm, Package, Page, Section, User 
+from onboarding.models import ContactRequestDetail, Package, Page, Section, User
 from onboarding.models import Answer, Company, CompanyQuestionAndAnswer
 from . import mock_password
 
@@ -75,6 +75,7 @@ class UsersListSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = (
             'id',
+            'avatar',
             'email',
             'first_name',
             'last_name',
@@ -83,7 +84,6 @@ class UsersListSerializer(serializers.ModelSerializer):
             'team',
             'job_position',
             'last_login',
-
         )
 
 
@@ -93,10 +93,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = (
-                    'email', 
-                    'first_name',
-                    'last_name',
-                    )
+            'email',
+            'first_name',
+            'last_name',
+            'avatar',
+            )
 
     def create(self, validated_data):
         password = mock_password.generate()
@@ -117,7 +118,7 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
 
     class Meta:
         ordering = ['-id']
-        model = ContactForm
+        model = ContactRequestDetail
         fields = (
                     'id', 
                     'first_name', 
