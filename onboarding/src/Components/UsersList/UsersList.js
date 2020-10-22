@@ -10,7 +10,7 @@ import UserListSearch from "../UserListSearch";
 function UsersList(props) {
     const [countUpdate, update] = useState(0);
 
-    var updatePackages = function(){// simple to refresh component when anything chnages inside;
+    var updateUsers = function(){// simple to refresh component when anything chnages inside;
     	update(countUpdate + 1);
     }
 

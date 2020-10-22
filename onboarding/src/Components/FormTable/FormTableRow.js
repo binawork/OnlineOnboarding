@@ -14,7 +14,7 @@ function FormTableRow(props) {
             <td><Link to={{ pathname: "/form_edit", state: { pageId: props.row.key, pageName:props.row.name, description: props.row.description, link: props.row.link } }} >{props.row.name}</Link></td>
             <td>{props.row.order}</td>
             <td>{props.row.last_edit}</td>
-            <td>edytuj / <button className="btn btn-secondary" onClick={ handleRemove }>usuń</button></td>
+            <td><Link to={{ pathname: "/form_edit", state: { pageId: props.row.key, pageName:props.row.name, description: props.row.description, link: props.row.link } }} >edytuj</Link> / <button className="btn btn-secondary" onClick={ handleRemove }>usuń</button></td>
         </tr>
     )
 }

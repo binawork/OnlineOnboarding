@@ -14,12 +14,6 @@ function FormsEditPage(props) {
   const [pageName, setPageName] = useState(props.location.state.pageName?props.location.state.pageName:"");
   const [link, setLink] = useState(props.location.state.link?props.location.state.link:"");
 	const [description, setDescription] = useState(props.location.state.description?props.location.state.description:"");
-	const [sections, setSections] = useState([])
-
-  const handleSubmit = (e) => {
-		e.preventDefault();
-		console.log("wysyłanie")
-  }
 
   const handleSave = (e) => {
       e.preventDefault();
@@ -38,7 +32,7 @@ function FormsEditPage(props) {
             <div className="page-inner">
               <PageAddressBar page={'Formularz / "#pageName"'} />{" "}
               {/* placeholder */}
-              <form onSubmit={handleSubmit}>
+              <form>
                 {" "}
                 {/* form placeholder */}
                 <div className="page-section">
@@ -85,14 +79,14 @@ function FormsEditPage(props) {
                     </div>
                   </div>
                 </div>
+              </form>
                 <div className="page-section">
                   <div className="card card-fluid">
                     <div className="card-header">Sekcje strony</div>
-                    <FormSections sections={sections} setSections={setSections}/>
+                    <FormSections />
                     {/* placeholder */}
                   </div>
                 </div>
-              </form>
             </div>
           </div>
         </div>
