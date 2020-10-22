@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import MarkdownArea from "../MarkdownArea";
 import Switcher from "../../Switcher";
 
 // import "../../../static/looper/stylesheets/theme.min.css";
@@ -9,17 +10,19 @@ import Switcher from "../../Switcher";
 const FormOpenText = ({
   id,
   title,
+  description,
   userAnswer,
   copyForm,
   deleteForm,
   answRequired,
   titleChange,
+  descriptionChange,
   editOpenAnswer,
   switcherChange,
   provided,
   innerRef,
 }) => {
-  return (
+   return (
     <div className="card-body" {...provided.draggableProps} ref={innerRef}>
       <div className="task-issue">
         <div className="card">
@@ -33,7 +36,7 @@ const FormOpenText = ({
                   id={"title" + id}
                   type="text"
                   className="form-control"
-                  placeholder="Wpisz pytanie"
+                  placeholder="Tytuł"
                   value={title}
                   onChange={titleChange}
                   required
@@ -41,6 +44,11 @@ const FormOpenText = ({
                 />
               </div>
             </div>
+            <MarkdownArea
+              id={id}
+              description={description}
+              descriptionChange={descriptionChange}
+            />
             <hr />
             <div className="form-group">
               <textarea
@@ -50,7 +58,6 @@ const FormOpenText = ({
                 rows="4"
                 value={userAnswer}
                 onChange={editOpenAnswer}
-                // required={answRequired}
               ></textarea>
             </div>
           </div>
@@ -66,7 +73,7 @@ const FormOpenText = ({
             <div className="col">
               <button
                 className="btn"
-                id={id}
+                id={"copy-" + id}
                 onClick={copyForm}
               >
                 <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie

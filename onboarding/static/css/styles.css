@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "summernote";
+    src: url("../js/fonts/summernote.eot");
+    src: url("../js/fonts/summernote.eot") format("embedded-opentype");
+    src: url("../js/fonts/summernote.ttf") format("truetype");
+    src: url("../js/fonts/summernote.woff") format("woff");
+    src: url("../js/fonts/summernote.woff2") format("woff2");
+}
+
 .sidebar-nav {
     margin-top: 100px;
     padding: 0;

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import MarkdownArea from "../MarkdownArea";
 import RadioButton from "./RadioButton";
 import Switcher from "../../Switcher";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -28,13 +29,11 @@ const FormChoiceEdit = ({
   provided,
   innerRef,
 }) => {
-
   const onDragEnd = (result) => {
     // destination, source -> objects in which you can find the index of the destination and index of source item
     const { destination, source, reason } = result;
-    // Not a thing to do...
     if (!destination || reason === "CANCEL") return;
-    //If drop an element to the same place, it should do nothing
+    // If drop an element to the same place, it should do nothing
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -70,16 +69,11 @@ const FormChoiceEdit = ({
                 />
               </div>
             </div>
-            <div className="form-group">
-              <textarea
-                id={"descr" + id}
-                className="form-control"
-                placeholder="Opis (markdown)"
-                rows="4"
-                value={description}
-                onChange={descriptionChange}
-              ></textarea>
-            </div>
+            <MarkdownArea
+              id={id}
+              description={description}
+              descriptionChange={descriptionChange}
+            />
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="dp1">
                 {(provided) => (
@@ -137,19 +131,12 @@ const FormChoiceEdit = ({
               Odp. wymagana
             </div>
             <div className="col">
-              <button
-                className="btn"
-                id={id}
-                onClick={copyForm}
-              >
+              <button className="btn" id={"copy-" + id} onClick={copyForm}>
                 <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie
               </button>
             </div>
             <div className="col">
-              <button
-                className="btn text-danger"
-                onClick={deleteForm}
-              >
+              <button className="btn text-danger" onClick={deleteForm}>
                 <i className="fa fa-trash-o fa-lg">&#61944;</i>
                 Usuń
               </button>
