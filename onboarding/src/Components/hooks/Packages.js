@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getPath, getCookie } from "../utils.js";
-import PackagesRow from "../FormList/PackagesRow";
+import PackagesRow from "../PackagesList/PackagesRow";
 
 /**
  * Get packages from Onboarding API when Packages component is loaded;
@@ -28,7 +28,7 @@ function Packages(props){
 	if(error){
 		return <PackagesRow key={0} row={ {name: error.message, last_edit: ""} }/>
 	} else if(!loaded)
-		return <PackagesRow key={0} row={ {name: "Loading ...", last_edit: ""} }/>
+		return <PackagesRow key={0} row={ {name: "Ładowanie ...", last_edit: ""} }/>
 	else {
 		var form_table = [], i, count = rows.length;
 		for(i = 0; i < count; i++)
@@ -62,7 +62,6 @@ export function addCombo(handleSuccess, title, owner){
 }
 
 export function removeCombo(handleSuccess, packageId, title){
-	console.log(packageId);
 	let url = getPath(), data, token = getCookie('csrftoken'),
 		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}};
 	data = {"id": packageId};

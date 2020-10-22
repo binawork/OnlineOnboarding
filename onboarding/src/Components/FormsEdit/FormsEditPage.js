@@ -8,16 +8,22 @@ import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import FormSections from "./FormSections";
+import { savePageDetails } from "../hooks/FormsEdit";
 
-function FormsEditPage() {
-  const [pageName, setPageName] = useState("");
-  const [link, setLink] = useState("");
-	const [description, setDescription] = useState("");
+function FormsEditPage(props) {
+  const [pageName, setPageName] = useState(props.location.state.pageName?props.location.state.pageName:"");
+  const [link, setLink] = useState(props.location.state.link?props.location.state.link:"");
+	const [description, setDescription] = useState(props.location.state.description?props.location.state.description:"");
 	const [sections, setSections] = useState([])
-	
+
   const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log("wysyłanie")
+  }
+
+  const handleSave = (e) => {
+      e.preventDefault();
+      savePageDetails(function(res){}, props.location.state.pageId, pageName, link, description);// pack as one argument;
   }
 
   return (
@@ -73,7 +79,7 @@ function FormsEditPage() {
                       </div>
                       <div className="form-group">
                         <div className="input-group-append">
-                          <button className="btn btn-success">Zapisz stronę</button>
+                          <button className="btn btn-success" onClick={ handleSave }>Zapisz stronę</button>
                         </div>
                       </div>
                     </div>

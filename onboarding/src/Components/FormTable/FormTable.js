@@ -1,20 +1,27 @@
-import React from "react";
-import FormTableSearch from "./FormTableSearch";
+import React, { useState, useRef } from "react";
+import FormPackageEdit from "./FormPackageEdit";
 import FormTableAddNew from "./FormTableAddNew";
 import FormTableRow from "./FormTableRow";
 import { formDataList } from "./FormTableData";
-import PackagePage from "../hooks/PackagePage";
+import PackagePage, { OnePackageEdit } from "../hooks/PackagePage";
 
 function FormTable(props) {
-    // todo: use console.log(props.packageId);
-    let form_table= [];// = PackagePage(props.packageId);
+    const [countUpdate, update] = useState(0),
+    order = useRef(0);
+    //let packages = <Packages count = countUpdate />;
 
-
-    if (formDataList) {
-        formDataList.forEach(function (element) {
-            form_table.push(<FormTableRow row={element}/>)
-        });
+    var updatePackages = function(){
+    	update(countUpdate + 1);
+        //packages = Packages(countUpdate);
     }
+
+    const updateOrder = (nr) => {
+        if(nr > order.current)
+            order.current = nr;
+    }
+
+    const getOrder = () => order.current;
+
     return(
         <div className="page-section">
             <div className="card card-fluid">
@@ -22,7 +29,7 @@ function FormTable(props) {
                     Edytuj formularz
                 </div>
                 <div className="card-body">
-                    <FormTableSearch />
+                    <OnePackageEdit packageId = { props.packageId } />
                 </div>
             </div>
             <div className="card card-fluid">
@@ -30,7 +37,7 @@ function FormTable(props) {
                     Stwórz strone
                 </div>
                 <div className="card-body">
-                    <FormTableAddNew />
+                    <FormTableAddNew id = { props.packageId } handleUpdate = { updatePackages } getOrder={ getOrder } />
                 </div>
             </div>
             <div className="card card-fluid">
@@ -48,7 +55,7 @@ function FormTable(props) {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                            { form_table }
+                            <PackagePage id = { props.packageId } count={ countUpdate } handleUpdate={ updatePackages } updateOrder={ updateOrder } />
                         </tbody>
                     </table>
                 </div>
@@ -57,3 +64,4 @@ function FormTable(props) {
     )
 }
 export default FormTable;
+
