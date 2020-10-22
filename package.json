@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development ./onboarding/src/index.js --output ./onboarding/static/js/main.js",
-    "start": "webpack-dev-server --mode development --hot",
+    "start": "webpack --mode development --watch ./onboarding/src/index.js --output ./onboarding/static/js/main.js",
     "build": "webpack --mode production ./onboarding/src/index.js --output ./onboarding/static/js/main.js"
   },
   "repository": {
