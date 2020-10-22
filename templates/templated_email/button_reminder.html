@@ -1,0 +1,48 @@
+<html lang="pl-PL">
+<head>
+   <meta charset="UTF-8">
+
+    <body style=" size: A5;">
+        <div style="background-color: #0d5bdd; text-align: center; padding-top: 20px;
+        padding-bottom: 20px; border-top-left-radius: 10px; border-top-right-radius: 10px">
+            <h1 style="color: #343a40">
+                Przypomnienie
+            </h1>
+        </div>
+
+
+        <div style="background-color: #1aa3e8; padding-top: 10px; padding-bottom: 10px">
+            <div style="margin-left: 20px">
+                <h2>Hi {{ user.username }},</h2>
+            </div>
+            <div style="margin-left: 20px; margin-right: 20px">
+                <p>
+                    Dostałeś tego maila ponieważ najwyraźniej ociągasz się z zapoznawaniem się z {{ package.title }},
+                    aby nadrobić zaległości wejdz w link
+                </p>
+                <p>
+                    {% autoescape off %}
+                        http://{{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}
+                    {% endautoescape %}
+                </p>
+            </div>
+        </div>
+
+        <div style="background-color: #0d5bdd; color: #161b1c; border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px">
+            <div style="margin-left: 20px; padding-top: 15px">
+                Mail wysłany za pomocą przycisku "przypomnienie" prosimy nie odpowiadać a wszystkie pytania kierować
+                do osoby odpowiedzialnej za program wdrożeniowy w firmie.
+            </div>
+            <div style="margin-left: 20px">
+
+            </div>
+            <div style="margin-left: 20px; padding-bottom: 15px">
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html>
