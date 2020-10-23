@@ -31,7 +31,7 @@ function Users(props){
 	} else if(!loaded){
 		singleUser = {name: "Ładowanie ...", first_name: "", last_name: "", email: "Ładowanie ...", tel: "",
 			position: "Ładowanie ...", department: "Ładowanie ...", localization: "Ładowanie ...",
-			sent: "-", finished: "-"};
+			sent: "-", finished: "-", avatar: ""};
 
 		return <UserListRow user = { singleUser } key = { 0 } />;
 	} else {
@@ -40,7 +40,7 @@ function Users(props){
 		for(i = 0; i < count; i++){
 			// todos: get user ID for further editing;
 			singleUser = {name: "-", first_name: "", last_name: "", email: "-", tel: "",
-				position: "-", department: "-", localization: "-", sent: "-", finished: "-"};
+				position: "-", department: "-", localization: "-", sent: "-", finished: "-", avatar:""};
 
 			if(typeof rows[i].first_name === "string" && rows[i].first_name.length > 0){
 				singleUser.name = rows[i].first_name;
@@ -64,6 +64,9 @@ function Users(props){
 
 			if(typeof rows[i].job_position === "string" && rows[i].job_position.length > 0)
 				singleUser.position = rows[i].job_position;
+
+			if(typeof rows[i].avatar === "string" && rows[i].avatar.length > 0)
+				singleUser.avatar = rows[i].avatar;
 
 			users.push(<UserListRow user={ singleUser } key={ i } />);
 		}

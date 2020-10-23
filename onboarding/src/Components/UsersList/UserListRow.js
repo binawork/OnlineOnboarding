@@ -2,13 +2,18 @@ import React from "react";
 import { Link } from 'react-router-dom';
 
 function UserListRow(props) {
+    let avatar = "/onboarding/static/images/unknown-profile.jpg";
+
+    if(props.user.avatar && props.user.avatar.length > 1)
+        avatar = props.user.avatar;
+
     return(
         <div className="card mb-2">
             <div className="card-body">
                 <div className="row align-items-center">
 
                     <div className="col-auto">
-                        <Link to={{ pathname: "/employee_profile", state: { user: props.user } }} className="user-avatar user-avatar-xl"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /> <span className="avatar-badge idle" title="idle"></span></Link>
+                        <Link to={{ pathname: "/employee_profile", state: { user: props.user } }} className="user-avatar user-avatar-xl"><img src={ avatar } alt="" /> <span className="avatar-badge idle" title="idle"></span></Link>
                     </div>
 
                     <div className="col">
