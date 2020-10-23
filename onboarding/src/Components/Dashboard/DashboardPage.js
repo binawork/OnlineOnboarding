@@ -33,7 +33,6 @@ function DashboardPage(props) {
       .then((res) => res.json())
       .then(
         (result) => {
-          console.log(result);
           if (result === []) {
             setIsEmployee(false);
           } else {
@@ -64,12 +63,11 @@ function DashboardPage(props) {
                 {" "}
                 {/* placeholder */}
                 {isLoaded ? (
-                  isEmployee ?
-                      employees.map((employee) => {
-                        console.log(employee);
-                        return <Employee employee={employee} key={uuidv4()} />
-                      })
-                  : (
+                  isEmployee ? (
+                    employees.map((employee) => {
+                      return <Employee employee={employee} key={uuidv4()} />;
+                    })
+                  ) : (
                     <div className="card card-fluid p-4">
                       <div className="card-body">
                         Nie masz jeszcze wdrażanych pracowników (żeby wdrażać
