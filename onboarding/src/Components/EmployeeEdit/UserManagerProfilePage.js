@@ -10,7 +10,8 @@ import PageAddressBar from "../PageAddressBar"
 
 function UserManagerProfilePage(props) {
     const packageIdRef = useRef(0);
-    const singleUser = {name: "", last_name: "", email: "", tel: "", position: "", department: "", localization: ""};
+    const singleUser = {name: "", last_name: "", email: "", tel: "",
+        position: "", department: "", localization: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
     let stateExists = false;
 
     if(props.location.state){
@@ -36,6 +37,9 @@ function UserManagerProfilePage(props) {
             singleUser.department = user.department;
         if(typeof user.localization === "string" && user.localization !== "-")
             singleUser.localization = user.localization;
+
+        if(typeof user.avatar === "string" && user.avatar.length > 1)
+            singleUser.avatar = user.avatar;
     }
 
     return (

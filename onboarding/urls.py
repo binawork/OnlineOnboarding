@@ -5,6 +5,10 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 from django.contrib.auth import views as auth_views
+
+from django.conf import settings
+from django.conf.urls.static import static
+
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
     ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload
 
@@ -35,6 +39,8 @@ urlpatterns += [
     path('email/activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('email/reminder/<employee_id>/<package_id>/', views.reminder, name='reminder'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API
 router = DefaultRouter()

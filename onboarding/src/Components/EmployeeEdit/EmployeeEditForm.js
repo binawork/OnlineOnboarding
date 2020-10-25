@@ -8,10 +8,13 @@ import { uploadAvatar, employeeAddEdit } from "../hooks/EmployeeEdit";
 
 function EmployeeEditForm(props) {
     const fileNameRef = useRef("");
-    const [imageLink, updateImageLink] = useState("/onboarding/static/images/unknown-profile.jpg");
-    let userCp = {name: "", last_name: "", email: "", tel: "", department: "", localization: "", position: ""};
+
+    let userCp = {name: "", last_name: "", email: "", tel: "",
+        position: "", department: "", localization: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
     if(props.user)
         userCp = {...props.user};
+
+    const [imageLink, updateImageLink] = useState(userCp.avatar);
 
     const handleSaveEdit = user => {
     	if(fileNameRef.current.files.length > 0){
@@ -23,7 +26,7 @@ function EmployeeEditForm(props) {
 
     const updateImage = function(response){
     	if(typeof response.avatar === "string")
-    		updateImageLink("/onboarding" + response.avatar);
+    		updateImageLink(response.avatar);
     }
 
     return (
@@ -31,7 +34,7 @@ function EmployeeEditForm(props) {
     		<div className="col">
     			<div className="card-body align-items-center text-center">
     				<div className="user-avatar user-avatar-xl fileinput-button">
-    					<div className="fileinput-button-label"> Dodaj/zmień zdjęcie </div><img src={ imageLink } alt="avatar" />
+    					<div className="fileinput-button-label"> Dodaj/zmień zdjęcie </div><img src={ userCp.avatar } alt="avatar" />
     					<input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } />
     				</div>
     			</div>
