@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { dateToString } from "../utils";
 import { removeCombo } from "../hooks/Packages";
+import "../../../static/css/styles.css";
 
-function PackagesRow(props) {
+function PackagesRow({ row, handleUpdate, lastRow }) {
+    const [styleRow, setStyleRow] = useState(null);
 
     var removeSuccess = (result) => {
-        props.handleUpdate();// update list of packages;
-        //console.log(result);
+        handleUpdate();// update list of packages;
     };
 
     var handleRemove = function(){
-        removeCombo(props.handleUpdate, props.row.key);
+        removeCombo(handleUpdate, row.key);
     }
 
+    useEffect(() => {
+        if(lastRow && Date.now() - Date.parse(row.created) < 3000) {
+            setStyleRow('style-package-row')
+        } else {
+            setStyleRow(null);
+        }
+    }, [lastRow])
+
     return(
-        <tr>
-            <td><Link to={{ pathname: "/package_page", state: { packageId: props.row.key } }} className="link">{props.row.name}</Link></td>
-            <td>{ dateToString(props.row.last_edit) }</td>{/* na polski; */}
+        <tr className={styleRow}>
+            <td><Link to={{ pathname: "/package_page", state: { packageId: row.key } }} className="link">{row.name}</Link></td> 
+            <td>{ dateToString(row.last_edit) }</td>{/* na polski; */}
             <td><a href="">edytuj</a> / <button className="btn btn-secondary" onClick={ handleRemove }>usuń</button> </td>
         </tr>
     )
