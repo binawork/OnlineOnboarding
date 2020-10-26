@@ -7,8 +7,8 @@ import FormTable from "./FormTable";
 
 function FormTablePage(props) {
     const packageIdRef = useRef(0);
-    if(props.location.state)
-        packageIdRef.current = props.location.state.packageId;
+    if(props.match.params.package_id)
+        packageIdRef.current = parseInt(props.match.params.package_id);
 
     return(
         <div className="app">

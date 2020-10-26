@@ -41,7 +41,7 @@ function LeftMenu(props){
                             { packageIdRef.current > 0 &&
                             <ul className="menu">
                                 <li className="menu-item">
-                                    <Link to={{ pathname: "/package_page", state: { packageId: packageIdRef.current } }} className="menu-link">Lista formularzy</Link>
+                                    <Link to={{ pathname: "/package_page/" + packageIdRef.current, state: { packageId: packageIdRef.current } }} className="menu-link">Lista formularzy</Link>
                                 </li>
                                 <li className="menu-item">
                                     <Link to="/form_list" className="menu-link">- Wyślij pracownikowi</Link>
