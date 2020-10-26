@@ -45,8 +45,12 @@ export function employeeAddEdit(handleSuccess, employeeObject){
 		return false;
 
 	let url = getPath(), data, token = getCookie('csrftoken'),
-		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
-	data = {"title": title};// {"title": "", "owner": null, "description": "", "users": []}
+		fetchProps = {method:"POST", headers:{}, body:null};
+
+	fetchProps.headers = {"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token};
+
+	data = employeeObject;
+	data.first_name = employeeObject.name;
 	fetchProps.body = JSON.stringify(data);
 
 	fetch(url + "api/users/", fetchProps).then(res => res.json()).then(

@@ -38,9 +38,11 @@ function Users(props){
 		var users = [], count = rows.length;
 		let i;
 		for(i = 0; i < count; i++){
-			// todos: get user ID for further editing;
-			singleUser = {name: "-", first_name: "", last_name: "", email: "-", tel: "",
+			singleUser = {id: 0, name: "-", first_name: "", last_name: "", email: "-", tel: "",
 				position: "-", department: "-", localization: "-", sent: "-", finished: "-", avatar:""};
+
+			if(rows[i].id)
+				singleUser.id = rows[i].id;
 
 			if(typeof rows[i].first_name === "string" && rows[i].first_name.length > 0){
 				singleUser.name = rows[i].first_name;

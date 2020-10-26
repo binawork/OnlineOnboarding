@@ -10,7 +10,7 @@ import PageAddressBar from "../PageAddressBar"
 
 function UserManagerProfilePage(props) {
     const packageIdRef = useRef(0);
-    const singleUser = {name: "", last_name: "", email: "", tel: "",
+    const singleUser = {id:0, name: "", last_name: "", email: "", tel: "",
         position: "", department: "", localization: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
     let stateExists = false;
 
