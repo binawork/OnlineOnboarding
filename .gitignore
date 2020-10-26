@@ -111,3 +111,6 @@ notes.txt
 # React/node.js etc.
 node_modules/
 onboarding/static/js/index.html
+
+# Ignore uploaded media files during local testing
+onboarding/media/
