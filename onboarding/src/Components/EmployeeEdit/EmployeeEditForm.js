@@ -9,7 +9,7 @@ import { uploadAvatar, employeeAddEdit } from "../hooks/EmployeeEdit";
 function EmployeeEditForm(props) {
     const fileNameRef = useRef("");
 
-    let userCp = {name: "", last_name: "", email: "", tel: "",
+    let userCp = {id: 0, name: "", last_name: "", email: "", tel: "",
         position: "", department: "", localization: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
     if(props.user)
         userCp = {...props.user};

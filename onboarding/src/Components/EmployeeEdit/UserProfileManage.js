@@ -5,7 +5,7 @@ import React, { useState } from "react";
 
 
 function UserProfileManage(props) {
-    let userCp = {name: "", last_name: "", email: "", tel: "", department: "", localization: "", position: ""};
+    let userCp = {id: 0, name: "", last_name: "", email: "", tel: "", department: "", localization: "", position: ""};
     if(props.user)
         userCp = {...props.user};
     const [user, setUser] = useState(userCp);
