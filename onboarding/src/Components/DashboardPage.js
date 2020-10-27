@@ -8,7 +8,7 @@ import LeftMenu from "./LeftMenu";
 import PageAddressBar from "./PageAddressBar"
 
 function DashboardPage() {
-
+    document.title = "Onboarding: pulpit";
 
     return(
         <div className="app">
