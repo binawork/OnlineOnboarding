@@ -267,6 +267,7 @@ class CompanyViewSet(viewsets.ModelViewSet):
             "location",
             'team',
             'job_position',)
+        queryset
         serializer = UserJobDataSerializer(queryset, many=True)
 
         return Response(serializer.data)
