@@ -49,6 +49,10 @@ function LeftMenu(props){
                             </ul>
                             }
                         </li>
+                        <li className="menu-item">
+                            <Link to='/qa' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Stwórz Q&A</span></Link>
+                        </li>
+
                         { userListUrls.map(
                         		(link, keyProp) => (<li className="menu-item" key={ keyProp }>{ link }</li>)
                         ) }
