@@ -104,10 +104,14 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = (
+            'avatar',
             'email',
             'first_name',
             'last_name',
-            'avatar',
+            'phone_number',
+            'location',
+            'team',
+            'job_position',
             )
 
     def create(self, validated_data):
