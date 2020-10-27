@@ -13,11 +13,11 @@ try {
   console.log(e);
 }
 
-const MarkdownArea = ({ id, description, descriptionChange }) => {
+const MarkdownArea = ({ id, content, contentChange }) => {
   $(document).ready(function() {
     $(`#${"summernote" + id}`).summernote({
       dialogsInBody: true,
-      minHeight: 200,
+      minHeight: 100,
       lang: "pl-PL",
       placeholder: "Opis",
       toolbar: [
@@ -30,11 +30,11 @@ const MarkdownArea = ({ id, description, descriptionChange }) => {
         ["insert", ["link", "picture", "video", "hr"]],
       ],
       callbacks: {
-        onChange: function(content) {
-          descriptionChange(content, id);
+        onChange: function(cont) {
+          contentChange(cont, id);
         },
         onInit: function() {
-            $(this).summernote('code', description);
+            $(this).summernote('code', content);
         },
       },
     });

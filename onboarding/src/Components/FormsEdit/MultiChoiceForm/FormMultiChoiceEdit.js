@@ -1,5 +1,5 @@
 import React from "react";
-import MarkdownArea from "../MarkdownArea";
+import MarkdownArea from "../../MarkdownArea";
 import Checkbox from "./Checkbox";
 import Switcher from "../../Switcher";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -74,8 +74,8 @@ const FormMultiChoiceEdit = ({
             </div>
             <MarkdownArea
               id={id}
-              description={description}
-              descriptionChange={descriptionChange}
+              content={description}
+              contentChange={descriptionChange}
             />
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="dp1">

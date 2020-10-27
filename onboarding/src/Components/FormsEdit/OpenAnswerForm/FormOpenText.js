@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MarkdownArea from "../MarkdownArea";
+import MarkdownArea from "../../MarkdownArea";
 import Switcher from "../../Switcher";
 
 // import "../../../static/looper/stylesheets/theme.min.css";
@@ -46,8 +46,8 @@ const FormOpenText = ({
             </div>
             <MarkdownArea
               id={id}
-              description={description}
-              descriptionChange={descriptionChange}
+              content={description}
+              contentChange={descriptionChange}
             />
             <hr />
             <div className="form-group">
