@@ -115,7 +115,7 @@ export function employeeAddEdit(handleSuccess, employeeObject){
 			handleSuccess(result);
 		},
 		(error) => {
-		    console.log("eA");
+			console.log("eA");
 			console.log(error);
 		}
 	);

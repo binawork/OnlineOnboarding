@@ -3,6 +3,7 @@ import React from "react";
 function EmployeeProfileTableSecondRow(props) {
     return(
         <tr>
+            <td><input type="checkbox" /></td>
             <td>{props.row.form}</td>
             <td>{props.row.progress}</td>
             <td>{props.row.send_date}</td>

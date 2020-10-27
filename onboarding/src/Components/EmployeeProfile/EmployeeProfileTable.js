@@ -41,7 +41,8 @@ function EmployeeProfileTable(props) {
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style={{width: "50%"}}>Formularze</th>
+                            <th scope="col"></th>
+                            <th scope="col" style={{width: "45%"}}>Formularze</th>
                             <th scope="col" style={{width: "10%"}}>Postęp</th>
                             <th scope="col" style={{width: "15%"}}>Data wysłania</th>
                             <th scope="col" style={{width: "15%"}}>Data zakończenia</th>
@@ -50,6 +51,14 @@ function EmployeeProfileTable(props) {
                         </thead>
                         <tbody id="form_table_data_container">
                         { user_table }
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col" style={{width: "45%"}}></th>
+                            <th scope="col" style={{width: "10%"}}></th>
+                            <th scope="col" style={{width: "15%"}}></th>
+                            <th scope="col" style={{width: "15%"}}></th>
+                            <th scope="col" style={{width: "15%"}}><button className="btn btn-secondary">Przypomnienie</button></th>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -62,7 +71,8 @@ function EmployeeProfileTable(props) {
                     <table className="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col" style={{width: "50%"}}>Formularze</th>
+                            <th scope="col"></th>
+                            <th scope="col" style={{width: "45%"}}>Formularze</th>
                             <th scope="col" style={{width: "10%"}}>Liczba zadań</th>
                             <th scope="col" style={{width: "15%"}}>Utworzony</th>
                             <th scope="col" style={{width: "15%"}}>Ostatnia edycja</th>
@@ -71,6 +81,14 @@ function EmployeeProfileTable(props) {
                         </thead>
                         <tbody id="form_table_data_container">
                         { form_table }
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col" style={{width: "45%"}}></th>
+                            <th scope="col" style={{width: "10%"}}></th>
+                            <th scope="col" style={{width: "15%"}}></th>
+                            <th scope="col" style={{width: "15%"}}></th>
+                            <th scope="col" style={{width: "15%"}}><button className="btn btn-secondary">Wyślij</button></th>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
