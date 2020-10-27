@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { validEmail } from "../utils";
 
 //import "../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
@@ -16,6 +17,11 @@ function UserProfileManage(props) {
     const handleChangeLName = function(e){
         setUser({...user, last_name: e.target.value});
     };
+
+    const handleEmail = function(e){
+        setUser({...user, email: e.target.value});
+    };
+
     const handleTel = e => {
         setUser({...user, tel: e.target.value});
     };
@@ -26,7 +32,8 @@ function UserProfileManage(props) {
 
     const handleSave = function(e){
         e.preventDefault();
-        props.handleSaveEdit(user);
+        if(validEmail(user.email) )
+            props.handleSaveEdit(user);
     };
 
     let locations = ["Warszawa", "Łódź", "Poznań", "Gdańsk", "Wrocław"], dataOptions = [];
@@ -51,7 +58,7 @@ function UserProfileManage(props) {
             <hr />
             <div className="form-group">
                 <div className="input-group">
-                    <input type="email" className="form-control" placeholder="e-mail" value={ user.email } />
+                    <input type="email" className="form-control" placeholder="e-mail" value={ user.email } onChange={ handleEmail } />
                 </div>
             </div>
             <div className="form-group">

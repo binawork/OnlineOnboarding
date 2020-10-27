@@ -19,10 +19,11 @@ function EmployeeEditForm(props) {
 
     const handleSaveEdit = user => {
         if(fileNameRef.current.files.length > 0){
+            console.log("EEF - av");
             uploadAvatar(updateImage, fileNameRef.current.files[0]);
         }
 
-        employeeAddEdit(function(resp){}, user);
+        employeeAddEdit(function(resp){console.log(resp)}, user);
     }
 
     const updateImage = function(response){

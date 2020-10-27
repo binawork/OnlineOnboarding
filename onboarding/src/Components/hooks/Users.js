@@ -83,8 +83,15 @@ function Users(props){
  * employeeObject = {name: "", last_name: "", email: "", tel: "", department: "", localization: "", position: ""};
  */
 export function employeeAddEdit(handleSuccess, employeeObject){
-	if(typeof employeeObject.name !== "string" || typeof employeeObject.last_name !== "string")
+	if(typeof employeeObject.name !== "string" || typeof employeeObject.last_name !== "string"
+		|| typeof employeeObject.email !== "string" || typeof employeeObject.email.length < 2)
 		return false;
+	if(employeeObject.avatar)
+		delete employeeObject.avatar;
+
+	if(typeof employeeObject.id !== 'undefined' && (employeeObject.id==0 || employeeObject.id=="0") )
+		delete employeeObject.id;
+
 
 	let url = getPath(), data, token = getCookie('csrftoken'),
 		fetchProps = {method:"POST", headers:{}, body:null};
@@ -100,16 +107,18 @@ export function employeeAddEdit(handleSuccess, employeeObject){
 		employeeId = employeeObject.id;
 		path += employeeId + "/";
 		fetchProps.method = "PATCH";
-	}
+	}/* else
+		path += "create_user/"; SMTPAuthenticationError */
 
-	/*fetch(url + path, fetchProps).then(res => res.json()).then(
+	fetch(url + path, fetchProps).then(res => res.json()).then(
 		(result) => {
 			handleSuccess(result);
 		},
 		(error) => {
+		    console.log("eA");
 			console.log(error);
 		}
-	);*/
+	);
 	return true;
 }
 
