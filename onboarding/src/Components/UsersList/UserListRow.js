@@ -40,7 +40,8 @@ function UserListRow(props) {
                             <small className="text-muted">Skończone formularze:</small> { props.user.finished }
                         </h3>
                         <Link to={{ pathname: "/add_user", state: { user: props.user } }} className="btn btn-secondary" data-toggle="tooltip">Edytuj profil</Link>
-                        <Link to={{ pathname: "/employee_profile", state: { user: props.user } }} className="btn btn-secondary" data-toggle="tooltip">Dodaj "formularz"</Link>
+                        <Link to={{ pathname: "/employee_profile", state: { user: props.user } }} className="btn btn-secondary" data-toggle="tooltip">Dodaj formularz</Link><br /><br />
+                        <button type="button" value={ props.user.id } onClick={ props.handleRemove } className="btn btn-warning" data-toggle="tooltip">Usuń pracownika</button>
                     </div>
                 </div>
             </div>

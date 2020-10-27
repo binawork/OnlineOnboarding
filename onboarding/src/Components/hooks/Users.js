@@ -70,7 +70,7 @@ function Users(props){
 			if(typeof rows[i].avatar === "string" && rows[i].avatar.length > 0)
 				singleUser.avatar = rows[i].avatar;
 
-			users.push(<UserListRow user={ singleUser } key={ i } />);
+			users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } />);
 		}
 
 		return ( <>{ users }</> )
@@ -130,6 +130,24 @@ export function uploadAvatar(handleSuccess, avatarFile){
 			console.error('Error:', error);
 		}
 	);
+}
+
+export function employeeRemove(handleSuccess, userId){
+	let url = getPath(), data, token = getCookie('csrftoken'),
+		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}};
+
+	data = {"id": userId};
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(url + "api/users/" + userId + "/", fetchProps).then(res => res.json()).then(
+		(result) => {
+			handleSuccess("Pracownik usunięty");
+		},
+		(error) => {
+			handleSuccess("Kłopoty z usunięciem pracownika!");
+		}
+	);
+	return true;
 }
 
 export default Users;
