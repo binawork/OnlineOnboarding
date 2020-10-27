@@ -9,18 +9,23 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
 
   const changeQuestion = (content, mdId) => {
     const questions = refValue.current.map(q => {
-      q.id === mdId 
+      q.id === mdId.slice(8)
       ? (q.question = content) 
       : q;
       return q;
     });
     setQaList(questions);
-    console.log(questions)
   }
-  const changeAnswer = (e) => {
-    console.log(e)
+  const changeAnswer = (content, mdId) => {
+    const answers = refValue.current.map(a => {
+      a.id === mdId.slice(6)
+      ? (a.answer = content) 
+      : a;
+      return a;
+    });
+    setQaList(answers);
   }
-
+  
   return (
       <div className="task-issue" {...provided.draggableProps} ref={innerRef}>
         <div className="card-header" {...provided.dragHandleProps}><i className="fa fa-arrows-alt"></i></div>
@@ -36,7 +41,6 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
             </div>
 
             <hr />
-              {/* <textarea className="form-control"/> */}
               <MarkdownArea
               id={"answer" + id}
               content={answer}
