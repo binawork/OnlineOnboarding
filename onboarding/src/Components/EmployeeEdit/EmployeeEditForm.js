@@ -4,9 +4,10 @@ import React, { useState, useRef } from "react";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 
 import UserProfileManage from "./UserProfileManage";
-import { uploadAvatar, employeeAddEdit } from "../hooks/EmployeeEdit";
+import { uploadAvatar, employeeAddEdit } from "../hooks/Users";
 
 function EmployeeEditForm(props) {
+    document.title = "Onboarding: dodaj pracownika";
     const fileNameRef = useRef("");
 
     let userCp = {id: 0, name: "", last_name: "", email: "", tel: "",
@@ -17,16 +18,16 @@ function EmployeeEditForm(props) {
     const [imageLink, updateImageLink] = useState(userCp.avatar);
 
     const handleSaveEdit = user => {
-    	if(fileNameRef.current.files.length > 0){
-    		uploadAvatar(updateImage, fileNameRef.current.files[0]);
-    	}
-    	console.log(user);
-    	//employeeAddEdit(function(resp){}, user);
+        if(fileNameRef.current.files.length > 0){
+            uploadAvatar(updateImage, fileNameRef.current.files[0]);
+        }
+
+        employeeAddEdit(function(resp){}, user);
     }
 
     const updateImage = function(response){
-    	if(typeof response.avatar === "string")
-    		updateImageLink(response.avatar);
+        if(typeof response.avatar === "string")
+            updateImageLink(response.avatar);
     }
 
     return (

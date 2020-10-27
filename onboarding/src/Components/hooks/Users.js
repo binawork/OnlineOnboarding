@@ -79,28 +79,58 @@ function Users(props){
 
 
 /**
- * Add user, employee etc. into Users;
+ * 
+ * employeeObject = {name: "", last_name: "", email: "", tel: "", department: "", localization: "", position: ""};
  */
-export function addUser(handleSuccess, title, owner){
-	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
+export function employeeAddEdit(handleSuccess, employeeObject){
+	if(typeof employeeObject.name !== "string" || typeof employeeObject.last_name !== "string")
 		return false;
 
 	let url = getPath(), data, token = getCookie('csrftoken'),
-		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
-	data = {"title": title};// {"title": "", "owner": null, "description": "", "users": []}
+		fetchProps = {method:"POST", headers:{}, body:null};
+
+	fetchProps.headers = {"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token};
+
+	data = employeeObject;
+	data.first_name = employeeObject.name;
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/users/", fetchProps).then(res => res.json()).then(
+	let path = "api/users/", employeeId = 0;
+	if(employeeObject.id && employeeObject.id > 0){
+		employeeId = employeeObject.id;
+		path += employeeId + "/";
+		fetchProps.method = "PATCH";
+	}
+
+	/*fetch(url + path, fetchProps).then(res => res.json()).then(
 		(result) => {
 			handleSuccess(result);
 		},
 		(error) => {
 			console.log(error);
 		}
-	);
+	);*/
 	return true;
 }
 
+export function uploadAvatar(handleSuccess, avatarFile){
+	let url = getPath(), data, token = getCookie('csrftoken'),
+		fetchProps = {method:"POST", headers:{"Accept":"application/json", "X-CSRFToken":token, "Authorization": "Token " + token}, body:null};
+
+	data = new FormData();
+	data.append('avatar', avatarFile);
+	fetchProps.body = data;
+
+	fetch(url + 'api/user-avatar/', fetchProps).then(response => response.json()).then(
+		data => {
+			console.log(data);
+			handleSuccess(data);
+		},
+		(error) => {
+			console.error('Error:', error);
+		}
+	);
+}
 
 export default Users;
 
