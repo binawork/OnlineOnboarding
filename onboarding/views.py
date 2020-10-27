@@ -27,7 +27,7 @@ from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
-from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer
+from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer
 
 from .permissions import IsHrUser
 from .mailing import UserEmailCRUD
@@ -261,6 +261,16 @@ class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
+    @action(detail=False)
+    def user_job_data(self, request):
+        queryset = User.objects.filter(company=self.request.user.company).distinct(
+            "location",
+            'team',
+            'job_position',)
+        serializer = UserJobDataSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
 
 class CompanyQuestionAndAnswerViewSet(viewsets.ModelViewSet):
     queryset = CompanyQuestionAndAnswer.objects.all()
@@ -303,13 +313,14 @@ class PackageViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
 
+
     @action(detail=False)
     def list_by_company_hr(self, request):
         """
         :param request: user
         :return: all packages with param request.user = owner
         """
-        package = Package.objects.filter(owner=request.user.company)
+        package = Package.objects.filter(owner=request.user.company).order_by('updated_on')
         serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
@@ -423,7 +434,7 @@ class PageViewSet(viewsets.ModelViewSet):
         """
         page = Page.objects.filter(
             package__id=pk # add in the future,owner__page=request.user.company
-        )
+        ).order_by('updated_on')
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)

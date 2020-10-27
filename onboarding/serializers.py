@@ -58,6 +58,17 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 
 
 # USER
+
+class UserJobDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'location',
+            'team',
+            'job_position',
+        ]
+
+
 class UserAvatarSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
