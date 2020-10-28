@@ -1,14 +1,11 @@
 import React from "react";
 import { employeeFormDataList } from "./EmployeeProfileData";
 import { formsSent } from "./EmployeeProfileData";
-import EmployeeProfileUser from "./EmployeeProfileUser";
 import EmployeeProfileTableFirstRow from "./EmployeeProfileTableFirstRow";
 import EmployeeProfileTableSecondRow from "./EmployeeProfileTableSecondRow";
 
+
 function EmployeeProfileTable(props) {
-    let userCp = {name: "", last_name: "", email: "", tel: "", position: "", department: "", localization: "", sent: "-", finished: "-"};
-    if(props.user)
-        userCp = {...props.user};
 
     let form_table= [];
     if (employeeFormDataList) {
@@ -24,16 +21,7 @@ function EmployeeProfileTable(props) {
     }
 
     return(
-        <div className="page-section">
-            <div className="card card-fluid">
-                <div className="card-header">
-                    Status procesu
-                </div>
-                <div className="card-body">
-                    <EmployeeProfileUser user = { userCp }/>
-                </div>
-            </div>
-            <div className="card card-fluid">
+            <><div className="card card-fluid">
                 <div className="card-header">
                     Wysłane Formularze wdrożeniowe
                 </div>
@@ -92,8 +80,7 @@ function EmployeeProfileTable(props) {
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
+            </div></>
     )
 }
 export default EmployeeProfileTable;

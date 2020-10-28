@@ -9,6 +9,7 @@ import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar"
 
 function UserManagerProfilePage(props) {
+    document.title = "Onboarding: profil pracownika";
     const packageIdRef = useRef(0);
     const singleUser = {id: 0, name: "", last_name: "", email: "", tel: "",
         position: "", department: "", localization: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};

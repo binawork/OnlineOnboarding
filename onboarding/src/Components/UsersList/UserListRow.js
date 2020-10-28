@@ -13,7 +13,7 @@ function UserListRow(props) {
                 <div className="row align-items-center">
 
                     <div className="col-auto">
-                        <Link to={{ pathname: "/employee_profile", state: { user: props.user } }} className="user-avatar user-avatar-xl"><img src={ avatar } alt="" /> <span className="avatar-badge idle" title="idle"></span></Link>
+                        <Link to={{ pathname: "/employee_profile", state: { user: props.user } }} className="user-avatar user-avatar-xl"><img src={ avatar } alt="avatar" /> <span className="avatar-badge idle" title="idle"></span></Link>
                     </div>
 
                     <div className="col">

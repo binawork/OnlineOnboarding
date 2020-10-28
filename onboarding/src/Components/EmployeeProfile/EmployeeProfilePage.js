@@ -2,11 +2,14 @@ import React, { useRef } from "react";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
+import EmployeeProfileUser from "./EmployeeProfileUser";
 import EmployeeProfileTable from "./EmployeeProfileTable";
 
 function EmployeeProfilePage(props) {
+	document.title = "Onboarding: podgląd procesu pracownika";
     const packageIdRef = useRef(0);
-    const singleUser = {name: "", last_name: "", email: "", tel: "", position: "", department: "", localization: "", sent: "-", finished: "-"};
+    const singleUser = {id: 0, name: "", last_name: "", email: "", tel: "",
+    				position: "", department: "", localization: "", sent: "-", finished: "-", avatar: "/onboarding/static/images/unknown-profile.jpg"};
     let stateExists = false;
 
     if(props.location.state){
@@ -16,6 +19,9 @@ function EmployeeProfilePage(props) {
 
     if(stateExists && props.location.state.user){
         let user = props.location.state.user;
+        if(user.id)
+            singleUser.id = user.id;
+
         if(typeof user.first_name === "string")
             singleUser.name = user.first_name;
         if(typeof user.last_name === "string")
@@ -37,6 +43,9 @@ function EmployeeProfilePage(props) {
             singleUser.sent = user.sent;
         if(typeof user.finished === "string")
             singleUser.finished = user.finished;
+
+        if(typeof user.avatar === "string" && user.avatar.length > 1)
+            singleUser.avatar = user.avatar;
     }
 
     return(
@@ -50,7 +59,10 @@ function EmployeeProfilePage(props) {
                     <div className="page">
                         <div className="page-inner">
                             <PageAddressBar page = { "Podgląd procesu pracownika" } />
-                            <EmployeeProfileTable user={ singleUser } />
+                            <div className="page-section">
+                                <EmployeeProfileUser user={ singleUser }/>
+                                <EmployeeProfileTable />
+                            </div>
                         </div>
                     </div>
                 </div>
