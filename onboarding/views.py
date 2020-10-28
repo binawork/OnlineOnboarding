@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
+from django.contrib.postgres.aggregates import ArrayAgg
 
 from rest_framework import viewsets, filters, status, generics, views, permissions
 from rest_framework.response import Response
@@ -205,6 +206,9 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(company=self.request.user.company)
+
 
     def list(self, request):
 
@@ -255,22 +259,24 @@ class UserViewSet(viewsets.ModelViewSet):
         )
         return Response(status=204)
 
-
 class CompanyViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
-    @action(detail=False)
-    def user_job_data(self, request):
-        queryset = User.objects.filter(company=self.request.user.company).distinct(
-            "location",
-            'team',
-            'job_position',)
-        queryset
-        serializer = UserJobDataSerializer(queryset, many=True)
 
-        return Response(serializer.data)
+    # @action(detail=False)
+    # def user_job_data(self, request):
+    #     queryset = User.objects.filter(company=self.request.user.company).aggregate(location=ArrayAgg('location', distinct=True))
+    #     from django.db import connection
+    #     connection.queries
+    #         # .aggregate(result=ArrayAgg('team'))\
+    #         # .aggregate(result=ArrayAgg('job_position'))
+    #         # .distinct("location",'team','job_position',)
+    # 
+    #     serializer = UserJobDataSerializer(queryset, many=True)
+    # 
+    #     return Response(serializer.data)
 
 
 class CompanyQuestionAndAnswerViewSet(viewsets.ModelViewSet):
