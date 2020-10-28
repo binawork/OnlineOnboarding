@@ -1,3 +1,5 @@
+from abc import ABC
+
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from onboarding.models import ContactRequestDetail, Package, Page, Section, User
@@ -58,6 +60,22 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 
 
 # USER
+
+class UserJobDataSerializer(serializers.Serializer):
+
+    location = serializers.ListField(child=serializers.CharField())
+    # team = serializers.ListField(child=serializers.CharField())
+    # job_position = serializers.ListField(child=serializers.CharField())
+
+    class Meta:
+        # model = get_user_model()
+        fields = [
+            'location',
+            # 'team',
+            # 'job_position',
+        ]
+
+
 class UserAvatarSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
@@ -93,10 +111,14 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = (
+            'avatar',
             'email',
             'first_name',
             'last_name',
-            'avatar',
+            'phone_number',
+            'location',
+            'team',
+            'job_position',
             )
 
     def create(self, validated_data):
