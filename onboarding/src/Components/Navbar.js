@@ -2,8 +2,12 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import { getPath } from "./utils.js";
 
-function Navbar() {
+function Navbar(props) {
     let path = getPath();
+    let avatar = "/onboarding/static/images/unknown-profile.jpg";
+    if(props.avatar && props.avatar.length > 1)
+        avatar = props.avatar;
+
     return(
         <nav className="top-bar navbar navbar-expand-lg navbar-dark bg-dark">
             <a className="navbar-brand">Online Onboarding</a>
@@ -49,7 +53,7 @@ function Navbar() {
                 <div className="dropdown d-flex">
                     <div className="form-inline my-2 my-lg-0">
                         <button className="btn-account d-none d-md-flex" type="button" data-toggle="dropdown">
-                            <span className="user-avatar user-avatar-md"><img src="/onboarding/static/images/unknown-profile.jpg" alt="" /></span>
+                            <span className="user-avatar user-avatar-md"><img src={ avatar } alt="" /></span>
                             <span className="account-summary pr-lg-4 d-none d-lg-block">Witaj <span className="account-name">useranme #login</span></span>
                         </button>
                         <div className="dropdown-menu">

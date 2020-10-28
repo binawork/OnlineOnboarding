@@ -13,6 +13,8 @@ function UserListPage(props) {
     if(props.location.state)
         packageIdRef.current = props.location.state.packageId;
 
+    document.title= "Onboarding: lista pracowników";
+
     return(
     	<div className="app">
     		<header className="app-header app-header-dark">

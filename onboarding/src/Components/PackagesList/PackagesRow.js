@@ -27,7 +27,7 @@ function PackagesRow({ row, handleUpdate, lastRow }) {
         <tr className={styleRow}>
             <td><Link to={{ pathname: "/package_page", state: { packageId: row.key } }} className="link">{row.name}</Link></td> 
             <td>{ dateToString(row.last_edit) }</td>{/* na polski; */}
-            <td><a href="">edytuj</a> / <button className="btn btn-secondary" onClick={ handleRemove }>usuń</button> </td>
+            <td><Link to={{ pathname: "/package_page", state: { packageId: row.key } }} className="link">edytuj</Link> / <button className="btn btn-secondary" onClick={ handleRemove }>usuń</button> </td>
         </tr>
     )
 }

@@ -2,6 +2,11 @@ import React from "react";
 
 
 function UserListSearch() {
+    let locations = ["Warszawa", "Łódź", "Poznań", "Gdańsk", "Wrocław"], dataOptions = [];
+    dataOptions = locations.map( (city, i) =>
+        <option key={ i } value={ city } />
+    )
+
     return(
         <>
         <div className="row mb-4">
@@ -34,7 +39,8 @@ function UserListSearch() {
             <div className="col">
                 <div className="has-clearable">
                     <button type="button" className="close" aria-label="Close"><span aria-hidden="true"><i className="fa fa-times-circle"></i></span></button>
-                    <input type="text" className="form-control" placeholder="Lokalizacja" />
+                    <input type="text" className="form-control" placeholder="Lokalizacja" list="location" />
+                    <datalist id="location">{ dataOptions }</datalist>
                 </div>
             </div>
             <div className="col-auto">

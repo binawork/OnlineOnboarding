@@ -34,7 +34,7 @@ function PackagePage(props){
 		let i;
 		for(i = 0; i < count; i++){
 			order = parseInt(rows[i].order, 10);
-			form_table.push(<FormTableRow key={ rows[i].id }
+			form_table.push(<FormTableRow key={ rows[i].id } packageId={ props.id }
 								row={ {name: rows[i].title, order: order, last_edit: "<do poprawy po stronie api>",
 									description: rows[i].description, link: rows[i].link, key: rows[i].id } }
 								handleUpdate = { props.handleUpdate } />);

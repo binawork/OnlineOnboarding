@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 //import "../../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
@@ -15,6 +15,10 @@ function FormsEditPage(props) {
   const [link, setLink] = useState(props.location.state.link?props.location.state.link:"");
 	const [description, setDescription] = useState(props.location.state.description?props.location.state.description:"");
 
+  const packageIdRef = useRef(0);
+  if(props.location.state)
+      packageIdRef.current = props.location.state.packageId;
+console.log(props.location.state);
   const handleSave = (e) => {
       e.preventDefault();
       savePageDetails(function(res){}, props.location.state.pageId, pageName, link, description);// pack as one argument;
@@ -25,12 +29,12 @@ function FormsEditPage(props) {
       <header className="app-header app-header-dark">
         <Navbar /> {/* placeholder */}
       </header>
-      <LeftMenu /> {/* placeholder */}
+      <LeftMenu packageId = { packageIdRef.current } />
       <main className="app-main">
         <div className="wrapper">
           <div className="page has-sidebar-expand-xl">
             <div className="page-inner">
-              <PageAddressBar page={'Formularz / "#pageName"'} />{" "}
+              <PageAddressBar page={'Formularz / ' + pageName } />{" "}
               {/* placeholder */}
               <form>
                 {" "}

@@ -31,16 +31,18 @@ function Users(props){
 	} else if(!loaded){
 		singleUser = {name: "Ładowanie ...", first_name: "", last_name: "", email: "Ładowanie ...", tel: "",
 			position: "Ładowanie ...", department: "Ładowanie ...", localization: "Ładowanie ...",
-			sent: "-", finished: "-"};
+			sent: "-", finished: "-", avatar: ""};
 
 		return <UserListRow user = { singleUser } key = { 0 } />;
 	} else {
 		var users = [], count = rows.length;
 		let i;
 		for(i = 0; i < count; i++){
-			// todos: get user ID for further editing;
-			singleUser = {name: "-", first_name: "", last_name: "", email: "-", tel: "",
-				position: "-", department: "-", localization: "-", sent: "-", finished: "-"};
+			singleUser = {id: 0, name: "-", first_name: "", last_name: "", email: "-", tel: "",
+				position: "-", department: "-", localization: "-", sent: "-", finished: "-", avatar:""};
+
+			if(rows[i].id)
+				singleUser.id = rows[i].id;
 
 			if(typeof rows[i].first_name === "string" && rows[i].first_name.length > 0){
 				singleUser.name = rows[i].first_name;
@@ -65,7 +67,10 @@ function Users(props){
 			if(typeof rows[i].job_position === "string" && rows[i].job_position.length > 0)
 				singleUser.position = rows[i].job_position;
 
-			users.push(<UserListRow user={ singleUser } key={ i } />);
+			if(typeof rows[i].avatar === "string" && rows[i].avatar.length > 0)
+				singleUser.avatar = rows[i].avatar;
+
+			users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } />);
 		}
 
 		return ( <>{ users }</> )
@@ -74,28 +79,87 @@ function Users(props){
 
 
 /**
- * Add user, employee etc. into Users;
+ * 
+ * employeeObject = {name: "", last_name: "", email: "", tel: "", department: "", localization: "", position: ""};
  */
-export function addUser(handleSuccess, title, owner){
-	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
+export function employeeAddEdit(handleSuccess, employeeObject){
+	if(typeof employeeObject.name !== "string" || typeof employeeObject.last_name !== "string"
+		|| typeof employeeObject.email !== "string" || typeof employeeObject.email.length < 2)
 		return false;
+	if(employeeObject.avatar)
+		delete employeeObject.avatar;
+
+	if(typeof employeeObject.id !== 'undefined' && (employeeObject.id==0 || employeeObject.id=="0") )
+		delete employeeObject.id;
+
 
 	let url = getPath(), data, token = getCookie('csrftoken'),
-		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
-	data = {"title": title};// {"title": "", "owner": null, "description": "", "users": []}
+		fetchProps = {method:"POST", headers:{}, body:null};
+
+	fetchProps.headers = {"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token};
+
+	data = employeeObject;
+	data.first_name = employeeObject.name;
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/users/", fetchProps).then(res => res.json()).then(
+	let path = "api/users/", employeeId = 0;
+	if(employeeObject.id && employeeObject.id > 0){
+		employeeId = employeeObject.id;
+		path += employeeId + "/";
+		fetchProps.method = "PATCH";
+	}/* else
+		path += "create_user/"; SMTPAuthenticationError */
+
+	fetch(url + path, fetchProps).then(res => res.json()).then(
 		(result) => {
 			handleSuccess(result);
 		},
 		(error) => {
+			console.log("eA");
 			console.log(error);
 		}
 	);
 	return true;
 }
 
+export function uploadAvatar(handleSuccess, avatarFile){
+	let url = getPath(), data, token = getCookie('csrftoken'),
+		fetchProps = {method:"POST", headers:{"Accept":"application/json", "X-CSRFToken":token, "Authorization": "Token " + token}, body:null};
+
+	data = new FormData();
+	data.append('avatar', avatarFile);
+	fetchProps.body = data;
+
+	fetch(url + 'api/user-avatar/', fetchProps).then(response => response.json()).then(
+		data => {
+			console.log(data);
+			handleSuccess(data);
+		},
+		(error) => {
+			console.error('Error:', error);
+		}
+	);
+}
+
+export function employeeRemove(handleSuccess, userId){
+	if(userId < 3)
+		return false;
+	let url = getPath(), data, token = getCookie('csrftoken'),
+		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}};
+
+	data = {"id": userId};
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(url + "api/users/" + userId + "/", fetchProps).then(res => res.json()).then(
+		(result) => {
+			handleSuccess("Pracownik usunięty");
+		},
+		(error) => {
+			handleSuccess("Kłopoty z usunięciem pracownika!");
+		}
+	);
+	return true;
+}
 
 export default Users;
 
