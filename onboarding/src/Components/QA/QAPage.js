@@ -10,8 +10,6 @@ const QAPage = () => {
   const [description, setDescription] = useState("");
   const [qaList, setQaList] = useState([{id: "1", question: "Czy w biurze jest darmowa kawa?", answer: "Tak, nasza firma dba o zaopatrzenie wszystkich ekspresów do kawy."}]);
 
-  // console.log(qaList)
-
   const handleAddQa = (e) => {
     e.preventDefault();
     setQaList([...qaList, {id: uuidv4(), question: "", answer: ""}]);

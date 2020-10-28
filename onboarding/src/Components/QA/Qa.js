@@ -17,6 +17,7 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
     });
     setQaList(questions);
   }
+
   const changeAnswer = (content, mdId) => {
     const answers = refValue.current.map(a => {
       a.id === mdId.slice(6)
@@ -26,6 +27,7 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
     });
     setQaList(answers);
   }
+
   const copyQA = (e) => {
     e.preventDefault();
     const newId = uuidv4();
@@ -41,10 +43,10 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
     qaListCopy.splice(index + 1, 0, newQA);
     setQaList(qaListCopy);
   }
+
   const deleteQA = (e) => {
     e.preventDefault();
-
-    console.log(e)
+    setQaList(qaList.filter((qa) => qa.id != id));
   }
   
   return (
@@ -68,15 +70,16 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
               contentChange={changeAnswer}
             />
           </div>
-          <div className="card-footer align-items-center">
-            <div className="col">
+          <div className="card-footer d-flex justify-content-end">
+            {/* <div className="col-6"></div> */}
+            <div className="p-3">
               <button className="btn" id={"copy-" + id} onClick={copyQA}>
-                <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj
+                <i className="fa fa-files-o fa-md">&#61637;</i> Duplikuj
               </button>
             </div>
-            <div className="col">
-              <button className="btn text-danger" onClick={deleteQA}>
-                <i className="fa fa-trash-o fa-lg">&#61944;</i>
+            <div className="p-3">
+              <button className="btn text-danger mr-1" onClick={deleteQA}>
+                <i className="fa fa-trash-o fa-md mr-1">&#61944;</i>
                 Usuń
               </button>
             </div>
