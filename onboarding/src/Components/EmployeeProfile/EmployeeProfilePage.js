@@ -3,7 +3,8 @@ import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import EmployeeProfileUser from "./EmployeeProfileUser";
-import EmployeeProfileTable from "./EmployeeProfileTable";
+import ProcessPreviewTables from "./ProcessPreviewTables";
+
 
 function EmployeeProfilePage(props) {
 	document.title = "Onboarding: podgląd procesu pracownika";
@@ -61,7 +62,7 @@ function EmployeeProfilePage(props) {
                             <PageAddressBar page = { "Podgląd procesu pracownika" } />
                             <div className="page-section">
                                 <EmployeeProfileUser user={ singleUser }/>
-                                <EmployeeProfileTable />
+                                <ProcessPreviewTables />
                             </div>
                         </div>
                     </div>
