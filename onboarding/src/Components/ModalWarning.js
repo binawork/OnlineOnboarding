@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-//import "../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
 
 // Alert Warning Modal
 function ModalWarning(props) {
