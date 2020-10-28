@@ -161,6 +161,7 @@ function FormSections() {
   };
 
   const handleEditAnswer = (e) => {
+    e.preventDefault();
     const forms = sections.map((form) => {
       // slice(6) - because e.target.name = ('radios' || 'checks')  + id
       if (form.id === e.target.name.slice(6)) {
