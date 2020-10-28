@@ -142,7 +142,7 @@ export function uploadAvatar(handleSuccess, avatarFile){
 }
 
 export function employeeRemove(handleSuccess, userId){
-	if(userId < 3)
+	if(userId < 2)
 		return false;
 	let url = getPath(), data, token = getCookie('csrftoken'),
 		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}};

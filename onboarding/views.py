@@ -327,7 +327,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         :param request: user
         :return: all packages with param request.user = owner
         """
-        package = Package.objects.filter(owner=request.user.company).order_by('updated_on')
+        package = Package.objects.filter(owner=request.user.company)
         serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
@@ -441,7 +441,7 @@ class PageViewSet(viewsets.ModelViewSet):
         """
         page = Page.objects.filter(
             package__id=pk # add in the future,owner__page=request.user.company
-        ).order_by('updated_on')
+        )
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
