@@ -28,7 +28,7 @@ from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
-from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer
+from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
 from .permissions import IsHrUser
 from .mailing import UserEmailCRUD
@@ -209,6 +209,11 @@ class UserViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(company=self.request.user.company)
 
+    @action(detail=False, methods=['get'])
+    def login_user(self, request):
+        queryset = User.objects.filter(pk=self.request.user.id)
+        serializer = LogInUserSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     def list(self, request):
 
