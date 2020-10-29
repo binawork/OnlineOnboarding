@@ -45,6 +45,10 @@ function UsersList(props) {
         update(countUpdate + 1);
     };
 
+    let packageId = 0;
+    if(props.packageId)
+        packageId = props.packageId;
+
     return(
         <div className="page-section">
             <div className="card card-fluid">
@@ -55,7 +59,7 @@ function UsersList(props) {
                     <UserListSearch />
                 </div>
                 <div className="card-body">
-                    <Users count={ countUpdate } handleRemove={ removeAsk } />
+                    <Users count={ countUpdate } handleRemove={ removeAsk } packageId={ packageId } />
                 </div>
 
                 { employeeIdModal.modal }

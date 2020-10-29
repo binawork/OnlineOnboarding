@@ -26,7 +26,7 @@ function UserListPage(props) {
 					<div className="page-inner">
 						<PageAddressBar page = { "Konta" } />
 
-						<UsersList />
+						<UsersList packageId={ packageIdRef.current } />
 					</div>
 				</div></div>
 		    </main>

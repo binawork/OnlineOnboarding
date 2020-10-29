@@ -36,7 +36,10 @@ function Users(props){
 		return <UserListRow user = { singleUser } key = { 0 } />;
 	} else {
 		var users = [], count = rows.length;
-		let i;
+		let i, packageId = 0;
+		if(props.packageId)
+			packageId = props.packageId;
+
 		for(i = 0; i < count; i++){
 			singleUser = {id: 0, name: "-", first_name: "", last_name: "", email: "-", tel: "",
 				position: "-", department: "-", localization: "-", sent: "-", finished: "-", avatar:""};
@@ -70,7 +73,7 @@ function Users(props){
 			if(typeof rows[i].avatar === "string" && rows[i].avatar.length > 0)
 				singleUser.avatar = rows[i].avatar;
 
-			users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } />);
+			users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } packageId={ packageId } />);
 		}
 
 		return ( <>{ users }</> )
@@ -103,20 +106,23 @@ export function employeeAddEdit(handleSuccess, employeeObject){
 	fetchProps.body = JSON.stringify(data);
 
 	let path = "api/users/", employeeId = 0;
+	var msg = "Dodano pracownika. ";
 	if(employeeObject.id && employeeObject.id > 0){
 		employeeId = employeeObject.id;
 		path += employeeId + "/";
 		fetchProps.method = "PATCH";
+		msg = "Zmodyfikowano pracownika. ";
 	}/* else
 		path += "create_user/"; SMTPAuthenticationError */
 
 	fetch(url + path, fetchProps).then(res => res.json()).then(
 		(result) => {
-			handleSuccess(result);
+			//msg += String(result);
+			handleSuccess(msg);
 		},
 		(error) => {
 			console.log("eA");
-			handleSuccess("Error. " + error);
+			handleSuccess("Błąd. " + error);
 		}
 	);
 	return true;
