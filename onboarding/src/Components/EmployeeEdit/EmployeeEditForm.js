@@ -1,14 +1,13 @@
 import React, { useState, useRef } from "react";
-
-//import "../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-
 import UserProfileManage from "./UserProfileManage";
 import { uploadAvatar, employeeAddEdit } from "../hooks/Users";
+import ModalWarning from "../ModalWarning";
+
 
 function EmployeeEditForm(props) {
     document.title = "Onboarding: dodaj pracownika";
     const fileNameRef = useRef("");
+    const [employeeModal, setModal ] = useState(<></>);
 
     let userCp = {id: 0, name: "", last_name: "", email: "", tel: "",
         position: "", department: "", localization: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
@@ -23,13 +22,22 @@ function EmployeeEditForm(props) {
             uploadAvatar(updateImage, fileNameRef.current.files[0]);
         }
 
-        employeeAddEdit(function(resp){console.log(resp)}, user);
+        employeeAddEdit(saveEditInform, user);
     }
 
     const updateImage = function(response){
         if(typeof response.avatar === "string")
             updateImageLink(response.avatar);
     }
+
+
+    const hideModal = function(){
+        setModal(<></>);
+    }
+    const saveEditInform = (message) => {
+        setModal(<ModalWarning handleAccept={ hideModal } title={ "Profil pracownika" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
+    }
+
 
     return (
     	<div className="row">
@@ -45,6 +53,7 @@ function EmployeeEditForm(props) {
     		<div className="col">
     			<UserProfileManage user={ userCp } handleSaveEdit={ handleSaveEdit } />
     		</div>
+    		{ employeeModal }
     	</div>
     );
 }

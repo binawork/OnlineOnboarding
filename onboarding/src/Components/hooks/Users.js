@@ -116,7 +116,7 @@ export function employeeAddEdit(handleSuccess, employeeObject){
 		},
 		(error) => {
 			console.log("eA");
-			console.log(error);
+			handleSuccess("Error. " + error);
 		}
 	);
 	return true;
