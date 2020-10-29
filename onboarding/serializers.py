@@ -56,7 +56,7 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CompanyQuestionAndAnswer
-        fields = ('company', 'question', 'answer')
+        fields = ('id', 'question', 'answer')
 
 
 # USER
@@ -73,6 +73,24 @@ class UserJobDataSerializer(serializers.Serializer):
             'location',
             # 'team',
             # 'job_position',
+        ]
+
+
+class LogInUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'id',
+            'avatar',
+            'email',
+            'first_name',
+            'last_name',
+            'phone_number',
+            'location',
+            'team',
+            'job_position',
+            'last_login',
         ]
 
 
@@ -159,8 +177,7 @@ class PackageSerializer(serializers.ModelSerializer):
         model = Package
         fields = (
                     'id', 
-                    'title', 
-                    'owner', 
+                    'title',
                     'description', 
                     'created_on', 
                     'updated_on', 
@@ -176,7 +193,6 @@ class PackageSpecialTestSerializer(serializers.ModelSerializer):
         fields = (
                     'id',
                     'order',
-                    'owner',
                     'title',
                     'description',
                     'link',
