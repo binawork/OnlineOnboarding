@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import MarkdownArea from "../MarkdownArea";
 import { v4 as uuidv4 } from "uuid";
 
@@ -51,8 +51,8 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
   
   return (
       <div className="task-issue" {...provided.draggableProps} ref={innerRef}>
-        <div className="card-header" {...provided.dragHandleProps}><i className="fa fa-arrows-alt"></i></div>
         <div className="card">
+        <div className="" {...provided.dragHandleProps}><i className="fa fa-arrows-alt"></i></div>
           <div className="card-body">
             <div className="form-group">
             <MarkdownArea
@@ -60,6 +60,7 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
               content={question}
               contentChange={(content, id) =>
                 changeQuestion(content, id)}
+              simple={true}
             />
             </div>
 
@@ -68,6 +69,7 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
               id={"answer" + id}
               content={answer}
               contentChange={changeAnswer}
+              simple={true}
             />
           </div>
           <div className="card-footer d-flex justify-content-end">

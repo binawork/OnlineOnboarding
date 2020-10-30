@@ -48,6 +48,7 @@ const FormOpenText = ({
               id={id}
               content={description}
               contentChange={descriptionChange}
+              simple={false}
             />
             <hr />
             <div className="form-group">

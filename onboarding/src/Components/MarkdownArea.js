@@ -13,31 +13,48 @@ try {
   console.log(e);
 }
 
-const MarkdownArea = ({ id, content, contentChange }) => {
-  $(document).ready(function() {
-    $(`#${"summernote" + id}`).summernote({
-      dialogsInBody: true,
-      minHeight: 100,
-      lang: "pl-PL",
-      placeholder: "Opis",
-      toolbar: [
-        ["style", ["style"]],
-        ["font", ["bold", "italic", "underline", "strikethrough", "clear"]],
-        ['fontsize', ['fontsize']],
-        ["fontname", ["fontname"]],
-        ["color", ["color"]],
-        ["para", ["ul", "ol", "paragraph"]],
-        ["insert", ["link", "picture", "video", "hr"]],
-      ],
-      callbacks: {
-        onChange: function(cont) {
-          contentChange(cont, id);
-        },
-        onInit: function() {
-            $(this).summernote('code', content);
-        },
-      },
-    });
+const MarkdownArea = ({ id, content, contentChange, simple }) => {
+  $(document).ready(function () {
+    simple
+      ? $(`#${"summernote" + id}`).summernote({
+          minHeight: 100,
+          lang: "pl-PL",
+          placeholder: "Opis",
+          toolbar: [
+            ["font", ["bold", "italic", "underline", "strikethrough"]],
+            ["fontsize", ["fontsize"]],
+          ],
+          callbacks: {
+            onChange: function (cont) {
+              contentChange(cont, id);
+            },
+            onInit: function () {
+              $(this).summernote("code", content);
+            },
+          },
+        })
+      : $(`#${"summernote" + id}`).summernote({
+          minHeight: 100,
+          lang: "pl-PL",
+          placeholder: "Wpisz treść",
+          toolbar: [
+            ["style", ["style"]],
+            ["font", ["bold", "italic", "underline", "strikethrough", "clear"]],
+            ["fontsize", ["fontsize"]],
+            ["fontname", ["fontname"]],
+            ["color", ["color"]],
+            ["para", ["ul", "ol", "paragraph"]],
+            ["insert", ["link", "picture", "video", "hr"]],
+          ],
+          callbacks: {
+            onChange: function (cont) {
+              contentChange(cont, id);
+            },
+            onInit: function () {
+              $(this).summernote("code", content);
+            },
+          },
+        });
     $(".dropdown-toggle").dropdown();
   });
 

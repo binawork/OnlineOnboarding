@@ -73,6 +73,7 @@ const FormChoiceEdit = ({
               id={id}
               content={description}
               contentChange={descriptionChange}
+              simple={false}
             />
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="dp1">
