@@ -7,18 +7,22 @@ import EmployeeEditForm from "./EmployeeEditForm";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar"
+import LoggedUser from "../hooks/LoggedUser.js";
 
 function UserManagerProfilePage(props) {
     document.title = "Onboarding: profil pracownika";
     const packageIdRef = useRef(0);
     const singleUser = {id: 0, name: "", last_name: "", email: "", tel: "",
         position: "", department: "", location: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
-    let stateExists = false;
 
+
+    let stateExists = false, loggedUser;
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;
+        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
         stateExists = true;
-    }
+    } else
+        loggedUser = LoggedUser();
 
     if(stateExists && props.location.state.user){
         let user = props.location.state.user;
@@ -49,18 +53,18 @@ function UserManagerProfilePage(props) {
     return (
     	<div className="app">
     		<header className="app-header app-header-dark">
-    			<Navbar />
+    			<Navbar loggedUser={ loggedUser } />
     		</header>
-    		<LeftMenu packageId = { packageIdRef.current } />
+    		<LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
     		<main className="app-main">
     			<div className="wrapper"><div className="page">
     				<div className="page-inner">
-    					<PageAddressBar page = { "Profil pracownika" } />
+    					<PageAddressBar page = { "Profil pracownika" } loggedUser={ loggedUser } />
 
     					<div className="page-section">
     						<div className="card card-fluid">
     							<div className="card-header">Pracownik</div>
-    							<EmployeeEditForm user={ singleUser } />
+    							<EmployeeEditForm user={ singleUser } loggedUser={ loggedUser } />
     						</div>
     					</div>
     				</div>

@@ -4,6 +4,7 @@ import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import EmployeeProfileUser from "./EmployeeProfileUser";
 import ProcessPreviewTables from "./ProcessPreviewTables";
+import LoggedUser from "../hooks/LoggedUser.js";
 
 
 function EmployeeProfilePage(props) {
@@ -11,12 +12,14 @@ function EmployeeProfilePage(props) {
     const packageIdRef = useRef(0);
     const singleUser = {id: 0, name: "", last_name: "", email: "", tel: "",
     				position: "", department: "", localization: "", sent: "-", finished: "-", avatar: "/onboarding/static/images/unknown-profile.jpg"};
-    let stateExists = false;
 
+    let stateExists = false, loggedUser;
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;
+        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
         stateExists = true;
-    }
+    } else
+        loggedUser = LoggedUser();
 
     if(stateExists && props.location.state.user){
         let user = props.location.state.user;
@@ -52,17 +55,17 @@ function EmployeeProfilePage(props) {
     return(
         <div className="app">
             <header className="app-header app-header-dark">
-                <Navbar />
+                <Navbar loggedUser={ loggedUser } />
             </header>
-            <LeftMenu packageId = { packageIdRef.current } />
+            <LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
             <main className="app-main">
                 <div className="wrapper">
                     <div className="page">
                         <div className="page-inner">
-                            <PageAddressBar page = { "Podgląd procesu pracownika" } />
+                            <PageAddressBar page = { "Podgląd procesu pracownika" } loggedUser={ loggedUser } />
                             <div className="page-section">
-                                <EmployeeProfileUser user={ singleUser }/>
-                                <ProcessPreviewTables />
+                                <EmployeeProfileUser user={ singleUser } />
+                                <ProcessPreviewTables loggedUser={ loggedUser } />
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getPath } from "../utils.js";
+import LoggedUser from "../hooks/LoggedUser.js";
 import { v4 as uuidv4 } from "uuid";
 
 import Navbar from "../Navbar";
@@ -13,6 +14,11 @@ import Employee from "./Employee";
 
 function DashboardPage(props) {
   const packageIdRef = useRef(0);
+  let loggedUser;
+  if(props.location.state){
+    loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
+  } else
+    loggedUser = LoggedUser();
 
   const [isEmployee, setIsEmployee] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -46,19 +52,22 @@ function DashboardPage(props) {
           console.error(error);
         }
       );
+    //loggedUser = LoggedUser();
   }, [props.count]);
+
+  document.title= "Onboarding: pulpit";
 
   return (
     <div className="app">
       <header className="app-header app-header-dark">
-        <Navbar /> {/* placeholder */}
+        <Navbar loggedUser={ loggedUser } /> {/* placeholder */}
       </header>
-      <LeftMenu /> {/* placeholder */}
+      <LeftMenu loggedUser={ loggedUser } /> {/* placeholder */}
       <main className="app-main">
         <div className="wrapper">
           <div className="page">
             <div className="page-inner">
-              <PageAddressBar page={"Pulpit"} /> {/* placeholder */}
+              <PageAddressBar page={"Pulpit"} loggedUser={ loggedUser } /> {/* placeholder */}
               <div className="page-section">
                 {" "}
                 {/* placeholder */}
