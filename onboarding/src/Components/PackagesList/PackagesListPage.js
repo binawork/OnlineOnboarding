@@ -5,6 +5,7 @@ import PageAddressBar from "../PageAddressBar";
 import PackagesListTable from "./PackagesListTable";
 
 function PackagesListPage() {
+    document.title = "Onboarding: wdrożenia";
 
     return(
         <div className="app">

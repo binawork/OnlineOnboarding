@@ -7,8 +7,27 @@
     src: url("../js/fonts/summernote.woff2") format("woff2");
 }
 
+@keyframes newRowColor {
+    0% {
+        background: none;
+    }
+    25% {
+        background: #4d4d6e;
+    }
+    75% {
+        background: #4d4d6e;
+    }
+    100% {
+        background: none;
+    }
+}
+
 .sidebar-nav {
     margin-top: 100px;
     padding: 0;
     list-style: none;
+}
+
+.style-package-row {
+    animation: newRowColor 3s ease-in-out;
 }

@@ -13,6 +13,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
+from django.contrib.postgres.aggregates import ArrayAgg
 
 from rest_framework import viewsets, filters, status, generics, views, permissions
 from rest_framework.response import Response
@@ -27,7 +28,7 @@ from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
-from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer
+from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
 from .permissions import IsHrUser
 from .mailing import UserEmailCRUD
@@ -205,6 +206,14 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(company=self.request.user.company)
+
+    @action(detail=False, methods=['get'])
+    def login_user(self, request):
+        queryset = User.objects.filter(pk=self.request.user.id)
+        serializer = LogInUserSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     def list(self, request):
 
@@ -255,11 +264,24 @@ class UserViewSet(viewsets.ModelViewSet):
         )
         return Response(status=204)
 
-
 class CompanyViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+
+
+    # @action(detail=False)
+    # def user_job_data(self, request):
+    #     queryset = User.objects.filter(company=self.request.user.company).aggregate(location=ArrayAgg('location', distinct=True))
+    #     from django.db import connection
+    #     connection.queries
+    #         # .aggregate(result=ArrayAgg('team'))\
+    #         # .aggregate(result=ArrayAgg('job_position'))
+    #         # .distinct("location",'team','job_position',)
+    # 
+    #     serializer = UserJobDataSerializer(queryset, many=True)
+    # 
+    #     return Response(serializer.data)
 
 
 class CompanyQuestionAndAnswerViewSet(viewsets.ModelViewSet):
@@ -302,6 +324,7 @@ class PackageViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
+
 
     @action(detail=False)
     def list_by_company_hr(self, request):
