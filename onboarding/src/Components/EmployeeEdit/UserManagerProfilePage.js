@@ -12,7 +12,7 @@ function UserManagerProfilePage(props) {
     document.title = "Onboarding: profil pracownika";
     const packageIdRef = useRef(0);
     const singleUser = {id: 0, name: "", last_name: "", email: "", tel: "",
-        position: "", department: "", localization: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
+        position: "", department: "", location: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
     let stateExists = false;
 
     if(props.location.state){
@@ -39,8 +39,8 @@ function UserManagerProfilePage(props) {
             singleUser.position = user.position;
         if(typeof user.department === "string" && user.department !== "-")
             singleUser.department = user.department;
-        if(typeof user.localization === "string" && user.localization !== "-")
-            singleUser.localization = user.localization;
+        if(typeof user.location === "string" && user.location !== "-")
+            singleUser.location = user.location;
 
         if(typeof user.avatar === "string" && user.avatar.length > 1)
             singleUser.avatar = user.avatar;

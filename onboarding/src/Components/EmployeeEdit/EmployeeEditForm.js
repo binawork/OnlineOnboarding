@@ -10,7 +10,7 @@ function EmployeeEditForm(props) {
     const [employeeModal, setModal ] = useState(<></>);
 
     let userCp = {id: 0, name: "", last_name: "", email: "", tel: "",
-        position: "", department: "", localization: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
+        position: "", department: "", location: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
     if(props.user)
         userCp = {...props.user};
 
@@ -31,12 +31,15 @@ function EmployeeEditForm(props) {
     }
 
 
+    const showModal = (message) => {
+        setModal(<ModalWarning handleAccept={ hideModal } title={ "Profil pracownika" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
+    };
     const hideModal = function(){
         setModal(<></>);
-    }
+    };
     const saveEditInform = (message) => {
         setModal(<ModalWarning handleAccept={ hideModal } title={ "Profil pracownika" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
-    }
+    };
 
 
     return (
@@ -51,7 +54,7 @@ function EmployeeEditForm(props) {
     		</div>
 
     		<div className="col">
-    			<UserProfileManage user={ userCp } handleSaveEdit={ handleSaveEdit } />
+    			<UserProfileManage user={ userCp } handleSaveEdit={ handleSaveEdit } showMessage={ showModal } />
     		</div>
     		{ employeeModal }
     	</div>
