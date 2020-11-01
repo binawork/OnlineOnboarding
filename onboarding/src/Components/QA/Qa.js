@@ -1,65 +1,63 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import MarkdownArea from "../MarkdownArea";
-import { v4 as uuidv4 } from "uuid";
+import { saveQnA, deleteQnA } from "../hooks/QnA";
+// import { Draggable } from "react-beautiful-dnd";
 
-function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
-  const refValue = useRef(qaList);
+function Qa({ id, question, answer, handleUpdate, draggableProps, innerRef, dragHandleProps }) {
+  const [q, setQuestion] = useState("");
+  const [a, setAnswer] = useState("");
+
   useEffect(() => {
-    refValue.current = qaList;
-  });
+    if(q !== question) {
+      saveQnA("question", id, q, handleUpdate);
+    }
+  }, [q]);
 
-  const changeQuestion = (content, mdId) => {
-    const questions = refValue.current.map(q => {
-      q.id === mdId.slice(8)
-      ? (q.question = content) 
-      : q;
-      return q;
-    });
-    setQaList(questions);
+  useEffect(() => {
+    if(a !== answer) {
+      saveQnA("answer", id, a, handleUpdate);
+    }
+  }, [a]);
+
+  const changeQuestion = (content) => {
+    setQuestion(content);
   }
 
-  const changeAnswer = (content, mdId) => {
-    const answers = refValue.current.map(a => {
-      a.id === mdId.slice(6)
-      ? (a.answer = content) 
-      : a;
-      return a;
-    });
-    setQaList(answers);
+  const changeAnswer = (content) => {
+    setAnswer(content);
   }
 
   const copyQA = (e) => {
-    e.preventDefault();
-    const newId = uuidv4();
-    const newQA = {
-      id: newId,
-      question: question,
-      answer: answer
-    };
-    const index = qaList.findIndex((qa) => qa.id === id);
+    // e.preventDefault();
+    // const newId = uuidv4();
+    // const newQA = {
+    //   id: newId,
+    //   question: question,
+    //   answer: answer
+    // };
+    // const index = qaList.findIndex((qa) => qa.id === id);
     // slice() to get shallow copy of sections
-    const qaListCopy = qaList.slice(0);
+    // const qaListCopy = qaList.slice(0);
     // splice() to put copied form at the right index (next after its origin)
-    qaListCopy.splice(index + 1, 0, newQA);
-    setQaList(qaListCopy);
+    // qaListCopy.splice(index + 1, 0, newQA);
+    // setQaList(qaListCopy);
   }
 
-  const deleteQA = (e) => {
+  const handleDeleteQnA = (e) => {
     e.preventDefault();
-    setQaList(qaList.filter((qa) => qa.id != id));
+    deleteQnA(id, handleUpdate);
   }
   
   return (
-      <div className="task-issue" {...provided.draggableProps} ref={innerRef}>
+      <div className="task-issue" {...draggableProps} ref={innerRef}>
         <div className="card">
-        <div className="" {...provided.dragHandleProps}><i className="fa fa-arrows-alt"></i></div>
+        <div className="" {...dragHandleProps}><i className="fa fa-arrows-alt"></i></div>
           <div className="card-body">
             <div className="form-group">
             <MarkdownArea
               id={"question" + id}
               content={question}
-              contentChange={(content, id) =>
-                changeQuestion(content, id)}
+              contentChange={changeQuestion}
               simple={true}
             />
             </div>
@@ -80,7 +78,7 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
               </button>
             </div>
             <div className="p-3">
-              <button className="btn text-danger mr-1" onClick={deleteQA}>
+              <button className="btn text-danger mr-1" onClick={handleDeleteQnA}>
                 <i className="fa fa-trash-o fa-md mr-1">&#61944;</i>
                 Usuń
               </button>
@@ -88,6 +86,7 @@ function Qa({ id, question, answer, qaList, setQaList, provided, innerRef }) {
           </div>
         </div>
       </div>
+
   );
 }
 
