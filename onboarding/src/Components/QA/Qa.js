@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MarkdownArea from "../MarkdownArea";
-import { saveQnA, deleteQnA } from "../hooks/QnA";
+import { copyQnA, saveQnA, deleteQnA } from "../hooks/QnA";
 // import { Draggable } from "react-beautiful-dnd";
 
 function Qa({
@@ -27,7 +27,9 @@ function Qa({
       }
     }, 5000);
 
-    return () => { clearInterval(intervalId) };
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [q, a]);
 
   const changeQuestion = (content) => {
@@ -39,19 +41,9 @@ function Qa({
   };
 
   const copyQA = (e) => {
-    // e.preventDefault();
-    // const newId = uuidv4();
-    // const newQA = {
-    //   id: newId,
-    //   question: question,
-    //   answer: answer
-    // };
-    // const index = qaList.findIndex((qa) => qa.id === id);
-    // slice() to get shallow copy of sections
-    // const qaListCopy = qaList.slice(0);
-    // splice() to put copied form at the right index (next after its origin)
-    // qaListCopy.splice(index + 1, 0, newQA);
-    // setQaList(qaListCopy);
+    e.preventDefault();
+    const qnaToCopy = { question: q, answer: a };
+    copyQnA(qnaToCopy, handleUpdate);
   };
 
   const handleDeleteQnA = (e) => {

@@ -90,6 +90,35 @@ export function addQnA(handleUpdate) {
   return true;
 }
 
+export function copyQnA(qnaToCopy, handleUpdate) {
+  const url = getPath();
+  const token = getCookie("csrftoken");
+  const fetchProps = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+    body: null,
+  };
+
+  let data = { question: qnaToCopy.question, answer: qnaToCopy.answer };
+  console.log("data: ", data);
+  fetchProps.body = JSON.stringify(data);
+
+  fetch(url + "api/q_and_a/", fetchProps)
+    .then((res) => res.json())
+    .then((result) => {
+      handleUpdate(result);
+      console.log("copy result: ", result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return true;
+}
+
 export function saveQnA(element, id, content, handleUpdate) {
   if (
     typeof content !== "string" ||

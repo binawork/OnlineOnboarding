@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Qa from "./Qa";
-import QnA, { addQnA, saveQnA } from "../hooks/QnA";
+import React, { useState } from "react";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import QnA, { addQnA } from "../hooks/QnA";
 
 const QAList = () => {
   // const [blankQnA, setBlankOnA] = useState([]);
@@ -12,25 +11,8 @@ const QAList = () => {
 
   const handleAddQnA = (e) => {
     e.preventDefault();
-    // setBlankOnA(
-    // <Qa
-    //   key={0}
-    //   id={0}
-    //   question={""}
-    //   answer={""}
-    //   handleUpdate={updateQnA}
-      // draggableProps={provided.draggableProps}
-      // innerRef={provided.innerRef}
-      // dragHandleProps={provided.dragHandleProps}
-    // />
-    // );
     addQnA(updateQnA);
   }
-
-  //   const handleSave = (e) => {
-  //   e.preventDefault();
-  //   let accepted = addQnA(updatePackages, qaList, qaList[0].question, qaList[0].answer, qaIdRef.current);
-  // }
 
   const onDragEnd = (result) => {
     // destination, source -> objects in which you can find the index of the destination and index of source item
