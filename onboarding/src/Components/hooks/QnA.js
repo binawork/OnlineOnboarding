@@ -22,8 +22,9 @@ function QnA({ count, handleUpdate }) {
       .then((res) => res.json())
       .then((result) => {
         isLoaded(true);
-        console.log("get result: ", result);
-        setQaList(result);
+        const sortedResult = result.sort((a, b) => a.id - b.id)
+        console.log("get result: ", sortedResult);
+        setQaList(sortedResult);
       })
       .catch((error) => {
         console.log(error.message);
