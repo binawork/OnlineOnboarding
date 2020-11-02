@@ -135,6 +135,8 @@ export function addPage(handleSuccess, title, packageId, order, owner){
 	if(order){
 		data.order = order;
 	}
+	if(owner)
+		data.owner = owner;
 
 	fetchProps.body = JSON.stringify(data);
 
