@@ -1,16 +1,15 @@
 import React from "react";
 import { formsSent } from "./EmployeeProfileData";
 import EmployeeProfileTableSecondRow from "./EmployeeProfileTableSecondRow";
+import EmployeeForms from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsSent(props) {
+    let user_table = EmployeeForms(props), forms = [];
 
-    let user_table =[];
-    if (formsSent) {
-        formsSent.forEach(function (element, i) {
-            user_table.push(<EmployeeProfileTableSecondRow key={ i } row={element}/>)
-        });
-    }
+    user_table.forEach(function (element, i) {
+        forms.push(<EmployeeProfileTableSecondRow key={ i } row={element} />)
+    });
 
     return(
         <div className="card card-fluid">
@@ -26,7 +25,7 @@ function ImplementationFormsSent(props) {
                         <th scope="col">Działanie</th>
                     </tr></thead>
                     <tbody id="form_table_data_container">
-                        { user_table }
+                        { forms }
                         <tr>
                             <td scope="col"></td>
                             <td scope="col"></td>

@@ -1,16 +1,15 @@
 import React from "react";
 import { employeeFormDataList } from "./EmployeeProfileData";
 import EmployeeProfileTableFirstRow from "./EmployeeProfileTableFirstRow";
+import EmployeeForms from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsToSend(props) {
+    let form_table = EmployeeForms(props), forms = [];
 
-    let form_table= [];
-    if (employeeFormDataList) {
-        employeeFormDataList.forEach(function (element, i) {
-            form_table.push(<EmployeeProfileTableFirstRow key={ i } row={element}/>)
-        });
-    }
+    form_table.forEach(function (element, i) {
+        forms.push(<EmployeeProfileTableFirstRow key={ i } row={element} />)
+    });
 
     return(
         <div className="card card-fluid">
@@ -28,7 +27,7 @@ function ImplementationFormsToSend(props) {
                         <th scope="col" style={{width: "10%"}}>Działanie</th>
                     </tr></thead>
                     <tbody id="form_table_data_container">
-                        { form_table }
+                        { forms }
                         <tr>
                             <td scope="col"></td>
                             <td scope="col" style={{width: "45%"}}></td>
