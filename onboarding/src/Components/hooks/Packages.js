@@ -64,7 +64,7 @@ function Packages(props) {
             key: rows[i].id,
             created: rows[i].created_on,
           }}
-          handleUpdate={props.handleUpdate}
+          handleRemoveAsk={ props.handleRemoveAsk }
           lastRow={newRowId === rows[i].id}
           loggedUser={ loggedUser }
         />
@@ -130,7 +130,7 @@ export function removeCombo(handleSuccess, packageId, title) {
     .then((res) => res.json())
     .then(
       (result) => {
-        handleSuccess(result);
+        handleSuccess("Wdrożenie zostało usunięte.");
       },
       (error) => {
         handleSuccess(error);
@@ -140,3 +140,4 @@ export function removeCombo(handleSuccess, packageId, title) {
 }
 
 export default Packages;
+
