@@ -22,8 +22,8 @@ class CompanyQuestionAndAnswer(models.Model):
 
     """
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
-    question = models.TextField(max_length=500)
-    answer = models.TextField(max_length=500)
+    question = models.TextField(max_length=500, null=True, blank=True)
+    answer = models.TextField(max_length=500, null=True, blank=True)
     order = models.IntegerField(name="order", null=True)
 
 
