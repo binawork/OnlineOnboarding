@@ -60,9 +60,7 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 
 
 # USER
-
 class UserJobDataSerializer(serializers.Serializer):
-
     location = serializers.ListField(child=serializers.CharField())
     # team = serializers.ListField(child=serializers.CharField())
     # job_position = serializers.ListField(child=serializers.CharField())
@@ -91,6 +89,7 @@ class LogInUserSerializer(serializers.ModelSerializer):
             'team',
             'job_position',
             'last_login',
+            'company_id'
         ]
 
 
