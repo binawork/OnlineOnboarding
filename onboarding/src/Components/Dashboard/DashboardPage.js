@@ -74,7 +74,7 @@ function DashboardPage(props) {
                 {isLoaded ? (
                   isEmployee ? (
                     employees.map((employee) => {
-                      return <Employee employee={employee} key={uuidv4()} />;
+                      return <Employee employee={employee} key={uuidv4()} loggedUser={ loggedUser } />;
                     })
                   ) : (
                     <div className="card card-fluid p-4">
@@ -87,7 +87,7 @@ function DashboardPage(props) {
                         <Link
                           to={{
                             pathname: "/add_user",
-                            state: { packageId: packageIdRef.current },
+                            state: { packageId: packageIdRef.current, loggedUser: loggedUser },
                           }}
                           className="menu-link"
                         >
@@ -98,7 +98,7 @@ function DashboardPage(props) {
                         <Link
                           to={{
                             pathname: "/packages",
-                            state: { packageId: packageIdRef.current },
+                            state: { packageId: packageIdRef.current, loggedUser: loggedUser },
                           }}
                           className="menu-link"
                         >

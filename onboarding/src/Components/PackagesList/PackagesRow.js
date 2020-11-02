@@ -4,7 +4,7 @@ import { dateToString } from "../utils";
 import { removeCombo } from "../hooks/Packages";
 import "../../../static/css/styles.css";
 
-function PackagesRow({ row, handleUpdate, lastRow }) {
+function PackagesRow({ row, handleUpdate, lastRow, loggedUser }) {
     const [styleRow, setStyleRow] = useState(null);
 
     var removeSuccess = (result) => {
@@ -25,9 +25,9 @@ function PackagesRow({ row, handleUpdate, lastRow }) {
 
     return(
         <tr className={styleRow}>
-            <td><Link to={{ pathname: "/package_page", state: { packageId: row.key } }} className="link">{row.name}</Link></td> 
+            <td><Link to={{ pathname: "/package_page", state: { packageId: row.key, loggedUser: loggedUser } }} className="link">{row.name}</Link></td> 
             <td>{ dateToString(row.last_edit) }</td>{/* na polski; */}
-            <td><Link to={{ pathname: "/package_page", state: { packageId: row.key } }} className="link">edytuj</Link> / <button className="btn btn-secondary" onClick={ handleRemove }>usuń</button> </td>
+            <td><Link to={{ pathname: "/package_page", state: { packageId: row.key, loggedUser: loggedUser } }} className="link">edytuj</Link> / <button className="btn btn-secondary" onClick={ handleRemove }>usuń</button> </td>
         </tr>
     )
 }

@@ -19,8 +19,7 @@ function UserListPage(props) {
         loggedUser = LoggedUser();
 
     document.title= "Onboarding: lista pracowników";
-console.log("\tloggedUser");
-console.log(loggedUser);
+
     return(
     	<div className="app">
     		<header className="app-header app-header-dark">

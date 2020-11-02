@@ -4,10 +4,12 @@ import PackagesAddNew from "./PackagesAddNew";
 //import { formDataList } from "../FormTable/FormTableData";
 //import { getPath } from "../utils.js";
 import Packages from "../hooks/Packages";
+import LoggedUser from "../hooks/LoggedUser.js";
 
-function PackagesListTable() {
+function PackagesListTable(props) {
     const [countUpdate, update] = useState(0);
     //let packages = <Packages count = countUpdate />;
+    let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
 
     var updatePackages = function(){
     	update(countUpdate + 1);
@@ -38,7 +40,7 @@ function PackagesListTable() {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                            <Packages count = { countUpdate } handleUpdate = { updatePackages } />
+                            <Packages count = { countUpdate } handleUpdate = { updatePackages } loggedUser={ loggedUser } />
                         </tbody>
                     </table>
                 </div>

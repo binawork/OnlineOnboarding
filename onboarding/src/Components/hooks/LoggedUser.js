@@ -5,8 +5,8 @@ function LoggedUser(){
 	const loggedUserRef = useRef({id: 0, email: "", first_name: "", last_name: "",
 							phone_number: "", location: "", team: "",
 							job_position: "",last_login: "", avatar: ""});
-console.log("   In logged:");
-console.log(loggedUserRef.current);
+console.log(...["   In logged:", loggedUserRef.current]);
+
 	useEffect(() => {
 		let url = getPath(),
 			fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};

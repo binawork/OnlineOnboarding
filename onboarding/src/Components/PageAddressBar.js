@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LoggedUser from "./hooks/LoggedUser.js";
 
 function PageAddressBar(props) {
-    let loggedUser = (props.loggedUser)?props.logged:LoggedUser();
+    let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
 
     return(
         <header className="page-title-bar">

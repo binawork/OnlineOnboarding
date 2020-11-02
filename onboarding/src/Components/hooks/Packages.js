@@ -49,6 +49,11 @@ function Packages(props) {
     var form_table = [],
       i,
       count = rows.length;
+    let loggedUser = {id:0, first_name: ""};
+
+    if(props.loggedUser)
+      loggedUser = props.loggedUser;
+
     for (i = 0; i < count; i++)
       form_table.push(
         <PackagesRow
@@ -61,6 +66,7 @@ function Packages(props) {
           }}
           handleUpdate={props.handleUpdate}
           lastRow={newRowId === rows[i].id}
+          loggedUser={ loggedUser }
         />
       );
     return <>{form_table}</>;
