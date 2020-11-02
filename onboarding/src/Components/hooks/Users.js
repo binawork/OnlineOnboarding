@@ -36,16 +36,23 @@ function Users(props){
 		return <UserListRow user = { singleUser } key = { 0 } />;
 	} else {
 		var users = [], count = rows.length;
-		let i, packageId = 0;
+		let i, packageId = 0, loggedUser = {id:0, first_name: ""};
 		if(props.packageId)
 			packageId = props.packageId;
+
+		if(props.loggedUser)
+			loggedUser = props.loggedUser;
 
 		for(i = 0; i < count; i++){
 			singleUser = {id: 0, name: "-", first_name: "", last_name: "", email: "-", tel: "",
 				position: "-", department: "-", location: "-", sent: "-", finished: "-", avatar:""};
 
-			if(rows[i].id)
+			if(rows[i].id){
+				if(rows[i].id == loggedUser.id)
+					continue;
+
 				singleUser.id = rows[i].id;
+			}
 
 			if(typeof rows[i].first_name === "string" && rows[i].first_name.length > 0){
 				singleUser.name = rows[i].first_name;
@@ -73,7 +80,7 @@ function Users(props){
 			if(typeof rows[i].avatar === "string" && rows[i].avatar.length > 0)
 				singleUser.avatar = rows[i].avatar;
 
-			users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } packageId={ packageId } />);
+			users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } packageId={ packageId } loggedUser={ loggedUser } />);
 		}
 
 		return ( <>{ users }</> )

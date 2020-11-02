@@ -7,18 +7,25 @@ function UserListRow(props) {
     if(props.user.avatar && props.user.avatar.length > 1)
         avatar = props.user.avatar;
 
+    let loggedUser = {};
+    if(props.loggedUser)
+        loggedUser = props.loggedUser;
+
     return(
         <div className="card mb-2">
             <div className="card-body">
                 <div className="row align-items-center">
 
                     <div className="col-auto">
-                        <Link to={{ pathname: "/employee_profile", state: { user: props.user } }} className="user-avatar user-avatar-xl"><img src={ avatar } alt="avatar" /> <span className="avatar-badge idle" title="idle"></span></Link>
+                        <Link to={{ pathname: "/employee_profile", state: { user: props.user, loggedUser: loggedUser } }} className="user-avatar user-avatar-xl">
+                            <img src={ avatar } alt="avatar" /> <span className="avatar-badge idle" title="idle"></span>
+                        </Link>
                     </div>
 
                     <div className="col">
                         <h3 className="card-title">
-                            <Link to={{ pathname: "/employee_profile", state: { user: props.user } }}>{ props.user.name }</Link> <small className="text-muted"><Link to={{ pathname: "/employee_profile", state: { user: props.user } }}>{ props.user.email }</Link></small>
+                            <Link to={{ pathname: "/employee_profile", state: { user: props.user, loggedUser: loggedUser } }}>{ props.user.name }</Link>
+                            <small className="text-muted"><Link to={{ pathname: "/employee_profile", state: { user: props.user, loggedUser: loggedUser } }}>{ props.user.email }</Link></small>
                         </h3>
                         <h6 className="card-subtitle text-muted"> { props.user.position } </h6>
                     </div>
@@ -40,13 +47,17 @@ function UserListRow(props) {
                             <small className="text-muted">Skończone formularze:</small> { props.user.finished }
                         </h3>
 
-                        <Link to={{ pathname: "/add_user", state: { user: props.user, packageId: props.packageId } }} className="btn btn-secondary" data-toggle="tooltip">
+                        <Link to={{ pathname: "/add_user", state: { user: props.user, packageId: props.packageId, loggedUser: loggedUser } }}
+                        				className="btn btn-secondary" data-toggle="tooltip">
                         	Edytuj profil
                         </Link>
-                        <Link to={{ pathname: "/employee_profile", state: { user: props.user, packageId: props.packageId  } }} className="btn btn-secondary" data-toggle="tooltip">
+                        <Link to={{ pathname: "/employee_profile", state: { user: props.user, packageId: props.packageId, loggedUser: loggedUser } }}
+                        				className="btn btn-secondary" data-toggle="tooltip">
                         	Dodaj formularz
                         </Link><br /><br />
-                        <button type="button" value={ props.user.id } onClick={ props.handleRemove } className="btn btn-warning" data-toggle="tooltip">Usuń pracownika</button>
+                        { props.user.id != loggedUser.id &&
+                            <button type="button" value={ props.user.id } onClick={ props.handleRemove } className="btn btn-warning" data-toggle="tooltip">Usuń pracownika</button>
+                        }
                     </div>
                 </div>
             </div>
