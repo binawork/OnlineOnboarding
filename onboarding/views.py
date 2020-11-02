@@ -226,7 +226,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user_serializer = self.serializer_class(data=request.data)
         if user_serializer.is_valid():
             user, password = user_serializer.save()
-            user.company = request.user.company
+            user.company = self.request.user.company
             user.save()
             mail = UserEmailCRUD()
             mail.send_to_user_created_by_hr(request, password, user)
