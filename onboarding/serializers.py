@@ -56,7 +56,7 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CompanyQuestionAndAnswer
-        fields = ('id', 'question', 'answer')
+        fields = ('id', 'question', 'answer', 'order')
 
 
 # USER
