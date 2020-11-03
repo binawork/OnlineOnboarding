@@ -22,7 +22,7 @@ function EmployeeEditForm(props) {
             uploadAvatar(updateImage, fileNameRef.current.files[0]);
         }
 
-        employeeAddEdit(saveEditInform, user);
+        employeeAddEdit(showModal, user);
     }
 
     const updateImage = function(response){
@@ -36,9 +36,6 @@ function EmployeeEditForm(props) {
     };
     const hideModal = function(){
         setModal(<></>);
-    };
-    const saveEditInform = (message) => {
-        setModal(<ModalWarning handleAccept={ hideModal } title={ "Profil pracownika" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
     };
 
 
