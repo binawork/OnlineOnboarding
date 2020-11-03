@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import QnA, { addQnA } from "../hooks/QnA";
 
 const QAList = () => {
-  // const [blankQnA, setBlankOnA] = useState([]);
   const [countUpdate, update] = useState(0);
+  const maxOrder = useRef(0);
+
   const updateQnA = () => {
     update(countUpdate + 1);
-  }
+  };
+
+  const updateMaxOrder = (nr) => {
+    if (nr > maxOrder.current) maxOrder.current = nr;
+  };
+  const getMaxOrder = () => maxOrder.current;
 
   const handleAddQnA = (e) => {
     e.preventDefault();
-    addQnA(updateQnA);
-  }
+    addQnA(updateQnA, getMaxOrder);
+  };
 
   const onDragEnd = (result) => {
     // destination, source -> objects in which you can find the index of the destination and index of source item
@@ -43,32 +49,26 @@ const QAList = () => {
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="dp1">
               {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
+                <div ref={provided.innerRef} {...provided.droppableProps}>
                   {/* {qaList.map((element, index) => ( */}
-                    {/* <Draggable
+                  {/* <Draggable
                       key={element.id}
                       draggableId={"draggable-" + element.id}
                       index={index}
                     >
                       {(provided) => ( */}
 
-                        <QnA
-                          count={countUpdate}
-                          handleUpdate={updateQnA}
-                          // setQaList={setQaList}
-                          // qaList={qaList}
-                          // provided={provided}
-                          // innerRef={provided.innerRef}
-                          // handleSave={handleSave}
-                          // handleAddQa={handleAddQa}
-                        />
-                        
-                      
-                      {/* )} */}
-                    {/* </Draggable> */}
+                  <QnA
+                    count={countUpdate}
+                    handleUpdate={updateQnA}
+                    updateMaxOrder={ updateMaxOrder }
+                    // setIds={setIds}
+                    // provided={provided}
+                    // innerRef={provided.innerRef}
+                  />
+
+                  {/* )} */}
+                  {/* </Draggable> */}
                   {/* ))} */}
                   {provided.placeholder}
                 </div>

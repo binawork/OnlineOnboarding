@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { getPath, getCookie } from "../utils.js";
 import Qa from "../QA/Qa";
 
-function QnA({ count, handleUpdate }) {
+function QnA({ count, handleUpdate, updateMaxOrder }) {
   const [qaList, setQaList] = useState([]);
   const [loaded, isLoaded] = useState(false);
 
@@ -22,9 +22,15 @@ function QnA({ count, handleUpdate }) {
       .then((res) => res.json())
       .then((result) => {
         isLoaded(true);
-        const sortedResult = result.sort((a, b) => a.id - b.id)
+        const sortedResult = result.sort((a, b) => a.order - b.order);
+        const orders = result
+          .map(i => i.order)
+          .filter(i => i >= 0 && typeof i === "number");
+        const maxOrder = Math.max(...orders);
+        console.log('orders', orders)
         console.log("get result: ", sortedResult);
         setQaList(sortedResult);
+        updateMaxOrder(maxOrder)
       })
       .catch((error) => {
         console.log(error.message);
@@ -48,6 +54,8 @@ function QnA({ count, handleUpdate }) {
                 id={element.id}
                 question={element.question}
                 answer={element.answer}
+                order={element.order}
+                // getOrder={getOrder}
                 handleUpdate={handleUpdate}
                 draggableProps={provided.draggableProps}
                 innerRef={provided.innerRef}
@@ -61,7 +69,7 @@ function QnA({ count, handleUpdate }) {
   }
 }
 
-export function addQnA(handleUpdate) {
+export function addQnA(handleUpdate, getMaxOrder) {
   const url = getPath();
   const token = getCookie("csrftoken");
   const fetchProps = {
@@ -73,8 +81,7 @@ export function addQnA(handleUpdate) {
     },
     body: null,
   };
-
-  let data = { question: "blah", answer: "blah" };
+  const data = { question: "", answer: "", order: getMaxOrder() + 1 };
   console.log("data: ", data);
   fetchProps.body = JSON.stringify(data);
 
@@ -103,7 +110,7 @@ export function copyQnA(qnaToCopy, handleUpdate) {
     body: null,
   };
 
-  let data = { question: qnaToCopy.question, answer: qnaToCopy.answer };
+  const data = { question: qnaToCopy.question, answer: qnaToCopy.answer, order: qnaToCopy.order + 1 };
   console.log("data: ", data);
   fetchProps.body = JSON.stringify(data);
 
@@ -137,9 +144,7 @@ export function saveQnA(element, id, content, handleUpdate) {
     },
   };
   const data = {};
-  element === "question"
-    ? data.question = content
-    : data.answer = content
+  element === "question" ? (data.question = content) : (data.answer = content);
 
   fetchProps.body = JSON.stringify(data);
 

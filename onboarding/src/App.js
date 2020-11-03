@@ -31,7 +31,7 @@ function App() {
             <Route path="/form_edit" component={ FormsEditPage } />
             <Route path="/packages" component={ PackagesListPage } />
             <Route path="/package_page" component={ FormTablePage } />
-            <Route path="/qa" component={ QAPage } />
+            <Route path="/q_and_a" component={ QAPage } />
             <Route path="/user_list" component={ UserListPage } />
             <Route path="/form_list" component={ AddUserTablePage } />
             <Route path="/" exact component={ DashboardPage } />

@@ -7,6 +7,7 @@ function Qa({
   id,
   question,
   answer,
+  order,
   handleUpdate,
   draggableProps,
   innerRef,
@@ -42,7 +43,7 @@ function Qa({
 
   const copyQA = (e) => {
     e.preventDefault();
-    const qnaToCopy = { question: q, answer: a };
+    const qnaToCopy = { question: q, answer: a, order: order };
     copyQnA(qnaToCopy, handleUpdate);
   };
 
@@ -54,9 +55,7 @@ function Qa({
   return (
     <div className="task-issue" {...draggableProps} ref={innerRef}>
       <div className="card">
-        <div className="" {...dragHandleProps}>
-          <i className="fa fa-arrows-alt"></i>
-        </div>
+        <span className="drag-indicator" {...dragHandleProps}></span>
         <div className="card-body">
           <div className="form-group">
             <MarkdownArea
