@@ -30,19 +30,29 @@ function Users(props){
 		return error.message;
 	} else if(!loaded){
 		singleUser = {name: "Ładowanie ...", first_name: "", last_name: "", email: "Ładowanie ...", tel: "",
-			position: "Ładowanie ...", department: "Ładowanie ...", localization: "Ładowanie ...",
+			position: "Ładowanie ...", department: "Ładowanie ...", location: "Ładowanie ...",
 			sent: "-", finished: "-", avatar: ""};
 
 		return <UserListRow user = { singleUser } key = { 0 } />;
 	} else {
 		var users = [], count = rows.length;
-		let i;
+		let i, packageId = 0, loggedUser = {id:0, first_name: ""};
+		if(props.packageId)
+			packageId = props.packageId;
+
+		if(props.loggedUser)
+			loggedUser = props.loggedUser;
+
 		for(i = 0; i < count; i++){
 			singleUser = {id: 0, name: "-", first_name: "", last_name: "", email: "-", tel: "",
-				position: "-", department: "-", localization: "-", sent: "-", finished: "-", avatar:""};
+				position: "-", department: "-", location: "-", sent: "-", finished: "-", avatar:""};
 
-			if(rows[i].id)
+			if(rows[i].id){
+				if(rows[i].id == loggedUser.id)
+					continue;
+
 				singleUser.id = rows[i].id;
+			}
 
 			if(typeof rows[i].first_name === "string" && rows[i].first_name.length > 0){
 				singleUser.name = rows[i].first_name;
@@ -59,7 +69,7 @@ function Users(props){
 				singleUser.tel = rows[i].phone_number;
 
 			if(typeof rows[i].location === "string" && rows[i].location.length > 0)
-				singleUser.localization = rows[i].location;
+				singleUser.location = rows[i].location;
 
 			if(typeof rows[i].team === "string" && rows[i].team.length > 0)
 				singleUser.department = rows[i].team;
@@ -70,7 +80,7 @@ function Users(props){
 			if(typeof rows[i].avatar === "string" && rows[i].avatar.length > 0)
 				singleUser.avatar = rows[i].avatar;
 
-			users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } />);
+			users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } packageId={ packageId } loggedUser={ loggedUser } />);
 		}
 
 		return ( <>{ users }</> )
@@ -80,12 +90,14 @@ function Users(props){
 
 /**
  * 
- * employeeObject = {name: "", last_name: "", email: "", tel: "", department: "", localization: "", position: ""};
+ * employeeObject = {name: "", last_name: "", email: "", tel: "", department: "", location: "", position: ""};
  */
-export function employeeAddEdit(handleSuccess, employeeObject){
+export function employeeAddEdit(handleMessage, employeeObject){
 	if(typeof employeeObject.name !== "string" || typeof employeeObject.last_name !== "string"
-		|| typeof employeeObject.email !== "string" || typeof employeeObject.email.length < 2)
+		|| typeof employeeObject.email !== "string" || typeof employeeObject.email.length < 2){
+		handleMessage("Błędny format danych lub brak e-maila!");
 		return false;
+	}
 	if(employeeObject.avatar)
 		delete employeeObject.avatar;
 
@@ -103,20 +115,23 @@ export function employeeAddEdit(handleSuccess, employeeObject){
 	fetchProps.body = JSON.stringify(data);
 
 	let path = "api/users/", employeeId = 0;
+	var msg = "Dodano pracownika. ";
 	if(employeeObject.id && employeeObject.id > 0){
 		employeeId = employeeObject.id;
 		path += employeeId + "/";
 		fetchProps.method = "PATCH";
+		msg = "Zmodyfikowano pracownika. ";
 	}/* else
 		path += "create_user/"; SMTPAuthenticationError */
 
 	fetch(url + path, fetchProps).then(res => res.json()).then(
 		(result) => {
-			handleSuccess(result);
+			//msg += String(result);
+			handleMessage(msg);
 		},
 		(error) => {
 			console.log("eA");
-			console.log(error);
+			handleMessage("Błąd. " + error);
 		}
 	);
 	return true;

@@ -4,9 +4,27 @@ import { getPath } from "./utils.js";
 
 function Navbar(props) {
     let path = getPath();
-    let avatar = "/onboarding/static/images/unknown-profile.jpg";
-    if(props.avatar && props.avatar.length > 1)
-        avatar = props.avatar;
+
+    let loggedUser = {id: 0, avatar: "/onboarding/static/images/unknown-profile.jpg", email: "",
+    	first_name: "username", last_name: "", phone_number: "", location: "", team: "", job_position: "", last_login: ""};
+
+    if(props.loggedUser){
+        loggedUser = {...props.loggedUser};
+
+        if(typeof props.loggedUser.avatar !== "string" ||
+        	(typeof props.loggedUser.avatar === "string" && props.loggedUser.avatar.length < 2) ){
+            loggedUser.avatar = "/onboarding/static/images/unknown-profile.jpg";
+        }
+    }
+
+
+    const dropDownSwitch = () => {
+        let dropDownList = document.getElementById("userDropDown");
+        if(dropDownList.style.display=="block")
+            dropDownList.style.display="none";
+        else
+            dropDownList.style.display="block";
+    }
 
     return(
         <nav className="top-bar navbar navbar-expand-lg navbar-dark bg-dark">
@@ -52,11 +70,11 @@ function Navbar(props) {
             <div className="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
                 <div className="dropdown d-flex">
                     <div className="form-inline my-2 my-lg-0">
-                        <button className="btn-account d-none d-md-flex" type="button" data-toggle="dropdown">
-                            <span className="user-avatar user-avatar-md"><img src={ avatar } alt="" /></span>
-                            <span className="account-summary pr-lg-4 d-none d-lg-block">Witaj <span className="account-name">useranme #login</span></span>
+                        <button className="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" onClick={ dropDownSwitch }>
+                            <span className="user-avatar user-avatar-md"><img src={ loggedUser.avatar } alt={ loggedUser.first_name + " - avatar" } /></span>
+                            <span className="account-summary pr-lg-4 d-none d-lg-block">Witaj <span className="account-name">{ loggedUser.first_name }</span></span>
                         </button>
-                        <div className="dropdown-menu">
+                        <div className="dropdown-menu" id="userDropDown">
                             <div className="dropdown-arrow ml-3"></div>
                             {/*<h6 className="dropdown-header d-none d-md-block d-lg-none">  user username</h6> */}
                             <a className="dropdown-item" href="#"><span className="dropdown-icon oi oi-person"></span> Profil</a>

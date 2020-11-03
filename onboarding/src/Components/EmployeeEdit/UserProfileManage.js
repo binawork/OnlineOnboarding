@@ -6,7 +6,7 @@ import { validEmail } from "../utils";
 
 
 function UserProfileManage(props) {
-    let userCp = {id: 0, name: "", last_name: "", email: "", tel: "", department: "", localization: "", position: ""};
+    let userCp = {id: 0, name: "", last_name: "", email: "", tel: "", department: "", location: "", position: ""};
     if(props.user)
         userCp = {...props.user};
     const [user, setUser] = useState(userCp);
@@ -25,8 +25,8 @@ function UserProfileManage(props) {
     const handleTel = e => {
         setUser({...user, tel: e.target.value});
     };
-    const handleLocalization = function(e){
-        setUser({...user, localization: e.target.value});
+    const handleLocation = function(e){
+        setUser({...user, location: e.target.value});
     };
 
 
@@ -34,6 +34,8 @@ function UserProfileManage(props) {
         e.preventDefault();
         if(validEmail(user.email) )
             props.handleSaveEdit(user);
+        else
+            props.showMessage("Format e-mail'a jest nieprawidłowy");
     };
 
     let locations = ["Warszawa", "Łódź", "Poznań", "Gdańsk", "Wrocław"], dataOptions = [];
@@ -73,7 +75,7 @@ function UserProfileManage(props) {
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="lokalizacja" value={ user.localization } onChange={ handleLocalization } list="location" />{/* może lista rozwijana/do wyboru */}
+                    <input type="text" className="form-control" placeholder="lokalizacja" value={ user.location } onChange={ handleLocation } list="location" />
                     <datalist id="location">{ dataOptions }</datalist>
                 </div>
             </div>
