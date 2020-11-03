@@ -12,13 +12,12 @@ from .tokens import account_activation_token
 
 class UserEmailCRUD():
 
-    def send_to_user_created_by_hr(self, request, password, user):
-        company = request.user.company
-        user_email = request.data['email']
-        first_name = request.data['first_name']
-        last_name = request.data['last_name']
-        current_site = get_current_site(request)
-        subject = f'Dodano Cię do onboardingu firmy {company}' 
+    def send_to_user_created_by_hr(self, request, user, current_site):
+        company = user.company
+        user_email = user.email
+        first_name = user.first_name
+        last_name = user.last_name
+        subject = f'Dodano Cię do onboardingu firmy {company}'
                                             # eng. "You've been added 
                                             # to XYZ's onboarding"
         html_message = render_to_string(
@@ -27,7 +26,6 @@ class UserEmailCRUD():
                 'full_name': first_name + ' ' + last_name,
                 'company': company,
                 'domain': current_site.domain,
-                'password': password,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             }
