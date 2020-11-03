@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPath, getCookie } from "../utils.js";
-import FormTableRow from "../FormTable/FormTableRow";
-import FormPackageEdit from "../FormTable/FormPackageEdit";
+//import FormTableRow from "../FormTable/FormTableRow";
+//import FormPackageEdit from "../FormTable/FormPackageEdit";
 
 /**
  * Get pages for package with defined id from Onboarding API when FormTable component is loaded;
@@ -43,8 +43,8 @@ function EmployeeForms(props){
 		var form_table = [], count = rows.length;
 		let i, row;//, loggedUser = {id:0, first_name: ""};
 
-		if(props.loggedUser)
-			loggedUser = props.loggedUser;
+		/*if(props.loggedUser)
+			loggedUser = props.loggedUser;*/
 
 		for(i = 0; i < count; i++){
 			row = {...rowModel};
