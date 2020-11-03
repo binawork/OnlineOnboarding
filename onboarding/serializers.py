@@ -254,3 +254,23 @@ class AnswerSerializer(serializers.ModelSerializer):
                     'data',
                     'owner',
         )
+
+# SECTION with ANSWERS
+class SectionAnswersSerializer(serializers.ModelSerializer):
+    answer_set = AnswerSerializer(many=True)
+
+    class Meta:
+        ordering = ['-id']
+        model = Section
+        fields = (
+                    'id',
+                    'order',
+                    'title',
+                    'description',
+                    'link',
+                    'type',
+                    'data',
+                    'page',
+                    'answer_set',
+        )
+
