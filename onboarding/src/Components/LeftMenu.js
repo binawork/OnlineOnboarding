@@ -1,9 +1,16 @@
 import React, { useRef } from "react";
-import ModeButton from "./ModeButton";
 import { Link } from "react-router-dom";
+import ModeButton from "./ModeButton";
+import LoggedUser from "./hooks/LoggedUser.js";
 
 function LeftMenu(props) {
   const packageIdRef = useRef(0);
+  let loggedUser;
+  if(props.loggedUser)
+    loggedUser = props.loggedUser;
+  else
+    loggedUser = LoggedUser();
+
 
   if (props.packageId && isFinite(String(props.packageId))) {
     packageIdRef.current = props.packageId;
@@ -15,7 +22,7 @@ function LeftMenu(props) {
       <Link
         to={{
           pathname: "/add_user",
-          state: { packageId: packageIdRef.current },
+          state: { packageId: packageIdRef.current, loggedUser: loggedUser }
         }}
         className="menu-link"
       >
@@ -27,7 +34,7 @@ function LeftMenu(props) {
       <Link
         to={{
           pathname: "/user_list",
-          state: { packageId: packageIdRef.current },
+          state: { packageId: packageIdRef.current, loggedUser: loggedUser }
         }}
         className="menu-link"
       >
@@ -37,13 +44,19 @@ function LeftMenu(props) {
     );
   } else {
     userListUrls.push(
-      <Link to="/add_user" className="menu-link">
+      <Link to={{
+          pathname: "/add_user",
+          state: {loggedUser: loggedUser}
+      }} className="menu-link">
         <span className="menu-icon fas fa-file"></span>{" "}
         <span className="menu-text">Dodaj pracownika</span>
       </Link>
     );
     userListUrls.push(
-      <Link to="/user_list" className="menu-link">
+      <Link to={{
+          pathname: "/user_list",
+          state: {loggedUser: loggedUser}
+      }} className="menu-link">
         <span className="menu-icon fas fa-file"></span>{" "}
         <span className="menu-text">Lista pracowników</span>
       </Link>
@@ -58,14 +71,14 @@ function LeftMenu(props) {
           <nav id="stacked-menu" className="stacked-menu">
             <ul className="menu">
               <li className="menu-header px-0">
-                <Link to="/" className="menu-link p-0">
+                <Link to={{ pathname: "/", state: {loggedUser: loggedUser} }} className="menu-link p-0">
                     <span className="menu-icon fas fa-home"></span>{" "}
                     <span className="menu-text">Dashboard</span>
                 </Link>
               </li>
 
               <li className="menu-item has-child has-active">
-                <Link to="/packages" className="menu-link">
+                <Link to={{ pathname: "/packages", state: {loggedUser: loggedUser} }} className="menu-link">
                   <span className="menu-icon far fa-file"></span>{" "}
                   <span className="menu-text">Wdrożenia</span>
                 </Link>
@@ -75,7 +88,7 @@ function LeftMenu(props) {
                       <Link
                         to={{
                           pathname: "/package_page",
-                          state: { packageId: packageIdRef.current },
+                          state: { packageId: packageIdRef.current, loggedUser: loggedUser },
                         }}
                         className="menu-link"
                       >
@@ -83,7 +96,7 @@ function LeftMenu(props) {
                       </Link>
                     </li>
                     <li className="menu-item">
-                      <Link to="/form_list" className="menu-link">
+                      <Link to={{ pathname: "/form_list", state: {loggedUser: loggedUser} }} className="menu-link">
                         - Wyślij pracownikowi
                       </Link>
                     </li>

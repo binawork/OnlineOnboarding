@@ -9,6 +9,7 @@ import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import FormSections from "./FormSections";
 import { savePageDetails } from "../hooks/FormsEdit";
+import LoggedUser from "../hooks/LoggedUser.js";
 
 function FormsEditPage(props) {
   const [pageName, setPageName] = useState(props.location.state.pageName?props.location.state.pageName:"");
@@ -16,9 +17,13 @@ function FormsEditPage(props) {
 	const [description, setDescription] = useState(props.location.state.description?props.location.state.description:"");
 
   const packageIdRef = useRef(0);
-  if(props.location.state)
+  let loggedUser;
+  if(props.location.state){
       packageIdRef.current = props.location.state.packageId;
-console.log(props.location.state);
+      loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
+  } else
+    loggedUser = LoggedUser();
+
   const handleSave = (e) => {
       e.preventDefault();
       savePageDetails(function(res){}, props.location.state.pageId, pageName, link, description);// pack as one argument;
@@ -27,14 +32,14 @@ console.log(props.location.state);
   return (
     <div className="app">
       <header className="app-header app-header-dark">
-        <Navbar /> {/* placeholder */}
+        <Navbar loggedUser={ loggedUser } /> {/* placeholder */}
       </header>
-      <LeftMenu packageId = { packageIdRef.current } />
+      <LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
       <main className="app-main">
         <div className="wrapper">
           <div className="page has-sidebar-expand-xl">
             <div className="page-inner">
-              <PageAddressBar page={'Formularz / ' + pageName } />{" "}
+              <PageAddressBar page={'Formularz / ' + pageName } loggedUser={ loggedUser } />{" "}
               {/* placeholder */}
               <form>
                 {" "}
