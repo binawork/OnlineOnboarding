@@ -114,5 +114,6 @@ onboarding/static/js/index.html
 onboarding/static/js/main.js.map
 switch_main_js.sh
 
+
 # Ignore uploaded media files during local testing
 onboarding/media/
