@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPath, getCookie } from "../utils.js";
+import { getPath, getCookie, tryFetchJson } from "../utils.js";
 import UserListRow from "../UsersList/UserListRow";
 
 /**
@@ -124,9 +124,9 @@ export function employeeAddEdit(handleMessage, employeeObject){
 	}/* else
 		path += "create_user/"; SMTPAuthenticationError */
 
-	fetch(url + path, fetchProps).then(res => res.json()).then(
+	fetch(url + path, fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
-			//msg += String(result);
+			msg += "  " + String(result);
 			handleMessage(msg);
 		},
 		(error) => {
