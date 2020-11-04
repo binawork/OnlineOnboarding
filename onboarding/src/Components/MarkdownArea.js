@@ -21,7 +21,7 @@ const MarkdownArea = ({ id, content, contentChange, simple }) => {
           lang: "pl-PL",
           placeholder: "Opis",
           toolbar: [
-            ["font", ["bold", "italic", "underline", "strikethrough"]],
+            ["font", ["bold", "italic", "underline", "strikethrough", "clear"]],
             ["fontsize", ["fontsize"]],
           ],
           callbacks: {
