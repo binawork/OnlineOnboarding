@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPath, getCookie } from "../utils.js";
+import { getPath, getCookie, tryFetchJson } from "../utils.js";
 import PackagesRow from "../PackagesList/PackagesRow";
 
 /**
@@ -127,7 +127,7 @@ export function removeCombo(handleSuccess, packageId, title) {
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/package/" + packageId + "/", fetchProps)
-    .then((res) => res.json())
+    .then((res) => tryFetchJson(res) )
     .then(
       (result) => {
         handleSuccess("Wdrożenie zostało usunięte.");
