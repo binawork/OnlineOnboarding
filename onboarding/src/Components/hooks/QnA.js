@@ -3,9 +3,8 @@ import { Draggable } from "react-beautiful-dnd";
 import { getPath, getCookie } from "../utils.js";
 import Qa from "../QA/Qa";
 
-function QnA({ count, handleUpdate, updateMaxOrder, saved, setSaved }) {
+function QnA({ qaList, setQaList, count, handleUpdate, updateMaxOrder }) {
   const [loaded, isLoaded] = useState(false);
-  const [qaList, setQaList] = useState([]);
 
   const url = getPath();
   const fetchProps = {
@@ -26,8 +25,8 @@ function QnA({ count, handleUpdate, updateMaxOrder, saved, setSaved }) {
         const orders = result
           .map((i) => i.order)
           .filter((i) => i >= 0 && typeof i === "number");
-        console.log("orders", orders);
-        console.log("get result: ", sortedResult);
+        // console.log("orders", orders);
+        // console.log("get result: ", sortedResult);
         setQaList(sortedResult);
         updateMaxOrder(orders[orders.length - 1]);
       })
@@ -55,8 +54,7 @@ function QnA({ count, handleUpdate, updateMaxOrder, saved, setSaved }) {
                 answer={element.answer}
                 order={element.order}
                 qaList={qaList}
-                saved={saved}
-                setSaved={setSaved}
+                setQaList={setQaList}
                 handleUpdate={handleUpdate}
                 draggableProps={provided.draggableProps}
                 innerRef={provided.innerRef}
@@ -83,14 +81,13 @@ export function addQnA(handleUpdate, maxOrder) {
     body: null,
   };
   const data = { question: "", answer: "", order: maxOrder + 1 };
-  console.log("data: ", data);
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/q_and_a/", fetchProps)
     .then((res) => res.json())
     .then((result) => {
       handleUpdate(result);
-      console.log("add result: ", result);
+      // console.log("add result: ", result);
     })
     .catch((error) => {
       console.log(error);
@@ -119,21 +116,20 @@ export function copyQnA(qnaToCopy, qaList, handleUpdate) {
 
   fetch(url + "api/q_and_a/", fetchProps)
     .then((res) => res.json())
-    .then(() => {
-     
+    .then((result) => {
       qaList.map((item) => {
         if (item.order >= qnaToCopy.order + 1) {
-
           fetchProps.method = "PATCH";
-          fetchProps.body = JSON.stringify({order: item.order + 1});
+          fetchProps.body = JSON.stringify({ order: item.order + 1 });
 
-          fetch(url + "api/q_and_a/" + item.id + "/", fetchProps)
-            .catch((error) => {
+          fetch(url + "api/q_and_a/" + item.id + "/", fetchProps).catch(
+            (error) => {
               console.log(error);
-            });
-          }
-        });
-        handleUpdate();
+            }
+          );
+        }
+      });
+      handleUpdate(result);
     })
     .catch((error) => {
       console.log(error);
@@ -214,6 +210,62 @@ export function deleteQnA(id, qaList, handleUpdate) {
     .catch((error) => {
       console.log(error);
     });
+  return true;
+}
+
+export function dndQnA(
+  qaList,
+  droppedSection,
+  destinationSection,
+  handleUpdate
+) {
+  const url = getPath();
+  const token = getCookie("csrftoken");
+  const fetchProps = {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+    body: null,
+  };
+  const droppedData = { order: destinationSection.order };
+  fetchProps.body = JSON.stringify(droppedData);
+
+  fetch(url + "api/q_and_a/" + droppedSection.id + "/", fetchProps)
+    .then((res) => res.json())
+    .then((result) => {
+      qaList.map((item) => {
+        if (
+          (item.order >= destinationSection.order &&
+            item.order < droppedSection.order &&
+            item.id !== droppedSection.id) ||
+          (item.order <= destinationSection.order &&
+            item.order > droppedSection.order &&
+            item.id !== droppedSection.id)
+        ) {
+          const newOrder =
+            droppedSection.order > destinationSection.order
+              ? item.order + 1
+              : item.order - 1;
+          fetchProps.body = JSON.stringify({ order: newOrder });
+
+          fetch(url + "api/q_and_a/" + item.id + "/", fetchProps)
+            .then((res) => res.json())
+            .then((response) => {
+              handleUpdate(response);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   return true;
 }
 

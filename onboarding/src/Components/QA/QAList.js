@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import QnA, { addQnA } from "../hooks/QnA";
+import QnA, { addQnA, dndQnA } from "../hooks/QnA";
 
 const QAList = () => {
   const [countUpdate, update] = useState(0);
   const [maxOrder, updateMaxOrder] = useState(0);
+  const [qaList, setQaList] = useState([]);
 
   const updateQnA = () => {
     update(countUpdate + 1);
@@ -29,11 +30,14 @@ const QAList = () => {
     )
       return;
 
-    const pageSections = Object.assign([], qaList);
+    const destinationSection = qaList[destination.index];
     const droppedSection = qaList[source.index];
+
+    dndQnA(qaList, droppedSection, destinationSection, updateQnA);
+
+    const pageSections = Object.assign([], qaList);
     pageSections.splice(source.index, 1);
     pageSections.splice(destination.index, 0, droppedSection);
-
     setQaList(pageSections);
   };
 
@@ -45,26 +49,13 @@ const QAList = () => {
             <Droppable droppableId="dp1">
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  {/* {qaList.map((element, index) => ( */}
-                  {/* <Draggable
-                      key={element.id}
-                      draggableId={"draggable-" + element.id}
-                      index={index}
-                    >
-                      {(provided) => ( */}
-
                   <QnA
                     count={countUpdate}
                     handleUpdate={updateQnA}
-                    updateMaxOrder={ updateMaxOrder }
-                    // setIds={setIds}
-                    // provided={provided}
-                    // innerRef={provided.innerRef}
+                    updateMaxOrder={updateMaxOrder}
+                    qaList={qaList}
+                    setQaList={setQaList}
                   />
-
-                  {/* )} */}
-                  {/* </Draggable> */}
-                  {/* ))} */}
                   {provided.placeholder}
                 </div>
               )}

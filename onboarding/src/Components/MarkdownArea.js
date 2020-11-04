@@ -13,13 +13,13 @@ try {
   console.log(e);
 }
 
-const MarkdownArea = ({ id, content, contentChange, simple }) => {
+const MarkdownArea = ({ id, content, contentChange, simple, placeholder }) => {
   $(document).ready(function () {
     simple
       ? $(`#${"summernote" + id}`).summernote({
           minHeight: 100,
           lang: "pl-PL",
-          placeholder: "Opis",
+          placeholder: placeholder,
           toolbar: [
             ["font", ["bold", "italic", "underline", "strikethrough", "clear"]],
             ["fontsize", ["fontsize"]],

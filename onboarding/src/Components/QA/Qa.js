@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MarkdownArea from "../MarkdownArea";
 import { copyQnA, saveQnA, deleteQnA } from "../hooks/QnA";
-// import { Draggable } from "react-beautiful-dnd";
 
 function Qa({
   id,
@@ -9,6 +8,7 @@ function Qa({
   answer,
   order,
   qaList,
+  setQaList,
   handleUpdate,
   draggableProps,
   innerRef,
@@ -18,12 +18,12 @@ function Qa({
   const [a, setAnswer] = useState("");
   const [saved, setSaved] = useState(false);
 
-  // Show info "Zapisano zmiany" for 3sec when the changes were saved
   useEffect(() => {
-    if(saved) {
+    // Show info "Zapisano zmiany" for 3sec when the changes were saved
+    if (saved) {
       setTimeout(setSaved, 3000, false);
     }
-  }, [saved])
+  }, [saved]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -35,7 +35,7 @@ function Qa({
         answer = a;
         saveQnA("answer", id, a, handleUpdate, setSaved);
       }
-    }, 5000);
+    }, 4000);
 
     return () => {
       clearInterval(intervalId);
@@ -50,7 +50,7 @@ function Qa({
     setAnswer(content);
   };
 
-  const copyQA = (e) => {
+  const handleCopyQA = (e) => {
     e.preventDefault();
     const qnaToCopy = { question: q, answer: a, order: order };
     copyQnA(qnaToCopy, qaList, handleUpdate);
@@ -59,6 +59,7 @@ function Qa({
   const handleDeleteQnA = (e) => {
     e.preventDefault();
     deleteQnA(id, qaList, handleUpdate);
+    setQaList(qaList.filter((item) => item.id !== id));
   };
 
   return (
@@ -72,6 +73,7 @@ function Qa({
               content={question}
               contentChange={changeQuestion}
               simple={true}
+              placeholder={"Wpisz pytanie"}
             />
           </div>
 
@@ -81,11 +83,12 @@ function Qa({
             content={answer}
             contentChange={changeAnswer}
             simple={true}
+            placeholder={"Wpisz odpowiedź"}
           />
         </div>
         <div className="card-footer d-flex justify-content-end">
           <div className="p-3">
-            <button className="btn" id={"copy-" + id} onClick={copyQA}>
+            <button className="btn" id={"copy-" + id} onClick={handleCopyQA}>
               <i className="fa fa-files-o fa-md">&#61637;</i> Duplikuj
             </button>
           </div>
@@ -97,11 +100,27 @@ function Qa({
           </div>
         </div>
       </div>
-      {
-        saved
-        ? <div className="fixed-bottom d-flex justify-content-center show-and-hide" style={{display: "fixed-bottom"}}><div className="m-2 p-2" style={{width: "150px", backgroundColor: "rgba(226, 232, 238, 0.57)", color: "black", textAlign: "center", borderRadius: "4px"}}>Zapisano zmiany</div></div>
-        : <></>
-      }
+      {saved ? (
+        <div
+          className="fixed-bottom d-flex justify-content-center show-and-hide"
+          style={{ display: "fixed-bottom", left: "240px" }}
+        >
+          <div
+            className="m-2 p-2"
+            style={{
+              width: "150px",
+              backgroundColor: "rgba(226, 232, 238, 0.57)",
+              color: "black",
+              textAlign: "center",
+              borderRadius: "4px",
+            }}
+          >
+            Zapisano zmiany
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
