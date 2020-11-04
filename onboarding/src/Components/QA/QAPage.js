@@ -3,19 +3,9 @@ import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import QAList from "./QAList";
-// import QnA, { addQnA, saveQnA } from "../hooks/QnA";
 
 const QAPage = () => {
   const [description, setDescription] = useState("");
-
-  
-  // const [qaList, setQaList] = useState([]);
-
-
-
-  // const intervalID = setInterval(() => {
-  //   let accepted = saveQnA(updatePackages, qaList, qaIdRef.current);
-  // }, 5000);
 
   return (
     <div className="app">

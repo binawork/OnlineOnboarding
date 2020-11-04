@@ -1,23 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import QnA, { addQnA } from "../hooks/QnA";
 
 const QAList = () => {
   const [countUpdate, update] = useState(0);
-  const maxOrder = useRef(0);
+  const [maxOrder, updateMaxOrder] = useState(0);
 
   const updateQnA = () => {
     update(countUpdate + 1);
   };
 
-  const updateMaxOrder = (nr) => {
-    if (nr > maxOrder.current) maxOrder.current = nr;
-  };
-  const getMaxOrder = () => maxOrder.current;
-
   const handleAddQnA = (e) => {
     e.preventDefault();
-    addQnA(updateQnA, getMaxOrder);
+    addQnA(updateQnA, maxOrder);
   };
 
   const onDragEnd = (result) => {

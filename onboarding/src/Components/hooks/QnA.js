@@ -3,9 +3,9 @@ import { Draggable } from "react-beautiful-dnd";
 import { getPath, getCookie } from "../utils.js";
 import Qa from "../QA/Qa";
 
-function QnA({ count, handleUpdate, updateMaxOrder }) {
-  const [qaList, setQaList] = useState([]);
+function QnA({ count, handleUpdate, updateMaxOrder, saved, setSaved }) {
   const [loaded, isLoaded] = useState(false);
+  const [qaList, setQaList] = useState([]);
 
   const url = getPath();
   const fetchProps = {
@@ -24,13 +24,12 @@ function QnA({ count, handleUpdate, updateMaxOrder }) {
         isLoaded(true);
         const sortedResult = result.sort((a, b) => a.order - b.order);
         const orders = result
-          .map(i => i.order)
-          .filter(i => i >= 0 && typeof i === "number");
-        const maxOrder = Math.max(...orders);
-        console.log('orders', orders)
+          .map((i) => i.order)
+          .filter((i) => i >= 0 && typeof i === "number");
+        console.log("orders", orders);
         console.log("get result: ", sortedResult);
         setQaList(sortedResult);
-        updateMaxOrder(maxOrder)
+        updateMaxOrder(orders[orders.length - 1]);
       })
       .catch((error) => {
         console.log(error.message);
@@ -55,7 +54,9 @@ function QnA({ count, handleUpdate, updateMaxOrder }) {
                 question={element.question}
                 answer={element.answer}
                 order={element.order}
-                // getOrder={getOrder}
+                qaList={qaList}
+                saved={saved}
+                setSaved={setSaved}
                 handleUpdate={handleUpdate}
                 draggableProps={provided.draggableProps}
                 innerRef={provided.innerRef}
@@ -69,7 +70,7 @@ function QnA({ count, handleUpdate, updateMaxOrder }) {
   }
 }
 
-export function addQnA(handleUpdate, getMaxOrder) {
+export function addQnA(handleUpdate, maxOrder) {
   const url = getPath();
   const token = getCookie("csrftoken");
   const fetchProps = {
@@ -81,7 +82,7 @@ export function addQnA(handleUpdate, getMaxOrder) {
     },
     body: null,
   };
-  const data = { question: "", answer: "", order: getMaxOrder() + 1 };
+  const data = { question: "", answer: "", order: maxOrder + 1 };
   console.log("data: ", data);
   fetchProps.body = JSON.stringify(data);
 
@@ -97,7 +98,7 @@ export function addQnA(handleUpdate, getMaxOrder) {
   return true;
 }
 
-export function copyQnA(qnaToCopy, handleUpdate) {
+export function copyQnA(qnaToCopy, qaList, handleUpdate) {
   const url = getPath();
   const token = getCookie("csrftoken");
   const fetchProps = {
@@ -109,24 +110,39 @@ export function copyQnA(qnaToCopy, handleUpdate) {
     },
     body: null,
   };
-
-  const data = { question: qnaToCopy.question, answer: qnaToCopy.answer, order: qnaToCopy.order + 1 };
-  console.log("data: ", data);
+  const data = {
+    question: qnaToCopy.question,
+    answer: qnaToCopy.answer,
+    order: qnaToCopy.order + 1,
+  };
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/q_and_a/", fetchProps)
     .then((res) => res.json())
-    .then((result) => {
-      handleUpdate(result);
-      console.log("copy result: ", result);
+    .then(() => {
+     
+      qaList.map((item) => {
+        if (item.order >= qnaToCopy.order + 1) {
+
+          fetchProps.method = "PATCH";
+          fetchProps.body = JSON.stringify({order: item.order + 1});
+
+          fetch(url + "api/q_and_a/" + item.id + "/", fetchProps)
+            .catch((error) => {
+              console.log(error);
+            });
+          }
+        });
+        handleUpdate();
     })
     .catch((error) => {
       console.log(error);
     });
+
   return true;
 }
 
-export function saveQnA(element, id, content, handleUpdate) {
+export function saveQnA(element, id, content, handleUpdate, setSaved) {
   if (
     typeof content !== "string" ||
     (typeof content === "string" && content.length < 1)
@@ -151,8 +167,8 @@ export function saveQnA(element, id, content, handleUpdate) {
   fetch(url + "api/q_and_a/" + id + "/", fetchProps)
     .then((res) => res.json())
     .then((result) => {
-      handleUpdate();
-      console.log("save result: ", result);
+      handleUpdate(result);
+      setSaved(true);
     })
     .catch((error) => {
       console.log(error);
@@ -160,7 +176,7 @@ export function saveQnA(element, id, content, handleUpdate) {
   return true;
 }
 
-export function deleteQnA(id, handleUpdate) {
+export function deleteQnA(id, qaList, handleUpdate) {
   const url = getPath();
   const token = getCookie("csrftoken");
   const fetchProps = {
@@ -173,7 +189,28 @@ export function deleteQnA(id, handleUpdate) {
   };
   fetch(url + "api/q_and_a/" + id, fetchProps)
     .then((res) => res.text())
-    .then(() => handleUpdate())
+    .then(() => {
+      handleUpdate();
+
+      let order = 0;
+      qaList.map((item) => {
+        if (item.id !== id) {
+          order += 1;
+          item.order = order;
+          fetchProps.method = "PATCH";
+          fetchProps.body = JSON.stringify(item);
+
+          fetch(url + "api/q_and_a/" + item.id + "/", fetchProps)
+            .then((res) => res.json())
+            .then((result) => {
+              handleUpdate(result);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      });
+    })
     .catch((error) => {
       console.log(error);
     });
