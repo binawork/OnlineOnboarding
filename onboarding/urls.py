@@ -6,8 +6,8 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 from django.contrib.auth import views as auth_views
 
-from django.conf import settings
-from django.conf.urls.static import static
+#from django.conf import settings
+#from django.conf.urls.static import static
 
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
     ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, SectionAnswersViewSet
@@ -40,7 +40,7 @@ urlpatterns += [
     path('email/reminder/<employee_id>/<package_id>/', views.reminder, name='reminder'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API
 router = DefaultRouter()
