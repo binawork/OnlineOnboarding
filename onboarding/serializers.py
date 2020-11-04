@@ -145,10 +145,10 @@ class UserSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
-            phone_number=validated_data['phone_number'],
+            #phone_number=validated_data['phone_number'],
             location=validated_data['location'],
-            team=validated_data['team'],
-            job_position=validated_data['job_position'],
+            #team=validated_data['team'],
+            #job_position=validated_data['job_position'],
             is_active=False,
         )
         user.set_password(password)

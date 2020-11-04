@@ -1,10 +1,6 @@
 import React, { useState, useRef } from "react";
-import FormPackageEdit from "./FormPackageEdit";
 import FormTableAddNew from "./FormTableAddNew";
-import FormTableRow from "./FormTableRow";
-import { formDataList } from "./FormTableData";
 import PackagePage, { OnePackageEdit } from "../hooks/PackagePage";
-import LoggedUser from "../hooks/LoggedUser.js";
 
 
 function FormTable(props) {
@@ -14,8 +10,8 @@ function FormTable(props) {
     let loggedUser = {id: 0, email: "", first_name: "", last_name: "",
 							phone_number: "", location: "", team: "",
 							job_position: "",last_login: "", avatar: ""};
-	if(props.loggedUser)
-	    loggedUser = props.loggedUser;
+    if(props.loggedUser)
+        loggedUser = props.loggedUser;
     //let packages = <Packages count = countUpdate />;
 
     var updatePackages = function(){
