@@ -8,12 +8,17 @@ import LoggedUser from "../hooks/LoggedUser.js";
 
 function FormTablePage(props) {
     const packageIdRef = useRef(0);
+
+    if(props.match.params.package_id)
+        packageIdRef.current = parseInt(props.match.params.package_id);
+
     let loggedUser;
     if(props.location.state){
-        packageIdRef.current = props.location.state.packageId;
+        packageIdRef.current = props.location.state.packageId;// when packageId is in state also - use this one (or comment this line).
         loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
     } else
         loggedUser = LoggedUser();
+
 
     return(
         <div className="app">
