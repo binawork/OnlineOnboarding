@@ -29,12 +29,12 @@ function ImplementationFormsToSend(props) {
                     <tbody id="form_table_data_container">
                         { forms }
                         <tr>
-                            <td scope="col"></td>
-                            <td scope="col" style={{width: "45%"}}></td>
-                            <td scope="col" style={{width: "10%"}}></td>
-                            <td scope="col" style={{width: "15%"}}></td>
-                            <td scope="col" style={{width: "15%"}}></td>
-                            <td scope="col" style={{width: "15%"}}><button className="btn btn-secondary">Wyślij zaznaczone</button></td>
+                            <td></td>
+                            <td style={{width: "45%"}}></td>
+                            <td style={{width: "10%"}}></td>
+                            <td style={{width: "15%"}}></td>
+                            <td style={{width: "15%"}}></td>
+                            <td style={{width: "15%"}}><button className="btn btn-secondary">Wyślij zaznaczone</button></td>
                         </tr>
                     </tbody>
                 </table>

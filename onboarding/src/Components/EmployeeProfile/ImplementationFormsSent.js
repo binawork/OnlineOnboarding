@@ -26,12 +26,12 @@ function ImplementationFormsSent(props) {
                     </tr></thead>
                     <tbody id="form_table_data_container">
                         { forms }
-                        <tr>
-                            <td scope="col"></td>
-                            <td scope="col"></td>
-                            <td scope="col"></td>
-                            <td scope="col"></td>
-                            <td scope="col" colSpan={2}><button className="btn btn-secondary">Przypomnienie o zaznaczonych</button></td>
+                        <tr style={{display: "none"}}>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colSpan={2}><button className="btn btn-secondary">Przypomnienie o zaznaczonych</button></td>
                         </tr>
                     </tbody>
                 </table>
