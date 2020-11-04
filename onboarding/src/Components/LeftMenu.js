@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import ModeButton from "./ModeButton";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function LeftMenu(props) {
   const packageIdRef = useRef(0);
@@ -12,41 +12,43 @@ function LeftMenu(props) {
   let userListUrls = [];
   if (packageIdRef.current > 0) {
     userListUrls.push(
-      <Link
+      <NavLink
         to={{
           pathname: "/add_user",
           state: { packageId: packageIdRef.current },
         }}
         className="menu-link"
+        activeStyle={{color: "#346CB0"}}
       >
         <span className="menu-icon fas fa-file"></span>{" "}
         <span className="menu-text">Dodaj pracownika</span>
-      </Link>
+      </NavLink>
     );
     userListUrls.push(
-      <Link
+      <NavLink
         to={{
           pathname: "/user_list",
           state: { packageId: packageIdRef.current },
         }}
         className="menu-link"
+        activeStyle={{color: "#346CB0"}}
       >
         <span className="menu-icon fas fa-file"></span>{" "}
         <span className="menu-text">Lista pracowników</span>
-      </Link>
+      </NavLink>
     );
   } else {
     userListUrls.push(
-      <Link to="/add_user" className="menu-link">
+      <NavLink to="/add_user" className="menu-link" activeStyle={{color: "#346CB0"}}>
         <span className="menu-icon fas fa-file"></span>{" "}
         <span className="menu-text">Dodaj pracownika</span>
-      </Link>
+      </NavLink>
     );
     userListUrls.push(
-      <Link to="/user_list" className="menu-link">
+      <NavLink to="/user_list" className="menu-link" activeStyle={{color: "#346CB0"}}>
         <span className="menu-icon fas fa-file"></span>{" "}
         <span className="menu-text">Lista pracowników</span>
-      </Link>
+      </NavLink>
     );
   }
 
@@ -58,34 +60,35 @@ function LeftMenu(props) {
           <nav id="stacked-menu" className="stacked-menu">
             <ul className="menu">
               <li className="menu-header px-0">
-                <Link to="/" className="menu-link p-0">
+                <NavLink exact to="/" className="menu-link p-0" activeStyle={{color: "#346CB0"}}>
                     <span className="menu-icon fas fa-home"></span>{" "}
                     <span className="menu-text">Dashboard</span>
-                </Link>
+                </NavLink>
               </li>
 
               <li className="menu-item has-child has-active">
-                <Link to="/packages" className="menu-link">
+                <NavLink to="/packages" className="menu-link" activeStyle={{color: "#346CB0"}}>
                   <span className="menu-icon far fa-file"></span>{" "}
                   <span className="menu-text">Wdrożenia</span>
-                </Link>
+                </NavLink>
                 {packageIdRef.current > 0 && (
                   <ul className="menu">
                     <li className="menu-item">
-                      <Link
+                      <NavLink
                         to={{
                           pathname: "/package_page",
                           state: { packageId: packageIdRef.current },
                         }}
                         className="menu-link"
+                        activeStyle={{color: "#346CB0"}}
                       >
                         Lista formularzy
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="menu-item">
-                      <Link to="/form_list" className="menu-link">
+                      <NavLink to="/form_list" className="menu-link" activeStyle={{color: "#346CB0"}}>
                         - Wyślij pracownikowi
-                      </Link>
+                      </NavLink>
                     </li>
                   </ul>
                 )}
@@ -95,6 +98,12 @@ function LeftMenu(props) {
                   {link}
                 </li>
               ))}
+              <li className="menu-item">
+                <NavLink to="/q_and_a" className="menu-link" activeStyle={{color: "#346CB0"}}>
+                  <span className="menu-icon fas fa-file"></span>{" "}
+                  <span className="menu-text">Stwórz Q&A</span>
+                </NavLink>
+              </li>
             </ul>
 
             {/*<ul className="menu">
