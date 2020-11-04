@@ -5,7 +5,6 @@ import React from "react";
 //import "../static/looper/vendor/fontawesome/all.min.css";
 
 import NavbarEmployee from "./NavbarEmployee.js";
-import PageAddressBar from "./PageAddressBar";
 import FormOpenAnswer from "./FormsEdit/FormOpenAnswer";
 import FormChoiceAnswer from "./FormsEdit/FormChoiceAnswer";
 import FormMultiChoiceAnswer from "./FormsEdit/FormMultiChoiceAnswer";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 //import "../../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
@@ -9,11 +9,20 @@ import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import FormSections from "./FormSections";
 import { savePageDetails } from "../hooks/FormsEdit";
+import LoggedUser from "../hooks/LoggedUser.js";
 
 function FormsEditPage(props) {
   const [pageName, setPageName] = useState(props.location.state.pageName?props.location.state.pageName:"");
   const [link, setLink] = useState(props.location.state.link?props.location.state.link:"");
 	const [description, setDescription] = useState(props.location.state.description?props.location.state.description:"");
+
+  const packageIdRef = useRef(0);
+  let loggedUser;
+  if(props.location.state){
+      packageIdRef.current = props.location.state.packageId;
+      loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
+  } else
+    loggedUser = LoggedUser();
 
   const handleSave = (e) => {
       e.preventDefault();
@@ -23,14 +32,14 @@ function FormsEditPage(props) {
   return (
     <div className="app">
       <header className="app-header app-header-dark">
-        <Navbar /> {/* placeholder */}
+        <Navbar loggedUser={ loggedUser } /> {/* placeholder */}
       </header>
-      <LeftMenu /> {/* placeholder */}
+      <LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
       <main className="app-main">
         <div className="wrapper">
           <div className="page has-sidebar-expand-xl">
             <div className="page-inner">
-              <PageAddressBar page={'Formularz / "#pageName"'} />{" "}
+              <PageAddressBar page={'Formularz / ' + pageName } loggedUser={ loggedUser } />{" "}
               {/* placeholder */}
               <form>
                 {" "}

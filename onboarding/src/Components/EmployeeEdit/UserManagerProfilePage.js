@@ -7,19 +7,28 @@ import EmployeeEditForm from "./EmployeeEditForm";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar"
+import LoggedUser from "../hooks/LoggedUser.js";
 
 function UserManagerProfilePage(props) {
+    document.title = "Onboarding: profil pracownika";
     const packageIdRef = useRef(0);
-    const singleUser = {name: "", last_name: "", email: "", tel: "", position: "", department: "", localization: ""};
-    let stateExists = false;
+    const singleUser = {id: 0, name: "", last_name: "", email: "", tel: "",
+        position: "", department: "", location: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
 
+
+    let stateExists = false, loggedUser;
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;
+        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
         stateExists = true;
-    }
+    } else
+        loggedUser = LoggedUser();
 
     if(stateExists && props.location.state.user){
         let user = props.location.state.user;
+        if(user.id)
+            singleUser.id = user.id;
+
         if(typeof user.first_name === "string" && user.first_name !== "-")
             singleUser.name = user.first_name;
         if(typeof user.last_name === "string" && user.last_name !== "-")
@@ -34,25 +43,28 @@ function UserManagerProfilePage(props) {
             singleUser.position = user.position;
         if(typeof user.department === "string" && user.department !== "-")
             singleUser.department = user.department;
-        if(typeof user.localization === "string" && user.localization !== "-")
-            singleUser.localization = user.localization;
+        if(typeof user.location === "string" && user.location !== "-")
+            singleUser.location = user.location;
+
+        if(typeof user.avatar === "string" && user.avatar.length > 1)
+            singleUser.avatar = user.avatar;
     }
 
     return (
     	<div className="app">
     		<header className="app-header app-header-dark">
-    			<Navbar />
+    			<Navbar loggedUser={ loggedUser } />
     		</header>
-    		<LeftMenu packageId = { packageIdRef.current } />
+    		<LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
     		<main className="app-main">
     			<div className="wrapper"><div className="page">
     				<div className="page-inner">
-    					<PageAddressBar page = { "Profil pracownika" } />
+    					<PageAddressBar page = { "Profil pracownika" } loggedUser={ loggedUser } />
 
     					<div className="page-section">
     						<div className="card card-fluid">
     							<div className="card-header">Pracownik</div>
-    							<EmployeeEditForm user={ singleUser } />
+    							<EmployeeEditForm user={ singleUser } loggedUser={ loggedUser } />
     						</div>
     					</div>
     				</div>
