@@ -228,6 +228,24 @@ class PageSerializer(serializers.ModelSerializer):
         }
 
 
+# PACKAGE with PAGEs
+class PackagePagesSerializer(serializers.ModelSerializer):
+    page_set = PageSerializer(many=True)
+
+    class Meta:
+        ordering = ['-updated_on']
+        model = Package
+        fields = (
+                    'id', 
+                    'title',
+                    'description', 
+                    'created_on', 
+                    'updated_on', 
+                    'users',
+                    'page_set'
+        )
+
+
 # SECTION
 class SectionSerializer(serializers.ModelSerializer):
 
