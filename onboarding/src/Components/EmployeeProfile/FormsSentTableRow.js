@@ -1,7 +1,11 @@
 import React from "react";
 
 function FormsSentTableRow(props) {
-    let checkBox = <input type="checkbox" />, buttonObj = <button className="btn btn-secondary">Przypomnienie</button>;
+    const countChecked = function(e){
+        props.handleChecked(e.target.checked);
+    };
+
+    let checkBox = <input type="checkbox" onClick={ countChecked } />, buttonObj = <button className="btn btn-secondary">Przypomnienie</button>;
     if(props.empty){
         checkBox = "";
         buttonObj = "";

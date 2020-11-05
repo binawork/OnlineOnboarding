@@ -1,14 +1,21 @@
-import React from "react";
-//import { formsSent } from "./EmployeeProfileData";
-import EmployeeProfileTableSecondRow from "./EmployeeProfileTableSecondRow";
+import React, { useState } from "react";
+import FormsSentTableRow from "./FormsSentTableRow";
 import EmployeeForms from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsSent(props) {
+    const [numberChecked, checkedChange] = useState(0);
     let user_table = EmployeeForms(props), forms = [];
 
+    const showHide = (isChecked) => {
+        if(isChecked)
+            checkedChange(numberChecked + 1);
+        else
+            checkedChange(numberChecked - 1);
+    };
+
     user_table.forEach(function (element, i) {
-        forms.push(<EmployeeProfileTableSecondRow key={ i } row={element} />)
+        forms.push(<FormsSentTableRow key={ i } row={element} handleChecked={ showHide } />)
     });
 
     return(
@@ -24,9 +31,9 @@ function ImplementationFormsSent(props) {
                         <th scope="col">Data zakończenia</th>
                         <th scope="col">Działanie</th>
                     </tr></thead>
-                    <tbody id="form_table_data_container">
+                    <tbody>
                         { forms }
-                        <tr style={{display: "none"}}>
+                        <tr style={{display: numberChecked>0 ? "" : "none"}}>
                             <td></td>
                             <td></td>
                             <td></td>
