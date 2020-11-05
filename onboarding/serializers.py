@@ -163,11 +163,11 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = ContactRequestDetail
         fields = (
-                    'id', 
-                    'first_name', 
-                    'last_name', 
-                    'company_name', 
-                    'email', 
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'company_name',
+                    'email',
                     'text_field'
         )
 
@@ -179,11 +179,11 @@ class PackageSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Package
         fields = (
-                    'id', 
+                    'id',
                     'title',
-                    'description', 
-                    'created_on', 
-                    'updated_on', 
+                    'description',
+                    'created_on',
+                    'updated_on',
                     'users'
         )
 
@@ -236,11 +236,11 @@ class PackagePagesSerializer(serializers.ModelSerializer):
         ordering = ['-updated_on']
         model = Package
         fields = (
-                    'id', 
+                    'id',
                     'title',
-                    'description', 
-                    'created_on', 
-                    'updated_on', 
+                    'description',
+                    'created_on',
+                    'updated_on',
                     'users',
                     'page_set'
         )

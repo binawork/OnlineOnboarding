@@ -20,21 +20,21 @@ function ImplementationFormsToSend(props) {
                 <table className="table table-striped">
                     <thead><tr>
                         <th scope="col"></th>
-                        <th scope="col" style={{width: "45%"}}>Formularze</th>
-                        <th scope="col" style={{width: "10%"}}>Liczba zadań</th>
-                        <th scope="col" style={{width: "15%"}}>Utworzony</th>
-                        <th scope="col" style={{width: "15%"}}>Ostatnia edycja</th>
-                        <th scope="col" style={{width: "10%"}}>Działanie</th>
+                        <th scope="col">Formularze</th>
+                        <th scope="col">Liczba zadań</th>
+                        <th scope="col">Utworzony</th>
+                        <th scope="col">Ostatnia edycja</th>
+                        <th scope="col">Działanie</th>
                     </tr></thead>
                     <tbody id="form_table_data_container">
                         { forms }
                         <tr>
                             <td></td>
-                            <td style={{width: "45%"}}></td>
-                            <td style={{width: "10%"}}></td>
-                            <td style={{width: "15%"}}></td>
-                            <td style={{width: "15%"}}></td>
-                            <td style={{width: "15%"}}><button className="btn btn-secondary">Wyślij zaznaczone</button></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><button className="btn btn-secondary">Wyślij zaznaczone</button></td>
                         </tr>
                     </tbody>
                 </table>
