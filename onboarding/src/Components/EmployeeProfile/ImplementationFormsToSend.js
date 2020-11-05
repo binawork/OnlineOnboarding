@@ -1,6 +1,6 @@
 import React from "react";
 //import { employeeFormDataList } from "./EmployeeProfileData";
-import EmployeeProfileTableFirstRow from "./EmployeeProfileTableFirstRow";
+import FormsToSendTableRow from "./FormsToSendTableRow";
 import EmployeeForms from "../hooks/EmployeeForms";
 
 
@@ -8,7 +8,7 @@ function ImplementationFormsToSend(props) {
     let form_table = EmployeeForms(props), forms = [];
 
     form_table.forEach(function (element, i) {
-        forms.push(<EmployeeProfileTableFirstRow key={ i } row={element} />)
+        forms.push(<FormsToSendTableRow key={ i } row={element} />)
     });
 
     return(
