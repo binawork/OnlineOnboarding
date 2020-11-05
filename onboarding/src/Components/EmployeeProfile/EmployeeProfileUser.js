@@ -29,7 +29,7 @@ function EmployeeProfileUser(props) {
                                     <small className="text-muted">Dział:</small> { props.user.department }
                                 </h3>
                                 <h3 className="card-title">
-                                    <small className="text-muted">Lokalizacja:</small> { props.user.localization }
+                                    <small className="text-muted">Lokalizacja:</small> { props.user.location }
                                 </h3>
                                 <h3 className="card-title">
                                     <small className="text-muted">Stanowisko:</small> { props.user.position }

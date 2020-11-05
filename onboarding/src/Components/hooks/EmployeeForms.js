@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getPath, getCookie } from "../utils.js";
-//import FormTableRow from "../FormTable/FormTableRow";
-//import FormPackageEdit from "../FormTable/FormPackageEdit";
+import { getPath, getCookie, dateToString } from "../utils.js";
+
 
 /**
- * Get pages for package with defined id from Onboarding API when FormTable component is loaded;
+ * Get packages or pages when ProcessPreviewTables component is loaded;
  */
 function EmployeeForms(props){
 	var [rows , setRows] = useState([]),
@@ -14,7 +13,7 @@ function EmployeeForms(props){
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
-		fetch(url + "api/page/", fetchProps).then(res => res.json()).then(
+		fetch(url + "api/package_pages/list_by_company_hr", fetchProps).then(res => res.json()).then(
 			(result) => {
 				isLoaded(true);
 				setRows(result);
@@ -26,7 +25,7 @@ function EmployeeForms(props){
 		);
 	}, [props.count]);
 
-	const rowModel = {key: 0, name: "", pages: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: ""};
+	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: []};
 
 	if(error){
 		rowModel.name = error.message;
@@ -52,7 +51,13 @@ function EmployeeForms(props){
 			row.key = rows[i].id;
 			row.name = row.form = rows[i].title;
 			row.progress = "?/?";
-			row.pages = row.created = row.last_edit = row.send_date = row.finish_date = "?";
+			row.pagesCount = row.send_date = row.finish_date = "?";
+			row.created = dateToString(rows[i].created_on);
+			row.last_edit = dateToString(rows[i].updated_on);
+			if( Object.prototype.toString.call(rows[i].page_set)==='[object Array]' ){ // Array.isArray(object)
+				row.pages = rows[i].page_set.slice();
+				row.pagesCount = row.pages.length;
+			}
 
 			form_table.push(row);
 		}
