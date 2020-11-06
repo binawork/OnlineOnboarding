@@ -30,7 +30,8 @@ function App() {
             <Route path="/employe_forms_list" component={ EmployeeFormsListPage } />
             <Route path="/form_edit" component={ FormsEditPage } />
             <Route path="/packages" component={ PackagesListPage } />
-            <Route path="/package_page" component={ FormTablePage } />
+            {/* <Route path="/package_page" component={ FormTablePage } /> */}
+            <Route path="/package_page/:package_id" component={ FormTablePage } />
             <Route path="/q_and_a" component={ QAPage } />
             <Route path="/user_list" component={ UserListPage } />
             <Route path="/form_list" component={ AddUserTablePage } />

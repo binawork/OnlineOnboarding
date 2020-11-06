@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { getPath, getCookie } from "../utils.js";
+import React from "react";
+import { getPath, getCookie, tryFetchJson } from "../utils.js";
 
 /**
  * todos: get page sections;
@@ -72,7 +72,7 @@ export function savePageDetails(handleSuccess, pageId, title, link, description)
 
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => res.json()).then(
+	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
 			handleSuccess(result);
 		},

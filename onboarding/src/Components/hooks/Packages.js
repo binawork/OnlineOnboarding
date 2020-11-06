@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPath, getCookie } from "../utils.js";
+import { getPath, getCookie, tryFetchJson } from "../utils.js";
 import PackagesRow from "../PackagesList/PackagesRow";
 
 /**
@@ -49,6 +49,11 @@ function Packages(props) {
     var form_table = [],
       i,
       count = rows.length;
+    let loggedUser = {id:0, first_name: ""};
+
+    if(props.loggedUser)
+      loggedUser = props.loggedUser;
+
     for (i = 0; i < count; i++)
       form_table.push(
         <PackagesRow
@@ -59,8 +64,9 @@ function Packages(props) {
             key: rows[i].id,
             created: rows[i].created_on,
           }}
-          handleUpdate={props.handleUpdate}
+          handleRemoveAsk={ props.handleRemoveAsk }
           lastRow={newRowId === rows[i].id}
+          loggedUser={ loggedUser }
         />
       );
     return <>{form_table}</>;
@@ -121,10 +127,10 @@ export function removeCombo(handleSuccess, packageId, title) {
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/package/" + packageId + "/", fetchProps)
-    .then((res) => res.json())
+    .then((res) => tryFetchJson(res) )
     .then(
       (result) => {
-        handleSuccess(result);
+        handleSuccess("Wdrożenie zostało usunięte.");
       },
       (error) => {
         handleSuccess(error);
@@ -134,3 +140,4 @@ export function removeCombo(handleSuccess, packageId, title) {
 }
 
 export default Packages;
+

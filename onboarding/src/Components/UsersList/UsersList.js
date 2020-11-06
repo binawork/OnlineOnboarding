@@ -3,14 +3,17 @@ import React, { useState } from "react";
 //import "../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
 
-import UserListRow from "./UserListRow";
-import Users, { employeeRemove } from "../hooks/Users";
 import UserListSearch from "../UserListSearch";
+import Users, { employeeRemove } from "../hooks/Users";
+import LoggedUser from "../hooks/LoggedUser.js";
 import ModalWarning from "../ModalWarning";
 
 function UsersList(props) {
     const [countUpdate, update] = useState(0);
     const [employeeIdModal, setIdModal ] = useState({id: 0, modal: <></>});
+
+    let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
+    //const [loggedUser, setLoggedUser ] = useState(loggedUserCp);
 
     var updateUsers = function(){// simple to refresh component when anything chnages inside;
     	update(countUpdate + 1);
@@ -45,6 +48,10 @@ function UsersList(props) {
         update(countUpdate + 1);
     };
 
+    let packageId = 0;
+    if(props.packageId)
+        packageId = props.packageId;
+
     return(
         <div className="page-section">
             <div className="card card-fluid">
@@ -55,7 +62,7 @@ function UsersList(props) {
                     <UserListSearch />
                 </div>
                 <div className="card-body">
-                    <Users count={ countUpdate } handleRemove={ removeAsk } />
+                    <Users count={ countUpdate } handleRemove={ removeAsk } packageId={ packageId } loggedUser={ loggedUser } />
                 </div>
 
                 { employeeIdModal.modal }

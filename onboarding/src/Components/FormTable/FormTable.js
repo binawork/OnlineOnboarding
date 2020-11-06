@@ -1,13 +1,17 @@
 import React, { useState, useRef } from "react";
-import FormPackageEdit from "./FormPackageEdit";
 import FormTableAddNew from "./FormTableAddNew";
-import FormTableRow from "./FormTableRow";
-import { formDataList } from "./FormTableData";
 import PackagePage, { OnePackageEdit } from "../hooks/PackagePage";
+
 
 function FormTable(props) {
     const [countUpdate, update] = useState(0),
     order = useRef(0);
+
+    let loggedUser = {id: 0, email: "", first_name: "", last_name: "",
+							phone_number: "", location: "", team: "",
+							job_position: "",last_login: "", avatar: ""};
+    if(props.loggedUser)
+        loggedUser = props.loggedUser;
     //let packages = <Packages count = countUpdate />;
 
     var updatePackages = function(){
@@ -29,7 +33,7 @@ function FormTable(props) {
                     Edytuj formularz
                 </div>
                 <div className="card-body">
-                    <OnePackageEdit packageId = { props.packageId } />
+                    <OnePackageEdit packageId = { props.packageId } loggedUser={ loggedUser } />
                 </div>
             </div>
             <div className="card card-fluid">
@@ -37,7 +41,7 @@ function FormTable(props) {
                     Stwórz strone
                 </div>
                 <div className="card-body">
-                    <FormTableAddNew id = { props.packageId } handleUpdate = { updatePackages } getOrder={ getOrder } />
+                    <FormTableAddNew id = { props.packageId } handleUpdate = { updatePackages } getOrder={ getOrder } loggedUser={ loggedUser } />
                 </div>
             </div>
             <div className="card card-fluid">
@@ -55,7 +59,9 @@ function FormTable(props) {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                            <PackagePage id = { props.packageId } count={ countUpdate } handleUpdate={ updatePackages } updateOrder={ updateOrder } />
+                            <PackagePage id = { props.packageId } count={ countUpdate }
+                            		handleUpdate={ updatePackages } updateOrder={ updateOrder }
+                            		loggedUser={ loggedUser } />
                         </tbody>
                     </table>
                 </div>

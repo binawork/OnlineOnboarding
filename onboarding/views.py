@@ -26,7 +26,7 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer 
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
@@ -226,7 +226,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user_serializer = self.serializer_class(data=request.data)
         if user_serializer.is_valid():
             user, password = user_serializer.save()
-            user.company = request.user.company
+            user.company = self.request.user.company
             user.save()
             mail = UserEmailCRUD()
             mail.send_to_user_created_by_hr(request, password, user)
@@ -558,3 +558,11 @@ class AnswerViewSet(viewsets.ModelViewSet):
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
+
+class SectionAnswersViewSet(viewsets.ModelViewSet):
+    """
+    List all Sections with related answers.
+    """
+    queryset = Section.objects.all()
+    serializer_class = SectionAnswersSerializer
+
