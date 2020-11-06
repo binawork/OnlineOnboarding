@@ -86,7 +86,7 @@ function LeftMenu(props) {
                     <li className="menu-item">
                       <NavLink
                         to={{
-                          pathname: "/package_page",
+                          pathname: "/package_page/" + packageIdRef.current,
                           state: { packageId: packageIdRef.current, loggedUser: loggedUser },
                         }}
                         className="menu-link"
