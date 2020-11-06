@@ -25,6 +25,7 @@ function ImplementationFormsSent(props) {
                 <table className="table table-striped">
                     <thead><tr>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                         <th scope="col">Formularze</th>
                         <th scope="col">Postęp</th>
                         <th scope="col">Data wysłania</th>
@@ -34,6 +35,7 @@ function ImplementationFormsSent(props) {
                     <tbody>
                         { forms }
                         <tr style={{display: numberChecked>0 ? "" : "none"}}>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
