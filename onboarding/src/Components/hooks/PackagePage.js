@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPath, getCookie } from "../utils.js";
+import { getPath, getCookie, tryFetchJson } from "../utils.js";
 import FormTableRow from "../FormTable/FormTableRow";
 import FormPackageEdit from "../FormTable/FormPackageEdit";
 
@@ -20,6 +20,7 @@ function PackagePage(props){
 				setRows(result);
 			},
 			(error) => {
+				showError(error);
 				console.log(error);
 			}
 		);
@@ -109,7 +110,7 @@ export function savePackageDetails(handleSuccess, packageId, title, description)
 
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
+	fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
 			handleSuccess(result);
 		},
@@ -158,7 +159,7 @@ export function removePage(handleSuccess, pageId, title){
 	data = {"id": pageId};
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => res.json()).then(
+	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
 			handleSuccess(result);
 		},

@@ -21,6 +21,7 @@ function EmployeeForms(props){
 			},
 			(error) => {
 				console.log(error);
+				showError(error);
 			}
 		);
 	}, [props.count]);
