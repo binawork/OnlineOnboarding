@@ -4,10 +4,11 @@ import { getPath, getCookie } from "../utils.js";
 import FormSection from "../FormsEdit/FormSection";
 
 const FormSectionsAPI = ({
+  pageId,
   sections,
   setSections,
   count,
-  handleUpdate,
+  updateSections,
   updateMaxOrder,
 }) => {
   const [loaded, isLoaded] = useState(false);
@@ -27,10 +28,14 @@ const FormSectionsAPI = ({
       .then((res) => res.json())
       .then((result) => {
         isLoaded(true);
-        const sortedResult = result.sort((a, b) => a.order - b.order);
-        const orders = result.map((i) => i.order).filter((i) => i >= 0);
+        const filteredResult = result.filter(item => item.page == pageId);
+        const sortedResult = filteredResult.sort((a, b) => a.order - b.order);
+        const orders = result.map((item) => item.order).filter((item) => item >= 0);
 
         console.log("orders", orders);
+        console.log('page id', pageId)
+        console.log(result)
+        console.log('filtered result', filteredResult)
         console.log("get result: ", sortedResult);
 
         setSections(sortedResult);
@@ -54,21 +59,20 @@ const FormSectionsAPI = ({
           >
             {(provided) =>
                 <FormSection
-                  key={element.id}
-                  id={element.id}
+                  provided={provided}
+                  innerRef={provided.innerRef}
+                  // key={"section" + element.id}
                   order={element.order}
+                  id={element.id}
+                  name={element.type + element.id}
                   title={element.title}
                   description={element.description}
                   type={element.type}
                   answers={element.answer_set}
-                  // answerRequired={element.answer_required}
                   sections={sections}
                   setSections={setSections}
-                  handleUpdate={handleUpdate}
-                  // draggableProps={provided.draggableProps}
-                  provided={provided}
-                  innerRef={provided.innerRef}
-                  // dragHandleProps={provided.dragHandleProps}
+                  updateSections={updateSections}
+                  // answerRequired={element.answer_required}
                 />
             }
           </Draggable>
@@ -78,34 +82,35 @@ const FormSectionsAPI = ({
   }
 };
 
-// export function addQnA(handleUpdate, maxOrder) {
-//   const url = getPath();
-//   const token = getCookie("csrftoken");
-//   const fetchProps = {
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       "X-CSRFToken": token,
-//     },
-//     body: null,
-//   };
-//   const data = { question: "", answer: "", order: maxOrder + 1 };
-//   fetchProps.body = JSON.stringify(data);
+export function addSection(sectionType, pageId, updateSections, maxOrder) {
+  const url = getPath();
+  const token = getCookie("csrftoken");
+  const fetchProps = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+    body: null,
+  };
+  const data = { order: maxOrder + 1, title: "Tytuł", description: "", link: "", data: null, type: sectionType, page: pageId, answer_set: [{data: "Odpowiedź", owner: 1, section: 2}] };
 
-//   fetch(url + "api/q_and_a/", fetchProps)
-//     .then((res) => res.json())
-//     .then((result) => {
-//       handleUpdate(result);
-//       // console.log("add result: ", result);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-//   return true;
-// }
+  fetchProps.body = JSON.stringify(data);
 
-// export function copyQnA(qnaToCopy, qaList, handleUpdate) {
+  fetch(url + "api/section_answers/", fetchProps)
+    .then((res) => res.json())
+    .then((result) => {
+      console.log("add result: ", result);
+      updateSections(result);
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+  return true;
+}
+
+// export function copyQnA(qnaToCopy, qaList, updateSections) {
 //   const url = getPath();
 //   const token = getCookie("csrftoken");
 //   const fetchProps = {
@@ -139,7 +144,7 @@ const FormSectionsAPI = ({
 //           );
 //         }
 //       });
-//       handleUpdate(result);
+//       updateSections(result);
 //     })
 //     .catch((error) => {
 //       console.log(error);
@@ -148,7 +153,7 @@ const FormSectionsAPI = ({
 //   return true;
 // }
 
-// export function saveQnA(element, id, content, handleUpdate, setSaved) {
+// export function saveQnA(element, id, content, updateSections, setSaved) {
 //   if (
 //     typeof content !== "string" ||
 //     (typeof content === "string" && content.length < 1)
@@ -173,7 +178,7 @@ const FormSectionsAPI = ({
 //   fetch(url + "api/q_and_a/" + id + "/", fetchProps)
 //     .then((res) => res.json())
 //     .then((result) => {
-//       handleUpdate(result);
+//       updateSections(result);
 //       setSaved(true);
 //     })
 //     .catch((error) => {
@@ -182,7 +187,7 @@ const FormSectionsAPI = ({
 //   return true;
 // }
 
-// export function deleteQnA(id, qaList, handleUpdate) {
+// export function deleteQnA(id, qaList, updateSections) {
 //   const url = getPath();
 //   const token = getCookie("csrftoken");
 //   const fetchProps = {
@@ -196,7 +201,7 @@ const FormSectionsAPI = ({
 //   fetch(url + "api/q_and_a/" + id, fetchProps)
 //     .then((res) => res.text())
 //     .then(() => {
-//       handleUpdate();
+//       updateSections();
 
 //       let order = 0;
 //       qaList.map((item) => {
@@ -209,7 +214,7 @@ const FormSectionsAPI = ({
 //           fetch(url + "api/q_and_a/" + item.id + "/", fetchProps)
 //             .then((res) => res.json())
 //             .then((result) => {
-//               handleUpdate(result);
+//               updateSections(result);
 //             })
 //             .catch((error) => {
 //               console.log(error);
@@ -227,7 +232,7 @@ const FormSectionsAPI = ({
 //   qaList,
 //   droppedSection,
 //   destinationSection,
-//   handleUpdate
+//   updateSections
 // ) {
 //   const url = getPath();
 //   const token = getCookie("csrftoken");
@@ -264,7 +269,7 @@ const FormSectionsAPI = ({
 //           fetch(url + "api/q_and_a/" + item.id + "/", fetchProps)
 //             .then((res) => res.json())
 //             .then((response) => {
-//               handleUpdate(response);
+//               updateSections(response);
 //             })
 //             .catch((error) => {
 //               console.log(error);

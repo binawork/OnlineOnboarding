@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
@@ -11,8 +10,6 @@ import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import LoggedUser from "../hooks/LoggedUser.js";
 
 function FormsEditPage({ location, match }) {
-  console.log(location);
-  console.log(match.params.form_id);
   const [countUpdate, update] = useState(0);
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);
@@ -61,7 +58,7 @@ function FormsEditPage({ location, match }) {
   return (
     <div className="app">
       <header className="app-header app-header-dark">
-        <Navbar loggedUser={loggedUser} /> {/* placeholder */}
+        <Navbar loggedUser={loggedUser} />
       </header>
       <LeftMenu packageId={packageIdRef.current} loggedUser={loggedUser} />
       <main className="app-main">
@@ -72,7 +69,6 @@ function FormsEditPage({ location, match }) {
                 page={"Formularz / " + "Edytuj"}
                 loggedUser={loggedUser}
               />{" "}
-              {/* placeholder */}
               <FormDescription location={location} pageId={pageId} />
               <div className="page-section">
                 <div className="card card-fluid">
@@ -88,8 +84,9 @@ function FormsEditPage({ location, match }) {
                               {...provided.droppableProps}
                             >
                               <FormSectionsAPI
+                                pageId={pageId}
                                 count={countUpdate}
-                                handleUpdate={updateSections}
+                                updateSections={updateSections}
                                 updateMaxOrder={updateMaxOrder}
                                 sections={sections}
                                 setSections={setSections}
@@ -102,29 +99,25 @@ function FormsEditPage({ location, match }) {
                       <div className="col-auto">
                         <div className="card-body">
                           <FormAddSection
-                            handleClicks={{
-                              openText: () => handleAddSection("opAnsw"),
-                              singleChoice: () => handleAddSection("radios"),
-                              multiChoiceEdit: () => handleAddSection("checks"),
-                            }}
+                            updateSections={updateSections}
+                            maxOrder={maxOrder}
+                            pageId={pageId}
                           />
                           <div className="form-group">
                             <div className="input-group-append">
-                              {/* <button
+                              <button
                                 type="submit"
                                 className="btn btn-success"
-                                onClick={handleSubmit}
+                                // onClick={handleSubmit}
                               >
                                 Zapisz pytania
-                              </button> */}
+                              </button>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </form>
-                  {/* <FormSections sections={sections} setSections={setSections} /> */}
-                  {/* placeholder */}
                 </div>
               </div>
             </div>
