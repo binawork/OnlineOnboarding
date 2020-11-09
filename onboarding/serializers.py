@@ -153,8 +153,8 @@ class UserSerializer(serializers.ModelSerializer):
         )
         user.set_password(password)
         user.save()
-        return user, password
-
+        return user
+#
 
 # CONTACT FORM
 class ContactFormTestSerializer(serializers.ModelSerializer):

@@ -32,6 +32,9 @@ urlpatterns += [
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
         template_name="registration/password_reset_confirm.html"),
          name='password_reset_confirm'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+        template_name="templated_email/register_user_by_hr.html"),
+         name='account_activation_for_users_created_by_hr'),
 ]
 
 # email
