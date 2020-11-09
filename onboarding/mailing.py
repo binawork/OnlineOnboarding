@@ -1,42 +1,102 @@
 from django.core import mail
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from django.contrib.sites.shortcuts import get_current_site
 from django.utils.html import strip_tags
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_text
-
-from OnlineOnboarding.settings import EMAIL_HOST_USER
-
-from .tokens import account_activation_token
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import BadHeaderError
 
 
-class UserEmailCRUD():
+def send_activation_email_for_user_created_by_hr(user, current_site):
+    subject = 'Rejestracja'  # eng. "password change"
+    html_message = render_to_string(
+        'templated_email/register_user_by_hr.html',
+        {
+            'domain': current_site,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'user': user,
+            'token': default_token_generator.make_token(user),
+            'protocol': 'http',
+        }
+    )
 
-    def send_to_user_created_by_hr(self, request, user, current_site):
-        company = user.company
-        user_email = user.email
-        first_name = user.first_name
-        last_name = user.last_name
-        subject = f'Dodano Cię do onboardingu firmy {company}'
-                                            # eng. "You've been added 
-                                            # to XYZ's onboarding"
-        html_message = render_to_string(
-            'templated_email/create_acc_email.html', 
-            {
-                'full_name': first_name + ' ' + last_name,
-                'company': company,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            }
-        )
-        plain_message = strip_tags(html_message)
-        from_email = EMAIL_HOST_USER
-        to = user_email
+    plain_message = strip_tags(html_message)
+    try:
         mail.send_mail(
-                        subject, 
-                        plain_message, 
-                        from_email,
-                        [to], 
-                        html_message=html_message,
+            subject,
+            plain_message,
+            'admin@example.com',
+            [user.email],
+            html_message=html_message,
+            fail_silently=False
         )
+    except BadHeaderError:
+        return HttpResponse('Invalid header found.')
+    return redirect('/password_reset/done/')
+
+
+def send_reminder_email(subject, EMAIL_HOST_USER, employee, package, current_site):
+    html_message = render_to_string(
+        'templated_email/button_reminder.html',
+        {
+            'user': employee,
+            'package': package,
+            'domain': current_site.domain,
+        }
+    )
+    plain_message = strip_tags(html_message)
+    from_email = EMAIL_HOST_USER
+    to = employee.email
+    mail.send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [to],
+        html_message=html_message,
+    )
+
+
+def send_add_user_to_package_email(EMAIL_HOST_USER, user, package, hr_user):
+
+    subject = f'Dodano użytkownika {user} do {package}'
+    html_message = render_to_string(
+        'templated_email/add_user_to_form.html',
+        {
+            "username": user,
+            "package": package
+        }
+    )
+    plain_message = strip_tags(html_message)
+    from_email = EMAIL_HOST_USER
+    to = hr_user.email
+
+    mail.send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [to],
+        html_message=html_message,
+    )
+
+
+def send_remove_acc_email(EMAIL_HOST_USER, user_email):
+    subject = 'Usunięcie konta'  # eng. "deletion of the account"
+
+    html_message = render_to_string(
+        'templated_email/remove_acc_email.html',
+        {
+            'username': user_email,
+        }
+    )
+    plain_message = strip_tags(html_message)
+    from_email = EMAIL_HOST_USER
+    to = user_email
+    mail.send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [to],
+        html_message=html_message,
+    )

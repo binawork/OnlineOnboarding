@@ -31,7 +31,7 @@ from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, Use
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
 from .permissions import IsHrUser
-from .mailing import UserEmailCRUD
+from .mailing import send_activation_email_for_user_created_by_hr
 from .tokens import account_activation_token
 from .forms import HrSignUpForm
 
@@ -150,23 +150,12 @@ def reminder(request, employee_id, package_id):
     employee = User.objects.get(id=employee_id)
     package = Package.objects.get(id=package_id)
     if request.user.company == employee.company:
-        html_message = render_to_string(
-            'templated_email/button_reminder.html',
-            {
-                'user': employee,
-                'package': package,
-                'domain': current_site.domain,
-            }
-        )
-        plain_message = strip_tags(html_message)
-        from_email = EMAIL_HOST_USER
-        to = employee.email
-        mail.send_mail(
-                        subject, 
-                        plain_message, 
-                        from_email,
-                        [to], 
-                        html_message=html_message,
+        send_reminder_email(
+            subject,
+            EMAIL_HOST_USER,
+            employee,
+            package,
+            current_site
         )
     return HttpResponse(current_site)
 
@@ -227,14 +216,20 @@ class UserViewSet(viewsets.ModelViewSet):
         if user_serializer.is_valid():
             user = user_serializer.save()
             user.company = self.request.user.company
+            user_email = user.email
             user.save()
-            current_site = get_current_site(request)
 
-            mail = UserEmailCRUD()
-            mail.send_to_user_created_by_hr(request, user, current_site)
+            current_site = get_current_site(request)
+            associated_users = User.objects.filter(Q(email=user_email))
+            if associated_users.exists():
+                for user in associated_users:
+                    send_activation_email_for_user_created_by_hr(user=user, )
+
             return Response(status=201)
         else:
             return Response(status=204)
+
+
 
     @action(detail=False)
     def remove_user(self, request):
@@ -246,23 +241,9 @@ class UserViewSet(viewsets.ModelViewSet):
         request.user.is_active = False
         request.user.save()
 
-        subject = 'Usunięcie konta'  # eng. "deletion of the account"
-
-        html_message = render_to_string(
-            'templated_email/remove_acc_email.html', 
-            {
-                'username': username,
-            }
-        )
-        plain_message = strip_tags(html_message)
-        from_email = EMAIL_HOST_USER
-        to = user_email
-        mail.send_mail(
-                        subject, 
-                        plain_message, 
-                        from_email,
-                        [to], 
-                        html_message=html_message,
+        send_remove_acc_email(
+            EMAIL_HOST_USER,
+            user_email
         )
         return Response(status=204)
 
@@ -384,25 +365,11 @@ class PackageViewSet(viewsets.ModelViewSet):
 
         if user not in package.users.all():
             package.users.add(user)
-
-            subject = f'Dodano użytkownika {user} do {package}'
-            html_message = render_to_string(
-                'templated_email/add_user_to_form.html', 
-                {
-                    "username": user,
-                    "package": package
-                }
-            )
-            plain_message = strip_tags(html_message)
-            from_email = EMAIL_HOST_USER
-            to = hr_user.email
-
-            mail.send_mail(
-                            subject, 
-                            plain_message, 
-                            from_email, 
-                            [to], 
-                            html_message=html_message,
+            send_add_user_to_package_email(
+                EMAIL_HOST_USER,
+                user,
+                package,
+                hr_user
             )
 
         serializer = PackageSerializer(package)
