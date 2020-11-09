@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 
 function FormsSentTableRow(props) {
-    let buttonObj = "", pages;
-    if(props.row.pagesCount > 0){
-        buttonObj = <button className="btn" type="button">&#8631;</button>;// &#8634;
-        pages = props.row.pages.map((page, i) => {
-            return <tr key={ i }><td></td><td><input type="checkbox" onClick={ countChecked } /></td><td>{ page.title }</td><td></td><td></td><td></td><td></td></tr>;
-        });
-    }
-
-    const [toggleObj, switchVisibility] = useState({btn:buttonObj, style:{ display: "none" }, display: false});
+    const [toggleObj, switchVisibility] = useState({text: String.fromCharCode(8631), style:{ display: "none" }, display: false, hasContent: props.row.pagesCount > 0});
 
 
     const countChecked = function(e){
@@ -17,23 +9,36 @@ function FormsSentTableRow(props) {
     };
 
     const showPages = function(){
+        if(toggleObj.hasContent === false)
+            return;
 
+        let charNo = toggleObj.display? 8631 : 8634, newStyle = toggleObj.display? {display: "none"} : {display: ""};
+        switchVisibility({...toggleObj, text: String.fromCharCode(charNo), style: newStyle, display: !toggleObj.display});
     };
 
-    let checkBox = <input type="checkbox" onClick={ countChecked } />,
-        toggleButton = buttonObj;
 
-    buttonObj = <button className="btn btn-secondary">Przypomnienie</button>;
+
+
+    let checkBox = <input type="checkbox" onClick={ countChecked } />,
+        buttonObj = <button className="btn btn-secondary">Przypomnienie</button>, pages;
+
     if(props.empty){
         checkBox = "";
         buttonObj = "";
     }
 
+    if(toggleObj.hasContent){
+        pages = props.row.pages.map((page, i) => {
+            return <tr key={ i } style={ toggleObj.style }><td></td><td><input type="checkbox" onClick={ countChecked } /></td><td>{ page.title }</td><td></td><td></td><td></td><td></td></tr>;
+        });
+    }
+
+
     return(
         <>
         <tr>
             <td>{ checkBox }</td>
-            <td>{ toggleObj.btn }</td>
+            <td>{ toggleObj.hasContent && (<button className="btn" onClick={ showPages } type="button">{ toggleObj.text }</button>) }</td>
             <td>{props.row.form}</td>
             <td>{props.row.progress}</td>
             <td>{props.row.send_date}</td>
