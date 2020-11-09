@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function FormsSentTableRow(props) {
-    const [toggleObj, switchVisibility] = useState({text: String.fromCharCode(8631), style:{ display: "none" }, display: false, hasContent: props.row.pagesCount > 0});
+    const [toggleObj, switchVisibility] = useState({text: String.fromCharCode(8631), style:{ display: "none" }, display: false, hasContent: props.empty? false : props.row.pagesCount > 0});
 
 
     const countChecked = function(e){
@@ -15,8 +15,6 @@ function FormsSentTableRow(props) {
         let charNo = toggleObj.display? 8631 : 8634, newStyle = toggleObj.display? {display: "none"} : {display: ""};
         switchVisibility({...toggleObj, text: String.fromCharCode(charNo), style: newStyle, display: !toggleObj.display});
     };
-
-
 
 
     let checkBox = <input type="checkbox" onClick={ countChecked } />,
