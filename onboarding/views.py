@@ -223,7 +223,7 @@ class UserViewSet(viewsets.ModelViewSet):
             associated_users = User.objects.filter(Q(email=user_email))
             if associated_users.exists():
                 for user in associated_users:
-                    send_activation_email_for_user_created_by_hr(user=user, )
+                    send_activation_email_for_user_created_by_hr(user=user, current_site=current_site)
 
             return Response(status=201)
         else:
