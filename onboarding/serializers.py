@@ -217,6 +217,7 @@ class PageSerializer(serializers.ModelSerializer):
                     'title',
                     'description',
                     'link',
+                    'updated_on',
                     'package',
         )
         extra_kwargs = {
