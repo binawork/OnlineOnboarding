@@ -41,7 +41,7 @@ function EmployeeForms(props){
 		return form_table;
 	} else {
 		var form_table = [], count = rows.length;
-		let i, row;//, loggedUser = {id:0, first_name: ""};
+		let i, j, row;//, loggedUser = {id:0, first_name: ""};
 
 		/*if(props.loggedUser)
 			loggedUser = props.loggedUser;*/
@@ -51,12 +51,18 @@ function EmployeeForms(props){
 			row.key = rows[i].id;
 			row.name = row.form = rows[i].title;
 			row.progress = "?/?";
-			row.pagesCount = row.send_date = row.finish_date = "?";
+			row.send_date = row.finish_date = "?";
+			row.pagesCount = 0;
 			row.created = dateToString(rows[i].created_on);
 			row.last_edit = dateToString(rows[i].updated_on);
 			if( Object.prototype.toString.call(rows[i].page_set)==='[object Array]' ){ // Array.isArray(object)
 				row.pages = rows[i].page_set.slice();
 				row.pagesCount = row.pages.length;
+
+				for(j = row.pagesCount - 1; j >= 0; j--){
+					if(row.pages[j].hasOwnProperty('updated_on') )
+						row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
+				}
 			}
 
 			form_table.push(row);

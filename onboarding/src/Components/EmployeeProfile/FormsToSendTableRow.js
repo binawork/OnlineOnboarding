@@ -28,7 +28,8 @@ function FormsToSendTableRow(props){
 
     if(toggleObj.hasContent){
         pages = props.row.pages.map((page, i) => {
-            return <tr key={ i } style={ toggleObj.style }><td></td><td><input type="checkbox" onClick={ countChecked } /></td><td>{ page.title }</td><td></td><td></td><td></td><td></td></tr>;
+            return <tr key={ i } style={ toggleObj.style }><td></td><td><input type="checkbox" onClick={ countChecked } /></td><td>{ page.title }</td>
+                   <td></td><td></td><td>{ page.updated_on }</td><td></td></tr>;
         });
     }
 
