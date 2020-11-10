@@ -1,14 +1,21 @@
-import React from "react";
-//import { employeeFormDataList } from "./EmployeeProfileData";
-import EmployeeProfileTableFirstRow from "./EmployeeProfileTableFirstRow";
+import React, { useState } from "react";
+import FormsToSendTableRow from "./FormsToSendTableRow";
 import EmployeeForms from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsToSend(props) {
+    const [numberChecked, checkedChange] = useState(0);
     let form_table = EmployeeForms(props), forms = [];
 
-    form_table.forEach(function (element, i) {
-        forms.push(<EmployeeProfileTableFirstRow key={ i } row={element} />)
+    const showHide = (isChecked) => {
+        if(isChecked)
+            checkedChange(numberChecked + 1);
+        else
+            checkedChange(numberChecked - 1);
+    };
+
+    form_table.forEach(function (element, i){
+        forms.push(<FormsToSendTableRow key={ i } row={ element } handleChecked={ showHide } />);
     });
 
     return(
@@ -20,21 +27,23 @@ function ImplementationFormsToSend(props) {
                 <table className="table table-striped">
                     <thead><tr>
                         <th scope="col"></th>
-                        <th scope="col" style={{width: "45%"}}>Formularze</th>
-                        <th scope="col" style={{width: "10%"}}>Liczba zadań</th>
-                        <th scope="col" style={{width: "15%"}}>Utworzony</th>
-                        <th scope="col" style={{width: "15%"}}>Ostatnia edycja</th>
-                        <th scope="col" style={{width: "10%"}}>Działanie</th>
+                        <th scope="col"></th>
+                        <th scope="col">Formularze</th>
+                        <th scope="col">Liczba zadań</th>
+                        <th scope="col">Utworzony</th>
+                        <th scope="col">Ostatnia edycja</th>
+                        <th scope="col">Działanie</th>
                     </tr></thead>
                     <tbody id="form_table_data_container">
                         { forms }
-                        <tr>
-                            <td scope="col"></td>
-                            <td scope="col" style={{width: "45%"}}></td>
-                            <td scope="col" style={{width: "10%"}}></td>
-                            <td scope="col" style={{width: "15%"}}></td>
-                            <td scope="col" style={{width: "15%"}}></td>
-                            <td scope="col" style={{width: "15%"}}><button className="btn btn-secondary">Wyślij zaznaczone</button></td>
+                        <tr style={{display: numberChecked>0 ? "" : "none"}}>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><button className="btn btn-secondary">Wyślij zaznaczone</button></td>
                         </tr>
                     </tbody>
                 </table>

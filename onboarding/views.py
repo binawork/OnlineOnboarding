@@ -26,7 +26,7 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
@@ -436,6 +436,27 @@ class PageViewSet(viewsets.ModelViewSet):
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
+
+
+class PackagePagesViewSet(viewsets.ModelViewSet):
+    """
+    List all Packages with related pages.
+    """
+    queryset = Package.objects.all()
+    serializer_class = PackagePagesSerializer
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=False)
+    def list_by_company_hr(self, request):
+        """
+        :param request: user
+        :return: all packages with corresponding pages for request.user = owner from params
+        """
+        package = Package.objects.filter(owner=request.user.company)
+        serializer = PackagePagesSerializer(package, many=True)
+
+        return Response(serializer.data)
+#
 
 
 class SectionViewSet(viewsets.ModelViewSet):

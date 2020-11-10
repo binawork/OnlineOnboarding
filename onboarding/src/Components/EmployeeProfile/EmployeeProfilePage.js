@@ -11,7 +11,7 @@ function EmployeeProfilePage(props) {
 	document.title = "Onboarding: podgląd procesu pracownika";
     const packageIdRef = useRef(0);
     const singleUser = {id: 0, name: "", last_name: "", email: "", tel: "",
-    				position: "", department: "", localization: "", sent: "-", finished: "-", avatar: "/onboarding/static/images/unknown-profile.jpg"};
+    				position: "", department: "", location: "", sent: "-", finished: "-", avatar: "/onboarding/static/images/unknown-profile.jpg"};
 
     let stateExists = false, loggedUser;
     if(props.location.state){
@@ -40,8 +40,8 @@ function EmployeeProfilePage(props) {
             singleUser.position = user.position;
         if(typeof user.department === "string")
             singleUser.department = user.department;
-        if(typeof user.localization === "string")
-            singleUser.localization = user.localization;
+        if(typeof user.location === "string")
+            singleUser.location = user.location;
 
         if(typeof user.sent === "string")
             singleUser.sent = user.sent;

@@ -6,11 +6,11 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 from django.contrib.auth import views as auth_views
 
-from django.conf import settings
-from django.conf.urls.static import static
+#from django.conf import settings
+#from django.conf.urls.static import static
 
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
-    ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, SectionAnswersViewSet
+    ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, PackagePagesViewSet, SectionAnswersViewSet
 
 # base
 urlpatterns = [
@@ -43,7 +43,7 @@ urlpatterns += [
     path('email/reminder/<employee_id>/<package_id>/', views.reminder, name='reminder'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API
 router = DefaultRouter()
@@ -55,6 +55,7 @@ router.register(r'api/section', SectionViewSet, basename='Section')
 router.register(r'api/answer', AnswerViewSet, basename='Answer')
 router.register(r'api/contact_form', ContactFormViewSet, basename='contact_form')
 router.register(r'api/q_and_a', CompanyQuestionAndAnswerViewSet, basename='contact_form')
+router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePages')
 router.register(r'api/section_answers', SectionAnswersViewSet, basename='SectionAnswers')
 
 
