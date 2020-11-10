@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { removePage } from "../hooks/PackagePage";
+import { dateToString } from "../utils";
 
 
 function FormTableRow(props) {
@@ -18,7 +19,7 @@ function FormTableRow(props) {
                  									pageName:props.row.name, description: props.row.description,
                  									link: props.row.link, loggedUser: loggedUser } }} >{props.row.name}</Link></td>
             <td>{props.row.order}</td>
-            <td>{props.row.last_edit}</td>
+            <td>{ dateToString(props.row.last_edit) }</td>
             <td><Link to={{ pathname: `/form_edit/${props.row.key}`, state: { packageId: props.packageId, pageId: props.row.key,
                  									pageName:props.row.name, description: props.row.description,
                  									link: props.row.link, loggedUser: loggedUser } }} >edytuj</Link>

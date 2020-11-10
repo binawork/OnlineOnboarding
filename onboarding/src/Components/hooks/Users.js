@@ -137,9 +137,14 @@ export function employeeAddEdit(handleMessage, employeeObject){
 	return true;
 }
 
-export function uploadAvatar(handleSuccess, avatarFile){
+export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
 	let url = getPath(), data, token = getCookie('csrftoken'),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "X-CSRFToken":token, "Authorization": "Token " + token}, body:null};
+
+	if(employeeObject.id && employeeObject.id > 0){
+		let data = {id: employeeObject.id};
+		fetchProps.body = JSON.stringify(data);
+	}
 
 	data = new FormData();
 	data.append('avatar', avatarFile);
