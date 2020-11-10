@@ -22,7 +22,7 @@ function Packages(props) {
     };
 
   useEffect(() => {
-    fetch(url + "api/package/", fetchProps)
+    fetch(url + "api/package/list_by_company_hr/", fetchProps)
       .then((res) => res.json())
       .then(
         (result) => {
