@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "webpack --mode development ./onboarding/src/index.js --output ./onboarding/static/js/main.js",
     "start": "webpack --mode development --watch ./onboarding/src/index.js --output ./onboarding/static/js/main.js",
-    "build": "webpack --mode production ./onboarding/src/index.js --output ./onboarding/static/js/main.js"
+    "build": "webpack --mode production ./onboarding/src/index.js --output ./onboarding/static/js/main.js",
+    "dev2": "webpack --mode development ./onboarding/src/employee.js --output ./onboarding/static/js/employee.js --config ./webpack.config.employee.js",
+    "start2": "webpack --mode development --watch ./onboarding/src/employee.js --output ./onboarding/static/js/employee.js --config ./webpack.config.employee.js",
+    "build_employee": "webpack --mode production ./onboarding/src/employee.js --output ./onboarding/static/js/employee.js --config ./webpack.config.employee.js"
   },
   "repository": {
     "type": "git",
