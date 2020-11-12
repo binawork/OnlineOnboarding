@@ -14,10 +14,8 @@ import UserManagerProfilePage from "./Components/EmployeeEdit/UserManagerProfile
 import PackagesListPage from "./Components/PackagesList/PackagesListPage";
 import QAPage from "./Components/QA/QAPage";
 
-import FormsEmployeePage from "./Components/FormsEmployeePage";
 import FormsManagerCheckPage from "./Components/FormsManagerCheckPage";// where manager checks how form was filled;
 import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
-import EmployeeFormsListPage from "./Components/EmployeeFormsList/EmployeeFormsListPage";
 
 
 function App() {
@@ -26,8 +24,6 @@ function App() {
             <Route path="/profile/manager" component={ UserManagerProfilePage } />
             <Route path="/employee_profile" component={ EmployeeProfilePage } />
             <Route path="/add_user" component={ UserManagerProfilePage } />
-            <Route path="/employe_page_fill" component={ FormsEmployeePage } />
-            <Route path="/employe_forms_list" component={ EmployeeFormsListPage } />
             <Route path="/form_edit" component={ FormsEditPage } />
             <Route path="/packages" component={ PackagesListPage } />
             {/* <Route path="/package_page" component={ FormTablePage } /> */}
