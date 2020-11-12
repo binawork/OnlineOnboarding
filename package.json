@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development ./onboarding/src/index.js --output ./onboarding/static/js/main.js",
-    "start": "webpack-dev-server --mode development --hot",
+    "start": "webpack --mode development --watch ./onboarding/src/index.js --output ./onboarding/static/js/main.js",
     "build": "webpack --mode production ./onboarding/src/index.js --output ./onboarding/static/js/main.js"
   },
   "repository": {
@@ -22,12 +22,13 @@
   },
   "homepage": "https://github.com/binawork/OnlineOnboarding#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.2",
     "jquery": "^3.5.1",
-    "netlify": "^4.3.11",
+    "netlify": "^4.8.0",
     "npm": "^6.14.8",
     "popper.js": "^1.16.1",
     "react": "^16.13.1",
@@ -35,8 +36,8 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "uuidv4": "^6.2.3",
-    "webpack": "4.42.0"
+    "summernote": "^0.8.18",
+    "uuidv4": "^6.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
@@ -44,7 +45,8 @@
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "html-webpack-plugin": "^4.3.0",
+    "file-loader": "^6.1.1",
+    "html-webpack-plugin": "^4.5.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"

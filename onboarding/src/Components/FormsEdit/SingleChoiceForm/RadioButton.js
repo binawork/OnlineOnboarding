@@ -100,7 +100,7 @@ const RadioButton = ({
           name={name}
           onClick={deleteAnswer}
         >
-          <i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń
+          <i className="fa fa-trash-o fa-md">&#61944;</i> Usuń
         </button>
       </td>
     </tr>

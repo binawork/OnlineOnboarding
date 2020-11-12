@@ -41,3 +41,20 @@ export function getCookie(name) {
 	return cookieValue;
 }
 
+export function tryFetchJson(res){
+	let result = "";
+
+	if(res.ok){
+		result = res.json();
+	} else {
+		console.log(res);
+		result = res.text();
+	}
+	return result;
+}
+
+export function validEmail(email){
+	let regExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return regExp.test(String(email));
+}
+

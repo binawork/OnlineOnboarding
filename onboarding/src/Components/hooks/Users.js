@@ -124,6 +124,7 @@ export function employeeAddEdit(handleMessage, employeeObject){
 	} else
 		path += "create_user/";// SMTPAuthenticationError * /
 
+
 	fetch(url + path, fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
 			msg += "  " + String(result);

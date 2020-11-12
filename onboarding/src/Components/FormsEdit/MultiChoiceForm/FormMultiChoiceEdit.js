@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import MarkdownArea from "../../MarkdownArea";
 import Checkbox from "./Checkbox";
 import Switcher from "../../Switcher";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -58,7 +59,6 @@ const FormMultiChoiceEdit = ({
             <span className="drag-indicator"></span> Wiele odpowiedzi
           </div>
           <div className="card-body">
-            {/* <form> */}
             <div className="form-group">
               <div className="input-group">
                 <input
@@ -72,17 +72,12 @@ const FormMultiChoiceEdit = ({
                 />
               </div>
             </div>
-            <div className="form-group">
-              <textarea
-                id={"descr" + id}
-                className="form-control"
-                placeholder="Opis (markdown)"
-                rows="4"
-                value={description}
-                onChange={descriptionChange}
-              ></textarea>
-            </div>
-            {/* <hr /> */}
+            <MarkdownArea
+              id={id}
+              content={description}
+              contentChange={descriptionChange}
+              simple={false}
+            />
             <DragDropContext onDragEnd={onDragEnd}>
               <Droppable droppableId="dp1">
                 {(provided) => (
@@ -106,7 +101,6 @@ const FormMultiChoiceEdit = ({
                               changeChecked={changeChecked}
                               deleteAnswer={deleteAnswer}
                               editAnswer={editAnswer}
-                              // answRequired={answRequired}
                             />
                           )}
                         </Draggable>
@@ -124,13 +118,11 @@ const FormMultiChoiceEdit = ({
                   className="btn btn-secondary"
                   id={"addansw" + id}
                   onClick={addAnswer}
-                  // style={{ color: "#000" }}
                 >
                   Dodaj odpowiedź
                 </button>
               </div>
             </div>
-            {/* </form> */}
           </div>
           <div className="card-footer align-items-center">
             <div className="col">
@@ -144,9 +136,8 @@ const FormMultiChoiceEdit = ({
             <div className="col">
               <button
                 className="btn"
-                id={id}
+                id={"copy-" + id}
                 onClick={copyForm}
-                // style={{ color: "#000" }}
               >
                 <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie
               </button>
@@ -155,7 +146,6 @@ const FormMultiChoiceEdit = ({
               <button
                 className="btn text-danger"
                 onClick={deleteForm}
-                // style={{ color: "#000" }}
               >
                 <i className="fa fa-trash-o fa-lg">&#61944;</i>
                 Usuń

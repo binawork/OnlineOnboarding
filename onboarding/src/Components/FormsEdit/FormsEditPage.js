@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 //import "../../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
@@ -8,31 +8,40 @@ import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import FormSections from "./FormSections";
+import { savePageDetails } from "../hooks/FormsEdit";
+import LoggedUser from "../hooks/LoggedUser.js";
 
-function FormsEditPage() {
-  const [pageName, setPageName] = useState("");
-  const [link, setLink] = useState("");
-	const [description, setDescription] = useState("");
-	const [sections, setSections] = useState([])
-	
-  const handleSubmit = (e) => {
-		e.preventDefault();
-		console.log("wysyłanie")
+function FormsEditPage(props) {
+  const [pageName, setPageName] = useState(props.location.state.pageName?props.location.state.pageName:"");
+  const [link, setLink] = useState(props.location.state.link?props.location.state.link:"");
+	const [description, setDescription] = useState(props.location.state.description?props.location.state.description:"");
+
+  const packageIdRef = useRef(0);
+  let loggedUser;
+  if(props.location.state){
+      packageIdRef.current = props.location.state.packageId;
+      loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
+  } else
+    loggedUser = LoggedUser();
+
+  const handleSave = (e) => {
+      e.preventDefault();
+      savePageDetails(function(res){}, props.location.state.pageId, pageName, link, description);// pack as one argument;
   }
 
   return (
     <div className="app">
       <header className="app-header app-header-dark">
-        <Navbar /> {/* placeholder */}
+        <Navbar loggedUser={ loggedUser } /> {/* placeholder */}
       </header>
-      <LeftMenu /> {/* placeholder */}
+      <LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
       <main className="app-main">
         <div className="wrapper">
           <div className="page has-sidebar-expand-xl">
             <div className="page-inner">
-              <PageAddressBar page={'Formularz / "#pageName"'} />{" "}
+              <PageAddressBar page={'Formularz / ' + pageName } loggedUser={ loggedUser } />{" "}
               {/* placeholder */}
-              <form onSubmit={handleSubmit}>
+              <form>
                 {" "}
                 {/* form placeholder */}
                 <div className="page-section">
@@ -73,20 +82,20 @@ function FormsEditPage() {
                       </div>
                       <div className="form-group">
                         <div className="input-group-append">
-                          <button className="btn btn-success">Zapisz stronę</button>
+                          <button className="btn btn-success" onClick={ handleSave }>Zapisz stronę</button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              </form>
                 <div className="page-section">
                   <div className="card card-fluid">
                     <div className="card-header">Sekcje strony</div>
-                    <FormSections sections={sections} setSections={setSections}/>
+                    <FormSections />
                     {/* placeholder */}
                   </div>
                 </div>
-              </form>
             </div>
           </div>
         </div>

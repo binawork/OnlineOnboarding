@@ -145,6 +145,10 @@ class UserSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
+            #phone_number=validated_data['phone_number'],
+            location=validated_data['location'],
+            #team=validated_data['team'],
+            #job_position=validated_data['job_position'],
             is_active=False,
         )
         user.set_password(password)
@@ -159,11 +163,11 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = ContactRequestDetail
         fields = (
-                    'id', 
-                    'first_name', 
-                    'last_name', 
-                    'company_name', 
-                    'email', 
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'company_name',
+                    'email',
                     'text_field'
         )
 
@@ -175,11 +179,11 @@ class PackageSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Package
         fields = (
-                    'id', 
+                    'id',
                     'title',
-                    'description', 
-                    'created_on', 
-                    'updated_on', 
+                    'description',
+                    'created_on',
+                    'updated_on',
                     'users'
         )
 
@@ -223,6 +227,24 @@ class PageSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'package': {'required': False},
         }
+
+
+# PACKAGE with PAGEs
+class PackagePagesSerializer(serializers.ModelSerializer):
+    page_set = PageSerializer(many=True)
+
+    class Meta:
+        ordering = ['-updated_on']
+        model = Package
+        fields = (
+                    'id',
+                    'title',
+                    'description',
+                    'created_on',
+                    'updated_on',
+                    'users',
+                    'page_set'
+        )
 
 
 # SECTION
