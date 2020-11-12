@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MarkdownArea from "../MarkdownArea";
+import SaveInfo from "../SaveInfo";
 import { copyQnA, saveQnA, deleteQnA } from "../hooks/QnA";
 
 function Qa({
@@ -87,37 +88,17 @@ function Qa({
           />
         </div>
         <div className="card-footer d-flex justify-content-end">
-          <div className="p-3">
             <button className="btn" id={"copy-" + id} onClick={handleCopyQA}>
               <i className="fa fa-files-o fa-md">&#61637;</i> Duplikuj
             </button>
-          </div>
-          <div className="p-3">
             <button className="btn text-danger mr-1" onClick={handleDeleteQnA}>
               <i className="fa fa-trash-o fa-md mr-1">&#61944;</i>
               Usuń
             </button>
-          </div>
         </div>
       </div>
       {saved ? (
-        <div
-          className="fixed-bottom d-flex justify-content-center show-and-hide"
-          style={{ display: "fixed-bottom", left: "240px" }}
-        >
-          <div
-            className="m-2 p-2"
-            style={{
-              width: "150px",
-              backgroundColor: "rgba(226, 232, 238, 0.57)",
-              color: "black",
-              textAlign: "center",
-              borderRadius: "4px",
-            }}
-          >
-            Zapisano zmiany
-          </div>
-        </div>
+        <SaveInfo />
       ) : (
         <></>
       )}

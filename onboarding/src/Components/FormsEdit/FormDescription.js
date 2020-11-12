@@ -26,9 +26,9 @@ const FormDescription = ({ location, pageId }) => {
     <form>
       {" "}
       {/* form placeholder */}
-      <div className="page-section">
+      <section className="page-section">
         <div className="card card-fluid">
-          <div className="card-header">Strona</div>
+          <header className="card-header">Strona</header>
           <div className="card-body">
             <div className="form-group">
               <div className="input-group">
@@ -71,7 +71,7 @@ const FormDescription = ({ location, pageId }) => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </form>
   );
 };

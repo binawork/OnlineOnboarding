@@ -121,8 +121,8 @@ export function employeeAddEdit(handleMessage, employeeObject){
 		path += employeeId + "/";
 		fetchProps.method = "PATCH";
 		msg = "Zmodyfikowano pracownika. ";
-	}/* else
-		path += "create_user/"; SMTPAuthenticationError */
+	} else
+		path += "create_user/"; SMTPAuthenticationError
 
 	fetch(url + path, fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {

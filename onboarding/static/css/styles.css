@@ -38,7 +38,7 @@
 }
 
 .show-and-hide {
-    animation: showAndHide 3s linear;
+    animation: showAndHide 3s linear forwards;
 }
 
 .sidebar-nav {

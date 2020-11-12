@@ -6,7 +6,7 @@ import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import FormDescription from "./FormDescription";
 import FormAddSection from "./FormAddSection";
-import FormSectionsAPI from "../hooks/FormSectionsAPI";
+import FormSectionsAPI, { saveSections, dndFormSections } from "../hooks/FormSectionsAPI";
 import LoggedUser from "../hooks/LoggedUser.js";
 
 function FormsEditPage({ location, match }) {
@@ -17,6 +17,11 @@ function FormsEditPage({ location, match }) {
 
   const updateSections = () => {
     update(countUpdate + 1);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    saveSections(sections);
   };
 
   const packageIdRef = useRef(0);
@@ -44,12 +49,12 @@ function FormsEditPage({ location, match }) {
     )
       return;
 
-    const destinationSection = qaList[destination.index];
-    const droppedSection = qaList[source.index];
+    const destinationSection = sections[destination.index];
+    const droppedSection = sections[source.index];
 
-    // dndQnA(qaList, droppedSection, destinationSection, updateQnA);
+    dndFormSections(sections, droppedSection, destinationSection, updateSections);
 
-    const pageSections = Object.assign([], qaList);
+    const pageSections = Object.assign([], sections);
     pageSections.splice(source.index, 1);
     pageSections.splice(destination.index, 0, droppedSection);
     setSections(pageSections);
@@ -70,9 +75,9 @@ function FormsEditPage({ location, match }) {
                 loggedUser={loggedUser}
               />{" "}
               <FormDescription location={location} pageId={pageId} />
-              <div className="page-section">
+              <section className="page-section">
                 <div className="card card-fluid">
-                  <div className="card-header">Sekcje strony</div>
+                  <header className="card-header">Sekcje strony</header>
                   <form>
                     <div className="row">
                       <DragDropContext onDragEnd={onDragEnd}>
@@ -108,7 +113,7 @@ function FormsEditPage({ location, match }) {
                               <button
                                 type="submit"
                                 className="btn btn-success"
-                                // onClick={handleSubmit}
+                                onClick={handleSubmit}
                               >
                                 Zapisz pytania
                               </button>
@@ -119,7 +124,7 @@ function FormsEditPage({ location, match }) {
                     </div>
                   </form>
                 </div>
-              </div>
+              </section>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import PropTypes from "prop-types";
 
-const AnswerToChoose = ({
+const AnswerRow = ({
   innerRef,
   provided,
   id,
@@ -114,4 +114,4 @@ const AnswerToChoose = ({
 //   editAnswer: PropTypes.func.isRequired,
 // };
 
-export default AnswerToChoose;
+export default AnswerRow;

@@ -47,7 +47,7 @@ const FormSectionsAPI = ({
   }, [count]);
 
   if (!loaded) {
-    return <div>Ładowanie...</div>;
+    return <div className="d-flex justify-content-center my-3">Ładowanie...</div>;
   } else {
     return (
       <>
@@ -69,6 +69,7 @@ const FormSectionsAPI = ({
                   description={element.description}
                   type={element.type}
                   answers={element.answer_set}
+                  page={element.page}
                   sections={sections}
                   setSections={setSections}
                   updateSections={updateSections}
@@ -110,148 +111,181 @@ export function addSection(sectionType, pageId, updateSections, maxOrder) {
   return true;
 }
 
-// export function copyQnA(qnaToCopy, qaList, updateSections) {
-//   const url = getPath();
-//   const token = getCookie("csrftoken");
-//   const fetchProps = {
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       "X-CSRFToken": token,
-//     },
-//     body: null,
-//   };
-//   const data = {
-//     question: qnaToCopy.question,
-//     answer: qnaToCopy.answer,
-//     order: qnaToCopy.order + 1,
-//   };
-//   fetchProps.body = JSON.stringify(data);
+export function copySection(sectionToCopy, sections, updateSections) {
+  const url = getPath();
+  const token = getCookie("csrftoken");
+  const fetchProps = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+    body: null,
+  };
 
-//   fetch(url + "api/q_and_a/", fetchProps)
-//     .then((res) => res.json())
-//     .then((result) => {
-//       qaList.map((item) => {
-//         if (item.order >= qnaToCopy.order + 1) {
-//           fetchProps.method = "PATCH";
-//           fetchProps.body = JSON.stringify({ order: item.order + 1 });
+  const data = {
+    order: sectionToCopy.order + 1,
+    title: sectionToCopy.title,
+    description: sectionToCopy.description,
+    link: "",
+    type: sectionToCopy.type,
+    data: null,
+    page: sectionToCopy.page,
+    answers_set: sectionToCopy.answers,
+  };
+  fetchProps.body = JSON.stringify(data);
+  console.log(fetchProps.body)
 
-//           fetch(url + "api/q_and_a/" + item.id + "/", fetchProps).catch(
-//             (error) => {
-//               console.log(error);
-//             }
-//           );
-//         }
-//       });
-//       updateSections(result);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
+  fetch(url + "api/section_answers/", fetchProps)
+    .then((res) => res.json())
+    .then((result) => {
+      sections.map((item) => {
+        if (item.order >= sectionToCopy.order + 1) {
+          fetchProps.method = "PATCH";
+          fetchProps.body = JSON.stringify({ order: item.order + 1 });
 
-//   return true;
-// }
+          fetch(url + "api/section_answers/" + item.id + "/", fetchProps).catch(
+            (error) => {
+              console.log(error);
+            }
+          );
+        }
+      });
+      updateSections(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-// export function saveQnA(element, id, content, updateSections, setSaved) {
-//   if (
-//     typeof content !== "string" ||
-//     (typeof content === "string" && content.length < 1)
-//   )
-//     return false;
+  return true;
+}
 
-//   const url = getPath();
-//   const token = getCookie("csrftoken");
-//   const fetchProps = {
-//     method: "PATCH",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       "X-CSRFToken": token,
-//     },
-//   };
-//   const data = {};
-//   element === "question" ? (data.question = content) : (data.answer = content);
+export function updateSection(element, id, content, updateSections, setSaved) {
+  if (
+    typeof content !== "string" ||
+    (typeof content === "string" && content.length < 1)
+  )
+    return false;
 
-//   fetchProps.body = JSON.stringify(data);
+  const url = getPath();
+  const token = getCookie("csrftoken");
+  const fetchProps = {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+  };
+  const data = {};
+  element === "title" ? (data.title = content) : (data.description = content);
 
-//   fetch(url + "api/q_and_a/" + id + "/", fetchProps)
-//     .then((res) => res.json())
-//     .then((result) => {
-//       updateSections(result);
-//       setSaved(true);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-//   return true;
-// }
+  fetchProps.body = JSON.stringify(data);
 
-// export function deleteQnA(id, qaList, updateSections) {
-//   const url = getPath();
-//   const token = getCookie("csrftoken");
-//   const fetchProps = {
-//     method: "DELETE",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       "X-CSRFToken": token,
-//     },
-//   };
-//   fetch(url + "api/q_and_a/" + id, fetchProps)
-//     .then((res) => res.text())
-//     .then(() => {
-//       updateSections();
+  fetch(url + "api/section_answers/" + id + "/", fetchProps)
+    .then((res) => res.json())
+    .then((result) => {
+      updateSections(result);
+      setSaved(true);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return true;
+}
 
-//       let order = 0;
-//       qaList.map((item) => {
-//         if (item.id !== id) {
-//           order += 1;
-//           item.order = order;
-//           fetchProps.method = "PATCH";
-//           fetchProps.body = JSON.stringify(item);
+export function deleteSection(id, sections, updateSections) {
+  console.log(2)
+  const url = getPath();
+  const token = getCookie("csrftoken");
+  const fetchProps = {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+  };
 
-//           fetch(url + "api/q_and_a/" + item.id + "/", fetchProps)
-//             .then((res) => res.json())
-//             .then((result) => {
-//               updateSections(result);
-//             })
-//             .catch((error) => {
-//               console.log(error);
-//             });
-//         }
-//       });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-//   return true;
-// }
+  fetch(url + "api/section_answers/" + id, fetchProps)
+    .then((res) => res.text())
+    .then((result) => {
+      updateSections();
+      console.log('del result', result)
 
-// export function dndQnA(
-//   qaList,
-//   droppedSection,
-//   destinationSection,
-//   updateSections
-// ) {
-//   const url = getPath();
-//   const token = getCookie("csrftoken");
-//   const fetchProps = {
-//     method: "PATCH",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       "X-CSRFToken": token,
-//     },
-//     body: null,
-//   };
-//   const droppedData = { order: destinationSection.order };
-//   fetchProps.body = JSON.stringify(droppedData);
+      let order = 0;
+      sections.map((item) => {
+        if (item.id !== id) {
+          order += 1;
+          item.order = order;
+          fetchProps.method = "PATCH";
+          fetchProps.body = JSON.stringify(item);
 
-//   fetch(url + "api/q_and_a/" + droppedSection.id + "/", fetchProps)
-//     .then((res) => res.json())
-//     .then((result) => {
-//       qaList.map((item) => {
+          fetch(url + "api/section_answers/" + item.id + "/", fetchProps)
+            // .then((res) => res.json())
+            // .then((result) => {
+            //   // updateSections(result);
+            // })
+            .catch((error) => {
+              console.log(error.message);
+            });
+        }
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return true;
+}
+
+export function saveSections(sections) {
+  console.log("zapisywanie")
+  const url = getPath();
+  const token = getCookie("csrftoken");
+  const fetchProps = {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+    body: JSON.stringify(sections),
+  };
+  // fetchProps.body = JSON.stringify(sections);
+
+  fetch(url + "api/section_answers/", fetchProps)
+    .then((res) => res.json())
+    .then((result) => {
+      console.log('save result', result)
+    })
+}
+
+export function dndFormSections(
+  sections,
+  droppedSection,
+  destinationSection,
+  updateSections
+) {
+  const url = getPath();
+  const token = getCookie("csrftoken");
+  const fetchProps = {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+    body: null,
+  };
+  const droppedData = { order: destinationSection.order };
+  fetchProps.body = JSON.stringify(droppedData);
+
+  fetch(url + "api/section_answers/" + droppedSection.id + "/", fetchProps)
+    .then((res) => res.json())
+    .then((result) => {
+      console.log('dnd result', result)
+//       sections.map((item) => {
 //         if (
 //           (item.order >= destinationSection.order &&
 //             item.order < droppedSection.order &&
@@ -266,7 +300,7 @@ export function addSection(sectionType, pageId, updateSections, maxOrder) {
 //               : item.order - 1;
 //           fetchProps.body = JSON.stringify({ order: newOrder });
 
-//           fetch(url + "api/q_and_a/" + item.id + "/", fetchProps)
+//           fetch(url + "api/section_answers/" + item.id + "/", fetchProps)
 //             .then((res) => res.json())
 //             .then((response) => {
 //               updateSections(response);
@@ -276,12 +310,12 @@ export function addSection(sectionType, pageId, updateSections, maxOrder) {
 //             });
 //         }
 //       });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-//   return true;
-// }
+  return true;
+}
 
 export default FormSectionsAPI;

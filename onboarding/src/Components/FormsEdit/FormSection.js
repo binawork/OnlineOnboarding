@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import MarkdownArea from "../MarkdownArea";
-import Switcher from "../Switcher";
-import RadioButton from "./SingleChoiceForm/RadioButton";
-import AnswerToChoose from "./AnswerToChoose";
+import SaveInfo from "../SaveInfo";
+// import Switcher from "../Switcher";
+import AnswerRow from "./AnswerRow";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-// import { copyQnA, saveQnA, deleteQnA } from "../hooks/QnA";
+import {
+  copySection,
+  updateSection,
+  deleteSection,
+} from "../hooks/FormSectionsAPI";
 
 function FormSection({
   provided,
@@ -17,57 +21,78 @@ function FormSection({
   description,
   type,
   answers,
+  page,
   sections,
   setSections,
   updateSections,
 }) {
-  // const [q, setQuestion] = useState("");
-  // const [a, setAnswer] = useState("");
-  // const [saved, setSaved] = useState(false);
+  const [sectionTitle, setTitle] = useState(title);
+  const [sectionDescription, setDescription] = useState(description);
+  const [saved, setSaved] = useState(false);
 
-  // useEffect(() => {
-  //   // Show info "Zapisano zmiany" for 3sec when the changes were saved
-  //   if (saved) {
-  //     setTimeout(setSaved, 3000, false);
-  //   }
-  // }, [saved]);
+  const cardHeader =
+    type === "oa"
+      ? "Pytanie otwarte"
+      : type === "osa"
+      ? "Jednokrotny wybór"
+      : type === "msa"
+      ? "Wielokrotny wybór"
+      : "";
+  // const answerRequired = true;
 
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (q !== question) {
-  //       question = q;
-  //       saveQnA("question", id, q, updateSections, setSaved);
-  //     }
-  //     if (a !== answer) {
-  //       answer = a;
-  //       saveQnA("answer", id, a, updateSections, setSaved);
-  //     }
-  //   }, 4000);
+  useEffect(() => {
+    // Show info "Zapisano zmiany" for 3sec when the changes were saved
+    if (saved) {
+      setTimeout(setSaved, 3000, false);
+    }
+  }, [saved]);
 
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [q, a]);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (sectionTitle !== title) {
+        title = sectionTitle;
+        updateSection("title", id, sectionTitle, updateSections, setSaved);
+      }
+      if (sectionDescription !== description) {
+        description = sectionDescription;
+        updateSection(
+          "description",
+          id,
+          sectionDescription,
+          updateSections,
+          setSaved
+        );
+      }
+    }, 4000);
 
-  // const changeQuestion = (content) => {
-  //   setQuestion(content);
-  // };
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [sectionTitle, sectionDescription]);
 
-  // const changeAnswer = (content) => {
-  //   setAnswer(content);
-  // };
+  const changeTitle = (e) => {
+    setTitle(e.target.value);
+  };
 
-  // const handleCopyQA = (e) => {
-  //   e.preventDefault();
-  //   const qnaToCopy = { question: q, answer: a, order: order };
-  //   copyQnA(qnaToCopy, qaList, updateSections);
-  // };
+  const handleCopySection = (e) => {
+    e.preventDefault();
+    const sectionToCopy = {
+      title: sectionTitle,
+      description: sectionDescription,
+      order: order,
+      type: type,
+      answers: answers,
+      page: page,
+    };
+    copySection(sectionToCopy, sections, updateSections);
+  };
 
-  // const handleDeleteQnA = (e) => {
-  //   e.preventDefault();
-  //   deleteQnA(id, qaList, updateSections);
-  //   setQaList(qaList.filter((item) => item.id !== id));
-  // };
+  const handleDeleteSection = (e) => {
+    e.preventDefault();
+    console.log(1);
+    deleteSection(id, sections, updateSections);
+    setSections(sections.filter((item) => item.id !== id));
+  };
 
   const onDragEnd = (result) => {
     // destination, source -> objects in which you can find the index of the destination and index of source item
@@ -91,32 +116,8 @@ function FormSection({
     changeAnswersOrder(id, sectionAnswers);
   };
 
-  const cardHeader =
-    type === "oa"
-      ? "Pytanie otwarte"
-      : type === "osa"
-      ? "Jednokrotny wybór"
-      : type === "msa"
-      ? "Wielokrotny wybór"
-      : "";
-  // const answerRequired = true;
-
   const answersList = answers.map((answer, index) => {
     try {
-      // if (type === "oa") {
-      //   return (
-      //     <div key={answer.id} className="form-group">
-      //       <textarea
-      //         id={answer.id}
-      //         className="form-control"
-      //         placeholder="Odpowiedź pracownika"
-      //         rows="4"
-      //         // value={userAnswer}
-      //         // onChange={editOpenAnswer}
-      //       ></textarea>
-      //     </div>
-      //   );
-      // } else
       if (type === "osa" || type === "msa") {
         return (
           <Draggable
@@ -125,10 +126,10 @@ function FormSection({
             index={index}
           >
             {(provided) => (
-              <AnswerToChoose
+              <AnswerRow
                 innerRef={provided.innerRef}
                 provided={provided}
-                // key={"answer" + answer.id}
+                key={"answer" + answer.id}
                 id={answer.id}
                 name={name}
                 title={answer.title}
@@ -141,7 +142,7 @@ function FormSection({
             )}
           </Draggable>
         );
-      } else {
+      } else if (type !== "oa") {
         throw new Error(
           "Wrong type of section. The proper section type is one of: 'oa', 'osa' or 'msa'."
         );
@@ -152,31 +153,28 @@ function FormSection({
   });
 
   return (
-    <div className="card-body" {...provided.draggableProps} ref={innerRef}>
+    <section className="card-body" {...provided.draggableProps} ref={innerRef}>
       <div className="task-issue">
         <div className="card">
-          <div className="card-header" {...provided.dragHandleProps}>
+          <header className="card-header" {...provided.dragHandleProps}>
             <span className="drag-indicator"></span> {cardHeader}
-          </div>
+          </header>
           <div className="card-body">
             <div className="form-group">
               <div className="input-group">
                 <input
-                  // id={"section-title-" + id}
                   type="text"
                   className="form-control"
                   placeholder="Tytuł"
-                  // value={title}
-                  // onChange={titleChange}
-                  // required
-                  autoFocus
+                  value={sectionTitle}
+                  onChange={changeTitle}
                 />
               </div>
             </div>
             <MarkdownArea
               id={id}
-              content={description}
-              // contentChange={descriptionChange}
+              content={sectionDescription}
+              contentChange={setDescription}
               simple={false}
             />
             <hr />
@@ -188,73 +186,60 @@ function FormSection({
                   className="form-control"
                   placeholder="Odpowiedź pracownika"
                   rows="4"
-                  // value={userAnswer}
-                  // onChange={editOpenAnswer}
                 ></textarea>
               </div>
             ) : (
-              <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId="dp1">
-                  {(provided) => (
-                    <table className="table table-hover">
-                      <tbody
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                      >
-                        {answersList}
-                        {provided.placeholder}
-                      </tbody>
-                    </table>
-                  )}
-                </Droppable>
-              </DragDropContext>
+              <>
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable droppableId="dp1">
+                    {(provided) => (
+                      <table className="table table-hover">
+                        <tbody
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                        >
+                          {answersList}
+                          {provided.placeholder}
+                        </tbody>
+                      </table>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+                <hr />
+                <div className="form-group">
+                  <div className="input-group-append">
+                    <button
+                      className="btn btn-secondary"
+                      // onClick={addAnswer}
+                    >
+                      Dodaj odpowiedź
+                    </button>
+                  </div>
+                </div>
+              </>
             )}
 
-            <hr />
-            <div className="form-group">
-              <div className="input-group-append">
-                <button
-                  className="btn btn-secondary"
-                  // id={"add-answer-butt-" + id}
-                  // onClick={addAnswer}
-                >
-                  Dodaj odpowiedź
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="card-footer align-items-center">
-            <div className="col">
-              <Switcher
+            <footer className="card-footer d-flex justify-content-end">
+              {/* <div className="col"> */}
+              {/* <Switcher
                 id={id}
                 // answRequired={answerRequired}
                 // switcherChange={switcherChange}
               />{" "}
-              Odp. wymagana
-            </div>
-            <div className="col">
-              <button
-                className="btn"
-                // id={"copy-" + id}
-                // onClick={copyForm}
-              >
+              Odp. wymagana */}
+              {/* </div> */}
+              <button className="btn" onClick={handleCopySection}>
                 <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie
               </button>
-            </div>
-            <div className="col">
-              <button
-                className="btn text-danger"
-                // onClick={deleteForm}
-              >
-                <i className="fa fa-trash-o fa-lg">&#61944;</i>
-                Usuń
+              <button className="btn text-danger" onClick={handleDeleteSection}>
+                <i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń
               </button>
-            </div>
+            </footer>
           </div>
         </div>
       </div>
-    </div>
+      {saved ? <SaveInfo /> : <></>}
+    </section>
   );
 }
 
