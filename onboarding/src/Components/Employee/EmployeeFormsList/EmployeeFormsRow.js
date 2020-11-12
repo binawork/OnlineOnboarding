@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function EmployeeFormsRow(props) {
     return(
         <tr>
-            <td><Link to="/employe_page_fill">{props.row.name}</Link></td>
+            <td><Link to="/page_fill">{props.row.name}</Link></td>
             <td>{props.row.progress}</td>
         </tr>
     )

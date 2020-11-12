@@ -200,6 +200,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def login_user(self, request):
+        permission_classes = (IsAuthenticated)
         queryset = User.objects.filter(pk=self.request.user.id)
         serializer = LogInUserSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -223,7 +224,7 @@ class UserViewSet(viewsets.ModelViewSet):
             associated_users = User.objects.filter(Q(email=user_email))
             if associated_users.exists():
                 for user in associated_users:
-                    send_activation_email_for_user_created_by_hr(user=user, )
+                    send_activation_email_for_user_created_by_hr(user=user, current_site=current_site)
 
             return Response(status=201)
         else:
