@@ -110,9 +110,12 @@ notes.txt
 
 # React/node.js etc.
 node_modules/
+package-lock.json
 onboarding/static/js/index.html
 onboarding/static/js/main.js.map
+onboarding/static/js/employee.js.map
 switch_main_js.sh
+
 
 # Ignore uploaded media files during local testing
 onboarding/media/
