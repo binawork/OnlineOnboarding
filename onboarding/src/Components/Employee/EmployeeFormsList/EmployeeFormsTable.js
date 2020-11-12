@@ -5,8 +5,8 @@ import EmployeeFormsRow from "./EmployeeFormsRow";
 function EmployeeFormsTable() {
     let employePageCopylist= [];
     if (employePageCopy) {
-        employePageCopy.forEach(function (element) {
-            employePageCopylist.push(<EmployeeFormsRow row={element}/>)
+        employePageCopy.forEach(function (element, i) {
+            employePageCopylist.push(<EmployeeFormsRow key={ i } row={element}/>)
         });
     }
     return(
