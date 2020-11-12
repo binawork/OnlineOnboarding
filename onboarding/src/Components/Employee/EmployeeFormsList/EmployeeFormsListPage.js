@@ -1,9 +1,14 @@
-import React from "react";
+import React/*, { useState, useEffect }*/ from "react";
 import NavbarEmployee from "../NavbarEmployee";
 import EmployeeFormsTable from "./EmployeeFormsTable";
-import LoggedUser from "../hooks/LoggedUser.js";
+import LoggedUser from "../../hooks/LoggedUser";
+import ModeButton from "../../ModeButton";
+
 
 function EmployeeFormsListPage(props) {
+    /*const [loggedUser, setLoggedUser] = useState({id: 0, email: "", first_name: "", last_name: "",
+    							phone_number: "", location: "", team: "",
+    							job_position: "",last_login: "", avatar: ""});*/
     let loggedUser;
     if(props.location.state){
         loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
@@ -11,7 +16,7 @@ function EmployeeFormsListPage(props) {
         loggedUser = LoggedUser();
 
     return(
-        <div className="app">
+        <>
             <header className="app-header app-header-dark">
                 <NavbarEmployee loggedUser={ loggedUser } />
             </header>
@@ -24,7 +29,10 @@ function EmployeeFormsListPage(props) {
                     </div>
                 </div>
             </main>
-        </div>
+            <div style={{ position:"fixed", bottom:"0px", left:"0px" }}>
+                <ModeButton />
+            </div>
+        </>
     )
 }
 export default EmployeeFormsListPage;

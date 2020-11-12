@@ -1,14 +1,11 @@
 import React from "react";
 
-//import "../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-//import "../static/looper/vendor/fontawesome/all.min.css";
-
 import NavbarEmployee from "./NavbarEmployee.js";
-import FormOpenAnswer from "./FormsEdit/FormOpenAnswer";
-import FormChoiceAnswer from "./FormsEdit/FormChoiceAnswer";
-import FormMultiChoiceAnswer from "./FormsEdit/FormMultiChoiceAnswer";
-import { formsEmployeeData } from "./FormsEdit/FormsEmployeeData.js";
+import ModeButton from "../ModeButton";
+import FormOpenAnswer from "../FormsEdit/FormOpenAnswer";
+import FormChoiceAnswer from "../FormsEdit/FormChoiceAnswer";
+import FormMultiChoiceAnswer from "../FormsEdit/FormMultiChoiceAnswer";
+import { formsEmployeeData } from "../FormsEdit/FormsEmployeeData.js";
 
 function FormsEmployeePage() {
     var forms = [];
@@ -22,7 +19,7 @@ function FormsEmployeePage() {
     }
 
     return(
-    	<div className="app">
+    	<>
     		<header className="app-header app-header-dark">
     			<NavbarEmployee />{/* placeholder; */}
     		</header>
@@ -53,7 +50,10 @@ function FormsEmployeePage() {
 
     			</div></div>
     		</main>
-    	</div>
+    		<div style={{ position:"fixed", bottom:"0px", left:"0px" }}>
+                <ModeButton />
+            </div>
+    	</>
     )
 }
 
