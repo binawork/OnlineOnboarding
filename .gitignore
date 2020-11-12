@@ -113,6 +113,7 @@ node_modules/
 package-lock.json
 onboarding/static/js/index.html
 onboarding/static/js/main.js.map
+onboarding/static/js/employee.js.map
 switch_main_js.sh
 
 
