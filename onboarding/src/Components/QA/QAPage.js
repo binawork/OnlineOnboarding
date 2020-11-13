@@ -6,7 +6,7 @@ import QAList from "./QAList";
 import LoggedUser from "../hooks/LoggedUser.js";
 
 const QAPage = ({ location }) => {
-  let loggedUser = location.state.loggedUser ? location.state.loggedUser : LoggedUser();
+  let loggedUser = location.state?.loggedUser ? location.state.loggedUser : LoggedUser();
 
   return (
     <div className="app">
