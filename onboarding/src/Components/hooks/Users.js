@@ -127,11 +127,12 @@ export function employeeAddEdit(handleMessage, employeeObject){
 
 	fetch(url + path, fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
-			msg += "  " + String(result);
+			if(result.hasOwnProperty('detail') )
+				msg += "  " + String(result.detail);
 			handleMessage(msg);
 		},
 		(error) => {
-			console.log("eA");
+			console.log("Users: eA");
 			handleMessage("Błąd. " + error);
 		}
 	);
@@ -171,9 +172,12 @@ export function employeeRemove(handleSuccess, userId){
 	data = {"id": userId};
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/users/" + userId + "/", fetchProps).then(res => res.json()).then(
+	fetch(url + "api/users/" + userId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
-			handleSuccess("Pracownik usunięty");
+			let msg = "Pracownik usunięty";
+			if(result.hasOwnProperty('detail') )
+				msg += "  " + result.detail;
+			handleSuccess(msg);
 		},
 		(error) => {
 			handleSuccess("Kłopoty z usunięciem pracownika!");
