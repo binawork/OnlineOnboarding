@@ -13,9 +13,10 @@ function Qa({
   draggableProps,
   innerRef,
   dragHandleProps,
+  editMode,
 }) {
-  const [q, setQuestion] = useState("");
-  const [a, setAnswer] = useState("");
+  const [q, setQuestion] = useState(question);
+  const [a, setAnswer] = useState(answer);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -44,10 +45,22 @@ function Qa({
 
   const changeQuestion = (content) => {
     setQuestion(content);
+    setQaList(qaList.map(qa => {
+      if(qa.id === id) {
+        qa.question = content;
+      }
+      return qa;
+    }));
   };
-
+  
   const changeAnswer = (content) => {
     setAnswer(content);
+    setQaList(qaList.map(qa => {
+      if(qa.id === id) {
+        qa.answer = content;
+      }
+      return qa;
+    }));
   };
 
   const handleCopyQA = (e) => {
@@ -62,7 +75,23 @@ function Qa({
     setQaList(qaList.filter((item) => item.id !== id));
   };
 
-  return (
+  const preview = (
+    <div className="task-issue">
+      <div className="card">
+        <div className="card-body">
+          <div className="form-group">
+            <p dangerouslySetInnerHTML={{ __html: q }}></p>
+          </div>
+          <hr />
+          <p dangerouslySetInnerHTML={{ __html: a }}></p>
+        </div>
+      </div>
+    </div>
+  );
+
+  return !editMode ? (
+    preview
+  ) : (
     <div className="task-issue" {...draggableProps} ref={innerRef}>
       <div className="card">
         <span className="drag-indicator" {...dragHandleProps}></span>
@@ -70,7 +99,7 @@ function Qa({
           <div className="form-group">
             <MarkdownArea
               id={"question" + id}
-              content={question}
+              content={q}
               contentChange={changeQuestion}
               simple={true}
               placeholder={"Wpisz pytanie"}
@@ -80,7 +109,7 @@ function Qa({
           <hr />
           <MarkdownArea
             id={"answer" + id}
-            content={answer}
+            content={a}
             contentChange={changeAnswer}
             simple={true}
             placeholder={"Wpisz odpowiedź"}

@@ -3,7 +3,14 @@ import { Draggable } from "react-beautiful-dnd";
 import { getPath, getCookie } from "../utils.js";
 import Qa from "../QA/Qa";
 
-function QnA({ qaList, setQaList, count, handleUpdate, updateMaxOrder }) {
+function QnA({
+  qaList,
+  setQaList,
+  count,
+  handleUpdate,
+  updateMaxOrder,
+  editMode,
+}) {
   const [loaded, isLoaded] = useState(false);
 
   const url = getPath();
@@ -40,29 +47,42 @@ function QnA({ qaList, setQaList, count, handleUpdate, updateMaxOrder }) {
   } else {
     return (
       <>
-        {qaList.map((element, index) => (
-          <Draggable
-            key={element.id}
-            draggableId={"draggable-" + element.id}
-            index={index}
-          >
-            {(provided) => (
-              <Qa
-                key={element.id}
-                id={element.id}
-                question={element.question}
-                answer={element.answer}
-                order={element.order}
-                qaList={qaList}
-                setQaList={setQaList}
-                handleUpdate={handleUpdate}
-                draggableProps={provided.draggableProps}
-                innerRef={provided.innerRef}
-                dragHandleProps={provided.dragHandleProps}
-              />
-            )}
-          </Draggable>
-        ))}
+        {qaList.map((element, index) =>
+          editMode ? (
+            <Draggable
+              key={element.id}
+              draggableId={"draggable-" + element.id}
+              index={index}
+            >
+              {(provided) => (
+                <Qa
+                  key={element.id}
+                  id={element.id}
+                  question={element.question}
+                  answer={element.answer}
+                  order={element.order}
+                  qaList={qaList}
+                  setQaList={setQaList}
+                  handleUpdate={handleUpdate}
+                  draggableProps={provided.draggableProps}
+                  innerRef={provided.innerRef}
+                  dragHandleProps={provided.dragHandleProps}
+                  editMode={editMode}
+                />
+              )}
+            </Draggable>
+          ) : (
+            <Qa
+              key={element.id}
+              id={element.id}
+              question={element.question}
+              answer={element.answer}
+              order={element.order}
+              qaList={qaList}
+              editMode={editMode}
+            />
+          )
+        )}
       </>
     );
   }
@@ -266,6 +286,29 @@ export function dndQnA(
       console.log(error);
     });
 
+  return true;
+}
+
+export function saveQnaSet(qaList) {
+  const url = getPath();
+  const token = getCookie("csrftoken");
+  const fetchProps = {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+  };
+  qaList.map((qa) => {
+    fetchProps.body = JSON.stringify(qa);
+    fetch(url + "api/q_and_a/" + qa.id + "/", fetchProps)
+      .then((res) => res.json())
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+  // console.log(data)
   return true;
 }
 
