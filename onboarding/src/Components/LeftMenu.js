@@ -96,7 +96,7 @@ function LeftMenu(props) {
                       </NavLink>
                     </li>
                     <li className="menu-item">
-                      <NavLink to={{ pathname: "/users_pages", state: {loggedUser: loggedUser} }} className="menu-link" activeStyle={{color: "#346CB0"}}>
+                      <NavLink to={{ pathname: "/users_pages", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
                         - Wyślij pracownikowi
                       </NavLink>
                     </li>

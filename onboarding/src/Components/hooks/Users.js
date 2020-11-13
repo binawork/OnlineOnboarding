@@ -68,7 +68,6 @@ function Users(props){
 			position: "-", department: "-", location: "-",
 			sent: "-", finished: "-", avatar: ""};
 		users.push(singleUser);
-		return users;
 	} else if(!loaded){
 		singleUser = {name: "Ładowanie ...", first_name: "", last_name: "", email: "Ładowanie ...", tel: "",
 			position: "Ładowanie ...", department: "Ładowanie ...", location: "Ładowanie ...",
@@ -76,7 +75,6 @@ function Users(props){
 
 		users.push(singleUser);
 		// <UserListRow user = { singleUser } key = { 0 } />
-		return users;
 	} else {
 		var count = rows.length;
 		let i, packageId = 0, loggedUser = {id:0, first_name: ""};
@@ -101,8 +99,10 @@ function Users(props){
 			// users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } packageId={ packageId } loggedUser={ loggedUser } />);
 		}
 
-		return users;
+
 	}
+
+	return users;
 }
 
 
