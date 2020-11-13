@@ -22,7 +22,7 @@ function FormTableRow(props) {
             <td>{ dateToString(props.row.last_edit) }</td>
             <td><Link to={{ pathname: "/form_edit", state: { packageId: props.packageId, pageId: props.row.key,
                  									pageName:props.row.name, description: props.row.description,
-                 									link: props.row.link, loggedUser: loggedUser } }} >edytuj</Link>
+                 									link: props.row.link, loggedUser: loggedUser } }}  className="btn btn-secondary">edytuj</Link>
                  / <button className="btn btn-secondary" onClick={ handleRemove }>usuń</button></td>
         </tr>
     )
