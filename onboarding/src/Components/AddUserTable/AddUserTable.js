@@ -1,15 +1,25 @@
 import React from "react";
-import { addUserFormTableData } from "./Add_User_Table_Data";
+import Users from "../hooks/Users";
 import AddUserTableRow from "./Add_User_Table_Row";
 import UserListSearch from "../UserListSearch";
+import LoggedUser from "../hooks/LoggedUser.js";
+// import { addUserFormTableData } from "./Add_User_Table_Data";
 
-function AddUserTable() {
-    let user_table = [];
-    if (addUserFormTableData) {
+
+function AddUserTable(props) {
+    let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
+    let user_table = [], users;
+
+    users = Users({loggedUser: loggedUser, count: 0});
+    users.forEach(function(singleUser, i){
+        user_table.push(<AddUserTableRow key={ i } row={ singleUser } />);
+    });
+
+    /*if (addUserFormTableData) {
         addUserFormTableData.forEach(function (element, i) {
             user_table.push(<AddUserTableRow row={element}/>)
         });
-    }
+    }*/
 
     return(
         <div className="page-section">
