@@ -1,6 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
-import UserListRow from "../UsersList/UserListRow";
+//import UserListRow from "../UsersList/UserListRow";
+
+
+function checkUser(userObject, userId){
+	const singleUser = {id: userId, name: "-", first_name: "", last_name: "", email: "-", tel: "",
+				position: "-", department: "-", location: "-", sent: "-", finished: "-", avatar:""};
+
+	if(typeof userObject.first_name === "string" && userObject.first_name.length > 0){
+		singleUser.name = userObject.first_name;
+		singleUser.first_name = userObject.first_name;
+	}
+	if(typeof userObject.last_name === "string" && userObject.last_name.length > 0){
+		singleUser.name = singleUser.name + " " + userObject.last_name;
+		singleUser.last_name = userObject.last_name;
+	}
+
+	if(typeof userObject.email === "string" && userObject.email.length > 0)
+		singleUser.email = userObject.email;
+	if(typeof userObject.phone_number === "string" && userObject.phone_number.length > 0)
+		singleUser.tel = userObject.phone_number;
+
+	if(typeof userObject.location === "string" && userObject.location.length > 0)
+		singleUser.location = userObject.location;
+
+	if(typeof userObject.team === "string" && userObject.team.length > 0)
+		singleUser.department = userObject.team;
+
+	if(typeof userObject.job_position === "string" && userObject.job_position.length > 0)
+		singleUser.position = userObject.job_position;
+
+	if(typeof userObject.avatar === "string" && userObject.avatar.length > 0)
+		singleUser.avatar = userObject.avatar;
+
+	return singleUser;
+}
 
 /**
  * Get users/employees from Onboarding API when UserList component is loaded;
@@ -26,16 +60,25 @@ function Users(props){
 		);
 	}, [props.count]);
 
+
+	let users = [];
+
 	if(error){
-		return error.message;
+		singleUser = {name: error.message, first_name: error.message, last_name: "", email: "-", tel: "",
+			position: "-", department: "-", location: "-",
+			sent: "-", finished: "-", avatar: ""};
+		users.push(singleUser);
+		return users;
 	} else if(!loaded){
 		singleUser = {name: "Ładowanie ...", first_name: "", last_name: "", email: "Ładowanie ...", tel: "",
 			position: "Ładowanie ...", department: "Ładowanie ...", location: "Ładowanie ...",
 			sent: "-", finished: "-", avatar: ""};
 
-		return <UserListRow user = { singleUser } key = { 0 } />;
+		users.push(singleUser);
+		// <UserListRow user = { singleUser } key = { 0 } />
+		return users;
 	} else {
-		var users = [], count = rows.length;
+		var count = rows.length;
 		let i, packageId = 0, loggedUser = {id:0, first_name: ""};
 		if(props.packageId)
 			packageId = props.packageId;
@@ -44,46 +87,21 @@ function Users(props){
 			loggedUser = props.loggedUser;
 
 		for(i = 0; i < count; i++){
-			singleUser = {id: 0, name: "-", first_name: "", last_name: "", email: "-", tel: "",
-				position: "-", department: "-", location: "-", sent: "-", finished: "-", avatar:""};
+			/*singleUser = {id: 0, name: "-", first_name: "", last_name: "", email: "-", tel: "",
+				position: "-", department: "-", location: "-", sent: "-", finished: "-", avatar:""};*/
 
 			if(rows[i].id){
 				if(rows[i].id == loggedUser.id)
 					continue;
-
-				singleUser.id = rows[i].id;
 			}
 
-			if(typeof rows[i].first_name === "string" && rows[i].first_name.length > 0){
-				singleUser.name = rows[i].first_name;
-				singleUser.first_name = rows[i].first_name;
-			}
-			if(typeof rows[i].last_name === "string" && rows[i].last_name.length > 0){
-				singleUser.name = singleUser.name + " " + rows[i].last_name;
-				singleUser.last_name = rows[i].last_name;
-			}
+			singleUser = checkUser(rows[i], rows[i].id);
 
-			if(typeof rows[i].email === "string" && rows[i].email.length > 0)
-				singleUser.email = rows[i].email;
-			if(typeof rows[i].phone_number === "string" && rows[i].phone_number.length > 0)
-				singleUser.tel = rows[i].phone_number;
-
-			if(typeof rows[i].location === "string" && rows[i].location.length > 0)
-				singleUser.location = rows[i].location;
-
-			if(typeof rows[i].team === "string" && rows[i].team.length > 0)
-				singleUser.department = rows[i].team;
-
-			if(typeof rows[i].job_position === "string" && rows[i].job_position.length > 0)
-				singleUser.position = rows[i].job_position;
-
-			if(typeof rows[i].avatar === "string" && rows[i].avatar.length > 0)
-				singleUser.avatar = rows[i].avatar;
-
-			users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } packageId={ packageId } loggedUser={ loggedUser } />);
+			users.push(singleUser);
+			// users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } packageId={ packageId } loggedUser={ loggedUser } />);
 		}
 
-		return ( <>{ users }</> )
+		return users;
 	}
 }
 

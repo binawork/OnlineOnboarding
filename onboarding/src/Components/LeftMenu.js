@@ -96,7 +96,7 @@ function LeftMenu(props) {
                       </NavLink>
                     </li>
                     <li className="menu-item">
-                      <NavLink to={{ pathname: "/form_list", state: {loggedUser: loggedUser} }} className="menu-link" activeStyle={{color: "#346CB0"}}>
+                      <NavLink to={{ pathname: "/users_pages", state: {loggedUser: loggedUser} }} className="menu-link" activeStyle={{color: "#346CB0"}}>
                         - Wyślij pracownikowi
                       </NavLink>
                     </li>
@@ -149,7 +149,7 @@ function LeftMenu(props) {
                             <Link to="/packages" className="menu-link"> PackagesList </Link>
                         </li>
                         <li className="menu-item">
-                           <Link to="/form_list" className="menu-link"> AddUserTable </Link>
+                           <Link to="/users_pages" className="menu-link"> AddUserTable </Link>
                         </li>
 
                         <li className="menu-item">
