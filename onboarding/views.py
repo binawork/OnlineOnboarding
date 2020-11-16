@@ -26,7 +26,7 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
@@ -111,7 +111,7 @@ def password_reset_request(request):
                         'templated_email/password_reset_email.html', 
                         {
                             'email': user.email,
-                            'domain': '127.0.0.1:8000',
+                            'domain': '127.0.0.1:8000', # to fix: should it be in local_settings.py bec. it is another on a server?
                             'site_name': 'Website',
                             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                             'user': user,
@@ -120,11 +120,12 @@ def password_reset_request(request):
                         }
                     )
                     plain_message = strip_tags(html_message)
+                    from_email = EMAIL_HOST_USER
                     try:
                         mail.send_mail(
                                         subject,
                                         plain_message,
-                                        'admin@example.com',
+                                        from_email,
                                         [user.email],
                                         html_message=html_message,
                                         fail_silently=False
@@ -439,24 +440,24 @@ class PageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-# class PackagePagesViewSet(viewsets.ModelViewSet):
-#     """
-#     List all Packages with related pages.
-#     """
-#     queryset = Package.objects.all()
-#     serializer_class = PackagePagesSerializer
-#     permission_classes = [IsAuthenticated]
-#
-#     @action(detail=False)
-#     def list_by_company_hr(self, request):
-#         """
-#         :param request: user
-#         :return: all packages with corresponding pages for request.user = owner from params
-#         """
-#         package = Package.objects.filter(owner=request.user.company)
-#         serializer = PackagePagesSerializer(package, many=True)
-#
-#         return Response(serializer.data)
+class PackagePagesViewSet(viewsets.ModelViewSet):
+    """
+    List all Packages with related pages.
+    """
+    queryset = Package.objects.all()
+    serializer_class = PackagePagesSerializer
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=False)
+    def list_by_company_hr(self, request):
+        """
+        :param request: user
+        :return: all packages with corresponding pages for request.user = owner from params
+        """
+        package = Package.objects.filter(owner=request.user.company)
+        serializer = PackagePagesSerializer(package, many=True)
+
+        return Response(serializer.data)
 #
 
 
@@ -550,10 +551,10 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-# class SectionAnswersViewSet(views.APIView):
-#     """
-#     List all Sections with related answers.
-#     """
-#     queryset = Section.objects.all()
-#     serializer_class = SectionAnswersSerializer
+class SectionAnswersViewSet(viewsets.ModelViewSet):
+    """
+    List all Sections with related answers.
+    """
+    queryset = Section.objects.all()
+    serializer_class = SectionAnswersSerializer
 

@@ -7,6 +7,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import BadHeaderError
+from OnlineOnboarding.settings import EMAIL_HOST_USER
 
 
 def send_activation_email_for_user_created_by_hr(user, current_site):
@@ -23,11 +24,12 @@ def send_activation_email_for_user_created_by_hr(user, current_site):
     )
 
     plain_message = strip_tags(html_message)
+    from_email = EMAIL_HOST_USER
     try:
         mail.send_mail(
             subject,
             plain_message,
-            'admin@example.com',
+            from_emaily,
             [user.email],
             html_message=html_message,
             fail_silently=False
@@ -100,3 +102,4 @@ def send_remove_acc_email(EMAIL_HOST_USER, user_email):
         [to],
         html_message=html_message,
     )
+
