@@ -3,23 +3,31 @@ import Users from "../hooks/Users";
 import AddUserTableRow from "./Add_User_Table_Row";
 import UserListSearch from "../UserListSearch";
 import LoggedUser from "../hooks/LoggedUser.js";
+import { getPath } from "../utils.js";
 // import { addUserFormTableData } from "./Add_User_Table_Data";
 
 
 function AddUserTable(props) {
+    const path = getPath();
     let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
     let user_table = [], users;
 
+
+    const showModal = function(message){
+        console.log(message);
+    };
+
+    const sendToEmployee = (e) => {
+        let employeeId = e.target.value;
+        // todo: add employee to package (or page?);
+    };
+
+
     users = Users({loggedUser: loggedUser, count: 0});
     users.forEach(function(singleUser, i){
-        user_table.push(<AddUserTableRow key={ i } row={ singleUser } />);
+        user_table.push(<AddUserTableRow key={ i } row={ singleUser } handleClick={ sendToEmployee } />);
     });
 
-    /*if (addUserFormTableData) {
-        addUserFormTableData.forEach(function (element, i) {
-            user_table.push(<AddUserTableRow row={element}/>)
-        });
-    }*/
 
     return(
         <div className="page-section">
