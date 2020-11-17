@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import MarkdownArea from "../MarkdownArea";
-import { copyQnA, saveQnA, deleteQnA } from "../hooks/QnA";
+import { copyQnA, saveQnA, deleteQnA } from "../hooks/QnAAPI";
 
-function Qa({
+function QnA({
   id,
   question,
   answer,
@@ -10,6 +10,8 @@ function Qa({
   qaList,
   setQaList,
   handleUpdate,
+  maxOrder,
+  setMaxOrder,
   draggableProps,
   innerRef,
   dragHandleProps,
@@ -19,48 +21,52 @@ function Qa({
   const [a, setAnswer] = useState(answer);
   const [saved, setSaved] = useState(false);
 
-  useEffect(() => {
-    // Show info "Zapisano zmiany" for 3sec when the changes were saved
-    if (saved) {
-      setTimeout(setSaved, 3000, false);
-    }
-  }, [saved]);
+  // useEffect(() => {
+  //   // Show info "Zapisano zmiany" for 3sec when the changes were saved
+  //   if (saved) {
+  //     setTimeout(setSaved, 3000, false);
+  //   }
+  // }, [saved]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (q !== question) {
-        question = q;
-        saveQnA("question", id, q, handleUpdate, setSaved);
-      }
-      if (a !== answer) {
-        answer = a;
-        saveQnA("answer", id, a, handleUpdate, setSaved);
-      }
-    }, 4000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if (q !== question) {
+  //       // question = q;
+  //       saveQnA("question", id, q, handleUpdate, setSaved);
+  //     }
+  //     if (a !== answer) {
+  //       // answer = a;
+  //       saveQnA("answer", id, a, handleUpdate, setSaved);
+  //     }
+  //   }, 4000);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [q, a]);
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [q, a]);
 
   const changeQuestion = (content) => {
     setQuestion(content);
-    setQaList(qaList.map(qa => {
-      if(qa.id === id) {
-        qa.question = content;
-      }
-      return qa;
-    }));
+    setQaList(
+      qaList.map((qa) => {
+        if (qa.id === id) {
+          qa.question = content;
+        }
+        return qa;
+      })
+    );
   };
-  
+
   const changeAnswer = (content) => {
     setAnswer(content);
-    setQaList(qaList.map(qa => {
-      if(qa.id === id) {
-        qa.answer = content;
-      }
-      return qa;
-    }));
+    setQaList(
+      qaList.map((qa) => {
+        if (qa.id === id) {
+          qa.answer = content;
+        }
+        return qa;
+      })
+    );
   };
 
   const handleCopyQA = (e) => {
@@ -72,6 +78,7 @@ function Qa({
   const handleDeleteQnA = (e) => {
     e.preventDefault();
     deleteQnA(id, qaList, handleUpdate);
+    setMaxOrder(maxOrder - 1);
     setQaList(qaList.filter((item) => item.id !== id));
   };
 
@@ -80,10 +87,10 @@ function Qa({
       <div className="card">
         <div className="card-body">
           <div className="form-group">
-            <p dangerouslySetInnerHTML={{ __html: q }}></p>
+            <p className="m-0" dangerouslySetInnerHTML={{ __html: q }}></p>
           </div>
           <hr />
-          <p dangerouslySetInnerHTML={{ __html: a }}></p>
+          <p className="m-0" dangerouslySetInnerHTML={{ __html: a }}></p>
         </div>
       </div>
     </div>
@@ -93,35 +100,36 @@ function Qa({
     preview
   ) : (
     <div className="task-issue" {...draggableProps} ref={innerRef}>
-      <div className="card">
-        <span className="drag-indicator" {...dragHandleProps}></span>
-        <div className="card-body">
-          <div className="form-group">
-            <MarkdownArea
-              id={"question" + id}
-              content={q}
-              contentChange={changeQuestion}
-              simple={true}
-              placeholder={"Wpisz pytanie"}
-            />
-          </div>
-
-          <hr />
-          <MarkdownArea
-            id={"answer" + id}
-            content={a}
-            contentChange={changeAnswer}
-            simple={true}
-            placeholder={"Wpisz odpowiedź"}
-          />
+      <div className="card d-flex p-2" {...dragHandleProps}>
+        <div className="p-1 d-flex justify-content-center">
+          <span
+            className="drag-indicator"
+            style={{ transform: "rotate(90deg)" }}
+            {...dragHandleProps}
+          ></span>
         </div>
+        <MarkdownArea
+          id={"question" + id}
+          content={q}
+          contentChange={changeQuestion}
+          simple={true}
+          placeholder={"Wpisz pytanie"}
+        />
+        <hr style={{ margin: "0 0 20px" }} />
+        <MarkdownArea
+          id={"answer" + id}
+          content={a}
+          contentChange={changeAnswer}
+          simple={true}
+          placeholder={"Wpisz odpowiedź"}
+        />
         <div className="card-footer d-flex justify-content-end">
-          <div className="p-3">
-            <button className="btn" id={"copy-" + id} onClick={handleCopyQA}>
+          <div className="p-1">
+            <button className="btn" onClick={handleCopyQA}>
               <i className="fa fa-files-o fa-md">&#61637;</i> Duplikuj
             </button>
           </div>
-          <div className="p-3">
+          <div className="p-1">
             <button className="btn text-danger mr-1" onClick={handleDeleteQnA}>
               <i className="fa fa-trash-o fa-md mr-1">&#61944;</i>
               Usuń
@@ -129,6 +137,7 @@ function Qa({
           </div>
         </div>
       </div>
+
       {saved ? (
         <div
           className="fixed-bottom d-flex justify-content-center show-and-hide"
@@ -154,4 +163,4 @@ function Qa({
   );
 }
 
-export default Qa;
+export default QnA;

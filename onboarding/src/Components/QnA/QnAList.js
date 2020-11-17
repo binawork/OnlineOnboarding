@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import QnA, { addQnA, dndQnA, saveQnaSet } from "../hooks/QnA";
+import QnAAPI, { addQnA, dndQnA, saveQnaSet } from "../hooks/QnAAPI";
 
-const QAList = () => {
+const QnAList = () => {
   const [countUpdate, update] = useState(0);
-  const [maxOrder, updateMaxOrder] = useState(0);
+  const [maxOrder, setMaxOrder] = useState(0);
   const [qaList, setQaList] = useState([]);
   const [editMode, changeEditMode] = useState(true);
+  // console.log(qaList)
 
   const updateQnA = () => {
     update(countUpdate + 1);
@@ -54,7 +55,7 @@ const QAList = () => {
   };
 
   return (
-    <div className="card card-fluid">
+    <div>
       <div className="card-body rounded-bottom border-top">
         {editMode ? (
           <button className="btn btn-success mr-3" onClick={handleSave}>
@@ -65,6 +66,7 @@ const QAList = () => {
             Edytuj
           </button>
         )}
+
         <svg
           width="1em"
           height="1em"
@@ -74,7 +76,7 @@ const QAList = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
           />
           <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z" />
@@ -84,43 +86,43 @@ const QAList = () => {
           <i>Zapisane Q&A pojawi się automatycznie u pracowników</i>
         </small>
       </div>
-      <div className="card-body">
-        <div className="form-group">
-          {editMode ? (
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="dp1">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    <QnA
-                      count={countUpdate}
-                      handleUpdate={updateQnA}
-                      updateMaxOrder={updateMaxOrder}
-                      qaList={qaList}
-                      setQaList={setQaList}
-                      editMode={editMode}
-                    />
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          ) : (
-            <QnA
-              qaList={qaList}
-              editMode={editMode}
-              setQaList={setQaList}
-              updateMaxOrder={updateMaxOrder}
-            />
-          )}
-        </div>
-      </div>
+      <section className="card-body">
+        {editMode ? (
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="dp1">
+              {(provided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  <QnAAPI
+                    count={countUpdate}
+                    handleUpdate={updateQnA}
+                    maxOrder={maxOrder}
+                    setMaxOrder={setMaxOrder}
+                    qaList={qaList}
+                    setQaList={setQaList}
+                    editMode={editMode}
+                  />
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        ) : (
+          <QnAAPI
+            qaList={qaList}
+            editMode={editMode}
+            setQaList={setQaList}
+            setMaxOrder={setMaxOrder}
+          />
+        )}
+      </section>
+
       {editMode ? (
-        <div className="card-footer">
+        <footer className="card-footer">
           <a href="#" className="card-footer-item" onClick={handleAddQnA}>
             <i className="fa fa-plus-circle mr-1"></i>
             Dodaj Q&A
           </a>
-        </div>
+        </footer>
       ) : (
         <></>
       )}
@@ -128,4 +130,4 @@ const QAList = () => {
   );
 };
 
-export default QAList;
+export default QnAList;
