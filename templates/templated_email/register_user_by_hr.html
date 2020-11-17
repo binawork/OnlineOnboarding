@@ -21,7 +21,7 @@
                 </p>
                 <p>
                     {% autoescape off %}
-                      {{ protocol }}://{{ domain }}{% url 'account_activation_for_users_created_by_hr' uidb64=uid token=token %}
+                      <a href="{{ protocol }}://{{ domain }}{% url 'account_activation_for_users_created_by_hr' uidb64=uid token=token %}">{{ domain }}{% url 'account_activation_for_users_created_by_hr' uidb64=uid token=token %}</a>
                     {% endautoescape %}
                 </p>
                 <p>
