@@ -31,7 +31,7 @@ from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, Use
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm
 
