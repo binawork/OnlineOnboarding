@@ -18,8 +18,8 @@ function ProcessPreviewTables(props) {
 
     return(
         <>
-            <ImplementationFormsSent showModal={ popUpConfirmationModal } />
-            <ImplementationFormsToSend showModal={ popUpConfirmationModal } />
+            <ImplementationFormsSent showModal={ popUpConfirmationModal } userId={ props.userId } />
+            <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ props.userId } />
             { confirmationModal.modal }
         </>
     )
