@@ -179,12 +179,12 @@ class PackageSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Package
         fields = (
-                    'id',
-                    'title',
-                    'description',
-                    'created_on',
-                    'updated_on',
-                    'users'
+            'id',
+            'title',
+            'description',
+            'created_on',
+            'updated_on',
+            'users'
         )
 
 
@@ -194,12 +194,12 @@ class PackageSpecialTestSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Page
         fields = (
-                    'id',
-                    'order',
-                    'title',
-                    'description',
-                    'link',
-                    'package',
+            'id',
+            'order',
+            'title',
+            'description',
+            'link',
+            'package',
         )
         extra_kwargs = {
             'package': {'required': False},
@@ -215,14 +215,14 @@ class PageSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Page
         fields = (
-                    'id',
-                    'order',
-                    'owner',
-                    'title',
-                    'description',
-                    'link',
-                    'updated_on',
-                    'package',
+            'id',
+            'order',
+            'owner',
+            'title',
+            'description',
+            'link',
+            'updated_on',
+            'package',
         )
         extra_kwargs = {
             'package': {'required': False},
@@ -237,13 +237,13 @@ class PackagePagesSerializer(serializers.ModelSerializer):
         ordering = ['-updated_on']
         model = Package
         fields = (
-                    'id',
-                    'title',
-                    'description',
-                    'created_on',
-                    'updated_on',
-                    'users',
-                    'page_set'
+            'id',
+            'title',
+            'description',
+            'created_on',
+            'updated_on',
+            'users',
+            'page_set'
         )
 
 
@@ -254,14 +254,14 @@ class SectionSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Section
         fields = (
-                    'id',
-                    'order',
-                    'title',
-                    'description',
-                    'link',
-                    'type',
-                    'data',
-                    'page',
+            'id',
+            'order',
+            'title',
+            'description',
+            'link',
+            'type',
+            'data',
+            'page',
         )
 
 
@@ -272,10 +272,10 @@ class AnswerSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Answer
         fields = (
-                    'id',
-                    'section',
-                    'data',
-                    'owner',
+            'id',
+            'section',
+            'data',
+            'owner',
         )
 
 # SECTION with ANSWERS
@@ -286,14 +286,14 @@ class SectionAnswersSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Section
         fields = (
-                    'id',
-                    'order',
-                    'title',
-                    'description',
-                    'link',
-                    'type',
-                    'data',
-                    'page',
-                    'answer_set',
+            'id',
+            'order',
+            'title',
+            'description',
+            'link',
+            'type',
+            'data',
+            'page',
+            'answer_set',
         )
 

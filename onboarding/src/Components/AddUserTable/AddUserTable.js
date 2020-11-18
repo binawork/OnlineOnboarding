@@ -3,12 +3,10 @@ import Users from "../hooks/Users";
 import AddUserTableRow from "./Add_User_Table_Row";
 import UserListSearch from "../UserListSearch";
 import LoggedUser from "../hooks/LoggedUser.js";
-import { getPath } from "../utils.js";
 // import { addUserFormTableData } from "./Add_User_Table_Data";
 
 
 function AddUserTable(props) {
-    const path = getPath();
     let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
     let user_table = [], users;
 
