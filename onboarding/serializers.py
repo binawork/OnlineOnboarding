@@ -226,21 +226,20 @@ class PageSerializer(serializers.ModelSerializer):
         }
 
 
-# PACKAGE with PAGEs
-# class PackagePagesSerializer(serializers.ModelSerializer):
-#     page_set = PageSerializer(many=True)
-#
-#     class Meta:
-#         ordering = ['-updated_on']
-#         model = Package
-#         fields = ('id',
-#                   'title',
-#                   'description',
-#                   'created_on',
-#                   'updated_on',
-#                   'users',
-#                   'page_set'
-#                   )
+class UserProgressPageSerializer(serializers.ModelSerializer):
+    name = serializers.ReadOnlyField(source='answer')
+
+    class Meta:
+        ordering = ['-updated_on']
+        model = Page
+        fields = ('id',
+                  'title',
+                  'description',
+                  'created_on',
+                  'updated_on',
+                  'users',
+                  'page_set'
+                  )
 
 
 # SECTION
@@ -274,21 +273,12 @@ class AnswerSerializer(serializers.ModelSerializer):
         )
 
 
-# SECTION with ANSWERS
-# class SectionAnswersSerializer(serializers.ModelSerializer):
-#     answer_set = AnswerSerializer(many=True)
-#
-#     class Meta:
-#         ordering = ['-id']
-#         model = Section
-#         fields = (
-#             'id',
-#             'order',
-#             'title',
-#             'description',
-#             'link',
-#             'type',
-#             'data',
-#             'page',
-#             'answer_set',
-#         )
+class PagesAnswersSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Answer
+        fields = (
+            'id',
+            'updated_on',
+            'confirmed'
+        )

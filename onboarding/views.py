@@ -26,7 +26,7 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, PagesAnswersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
@@ -439,27 +439,6 @@ class PageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-# class PackagePagesViewSet(viewsets.ModelViewSet):
-#     """
-#     List all Packages with related pages.
-#     """
-#     queryset = Package.objects.all()
-#     serializer_class = PackagePagesSerializer
-#     permission_classes = [IsAuthenticated]
-#
-#     @action(detail=False)
-#     def list_by_company_hr(self, request):
-#         """
-#         :param request: user
-#         :return: all packages with corresponding pages for request.user = owner from params
-#         """
-#         package = Package.objects.filter(owner=request.user.company)
-#         serializer = PackagePagesSerializer(package, many=True)
-#
-#         return Response(serializer.data)
-#
-
-
 class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
@@ -496,12 +475,12 @@ class SectionViewSet(viewsets.ModelViewSet):
         :param pk: this is page ID
         :return: sections list by page id
         """
-        section = Section.objects.filter(
+        answer = Answer.objects.filter(
                                         page__id=pk,
                                         owner=self.request.user.company,
                                         page__package__users=self.request.user,
         )
-        serializer = SectionSerializer(section, many=True)
+        serializer = SectionSerializer(answer, many=True)
 
         return Response(serializer.data)
 
@@ -550,10 +529,19 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-# class SectionAnswersViewSet(views.APIView):
-#     """
-#     List all Sections with related answers.
-#     """
-#     queryset = Section.objects.all()
-#     serializer_class = SectionAnswersSerializer
+
+class UserProgressOnPageView(generics.ListAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = PagesAnswersSerializer
+    def get(self, request, *args, **kwargs):
+        user = kwargs.get('user_pk')
+        page = kwargs.get('page_pk')
+
+        queryset = self.get_queryset()
+        serializer = PagesAnswersSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+
+
 

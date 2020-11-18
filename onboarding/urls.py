@@ -10,7 +10,7 @@ from django.contrib.auth import views as auth_views
 #from django.conf.urls.static import static
 
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
-    ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload
+    ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView
 
 # base
 urlpatterns = [
@@ -46,6 +46,11 @@ urlpatterns += [
 #urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API
+urlpatterns += [
+    path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/', UserProgressOnPageView.as_view(), name='progress_on_page'),
+]
+
+
 router = DefaultRouter()
 router.register(r'api/users', UserViewSet, basename='User')
 router.register(r'api/company', CompanyViewSet, basename='Company')
