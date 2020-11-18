@@ -29,7 +29,7 @@ def send_activation_email_for_user_created_by_hr(user, current_site):
         mail.send_mail(
             subject,
             plain_message,
-            from_emaily,
+            from_email,
             [user.email],
             html_message=html_message,
             fail_silently=False
