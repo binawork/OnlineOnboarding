@@ -551,7 +551,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-class UserProgressOnPageView(generics.ListAPIView):
+"""class UserProgressOnPageView(generics.ListAPIView):
     queryset = Answer.objects.all()
     serializer_class = PagesAnswersSerializer
     def get(self, request, *args, **kwargs):
@@ -561,7 +561,7 @@ class UserProgressOnPageView(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = PagesAnswersSerializer(queryset, many=True)
 
-        return Response(serializer.data)
+        return Response(serializer.data)"""
 
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):
