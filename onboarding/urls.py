@@ -10,7 +10,8 @@ from django.contrib.auth import views as auth_views
 #from django.conf.urls.static import static
 
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
-    ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView
+    ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView,\
+    UserProgressOnPackageView
 
 # base
 urlpatterns = [
@@ -48,6 +49,7 @@ urlpatterns += [
 # API
 urlpatterns += [
     path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/', UserProgressOnPageView.as_view(), name='progress_on_page'),
+    path(r'api/user/<int:employe_id>/progress_on_package/<int:page_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
 ]
 
 

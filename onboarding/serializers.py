@@ -278,6 +278,18 @@ class AnswerSerializer(serializers.ModelSerializer):
                     'owner',
         )
 
+
+class AnswersProgressStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Answer
+        fields = (
+            'id',
+            'updated_on',
+            'confirmed'
+        )
+
+
 # SECTION with ANSWERS
 class SectionAnswersSerializer(serializers.ModelSerializer):
     answer_set = AnswerSerializer(many=True)

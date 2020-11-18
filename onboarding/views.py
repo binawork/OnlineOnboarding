@@ -26,6 +26,7 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, AnswersProgressStatusSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
@@ -111,7 +112,7 @@ def password_reset_request(request):
                         'templated_email/password_reset_email.html', 
                         {
                             'email': user.email,
-                            'domain': '127.0.0.1:8000',
+                            'domain': '127.0.0.1:8000', # to fix: should it be in local_settings.py bec. it is another on a server?
                             'site_name': 'Website',
                             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                             'user': user,
@@ -551,15 +552,32 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+
 class UserProgressOnPageView(generics.ListAPIView):
     queryset = Answer.objects.all()
-    serializer_class = PagesAnswersSerializer
+    serializer_class = AnswersProgressStatusSerializer
     def get(self, request, *args, **kwargs):
-        user = kwargs.get('user_pk')
-        page = kwargs.get('page_pk')
+        employe_id = kwargs.get('employe_id')
+        page_id = kwargs.get('page_id')
 
-        queryset = self.get_queryset()
-        serializer = PagesAnswersSerializer(queryset, many=True)
+        queryset = Answer.objects.filter(section__page_id=page_id,
+                                         owner_id=employe_id)
+        serializer = AnswersProgressStatusSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+
+
+class UserProgressOnPackageView(generics.ListAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswersProgressStatusSerializer
+    def get(self, request, *args, **kwargs):
+        employe_id = kwargs.get('employe_id')
+        page_id = kwargs.get('package_id')
+
+        queryset = Answer.objects.filter(section__page__package_id=page_id,
+                                         owner_id=employe_id)
+        serializer = AnswersProgressStatusSerializer(queryset, many=True)
 
         return Response(serializer.data)
 
