@@ -26,7 +26,6 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, PagesAnswersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
@@ -71,7 +70,7 @@ def signup(request):
                 'templated_email/acc_active_email.html', 
                 {
                     'user': user,
-                    'domain': current_site.domain,
+                    'domain': current_site.domain, # to fix: should it be in local_settings.py bec. it is another on a server?
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
                 }
@@ -112,7 +111,7 @@ def password_reset_request(request):
                         'templated_email/password_reset_email.html', 
                         {
                             'email': user.email,
-                            'domain': '127.0.0.1:8000', # to fix: should it be in local_settings.py bec. it is another on a server?
+                            'domain': '127.0.0.1:8000',
                             'site_name': 'Website',
                             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                             'user': user,
@@ -552,7 +551,6 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-
 class UserProgressOnPageView(generics.ListAPIView):
     queryset = Answer.objects.all()
     serializer_class = PagesAnswersSerializer
@@ -564,7 +562,6 @@ class UserProgressOnPageView(generics.ListAPIView):
         serializer = PagesAnswersSerializer(queryset, many=True)
 
         return Response(serializer.data)
-
 
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):

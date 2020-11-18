@@ -46,12 +46,14 @@ initial	        A value that should be used for pre-populating the value of HTML
 
 
 class CompanySerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Company
         fields = '__all__'
 
 
 class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = CompanyQuestionAndAnswer
         fields = ('id', 'question', 'answer', 'order')
@@ -60,7 +62,6 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 # USER
 class UserJobDataSerializer(serializers.Serializer):
     location = serializers.ListField(child=serializers.CharField())
-
     # team = serializers.ListField(child=serializers.CharField())
     # job_position = serializers.ListField(child=serializers.CharField())
 
@@ -74,6 +75,7 @@ class UserJobDataSerializer(serializers.Serializer):
 
 
 class LogInUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = get_user_model()
         fields = [
@@ -103,6 +105,7 @@ class UserAvatarSerializer(serializers.ModelSerializer):
 
 
 class UsersListSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = get_user_model()
         fields = (
@@ -133,7 +136,7 @@ class UserSerializer(serializers.ModelSerializer):
             'location',
             'team',
             'job_position',
-        )
+            )
 
     def create(self, validated_data):
         password = mock_password.generate()
@@ -151,37 +154,37 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
-
-
 #
 
 # CONTACT FORM
 class ContactFormTestSerializer(serializers.ModelSerializer):
+
     class Meta:
         ordering = ['-id']
         model = ContactRequestDetail
         fields = (
-            'id',
-            'first_name',
-            'last_name',
-            'company_name',
-            'email',
-            'text_field'
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'company_name',
+                    'email',
+                    'text_field'
         )
 
 
 # PACKAGE
 class PackageSerializer(serializers.ModelSerializer):
+
     class Meta:
         ordering = ['-id']
         model = Package
         fields = (
-            'id',
-            'title',
-            'description',
-            'created_on',
-            'updated_on',
-            'users'
+                    'id',
+                    'title',
+                    'description',
+                    'created_on',
+                    'updated_on',
+                    'users'
         )
 
 
@@ -191,12 +194,12 @@ class PackageSpecialTestSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Page
         fields = (
-            'id',
-            'order',
-            'title',
-            'description',
-            'link',
-            'package',
+                    'id',
+                    'order',
+                    'title',
+                    'description',
+                    'link',
+                    'package',
         )
         extra_kwargs = {
             'package': {'required': False},
@@ -212,34 +215,36 @@ class PageSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Page
         fields = (
-            'id',
-            'order',
-            'owner',
-            'title',
-            'description',
-            'link',
-            'updated_on',
-            'package',
+                    'id',
+                    'order',
+                    'owner',
+                    'title',
+                    'description',
+                    'link',
+                    'updated_on',
+                    'package',
         )
         extra_kwargs = {
             'package': {'required': False},
         }
 
 
-class UserProgressPageSerializer(serializers.ModelSerializer):
-    name = serializers.ReadOnlyField(source='answer')
+# PACKAGE with PAGEs
+class PackagePagesSerializer(serializers.ModelSerializer):
+    page_set = PageSerializer(many=True)
 
     class Meta:
         ordering = ['-updated_on']
-        model = Page
-        fields = ('id',
-                  'title',
-                  'description',
-                  'created_on',
-                  'updated_on',
-                  'users',
-                  'page_set'
-                  )
+        model = Package
+        fields = (
+                    'id',
+                    'title',
+                    'description',
+                    'created_on',
+                    'updated_on',
+                    'users',
+                    'page_set'
+        )
 
 
 # SECTION
@@ -249,36 +254,46 @@ class SectionSerializer(serializers.ModelSerializer):
         ordering = ['-id']
         model = Section
         fields = (
-            'id',
-            'order',
-            'title',
-            'description',
-            'link',
-            'type',
-            'data',
-            'page',
+                    'id',
+                    'order',
+                    'title',
+                    'description',
+                    'link',
+                    'type',
+                    'data',
+                    'page',
         )
 
 
 # ANSWER
 class AnswerSerializer(serializers.ModelSerializer):
+
     class Meta:
         ordering = ['-id']
         model = Answer
         fields = (
-            'id',
-            'section',
-            'data',
-            'owner',
+                    'id',
+                    'section',
+                    'data',
+                    'owner',
         )
 
-
-class PagesAnswersSerializer(serializers.ModelSerializer):
+# SECTION with ANSWERS
+class SectionAnswersSerializer(serializers.ModelSerializer):
+    answer_set = AnswerSerializer(many=True)
 
     class Meta:
-        model = Answer
+        ordering = ['-id']
+        model = Section
         fields = (
-            'id',
-            'updated_on',
-            'confirmed'
+                    'id',
+                    'order',
+                    'title',
+                    'description',
+                    'link',
+                    'type',
+                    'data',
+                    'page',
+                    'answer_set',
         )
+
