@@ -54,4 +54,5 @@ class CustomSetPasswordForm(SetPasswordForm):
     def save(self, commit=True):
         user = super(CustomSetPasswordForm, self).save(commit)
         user.is_active = True
+        user.save()
         return user
