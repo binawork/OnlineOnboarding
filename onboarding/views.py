@@ -1,6 +1,8 @@
+from abc import ABC
 from django.core import mail
 from django.core.mail import BadHeaderError
 from django.contrib.auth import login, get_user_model
+from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordResetForm
@@ -34,7 +36,7 @@ from .serializers import AnswerSerializer, CompanySerializer, UsersListSerialize
 from .permissions import IsHrUser
 from .mailing import send_activation_email_for_user_created_by_hr
 from .tokens import account_activation_token
-from .forms import HrSignUpForm
+from .forms import HrSignUpForm, CustomSetPasswordForm
 
 
 def index(request):
@@ -57,6 +59,14 @@ def activate(request, uidb64, token):
                             'you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    form_class = CustomSetPasswordForm
+
 
 
 def signup(request):

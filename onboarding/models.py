@@ -73,6 +73,8 @@ class User(AbstractUser):
     team = models.CharField(max_length=50, blank=True, null=True)
     job_position = models.CharField(max_length=50, blank=True, null=True)
 
+    date_left = models.DateTimeField(null=True, blank=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
