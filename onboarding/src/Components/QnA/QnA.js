@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import MarkdownArea from "../MarkdownArea";
-import { deleteQnA } from "../hooks/QnAAPI";
-// import { copyQnA, saveQnA, deleteQnA } from "../hooks/QnAAPI";
+import { deleteQnA, saveQnA } from "../hooks/QnAAPI";
 
 function QnA({
   id,
@@ -18,36 +17,40 @@ function QnA({
   dragHandleProps,
   editMode,
 }) {
-  // const [q, setQuestion] = useState(question);
-  // const [a, setAnswer] = useState(answer);
-  // const [saved, setSaved] = useState(false);
+  const [q, setQuestion] = useState(question);
+  const [a, setAnswer] = useState(answer);
+  const [saved, setSaved] = useState(false);
 
-  // useEffect(() => {
-  //   // Show info "Zapisano zmiany" for 3sec when the changes were saved
-  //   if (saved) {
-  //     setTimeout(setSaved, 3000, false);
-  //   }
-  // }, [saved]);
+  useEffect(() => {
+    // Show info "Zapisano zmiany" for 3sec when the changes were saved
+    if (saved) {
+      setTimeout(setSaved, 3000, false);
+    }
+  }, [saved]);
 
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (q !== question) {
-  //       // question = q;
-  //       saveQnA("question", id, q, handleUpdate, setSaved);
-  //     }
-  //     if (a !== answer) {
-  //       // answer = a;
-  //       saveQnA("answer", id, a, handleUpdate, setSaved);
-  //     }
-  //   }, 4000);
+  useEffect(() => {
+    const intervalQId = setInterval(() => {
+      if (q !== question) {
+        question = q;
+        saveQnA("question", id, q, setSaved);
+      }
+    }, 5000);
+    return () => clearInterval(intervalQId);
+  }, [q]);
 
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [q, a]);
+  useEffect(() => {
+    const intervalAId = setInterval(() => {
+      if (a !== answer) {
+        answer = a;
+        saveQnA("answer", id, a, setSaved);
+      }
+    }, 5000);
+
+    return () => clearInterval(intervalAId);
+  }, [a]);
 
   const changeQuestion = (content) => {
-    // setQuestion(content);
+    setQuestion(content);
     const newQuestion = qaList.map((qa) => {
       if (qa.id === id) {
         qa.question = content;
@@ -58,7 +61,7 @@ function QnA({
   };
 
   const changeAnswer = (content) => {
-    // setAnswer(content);
+    setAnswer(content);
     const newAnswer = qaList.map((qa) => {
       if (qa.id === id) {
         qa.answer = content;
@@ -94,7 +97,7 @@ function QnA({
       qa.order = index + 1;
       return qa;
     });
-    
+
     setMaxOrder(maxOrder - 1);
     setQaList(updatedList);
     deleteQnA(id);
@@ -105,7 +108,10 @@ function QnA({
       <div className="card">
         <div className="card-body">
           <div className="form-group">
-            <p className="m-0" dangerouslySetInnerHTML={{ __html: question }}></p>
+            <p
+              className="m-0"
+              dangerouslySetInnerHTML={{ __html: question }}
+            ></p>
           </div>
           <hr />
           <p className="m-0" dangerouslySetInnerHTML={{ __html: answer }}></p>
@@ -155,7 +161,7 @@ function QnA({
           </div>
         </div>
       </div>
-      {/* 
+
       {saved ? (
         <div
           className="fixed-bottom d-flex justify-content-center show-and-hide"
@@ -176,7 +182,7 @@ function QnA({
         </div>
       ) : (
         <></>
-      )} */}
+      )}
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
-// import QnAAPI, { addQnA, dndQnA, saveAll } from "../hooks/QnAAPI";
 import QnA from "./QnA";
 import { getQnA, saveAll } from "../hooks/QnAAPI";
 
@@ -17,44 +16,41 @@ const QnAList = () => {
     accepted ? setError(false) : null;
   }, []);
 
-  const questionsAndAnswers = qaList.sort((a, b) => a.order - b.order).map((element, index) =>
-    editMode ? (
-      <Draggable
-        key={element.id}
-        draggableId={"draggable-" + element.id}
-        index={index}
-      >
-        {(provided) => (
-          <QnA
-            id={element.id}
-            question={element.question}
-            answer={element.answer}
-            order={element.order}
-            qaList={qaList}
-            setQaList={setQaList}
-            maxOrder={maxOrder}
-            setMaxOrder={setMaxOrder}
-            // handleUpdate={handleUpdate}
-            draggableProps={provided.draggableProps}
-            innerRef={provided.innerRef}
-            dragHandleProps={provided.dragHandleProps}
-            editMode={editMode}
-          />
-        )}
-      </Draggable>
-    ) : (
-      <QnA
-        key={element.id}
-        question={element.question}
-        answer={element.answer}
-        editMode={editMode}
-      />
-    )
-  );
-
-  // const updateQnA = () => {
-  //   update(countUpdate + 1);
-  // };
+  const questionsAndAnswers = qaList
+    .sort((a, b) => a.order - b.order)
+    .map((element, index) =>
+      editMode ? (
+        <Draggable
+          key={element.id}
+          draggableId={"draggable-" + element.id}
+          index={index}
+        >
+          {(provided) => (
+            <QnA
+              id={element.id}
+              question={element.question}
+              answer={element.answer}
+              order={element.order}
+              qaList={qaList}
+              setQaList={setQaList}
+              maxOrder={maxOrder}
+              setMaxOrder={setMaxOrder}
+              draggableProps={provided.draggableProps}
+              innerRef={provided.innerRef}
+              dragHandleProps={provided.dragHandleProps}
+              editMode={editMode}
+            />
+          )}
+        </Draggable>
+      ) : (
+        <QnA
+          key={element.id}
+          question={element.question}
+          answer={element.answer}
+          editMode={editMode}
+        />
+      )
+    );
 
   const handleAddQnA = (e) => {
     e.preventDefault();
@@ -66,7 +62,6 @@ const QnAList = () => {
     };
     setQaList([...qaList, newQnA]);
     setMaxOrder(maxOrder + 1);
-    // addQnA(updateQnA, maxOrder);
   };
 
   const handleSaveAll = (e) => {
@@ -87,7 +82,7 @@ const QnAList = () => {
     if (!destination || reason === "CANCEL") {
       return;
     }
-    //If dorp an element to the same place, it should do nothing
+    //If drop an element to the same place, it should do nothing
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index

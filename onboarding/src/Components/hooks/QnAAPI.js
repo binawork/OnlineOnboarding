@@ -17,9 +17,9 @@ export function getQnA(setQaList, setMaxOrder, setLoading, setError) {
     .then((res) => res.json())
     .then((result) => {
       const orders = result
-      .map((i) => i.order)
-      .filter((i) => i >= 0 && typeof i === "number");
-      
+        .map((i) => i.order)
+        .filter((i) => i >= 0 && typeof i === "number");
+
       setMaxOrder(orders[orders.length - 1]);
       setQaList(result);
       setLoading(false);
@@ -30,41 +30,37 @@ export function getQnA(setQaList, setMaxOrder, setLoading, setError) {
       return false;
     });
 
-    return true;
+  return true;
 }
 
-// export function saveQnA(element, id, content, handleUpdate) {
-//   if (
-//     typeof content !== "string" ||
-//     (typeof content === "string" && content.length < 1)
-//   )
-//     return false;
+export function saveQnA(element, id, content, setSaved) {
+  if (
+    typeof content !== "string" ||
+    (typeof content === "string" && content.length < 1)
+  )
+    return false;
 
-//   const fetchProps = {
-//     method: "PATCH",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       "X-CSRFToken": token,
-//     },
-//   };
-//   const data = {};
-//   element === "question" ? (data.question = content) : (data.answer = content);
+  const fetchProps = {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": token,
+    },
+  };
+  const data = {};
+  element === "question" ? (data.question = content) : (data.answer = content);
 
-//   fetchProps.body = JSON.stringify(data);
+  fetchProps.body = JSON.stringify(data);
 
-//   fetch(url + "api/q_and_a/" + id + "/", fetchProps)
-//     .then((res) => res.json())
-//     .then((result) => {
-//       console.log(result);
-//       handleUpdate();
-//       // setSaved(true);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-//   return true;
-// }
+  fetch(url + "api/q_and_a/" + id + "/", fetchProps)
+    .catch((error) => {
+      console.log(error);
+    })
+    .then(() => {
+      setSaved(true);
+    });
+}
 
 export function deleteQnA(id) {
   const fetchProps = {
@@ -75,10 +71,9 @@ export function deleteQnA(id) {
       "X-CSRFToken": token,
     },
   };
-  fetch(url + "api/q_and_a/" + id, fetchProps)
-    .catch((error) => {
-      console.log(error);
-    });
+  fetch(url + "api/q_and_a/" + id, fetchProps).catch((error) => {
+    console.log(error);
+  });
   return true;
 }
 
@@ -96,10 +91,10 @@ export function saveAll(qaList) {
       fetchProps.method = "PUT";
       fetchProps.body = JSON.stringify(qa);
 
-      fetch(url + "api/q_and_a/" + qa.id + "/", fetchProps)
-        .catch((error) => {
-          console.log(error);
-        });
+      fetch(url + "api/q_and_a/" + qa.id + "/", fetchProps).catch((error) => {
+        console.log(error);
+      });
+      
     } else if (typeof qa.id === "string") {
       fetchProps.method = "POST";
       fetchProps.body = JSON.stringify({
@@ -108,10 +103,9 @@ export function saveAll(qaList) {
         order: qa.order,
       });
 
-      fetch(url + "api/q_and_a/", fetchProps)
-        .catch((error) => {
-          console.log(error);
-        });
+      fetch(url + "api/q_and_a/", fetchProps).catch((error) => {
+        console.log(error);
+      });
     }
   });
 
