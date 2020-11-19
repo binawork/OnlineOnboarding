@@ -8,7 +8,7 @@ function ProcessPreviewTables(props) {
 
     const popUpConfirmationModal = (message) => {
         setIdModal({id: 0,
-            modal: <ModalWarning handleAccept={ idle } title={ "Potwierdzenie wysłania" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />
+            modal: <ModalWarning handleAccept={ hideModal } title={ "Potwierdzenie wysłania" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />
         });
     }
 
@@ -18,8 +18,8 @@ function ProcessPreviewTables(props) {
 
     return(
         <>
-            <ImplementationFormsSent />
-            <ImplementationFormsToSend />
+            <ImplementationFormsSent showModal={ popUpConfirmationModal } userId={ props.userId } />
+            <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ props.userId } />
             { confirmationModal.modal }
         </>
     )
