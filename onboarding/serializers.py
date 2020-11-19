@@ -165,6 +165,15 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
 
 
 # PACKAGE
+class PackageUsersSerializer(serializers.ModelSerializer):
+    ordering = ['-id']
+    model = Package
+    fields = (
+            'id',
+            'users'
+        )
+
+
 class PackageSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
@@ -265,6 +274,8 @@ class AnswerSerializer(serializers.ModelSerializer):
             'section',
             'data',
             'owner',
+            'confirmed'
+
         )
 
 
