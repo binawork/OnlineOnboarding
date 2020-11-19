@@ -111,6 +111,24 @@ export function addCombo(handleSuccess, title, owner) {
   return true;
 }
 
+/*export function assignEmployeeToPackage(handleSuccess, employeeId, packageId){
+  let url = getPath(), token = getCookie("csrftoken"), fullPath = url + "email/reminder/"+employeeId+"/"+packageId+"/",
+      fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}};
+
+  fetch(fullPath, fetchProps).then(res => tryFetchJson(res))
+    .then(
+      (result) => {
+        handleSuccess(result);
+      },
+      (error) => {
+        handleSuccess(error.message);
+      }
+    );
+}*/
+
+/**
+ * Remove combo from the server; corresponding pages are kept on server;
+ */
 export function removeCombo(handleSuccess, packageId, title) {
   let url = getPath(),
     data,

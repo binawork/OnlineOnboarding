@@ -27,7 +27,7 @@ function AddUserTablePage(props) {
                     <div className="page">
                         <div className="page-inner">
                             <PageAddressBar page = { "Wyślij pracownikowi" } loggedUser={ loggedUser } />
-                            <AddUserTable loggedUser={ loggedUser } />
+                            <AddUserTable loggedUser={ loggedUser } packageId={ packageIdRef.current } />
                         </div>
                     </div>
                 </div>

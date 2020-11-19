@@ -102,3 +102,4 @@ def send_remove_acc_email(EMAIL_HOST_USER, user_email):
         [to],
         html_message=html_message,
     )
+

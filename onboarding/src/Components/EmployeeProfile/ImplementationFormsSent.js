@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FormsSentTableRow from "./FormsSentTableRow";
-import EmployeeForms from "../hooks/EmployeeForms";
+import EmployeeForms, { remindEmployeeOfPackage } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsSent(props) {
@@ -14,8 +14,12 @@ function ImplementationFormsSent(props) {
             checkedChange(numberChecked - 1);
     };
 
+	const sendRemind = function(packageId){
+		remindEmployeeOfPackage(props.showModal, props.userId, packageId);
+	};
+
     user_table.forEach(function (element, i) {
-        forms.push(<FormsSentTableRow key={ i } row={element} handleChecked={ showHide } />)
+        forms.push(<FormsSentTableRow key={ i } row={element} handleChecked={ showHide } handleRemind={ sendRemind } />)
     });
 
     return(

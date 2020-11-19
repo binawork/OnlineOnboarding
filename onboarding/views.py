@@ -34,7 +34,7 @@ from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, Use
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm, CustomSetPasswordForm
 
@@ -563,6 +563,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+
 class UserProgressOnPageView(generics.ListAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswersProgressStatusSerializer
@@ -577,7 +578,6 @@ class UserProgressOnPageView(generics.ListAPIView):
         return Response(serializer.data)
 
 
-
 class UserProgressOnPackageView(generics.ListAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswersProgressStatusSerializer
@@ -590,6 +590,7 @@ class UserProgressOnPackageView(generics.ListAPIView):
         serializer = AnswersProgressStatusSerializer(queryset, many=True)
 
         return Response(serializer.data)
+
 
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):
