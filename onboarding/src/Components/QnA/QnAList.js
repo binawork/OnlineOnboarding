@@ -1,26 +1,77 @@
-import React, { useState } from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import QnAAPI, { addQnA, dndQnA, saveQnaSet } from "../hooks/QnAAPI";
+import React, { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { v4 as uuidv4 } from "uuid";
+// import QnAAPI, { addQnA, dndQnA, saveAll } from "../hooks/QnAAPI";
+import QnA from "./QnA";
+import { getQnA, saveAll } from "../hooks/QnAAPI";
 
 const QnAList = () => {
-  const [countUpdate, update] = useState(0);
   const [maxOrder, setMaxOrder] = useState(0);
   const [qaList, setQaList] = useState([]);
   const [editMode, changeEditMode] = useState(true);
-  // console.log(qaList)
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const updateQnA = () => {
-    update(countUpdate + 1);
-  };
+  useEffect(() => {
+    const accepted = getQnA(setQaList, setMaxOrder, setLoading, setError);
+    accepted ? setError(false) : null;
+  }, []);
+
+  const questionsAndAnswers = qaList.sort((a, b) => a.order - b.order).map((element, index) =>
+    editMode ? (
+      <Draggable
+        key={element.id}
+        draggableId={"draggable-" + element.id}
+        index={index}
+      >
+        {(provided) => (
+          <QnA
+            id={element.id}
+            question={element.question}
+            answer={element.answer}
+            order={element.order}
+            qaList={qaList}
+            setQaList={setQaList}
+            maxOrder={maxOrder}
+            setMaxOrder={setMaxOrder}
+            // handleUpdate={handleUpdate}
+            draggableProps={provided.draggableProps}
+            innerRef={provided.innerRef}
+            dragHandleProps={provided.dragHandleProps}
+            editMode={editMode}
+          />
+        )}
+      </Draggable>
+    ) : (
+      <QnA
+        key={element.id}
+        question={element.question}
+        answer={element.answer}
+        editMode={editMode}
+      />
+    )
+  );
+
+  // const updateQnA = () => {
+  //   update(countUpdate + 1);
+  // };
 
   const handleAddQnA = (e) => {
     e.preventDefault();
-    addQnA(updateQnA, maxOrder);
+    const newQnA = {
+      id: uuidv4(),
+      question: "",
+      answer: "",
+      order: maxOrder + 1,
+    };
+    setQaList([...qaList, newQnA]);
+    setMaxOrder(maxOrder + 1);
+    // addQnA(updateQnA, maxOrder);
   };
 
-  const handleSave = (e) => {
+  const handleSaveAll = (e) => {
     e.preventDefault();
-    saveQnaSet(qaList);
+    saveAll(qaList);
     changeEditMode(false);
   };
 
@@ -43,22 +94,27 @@ const QnAList = () => {
     )
       return;
 
-    const destinationSection = qaList[destination.index];
     const droppedSection = qaList[source.index];
+    const pageSections = [...qaList];
 
-    dndQnA(qaList, droppedSection, destinationSection, updateQnA);
-
-    const pageSections = Object.assign([], qaList);
     pageSections.splice(source.index, 1);
     pageSections.splice(destination.index, 0, droppedSection);
-    setQaList(pageSections);
+
+    const updatedList = pageSections.map((qa, index) => {
+      qa.order = index + 1;
+      return qa;
+    });
+
+    setQaList(updatedList);
   };
+
+  if (error) return <div>{error}</div>;
 
   return (
     <div>
       <div className="card-body rounded-bottom border-top">
         {editMode ? (
-          <button className="btn btn-success mr-3" onClick={handleSave}>
+          <button className="btn btn-success mr-3" onClick={handleSaveAll}>
             Zapisz
           </button>
         ) : (
@@ -87,32 +143,21 @@ const QnAList = () => {
         </small>
       </div>
       <section className="card-body">
-        {editMode ? (
+        {loading ? (
+          <div>Ładowanie...</div>
+        ) : editMode ? (
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="dp1">
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
-                  <QnAAPI
-                    count={countUpdate}
-                    handleUpdate={updateQnA}
-                    maxOrder={maxOrder}
-                    setMaxOrder={setMaxOrder}
-                    qaList={qaList}
-                    setQaList={setQaList}
-                    editMode={editMode}
-                  />
+                  {questionsAndAnswers}
                   {provided.placeholder}
                 </div>
               )}
             </Droppable>
           </DragDropContext>
         ) : (
-          <QnAAPI
-            qaList={qaList}
-            editMode={editMode}
-            setQaList={setQaList}
-            setMaxOrder={setMaxOrder}
-          />
+          questionsAndAnswers
         )}
       </section>
 

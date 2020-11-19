@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import MarkdownArea from "../MarkdownArea";
-import { copyQnA, saveQnA, deleteQnA } from "../hooks/QnAAPI";
+import { deleteQnA } from "../hooks/QnAAPI";
+// import { copyQnA, saveQnA, deleteQnA } from "../hooks/QnAAPI";
 
 function QnA({
   id,
@@ -9,7 +11,6 @@ function QnA({
   order,
   qaList,
   setQaList,
-  handleUpdate,
   maxOrder,
   setMaxOrder,
   draggableProps,
@@ -17,9 +18,9 @@ function QnA({
   dragHandleProps,
   editMode,
 }) {
-  const [q, setQuestion] = useState(question);
-  const [a, setAnswer] = useState(answer);
-  const [saved, setSaved] = useState(false);
+  // const [q, setQuestion] = useState(question);
+  // const [a, setAnswer] = useState(answer);
+  // const [saved, setSaved] = useState(false);
 
   // useEffect(() => {
   //   // Show info "Zapisano zmiany" for 3sec when the changes were saved
@@ -46,40 +47,57 @@ function QnA({
   // }, [q, a]);
 
   const changeQuestion = (content) => {
-    setQuestion(content);
-    setQaList(
-      qaList.map((qa) => {
-        if (qa.id === id) {
-          qa.question = content;
-        }
-        return qa;
-      })
-    );
+    // setQuestion(content);
+    const newQuestion = qaList.map((qa) => {
+      if (qa.id === id) {
+        qa.question = content;
+      }
+      return qa;
+    });
+    setQaList(newQuestion);
   };
 
   const changeAnswer = (content) => {
-    setAnswer(content);
-    setQaList(
-      qaList.map((qa) => {
-        if (qa.id === id) {
-          qa.answer = content;
-        }
-        return qa;
-      })
-    );
+    // setAnswer(content);
+    const newAnswer = qaList.map((qa) => {
+      if (qa.id === id) {
+        qa.answer = content;
+      }
+      return qa;
+    });
+    setQaList(newAnswer);
   };
 
   const handleCopyQA = (e) => {
     e.preventDefault();
-    const qnaToCopy = { question: q, answer: a, order: order };
-    copyQnA(qnaToCopy, qaList, handleUpdate);
+    const updatedList = qaList.map((qa) => {
+      qa.order > order ? (qa.order = qa.order + 1) : qa;
+      return qa;
+    });
+    const copiedQnA = {
+      question: question,
+      answer: answer,
+      order: order + 1,
+      id: uuidv4(),
+    };
+    const index = qaList.findIndex((qa) => qa.id === id);
+
+    updatedList.splice(index + 1, 0, copiedQnA);
+    setQaList(updatedList);
+    setMaxOrder(maxOrder + 1);
   };
 
   const handleDeleteQnA = (e) => {
     e.preventDefault();
-    deleteQnA(id, qaList, handleUpdate);
+    const listWithoutDeletedItem = qaList.filter((item) => item.id !== id);
+    const updatedList = listWithoutDeletedItem.map((qa, index) => {
+      qa.order = index + 1;
+      return qa;
+    });
+    
     setMaxOrder(maxOrder - 1);
-    setQaList(qaList.filter((item) => item.id !== id));
+    setQaList(updatedList);
+    deleteQnA(id);
   };
 
   const preview = (
@@ -87,10 +105,10 @@ function QnA({
       <div className="card">
         <div className="card-body">
           <div className="form-group">
-            <p className="m-0" dangerouslySetInnerHTML={{ __html: q }}></p>
+            <p className="m-0" dangerouslySetInnerHTML={{ __html: question }}></p>
           </div>
           <hr />
-          <p className="m-0" dangerouslySetInnerHTML={{ __html: a }}></p>
+          <p className="m-0" dangerouslySetInnerHTML={{ __html: answer }}></p>
         </div>
       </div>
     </div>
@@ -110,7 +128,7 @@ function QnA({
         </div>
         <MarkdownArea
           id={"question" + id}
-          content={q}
+          content={question}
           contentChange={changeQuestion}
           simple={true}
           placeholder={"Wpisz pytanie"}
@@ -118,7 +136,7 @@ function QnA({
         <hr style={{ margin: "0 0 20px" }} />
         <MarkdownArea
           id={"answer" + id}
-          content={a}
+          content={answer}
           contentChange={changeAnswer}
           simple={true}
           placeholder={"Wpisz odpowiedź"}
@@ -137,7 +155,7 @@ function QnA({
           </div>
         </div>
       </div>
-
+      {/* 
       {saved ? (
         <div
           className="fixed-bottom d-flex justify-content-center show-and-hide"
@@ -158,7 +176,7 @@ function QnA({
         </div>
       ) : (
         <></>
-      )}
+      )} */}
     </div>
   );
 }
