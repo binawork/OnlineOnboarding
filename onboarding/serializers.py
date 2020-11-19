@@ -1,5 +1,3 @@
-from abc import ABC
-
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from onboarding.models import ContactRequestDetail, Package, Page, Section, User
@@ -43,17 +41,13 @@ initial	        A value that should be used for pre-populating the value of HTML
 
 
 # Company
-
-
 class CompanySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Company
         fields = '__all__'
 
 
 class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = CompanyQuestionAndAnswer
         fields = ('id', 'question', 'answer', 'order')
@@ -62,6 +56,7 @@ class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
 # USER
 class UserJobDataSerializer(serializers.Serializer):
     location = serializers.ListField(child=serializers.CharField())
+
     # team = serializers.ListField(child=serializers.CharField())
     # job_position = serializers.ListField(child=serializers.CharField())
 
@@ -75,7 +70,6 @@ class UserJobDataSerializer(serializers.Serializer):
 
 
 class LogInUserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = get_user_model()
         fields = [
@@ -105,7 +99,6 @@ class UserAvatarSerializer(serializers.ModelSerializer):
 
 
 class UsersListSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = get_user_model()
         fields = (
@@ -136,7 +129,7 @@ class UserSerializer(serializers.ModelSerializer):
             'location',
             'team',
             'job_position',
-            )
+        )
 
     def create(self, validated_data):
         password = mock_password.generate()
@@ -154,11 +147,10 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
-#
+
 
 # CONTACT FORM
 class ContactFormTestSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = ContactRequestDetail
@@ -174,7 +166,6 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
 
 # PACKAGE
 class PackageSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = Package
@@ -249,7 +240,6 @@ class PackagePagesSerializer(serializers.ModelSerializer):
 
 # SECTION
 class SectionSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = Section
@@ -267,7 +257,6 @@ class SectionSerializer(serializers.ModelSerializer):
 
 # ANSWER
 class AnswerSerializer(serializers.ModelSerializer):
-
     class Meta:
         ordering = ['-id']
         model = Answer
@@ -277,6 +266,17 @@ class AnswerSerializer(serializers.ModelSerializer):
             'data',
             'owner',
         )
+
+
+class AnswersProgressStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = (
+            'id',
+            'updated_on',
+            'confirmed'
+        )
+
 
 # SECTION with ANSWERS
 class SectionAnswersSerializer(serializers.ModelSerializer):
@@ -296,4 +296,3 @@ class SectionAnswersSerializer(serializers.ModelSerializer):
             'page',
             'answer_set',
         )
-

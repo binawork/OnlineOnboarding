@@ -11,7 +11,7 @@ class Company(models.Model):
     name = models.TextField(max_length=500)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
-    how_many_sent_packages = models.IntegerField(default=1) 
+    how_many_sent_packages = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
@@ -73,6 +73,8 @@ class User(AbstractUser):
     team = models.CharField(max_length=50, blank=True, null=True)
     job_position = models.CharField(max_length=50, blank=True, null=True)
 
+    date_left = models.DateTimeField(null=True, blank=True)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
@@ -104,10 +106,19 @@ class Package(models.Model):
     description = models.TextField(max_length=1000, help_text='Enter a brief description', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    users = models.ManyToManyField(User, related_name='users_package', blank=True)
+    users = models.ManyToManyField(User, related_name='package_users', blank=True)
 
     def __str__(self):
         return self.title
+
+
+# class PackageUsers(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.PROTECT)
+#     package = models.ForeignKey(Package, on_delete=models.PROTECT)
+#     send_on = models.DateTimeField(auto_now_add=True)
+#
+#     class Meta:
+#         db_table = 'onboarding_package_users'
 
 
 class Page(models.Model):
@@ -163,6 +174,9 @@ class Answer(models.Model):
     section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True, blank=True)
     data = JSONField(null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    confirmed = models.BooleanField(default=False, help_text='confirmation of familiarization, if its true freezing'
+                                                             ' this answer')
+    updated_on = models.DateTimeField(auto_now=True)
 
 # knowledge base
 

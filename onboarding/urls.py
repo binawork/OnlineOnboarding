@@ -10,7 +10,8 @@ from django.contrib.auth import views as auth_views
 #from django.conf.urls.static import static
 
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
-    ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, PackagePagesViewSet, SectionAnswersViewSet
+    ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView,\
+    UserProgressOnPackageView, PackagePagesViewSet, SectionAnswersViewSet, CustomPasswordResetConfirmView
 
 # base
 urlpatterns = [
@@ -29,12 +30,13 @@ urlpatterns += [
         template_name='registration/password_reset_complete.html'),
         name='password_reset_complete'),
     path("password_reset/", views.password_reset_request, name="password_reset"),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+    path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(
         template_name="registration/password_reset_confirm.html"),
-         name='password_reset_confirm'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
-        template_name="templated_email/register_user_by_hr.html"),
          name='account_activation_for_users_created_by_hr'),
+
+    # path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(
+    #     template_name="templated_email/register_user_by_hr.html"),
+    #      name='password_reset_confirm'),
 ]
 
 # email
@@ -46,6 +48,12 @@ urlpatterns += [
 #urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API
+urlpatterns += [
+    path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/', UserProgressOnPageView.as_view(), name='progress_on_page'),
+    path(r'api/user/<int:employe_id>/progress_on_package/<int:page_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
+]
+
+
 router = DefaultRouter()
 router.register(r'api/users', UserViewSet, basename='User')
 router.register(r'api/company', CompanyViewSet, basename='Company')
