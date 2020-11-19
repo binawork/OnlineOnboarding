@@ -17,9 +17,13 @@ function FormsToSendTableRow(props){
         switchVisibility({...toggleObj, text: String.fromCharCode(charNo), style: newStyle, display: !toggleObj.display});
     };
 
+    const sendPackage = (e) => {
+        props.handleSendPackage(e.target.value);
+    };
+
 
     let checkBox = <input type="checkbox" onClick={ countChecked } />,
-        buttonObj = <button className="btn btn-secondary">Wyślij</button>, pages;
+        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ sendPackage }>Wyślij</button>, pages;
 
     if(props.empty){
         checkBox = "";

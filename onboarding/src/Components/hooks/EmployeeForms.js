@@ -75,19 +75,41 @@ function EmployeeForms(props){
 
 
 /**
+ * Employee assignment to package/combo;
+ */
+export function assignEmployeeToPackage(handleMessage, employeeId, packageId){
+	let data, token = getCookie("csrftoken"), fullPath = getPath(),
+		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	fullPath = fullPath + "api/package/" + packageId + "/add_user_to_package/";
+	data = {users: employeeId};
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(fullPath, fetchProps).then(res => {console.log(res);return tryFetchJson(res)})
+		.then(
+			(result) => {
+				handleMessage("Przypomnienie wysłane " + result);
+			},
+			(error) => {
+				handleMessage(error.message);
+			}
+		);
+}
+
+/**
  * Send reminder to employee to finish forms;
  */
-export function remindEmployeeOfPackage(handleSuccess, employeeId, packageId){
+export function remindEmployeeOfPackage(handleMessage, employeeId, packageId){
 	let url = getPath(), token = getCookie("csrftoken"), fullPath = url + "email/reminder/"+employeeId+"/"+packageId+"/",
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}};
 
 	fetch(fullPath, fetchProps).then(res => tryFetchJson(res))
 		.then(
 			(result) => {
-				handleSuccess("Przypomnienie wysłane");
+				handleMessage("Przypomnienie wysłane");
 			},
 			(error) => {
-				handleSuccess(error.message);
+				handleMessage(error.message);
 			}
 		);
 }

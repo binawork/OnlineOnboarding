@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FormsToSendTableRow from "./FormsToSendTableRow";
-import EmployeeForms from "../hooks/EmployeeForms";
+import EmployeeForms, { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsToSend(props) {
@@ -14,8 +14,13 @@ function ImplementationFormsToSend(props) {
             checkedChange(numberChecked - 1);
     };
 
+    const sendPackage = function(packageId){
+        assignEmployeeToPackage(props.showModal, props.userId, packageId);
+    };
+
+
     form_table.forEach(function (element, i){
-        forms.push(<FormsToSendTableRow key={ i } row={ element } handleChecked={ showHide } />);
+        forms.push(<FormsToSendTableRow key={ i } row={ element } handleChecked={ showHide } handleSendPackage={ sendPackage } />);
     });
 
     return(
