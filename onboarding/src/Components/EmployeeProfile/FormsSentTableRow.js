@@ -16,9 +16,13 @@ function FormsSentTableRow(props) {
         switchVisibility({...toggleObj, text: String.fromCharCode(charNo), style: newStyle, display: !toggleObj.display});
     };
 
+    const remind = (e) => {
+        props.handleRemind(e.target.value);
+    };
+
 
     let checkBox = <input type="checkbox" onClick={ countChecked } />,
-        buttonObj = <button className="btn btn-secondary">Przypomnienie</button>, pages;
+        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>, pages;
 
     if(props.empty){
         checkBox = "";

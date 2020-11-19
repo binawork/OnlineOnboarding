@@ -1,10 +1,13 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { getPath/*, getCookie*/ } from "../utils.js";
 
 function LoggedUser(){
-	const loggedUserRef = useRef({id: 0, email: "", first_name: "", last_name: "",
+	const userModel = {id: 0, email: "", first_name: "", last_name: "",
 							phone_number: "", location: "", team: "",
-							job_position: "",last_login: "", avatar: ""});
+							job_position: "",last_login: "", avatar: ""};
+	const loggedUserRef = useRef(userModel), [loggedUser, setUser] = useState(userModel);
+
+	const [error, showError] = useState(false), [loaded, isLoaded] = useState(false);
 
 	useEffect(() => {
 		let url = getPath(),
@@ -12,14 +15,30 @@ function LoggedUser(){
 
 		fetch(url + "api/users/login_user/", fetchProps).then(res => res.json()).then(
 			(result) => {
-				if(result.length > 0) loggedUserRef.current = result[0];
-				else loggedUserRef.current = result;
+				if(result.length > 0){
+					loggedUserRef.current = result[0];
+					setUser(result[0]);
+				} else {
+					loggedUserRef.current = result;
+					setUser(result);
+				}
+				isLoaded(true);
+
 			},
 			(error) => {
-				//console.log(error);
+				showError(true);
 			}
 		);console.log("   Use effect is used");
 	}, []);
+
+
+	if(error){
+		userModel.first_name = "(problem z pobraniem)";
+		return userModel;
+	} else if(!loaded){
+		userModel.first_name = "username...";
+		return userModel;
+	}
 
 	return loggedUserRef.current;
 }
