@@ -29,7 +29,7 @@ function PackagesRow({ row, handleRemoveAsk, lastRow, loggedUser }) {
             <td><Link to={{ pathname: "/package_page/" + row.key, state: { packageId: row.key, loggedUser: loggedUser } }} className="link">{row.name}</Link></td> 
             <td>{ dateToString(row.last_edit) }</td>{/* na polski; */}
             <td>
-                <Link to={{ pathname: "/package_page/" + row.key, state: { packageId: row.key, loggedUser: loggedUser } }} className="link">edytuj</Link> / <button type="button" value={ row.key } className="btn btn-secondary" onClick={ handleRemoveAsk }>usuń</button>
+                <Link to={{ pathname: "/package_page/" + row.key, state: { packageId: row.key, loggedUser: loggedUser } }} className="btn btn-secondary">edytuj</Link> / <button type="button" value={ row.key } className="btn btn-secondary" onClick={ handleRemoveAsk }>usuń</button>
             </td>
         </tr>
     )

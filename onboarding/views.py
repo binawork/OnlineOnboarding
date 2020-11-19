@@ -31,7 +31,7 @@ from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, Use
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm
 
@@ -111,7 +111,7 @@ def password_reset_request(request):
                         'templated_email/password_reset_email.html', 
                         {
                             'email': user.email,
-                            'domain': '127.0.0.1:8000',
+                            'domain': '127.0.0.1:8000', # to fix: should it be in local_settings.py bec. it is another on a server?
                             'site_name': 'Website',
                             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                             'user': user,
@@ -120,11 +120,12 @@ def password_reset_request(request):
                         }
                     )
                     plain_message = strip_tags(html_message)
+                    from_email = EMAIL_HOST_USER
                     try:
                         mail.send_mail(
                                         subject,
                                         plain_message,
-                                        'admin@example.com',
+                                        from_email,
                                         [user.email],
                                         html_message=html_message,
                                         fail_silently=False
@@ -549,6 +550,19 @@ class AnswerViewSet(viewsets.ModelViewSet):
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
+
+"""class UserProgressOnPageView(generics.ListAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = PagesAnswersSerializer
+    def get(self, request, *args, **kwargs):
+        user = kwargs.get('user_pk')
+        page = kwargs.get('page_pk')
+
+        queryset = self.get_queryset()
+        serializer = PagesAnswersSerializer(queryset, many=True)
+
+        return Response(serializer.data)"""
+
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):
     """
