@@ -5,7 +5,6 @@ from .models import User, Package, Page, Section, Answer, Company, ContactReques
 # information about django administration site
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
 admin.site.register(User, UserAdmin)
-admin.site.register(Answer)
 admin.site.register(ContactRequestDetail)
 admin.site.register(Company)
 
@@ -59,6 +58,13 @@ class SectionAdmin(admin.ModelAdmin):
     list_display = ('id', 'page', 'order', 'title', 'description', 'type', )
     ordering = ('id',)
     inlines = [AnswerInline, ]
+
+
+@admin.register(Answer)
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'section', 'owner', 'updated_on', 'confirmed')
+    ordering = ('id',)
+
 
 
 

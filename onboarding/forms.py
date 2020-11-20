@@ -1,6 +1,9 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import SetPasswordForm
 from django import forms
+from django.core.exceptions import ValidationError
+
 
 from .models import Company
 
@@ -39,4 +42,17 @@ class HrSignUpForm(UserCreationForm):
         user.is_active = False
         if commit:
             user.save()
+        return user
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+
+    def clean(self):
+        if self.user.date_left is not None:
+            raise ValidationError('user is no longer in this company')
+
+    def save(self, commit=True):
+        user = super(CustomSetPasswordForm, self).save(commit)
+        user.is_active = True
+        user.save()
         return user
