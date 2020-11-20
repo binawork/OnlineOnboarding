@@ -455,9 +455,19 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
     """
     List all Packages with related pages.
     """
-    queryset = Package.objects.all()
     serializer_class = PackagePagesSerializer
     permission_classes = [IsAuthenticated]
+
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user is not None:
+            queryset = Package.objects.filter(owner=user.company)
+        else:
+            queryset = Package.objects.all()
+
+        return queryset
 
     @action(detail=False)
     def list_by_company_hr(self, request):
@@ -467,6 +477,17 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
         """
         package = Package.objects.filter(owner=request.user.company)
         serializer = PackagePagesSerializer(package, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def list_by_company_employee(self, request):
+        """
+        :param request: user
+        :return: all packages with corresponding pages for ...
+        """
+        package = Package.objects.filter(owner=request.user.company, users=request.user)
+        serializer = PackageSerializer(package, many=True)
 
         return Response(serializer.data)
 #
