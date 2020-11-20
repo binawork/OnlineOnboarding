@@ -1,6 +1,8 @@
+from abc import ABC
 from django.core import mail
 from django.core.mail import BadHeaderError
 from django.contrib.auth import login, get_user_model
+from django.contrib.auth.views import PasswordResetConfirmView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordResetForm
@@ -26,14 +28,15 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, AnswersProgressStatusSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email
 from .tokens import account_activation_token
-from .forms import HrSignUpForm
+from .forms import HrSignUpForm, CustomSetPasswordForm
 
 
 def index(request):
@@ -58,6 +61,14 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
+
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    form_class = CustomSetPasswordForm
+
+
+
 def signup(request):
     if request.method == 'POST':
         signup_form = HrSignUpForm(request.POST)
@@ -70,7 +81,7 @@ def signup(request):
                 'templated_email/acc_active_email.html', 
                 {
                     'user': user,
-                    'domain': current_site.domain,
+                    'domain': current_site.domain, # to fix: should it be in local_settings.py bec. it is another on a server?
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
                 }
@@ -111,7 +122,7 @@ def password_reset_request(request):
                         'templated_email/password_reset_email.html', 
                         {
                             'email': user.email,
-                            'domain': '127.0.0.1:8000',
+                            'domain': '127.0.0.1:8000', # to fix: should it be in local_settings.py bec. it is another on a server?
                             'site_name': 'Website',
                             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                             'user': user,
@@ -120,11 +131,12 @@ def password_reset_request(request):
                         }
                     )
                     plain_message = strip_tags(html_message)
+                    from_email = EMAIL_HOST_USER
                     try:
                         mail.send_mail(
                                         subject,
                                         plain_message,
-                                        'admin@example.com',
+                                        from_email,
                                         [user.email],
                                         html_message=html_message,
                                         fail_silently=False
@@ -549,6 +561,37 @@ class AnswerViewSet(viewsets.ModelViewSet):
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
+
+
+
+class UserProgressOnPageView(generics.ListAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswersProgressStatusSerializer
+    def get(self, request, *args, **kwargs):
+        employe_id = kwargs.get('employe_id')
+        page_id = kwargs.get('page_id')
+
+        queryset = Answer.objects.filter(section__page_id=page_id,
+                                         owner_id=employe_id)
+        serializer = AnswersProgressStatusSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+
+class UserProgressOnPackageView(generics.ListAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswersProgressStatusSerializer
+    def get(self, request, *args, **kwargs):
+        employe_id = kwargs.get('employe_id')
+        page_id = kwargs.get('package_id')
+
+        queryset = Answer.objects.filter(section__page__package_id=page_id,
+                                         owner_id=employe_id)
+        serializer = AnswersProgressStatusSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):
     """

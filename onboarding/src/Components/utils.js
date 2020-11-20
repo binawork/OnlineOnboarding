@@ -41,11 +41,14 @@ export function getCookie(name) {
 	return cookieValue;
 }
 
-export function tryFetchJson(res){
+export function tryFetchJson(res, noJsonMessage){
 	let result = "";
+	var noJsonObj = {detail: ""};
+	if(typeof noJsonMessage === 'string')
+		noJsonObj.detail = noJsonMessage;
 
 	if(res.ok){
-		result = res.json();
+		result = res.json().catch(() => {return noJsonObj});
 	} else {
 		console.log(res);
 		result = res.text();

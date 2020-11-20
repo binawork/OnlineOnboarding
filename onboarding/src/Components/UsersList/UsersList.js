@@ -7,6 +7,8 @@ import UserListSearch from "../UserListSearch";
 import Users, { employeeRemove } from "../hooks/Users";
 import LoggedUser from "../hooks/LoggedUser.js";
 import ModalWarning from "../ModalWarning";
+import UserListRow from "./UserListRow";
+
 
 function UsersList(props) {
     const [countUpdate, update] = useState(0);
@@ -52,6 +54,12 @@ function UsersList(props) {
     if(props.packageId)
         packageId = props.packageId;
 
+    let users = Users({loggedUser: loggedUser, count: countUpdate}), usersRows = [];
+    users.forEach((singleUser, i) => {
+        usersRows.push(<UserListRow user={ singleUser } key={ i } handleRemove={ removeAsk } packageId={ packageId } loggedUser={ loggedUser } />);
+    });	
+
+
     return(
         <div className="page-section">
             <div className="card card-fluid">
@@ -62,7 +70,7 @@ function UsersList(props) {
                     <UserListSearch />
                 </div>
                 <div className="card-body">
-                    <Users count={ countUpdate } handleRemove={ removeAsk } packageId={ packageId } loggedUser={ loggedUser } />
+                    { usersRows }
                 </div>
 
                 { employeeIdModal.modal }

@@ -31,7 +31,7 @@ function App() {
             <Route path="/package_page/:package_id" component={ FormTablePage } />
             <Route path="/q_and_a" component={ QAPage } />
             <Route path="/user_list" component={ UserListPage } />
-            <Route path="/form_list" component={ AddUserTablePage } />
+            <Route path="/users_pages" component={ AddUserTablePage } />
             <Route path="/" exact component={ DashboardPage } />
         </HashRouter>
     );

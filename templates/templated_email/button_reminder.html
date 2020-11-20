@@ -22,7 +22,7 @@
                 </p>
                 <p>
                     {% autoescape off %}
-                        http://{{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}
+                        <a href="http://{{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}">{{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}</a>
                     {% endautoescape %}
                 </p>
             </div>
