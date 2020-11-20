@@ -10,11 +10,80 @@ const QnAList = () => {
   const [editMode, changeEditMode] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     const accepted = getQnA(setQaList, setMaxOrder, setLoading, setError);
     accepted ? setError(false) : null;
   }, []);
+
+  useEffect(() => {
+    if (editMode) {
+      const saveInterval = setInterval(
+        () => saveAll(qaList, setQaList, setSaved),
+        15000
+      );
+      return () => clearInterval(saveInterval);
+    } else {
+      window.refreshIntervalId;
+    }
+  }, [editMode, qaList]);
+
+  useEffect(() => {
+    // Show info "Zapisano zmiany" for 3sec when the changes were saved
+    if (saved) setTimeout(setSaved, 3000, false);
+  }, [saved]);
+
+  const handleAddQnA = (e) => {
+    e.preventDefault();
+    const newQnA = {
+      id: uuidv4(),
+      question: "",
+      answer: "",
+      order: maxOrder + 1,
+    };
+    setQaList([...qaList, newQnA]);
+    setMaxOrder(maxOrder + 1);
+  };
+
+  const handleSaveAll = (e) => {
+    e.preventDefault();
+    saveAll(qaList, setQaList, setSaved);
+    changeEditMode(false);
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    changeEditMode(true);
+  };
+
+  const onDragEnd = (result) => {
+    // destination, source -> objects in which you can find the index of the destination and index of source item
+    const { destination, source, reason } = result;
+    // Not a thing to do...
+    if (!destination || reason === "CANCEL") {
+      return;
+    }
+    //If drop an element to the same place, it should do nothing
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return;
+
+    const droppedSection = qaList[source.index];
+    const pageSections = [...qaList];
+
+    pageSections.splice(source.index, 1);
+    pageSections.splice(destination.index, 0, droppedSection);
+
+    const updatedList = pageSections.map((qa, index) => {
+      qa.order = index + 1;
+      return qa;
+    });
+
+    setQaList(updatedList);
+  };
 
   const questionsAndAnswers = qaList
     .sort((a, b) => a.order - b.order)
@@ -52,59 +121,7 @@ const QnAList = () => {
       )
     );
 
-  const handleAddQnA = (e) => {
-    e.preventDefault();
-    const newQnA = {
-      id: uuidv4(),
-      question: "",
-      answer: "",
-      order: maxOrder + 1,
-    };
-    setQaList([...qaList, newQnA]);
-    setMaxOrder(maxOrder + 1);
-  };
-
-  const handleSaveAll = (e) => {
-    e.preventDefault();
-    saveAll(qaList);
-    changeEditMode(false);
-  };
-
-  const handleEdit = (e) => {
-    e.preventDefault();
-    changeEditMode(true);
-  };
-
-  const onDragEnd = (result) => {
-    // destination, source -> objects in which you can find the index of the destination and index of source item
-    const { destination, source, reason } = result;
-    // Not a thing to do...
-    if (!destination || reason === "CANCEL") {
-      return;
-    }
-    //If drop an element to the same place, it should do nothing
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
-      return;
-
-    const droppedSection = qaList[source.index];
-    const pageSections = [...qaList];
-
-    pageSections.splice(source.index, 1);
-    pageSections.splice(destination.index, 0, droppedSection);
-
-    const updatedList = pageSections.map((qa, index) => {
-      qa.order = index + 1;
-      return qa;
-    });
-
-    setQaList(updatedList);
-  };
-
   if (error) return <div>{error}</div>;
-
   return (
     <div>
       <div className="card-body rounded-bottom border-top">
@@ -163,6 +180,27 @@ const QnAList = () => {
             Dodaj Q&A
           </a>
         </footer>
+      ) : (
+        <></>
+      )}
+      {saved ? (
+        <div
+          className="fixed-bottom d-flex justify-content-center show-and-hide"
+          style={{ display: "fixed-bottom", left: "240px" }}
+        >
+          <div
+            className="m-2 p-2"
+            style={{
+              width: "150px",
+              backgroundColor: "rgba(226, 232, 238, 0.57)",
+              color: "black",
+              textAlign: "center",
+              borderRadius: "4px",
+            }}
+          >
+            Zapisano zmiany
+          </div>
+        </div>
       ) : (
         <></>
       )}

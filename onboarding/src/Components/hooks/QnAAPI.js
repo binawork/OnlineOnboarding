@@ -19,8 +19,7 @@ export function getQnA(setQaList, setMaxOrder, setLoading, setError) {
       const orders = result
         .map((i) => i.order)
         .filter((i) => i >= 0 && typeof i === "number");
-
-      setMaxOrder(orders[orders.length - 1]);
+      setMaxOrder(result.length !== 0 ? orders[orders.length - 1] : 0);
       setQaList(result);
       setLoading(false);
     })
@@ -31,35 +30,6 @@ export function getQnA(setQaList, setMaxOrder, setLoading, setError) {
     });
 
   return true;
-}
-
-export function saveQnA(element, id, content, setSaved) {
-  if (
-    typeof content !== "string" ||
-    (typeof content === "string" && content.length < 1)
-  )
-    return false;
-
-  const fetchProps = {
-    method: "PATCH",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "X-CSRFToken": token,
-    },
-  };
-  const data = {};
-  element === "question" ? (data.question = content) : (data.answer = content);
-
-  fetchProps.body = JSON.stringify(data);
-
-  fetch(url + "api/q_and_a/" + id + "/", fetchProps)
-    .catch((error) => {
-      console.log(error);
-    })
-    .then(() => {
-      setSaved(true);
-    });
 }
 
 export function deleteQnA(id) {
@@ -77,7 +47,7 @@ export function deleteQnA(id) {
   return true;
 }
 
-export function saveAll(qaList) {
+export function saveAll(qaList, setQaList, setSaved) {
   const fetchProps = {
     headers: {
       Accept: "application/json",
@@ -86,15 +56,18 @@ export function saveAll(qaList) {
     },
   };
 
-  qaList.map((qa) => {
+  const updatedQaList = qaList.map((qa) => {
     if (typeof qa.id === "number") {
       fetchProps.method = "PUT";
       fetchProps.body = JSON.stringify(qa);
 
-      fetch(url + "api/q_and_a/" + qa.id + "/", fetchProps).catch((error) => {
-        console.log(error);
-      });
-      
+      fetch(url + "api/q_and_a/" + qa.id + "/", fetchProps)
+        .catch((error) => {
+          console.log(error);
+        })
+        .then(() => {
+          setSaved(true);
+        });
     } else if (typeof qa.id === "string") {
       fetchProps.method = "POST";
       fetchProps.body = JSON.stringify({
@@ -103,11 +76,17 @@ export function saveAll(qaList) {
         order: qa.order,
       });
 
-      fetch(url + "api/q_and_a/", fetchProps).catch((error) => {
-        console.log(error);
-      });
+      fetch(url + "api/q_and_a/", fetchProps)
+        .catch((error) => {
+          console.log(error);
+        })
+        .then((res) => res.json())
+        .then((addedQa) => {
+          setSaved(true);
+          qa.id = addedQa.id;
+        });
     }
+    return qa;
   });
-
   return true;
 }

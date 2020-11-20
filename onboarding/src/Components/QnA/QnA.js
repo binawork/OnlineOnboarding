@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import MarkdownArea from "../MarkdownArea";
-import { deleteQnA, saveQnA } from "../hooks/QnAAPI";
+import { deleteQnA } from "../hooks/QnAAPI";
 
 function QnA({
   id,
@@ -19,61 +19,37 @@ function QnA({
 }) {
   const [q, setQuestion] = useState(question);
   const [a, setAnswer] = useState(answer);
-  const [saved, setSaved] = useState(false);
+  const refValue = useRef(qaList);
 
   useEffect(() => {
-    // Show info "Zapisano zmiany" for 3sec when the changes were saved
-    if (saved) {
-      setTimeout(setSaved, 3000, false);
-    }
-  }, [saved]);
-
-  useEffect(() => {
-    const intervalQId = setInterval(() => {
-      if (q !== question) {
-        question = q;
-        saveQnA("question", id, q, setSaved);
-      }
-    }, 5000);
-    return () => clearInterval(intervalQId);
-  }, [q]);
-
-  useEffect(() => {
-    const intervalAId = setInterval(() => {
-      if (a !== answer) {
-        answer = a;
-        saveQnA("answer", id, a, setSaved);
-      }
-    }, 5000);
-
-    return () => clearInterval(intervalAId);
-  }, [a]);
+    refValue.current = qaList;
+  });
 
   const changeQuestion = (content) => {
     setQuestion(content);
-    const newQuestion = qaList.map((qa) => {
+    const updatedList = refValue.current.map((qa) => {
       if (qa.id === id) {
         qa.question = content;
       }
       return qa;
     });
-    setQaList(newQuestion);
+    setQaList(updatedList);
   };
 
   const changeAnswer = (content) => {
     setAnswer(content);
-    const newAnswer = qaList.map((qa) => {
+    const updatedList = refValue.current.map((qa) => {
       if (qa.id === id) {
         qa.answer = content;
       }
       return qa;
     });
-    setQaList(newAnswer);
+    setQaList(updatedList);
   };
 
   const handleCopyQA = (e) => {
     e.preventDefault();
-    const updatedList = qaList.map((qa) => {
+    const updatedList = refValue.current.map((qa) => {
       qa.order > order ? (qa.order = qa.order + 1) : qa;
       return qa;
     });
@@ -100,7 +76,7 @@ function QnA({
 
     setMaxOrder(maxOrder - 1);
     setQaList(updatedList);
-    deleteQnA(id);
+    if (typeof id === "number") deleteQnA(id);
   };
 
   const preview = (
@@ -161,28 +137,6 @@ function QnA({
           </div>
         </div>
       </div>
-
-      {saved ? (
-        <div
-          className="fixed-bottom d-flex justify-content-center show-and-hide"
-          style={{ display: "fixed-bottom", left: "240px" }}
-        >
-          <div
-            className="m-2 p-2"
-            style={{
-              width: "150px",
-              backgroundColor: "rgba(226, 232, 238, 0.57)",
-              color: "black",
-              textAlign: "center",
-              borderRadius: "4px",
-            }}
-          >
-            Zapisano zmiany
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
     </div>
   );
 }
