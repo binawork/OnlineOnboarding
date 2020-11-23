@@ -5,7 +5,8 @@ import EmployeeForms, { remindEmployeeOfPackage } from "../hooks/EmployeeForms";
 
 function ImplementationFormsSent(props) {
     const [numberChecked, checkedChange] = useState(0);
-    let user_table = EmployeeForms(props), forms = [];
+    let propsCp = {...props, specificEmployee: props.userId},
+        user_table = EmployeeForms(propsCp), forms = [];
 
     const showHide = (isChecked) => {
         if(isChecked)

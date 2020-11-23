@@ -42,11 +42,17 @@ function EmployeeForms(props){
 	} else {
 		var form_table = [], count = rows.length;
 		let i, j, row;//, loggedUser = {id:0, first_name: ""};
+		const specificEmployee = (props.specificEmployee && props.specificEmployee > 0)?props.specificEmployee:-1;
 
 		/*if(props.loggedUser)
 			loggedUser = props.loggedUser;*/
 
 		for(i = 0; i < count; i++){
+			if(specificEmployee > 0 && rows[i].users && Array.isArray(rows[i].users)){
+				if(rows[i].users.indexOf(specificEmployee) < 0)
+					continue;
+			}
+
 			row = {...rowModel};
 			row.key = rows[i].id;
 			row.name = row.form = rows[i].title;
