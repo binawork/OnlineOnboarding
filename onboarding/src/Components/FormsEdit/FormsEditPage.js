@@ -20,7 +20,7 @@ function FormsEditPage({ location, match }) {
   console.log(sections);
 
   useEffect(() => {
-    FormSectionsAPI.getAllTimeboxes(pageID)
+    FormSectionsAPI.getAllSections(pageID)
       .then((response) => {
         setSections(response);
         //         const sortedResult = filteredResult.sort((a, b) => a.order - b.order);
@@ -122,7 +122,7 @@ function FormsEditPage({ location, match }) {
                                       provided={provided}
                                       innerRef={provided.innerRef}
                                       order={section.order}
-                                      id={section.id}
+                                      sectionId={section.id}
                                       name={section.type + section.id}
                                       title={section.title}
                                       description={section.description}
@@ -142,7 +142,9 @@ function FormsEditPage({ location, match }) {
                     </DragDropContext>
                     <div className="col-auto">
                       <FormAddSection
-                        updateSections={updateSections}
+                      setSections={setSections}
+                      sections={sections}
+                        updateMaxOrder={updateMaxOrder}
                         maxOrder={maxOrder}
                         pageId={pageID}
                       />

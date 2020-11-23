@@ -4,9 +4,9 @@ import React, { useState } from "react";
 const AnswerRow = ({
   innerRef,
   provided,
-  id,
+  answerId,
   name,
-  title,
+  text,
   type,
 }) => {
   const [editing, setEditing] = useState(false);
@@ -15,8 +15,8 @@ const AnswerRow = ({
       e.preventDefault();
       setEditing(true);
       setTimeout(() => {
-        document.getElementById("edit" + id).focus();
-        document.getElementById("edit" + id).select()
+        document.getElementById("edit" + answerId).focus();
+        document.getElementById("edit" + answerId).select()
       }, 0);
   }
   const offEditTitleMode = (e) => {
@@ -44,7 +44,7 @@ const AnswerRow = ({
               // id={"edit" + id}
               name={name}
               type="text"
-              // value={title}
+              value={text}
               // onChange={editAnswer}
               // onKeyDown={clickSave}
             />
@@ -52,21 +52,14 @@ const AnswerRow = ({
         ) : (
           <div className="custom-control custom-control-inline custom-checkbox">
             <input
-              className={`custom-control-input ${
-                false ? "is-valid" : ""
-              }`}
-              // className={`custom-control-input ${
-              //   answChecked.includes(id) ? "is-valid" : ""
-              // }`}
-              id={id}
+              className={"custom-control-input"}
+              id={answerId}
               name={name}
               type={type === "osa" ? "radio" : "checkbox"}
-              // value={title}
-              // onChange={changeChecked}
-              // checked={answChecked.includes(id)}
+              // value={text}
             />
-            <label className="custom-control-label" htmlFor={id}>
-              {title}
+            <label className="custom-control-label" htmlFor={answerId}>
+              {text}
             </label>
           </div>
         )}
@@ -74,7 +67,7 @@ const AnswerRow = ({
       <td>
         {editing === true ? (
           <button
-            id={'saveInput' + id}
+            // id={'saveInput' + answerId}
             className="btn"
             onClick={ offEditTitleMode }
           >

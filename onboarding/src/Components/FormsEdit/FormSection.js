@@ -4,6 +4,7 @@ import SaveInfo from "../SaveInfo";
 // import Switcher from "../Switcher";
 import AnswerRow from "./AnswerRow";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
 // import {
 //   copySection,
@@ -15,7 +16,7 @@ function FormSection({
   provided,
   innerRef,
   order,
-  id,
+  sectionId,
   name,
   title,
   description,
@@ -23,9 +24,25 @@ function FormSection({
   sections,
   setSections,
 }) {
+  const [answers, setAnswers] = useState([]);
   const [sectionTitle, setTitle] = useState(title);
   const [sectionDescription, setDescription] = useState(description);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+
   // const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    FormSectionsAPI.getAllAnswers()
+    .then((response) => {
+      const sectionAnswers = response.filter(answer => answer.section === sectionId);
+      setAnswers(sectionAnswers);
+      //         const sortedResult = filteredResult.sort((a, b) => a.order - b.order);
+      console.log("get answer result: ", response);
+    })
+    .catch((error) => setErrorMessage(error.message))
+    .finally(() => setLoading(false));
+  }, [])
 
   const cardHeader =
     type === "oa"
@@ -88,7 +105,7 @@ function FormSection({
     e.preventDefault();
     console.log(1);
     // deleteSection(id, sections, updateSections);
-    setSections(sections.filter((item) => item.id !== id));
+    setSections(sections.filter((item) => item.id !== sectionId));
   };
 
   const onDragEnd = (result) => {
@@ -113,41 +130,38 @@ function FormSection({
     // changeAnswersOrder(id, sectionAnswers);
   };
 
-  // const answersList = answers.map((answer, index) => {
-  //   try {
-  //     if (type === "osa" || type === "msa") {
-  //       return (
-  //         <Draggable
-  //           key={answer.id}
-  //           draggableId={"draggable-" + answer.id}
-  //           index={index}
-  //         >
-  //           {(provided) => (
-  //             <AnswerRow
-  //               innerRef={provided.innerRef}
-  //               provided={provided}
-  //               key={"answer" + answer.id}
-  //               id={answer.id}
-  //               name={name}
-  //               title={answer.title}
-  //               type={type}
-  //               // answChecked={checked}
-  //               // changeChecked={changeChecked}
-  //               // deleteAnswer={deleteAnswer}
-  //               // editAnswer={editAnswer}
-  //             />
-  //           )}
-  //         </Draggable>
-  //       );
-  //     } else if (type !== "oa") {
-  //       throw new Error(
-  //         "Wrong type of section. The proper section type is one of: 'oa', 'osa' or 'msa'."
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // });
+  const answersList = answers.map((answer, index) => {
+    try {
+      if (type === "osa" || type === "msa") {
+        return (
+          <Draggable
+            key={answer.id}
+            draggableId={"draggable-" + answer.id}
+            index={index}
+          >
+            {(provided) => (
+              <AnswerRow
+                innerRef={provided.innerRef}
+                provided={provided}
+                answerId={answer.id}
+                name={name}
+                text={answer.data}
+                type={type}
+                // deleteAnswer={deleteAnswer}
+                // editAnswer={editAnswer}
+              />
+            )}
+          </Draggable>
+        );
+      } else if (type !== "oa") {
+        throw new Error(
+          "Wrong type of section. The proper section type is one of: 'oa', 'osa' or 'msa'."
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  });
 
   return (
     <section className="card my-3" {...provided.draggableProps} ref={innerRef}>
@@ -167,7 +181,7 @@ function FormSection({
               </div>
             </div>
             <MarkdownArea
-              id={id}
+              id={sectionId}
               content={sectionDescription}
               contentChange={setDescription}
               simple={false}
@@ -177,7 +191,6 @@ function FormSection({
             {type === "oa" ? (
               <div className="form-group">
                 <textarea
-                  // id={answers[0].id}
                   className="form-control"
                   placeholder="Odpowiedź pracownika"
                   rows="4"
@@ -193,6 +206,12 @@ function FormSection({
                           ref={provided.innerRef}
                           {...provided.droppableProps}
                         >
+                        {loading ? (
+                              <tr className="p-3"><td>Ładowanie...</td></tr>
+                            ) : null}
+                            {errorMessage !== "" ? (
+                              <tr className="p-3"><td>{errorMessage}</td></tr>
+                            ) : answersList}
                           {/* {answersList} */}
                           {provided.placeholder}
                         </tbody>

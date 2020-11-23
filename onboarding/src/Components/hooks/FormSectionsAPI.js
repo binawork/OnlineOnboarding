@@ -7,14 +7,27 @@ import "regenerator-runtime/runtime.js";
 const BASE_URL = getPath();
 
 const FormSectionsAPI = {
-  getAllTimeboxes: async function (pageID) {
-    const response = await makeRequest(
+  getAllSections: async function (pageID) {
+    const sections = await makeRequest(
       `${BASE_URL}api/section/${pageID}/list_by_page_hr/`,
       "GET"
     );
     // const sections = await response.json();
-    return response;
+    return sections;
   },
+  getAllAnswers: async function () {
+    const answers = await makeRequest(`${BASE_URL}api/answer`, "GET");
+    // const sections = await response.json();
+    // console.log(answers);
+    return answers;
+  },
+  // addSection: async function (sectionToAdd) {
+  //   console.log(sectionToAdd)
+  //   const addedSection = await makeRequest(`${BASE_URL}api/section`, "POST", sectionToAdd);
+  //   // const addedTimebox = await response.json();
+  //   console.log(addedSection);
+  //   return addedSection;
+  // },
 };
 
 export default FormSectionsAPI;

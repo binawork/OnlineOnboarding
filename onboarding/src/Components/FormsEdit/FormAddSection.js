@@ -1,7 +1,9 @@
 import React from "react";
+import uuid from "uuid";
 // import { addSection } from "../hooks/FormSectionsAPI";
+import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
-function FormAddSection({ updateSections, maxOrder, pageId }) {
+function FormAddSection({ setSections, sections, updateMaxOrder, maxOrder, pageId }) {
 
     // const openAnswerClick = (e) => {
     //     e.preventDefault();
@@ -17,7 +19,10 @@ function FormAddSection({ updateSections, maxOrder, pageId }) {
     // }
     const handleAddSection = (e, sectionType) => {
         e.preventDefault();
-        console.log(e.target, sectionType)
+        // FormSectionsAPI.addSection({ title: "", type: sectionType, page: pageId, order: maxOrder });
+        const sectionToAdd = { id: uuid.v4(), type: sectionType, page: pageId, order: maxOrder };
+        setSections([...sections, sectionToAdd]);
+        updateMaxOrder(maxOrder + 1);
 		// addSection(sectionType, pageId, updateSections, maxOrder)
     }
 
