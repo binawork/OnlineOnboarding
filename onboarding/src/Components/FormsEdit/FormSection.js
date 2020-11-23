@@ -5,6 +5,8 @@ import SaveInfo from "../SaveInfo";
 import AnswerRow from "./AnswerRow";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
+import uuid from "uuid";
+
 
 // import {
 //   copySection,
@@ -21,8 +23,11 @@ function FormSection({
   title,
   description,
   type,
+  pageId,
   sections,
   setSections,
+  maxOrder,
+  updateMaxOrder
 }) {
   const [answers, setAnswers] = useState([]);
   const [sectionTitle, setTitle] = useState(title);
@@ -38,7 +43,7 @@ function FormSection({
       const sectionAnswers = response.filter(answer => answer.section === sectionId);
       setAnswers(sectionAnswers);
       //         const sortedResult = filteredResult.sort((a, b) => a.order - b.order);
-      console.log("get answer result: ", response);
+      // console.log("get answer result: ", response);
     })
     .catch((error) => setErrorMessage(error.message))
     .finally(() => setLoading(false));
@@ -91,21 +96,34 @@ function FormSection({
   const handleCopySection = (e) => {
     e.preventDefault();
     const sectionToCopy = {
+      id: uuid.v4(),
       title: sectionTitle,
       description: sectionDescription,
-      order: order,
+      order: order + 1,
       type: type,
-      // answers: answers,
-      // page: page,
+      page: pageId,
     };
-    // copySection(sectionToCopy, sections, updateSections);
+    const updatedSections = sections.map(section => {
+      if(section.order > order) {
+        section.order = section.order + 1;
+      }
+      return section;
+    })
+    updatedSections.splice(order, 0, sectionToCopy)
+    setSections(updatedSections);
+    updateMaxOrder(maxOrder + 1);
   };
-
+  
   const handleDeleteSection = (e) => {
     e.preventDefault();
-    console.log(1);
-    // deleteSection(id, sections, updateSections);
-    setSections(sections.filter((item) => item.id !== sectionId));
+    const updatedSections = sections.map(section => {
+      if(section.order > order) {
+        section.order = section.order - 1;
+      }
+      return section;
+    })
+    setSections(updatedSections.filter((item) => item.id !== sectionId));
+    updateMaxOrder(maxOrder - 1);
   };
 
   const onDragEnd = (result) => {

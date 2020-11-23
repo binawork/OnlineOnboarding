@@ -121,15 +121,17 @@ function FormsEditPage({ location, match }) {
                                     <FormSection
                                       provided={provided}
                                       innerRef={provided.innerRef}
-                                      order={section.order}
+                                      order={index + 1}
                                       sectionId={section.id}
                                       name={section.type + section.id}
                                       title={section.title}
                                       description={section.description}
                                       type={section.type}
+                                      pageId={section.page}
                                       sections={sections}
                                       setSections={setSections}
-                                      updateSections={updateSections}
+                                      maxOrder={maxOrder}
+                                      updateMaxOrder={updateMaxOrder}
                                     />
                                   )}
                                 </Draggable>

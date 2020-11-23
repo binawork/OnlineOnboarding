@@ -20,10 +20,9 @@ function FormAddSection({ setSections, sections, updateMaxOrder, maxOrder, pageI
     const handleAddSection = (e, sectionType) => {
         e.preventDefault();
         // FormSectionsAPI.addSection({ title: "", type: sectionType, page: pageId, order: maxOrder });
-        const sectionToAdd = { id: uuid.v4(), type: sectionType, page: pageId, order: maxOrder };
+        const sectionToAdd = { id: uuid.v4(), type: sectionType, page: pageId, order: maxOrder + 1 };
         setSections([...sections, sectionToAdd]);
         updateMaxOrder(maxOrder + 1);
-		// addSection(sectionType, pageId, updateSections, maxOrder)
     }
 
     return(
