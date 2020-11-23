@@ -100,7 +100,7 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId){
 	fetch(fullPath, fetchProps).then(res => {console.log(res);return tryFetchJson(res)})
 		.then(
 			(result) => {
-				handleMessage("Przypomnienie wysłane " + result);
+				handleMessage("Dodanie wysłane " + result);
 			},
 			(error) => {
 				handleMessage(error.message);
