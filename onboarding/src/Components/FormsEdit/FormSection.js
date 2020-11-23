@@ -5,11 +5,11 @@ import SaveInfo from "../SaveInfo";
 import AnswerRow from "./AnswerRow";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import {
-  copySection,
-  updateSection,
-  deleteSection,
-} from "../hooks/FormSectionsAPI";
+// import {
+//   copySection,
+//   updateSection,
+//   deleteSection,
+// } from "../hooks/FormSectionsAPI";
 
 function FormSection({
   provided,
@@ -20,15 +20,12 @@ function FormSection({
   title,
   description,
   type,
-  answers,
-  page,
   sections,
   setSections,
-  updateSections,
 }) {
   const [sectionTitle, setTitle] = useState(title);
   const [sectionDescription, setDescription] = useState(description);
-  const [saved, setSaved] = useState(false);
+  // const [saved, setSaved] = useState(false);
 
   const cardHeader =
     type === "oa"
@@ -40,35 +37,35 @@ function FormSection({
       : "";
   // const answerRequired = true;
 
-  useEffect(() => {
-    // Show info "Zapisano zmiany" for 3sec when the changes were saved
-    if (saved) {
-      setTimeout(setSaved, 3000, false);
-    }
-  }, [saved]);
+  // useEffect(() => {
+  //   // Show info "Zapisano zmiany" for 3sec when the changes were saved
+  //   if (saved) {
+  //     setTimeout(setSaved, 3000, false);
+  //   }
+  // }, [saved]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (sectionTitle !== title) {
-        title = sectionTitle;
-        updateSection("title", id, sectionTitle, updateSections, setSaved);
-      }
-      if (sectionDescription !== description) {
-        description = sectionDescription;
-        updateSection(
-          "description",
-          id,
-          sectionDescription,
-          updateSections,
-          setSaved
-        );
-      }
-    }, 4000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if (sectionTitle !== title) {
+  //       title = sectionTitle;
+  //       // updateSection("title", id, sectionTitle, updateSections, setSaved);
+  //     }
+  //     if (sectionDescription !== description) {
+  //       description = sectionDescription;
+  //       // updateSection(
+  //       //   "description",
+  //       //   id,
+  //       //   sectionDescription,
+  //       //   updateSections,
+  //       //   setSaved
+  //       // );
+  //     }
+  //   }, 4000);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [sectionTitle, sectionDescription]);
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [sectionTitle, sectionDescription]);
 
   const changeTitle = (e) => {
     setTitle(e.target.value);
@@ -81,16 +78,16 @@ function FormSection({
       description: sectionDescription,
       order: order,
       type: type,
-      answers: answers,
-      page: page,
+      // answers: answers,
+      // page: page,
     };
-    copySection(sectionToCopy, sections, updateSections);
+    // copySection(sectionToCopy, sections, updateSections);
   };
 
   const handleDeleteSection = (e) => {
     e.preventDefault();
     console.log(1);
-    deleteSection(id, sections, updateSections);
+    // deleteSection(id, sections, updateSections);
     setSections(sections.filter((item) => item.id !== id));
   };
 
@@ -113,49 +110,47 @@ function FormSection({
     sectionAnswers.splice(source.index, 1);
     sectionAnswers.splice(destination.index, 0, droppedAnswers);
 
-    changeAnswersOrder(id, sectionAnswers);
+    // changeAnswersOrder(id, sectionAnswers);
   };
 
-  const answersList = answers.map((answer, index) => {
-    try {
-      if (type === "osa" || type === "msa") {
-        return (
-          <Draggable
-            key={answer.id}
-            draggableId={"draggable-" + answer.id}
-            index={index}
-          >
-            {(provided) => (
-              <AnswerRow
-                innerRef={provided.innerRef}
-                provided={provided}
-                key={"answer" + answer.id}
-                id={answer.id}
-                name={name}
-                title={answer.title}
-                type={type}
-                // answChecked={checked}
-                // changeChecked={changeChecked}
-                // deleteAnswer={deleteAnswer}
-                // editAnswer={editAnswer}
-              />
-            )}
-          </Draggable>
-        );
-      } else if (type !== "oa") {
-        throw new Error(
-          "Wrong type of section. The proper section type is one of: 'oa', 'osa' or 'msa'."
-        );
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  });
+  // const answersList = answers.map((answer, index) => {
+  //   try {
+  //     if (type === "osa" || type === "msa") {
+  //       return (
+  //         <Draggable
+  //           key={answer.id}
+  //           draggableId={"draggable-" + answer.id}
+  //           index={index}
+  //         >
+  //           {(provided) => (
+  //             <AnswerRow
+  //               innerRef={provided.innerRef}
+  //               provided={provided}
+  //               key={"answer" + answer.id}
+  //               id={answer.id}
+  //               name={name}
+  //               title={answer.title}
+  //               type={type}
+  //               // answChecked={checked}
+  //               // changeChecked={changeChecked}
+  //               // deleteAnswer={deleteAnswer}
+  //               // editAnswer={editAnswer}
+  //             />
+  //           )}
+  //         </Draggable>
+  //       );
+  //     } else if (type !== "oa") {
+  //       throw new Error(
+  //         "Wrong type of section. The proper section type is one of: 'oa', 'osa' or 'msa'."
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // });
 
   return (
-    <section className="card-body" {...provided.draggableProps} ref={innerRef}>
-      <div className="task-issue">
-        <div className="card">
+    <section className="card my-3" {...provided.draggableProps} ref={innerRef}>
           <header className="card-header" {...provided.dragHandleProps}>
             <span className="drag-indicator"></span> {cardHeader}
           </header>
@@ -180,9 +175,9 @@ function FormSection({
             <hr />
 
             {type === "oa" ? (
-              <div key={answers[0].id} className="form-group">
+              <div className="form-group">
                 <textarea
-                  id={answers[0].id}
+                  // id={answers[0].id}
                   className="form-control"
                   placeholder="Odpowiedź pracownika"
                   rows="4"
@@ -198,7 +193,7 @@ function FormSection({
                           ref={provided.innerRef}
                           {...provided.droppableProps}
                         >
-                          {answersList}
+                          {/* {answersList} */}
                           {provided.placeholder}
                         </tbody>
                       </table>
@@ -219,15 +214,8 @@ function FormSection({
               </>
             )}
 
+          </div>
             <footer className="card-footer d-flex justify-content-end">
-              {/* <div className="col"> */}
-              {/* <Switcher
-                id={id}
-                // answRequired={answerRequired}
-                // switcherChange={switcherChange}
-              />{" "}
-              Odp. wymagana */}
-              {/* </div> */}
               <button className="btn" onClick={handleCopySection}>
                 <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj pytanie
               </button>
@@ -235,10 +223,7 @@ function FormSection({
                 <i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń
               </button>
             </footer>
-          </div>
-        </div>
-      </div>
-      {saved ? <SaveInfo /> : <></>}
+      {/* {saved ? <SaveInfo /> : <></>} */}
     </section>
   );
 }

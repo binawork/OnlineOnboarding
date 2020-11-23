@@ -1,5 +1,5 @@
 import React from "react";
-import { addSection } from "../hooks/FormSectionsAPI";
+// import { addSection } from "../hooks/FormSectionsAPI";
 
 function FormAddSection({ updateSections, maxOrder, pageId }) {
 
@@ -18,11 +18,11 @@ function FormAddSection({ updateSections, maxOrder, pageId }) {
     const handleAddSection = (e, sectionType) => {
         e.preventDefault();
         console.log(e.target, sectionType)
-		addSection(sectionType, pageId, updateSections, maxOrder)
+		// addSection(sectionType, pageId, updateSections, maxOrder)
     }
 
     return(
-      <div className="card card-fluid">
+      <div className="card my-3">
           <div className="card-header">Rodzaj pytania</div>
           <div className="card-body align-items-center">
                 <div className="form-group row">

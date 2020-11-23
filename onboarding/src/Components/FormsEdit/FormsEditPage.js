@@ -1,27 +1,45 @@
-import React, { useState, useRef } from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-
+import React, { useState, useRef, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import FormSection from "../FormsEdit/FormSection";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import FormDescription from "./FormDescription";
 import FormAddSection from "./FormAddSection";
-import FormSectionsAPI, { saveSections, dndFormSections } from "../hooks/FormSectionsAPI";
+// import FormSectionsAPI, { saveSections, dndFormSections } from "../hooks/FormSectionsAPI";
+import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import LoggedUser from "../hooks/LoggedUser.js";
 
 function FormsEditPage({ location, match }) {
-  const [countUpdate, update] = useState(0);
+  // const [countUpdate, update] = useState(0);
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);
-  const pageId = match.params.form_id;
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const pageID = match.params.form_id;
+  console.log(sections);
+
+  useEffect(() => {
+    FormSectionsAPI.getAllTimeboxes(pageID)
+      .then((response) => {
+        setSections(response);
+        //         const sortedResult = filteredResult.sort((a, b) => a.order - b.order);
+        const orders = response.map((item) => item.order);
+        updateMaxOrder(response.length);
+        console.log("orders", orders);
+        console.log("get result: ", response);
+      })
+      .catch((error) => setErrorMessage(error.message))
+      .finally(() => setLoading(false));
+  }, []);
 
   const updateSections = () => {
-    update(countUpdate + 1);
+    // update(countUpdate + 1);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveSections(sections);
+    // saveSections(sections);
   };
 
   const packageIdRef = useRef(0);
@@ -52,7 +70,7 @@ function FormsEditPage({ location, match }) {
     const destinationSection = sections[destination.index];
     const droppedSection = sections[source.index];
 
-    dndFormSections(sections, droppedSection, destinationSection, updateSections);
+    // dndFormSections(sections, droppedSection, destinationSection, updateSections);
 
     const pageSections = Object.assign([], sections);
     pageSections.splice(source.index, 1);
@@ -71,59 +89,77 @@ function FormsEditPage({ location, match }) {
           <div className="page has-sidebar-expand-xl">
             <div className="page-inner">
               <PageAddressBar
-                page={"Formularz / " + "Edytuj"}
+                page={"Formularz / Edytuj"}
                 loggedUser={loggedUser}
               />{" "}
-              <FormDescription location={location} pageId={pageId} />
+              <FormDescription location={location} pageId={pageID} />
               <section className="page-section">
-                <div className="card card-fluid">
-                  <header className="card-header">Sekcje strony</header>
-                  <form>
-                    <div className="row">
-                      <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="dp1">
-                          {(provided) => (
-                            <div
-                              className="col"
-                              ref={provided.innerRef}
-                              {...provided.droppableProps}
-                            >
-                              <FormSectionsAPI
-                                pageId={pageId}
-                                count={countUpdate}
-                                updateSections={updateSections}
-                                updateMaxOrder={updateMaxOrder}
-                                sections={sections}
-                                setSections={setSections}
-                              />
-                              {provided.placeholder}
-                            </div>
-                          )}
-                        </Droppable>
-                      </DragDropContext>
-                      <div className="col-auto">
-                        <div className="card-body">
-                          <FormAddSection
-                            updateSections={updateSections}
-                            maxOrder={maxOrder}
-                            pageId={pageId}
-                          />
-                          <div className="form-group">
-                            <div className="input-group-append">
-                              <button
-                                type="submit"
-                                className="btn btn-success"
-                                onClick={handleSubmit}
-                              >
-                                Zapisz pytania
-                              </button>
-                            </div>
+                <header className="card-header">Sekcje strony</header>
+                <form>
+                  <div className="row">
+                    <DragDropContext onDragEnd={onDragEnd}>
+                      <Droppable droppableId="dp1">
+                        {(provided) => (
+                          <div
+                            className="col"
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                          >
+                            {loading ? (
+                              <div className="p-3">Ładowanie...</div>
+                            ) : null}
+                            {errorMessage !== "" ? (
+                              <div className="p-3">{errorMessage}</div>
+                            ) : (
+                              sections.map((section, index) => (
+                                <Draggable
+                                  key={section.id}
+                                  draggableId={"draggable-" + section.id}
+                                  index={index}
+                                >
+                                  {(provided) => (
+                                    <FormSection
+                                      provided={provided}
+                                      innerRef={provided.innerRef}
+                                      order={section.order}
+                                      id={section.id}
+                                      name={section.type + section.id}
+                                      title={section.title}
+                                      description={section.description}
+                                      type={section.type}
+                                      sections={sections}
+                                      setSections={setSections}
+                                      updateSections={updateSections}
+                                    />
+                                  )}
+                                </Draggable>
+                              ))
+                            )}
+                            {provided.placeholder}
                           </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
+                    <div className="col-auto">
+                      <FormAddSection
+                        updateSections={updateSections}
+                        maxOrder={maxOrder}
+                        pageId={pageID}
+                      />
+                      <div className="form-group">
+                        <div className="input-group-append">
+                          <button
+                            type="submit"
+                            className="btn btn-success"
+                            onClick={handleSubmit}
+                          >
+                            Zapisz pytania
+                          </button>
                         </div>
                       </div>
                     </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </section>
             </div>
           </div>

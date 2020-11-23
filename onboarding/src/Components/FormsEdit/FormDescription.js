@@ -3,13 +3,13 @@ import { savePageDetails } from "../hooks/FormsEdit";
 
 const FormDescription = ({ location, pageId }) => {
   const [pageName, setPageName] = useState(
-    location.state?.pageName ? location.state.pageName : ""
+    location.state?.pageName
   );
   const [link, setLink] = useState(
-    location.state?.link ? location.state.link : ""
+    location.state?.link
   );
   const [description, setDescription] = useState(
-    location.state?.description ? location.state.description : ""
+    location.state?.description
   );
 
   const handleSave = (e) => {
