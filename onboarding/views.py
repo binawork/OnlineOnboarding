@@ -34,7 +34,7 @@ from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, Use
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm, CustomSetPasswordForm
 
@@ -381,8 +381,7 @@ class PackageViewSet(viewsets.ModelViewSet):
             send_add_user_to_package_email(
                 EMAIL_HOST_USER,
                 user,
-                package,
-                hr_user
+                package
             )
 
         serializer = PackageUsersSerializer(package)
@@ -581,11 +580,12 @@ class UserProgressOnPageView(generics.ListAPIView):
 class UserProgressOnPackageView(generics.ListAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswersProgressStatusSerializer
+
     def get(self, request, *args, **kwargs):
         employe_id = kwargs.get('employe_id')
-        page_id = kwargs.get('package_id')
+        package_id = kwargs.get('package_id')
 
-        queryset = Answer.objects.filter(section__page__package_id=page_id,
+        queryset = Answer.objects.filter(section__page__package_id=package_id,
                                          owner_id=employe_id)
         serializer = AnswersProgressStatusSerializer(queryset, many=True)
 
