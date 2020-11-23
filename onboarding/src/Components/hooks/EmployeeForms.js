@@ -13,7 +13,7 @@ function EmployeeForms(props){
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
-		fetch(url + "api/package_pages/list_by_company_hr", fetchProps).then(res => res.json()).then(
+		fetch(url + "api/package_pages", fetchProps).then(res => res.json()).then(
 			(result) => {
 				isLoaded(true);
 				setRows(result);
@@ -72,6 +72,12 @@ function EmployeeForms(props){
 	}
 
 }
+
+
+/**
+ * Get packages or pages when ProcessPreviewTables component is loaded;
+ */
+//export function singleEmployeeForms(props){}
 
 
 /**
