@@ -31,8 +31,12 @@ function EmployeeEditForm(props) {
     }
 
 
-    const showModal = (message) => {
-        setModal(<ModalWarning handleAccept={ hideModal } title={ "Profil pracownika" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
+    const showModal = (message, out) => {
+        if(out){
+            let linkObj = {loggedUser: props.loggedUser, packageId: props.packageId, to: "/user_list"};
+            setModal(<ModalWarning handleAccept={ function(id){} } title={ "Profil pracownika" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } link={ linkObj } />);
+        } else
+            setModal(<ModalWarning handleAccept={ hideModal } title={ "Profil pracownika" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
     };
     const hideModal = function(){
         setModal(<></>);
