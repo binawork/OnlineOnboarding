@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-function NavbarEmployee() {
+function NavbarEmployee(props) {
+    const moveToDashboard = function(e){
+        e.preventDefault();
+        props.switchPage();
+    };
+
+
     return(
       <nav className="top-bar navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="top-bar-brand"><a className="navbar-brand">Online Onboarding</a></div>
@@ -10,7 +16,7 @@ function NavbarEmployee() {
             <div className="top-bar-item top-bar-item-full">
                 <ul className="navbar-nav d-flex breadcrumb my-2 my-lg-0">
                     <li className="breadcrumb-item">
-                        <Link to="/">Pulpit</Link>
+                        <a href="#" onClick={ moveToDashboard }>Pulpit</a>
                     </li>
                     <li className="breadcrumb-item active">
                         tytuł formularza

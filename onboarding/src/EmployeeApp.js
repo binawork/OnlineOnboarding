@@ -2,15 +2,15 @@ import React from 'react';
 //import "../static/css/style.css";
 import { HashRouter, Route } from 'react-router-dom';
 
-import FormsEmployeePage from "./Components/Employee/FormsEmployeePage";
-import EmployeeFormsListPage from "./Components/Employee/EmployeeFormsList/EmployeeFormsListPage";
+import EmployeeSingleFormPage from "./Components/Employee/EmployeeSingleFormPage";
+import EmployeeMainPage from "./Components/Employee/EmployeeMainPage";
 
 
 function EmployeeApp() {
     return (
         <HashRouter>
-            <Route path="/page_fill" component={ FormsEmployeePage } />
-            <Route path="/" exact component={ EmployeeFormsListPage } />
+            <Route path="/page_fill" component={ EmployeeSingleFormPage } />
+            <Route path="/" exact component={ EmployeeMainPage } />
         </HashRouter>
     );
 }

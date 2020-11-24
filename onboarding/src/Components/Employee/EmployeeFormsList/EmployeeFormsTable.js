@@ -2,13 +2,15 @@ import React from "react";
 import { employePageCopy } from "./EmployePageFillData";
 import EmployeeFormsRow from "./EmployeeFormsRow";
 
-function EmployeeFormsTable() {
+
+function EmployeeFormsTable(props) {
     let employePageCopylist= [];
     if (employePageCopy) {
         employePageCopy.forEach(function (element, i) {
-            employePageCopylist.push(<EmployeeFormsRow key={ i } row={element}/>)
+            employePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToForm={ props.switchToForm } />)
         });
     }
+
     return(
         <div className="page-section">
             <div className="card card-fluid">
