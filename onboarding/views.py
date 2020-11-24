@@ -486,8 +486,8 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
         :param request: user
         :return: all packages with corresponding pages for ...
         """
-        package = Package.objects.filter(owner=request.user.company, users=request.user)
-        serializer = PackagePagesSerializer(package, many=True)
+        packages = Package.objects.filter(owner=request.user.company, users=request.user)
+        serializer = PackagePagesSerializer(packages, many=True)
 
         return Response(serializer.data)
 #
