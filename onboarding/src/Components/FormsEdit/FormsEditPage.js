@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import FormSection from "../FormsEdit/FormSection";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import FormSection from "./FormSection";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
@@ -14,6 +14,7 @@ function FormsEditPage({ location, match }) {
   // const [countUpdate, update] = useState(0);
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);
+  const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const pageID = match.params.form_id;
@@ -22,24 +23,23 @@ function FormsEditPage({ location, match }) {
   useEffect(() => {
     FormSectionsAPI.getAllSections(pageID)
       .then((response) => {
-        setSections(response);
-        //         const sortedResult = filteredResult.sort((a, b) => a.order - b.order);
-        const orders = response.map((item) => item.order);
+        const sortedResponse = response.sort((a, b) => a.order - b.order);
+        setSections(sortedResponse);
         updateMaxOrder(response.length);
-        console.log("orders", orders);
         console.log("get result: ", response);
       })
       .catch((error) => setErrorMessage(error.message))
       .finally(() => setLoading(false));
   }, []);
 
-  const updateSections = () => {
-    // update(countUpdate + 1);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // saveSections(sections);
+    FormSectionsAPI.saveAll(sections)
+    .then((response) => {
+      setSections(response);
+      console.log("save result: ", response);
+    })
+    .catch((error) => setErrorMessage(error.message))
   };
 
   const packageIdRef = useRef(0);
@@ -111,31 +111,14 @@ function FormsEditPage({ location, match }) {
                             {errorMessage !== "" ? (
                               <div className="p-3">{errorMessage}</div>
                             ) : (
-                              sections.map((section, index) => (
-                                <Draggable
-                                  key={section.id}
-                                  draggableId={"draggable-" + section.id}
-                                  index={index}
-                                >
-                                  {(provided) => (
                                     <FormSection
-                                      provided={provided}
-                                      innerRef={provided.innerRef}
-                                      order={index + 1}
-                                      sectionId={section.id}
-                                      name={section.type + section.id}
-                                      title={section.title}
-                                      description={section.description}
-                                      type={section.type}
-                                      pageId={section.page}
                                       sections={sections}
+                                      answers={answers}
+                                      setAnswers={setAnswers}
                                       setSections={setSections}
                                       maxOrder={maxOrder}
                                       updateMaxOrder={updateMaxOrder}
                                     />
-                                  )}
-                                </Draggable>
-                              ))
                             )}
                             {provided.placeholder}
                           </div>

@@ -12,22 +12,35 @@ const FormSectionsAPI = {
       `${BASE_URL}api/section/${pageID}/list_by_page_hr/`,
       "GET"
     );
-    // const sections = await response.json();
-    return sections;
+    const response = await sections.json();
+    return response;
   },
   getAllAnswers: async function () {
     const answers = await makeRequest(`${BASE_URL}api/answer`, "GET");
-    // const sections = await response.json();
-    // console.log(answers);
-    return answers;
+    const response = await answers.json();
+    return response;
   },
-  // addSection: async function (sectionToAdd) {
-  //   console.log(sectionToAdd)
-  //   const addedSection = await makeRequest(`${BASE_URL}api/section`, "POST", sectionToAdd);
-  //   // const addedTimebox = await response.json();
-  //   console.log(addedSection);
-  //   return addedSection;
-  // },
+  deleteSection: async function(idToDelete) {
+    if(!idToDelete) {
+      throw new Error("Section has to have an id to be deleted");
+    }
+    if(typeof idToDelete === "number") await makeRequest(`${BASE_URL}api/section/${idToDelete}`, "DELETE");
+  },
+  saveAll: async function (sections) {
+    const [...result] = await Promise.all(
+      sections.map((section) =>
+        typeof section.id === "string"
+          ? makeRequest(`${BASE_URL}api/section/`, "POST", section).then(res => res.json())
+          : makeRequest(
+              `${BASE_URL}api/section/${section.id}/`,
+              "PATCH",
+              section
+            ).then(res => res.json())
+      )
+    );
+    console.log(result);
+    return result;
+  },
 };
 
 export default FormSectionsAPI;
@@ -46,7 +59,7 @@ async function makeRequest(url, method, body) {
   if (!response.ok) {
     throw new Error("Wystąpił błąd");
   }
-  return response.json();
+  return response;
 }
 // export function addSection(sectionType, pageId, updateSections, maxOrder) {
 //   const url = getPath();

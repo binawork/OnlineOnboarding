@@ -4,28 +4,15 @@ import uuid from "uuid";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
 function FormAddSection({ setSections, sections, updateMaxOrder, maxOrder, pageId }) {
-
-    // const openAnswerClick = (e) => {
-    //     e.preventDefault();
-    // 	addSection("oa", pageId, updateSections, maxOrder)
-    // }
-    // const oneChoiceClick = (e) => {
-    //     e.preventDefault();
-    //     addSection("osa", pageId, updateSections, maxOrder)
-    // }
-    // const multiChoiceClick = (e) => {
-    //     e.preventDefault();
-	// 	addSection("msa", pageId, updateSections, maxOrder)
-    // }
     const handleAddSection = (e, sectionType) => {
         e.preventDefault();
         // FormSectionsAPI.addSection({ title: "", type: sectionType, page: pageId, order: maxOrder });
-        const sectionToAdd = { id: uuid.v4(), type: sectionType, page: pageId, order: maxOrder + 1 };
+        const sectionToAdd = { id: uuid.v4(), type: sectionType, page: pageId, order: maxOrder + 1, title: "", description: "" };
         setSections([...sections, sectionToAdd]);
         updateMaxOrder(maxOrder + 1);
     }
 
-    return(
+    return (
       <div className="card my-3">
           <div className="card-header">Rodzaj pytania</div>
           <div className="card-body align-items-center">
