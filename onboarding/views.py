@@ -34,7 +34,7 @@ from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, Use
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm, CustomSetPasswordForm
 
@@ -357,7 +357,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         pkg_company = package.owner
         hr_user = User.objects.get(id=request.user.id)
         user = User.objects.get(id=request.data["users"])
-        
+
         # check if the hr_user is from the same company as the package (form) 
         # to which he /she wants to add a new user
         if hr_user.company_id == pkg_company.id:
@@ -365,7 +365,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         else:
             e = "Możesz dodawać tylko do formularzy firmy, do której należysz."
             raise ValueError(e)
-        
+
         # check if the hr_user is from the same company as the user 
         # he /she wants to add to the package (form)
         if hr_user.company_id == user.company_id:
@@ -455,9 +455,19 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
     """
     List all Packages with related pages.
     """
-    queryset = Package.objects.all()
     serializer_class = PackagePagesSerializer
     permission_classes = [IsAuthenticated]
+
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user is not None:
+            queryset = Package.objects.filter(owner=user.company)
+        else:
+            queryset = Package.objects.all()
+
+        return queryset
 
     @action(detail=False)
     def list_by_company_hr(self, request):
@@ -466,9 +476,20 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
         :return: all packages with corresponding pages for request.user = owner from params
         """
         package = Package.objects.filter(owner=request.user.company)
-        serializer = PackagePagesSerializer(package, many=True)
+        serializer = PackagePagesSerializer(queryset, many=True)
 
         return Response(serializer.data)
+
+    """@action(detail=False, methods=['get'])
+    def list_by_company_employee(self, request):
+        " " "
+        :param request: user
+        :return: all packages with corresponding pages for ...
+        " " "
+        package = Package.objects.filter(owner=request.user.company, users=request.user)
+        serializer = PackageSerializer(package, many=True)
+
+        return Response(serializer.data)"""
 #
 
 
