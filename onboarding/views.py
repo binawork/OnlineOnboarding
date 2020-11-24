@@ -480,16 +480,16 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    """@action(detail=False, methods=['get'])
+    @action(detail=False, methods=['get'])
     def list_by_company_employee(self, request):
-        " " "
+        """
         :param request: user
         :return: all packages with corresponding pages for ...
-        " " "
+        """
         package = Package.objects.filter(owner=request.user.company, users=request.user)
-        serializer = PackageSerializer(package, many=True)
+        serializer = PackagePagesSerializer(package, many=True)
 
-        return Response(serializer.data)"""
+        return Response(serializer.data)
 #
 
 
