@@ -11,14 +11,15 @@ import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import LoggedUser from "../hooks/LoggedUser.js";
 
 function FormsEditPage({ location, match }) {
-  // const [countUpdate, update] = useState(0);
+  const loggedUser = location.state?.loggedUser ?? LoggedUser();
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const pageID = match.params.form_id;
-  console.log(sections);
+  const packageIdRef = useRef(0);
+  if (match.params.package_id) packageIdRef.current = parseInt(match.params.package_id);
 
   useEffect(() => {
     FormSectionsAPI.getAllSections(pageID)
@@ -32,7 +33,7 @@ function FormsEditPage({ location, match }) {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSave = (e) => {
     e.preventDefault();
     FormSectionsAPI.saveAll(sections)
     .then((response) => {
@@ -41,17 +42,6 @@ function FormsEditPage({ location, match }) {
     })
     .catch((error) => setErrorMessage(error.message))
   };
-
-  const packageIdRef = useRef(0);
-  if (match.params.package_id)
-    packageIdRef.current = parseInt(match.params.package_id);
-
-  let loggedUser;
-  if (location.state) {
-    loggedUser = location.state.loggedUser
-      ? location.state.loggedUser
-      : LoggedUser();
-  } else loggedUser = LoggedUser();
 
   const onDragEnd = (result) => {
     // destination, source -> objects in which you can find the index of the destination and index of source item
@@ -67,15 +57,17 @@ function FormsEditPage({ location, match }) {
     )
       return;
 
-    const destinationSection = sections[destination.index];
     const droppedSection = sections[source.index];
-
-    // dndFormSections(sections, droppedSection, destinationSection, updateSections);
-
-    const pageSections = Object.assign([], sections);
+    const pageSections = [...sections];
     pageSections.splice(source.index, 1);
     pageSections.splice(destination.index, 0, droppedSection);
-    setSections(pageSections);
+    
+    const updatedList = pageSections.map((section, index) => {
+      section.order = index + 1;
+      return section;
+    });
+    
+    setSections(updatedList);
   };
 
   return (
@@ -138,7 +130,7 @@ function FormsEditPage({ location, match }) {
                           <button
                             type="submit"
                             className="btn btn-success"
-                            onClick={handleSubmit}
+                            onClick={handleSave}
                           >
                             Zapisz pytania
                           </button>
