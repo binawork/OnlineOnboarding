@@ -20,12 +20,17 @@ function EmployeeMainPage() {
         switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
     };
 
+    const loadEmployeePage = function(){
+        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
+    };
+
     const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
+
 
     return(
     	<>
     		<header className="app-header app-header-dark">
-    			<NavbarEmployee switchPage={ loadFormList } />{/* placeholder; */}
+    			<NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } />{/* placeholder; */}
     		</header>
     		<LeftMenuEmployee mainPage={ loadFormList } employeePage={ loadFormList }/>
 

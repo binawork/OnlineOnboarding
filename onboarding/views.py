@@ -204,15 +204,20 @@ class UserAvatarUpload(views.APIView):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action is "login_user":
+            self.permission_classes = [IsAuthenticated,]
+        else:
+            self.permission_classes = [IsHrUser, IsAuthenticated]
+        return super(self.__class__, self).get_permissions()
 
     def perform_create(self, serializer):
         serializer.save(company=self.request.user.company)
 
     @action(detail=False, methods=['get'])
     def login_user(self, request):
-        permission_classes = (IsAuthenticated)
         queryset = User.objects.filter(pk=self.request.user.id)
         serializer = LogInUserSerializer(queryset, many=True)
         return Response(serializer.data)
