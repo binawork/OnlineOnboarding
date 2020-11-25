@@ -34,7 +34,10 @@ function NavbarEmployee(props) {
             <div className="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
                 <div className="dropdown d-flex">
                     <div className="form-inline my-2 my-lg-0">
-                        <button className="btn-account d-none d-md-flex" type="button" data-toggle="dropdown"><p><em>Witaj { loggedUser.first_name }</em></p></button>
+                        <button className="btn-account d-none d-md-flex" type="button" data-toggle="dropdown">
+                            {/* <span className="user-avatar user-avatar-md"><img src= loggedUser.avatar } alt= loggedUser.first_name + " - avatar" } /></span> */}
+                            <p><em>Witaj { loggedUser.first_name }</em></p>
+                        </button>
                         <div className="dropdown-menu">
                             <div className="dropdown-arrow ml-3"></div>
                             <a className="dropdown-item" href={"/accounts/logout/"}><span className="dropdown-icon oi oi-account-logout"></span> Logout</a>

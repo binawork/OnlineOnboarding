@@ -4,6 +4,7 @@ import NavbarEmployee from "./NavbarEmployee.js";
 import ModeButton from "../ModeButton";
 import LeftMenuEmployee from "./LeftMenuEmployee";
 import LoggedUser from "../hooks/LoggedUser.js";
+import EmployeeAccount from "./EmployeeAccount/EmployeeAccount.js";
 import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
 import EmployeeForm from "./EmployeeForm";
 
@@ -21,7 +22,8 @@ function EmployeeMainPage() {
     };
 
     const loadEmployeePage = function(){
-        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
+        document.title = "Onboarding: konto";
+        switchComponent(<EmployeeAccount loggedUser={ loggedUser } />);
     };
 
     const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
@@ -32,7 +34,7 @@ function EmployeeMainPage() {
     		<header className="app-header app-header-dark">
     			<NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } />{/* placeholder; */}
     		</header>
-    		<LeftMenuEmployee mainPage={ loadFormList } employeePage={ loadFormList }/>
+    		<LeftMenuEmployee mainPage={ loadFormList } employeePage={ loadEmployeePage }/>
 
     		<main className="app-main">
 				<div className="wrapper">
