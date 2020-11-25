@@ -1,41 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import PropTypes from "prop-types";
 
-const AnswerRow = ({
-  innerRef,
-  provided,
-  answerId,
-  name,
-  text,
-  type,
-}) => {
+const AnswerRow = ({ answerId, name, text, type }) => {
   const [editing, setEditing] = useState(false);
 
   const onEditTitleMode = (e) => {
-      e.preventDefault();
-      setEditing(true);
-      setTimeout(() => {
-        document.getElementById("edit" + answerId).focus();
-        document.getElementById("edit" + answerId).select()
-      }, 0);
-  }
+    e.preventDefault();
+    setEditing(true);
+    setTimeout(() => {
+      document.getElementById("edit" + answerId).focus();
+      document.getElementById("edit" + answerId).select();
+    }, 0);
+  };
   const offEditTitleMode = (e) => {
-      e.preventDefault();
-      setEditing(false);
-  }
+    e.preventDefault();
+    setEditing(false);
+  };
   const clickSave = (e) => {
-    if(e.key === 'Enter') {
-      e.preventDefault(); 
-      document.getElementById('saveInput' + id).click();
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.getElementById("saveInput" + id).click();
     }
-  }
+  };
 
   return (
-    <tr
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
-      ref={innerRef}
-    >
+    <tr>
       <td>
         {editing === true ? (
           <div className="input-group">
@@ -50,7 +39,11 @@ const AnswerRow = ({
             />
           </div>
         ) : (
-          <div className="custom-control custom-control-inline custom-checkbox">
+          <div
+            className={`custom-control custom-control-inline custom-${
+              type === "osa" ? "radio" : "checkbox"
+            }`}
+          >
             <input
               className={"custom-control-input"}
               id={answerId}
@@ -67,17 +60,16 @@ const AnswerRow = ({
       <td>
         {editing === true ? (
           <button
-            // id={'saveInput' + answerId}
             className="btn"
-            onClick={ offEditTitleMode }
+            onClick={offEditTitleMode}
           >
             &#9997; Zapisz
           </button>
         ) : (
           <button
             className="btn"
-            onClick={ onEditTitleMode }
-            onMouseDown={e=> e.preventDefault}
+            onClick={onEditTitleMode}
+            onMouseDown={(e) => e.preventDefault}
           >
             &#9997; Edytuj
           </button>
@@ -86,7 +78,6 @@ const AnswerRow = ({
       <td>
         <button
           className="btn text-danger"
-          // id={"del" + id}
           name={name}
           // onClick={deleteAnswer}
         >

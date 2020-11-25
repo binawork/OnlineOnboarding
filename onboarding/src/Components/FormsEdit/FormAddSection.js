@@ -1,14 +1,13 @@
 import React from "react";
 import uuid from "uuid";
-// import { addSection } from "../hooks/FormSectionsAPI";
-import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
-function FormAddSection({ setSections, sections, updateMaxOrder, maxOrder, pageId }) {
+function FormAddSection({ setSections, sections, setAnswers, answers, updateMaxOrder, maxOrder, pageId }) {
     const handleAddSection = (e, sectionType) => {
         e.preventDefault();
-        // FormSectionsAPI.addSection({ title: "", type: sectionType, page: pageId, order: maxOrder });
         const sectionToAdd = { id: uuid.v4(), type: sectionType, page: pageId, order: maxOrder + 1, title: "", description: "" };
+        const answerToAdd = { id: uuid.v4(), data: "", section: sectionToAdd.id };
         setSections([...sections, sectionToAdd]);
+        setAnswers([...answers, answerToAdd]);
         updateMaxOrder(maxOrder + 1);
     }
 
@@ -20,7 +19,6 @@ function FormAddSection({ setSections, sections, updateMaxOrder, maxOrder, pageI
                     <div className="col-auto">&#9776;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            {/* <button className="btn btn-secondary" onClick={ openAnswerClick }>Pytanie otwarte</button> */}
                             <button className="btn btn-secondary" onClick={ (e) => handleAddSection(e, "oa") }>Pytanie otwarte</button>
                         </div>
                     </div>
@@ -29,7 +27,6 @@ function FormAddSection({ setSections, sections, updateMaxOrder, maxOrder, pageI
                     <div className="col-auto">&#9711;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            {/* <button className="btn btn-secondary" onClick={ oneChoiceClick } >Jednokrotny wybór</button> */}
                             <button className="btn btn-secondary" onClick={ (e) => handleAddSection(e, "osa") } >Jednokrotny wybór</button>
                         </div>
                     </div>
@@ -38,7 +35,6 @@ function FormAddSection({ setSections, sections, updateMaxOrder, maxOrder, pageI
                     <div className="col-auto">&#9745;</div>
                     <div className="col">
                         <div className="input-group-append">
-                            {/* <button className="btn btn-secondary" onClick={ handleAddSection } >Wielokrotny wybór</button> */}
                             <button className="btn btn-secondary" onClick={ (e) => handleAddSection(e, "msa") } >Wielokrotny wybór</button>
                         </div>
                     </div>

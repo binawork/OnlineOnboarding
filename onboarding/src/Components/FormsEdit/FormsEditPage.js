@@ -6,7 +6,6 @@ import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import FormDescription from "./FormDescription";
 import FormAddSection from "./FormAddSection";
-// import FormSectionsAPI, { saveSections, dndFormSections } from "../hooks/FormSectionsAPI";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import LoggedUser from "../hooks/LoggedUser.js";
 
@@ -19,7 +18,9 @@ function FormsEditPage({ location, match }) {
   const [errorMessage, setErrorMessage] = useState("");
   const pageID = match.params.form_id;
   const packageIdRef = useRef(0);
-  if (match.params.package_id) packageIdRef.current = parseInt(match.params.package_id);
+  if (match.params.package_id)
+    packageIdRef.current = parseInt(match.params.package_id);
+  console.log("answers", answers);
 
   useEffect(() => {
     FormSectionsAPI.getAllSections(pageID)
@@ -27,20 +28,27 @@ function FormsEditPage({ location, match }) {
         const sortedResponse = response.sort((a, b) => a.order - b.order);
         setSections(sortedResponse);
         updateMaxOrder(response.length);
-        console.log("get result: ", response);
       })
       .catch((error) => setErrorMessage(error.message))
       .finally(() => setLoading(false));
+
+    FormSectionsAPI.getAllAnswers()
+      .then((response) => {
+        if (response.length === 0) return;
+        const sortedAnswers = response.sort((a, b) => a.id - b.id);
+        setAnswers(sortedAnswers);
+      })
+      .catch((error) => setErrorMessage(error.message));
   }, []);
 
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections)
-    .then((response) => {
-      setSections(response);
-      console.log("save result: ", response);
-    })
-    .catch((error) => setErrorMessage(error.message))
+    FormSectionsAPI.saveAll(sections, answers, setAnswers)
+      .then((response) => {
+        setSections(response);
+        console.log("save result: ", response);
+      })
+      .catch((error) => setErrorMessage(error.message));
   };
 
   const onDragEnd = (result) => {
@@ -61,12 +69,12 @@ function FormsEditPage({ location, match }) {
     const pageSections = [...sections];
     pageSections.splice(source.index, 1);
     pageSections.splice(destination.index, 0, droppedSection);
-    
+
     const updatedList = pageSections.map((section, index) => {
       section.order = index + 1;
       return section;
     });
-    
+
     setSections(updatedList);
   };
 
@@ -87,7 +95,7 @@ function FormsEditPage({ location, match }) {
               <FormDescription location={location} pageId={pageID} />
               <section className="page-section">
                 <header className="card-header">Sekcje strony</header>
-                <form>
+                <form onSubmit={handleSave}>
                   <div className="row">
                     <DragDropContext onDragEnd={onDragEnd}>
                       <Droppable droppableId="dp1">
@@ -103,14 +111,14 @@ function FormsEditPage({ location, match }) {
                             {errorMessage !== "" ? (
                               <div className="p-3">{errorMessage}</div>
                             ) : (
-                                    <FormSection
-                                      sections={sections}
-                                      answers={answers}
-                                      setAnswers={setAnswers}
-                                      setSections={setSections}
-                                      maxOrder={maxOrder}
-                                      updateMaxOrder={updateMaxOrder}
-                                    />
+                              <FormSection
+                                sections={sections}
+                                answers={answers}
+                                setAnswers={setAnswers}
+                                setSections={setSections}
+                                maxOrder={maxOrder}
+                                updateMaxOrder={updateMaxOrder}
+                              />
                             )}
                             {provided.placeholder}
                           </div>
@@ -119,19 +127,17 @@ function FormsEditPage({ location, match }) {
                     </DragDropContext>
                     <div className="col-auto">
                       <FormAddSection
-                      setSections={setSections}
-                      sections={sections}
+                        setSections={setSections}
+                        sections={sections}
+                        setAnswers={setAnswers}
+                        answers={answers}
                         updateMaxOrder={updateMaxOrder}
                         maxOrder={maxOrder}
                         pageId={pageID}
                       />
                       <div className="form-group">
                         <div className="input-group-append">
-                          <button
-                            type="submit"
-                            className="btn btn-success"
-                            onClick={handleSave}
-                          >
+                          <button type="submit" className="btn btn-success">
                             Zapisz pytania
                           </button>
                         </div>
