@@ -2,9 +2,11 @@ import React, { useState } from "react";
 
 import NavbarEmployee from "./NavbarEmployee.js";
 import ModeButton from "../ModeButton";
+import LeftMenuEmployee from "./LeftMenuEmployee";
 import LoggedUser from "../hooks/LoggedUser.js";
 import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
 import EmployeeForm from "./EmployeeForm";
+
 
 function EmployeeMainPage() {
 //    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
@@ -25,8 +27,7 @@ function EmployeeMainPage() {
     		<header className="app-header app-header-dark">
     			<NavbarEmployee switchPage={ loadFormList } />{/* placeholder; */}
     		</header>
-
-    		<aside className="app-aside app-aside-expand-md app-aside-light"></aside>
+    		<LeftMenuEmployee mainPage={ loadFormList } employeePage={ loadFormList }/>
 
     		<main className="app-main">
 				<div className="wrapper">
