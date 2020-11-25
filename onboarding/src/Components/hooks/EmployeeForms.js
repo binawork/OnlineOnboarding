@@ -120,7 +120,7 @@ export function SingleEmployeeForms(props){
 	} else {
 		var form_table = [], count = rows.length;
 		let i, j, row;
-console.log(rows);
+
 		for(i = 0; i < count; i++){
 			row = {...rowModel};
 			row.key = rows[i].id;

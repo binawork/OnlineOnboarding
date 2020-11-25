@@ -1,5 +1,5 @@
 import React from "react";
-import { employePageCopy } from "./EmployePageFillData";
+//import { employePageCopy } from "./EmployePageFillData";
 import EmployeeFormsRow from "./EmployeeFormsRow";
 import { SingleEmployeeForms } from "../../hooks/EmployeeForms";
 
@@ -7,7 +7,7 @@ import { SingleEmployeeForms } from "../../hooks/EmployeeForms";
 function EmployeeFormsTable(props) {
     let employeePageCopylist= [], employeeForms = SingleEmployeeForms({count: 0});
 
-console.log(employeeForms);
+    //console.log(employeeForms);
     /*if (employePageCopy) {
         employePageCopy.forEach(function (element, i) {
             employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToForm={ props.switchToForm } />)
