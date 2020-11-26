@@ -28,7 +28,7 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, AnswersProgressStatusSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
@@ -300,7 +300,7 @@ class CompanyQuestionAndAnswerViewSet(viewsets.ModelViewSet):
         :param request: user
         :return: all Q-and-A with param request.user.company
         """
-        q_and_a = CompanyQuestionAndAnswer.objects.filter(company=request.user.company)
+        q_and_a = CompanyQuestionAndAnswer.objects.filter(company_id=request.user.company.id)
         serializer = CompanyQuestionAndAnswerSerializer(q_and_a, many=True)
 
         return Response(serializer.data)
@@ -386,11 +386,10 @@ class PackageViewSet(viewsets.ModelViewSet):
             send_add_user_to_package_email(
                 EMAIL_HOST_USER,
                 user,
-                package,
-                hr_user
+                package
             )
 
-        serializer = PackageSerializer(package)
+        serializer = PackageUsersSerializer(package)
 
         return Response(serializer.data)
 
@@ -607,11 +606,12 @@ class UserProgressOnPageView(generics.ListAPIView):
 class UserProgressOnPackageView(generics.ListAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswersProgressStatusSerializer
+
     def get(self, request, *args, **kwargs):
         employe_id = kwargs.get('employe_id')
-        page_id = kwargs.get('package_id')
+        package_id = kwargs.get('package_id')
 
-        queryset = Answer.objects.filter(section__page__package_id=page_id,
+        queryset = Answer.objects.filter(section__page__package_id=package_id,
                                          owner_id=employe_id)
         serializer = AnswersProgressStatusSerializer(queryset, many=True)
 

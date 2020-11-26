@@ -60,7 +60,7 @@ def send_reminder_email(subject, EMAIL_HOST_USER, employee, package, current_sit
     )
 
 
-def send_add_user_to_package_email(EMAIL_HOST_USER, user, package, hr_user):
+def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
 
     subject = f'Dodano użytkownika {user} do {package}'
     html_message = render_to_string(
@@ -72,7 +72,7 @@ def send_add_user_to_package_email(EMAIL_HOST_USER, user, package, hr_user):
     )
     plain_message = strip_tags(html_message)
     from_email = EMAIL_HOST_USER
-    to = hr_user.email
+    to = user.email
 
     mail.send_mail(
         subject,
