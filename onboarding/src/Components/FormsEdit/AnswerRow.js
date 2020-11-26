@@ -1,65 +1,88 @@
 import React, { useState, useEffect } from "react";
 // import PropTypes from "prop-types";
+import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
-const AnswerRow = ({ answerId, name, text, type }) => {
+const AnswerRow = ({ answerId, name, text, type, answers, setAnswers }) => {
   const [editing, setEditing] = useState(false);
-
+  const [data, setData] = useState(text);
   const onEditTitleMode = (e) => {
     e.preventDefault();
     setEditing(true);
-    setTimeout(() => {
-      document.getElementById("edit" + answerId).focus();
-      document.getElementById("edit" + answerId).select();
+    const timer = setTimeout(() => {
+      const editingInput = document.getElementById("edit-" + answerId);
+      editingInput.focus();
+      editingInput.select();
     }, 0);
+    return () => clearTimeout(timer);
   };
   const offEditTitleMode = (e) => {
     e.preventDefault();
     setEditing(false);
+    setAnswers(answers.map((answer) => {
+      if (answer.id === answerId) answer.data = data;
+      return answer;
+    }))
   };
-  const clickSave = (e) => {
+  const editAnswer = (e) => {
+    setData(e.target.value);
+    // setAnswers(answers.map((answer) => {
+    //   if (answer.id === answerId) answer.data = e.target.value;
+    //   return answer;
+    // }))
+  };
+  const deleteAnswer = (e) => {
+    e.preventDefault();
+    FormSectionsAPI.deleteAnswer(answerId);
+    setAnswers(answers.filter((answer) => answer.id !== answerId));
+  };
+  const onEnter = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      document.getElementById("saveInput" + id).click();
+      // document.getElementById(`saveButton-${answerId}`).click();
+      offEditTitleMode(e)
     }
   };
-
+console.log('text', text || "")
   return (
     <tr>
       <td>
-        {editing === true ? (
-          <div className="input-group">
+        <div
+          className={`custom-control custom-control-inline custom-${
+            type === "osa" ? "radio" : "checkbox"
+          }`}
+        >
+          {editing === true ? (
             <input
               className="form-control"
-              // id={"edit" + id}
+              id={`edit-${answerId}`}
               name={name}
               type="text"
-              value={text}
-              // onChange={editAnswer}
-              // onKeyDown={clickSave}
+              value={data || ""}
+              onChange={editAnswer}
+              onKeyDown={onEnter}
             />
-          </div>
-        ) : (
-          <div
-            className={`custom-control custom-control-inline custom-${
-              type === "osa" ? "radio" : "checkbox"
-            }`}
-          >
-            <input
-              className={"custom-control-input"}
-              id={answerId}
-              name={name}
-              type={type === "osa" ? "radio" : "checkbox"}
-              // value={text}
-            />
-            <label className="custom-control-label" htmlFor={answerId}>
-              {text}
-            </label>
-          </div>
-        )}
+          ) : (
+            <>
+              <input
+                className={"custom-control-input"}
+                id={answerId}
+                name={name}
+                type={type === "osa" ? "radio" : "checkbox"}
+                // value={text}
+              // onChange={console.log("hej")}
+
+              />
+              <label className="custom-control-label" htmlFor={answerId}>
+                {text}
+              </label>
+            </>
+          )}
+        </div>
       </td>
       <td>
         {editing === true ? (
           <button
+            // id={`saveButton-${answerId}`}
             className="btn"
             onClick={offEditTitleMode}
           >
@@ -69,7 +92,7 @@ const AnswerRow = ({ answerId, name, text, type }) => {
           <button
             className="btn"
             onClick={onEditTitleMode}
-            onMouseDown={(e) => e.preventDefault}
+            // onMouseDown={(e) => e.preventDefault}
           >
             &#9997; Edytuj
           </button>
@@ -79,7 +102,7 @@ const AnswerRow = ({ answerId, name, text, type }) => {
         <button
           className="btn text-danger"
           name={name}
-          // onClick={deleteAnswer}
+          onClick={deleteAnswer}
         >
           <i className="fa fa-trash-o fa-md">&#61944;</i> Usuń
         </button>
@@ -98,4 +121,4 @@ const AnswerRow = ({ answerId, name, text, type }) => {
 //   editAnswer: PropTypes.func.isRequired,
 // };
 
-export default AnswerRow;
+export default React.memo(AnswerRow);

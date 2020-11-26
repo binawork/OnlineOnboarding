@@ -125,6 +125,7 @@ function FormSection({
                       placeholder="Tytuł"
                       value={section.title}
                       onChange={(e) => changeTitle(e, section.id)}
+                      autoFocus={typeof section.id === "string" ? true : false}
                       required
                     />
                   </div>

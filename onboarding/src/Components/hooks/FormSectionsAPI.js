@@ -32,6 +32,14 @@ const FormSectionsAPI = {
       );
     }
   },
+  deleteAnswer: async function(idToDelete) {
+    if (!idToDelete) {
+      throw new Error("Answer has to have an id to be deleted");
+    }
+    if (typeof idToDelete === "number") {
+      await makeRequest(`${BASE_URL}api/answer/${idToDelete}`, "DELETE");
+    }
+  },
   saveAll: async function (sections, answers, setAnswers) {
     //Save sections
     const [...sectionsSaveResult] = await Promise.all(
@@ -52,6 +60,7 @@ const FormSectionsAPI = {
                         .then((res) => res.json())
                         .then((response) => {
                           answers.splice(index, 1, response);
+                          console.log('answers to save', answers)
                           setAnswers(answers);
                         });
                     }

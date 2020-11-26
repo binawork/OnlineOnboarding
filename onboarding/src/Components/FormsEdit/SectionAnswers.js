@@ -26,8 +26,8 @@ function SectionAnswers({ sectionId, answers, setAnswers, name, type }) {
               name={name}
               text={answer.data}
               type={type}
-              // deleteAnswer={deleteAnswer}
-              // editAnswer={editAnswer}
+              answers={answers}
+              setAnswers={setAnswers}
             />
           );
         } else if (type !== "oa") {
