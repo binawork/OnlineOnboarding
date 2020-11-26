@@ -623,6 +623,13 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
     """
     List all Sections with related answers.
     """
-    queryset = Section.objects.all()
     serializer_class = SectionAnswersSerializer
+
+    def get_queryset(self):
+        page_args = self.kwargs['page']
+        if page_args is not None:
+            queryset = Section.objects.filter(page=page_args)
+        else:
+            queryset = Section.objects.all()
+        return queryset
 
