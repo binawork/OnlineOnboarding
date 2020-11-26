@@ -111,7 +111,7 @@ function LeftMenu(props) {
               <li className="menu-item">
                 <NavLink to={{ pathname: "/q_and_a", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
                   <span className="menu-icon fas fa-file"></span>{" "}
-                  <span className="menu-text">Stwórz Q&A</span>
+                  <span className="menu-text">Q&A</span>
                 </NavLink>
               </li>
             </ul>

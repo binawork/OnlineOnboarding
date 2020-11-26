@@ -59,7 +59,7 @@ const MarkdownArea = ({ id, content, contentChange, simple, placeholder }) => {
   });
 
   return (
-    <div className="form-group">
+    <div draggable="false" style={{cursor: "auto"}}>
       <div id={"summernote" + id}></div>
     </div>
   );
