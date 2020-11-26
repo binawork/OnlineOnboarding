@@ -135,13 +135,6 @@ function FormsEditPage({ location, match }) {
                         maxOrder={maxOrder}
                         pageId={pageID}
                       />
-                      <div className="form-group">
-                        <div className="input-group-append">
-                          <button type="submit" className="btn btn-success">
-                            Zapisz pytania
-                          </button>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </form>
