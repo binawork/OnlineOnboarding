@@ -37,8 +37,8 @@ function EmployeeMainPage() {
     		<LeftMenuEmployee mainPage={ loadFormList } employeePage={ loadEmployeePage }/>
 
     		<main className="app-main">
-				<div className="wrapper">
-				    { component }
+    			<div className="wrapper">
+    			    { component }
     			</div>
     		</main>
     		<div style={{ position:"fixed", bottom:"0px", left:"0px" }}>

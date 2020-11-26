@@ -71,10 +71,10 @@ function EmployeeProfile(props) {
                 </div>
             </div>
             <div className="form-group">
-				<div className="input-group-append">
-					<button className="btn btn-secondary" onClick={ handleSave }>Zmień</button>
-				</div>
-			</div>
+                <div className="input-group-append">
+                    <button className="btn btn-secondary" onClick={ handleSave }>Zmień</button>
+                </div>
+            </div>
         </form>
       </div>
     );
