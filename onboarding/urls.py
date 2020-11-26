@@ -50,7 +50,7 @@ urlpatterns += [
 # API
 urlpatterns += [
     path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/', UserProgressOnPageView.as_view(), name='progress_on_page'),
-    path(r'api/user/<int:employe_id>/progress_on_package/<int:page_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
+    path(r'api/user/<int:employe_id>/progress_on_package/<int:package_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
 ]
 
 
