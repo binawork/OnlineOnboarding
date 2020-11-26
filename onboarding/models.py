@@ -112,13 +112,10 @@ class Package(models.Model):
         return self.title
 
 
-# class PackageUsers(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.PROTECT)
-#     package = models.ForeignKey(Package, on_delete=models.PROTECT)
-#     send_on = models.DateTimeField(auto_now_add=True)
-#
-#     class Meta:
-#         db_table = 'onboarding_package_users'
+class PackagesUsers(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    package = models.ForeignKey(Package, on_delete=models.PROTECT)
+    send_on = models.DateTimeField(auto_now_add=True)
 
 
 class Page(models.Model):
