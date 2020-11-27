@@ -30,8 +30,9 @@ from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
-from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
+from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
+
 
 from .permissions import IsHrUser
 from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email
@@ -225,6 +226,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def create_user(self, request):
+        permission_classes = [IsHrUser, IsAuthenticated]
         user_serializer = self.serializer_class(data=request.data)
         if user_serializer.is_valid():
             user = user_serializer.save()
@@ -246,6 +248,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def remove_user(self, request):
+        permission_classes = (IsHrUser, IsAuthenticated)
         user_email = request.user.email
         username = request.user.username
         request.user.email = 'removed'
@@ -585,11 +588,31 @@ class UserProgressOnPackageView(generics.ListAPIView):
         employe_id = kwargs.get('employe_id')
         package_id = kwargs.get('package_id')
 
-        queryset = Answer.objects.filter(section__page__package_id=package_id,
-                                         owner_id=employe_id)
+        queryset = Answer.objects.filter(
+            section__page__package_id=package_id,
+            owner_id=employe_id)
         serializer = AnswersProgressStatusSerializer(queryset, many=True)
 
         return Response(serializer.data)
+
+class WhenPackageSendToEmployeeView(generics.ListAPIView):
+    queryset = PackagesUsers.objects.all()
+    serializer_class = WhenPackageSendToEmployeeSerializer
+
+    def get(self, request, *args, **kwargs):
+        employe_id = kwargs.get('employe_id')
+        package_id = kwargs.get('package_id')
+
+        queryset = PackagesUsers.objects.filter(
+            package_id=package_id,
+            user_id=employe_id,
+            user__company=request.user.company
+        )
+        serializer = WhenPackageSendToEmployeeSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+
 
 
 

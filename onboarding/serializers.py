@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from onboarding.models import ContactRequestDetail, Package, Page, Section, User
+from onboarding.models import ContactRequestDetail, Package, Page, Section, User, PackagesUsers
 from onboarding.models import Answer, Company, CompanyQuestionAndAnswer
 from . import mock_password
 
@@ -280,12 +280,23 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 
 class AnswersProgressStatusSerializer(serializers.ModelSerializer):
+    # sen_on = serializers.ReadOnlyField(source='packageusers.send_on')
+
     class Meta:
         model = Answer
         fields = (
             'id',
             'updated_on',
-            'confirmed'
+            'confirmed',
+        )
+
+
+class WhenPackageSendToEmployeeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PackagesUsers
+        fields = (
+            'send_on',
         )
 
 

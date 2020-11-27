@@ -11,7 +11,8 @@ from django.contrib.auth import views as auth_views
 
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
     ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView,\
-    UserProgressOnPackageView, PackagePagesViewSet, SectionAnswersViewSet, CustomPasswordResetConfirmView
+    UserProgressOnPackageView, PackagePagesViewSet, SectionAnswersViewSet, CustomPasswordResetConfirmView, \
+    WhenPackageSendToEmployeeView
 
 # base
 urlpatterns = [
@@ -51,6 +52,9 @@ urlpatterns += [
 urlpatterns += [
     path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/', UserProgressOnPageView.as_view(), name='progress_on_page'),
     path(r'api/user/<int:employe_id>/progress_on_package/<int:package_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
+    path(r'api/user/<int:employe_id>/when_package_send_to_user/<int:package_id>/', WhenPackageSendToEmployeeView.as_view(),
+         name='when_package_send_to_user'),
+
 ]
 
 
