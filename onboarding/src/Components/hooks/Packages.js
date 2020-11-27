@@ -74,6 +74,33 @@ function Packages(props) {
 }
 
 /**
+ * Get one package from Onboarding API whith id = packageId;
+ */
+export function singleCombo(packageId){
+    if(packageId < 1)
+        return false;
+
+    const [combo, setCombo] = useState(null),
+        [error, showError] = useState(null);
+    let url = getPath(),
+        fetchProps = {method: "GET", headers: {"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken": ""}};
+
+    useEffect(() => {
+        fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
+            (result) => {
+                setCombo(result);
+            },
+            (error) => {
+                console.log(error);
+                showError(error);
+            }
+        );
+    }, []);
+
+    return combo;
+}
+
+/**
  * Add package/combo into Packages (todo: set owner as a logged HR manager?);
  */
 export function addCombo(handleSuccess, title, owner) {
