@@ -9,12 +9,12 @@ import { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 
 function AddUserTable(props) {
     let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
-    let user_table = [], users;
+    let user_table = [], users, usersInPackage = [];
 
-
-    /*const showModal = function(message){
-        props.showModal(message);
-    };*/
+    if(props.packageCurrent){
+        if(props.packageCurrent.users && Array.isArray(props.packageCurrent.users) )
+            usersInPackage = props.packageCurrent.users;
+    }
 
     const sendToEmployee = (e) => {
         let employeeId = e.target.value;// id of user on row of button;
@@ -24,6 +24,8 @@ function AddUserTable(props) {
 
     users = Users({loggedUser: loggedUser, count: 0});
     users.forEach(function(singleUser, i){
+        if(singleUser.id && usersInPackage.indexOf(singleUser.id) >= 0)
+            return;
         user_table.push(<AddUserTableRow key={ i } row={ singleUser } handleSendPackage={ sendToEmployee } />);
     });
 

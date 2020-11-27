@@ -4,6 +4,7 @@ import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import AddUserTable from "./AddUserTable";
 import LoggedUser from "../hooks/LoggedUser.js";
+import { singleCombo } from "../hooks/Packages";
 import ModalWarning from "../ModalWarning";
 
 
@@ -11,9 +12,11 @@ function AddUserTablePage(props) {
     const packageIdRef = useRef(0),
         [confirmationModal, setIdModal ] = useState({id: 0, modal: <></>});
 
-    let loggedUser;
+    let loggedUser, packageObj = null;
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;
+        packageObj = singleCombo(packageIdRef.current);
+
         loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
     } else
         loggedUser = LoggedUser();
@@ -43,7 +46,7 @@ function AddUserTablePage(props) {
                     <div className="page">
                         <div className="page-inner">
                             <PageAddressBar page = { "Wyślij pracownikowi" } loggedUser={ loggedUser } />
-                            <AddUserTable loggedUser={ loggedUser } packageId={ packageIdRef.current } showModal={ popUpConfirmationModal } />
+                            <AddUserTable loggedUser={ loggedUser } packageId={ packageIdRef.current } packageCurrent={ packageObj } showModal={ popUpConfirmationModal } />
                         </div>
                     </div>
                     { confirmationModal.modal }
