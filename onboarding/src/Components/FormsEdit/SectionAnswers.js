@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import uuid from "uuid";
 import AnswerRow from "./AnswerRow";
-import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
 function SectionAnswers({ sectionId, answers, setAnswers, name, type }) {
   const addAnswer = (e) => {
@@ -24,7 +23,7 @@ function SectionAnswers({ sectionId, answers, setAnswers, name, type }) {
               key={answer.id}
               answerId={answer.id}
               name={name}
-              text={answer.data}
+              text={answer.data || ""}
               type={type}
               answers={answers}
               setAnswers={setAnswers}
