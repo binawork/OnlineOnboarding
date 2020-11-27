@@ -1,8 +1,9 @@
 import React from "react";
 import Users from "../hooks/Users";
 import AddUserTableRow from "./Add_User_Table_Row";
-import UserListSearch from "../UserListSearch";
+//import UserListSearch from "../UserListSearch";
 import LoggedUser from "../hooks/LoggedUser.js";
+import { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 // import { addUserFormTableData } from "./Add_User_Table_Data";
 
 
@@ -11,19 +12,19 @@ function AddUserTable(props) {
     let user_table = [], users;
 
 
-    const showModal = function(message){
-        console.log(message);
-    };
+    /*const showModal = function(message){
+        props.showModal(message);
+    };*/
 
     const sendToEmployee = (e) => {
-        let employeeId = e.target.value;
-        // todo: add employee to package (or page?);
+        let employeeId = e.target.value;// id of user on row of button;
+        assignEmployeeToPackage(props.showModal, employeeId, props.packageId);
     };
 
 
     users = Users({loggedUser: loggedUser, count: 0});
     users.forEach(function(singleUser, i){
-        user_table.push(<AddUserTableRow key={ i } row={ singleUser } handleClick={ sendToEmployee } />);
+        user_table.push(<AddUserTableRow key={ i } row={ singleUser } handleSendPackage={ sendToEmployee } />);
     });
 
 
@@ -34,7 +35,7 @@ function AddUserTable(props) {
                     Szukaj pracownika
                 </div>
                 <div className="card-body">
-                    <UserListSearch />
+                    {/*<UserListSearch />*/}
                 </div>
             </div>
             <div className="card card-fluid">
