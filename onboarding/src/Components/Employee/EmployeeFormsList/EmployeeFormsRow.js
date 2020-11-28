@@ -1,11 +1,15 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-// todos: add key = { ... }
+
 
 function EmployeeFormsRow(props) {
+    const moveToForm = (e) => {
+        e.preventDefault();
+        props.switchToForm();
+    };
+
     return(
         <tr>
-            <td><Link to="/page_fill">{props.row.name}</Link></td>
+            <td><a href="#" onClick={ moveToForm }>{props.row.name}</a></td>
             <td>{props.row.progress}</td>
         </tr>
     )

@@ -50,7 +50,7 @@ urlpatterns += [
 # API
 urlpatterns += [
     path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/', UserProgressOnPageView.as_view(), name='progress_on_page'),
-    path(r'api/user/<int:employe_id>/progress_on_package/<int:page_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
+    path(r'api/user/<int:employe_id>/progress_on_package/<int:package_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
 ]
 
 
@@ -64,7 +64,7 @@ router.register(r'api/answer', AnswerViewSet, basename='Answer')
 router.register(r'api/contact_form', ContactFormViewSet, basename='contact_form')
 router.register(r'api/q_and_a', CompanyQuestionAndAnswerViewSet, basename='contact_form')
 router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePages')
-router.register(r'api/section_answers', SectionAnswersViewSet, basename='SectionAnswers')
+router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet, basename='SectionAnswers')
 
 
 # Wire up our API using automatic URL routing.
