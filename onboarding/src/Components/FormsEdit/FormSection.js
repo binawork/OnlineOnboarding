@@ -72,15 +72,21 @@ function FormSection({
 
   const handleCopySection = (e, order, section) => {
     e.preventDefault();
-    const sectionToCopy = { ...section, id: uuid.v4(), order: order + 1 };
+    const copiedSection = { ...section, id: uuid.v4(), order: order + 1 };
+    const copiedAnswers = answers
+      .filter((answer) => answer.section === section.id)
+      .map((answer) => {
+        return { id: uuid.v4(), data: answer.data, section: copiedSection.id };
+      });
     const updatedSections = sections.map((section) => {
       if (section.order > order) {
         section.order = section.order + 1;
       }
       return section;
     });
-    updatedSections.splice(order, 0, sectionToCopy);
+    updatedSections.splice(order, 0, copiedSection);
     setSections(updatedSections);
+    setAnswers([...answers, ...copiedAnswers])
     updateMaxOrder(maxOrder + 1);
   };
 
