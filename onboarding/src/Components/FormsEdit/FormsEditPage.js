@@ -20,6 +20,7 @@ function FormsEditPage({ location, match }) {
   const packageIdRef = useRef(0);
   if (match.params.package_id)
     packageIdRef.current = parseInt(match.params.package_id);
+  console.log("sections", sections);
   console.log("answers", answers);
 
   useEffect(() => {
@@ -43,10 +44,12 @@ function FormsEditPage({ location, match }) {
 
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections, answers, setAnswers)
+    FormSectionsAPI.saveAll(sections, answers)
       .then((response) => {
-        setSections(response);
-        console.log("save result: ", response);
+        const sortedSections = response[0].sort((a, b) => a.order - b.order);
+        const sortedAnswers = response[1].sort((a, b) => a.id - b.id);
+        setSections(sortedSections);
+        setAnswers(sortedAnswers);
       })
       .catch((error) => setErrorMessage(error.message));
   };

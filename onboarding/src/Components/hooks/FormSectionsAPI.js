@@ -40,15 +40,17 @@ const FormSectionsAPI = {
       await makeRequest(`${BASE_URL}api/answer/${idToDelete}`, "DELETE");
     }
   },
-  saveAll: async function (sections, answers, setAnswers) {
+  saveAll: async function (sections, answers, setSections, setAnswers) {
+    const answ = [...answers];
     //Save sections
-    const [...sectionsSaveResult] = await Promise.all(
+    const sectionsSaveResult = await Promise.all(
       sections.map((section) =>
         typeof section.id === "string"
           ? makeRequest(`${BASE_URL}api/section/`, "POST", section)
               .then((res) => res.json())
               .then((result) => {
                 const savedSection = result;
+                // setSections()
                 //Save answers for section
                 Promise.all(
                   answers.map((answer, index) => {
@@ -59,9 +61,10 @@ const FormSectionsAPI = {
                       })
                         .then((res) => res.json())
                         .then((response) => {
-                          answers.splice(index, 1, response);
-                          console.log('answers to save', answers)
-                          setAnswers(answers);
+                          answ.splice(index, 1, response);
+                          // console.log('answers to save', answers)
+                          // answ.push(answers)
+                          // setAnswers(answers);
                         });
                     }
                   })
@@ -97,7 +100,8 @@ const FormSectionsAPI = {
               })
       )
     );
-    return sectionsSaveResult;
+    console.log('answers to save', answ)
+    return [sectionsSaveResult, answ];
   },
 };
 
