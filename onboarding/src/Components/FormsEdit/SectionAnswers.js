@@ -46,12 +46,10 @@ function SectionAnswers({ sectionId, answers, setAnswers, name, type }) {
       </table>
 
       <hr />
-      <div className="form-group">
-        <div className="input-group-append">
-          <button className="btn btn-secondary" onClick={addAnswer}>
-            Dodaj odpowiedź
-          </button>
-        </div>
+      <div className="input-group-append">
+        <button className="btn btn-secondary" onClick={addAnswer}>
+          Dodaj odpowiedź
+        </button>
       </div>
     </>
   );

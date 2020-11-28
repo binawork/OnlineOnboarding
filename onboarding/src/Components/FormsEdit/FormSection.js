@@ -165,19 +165,18 @@ function FormSection({
                   />
                 )}
               </div>
-              <footer className="card-footer d-flex justify-content-end">
+              <footer className="card-footer d-flex justify-content-end p-2">
                 <button
                   className="btn"
                   onClick={(e) => handleCopySection(e, index + 1, section)}
                 >
-                  <i className="fa fa-files-o fa-lg">&#61637;</i> Duplikuj
-                  pytanie
+                  <i className="fa fa-files-o fa-lg" title="Duplikuj">&#61637;</i>
                 </button>
                 <button
                   className="btn text-danger"
                   onClick={(e) => handleDeleteSection(e, index + 1, section.id)}
                 >
-                  <i className="fa fa-trash-o fa-lg">&#61944;</i> Usuń
+                  <i className="fa fa-trash-o fa-lg" title="Usuń">&#61944;</i>
                 </button>
               </footer>
               {/* {saved ? <SaveInfo /> : <></>} */}

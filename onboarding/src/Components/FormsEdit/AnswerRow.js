@@ -19,9 +19,9 @@ const AnswerRow = ({ answerId, name, text, type, answers, setAnswers }) => {
   const offEditTitleMode = (e) => {
     e.preventDefault();
     setEditing(false);
-    saveAnswers();
+    saveAnswer();
   };
-  const saveAnswers = () => {
+  const saveAnswer = () => {
     setAnswers(
       answers.map((answer) => {
         if (answer.id === answerId) answer.data = data;
@@ -40,61 +40,75 @@ const AnswerRow = ({ answerId, name, text, type, answers, setAnswers }) => {
   const onEnter = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      document.getElementById(`saveButton-${answerId}`).click();
+      document.getElementById(`save-button-${answerId}`).click();
     }
   };
   return (
     <tr>
-      <td>
-        {editing === true ? (
-          <div className="input-group">
-            <input
-              className="form-control"
-              id={`edit-${answerId}`}
-              name={name}
-              type="text"
-              value={data}
-              onChange={editAnswer}
-              onKeyDown={onEnter}
-            />
-          </div>
-        ) : (
-          <div
-            className={`custom-control custom-control-inline custom-${
-              type === "osa" ? "radio" : "checkbox"
-            }`}
-          >
-            <input
-              className={"custom-control-input"}
-              id={answerId}
-              name={name}
-              type={type === "osa" ? "radio" : "checkbox"}
-            />
-            <label className="custom-control-label" htmlFor={answerId}>
-              {text}
-            </label>
-          </div>
-        )}
-      </td>
-      <td>
-        {editing === true ? (
+      <td className="d-flex justify-content-between align-items-center pr-0">
+        <div className="w-100">
+          {editing === true ? (
+            <div className="input-group">
+              <input
+                key={`edit-answ-input-${answerId}`}
+                className="form-control"
+                id={`edit-${answerId}`}
+                name={name}
+                type="text"
+                value={data}
+                onChange={editAnswer}
+                onKeyDown={onEnter}
+              />
+            </div>
+          ) : (
+            <div
+              className={`custom-control custom-control-inline custom-${
+                type === "osa" ? "radio" : "checkbox"
+              }`}
+            >
+              <input
+                key={`saved-answ-input-${answerId}`}
+                className={"custom-control-input"}
+                id={answerId}
+                name={name}
+                type={type === "osa" ? "radio" : "checkbox"}
+              />
+              <label className="custom-control-label" htmlFor={answerId}>
+                {text}
+              </label>
+            </div>
+          )}
+        </div>
+        <div className="d-flex justify-content-end">
+          {editing === true ? (
+            <button
+              key={`save-answer-btn-${answerId}`}
+              id={`save-button-${answerId}`}
+              className="btn"
+              onClick={offEditTitleMode}
+              title="Zapisz"
+            >
+              <i className="fas fa-save"></i>
+            </button>
+          ) : (
+            <button
+              key={`edit-answer-btn-${answerId}`}
+              className="btn"
+              onClick={onEditTitleMode}
+              title="Edytuj"
+            >
+              <i className="fas fa-edit"></i>
+            </button>
+          )}
           <button
-            id={`saveButton-${answerId}`}
-            className="btn"
-            onClick={offEditTitleMode}
+            className="btn text-danger"
+            name={name}
+            onClick={deleteAnswer}
+            title="Usuń"
           >
-            &#9997; Zapisz
+            <i className="fa fa-trash-o fa-md">&#61944;</i>
           </button>
-        ) : (
-          <button className="btn" onClick={onEditTitleMode}>
-            &#9997; Edytuj
-          </button>
-        )}
-      </td>
-      <td>
-        <button className="btn text-danger" name={name} onClick={deleteAnswer}>
-          <i className="fa fa-trash-o fa-md">&#61944;</i> Usuń
-        </button>
+        </div>
       </td>
     </tr>
   );
@@ -110,4 +124,4 @@ AnswerRow.propTypes = {
   setAnswers: PropTypes.func.isRequired,
 };
 
-export default AnswerRow;
+export default React.memo(AnswerRow);
