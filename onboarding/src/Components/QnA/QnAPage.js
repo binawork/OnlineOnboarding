@@ -2,11 +2,11 @@ import React from "react";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
-import QAList from "./QAList";
+import QnAList from "./QnAList";
 import LoggedUser from "../hooks/LoggedUser.js";
 
-const QAPage = ({ location }) => {
-  let loggedUser = location.state.loggedUser ? location.state.loggedUser : LoggedUser();
+const QnAPage = ({ location }) => {
+  let loggedUser = location.state?.loggedUser ? location.state.loggedUser : LoggedUser();
 
   return (
     <div className="app">
@@ -22,7 +22,7 @@ const QAPage = ({ location }) => {
               <div className="page-section">
                 <form>
                   <div className="page-section">
-                    <QAList />
+                    <QnAList />
                   </div>
                 </form>
               </div>
@@ -34,4 +34,4 @@ const QAPage = ({ location }) => {
   );
 };
 
-export default QAPage;
+export default QnAPage;

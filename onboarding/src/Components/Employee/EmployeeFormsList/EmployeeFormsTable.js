@@ -1,14 +1,24 @@
 import React from "react";
-import { employePageCopy } from "./EmployePageFillData";
+//import { employePageCopy } from "./EmployePageFillData";
 import EmployeeFormsRow from "./EmployeeFormsRow";
+import { SingleEmployeeForms } from "../../hooks/EmployeeForms";
 
-function EmployeeFormsTable() {
-    let employePageCopylist= [];
-    if (employePageCopy) {
+
+function EmployeeFormsTable(props) {
+    let employeePageCopylist= [], employeeForms = SingleEmployeeForms({count: 0});
+
+    //console.log(employeeForms);
+    /*if (employePageCopy) {
         employePageCopy.forEach(function (element, i) {
-            employePageCopylist.push(<EmployeeFormsRow key={ i } row={element}/>)
+            employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToForm={ props.switchToForm } />)
         });
-    }
+    }*/
+
+    employeeForms.forEach(function(element, i){
+        employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToForm={ props.switchToForm } />);
+    });
+
+
     return(
         <div className="page-section">
             <div className="card card-fluid">
@@ -24,7 +34,7 @@ function EmployeeFormsTable() {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                        { employePageCopylist }
+                        { employeePageCopylist }
                         </tbody>
                     </table>
                 </div>
