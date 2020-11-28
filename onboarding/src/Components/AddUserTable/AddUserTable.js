@@ -10,10 +10,14 @@ import { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 function AddUserTable(props) {
     let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
     let user_table = [], users, usersInPackage = [];
+    let title = "Adresaci";
 
     if(props.packageCurrent){
         if(props.packageCurrent.users && Array.isArray(props.packageCurrent.users) )
             usersInPackage = props.packageCurrent.users;
+
+		if(props.packageCurrent.title)
+		    title += " formularza  \"" + props.packageCurrent.title + "\"";/* https://stackoverflow.com/questions/39758136/render-html-string-as-real-html-in-a-react-component */
     }
 
     const sendToEmployee = (e) => {
@@ -42,7 +46,7 @@ function AddUserTable(props) {
             </div>
             <div className="card card-fluid">
                 <div className="card-header">
-                    Lista Formularzy
+                    { title }
                 </div>
                 <div className="card-body">
                     <table className="table table-striped">
