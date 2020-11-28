@@ -64,7 +64,7 @@ router.register(r'api/answer', AnswerViewSet, basename='Answer')
 router.register(r'api/contact_form', ContactFormViewSet, basename='contact_form')
 router.register(r'api/q_and_a', CompanyQuestionAndAnswerViewSet, basename='contact_form')
 router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePages')
-router.register(r'api/section_answers', SectionAnswersViewSet, basename='SectionAnswers')
+router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet, basename='SectionAnswers')
 
 
 # Wire up our API using automatic URL routing.

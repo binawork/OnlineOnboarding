@@ -204,15 +204,20 @@ class UserAvatarUpload(views.APIView):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action is "login_user":
+            self.permission_classes = [IsAuthenticated,]
+        else:
+            self.permission_classes = [IsHrUser, IsAuthenticated]
+        return super(self.__class__, self).get_permissions()
 
     def perform_create(self, serializer):
         serializer.save(company=self.request.user.company)
 
     @action(detail=False, methods=['get'])
     def login_user(self, request):
-        permission_classes = (IsAuthenticated)
         queryset = User.objects.filter(pk=self.request.user.id)
         serializer = LogInUserSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -357,7 +362,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         pkg_company = package.owner
         hr_user = User.objects.get(id=request.user.id)
         user = User.objects.get(id=request.data["users"])
-        
+
         # check if the hr_user is from the same company as the package (form) 
         # to which he /she wants to add a new user
         if hr_user.company_id == pkg_company.id:
@@ -365,7 +370,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         else:
             e = "Możesz dodawać tylko do formularzy firmy, do której należysz."
             raise ValueError(e)
-        
+
         # check if the hr_user is from the same company as the user 
         # he /she wants to add to the package (form)
         if hr_user.company_id == user.company_id:
@@ -454,9 +459,19 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
     """
     List all Packages with related pages.
     """
-    queryset = Package.objects.all()
     serializer_class = PackagePagesSerializer
     permission_classes = [IsAuthenticated]
+
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user is not None:
+            queryset = Package.objects.filter(owner=user.company)
+        else:
+            queryset = Package.objects.all()
+
+        return queryset
 
     @action(detail=False)
     def list_by_company_hr(self, request):
@@ -465,7 +480,18 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
         :return: all packages with corresponding pages for request.user = owner from params
         """
         package = Package.objects.filter(owner=request.user.company)
-        serializer = PackagePagesSerializer(package, many=True)
+        serializer = PackagePagesSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def list_by_company_employee(self, request):
+        """
+        :param request: user
+        :return: all packages with corresponding pages for ...
+        """
+        packages = Package.objects.filter(owner=request.user.company, users=request.user)
+        serializer = PackagePagesSerializer(packages, many=True)
 
         return Response(serializer.data)
 #
@@ -597,6 +623,13 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
     """
     List all Sections with related answers.
     """
-    queryset = Section.objects.all()
     serializer_class = SectionAnswersSerializer
+
+    def get_queryset(self):
+        page_args = self.kwargs['page']
+        if page_args is not None:
+            queryset = Section.objects.filter(page=page_args)
+        else:
+            queryset = Section.objects.all()
+        return queryset
 

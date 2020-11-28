@@ -7,7 +7,8 @@ import FormChoiceAnswer from "../FormsEdit/FormChoiceAnswer";
 import FormMultiChoiceAnswer from "../FormsEdit/FormMultiChoiceAnswer";
 import { formsEmployeeData } from "../FormsEdit/FormsEmployeeData.js";
 
-function FormsEmployeePage() {
+
+function EmployeeSingleFormPage() {
     var forms = [];
     for(var i = 0; i < formsEmployeeData.length; i++){
     	if(formsEmployeeData[i].type === "oa")
@@ -57,5 +58,5 @@ function FormsEmployeePage() {
     )
 }
 
-export default FormsEmployeePage;
+export default EmployeeSingleFormPage;
 
