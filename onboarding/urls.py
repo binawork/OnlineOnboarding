@@ -66,7 +66,7 @@ router.register(r'api/q_and_a', CompanyQuestionAndAnswerViewSet, basename='conta
 router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePages')
 # router.register(r'api/package_pages/list_by_company_employee', PackagePagesViewSet, basename='PackagePages')
 # router.register(r'api/package_pages/<employee_id>/list_by_company_employee/', PackagePagesViewSet, basename='PackagePages')
-router.register(r'api/section_answers', SectionAnswersViewSet, basename='SectionAnswers')
+router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet, basename='SectionAnswers')
 
 
 # Wire up our API using automatic URL routing.

@@ -31,7 +31,10 @@ const QnAList = () => {
 
   useEffect(() => {
     // Show info "Zapisano zmiany" for 3sec when the changes were saved
-    if (saved) setTimeout(setSaved, 3000, false);
+    if (saved){
+      const timer = setTimeout(setSaved, 3000, false);
+      return () => {clearTimeout(timer);}
+    }
   }, [saved]);
 
   const handleAddQnA = (e) => {

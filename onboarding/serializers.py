@@ -294,7 +294,7 @@ class SectionAnswersSerializer(serializers.ModelSerializer):
     answer_set = AnswerSerializer(many=True)
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['-order']
         model = Section
         fields = (
             'id',
@@ -307,3 +307,4 @@ class SectionAnswersSerializer(serializers.ModelSerializer):
             'page',
             'answer_set',
         )
+

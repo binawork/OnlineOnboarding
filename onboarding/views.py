@@ -204,15 +204,20 @@ class UserAvatarUpload(views.APIView):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        if self.action is "login_user":
+            self.permission_classes = [IsAuthenticated,]
+        else:
+            self.permission_classes = [IsHrUser, IsAuthenticated]
+        return super(self.__class__, self).get_permissions()
 
     def perform_create(self, serializer):
         serializer.save(company=self.request.user.company)
 
     @action(detail=False, methods=['get'])
     def login_user(self, request):
-        permission_classes = (IsAuthenticated)
         queryset = User.objects.filter(pk=self.request.user.id)
         serializer = LogInUserSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -479,16 +484,16 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    """@action(detail=False, methods=['get'])
+    @action(detail=False, methods=['get'])
     def list_by_company_employee(self, request):
-        " " "
+        """
         :param request: user
         :return: all packages with corresponding pages for ...
-        " " "
-        package = Package.objects.filter(owner=request.user.company, users=request.user)
-        serializer = PackageSerializer(package, many=True)
+        """
+        packages = Package.objects.filter(owner=request.user.company, users=request.user)
+        serializer = PackagePagesSerializer(packages, many=True)
 
-        return Response(serializer.data)"""
+        return Response(serializer.data)
 #
 
 
@@ -618,6 +623,13 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
     """
     List all Sections with related answers.
     """
-    queryset = Section.objects.all()
     serializer_class = SectionAnswersSerializer
+
+    def get_queryset(self):
+        page_args = self.kwargs['page']
+        if page_args is not None:
+            queryset = Section.objects.filter(page=page_args)
+        else:
+            queryset = Section.objects.all()
+        return queryset
 
