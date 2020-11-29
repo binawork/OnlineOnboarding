@@ -29,7 +29,7 @@ function Packages(props) {
           isLoaded(true);
           setRows(result);
           const ids = result.map((res) => res.id);
-          const maxId = ids.reduce((a, b) => Math.max(a, b));
+          const maxId = ids.reduce((a, b) => Math.max(a, b));/* Uncaught (in promise) TypeError: reduce of empty array with no initial value; */
           setNewRowId(maxId);
         },
         (error) => {
