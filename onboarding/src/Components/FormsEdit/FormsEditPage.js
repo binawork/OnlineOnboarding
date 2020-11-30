@@ -16,12 +16,11 @@ function FormsEditPage({ location, match }) {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [update, setUpdate] = useState(true);
   const pageID = match.params.form_id;
   const packageIdRef = useRef(0);
   if (match.params.package_id)
     packageIdRef.current = parseInt(match.params.package_id);
-  console.log("sections", sections);
-  console.log("answers", answers);
 
   useEffect(() => {
     FormSectionsAPI.getAllSections(pageID)
@@ -40,18 +39,15 @@ function FormsEditPage({ location, match }) {
         setAnswers(sortedAnswers);
       })
       .catch((error) => setErrorMessage(error.message));
-  }, []);
+      
+    setUpdate(false);
+  }, [update]);
 
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections, answers)
-      .then((response) => {
-        const sortedSections = response[0].sort((a, b) => a.order - b.order);
-        const sortedAnswers = response[1].sort((a, b) => a.id - b.id);
-        setSections(sortedSections);
-        setAnswers(sortedAnswers);
-      })
-      .catch((error) => setErrorMessage(error.message));
+    FormSectionsAPI.saveAll(sections, answers, setUpdate).catch((error) =>
+      setErrorMessage(error.message)
+    );
   };
 
   const onDragEnd = (result) => {

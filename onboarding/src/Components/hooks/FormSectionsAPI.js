@@ -25,14 +25,17 @@ const FormSectionsAPI = {
       await makeRequest(`${BASE_URL}api/section/${idToDelete}`, "DELETE");
       await Promise.all(
         answers.map((answer) => {
-          if (typeof answer.id === "number" && answer.section === idToDelete) {
+          if (
+            (typeof answer.id === "number" && answer.section === idToDelete) ||
+            answer.section === null
+          ) {
             makeRequest(`${BASE_URL}api/answer/${answer.id}`, "DELETE");
           }
         })
       );
     }
   },
-  deleteAnswer: async function(idToDelete) {
+  deleteAnswer: async function (idToDelete) {
     if (!idToDelete) {
       throw new Error("Answer has to have an id to be deleted");
     }
@@ -40,8 +43,7 @@ const FormSectionsAPI = {
       await makeRequest(`${BASE_URL}api/answer/${idToDelete}`, "DELETE");
     }
   },
-  saveAll: async function (sections, answers, setSections, setAnswers) {
-    const answ = [...answers];
+  saveAll: async function (sections, answers, setUpdate) {
     //Save sections
     const sectionsSaveResult = await Promise.all(
       sections.map((section) =>
@@ -50,8 +52,7 @@ const FormSectionsAPI = {
               .then((res) => res.json())
               .then((result) => {
                 const savedSection = result;
-                // setSections()
-                //Save answers for section
+                //Save answers of section
                 Promise.all(
                   answers.map((answer, index) => {
                     if (answer.section === section.id) {
@@ -61,10 +62,7 @@ const FormSectionsAPI = {
                       })
                         .then((res) => res.json())
                         .then((response) => {
-                          answ.splice(index, 1, response);
-                          // console.log('answers to save', answers)
-                          // answ.push(answers)
-                          // setAnswers(answers);
+                          answers.splice(index, 1, response);
                         });
                     }
                   })
@@ -79,13 +77,12 @@ const FormSectionsAPI = {
               .then((res) => res.json())
               .then((result) => {
                 const savedSection = result;
-                //Save answers for section
+                //Save answers of section
                 Promise.all(
                   answers.map((answer) => {
                     if (answer.section === section.id) {
                       typeof answer.id === "string"
                         ? makeRequest(`${BASE_URL}api/answer/`, "POST", {
-                            section: savedSection.id,
                             data: answer.data,
                           })
                         : makeRequest(
@@ -100,8 +97,8 @@ const FormSectionsAPI = {
               })
       )
     );
-    console.log('answers to save', answ)
-    return [sectionsSaveResult, answ];
+    setUpdate(true);
+    return [sectionsSaveResult, answers];
   },
 };
 

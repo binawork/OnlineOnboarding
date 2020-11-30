@@ -20,7 +20,11 @@ function FormAddSection({
       title: "",
       description: "",
     };
-    const answerToAdd = { id: uuid.v4(), data: "Odpowiedź", section: sectionToAdd.id };
+    const answerToAdd = {
+      id: uuid.v4(),
+      data: "Odpowiedź",
+      section: sectionToAdd.id,
+    };
     setSections([...sections, sectionToAdd]);
     setAnswers([...answers, answerToAdd]);
     updateMaxOrder(maxOrder + 1);

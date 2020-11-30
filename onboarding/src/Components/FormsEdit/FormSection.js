@@ -86,7 +86,7 @@ function FormSection({
     });
     updatedSections.splice(order, 0, copiedSection);
     setSections(updatedSections);
-    setAnswers([...answers, ...copiedAnswers])
+    setAnswers([...answers, ...copiedAnswers]);
     updateMaxOrder(maxOrder + 1);
   };
 
@@ -100,7 +100,11 @@ function FormSection({
     });
     FormSectionsAPI.deleteSection(sectionId, answers, setAnswers);
     setSections(updatedSections.filter((item) => item.id !== sectionId));
-    setAnswers(answers.filter((item) => item.section !== sectionId));
+    setAnswers(
+      answers.filter(
+        (item) => item.section !== sectionId && item.section !== null
+      )
+    );
     updateMaxOrder(maxOrder - 1);
   };
 
@@ -170,13 +174,17 @@ function FormSection({
                   className="btn"
                   onClick={(e) => handleCopySection(e, index + 1, section)}
                 >
-                  <i className="fa fa-files-o fa-lg" title="Duplikuj">&#61637;</i>
+                  <i className="fa fa-files-o fa-lg" title="Duplikuj">
+                    &#61637;
+                  </i>
                 </button>
                 <button
                   className="btn text-danger"
                   onClick={(e) => handleDeleteSection(e, index + 1, section.id)}
                 >
-                  <i className="fa fa-trash-o fa-lg" title="Usuń">&#61944;</i>
+                  <i className="fa fa-trash-o fa-lg" title="Usuń">
+                    &#61944;
+                  </i>
                 </button>
               </footer>
               {/* {saved ? <SaveInfo /> : <></>} */}
