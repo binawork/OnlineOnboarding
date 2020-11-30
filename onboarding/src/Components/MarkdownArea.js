@@ -23,6 +23,7 @@ const MarkdownArea = ({ id, content, contentChange, simple, placeholder }) => {
           toolbar: [
             ["font", ["bold", "italic", "underline", "strikethrough", "clear"]],
             ["fontsize", ["fontsize"]],
+            ["insert", ["link"]],
           ],
           callbacks: {
             onChange: function (cont) {
