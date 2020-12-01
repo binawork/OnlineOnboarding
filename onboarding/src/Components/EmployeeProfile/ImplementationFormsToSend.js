@@ -20,7 +20,7 @@ function ImplementationFormsToSend(props) {
 
 
     form_table.forEach(function (element, i){
-        forms.push(<FormsToSendTableRow key={ i } row={ element } handleChecked={ showHide } handleSendPackage={ sendPackage } />);
+        forms.push(<FormsToSendTableRow key={ element.key } row={ element } handleChecked={ showHide } handleSendPackage={ sendPackage } />);
     });
 
     return(

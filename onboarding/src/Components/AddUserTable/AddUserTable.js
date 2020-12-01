@@ -30,7 +30,7 @@ function AddUserTable(props) {
     users.forEach(function(singleUser, i){
         if(singleUser.id && usersInPackage.indexOf(singleUser.id) >= 0)
             return;
-        user_table.push(<AddUserTableRow key={ i } row={ singleUser } handleSendPackage={ sendToEmployee } />);
+        user_table.push(<AddUserTableRow key={ singleUser.id } row={ singleUser } handleSendPackage={ sendToEmployee } />);
     });
 
 

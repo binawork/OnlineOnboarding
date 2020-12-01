@@ -20,7 +20,7 @@ function ImplementationFormsSent(props) {
 	};
 
     user_table.forEach(function (element, i) {
-        forms.push(<FormsSentTableRow key={ i } row={element} handleChecked={ showHide } handleRemind={ sendRemind } />)
+        forms.push(<FormsSentTableRow key={ element.key } row={element} handleChecked={ showHide } handleRemind={ sendRemind } />)
     });
 
     return(
