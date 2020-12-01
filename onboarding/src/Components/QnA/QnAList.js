@@ -21,7 +21,7 @@ const QnAList = () => {
     if (editMode) {
       const saveInterval = setInterval(
         () => saveAll(qaList, setQaList, setSaved),
-        15000
+        30000
       );
       return () => clearInterval(saveInterval);
     } else {
