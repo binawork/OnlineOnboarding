@@ -19,8 +19,8 @@ function FormsEditPage({ location, match }) {
   const [update, setUpdate] = useState(true);
   const pageID = match.params.form_id;
   const packageIdRef = useRef(0);
-  if (match.params.package_id)
-    packageIdRef.current = parseInt(match.params.package_id);
+  if (match.params.form_id)
+    packageIdRef.current = parseInt(match.params.form_id);
 
   useEffect(() => {
     FormSectionsAPI.getAllSections(pageID)
