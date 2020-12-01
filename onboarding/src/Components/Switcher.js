@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types'
 
-//import "../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-
 function Switcher({ id, answRequired, switcherChange }) {
     return(
         <label className="switcher-control switcher-control-success">
@@ -14,8 +11,8 @@ function Switcher({ id, answRequired, switcherChange }) {
 }
 
 Switcher.propTypes ={
-  answRequired: PropTypes.bool.isRequired,
-  switcherChange: PropTypes.func.isRequired,
+  // answRequired: PropTypes.bool.isRequired,
+  // switcherChange: PropTypes.func.isRequired,
 }
 
 export default Switcher;

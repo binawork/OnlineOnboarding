@@ -1,58 +1,90 @@
 import React from "react";
+import uuid from "uuid";
 
-//import "../../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-//import "../static/looper/vendor/fontawesome/all.min.css";
+function FormAddSection({
+  setSections,
+  sections,
+  setAnswers,
+  answers,
+  updateMaxOrder,
+  maxOrder,
+  pageId,
+}) {
+  const handleAddSection = (e, sectionType) => {
+    e.preventDefault();
+    const sectionToAdd = {
+      id: uuid.v4(),
+      type: sectionType,
+      page: pageId,
+      order: maxOrder + 1,
+      title: "",
+      description: "",
+    };
+    const answerToAdd = {
+      id: uuid.v4(),
+      data: "Odpowiedź",
+      section: sectionToAdd.id,
+    };
+    setSections([...sections, sectionToAdd]);
+    setAnswers([...answers, answerToAdd]);
+    updateMaxOrder(maxOrder + 1);
+  };
 
-function FormAddSection(props) {
-
-    var openAnswerClick = function(e){
-        e.preventDefault();
-    	props.handleClicks.openText();
-    }
-    var oneChoiceClick = function(e){
-        e.preventDefault();
-        props.handleClicks.singleChoice();
-    }
-    var multiChoiceClick = function(e){
-        e.preventDefault();
-		props.handleClicks.multiChoiceEdit();
-    }
-
-    return(
-      <div className="card card-fluid">
-          <div className="card-header">Rodzaj pytania</div>
-          <div className="card-body align-items-center">
-              {/* <form> form placeholder */}
-                <div className="form-group row">
-                    <div className="col-auto">&#9776;</div>
-                    <div className="col">
-                        <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ openAnswerClick }>Pytanie otwarte</button>
-                        </div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <div className="col-auto">&#9711;</div>
-                    <div className="col">
-                        <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ oneChoiceClick } >Jedna odpowiedź</button>
-                        </div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <div className="col-auto">&#9745;</div>
-                    <div className="col">
-                        <div className="input-group-append">
-                            <button className="btn btn-secondary" onClick={ multiChoiceClick } >Wiele odpowiedzi</button>
-                        </div>
-                    </div>
-                </div>
-              {/* </form> */}
+  return (
+    <div style={{ position: "sticky", top: "100px" }}>
+      <div className="card my-3">
+        <div className="card-header">Dodaj pytanie</div>
+        <div className="card-body align-items-center">
+          <div className="form-group row">
+            <div className="col-auto">&#9776;</div>
+            <div className="col">
+              <div className="input-group-append">
+                <button
+                  className="btn btn-secondary"
+                  onClick={(e) => handleAddSection(e, "oa")}
+                >
+                  Pytanie otwarte
+                </button>
+              </div>
+            </div>
           </div>
+          <div className="form-group row">
+            <div className="col-auto">&#9711;</div>
+            <div className="col">
+              <div className="input-group-append">
+                <button
+                  className="btn btn-secondary"
+                  onClick={(e) => handleAddSection(e, "osa")}
+                >
+                  Jednokrotny wybór
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="form-group row">
+            <div className="col-auto">&#9745;</div>
+            <div className="col">
+              <div className="input-group-append">
+                <button
+                  className="btn btn-secondary"
+                  onClick={(e) => handleAddSection(e, "msa")}
+                >
+                  Wielokrotny wybór
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    )
+      <div className="form-group">
+        <div className="input-group-append">
+          <button type="submit" className="btn btn-success">
+            Zapisz pytania
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default FormAddSection;
-
