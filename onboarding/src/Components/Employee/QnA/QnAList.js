@@ -6,11 +6,13 @@ import { getQnA } from "../../hooks/QnAAPI";
 
 
 function QnAList(props){
-    const [qaList, setQaList] = useState([]);
+    const [qaList, setQaList] = useState([{id: 0, question: "Trwa jeszcze ładowanie ...", answer: "..."}]);
 
     const setLoading = function(isLoading){
+        //setQaList([{id: 0, question: "Trwa jeszcze ładowanie ...", answer: "..."}]);
     };
     const setError = (message) => {
+        setQaList([{id: 0, question: "Wystąpił błąd :(", answer: message}]);
     };
 
     const runGetQnA = function(){
