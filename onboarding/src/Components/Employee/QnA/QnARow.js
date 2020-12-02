@@ -10,10 +10,10 @@ function QnARow(props){
             <div className="card">
                 <div className="card-body">
                     <div className="form-group">
-                        <p className="m-0">{ props.question }</p>
+                        <div className="m-0">{ props.question }</div>
                     </div>
                     <hr />
-                    <p className="m-0">{ props.answer }</p>
+                    <div className="m-0">{ props.answer }</div>
                 </div>
             </div>
         </div>
