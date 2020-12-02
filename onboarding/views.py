@@ -361,7 +361,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         package = Package.objects.get(id=pk)
         pkg_company = package.owner
         hr_user = User.objects.get(id=request.user.id)
-        user = User.objects.get(id=request.data["users"])
+        user = User.objects.get(id=request.data['users'])
 
         # check if the hr_user is from the same company as the package (form) 
         # to which he /she wants to add a new user
