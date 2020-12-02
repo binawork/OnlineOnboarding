@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import EmployeeFormPagesAPI from "../../hooks/EmployeeFormPagesAPI";
 import EmployeeFormPagesList from "./EmployeeFormPagesList";
 
-const EmployeeFormPages = ({ switchPage, actualPackage }) => {
+const EmployeeFormPages = ({ switchPage, actualPackageId }) => {
   const [pagesList, setPagesList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    EmployeeFormPagesAPI.getPages(actualPackage)
-      .catch((error) => setError(error.message))
+    EmployeeFormPagesAPI.getPages(actualPackageId)
+      .catch((error) => setErrorMessage(error.message))
       .then((pages) => {
         setPagesList(pages);
       })
@@ -36,7 +36,7 @@ const EmployeeFormPages = ({ switchPage, actualPackage }) => {
                     <tr>
                       <td>Ładowanie...</td>
                     </tr>
-                  ) : error ? (
+                  ) : errorMessage ? (
                     <tr>
                       <td>{error}</td>
                     </tr>

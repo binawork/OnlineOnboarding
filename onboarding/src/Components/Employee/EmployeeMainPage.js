@@ -7,33 +7,31 @@ import LoggedUser from "../hooks/LoggedUser.js";
 import EmployeeAccount from "./EmployeeAccount/EmployeeAccount.js";
 import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
 import EmployeeFormPages from "./EmployeeFormPages/EmployeeFormPages";
-import EmployeeForm from "./EmployeeForm";
+import EmployeeSinglePage from "./EmployeeFormPages/EmployeeSinglePage";
 
 
 function EmployeeMainPage() {
     const loggedUser = LoggedUser();
  
-    const loadForm = (pageId) => {
+    const loadSinglePage = (page) => {
       switchComponent(
-        <EmployeeForm
-        //   loggedUser={loggedUser}
-        //   switchPage={loadForm}
-          actualPage={pageId}
+        <EmployeeSinglePage
+          page={page}
         />
       );
     };
 
-    const loadPages = (packageId) => {
+    const loadFormPages = (packageId) => {
       switchComponent(
         <EmployeeFormPages
-          switchPage={loadForm}
-          actualPackage={packageId}
+          switchPage={loadSinglePage}
+          actualPackageId={packageId}
         />
       );
     };
 
     const loadFormList = () => {
-        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadPages } />);
+        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } />);
     };
 
     const loadEmployeePage = function(){
@@ -41,7 +39,7 @@ function EmployeeMainPage() {
         switchComponent(<EmployeeAccount loggedUser={ loggedUser } />);
     };
 
-    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadPages } />);
+    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } />);
     
     return(
     	<>

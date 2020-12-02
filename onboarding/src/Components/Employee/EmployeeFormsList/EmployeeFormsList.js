@@ -14,14 +14,14 @@ function EmployeeFormsList(props) {
         loggedUser = LoggedUser();
 
 
-    const switchToForm = (packageId) => {
+    const switchToFormPages = (packageId) => {
         props.switchPage(packageId);
     };
 
     return(
         <div className="page">
             <div className="page-inner">
-                <EmployeeFormsTable loggedUser={ loggedUser } switchToForm={ switchToForm } />
+                <EmployeeFormsTable loggedUser={ loggedUser } switchToFormPages={ switchToFormPages } />
             </div>
         </div>
     )
