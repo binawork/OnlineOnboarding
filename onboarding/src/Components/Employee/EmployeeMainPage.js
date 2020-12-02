@@ -6,19 +6,34 @@ import LeftMenuEmployee from "./LeftMenuEmployee";
 import LoggedUser from "../hooks/LoggedUser.js";
 import EmployeeAccount from "./EmployeeAccount/EmployeeAccount.js";
 import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
+import EmployeeFormPages from "./EmployeeFormPages/EmployeeFormPages";
 import EmployeeForm from "./EmployeeForm";
 
 
 function EmployeeMainPage() {
-//    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
-    let loggedUser = LoggedUser();
+    const loggedUser = LoggedUser();
+ 
+    const loadForm = (pageId) => {
+      switchComponent(
+        <EmployeeForm
+        //   loggedUser={loggedUser}
+        //   switchPage={loadForm}
+          actualPage={pageId}
+        />
+      );
+    };
 
-    const loadForm = () => {
-        switchComponent(<EmployeeForm />);
+    const loadPages = (packageId) => {
+      switchComponent(
+        <EmployeeFormPages
+          switchPage={loadForm}
+          actualPackage={packageId}
+        />
+      );
     };
 
     const loadFormList = () => {
-        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
+        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadPages } />);
     };
 
     const loadEmployeePage = function(){
@@ -26,9 +41,8 @@ function EmployeeMainPage() {
         switchComponent(<EmployeeAccount loggedUser={ loggedUser } />);
     };
 
-    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
-
-
+    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadPages } />);
+    
     return(
     	<>
     		<header className="app-header app-header-dark">

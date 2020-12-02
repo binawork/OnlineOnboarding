@@ -14,11 +14,9 @@ function EmployeeFormsList(props) {
         loggedUser = LoggedUser();
 
 
-    const switchToForm = () => {
-        //e.preventDefault();
-        props.switchPage();
+    const switchToForm = (packageId) => {
+        props.switchPage(packageId);
     };
-
 
     return(
         <div className="page">

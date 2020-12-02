@@ -4,7 +4,7 @@ import React from "react";
 function EmployeeFormsRow(props) {
     const moveToForm = (e) => {
         e.preventDefault();
-        props.switchToForm();
+        props.switchToForm(props.row.key);
     };
 
     return(

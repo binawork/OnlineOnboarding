@@ -1,5 +1,4 @@
 import React from 'react';
-//import "../static/css/style.css";
 import { HashRouter, Route } from 'react-router-dom';
 
 import EmployeeSingleFormPage from "./Components/Employee/EmployeeSingleFormPage";
