@@ -64,7 +64,7 @@ function UserManagerProfilePage(props) {
     					<div className="page-section">
     						<div className="card card-fluid">
     							<div className="card-header">Pracownik</div>
-    							<EmployeeEditForm user={ singleUser } loggedUser={ loggedUser } />
+    							<EmployeeEditForm user={ singleUser } loggedUser={ loggedUser } packageId={ packageIdRef.current } />
     						</div>
     					</div>
     				</div>

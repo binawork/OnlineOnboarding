@@ -29,7 +29,7 @@ function Packages(props) {
           isLoaded(true);
           setRows(result);
           const ids = result.map((res) => res.id);
-          const maxId = ids.reduce((a, b) => Math.max(a, b));
+          const maxId = ids.reduce((a, b) => Math.max(a, b));/* Uncaught (in promise) TypeError: reduce of empty array with no initial value; */
           setNewRowId(maxId);
         },
         (error) => {
@@ -71,6 +71,33 @@ function Packages(props) {
       );
     return <>{form_table}</>;
   }
+}
+
+/**
+ * Get one package from Onboarding API whith id = packageId;
+ */
+export function singleCombo(packageId){
+    if(packageId < 1)
+        return false;
+
+    const [combo, setCombo] = useState(null),
+        [error, showError] = useState(null);
+    let url = getPath(),
+        fetchProps = {method: "GET", headers: {"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken": ""}};
+
+    useEffect(() => {
+        fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
+            (result) => {
+                setCombo(result);
+            },
+            (error) => {
+                console.log(error);
+                showError(error);
+            }
+        );
+    }, []);
+
+    return combo;
 }
 
 /**

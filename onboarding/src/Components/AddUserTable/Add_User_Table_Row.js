@@ -9,7 +9,7 @@ function AddUserTableRow(props) {
             <td>{props.row.position}</td>
             <td>{props.row.email}</td>
             <td>
-                <button type="button" value={ props.row.id } onClick={ props.handleClick } className="btn btn-secondary">Dodaj</button>
+                <button type="button" value={ props.row.id } onClick={ props.handleSendPackage } className="btn btn-secondary">Dodaj</button>
             </td>
         </tr>
     )

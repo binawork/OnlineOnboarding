@@ -113,7 +113,7 @@ function Users(props){
 export function employeeAddEdit(handleMessage, employeeObject){
 	if(typeof employeeObject.name !== "string" || typeof employeeObject.last_name !== "string"
 		|| typeof employeeObject.email !== "string" || typeof employeeObject.email.length < 2){
-		handleMessage("Błędny format danych lub brak e-maila!");
+		handleMessage("Błędny format danych lub brak e-maila!", false);
 		return false;
 	}
 	if(employeeObject.avatar)
@@ -147,11 +147,11 @@ export function employeeAddEdit(handleMessage, employeeObject){
 		(result) => {
 			if(result.hasOwnProperty('detail') )
 				msg += "  " + String(result.detail);
-			handleMessage(msg);
+			handleMessage(msg, true);
 		},
 		(error) => {
 			console.log("Users: eA");
-			handleMessage("Błąd. " + error);
+			handleMessage("Błąd. " + error, false);
 		}
 	);
 	return true;
