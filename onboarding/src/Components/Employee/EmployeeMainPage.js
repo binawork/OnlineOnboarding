@@ -7,6 +7,7 @@ import LoggedUser from "../hooks/LoggedUser.js";
 import EmployeeAccount from "./EmployeeAccount/EmployeeAccount.js";
 import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
 import EmployeeForm from "./EmployeeForm";
+import QnAList from "./QnA/QnAList";
 
 
 function EmployeeMainPage() {
@@ -26,6 +27,11 @@ function EmployeeMainPage() {
         switchComponent(<EmployeeAccount loggedUser={ loggedUser } />);
     };
 
+    const loadQnA = function(){
+        document.title = "Onboarding: pytania i odpowiedzi";
+        switchComponent(<QnAList />);
+    };
+
     const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
 
 
@@ -34,7 +40,7 @@ function EmployeeMainPage() {
     		<header className="app-header app-header-dark">
     			<NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } />{/* placeholder; */}
     		</header>
-    		<LeftMenuEmployee mainPage={ loadFormList } employeePage={ loadEmployeePage }/>
+    		<LeftMenuEmployee mainPage={ loadFormList } employeePage={ loadEmployeePage } q_n_aPage={ loadQnA } />
 
     		<main className="app-main">
     			<div className="wrapper">
