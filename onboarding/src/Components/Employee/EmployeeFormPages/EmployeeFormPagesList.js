@@ -15,6 +15,6 @@ const EmployeeFormPagesList = ({ pagesList, switchPage }) => {
     </tr>
   ));
 
-  return <tbody id="form_table_data_container">{pages}</tbody>;
+  return <>{pages}</>;
 };
 export default EmployeeFormPagesList;

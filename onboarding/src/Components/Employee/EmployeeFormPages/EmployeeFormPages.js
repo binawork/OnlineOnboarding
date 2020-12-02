@@ -31,10 +31,22 @@ const EmployeeFormPages = ({ switchPage, actualPackage }) => {
                     </th>
                   </tr>
                 </thead>
-                <EmployeeFormPagesList
-                  pagesList={pagesList}
-                  switchPage={switchPage}
-                />
+                <tbody id="form_table_data_container">
+                  {loading ? (
+                    <tr>
+                      <td>Ładowanie...</td>
+                    </tr>
+                  ) : error ? (
+                    <tr>
+                      <td>{error}</td>
+                    </tr>
+                  ) : (
+                    <EmployeeFormPagesList
+                      pagesList={pagesList}
+                      switchPage={switchPage}
+                    />
+                  )}
+                </tbody>
               </table>
             </div>
           </div>
