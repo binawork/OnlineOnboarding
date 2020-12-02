@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import FormOpenAnswer from "../../FormsEdit/FormOpenAnswer";
-import FormChoiceAnswer from "../../FormsEdit/FormChoiceAnswer";
-import FormMultiChoiceAnswer from "../../FormsEdit/FormMultiChoiceAnswer";
 import FormSectionsAPI from "../../hooks/FormSectionsAPI";
+import EmployeeAnswers from "./EmployeeAnswers";
 
 const EmployeeSections = ({ pageId }) => {
   const [sections, setSections] = useState([]);
@@ -43,11 +41,11 @@ const EmployeeSections = ({ pageId }) => {
               <div>{section.title}</div>
             </header>
             <div className="card-body">
-              <p>{section.description}</p>
-              <hr />
+              {section.description ? <p>{section.description}</p> : <></>}
               <EmployeeAnswers
-                sectionId={section.id}
-                answers={answers}
+                answers={answers.filter(
+                  (answer) => answer.section === section.id
+                )}
                 type={section.type}
               />
             </div>

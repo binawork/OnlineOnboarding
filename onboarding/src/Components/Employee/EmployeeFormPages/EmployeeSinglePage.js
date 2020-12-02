@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import EmployeeSections from "./EmployeeSections";
 
-function EmployeeSinglePage({ page }) {
-	const pageLink = page.link ? page.link.replace(/watch\?v=/g, "embed/") : "";
-	console.log(page);
+const EmployeeSinglePage = ({ page }) => {
+  const pageLink = page.link ? page.link.replace(/watch\?v=/g, "embed/") : "";
+  console.log(page);
 
   return (
     <div className="page has-sidebar-expand-xl">
@@ -25,11 +25,11 @@ function EmployeeSinglePage({ page }) {
               </div>
             </div>
           </div>
-						<EmployeeSections pageId={page.id} />
+          <EmployeeSections pageId={page.id} />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default EmployeeSinglePage;
