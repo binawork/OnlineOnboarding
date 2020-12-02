@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 
 // Alert Warning Modal
@@ -13,9 +14,18 @@ function ModalWarning(props) {
     if(typeof props.title === "string")
         title = props.title;
 
+
     let acceptText = "Usuń";
     if(typeof props.acceptText === "string")
         acceptText = props.acceptText;
+
+
+    let link, useLink = false;
+    if(props.link && props.link.loggedUser && typeof props.link.packageId !== 'undefined' && props.link.to){
+        useLink = true;
+        link = (<NavLink to={{ pathname: props.link.to, state: { packageId: props.link.packageId, loggedUser: props.link.loggedUser } }} className="btn btn-warning" >
+        { acceptText }</NavLink>);
+    }
 
 
     let cancelButton = <></>;
@@ -40,7 +50,11 @@ function ModalWarning(props) {
                         <p> { message } </p>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" onClick={ accept } className="btn btn-warning" data-dismiss="modal">{ acceptText }</button> { cancelButton }
+                     {useLink ? (
+                         link
+                     ) : (
+                         <button type="button" onClick={ accept } className="btn btn-warning" data-dismiss="modal">{ acceptText }</button>
+                     )} { cancelButton }
                     </div>
                 </div>
             </div>

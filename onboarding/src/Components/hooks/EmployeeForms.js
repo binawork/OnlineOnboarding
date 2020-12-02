@@ -158,10 +158,13 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId){
 	data = {users: employeeId};
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(fullPath, fetchProps).then(res => {console.log(res);return tryFetchJson(res)})
+	fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})
 		.then(
 			(result) => {
-				handleMessage("Dodanie wysłane " + result);
+				let msg = "Formularz został wysłany do pracownika. ";
+				if(typeof result.detail === 'string')
+					msg += result.detail;
+				handleMessage(msg);
 			},
 			(error) => {
 				handleMessage(error.message);
