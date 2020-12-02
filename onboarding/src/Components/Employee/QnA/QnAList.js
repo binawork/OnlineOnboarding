@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import parse from 'html-react-parser';
 
 import QnARow from "./QnARow";
 import { getQnA } from "../../hooks/QnAAPI";
@@ -23,10 +24,11 @@ function QnAList(props){
         return () => clearInterval(saveInterval);
     }, []);
 
-    //getQnA(setQaList, function(){}, setLoading, setError);
 
     let questionsAndAnswers = qaList.map(function(qa, index){
-        return <QnARow key={ qa.id } question={ qa.question } answer={ qa.answer } />;
+        let parsedQuestion = parse(qa.question),
+            parsedAnswer = parse(qa.answer);
+        return <QnARow key={ qa.id } question={ parsedQuestion } answer={ parsedAnswer } />;
     });
 
     return (
