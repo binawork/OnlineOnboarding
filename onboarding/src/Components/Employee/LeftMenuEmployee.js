@@ -13,6 +13,11 @@ function LeftMenuEmployee(props) {
     props.employeePage();
   };
 
+  const goToQnA = function(e){
+    e.preventDefault();
+    props.q_n_aPage();
+  };
+
 
   return (
     <aside className="app-aside app-aside-expand-md app-aside-light">
@@ -31,6 +36,12 @@ function LeftMenuEmployee(props) {
                 <a href="#" onClick={ goToUserPage } className="menu-link">
                   <span className="menu-icon far fa-file"></span>{" "}
                   <span className="menu-text">Moje dane</span>
+                </a>
+              </li>
+              <li className="menu-item">
+                <a href="#" onClick={ goToQnA } className="menu-link">
+                  <span className="menu-icon far fa-file"></span>{" "}
+                  <span className="menu-text">Typowe pytania, Q&A</span>
                 </a>
               </li>
               <li className="menu-item">
