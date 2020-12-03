@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import MarkdownArea from "../MarkdownArea";
-import SaveInfo from "../SaveInfo";
 import SectionAnswers from "./SectionAnswers";
 import { Draggable } from "react-beautiful-dnd";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
@@ -14,7 +13,6 @@ function FormSection({
   answers,
   setAnswers,
 }) {
-  // const [saved, setSaved] = useState(false);
   const cardHeader = (type) =>
     type === "oa"
       ? "Pytanie otwarte"
@@ -23,36 +21,6 @@ function FormSection({
       : type === "msa"
       ? "Wielokrotny wybór"
       : "";
-
-  // useEffect(() => {
-  //   // Show info "Zapisano zmiany" for 3sec when the changes were saved
-  //   if (saved) {
-  //     setTimeout(setSaved, 3000, false);
-  //   }
-  // }, [saved]);
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (sectionTitle !== title) {
-  //       title = sectionTitle;
-  //       // updateSection("title", id, sectionTitle, updateSections, setSaved);
-  //     }
-  //     if (sectionDescription !== description) {
-  //       description = sectionDescription;
-  //       // updateSection(
-  //       //   "description",
-  //       //   id,
-  //       //   sectionDescription,
-  //       //   updateSections,
-  //       //   setSaved
-  //       // );
-  //     }
-  //   }, 4000);
-
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [sectionTitle, sectionDescription]);
 
   const changeTitle = (e, sectionId) => {
     const updatedSections = sections.map((section) => {
@@ -187,7 +155,6 @@ function FormSection({
                   </i>
                 </button>
               </footer>
-              {/* {saved ? <SaveInfo /> : <></>} */}
             </section>
           )}
         </Draggable>

@@ -8,7 +8,7 @@ const EmployeeAnswers = ({ answers, type }) => {
         <EmployeeAnswerRow
           key={answer.id}
           id={answer.id}
-          text={answer.data || ""}
+          data={answer.data || {}}
           type={type}
         />
       );

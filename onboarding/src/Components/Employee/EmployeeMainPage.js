@@ -7,7 +7,7 @@ import LoggedUser from "../hooks/LoggedUser.js";
 import EmployeeAccount from "./EmployeeAccount/EmployeeAccount.js";
 import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
 import EmployeeFormPages from "./EmployeeFormPages/EmployeeFormPages";
-import EmployeeSinglePage from "./EmployeeFormPages/EmployeeSinglePage";
+import EmployeeSingleFormPage from "./EmployeeFormPages/EmployeeSingleFormPage";
 
 
 function EmployeeMainPage() {
@@ -15,7 +15,7 @@ function EmployeeMainPage() {
  
     const loadSinglePage = (page) => {
       switchComponent(
-        <EmployeeSinglePage
+        <EmployeeSingleFormPage
           page={page}
         />
       );

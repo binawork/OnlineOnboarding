@@ -83,6 +83,7 @@ const FormSectionsAPI = {
                     if (answer.section === section.id) {
                       typeof answer.id === "string"
                         ? makeRequest(`${BASE_URL}api/answer/`, "POST", {
+                            section: savedSection.id,
                             data: answer.data,
                           })
                         : makeRequest(

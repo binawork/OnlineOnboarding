@@ -45,7 +45,8 @@ const MarkdownArea = ({ id, content, contentChange, simple, placeholder }) => {
             ["fontname", ["fontname"]],
             ["color", ["color"]],
             ["para", ["ul", "ol", "paragraph"]],
-            ["insert", ["link", "picture", "video", "hr"]],
+            ["insert", ["link", "video", "hr"]],
+            // ["insert", ["link", "picture", "video", "hr"]],
           ],
           callbacks: {
             onChange: function (cont) {

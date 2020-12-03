@@ -1,6 +1,6 @@
 import React from "react";
 
-const EmployeeAnswerRow = ({ id, text, type }) => {
+const EmployeeAnswerRow = ({ id, data, type }) => {
   return (
     <tr>
       <td className="d-flex justify-content-between align-items-center pr-0">
@@ -17,7 +17,7 @@ const EmployeeAnswerRow = ({ id, text, type }) => {
               type={type === "osa" ? "radio" : "checkbox"}
             />
             <label className="custom-control-label" htmlFor={id}>
-              {text}
+              {data.title}
             </label>
           </div>
         </div>
