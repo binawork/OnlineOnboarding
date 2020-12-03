@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import parse from 'html-react-parser';
 import { v4 as uuidv4 } from "uuid";
 import FormSectionsAPI from "../../hooks/FormSectionsAPI";
 import EmployeeAnswers from "./EmployeeAnswers";
@@ -41,7 +42,7 @@ const EmployeeSections = ({ pageId }) => {
               <div>{section.title}</div>
             </header>
             <div className="card-body">
-              {section.description ? <p>{section.description}</p> : <></>}
+              {section.description ? <p>{parse(section.description)}</p> : <></>}
               <EmployeeAnswers
                 answers={answers.filter(
                   (answer) => answer.section === section.id
