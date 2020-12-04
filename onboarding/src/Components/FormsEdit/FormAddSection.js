@@ -22,7 +22,7 @@ function FormAddSection({
     };
     const answerToAdd = {
       id: uuid.v4(),
-      data: {title: "Odpowiedź", is_checked: false},
+      data: {title: sectionType === "oa" ? "" : "Odpowiedź", is_checked: false},
       section: sectionToAdd.id,
     };
     setSections([...sections, sectionToAdd]);

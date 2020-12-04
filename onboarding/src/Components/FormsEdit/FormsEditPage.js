@@ -17,6 +17,8 @@ function FormsEditPage({ location, match }) {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [update, setUpdate] = useState(true);
+  const [saved, setSaved] = useState(false);
+
   const pageID = match.params.form_id;
   const packageIdRef = useRef(0);
   if (match.params.form_id)
@@ -39,15 +41,25 @@ function FormsEditPage({ location, match }) {
         setAnswers(sortedAnswers);
       })
       .catch((error) => setErrorMessage(error.message));
-      
+
     setUpdate(false);
   }, [update]);
 
+  useEffect(() => {
+    // Show info "Zapisano zmiany" for 3sec when the changes were saved
+    if (saved) {
+      const timer = setTimeout(setSaved, 3000, false);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [saved]);
+
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections, answers, setUpdate).catch((error) =>
-      setErrorMessage(error.message)
-    );
+    FormSectionsAPI.saveAll(sections, answers, setUpdate)
+      .catch((error) => setErrorMessage(error.message))
+      .then(() => setSaved(true));
   };
 
   const onDragEnd = (result) => {
@@ -142,6 +154,27 @@ function FormsEditPage({ location, match }) {
           </div>
         </div>
       </main>
+      {saved ? (
+        <div
+          className="fixed-bottom d-flex justify-content-center show-and-hide"
+          style={{ display: "fixed-bottom", left: "240px" }}
+        >
+          <div
+            className="m-2 p-2"
+            style={{
+              width: "150px",
+              backgroundColor: "rgba(226, 232, 238, 0.57)",
+              color: "black",
+              textAlign: "center",
+              borderRadius: "4px",
+            }}
+          >
+            Zapisano zmiany
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
