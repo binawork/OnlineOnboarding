@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 import { v4 as uuidv4 } from "uuid";
 import FormSectionsAPI from "../../hooks/FormSectionsAPI";
 import EmployeeAnswers from "./EmployeeAnswers";
@@ -27,10 +27,38 @@ const EmployeeSections = ({ pageId }) => {
       })
       .catch((error) => setErrorMessage(error.message));
   }, []);
-  console.log(sections, answers);
+
+  const toggleChecked = (e) => {
+    const toggle = answers.map((answer) => {
+      if (
+        e.target.type === "radio" &&
+        answer.section == e.target.name.slice(8)
+      ) {
+        answer.id == e.target.id
+          ? (answer.data.is_checked = true)
+          : (answer.data.is_checked = false);
+      } else if (answer.id == e.target.id)
+        answer.data.is_checked = !answer.data.is_checked;
+      console.log(answer.data);
+      return answer;
+    });
+    setAnswers(toggle);
+  };
+
+  const changeOpenAnswerText = (e) => {
+    const updatedAnswers = answers.map((answer) => {
+      if (answer.id == e.target.id) {
+        answer.data.title = e.target.value;
+        console.log(answer.id);
+        console.log(answer.data);
+      }
+      return answer;
+    });
+    setAnswers(updatedAnswers);
+  };
 
   return (
-    <>
+    <form>
       {loading ? (
         <div className="p-3">Ładowanie...</div>
       ) : errorMessage !== "" ? (
@@ -42,18 +70,24 @@ const EmployeeSections = ({ pageId }) => {
               <div>{section.title}</div>
             </header>
             <div className="card-body">
-              {section.description ? <p>{parse(section.description)}</p> : <></>}
+              {section.description ? parse(section.description) : <></>}
               <EmployeeAnswers
-                answers={answers.filter(
+                sectionAnswers={answers.filter(
                   (answer) => answer.section === section.id
                 )}
                 type={section.type}
+                name={`section-${section.id}`}
+                toggleChecked={toggleChecked}
+                changeOpenAnswerText={changeOpenAnswerText}
               />
             </div>
           </section>
         ))
       )}
-    </>
+      <button type="submit" className="btn btn-success mr-3">
+        Wyślij odpowiedzi
+      </button>
+    </form>
   );
 };
 
