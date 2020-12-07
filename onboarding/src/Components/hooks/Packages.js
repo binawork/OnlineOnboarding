@@ -184,5 +184,34 @@ export function removeCombo(handleSuccess, packageId, title) {
   return true;
 }
 
+
+/**
+ * Get list of users and their packages;
+ */
+export function usersWithPackages(props){
+    let url = getPath(),
+        fetchProps = {method: "GET", headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-CSRFToken": "",
+        }
+    };
+
+    let result = [];
+
+    useEffect(() => {
+        fetch(url + "api/package/list_by_company_hr/", fetchProps).then((res) => res.json()).then(
+            (result) => {
+                /* todo: get users-packages relation; */
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+    }, [props.count]);
+
+
+}
+
 export default Packages;
 
