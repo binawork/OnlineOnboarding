@@ -3,7 +3,6 @@ import EmployeeSections from "./EmployeeSections";
 
 const EmployeeSinglePage = ({ page }) => {
   const pageLink = page.link ? page.link.replace(/watch\?v=/g, "embed/") : "";
-  console.log(page);
 
   return (
     <div className="page has-sidebar-expand-xl">

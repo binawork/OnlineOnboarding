@@ -41,7 +41,6 @@ const EmployeeSections = ({ pageId }) => {
           : (answer.data.is_checked = false);
       } else if (answer.id == e.target.id)
         answer.data.is_checked = !answer.data.is_checked;
-      console.log(answer.data);
       return answer;
     });
     setAnswers(toggle);
@@ -51,8 +50,6 @@ const EmployeeSections = ({ pageId }) => {
     const updatedAnswers = answers.map((answer) => {
       if (answer.id == e.target.id) {
         answer.data.title = e.target.value;
-        console.log(answer.id);
-        console.log(answer.data);
       }
       return answer;
     });

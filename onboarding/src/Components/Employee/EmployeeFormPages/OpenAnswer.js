@@ -17,6 +17,7 @@ const OpenAnswer = ({ id, data, changeOpenAnswerText }) => {
         value={answerText}
         onChange={changeAnswerText}
         onBlur={changeOpenAnswerText}
+        required
       ></textarea>
     </div>
   );
