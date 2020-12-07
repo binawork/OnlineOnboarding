@@ -57,9 +57,12 @@ function FormsEditPage({ location, match }) {
 
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections, answers, setUpdate)
+    FormSectionsAPI.saveAll(sections, answers)
       .catch((error) => setErrorMessage(error.message))
-      .then(() => setSaved(true));
+      .then(() => {
+        setUpdate(true);
+        setSaved(true);
+      });
   };
 
   const onDragEnd = (result) => {

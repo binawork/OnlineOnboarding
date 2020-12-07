@@ -43,7 +43,16 @@ const FormSectionsAPI = {
       await makeRequest(`${BASE_URL}api/answer/${idToDelete}`, "DELETE");
     }
   },
-  saveAll: async function (sections, answers, setUpdate) {
+  saveAnswers: async function (answers) {
+    await Promise.all(
+      answers.map((answer) => {
+        makeRequest(`${BASE_URL}api/answer/${answer.id}/`, "PATCH", {
+          data: answer.data,
+        });
+      })
+    );
+  },
+  saveAll: async function (sections, answers) {
     //Save sections
     const sectionsSaveResult = await Promise.all(
       sections.map((section) =>
@@ -98,7 +107,6 @@ const FormSectionsAPI = {
               })
       )
     );
-    setUpdate(true);
     return [sectionsSaveResult, answers];
   },
 };

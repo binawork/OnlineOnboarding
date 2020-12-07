@@ -3,12 +3,14 @@ import parse from "html-react-parser";
 import { v4 as uuidv4 } from "uuid";
 import FormSectionsAPI from "../../hooks/FormSectionsAPI";
 import EmployeeAnswers from "./EmployeeAnswers";
+import ModalWarning from "../../ModalWarning";
 
 const EmployeeSections = ({ pageId }) => {
   const [sections, setSections] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [confirmationModal, setModal] = useState({ id: 0, modal: <></> });
 
   useEffect(() => {
     FormSectionsAPI.getAllSections(pageId)
@@ -57,8 +59,37 @@ const EmployeeSections = ({ pageId }) => {
     setAnswers(updatedAnswers);
   };
 
+  const saveAnswers = (e) => {
+    e.preventDefault();
+    FormSectionsAPI.saveAnswers(answers)
+      .catch((error) => setErrorMessage(error.message))
+      .then(() => {
+        popUpConfirmationModal();
+      });
+  };
+
+  const hideModal = () => {
+    setModal({ id: 0, modal: <></> });
+  };
+
+  const popUpConfirmationModal = () => {
+    setModal({
+      id: 0,
+      modal: (
+        <ModalWarning
+          handleAccept={hideModal}
+          title="Potwierdzenie wysłania"
+          message="Wysłano odpowiedzi"
+          id={0}
+          show={true}
+          acceptText="Ok"
+        />
+      ),
+    });
+  };
+
   return (
-    <form>
+    <form onSubmit={saveAnswers}>
       {loading ? (
         <div className="p-3">Ładowanie...</div>
       ) : errorMessage !== "" ? (
@@ -87,6 +118,7 @@ const EmployeeSections = ({ pageId }) => {
       <button type="submit" className="btn btn-success mr-3">
         Wyślij odpowiedzi
       </button>
+      {confirmationModal.modal}
     </form>
   );
 };
