@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 # name from AuthorBook._meta.db_table.
                 migrations.RunSQL(
                     sql='ALTER TABLE onboarding_package_users RENAME TO onboarding_packagesusers',
-                    reverse_sql='ALTER TABLE onboarding_packagesusers RENAME TO onboarding_packages_users',
+                    reverse_sql='ALTER TABLE onboarding_packagesusers RENAME TO onboarding_packagesusers',
                 ),
             ],
             state_operations=[
