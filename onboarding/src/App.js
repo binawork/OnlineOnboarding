@@ -1,5 +1,4 @@
 import React from 'react';
-//import "../static/css/style.css";
 import { HashRouter, Route } from 'react-router-dom';
 
 //import Navbar from "./Components/Navbar";
@@ -13,8 +12,6 @@ import AddUserTablePage from "./Components/AddUserTable/AddUserTablePage";
 import UserManagerProfilePage from "./Components/EmployeeEdit/UserManagerProfilePage";
 import PackagesListPage from "./Components/PackagesList/PackagesListPage";
 import QnAPage from "./Components/QnA/QnAPage";
-
-import FormsManagerCheckPage from "./Components/FormsManagerCheckPage";// where manager checks how form was filled;
 import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
 
 
@@ -24,10 +21,8 @@ function App() {
             <Route path="/profile/manager" component={ UserManagerProfilePage } />
             <Route path="/employee_profile" component={ EmployeeProfilePage } />
             <Route path="/add_user" component={ UserManagerProfilePage } />
-            {/* <Route path="/form_edit" component={ FormsEditPage } /> */}
             <Route path="/form_edit/:form_id" component={ FormsEditPage } />
             <Route path="/packages" component={ PackagesListPage } />
-            {/* <Route path="/package_page" component={ FormTablePage } /> */}
             <Route path="/package_page/:package_id" component={ FormTablePage } />
             <Route path="/q_and_a" component={ QnAPage } />
             <Route path="/user_list" component={ UserListPage } />

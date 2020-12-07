@@ -21,10 +21,11 @@ function FormsEditPage({ location, match }) {
 
   const pageID = match.params.form_id;
   const packageIdRef = useRef(0);
-  if (match.params.form_id)
-    packageIdRef.current = parseInt(match.params.form_id);
+  if (location.state.packageId)
+    packageIdRef.current = location.state.packageId;
 
   useEffect(() => {
+    let mounted = true;
     FormSectionsAPI.getAllSections(pageID)
       .then((response) => {
         const sortedResponse = response.sort((a, b) => a.order - b.order);
@@ -43,6 +44,10 @@ function FormsEditPage({ location, match }) {
       .catch((error) => setErrorMessage(error.message));
 
     setUpdate(false);
+
+    return function cleanup() {
+      mounted = false;
+    };
   }, [update]);
 
   useEffect(() => {
