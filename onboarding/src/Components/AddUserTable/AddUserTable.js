@@ -5,7 +5,6 @@ import AddUserTableRow from "./Add_User_Table_Row";
 import LoggedUser from "../hooks/LoggedUser.js";
 import { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 // import { addUserFormTableData } from "./Add_User_Table_Data";
-import { v4 as uuidv4 } from "uuid";
 
 
 function AddUserTable(props) {
@@ -31,7 +30,7 @@ function AddUserTable(props) {
     users.forEach(function(singleUser, i){
         if(singleUser.id && usersInPackage.indexOf(singleUser.id) >= 0)
             return;
-        user_table.push(<AddUserTableRow key={ uuidv4() } row={ singleUser } handleSendPackage={ sendToEmployee } />);
+        user_table.push(<AddUserTableRow key={ singleUser.id } row={ singleUser } handleSendPackage={ sendToEmployee } />);
     });
 
 
