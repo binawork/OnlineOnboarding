@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import parse from "html-react-parser";
 import { v4 as uuidv4 } from "uuid";
+import PropTypes from "prop-types";
 import FormSectionsAPI from "../../hooks/FormSectionsAPI";
 import EmployeeAnswers from "./EmployeeAnswers";
 import ModalWarning from "../../ModalWarning";
@@ -118,6 +119,10 @@ const EmployeeSections = ({ pageId }) => {
       {confirmationModal.modal}
     </form>
   );
+};
+
+EmployeeSections.propTypes = {
+  pageId: PropTypes.number.isRequired,
 };
 
 export default EmployeeSections;

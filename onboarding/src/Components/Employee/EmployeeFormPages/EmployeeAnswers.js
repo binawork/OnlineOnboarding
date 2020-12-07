@@ -1,6 +1,7 @@
 import React from "react";
 import EmployeeAnswerRow from "./EmployeeAnswerRow";
 import OpenAnswer from "./OpenAnswer";
+import PropTypes from "prop-types";
 
 const EmployeeAnswers = ({
   sectionAnswers,
@@ -40,6 +41,14 @@ const EmployeeAnswers = ({
       )}
     </>
   );
+};
+
+EmployeeAnswers.propTypes = {
+  sectionAnswers: PropTypes.array.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  toggleChecked: PropTypes.func,
+  changeOpenAnswerText: PropTypes.func,
 };
 
 export default EmployeeAnswers;

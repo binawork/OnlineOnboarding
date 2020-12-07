@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import EmployeeSections from "./EmployeeSections";
+import PropTypes from "prop-types";
 
 const EmployeeSinglePage = ({ page }) => {
   const pageLink = page.link ? page.link.replace(/watch\?v=/g, "embed/") : "";
@@ -29,6 +30,10 @@ const EmployeeSinglePage = ({ page }) => {
       </div>
     </div>
   );
+};
+
+EmployeeSinglePage.propTypes = {
+  page: PropTypes.object.isRequired,
 };
 
 export default EmployeeSinglePage;

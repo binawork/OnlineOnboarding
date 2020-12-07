@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const EmployeeAnswerRow = ({ id, data, type, name, toggleChecked }) => {
   return (
@@ -28,6 +29,14 @@ const EmployeeAnswerRow = ({ id, data, type, name, toggleChecked }) => {
       </td>
     </tr>
   );
+};
+
+EmployeeAnswerRow.propTypes = {
+  id: PropTypes.number.isRequired,
+  data: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  toggleChecked: PropTypes.func,
 };
 
 export default EmployeeAnswerRow;

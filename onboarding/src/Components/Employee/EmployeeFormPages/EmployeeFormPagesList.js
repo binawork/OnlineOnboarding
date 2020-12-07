@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const EmployeeFormPagesList = ({ pagesList, switchPage }) => {
   const moveToForm = (page) => {
@@ -17,4 +18,10 @@ const EmployeeFormPagesList = ({ pagesList, switchPage }) => {
 
   return <>{pages}</>;
 };
+
+EmployeeFormPagesList.propTypes = {
+  switchPage: PropTypes.func.isRequired,
+  pagesList: PropTypes.array,
+};
+
 export default EmployeeFormPagesList;

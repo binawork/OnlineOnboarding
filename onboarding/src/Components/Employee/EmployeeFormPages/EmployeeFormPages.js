@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import EmployeeFormPagesAPI from "../../hooks/EmployeeFormPagesAPI";
 import EmployeeFormPagesList from "./EmployeeFormPagesList";
 
@@ -55,4 +56,10 @@ const EmployeeFormPages = ({ switchPage, actualPackageId }) => {
     </div>
   );
 };
+
+EmployeeFormPages.propTypes = {
+  switchPage: PropTypes.func.isRequired,
+  actualPackageId: PropTypes.number.isRequired,
+};
+
 export default EmployeeFormPages;

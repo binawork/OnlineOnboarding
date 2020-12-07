@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 const OpenAnswer = ({ id, data, changeOpenAnswerText }) => {
   const [answerText, setAnswerText] = useState(data.title);
@@ -21,6 +22,12 @@ const OpenAnswer = ({ id, data, changeOpenAnswerText }) => {
       ></textarea>
     </div>
   );
+};
+
+OpenAnswer.propTypes = {
+  id: PropTypes.number,
+  data: PropTypes.object.isRequired,
+  changeOpenAnswerText: PropTypes.func,
 };
 
 export default OpenAnswer;
