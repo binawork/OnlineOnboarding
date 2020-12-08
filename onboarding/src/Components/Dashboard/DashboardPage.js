@@ -9,9 +9,6 @@ import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import Employee from "./Employee";
 
-//import "../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-
 function DashboardPage(props) {
   const packageIdRef = useRef(0);
   let loggedUser;

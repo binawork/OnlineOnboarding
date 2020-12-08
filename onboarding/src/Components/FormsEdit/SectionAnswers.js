@@ -23,7 +23,7 @@ function SectionAnswers({ sectionId, answers, setAnswers, name, type }) {
               key={answer.id}
               answerId={answer.id}
               name={name}
-              text={answer.data || ""}
+              text={answer.data.title || ""}
               type={type}
               answers={answers}
               setAnswers={setAnswers}

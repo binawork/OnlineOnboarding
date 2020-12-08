@@ -13,7 +13,7 @@ try {
   console.log(e);
 }
 
-const MarkdownArea = ({ id, content, contentChange, simple, placeholder }) => {
+const MarkdownArea = ({ id, content, contentChange, simple=false, placeholder, height=100 }) => {
   $(document).ready(function () {
     simple
       ? $(`#${"summernote" + id}`).summernote({
@@ -35,9 +35,9 @@ const MarkdownArea = ({ id, content, contentChange, simple, placeholder }) => {
           },
         })
       : $(`#${"summernote" + id}`).summernote({
-          minHeight: 100,
+          minHeight: height,
           lang: "pl-PL",
-          placeholder: "Wpisz treść",
+          placeholder: placeholder,
           toolbar: [
             ["style", ["style"]],
             ["font", ["bold", "italic", "underline", "strikethrough", "clear"]],
@@ -45,7 +45,7 @@ const MarkdownArea = ({ id, content, contentChange, simple, placeholder }) => {
             ["fontname", ["fontname"]],
             ["color", ["color"]],
             ["para", ["ul", "ol", "paragraph"]],
-            ["insert", ["link", "picture", "video", "hr"]],
+            ["insert", ["link", "hr"]],
           ],
           callbacks: {
             onChange: function (cont) {

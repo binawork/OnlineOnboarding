@@ -15,13 +15,13 @@ import PackagesListPage from "./Components/PackagesList/PackagesListPage";
 import QnAPage from "./Components/QnA/QnAPage";
 import FormsManagerCheckPage from "./Components/FormsManagerCheckPage";// where manager checks how form was filled;
 import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
-import CompanyInfo from "./Components/CompanyInfo/CompanyInfo";
+import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
 
 
 function App() {
     return (
         <HashRouter>
-            <Route path="/company" component={ CompanyInfo } />
+            <Route path="/company" component={ CompanyInfoPage } />
             <Route path="/profile/manager" component={ UserManagerProfilePage } />
             <Route path="/employee_profile" component={ EmployeeProfilePage } />
             <Route path="/add_user" component={ UserManagerProfilePage } />
