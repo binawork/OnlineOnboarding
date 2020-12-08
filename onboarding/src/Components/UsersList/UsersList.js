@@ -5,6 +5,7 @@ import React, { useState } from "react";
 
 import UserListSearch from "../UserListSearch";
 import Users, { employeeRemove } from "../hooks/Users";
+import { usersWithPackages } from "../hooks/Packages";
 import LoggedUser from "../hooks/LoggedUser.js";
 import ModalWarning from "../ModalWarning";
 import UserListRow from "./UserListRow";
@@ -55,6 +56,16 @@ function UsersList(props) {
         packageId = props.packageId;
 
     let users = Users({loggedUser: loggedUser, count: countUpdate}), usersRows = [];
+    var usersForPackages = usersWithPackages({count: 0});// [{userId: , packageIds: []}, ...];
+    for(let i = users.length - 1; i >= 0; i--){
+        let sentCount = 0, j = usersForPackages.length - 1;
+        for(; j >= 0; j--){
+            if(usersForPackages[j].userId === users[i].id)
+                users[i].sent = usersForPackages[j].packageIds.length;
+        }
+    }
+
+
     users.forEach((singleUser, i) => {
         usersRows.push(<UserListRow user={ singleUser } key={ i } handleRemove={ removeAsk } packageId={ packageId } loggedUser={ loggedUser } />);
     });	

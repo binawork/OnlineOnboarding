@@ -153,6 +153,7 @@ export function addCombo(handleSuccess, title, owner) {
     );
 }*/
 
+
 /**
  * Remove combo from the server; corresponding pages are kept on server;
  */
@@ -185,10 +186,38 @@ export function removeCombo(handleSuccess, packageId, title) {
 }
 
 
+/*
+ * Helper to input new packageId into object of relation employees - packages;
+ * assumption: {userId: , packageIds: new Set() }.
+ * ToFix: computational complexity O(n^2);
+ */
+function addUsers(usersPackages, packageObject){
+    if( !packageObject.hasOwnProperty("users") )
+        return;
+
+    let i, j, users = packageObject.users, count = packageObject.users.length;
+    var newElement;
+
+    for(i = 0; i < count; i++){
+
+        for(j = usersPackages.length - 1; j >= 0; j--)
+            if(usersPackages[j].userId === users[i])
+                break;
+        if(j >= 0)
+            usersPackages[j].packageIds.add(packageObject.id);
+        else {
+            newElement = {userId: users[i], packageIds: new Set()};
+            newElement.packageIds.add(packageObject.id);
+            usersPackages.push(newElement);
+        }
+    }
+}
+
 /**
  * Get list of users and their packages;
  */
 export function usersWithPackages(props){
+    const [usersForPackages, setUsersForPackages] = useState([]);
     let url = getPath(),
         fetchProps = {method: "GET", headers: {
           Accept: "application/json",
@@ -197,12 +226,25 @@ export function usersWithPackages(props){
         }
     };
 
-    let result = [];
-
     useEffect(() => {
         fetch(url + "api/package/list_by_company_hr/", fetchProps).then((res) => res.json()).then(
             (result) => {
-                /* todo: get users-packages relation; */
+                if( Array.isArray(result) ){
+                    let users4Packages = [], packageIds;
+                    let i, count = result.length;
+
+                    for(i = 0; i < count; i++){
+                        addUsers(users4Packages, result[i]);
+                    }
+
+                    for(i = users4Packages.length - 1; i >= 0; i--){
+                        packageIds = [];
+                        users4Packages[i].packageIds.forEach( v => packageIds.push(v) );
+                        users4Packages[i].packageIds = packageIds;
+                    }
+
+                    setUsersForPackages(users4Packages);
+                }
             },
             (error) => {
                 console.log(error);
@@ -210,7 +252,7 @@ export function usersWithPackages(props){
         );
     }, [props.count]);
 
-
+    return usersForPackages;
 }
 
 export default Packages;
