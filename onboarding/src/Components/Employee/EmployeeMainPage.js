@@ -8,6 +8,7 @@ import EmployeeAccount from "./EmployeeAccount/EmployeeAccount.js";
 import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
 import EmployeeForm from "./EmployeeForm";
 import QnAList from "./QnA/QnAList";
+import CompanyInfoPage from "./CompanyInfoPage";
 
 
 function EmployeeMainPage() {
@@ -32,6 +33,11 @@ function EmployeeMainPage() {
         switchComponent(<QnAList />);
     };
 
+    const loadCompanyInfo = () => {
+        document.title = "Onboarding: informacje o firmie";
+        switchComponent(<CompanyInfoPage />);
+    }
+
     const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
 
 
@@ -40,7 +46,12 @@ function EmployeeMainPage() {
     		<header className="app-header app-header-dark">
     			<NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } />{/* placeholder; */}
     		</header>
-    		<LeftMenuEmployee mainPage={ loadFormList } employeePage={ loadEmployeePage } q_n_aPage={ loadQnA } />
+    		<LeftMenuEmployee 
+                mainPage={ loadFormList } 
+                employeePage={ loadEmployeePage } 
+                q_n_aPage={ loadQnA } 
+                aboutCompanyPage={ loadCompanyInfo } 
+            />
 
     		<main className="app-main">
     			<div className="wrapper">
