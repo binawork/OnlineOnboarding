@@ -27,7 +27,7 @@ function Packages(props) {
       .then(
         (result) => {
           isLoaded(true);
-          setRows(result.sort((a, b) => b.created_on - a.created_on));
+          setRows(result.sort((a, b) => b.id - a.id));
           const ids = result.map((res) => res.id);
           const maxId = Math.max(...ids);
           setNewRowId(maxId);
