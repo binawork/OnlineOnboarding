@@ -12,7 +12,7 @@ function PackagesAddNew(props) {
 
     var handleClick = function(e){
         let accepted = addCombo(props.handleUpdate, title);
-        console.log(accepted);
+        console.log('accepted:', accepted);
         setTitle("");
         e.target.value = "";
     };

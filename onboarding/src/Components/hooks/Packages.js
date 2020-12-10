@@ -27,9 +27,9 @@ function Packages(props) {
       .then(
         (result) => {
           isLoaded(true);
-          setRows(result);
+          setRows(result.sort((a, b) => b.created_on - a.created_on));
           const ids = result.map((res) => res.id);
-          const maxId = ids.reduce((a, b) => Math.max(a, b));/* Uncaught (in promise) TypeError: reduce of empty array with no initial value; */
+          const maxId = Math.max(...ids);
           setNewRowId(maxId);
         },
         (error) => {
@@ -57,7 +57,7 @@ function Packages(props) {
     for (i = 0; i < count; i++)
       form_table.push(
         <PackagesRow
-          key={rows[i].id}
+          key={ rows[i].id }
           row={{
             name: rows[i].title,
             last_edit: rows[i].updated_on,
@@ -65,11 +65,11 @@ function Packages(props) {
             created: rows[i].created_on,
           }}
           handleRemoveAsk={ props.handleRemoveAsk }
-          lastRow={newRowId === rows[i].id}
+          lastRow={ newRowId === rows[i].id }
           loggedUser={ loggedUser }
         />
       );
-    return <>{form_table}</>;
+    return <>{ form_table }</>;
   }
 }
 
