@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import NavbarEmployee from "./NavbarEmployee.js";
 import ModeButton from "../ModeButton";
@@ -11,8 +11,19 @@ import QnAList from "./QnA/QnAList";
 import WelcomePage from "./WelcomePage";
 
 function EmployeeMainPage() {
-    const [welcomeView, setWelcomeView] = useState(true);
+    const [welcomeView, setWelcomeView] = useState(null);
     let loggedUser = LoggedUser();
+    
+    console.log(loggedUser.id)
+    console.log(loggedUser.last_login)
+
+    useEffect(() => {
+        loggedUser.id !== 0 && loggedUser.last_login != false
+            ? setWelcomeView(false)
+            : loggedUser.id !== 0 && !loggedUser.last_login
+                ? setWelcomeView(true)
+                : null
+    }, [loggedUser])
 
     const loadForm = () => {
         switchComponent(<EmployeeForm />);
@@ -36,9 +47,9 @@ function EmployeeMainPage() {
 
     return(
         <>
-            {welcomeView ? (
+            {welcomeView === true ? (
                 <WelcomePage setWelcomeView={setWelcomeView} />
-            ) : (
+            ) : welcomeView === false ? (
                 <>
                     <header className="app-header app-header-dark">
                         <NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } />{/* placeholder; */}
@@ -58,7 +69,7 @@ function EmployeeMainPage() {
                         <ModeButton />
                     </div>
                 </>
-            )}
+            ) : <></>}
         </>
     );
 }
