@@ -81,6 +81,7 @@ function QnA({
 
   const preview = (
     <div className="task-issue">
+      { order === 1 ? <></> : <hr /> }
       <div className="card">
         <div className="card-body">
           <div className="form-group">
@@ -89,7 +90,6 @@ function QnA({
               dangerouslySetInnerHTML={{ __html: question }}
             ></p>
           </div>
-          <hr />
           <p className="m-0" dangerouslySetInnerHTML={{ __html: answer }}></p>
         </div>
       </div>
@@ -100,6 +100,7 @@ function QnA({
     preview
   ) : (
     <div className="task-issue" {...draggableProps} ref={innerRef}>
+      { order === 1 ? <></> : <hr /> }
       <div className="card d-flex p-2" {...dragHandleProps}>
         <div className="p-1 d-flex justify-content-center">
           <span
@@ -115,7 +116,6 @@ function QnA({
           simple={true}
           placeholder={"Wpisz pytanie"}
         />
-        <hr style={{ margin: "0 0 20px" }} />
         <MarkdownArea
           id={"answer" + id}
           content={answer}
@@ -123,7 +123,7 @@ function QnA({
           simple={true}
           placeholder={"Wpisz odpowiedź"}
         />
-        <div className="card-footer d-flex justify-content-end">
+        <div className="d-flex justify-content-end">
           <div className="p-1">
             <button className="btn" onClick={handleCopyQA}>
               <i className="fa fa-files-o fa-md">&#61637;</i> Duplikuj
