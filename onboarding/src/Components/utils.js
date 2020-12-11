@@ -50,7 +50,6 @@ export function tryFetchJson(res, noJsonMessage){
 	if(res.ok){
 		result = res.json().catch(() => {return noJsonObj});
 	} else {
-		console.log(res);
 		result = res.text();
 	}
 	return result;

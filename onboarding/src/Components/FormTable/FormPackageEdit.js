@@ -46,30 +46,29 @@ function FormPackageEdit(props) {
         );
     }
 
-
     return(
         <div>
             <div className="row mb-4">
                 <div className="col">
                     <div className="has-clearable">
-                        <input type="text" value={ pack.title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "save-form-name") } className="form-control" placeholder="Nazwa formularza" />
+                        <input type="text" value={ pack.title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-save-form-name") } className="form-control" placeholder="Nazwa formularza" />
                     </div>
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button id="save-form-name" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
+                        <button id="btn-save-form-name" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
                     </div>
                 </div>
             </div>
             <div className="row mb-4">
                 <div className="col">
                     <div className="has-clearable">
-                        <input type="text" value={ pack.description } onChange = { handleInputDesc } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "save-form-description") } className="form-control" placeholder="Opis Formularza" />
+                        <input type="text" value={ pack.description } onChange = { handleInputDesc } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-save-form-description") } className="form-control" placeholder="Opis Formularza" />
                     </div>
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button id="save-form-description" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
+                        <button id="btn-save-form-description" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
                     </div>
                 </div>
                 { saveModal }
