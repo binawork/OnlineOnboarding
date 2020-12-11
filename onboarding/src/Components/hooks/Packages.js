@@ -239,7 +239,7 @@ export function usersWithPackages(props){
 
                     for(i = users4Packages.length - 1; i >= 0; i--){
                         packageIds = [];
-                        users4Packages[i].packageIds.forEach( v => packageIds.push(v) );
+                        users4Packages[i].packageIds.forEach( v => packageIds.push(v) );// convert set to array;
                         users4Packages[i].packageIds = packageIds;
                     }
 

@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-//import { uploadAvatar, employeeAddEdit } from "../../hooks/Users";
 
 
 function EmployeeAvatar(props) {
