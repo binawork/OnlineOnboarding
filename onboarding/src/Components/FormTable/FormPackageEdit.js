@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { savePackageDetails } from "../hooks/PackagePage";
-
+import { clickButtonAfterPressingEnter } from "../utils";
+import ModalWarning from "../ModalWarning";
 
 function FormPackageEdit(props) {
    if(! props.pack){
@@ -10,7 +11,7 @@ function FormPackageEdit(props) {
             </div>
         )
    }
-
+   const [saveModal, setSaveModal ] = useState(<></>);
     const [pack, setPackage] = useState(props.pack);
 
     useEffect(() => {
@@ -26,23 +27,32 @@ function FormPackageEdit(props) {
         //pack.description = e.target.value;
         setPackage({title: pack.title, description: e.target.value, packageId: pack.packageId});
     }
-    var handleSave = (e) => {
-        savePackageDetails(function(res){}, pack.packageId, pack.title, pack.description);// pack as one argument;
-        console.log('saved')
+    
+    const hideModal = () => {
+        setSaveModal(<></>);
     }
-    const clickEnter = (e, buttonId) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            document.getElementById(buttonId).click();
-        }
-    };
+
+    const handleSave = (e) => {
+        savePackageDetails(function(res){}, pack.packageId, pack.title, pack.description);// pack as one argument;
+        setSaveModal(
+          <ModalWarning
+            handleAccept={hideModal}
+            title={""}
+            message={"Zapisano zmiany"}
+            show={true}
+            acceptText={"Ok"}
+            id={0}
+          />
+        );
+    }
+
 
     return(
         <div>
             <div className="row mb-4">
                 <div className="col">
                     <div className="has-clearable">
-                        <input type="text" value={ pack.title } onChange = { handleInputTitle } onKeyUp={ (e) => clickEnter(e, "save-form-name") } className="form-control" placeholder="Nazwa formularza" />
+                        <input type="text" value={ pack.title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "save-form-name") } className="form-control" placeholder="Nazwa formularza" />
                     </div>
                 </div>
                 <div className="col-auto">
@@ -54,7 +64,7 @@ function FormPackageEdit(props) {
             <div className="row mb-4">
                 <div className="col">
                     <div className="has-clearable">
-                        <input type="text" value={ pack.description } onChange = { handleInputDesc } onKeyUp={ (e) => clickEnter(e, "save-form-description") } className="form-control" placeholder="Opis Formularza" />
+                        <input type="text" value={ pack.description } onChange = { handleInputDesc } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "save-form-description") } className="form-control" placeholder="Opis Formularza" />
                     </div>
                 </div>
                 <div className="col-auto">
@@ -62,6 +72,7 @@ function FormPackageEdit(props) {
                         <button id="save-form-description" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
                     </div>
                 </div>
+                { saveModal }
             </div>
         </div>
     )

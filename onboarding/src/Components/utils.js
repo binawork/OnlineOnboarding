@@ -61,3 +61,9 @@ export function validEmail(email){
 	return regExp.test(String(email));
 }
 
+export function clickButtonAfterPressingEnter(e, buttonId) {
+	if (e.key === "Enter") {
+			e.preventDefault();
+			document.getElementById(buttonId).click();
+	}
+};
