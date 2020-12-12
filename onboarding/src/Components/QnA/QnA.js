@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
+import parse from 'html-react-parser';
 import MarkdownArea from "../MarkdownArea";
 import { deleteQnA } from "../hooks/QnAAPI";
 
@@ -85,12 +86,11 @@ function QnA({
       <div className="card">
         <div className="card-body">
           <div className="form-group">
-            <p
-              className="m-0"
-              dangerouslySetInnerHTML={{ __html: question }}
-            ></p>
+            <p className="m-0">
+              { parse(question) }
+            </p>
           </div>
-          <p className="m-0" dangerouslySetInnerHTML={{ __html: answer }}></p>
+          <p className="m-0">{ parse(answer) }</p>
         </div>
       </div>
     </div>

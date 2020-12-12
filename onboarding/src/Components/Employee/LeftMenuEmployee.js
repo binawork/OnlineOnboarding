@@ -41,7 +41,7 @@ function LeftMenuEmployee(props) {
               <li className="menu-item">
                 <a href="#" onClick={ goToQnA } className="menu-link">
                   <span className="menu-icon far fa-file"></span>{" "}
-                  <span className="menu-text">Typowe pytania, Q&A</span>
+                  <span className="menu-text">Q&A</span>
                 </a>
               </li>
               <li className="menu-item">
