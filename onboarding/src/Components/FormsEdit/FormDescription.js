@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { savePageDetails } from "../hooks/FormsEdit";
+import ModalWarning from "../ModalWarning";
 
 const FormDescription = ({ location, pageId }) => {
   const [pageName, setPageName] = useState(
@@ -11,16 +12,33 @@ const FormDescription = ({ location, pageId }) => {
   const [description, setDescription] = useState(
     location.state?.description || ""
   );
+  const [saveModal, setSaveModal ] = useState(<></>);
 
   const handleSave = (e) => {
     e.preventDefault();
-    savePageDetails((res) => {},
+    const isSaved = savePageDetails((res) => {},
       pageId,
       pageName,
       link,
       description
     ); // pack as one argument;
+    if(isSaved) {
+      setSaveModal(
+        <ModalWarning
+          handleAccept={hideModal}
+          title={""}
+          message={"Zapisano zmiany"}
+          show={true}
+          acceptText={"Ok"}
+          id={0}
+        />
+      );
+    }
   };
+
+  const hideModal = () => {
+    setSaveModal(<></>);
+  }
 
   return (
     <form>
@@ -72,6 +90,7 @@ const FormDescription = ({ location, pageId }) => {
           </div>
         </div>
       </section>
+      { saveModal }
     </form>
   );
 };

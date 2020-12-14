@@ -3,3 +3,60 @@
     color: Black;
     background: #BADA55;
 }
+.app {
+    overflow: visible;
+}
+.app-main {
+    overflow: visible;
+}
+
+@font-face {
+    font-family: "summernote";
+    src: url("../fonts/summernote.eot");
+    src: url("../fonts/summernote.eot") format("embedded-opentype");
+    src: url("../fonts/summernote.ttf") format("truetype");
+    src: url("../fonts/summernote.woff") format("woff");
+    src: url("../fonts/summernote.woff2") format("woff2");
+}
+@keyframes newRowColor {
+    0% {
+        background: none;
+    }
+    25% {
+        background: #4d4d6e;
+    }
+    75% {
+        background: #4d4d6e;
+    }
+    100% {
+        background: none;
+    }
+}
+@keyframes showAndHide {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.show-and-hide {
+    animation: showAndHide 3s linear forwards;
+}
+
+.sidebar-nav {
+    margin-top: 100px;
+    padding: 0;
+    list-style: none;
+}
+
+.style-package-row {
+    animation: newRowColor 3s ease-in-out;
+}
