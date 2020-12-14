@@ -30,19 +30,21 @@ function QnAList(props){
     let questionsAndAnswers = qaList.map(function(qa, index){
         let parsedQuestion = parse(qa.question),
             parsedAnswer = parse(qa.answer);
-        return <QnARow key={ qa.id } question={ parsedQuestion } answer={ parsedAnswer } />;
+        return <QnARow key={ qa.id } order={ qa.order } question={ parsedQuestion } answer={ parsedAnswer } />;
     });
-
     return (
-        <div className="page">
-            <div className="page-inner">
-                <div className="page-section">
-                    <div className="card-body">
-                        { questionsAndAnswers }
-                    </div>
-                </div>
+      <div className="page">
+        <div className="page-inner">
+          <div className="page-section">
+            <div className="card card-fluid">
+              <div className="card-header">
+                Najczęstsze pytania i odpowiedzi (Q&A)
+              </div>
+              <div className="card-body">{ questionsAndAnswers }</div>
             </div>
+          </div>
         </div>
+      </div>
     );
 }
 

@@ -50,7 +50,6 @@ export function tryFetchJson(res, noJsonMessage){
 	if(res.ok){
 		result = res.json().catch(() => {return noJsonObj});
 	} else {
-		console.log(res);
 		result = res.text();
 	}
 	return result;
@@ -61,3 +60,9 @@ export function validEmail(email){
 	return regExp.test(String(email));
 }
 
+export function clickButtonAfterPressingEnter(e, buttonId) {
+	if (e.key === "Enter") {
+			e.preventDefault();
+			document.getElementById(buttonId).click();
+	}
+};
