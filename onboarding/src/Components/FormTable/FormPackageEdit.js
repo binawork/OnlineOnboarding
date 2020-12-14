@@ -11,7 +11,7 @@ function FormPackageEdit(props) {
             </div>
         )
    }
-   const [saveModal, setSaveModal ] = useState(<></>);
+   const [saveModal, setSaveModal] = useState(<></>);
     const [pack, setPackage] = useState(props.pack);
 
     useEffect(() => {
@@ -33,17 +33,19 @@ function FormPackageEdit(props) {
     }
 
     const handleSave = (e) => {
-        savePackageDetails(function(res){}, pack.packageId, pack.title, pack.description);// pack as one argument;
-        setSaveModal(
-          <ModalWarning
-            handleAccept={hideModal}
-            title={""}
-            message={"Zapisano zmiany"}
-            show={true}
-            acceptText={"Ok"}
-            id={0}
-          />
-        );
+        const isSaved = savePackageDetails(function(res){}, pack.packageId, pack.title, pack.description);// pack as one argument;
+        if(isSaved) {
+            setSaveModal(
+            <ModalWarning
+                handleAccept={hideModal}
+                title={""}
+                message={"Zapisano zmiany"}
+                show={true}
+                acceptText={"Ok"}
+                id={0}
+            />
+            );
+        }
     }
 
     return(
