@@ -36,7 +36,6 @@ function ModalWarning(props) {
         props.handleAccept(props.id);
     }
 
-
     return(
         <div className={ state.className } style={ state.style } data-backdrop="static" tabIndex="-1" role="dialog" aria-labelledby="modalAlertWarningLabel" aria-hidden="false">
             <div className="modal-dialog" role="document">
@@ -53,7 +52,7 @@ function ModalWarning(props) {
                      {useLink ? (
                          link
                      ) : (
-                         <button type="button" onClick={ accept } className="btn btn-warning" data-dismiss="modal">{ acceptText }</button>
+                         <button type="button" onClick={ accept } className="btn btn-warning" data-dismiss="modal" autoFocus>{ acceptText }</button>
                      )} { cancelButton }
                     </div>
                 </div>

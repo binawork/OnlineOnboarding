@@ -9,10 +9,10 @@ import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
 import EmployeeForm from "./EmployeeForm";
 import QnAList from "./QnA/QnAList";
 import CompanyInfoPage from "./CompanyInfoPage";
-
+import WelcomePage from "./WelcomePage";
 
 function EmployeeMainPage() {
-//    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
+    const [welcomeView, setWelcomeView] = useState(true);
     let loggedUser = LoggedUser();
 
     const loadForm = () => {
@@ -40,30 +40,34 @@ function EmployeeMainPage() {
 
     const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
 
-
     return(
-    	<>
-    		<header className="app-header app-header-dark">
-    			<NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } />{/* placeholder; */}
-    		</header>
-    		<LeftMenuEmployee 
-                mainPage={ loadFormList } 
-                employeePage={ loadEmployeePage } 
-                q_n_aPage={ loadQnA } 
-                aboutCompanyPage={ loadCompanyInfo } 
-            />
+        <>
+            {welcomeView ? (
+                <WelcomePage setWelcomeView={setWelcomeView} />
+            ) : (
+                <>
+                    <header className="app-header app-header-dark">
+                        <NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } />{/* placeholder; */}
+                    </header>
+                    <LeftMenuEmployee
+                        mainPage={ loadFormList }
+                        employeePage={ loadEmployeePage }
+                        q_n_aPage={ loadQnA }
+                        aboutCompanyPage={ loadCompanyInfo }
+                    />
 
-    		<main className="app-main">
-    			<div className="wrapper">
-    			    { component }
-    			</div>
-    		</main>
-    		<div style={{ position:"fixed", bottom:"0px", left:"0px" }}>
-                <ModeButton />
-            </div>
-    	</>
-    )
+                    <main className="app-main">
+                        <div className="wrapper">
+                            { component }
+                        </div>
+                    </main>
+                    <div style={{ position: "fixed", bottom: "0px", left: "0px" }}>
+                        <ModeButton />
+                    </div>
+                </>
+            )}
+        </>
+    );
 }
 
 export default EmployeeMainPage;
-
