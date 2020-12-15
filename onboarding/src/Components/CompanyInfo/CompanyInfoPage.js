@@ -1,14 +1,28 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import LoggedUser from "../hooks/LoggedUser.js";
 import ModalWarning from "../ModalWarning";
 import CompanyInfoEdit from "./CompanyInfoEdit";
+import CompanyInfoAPI from "../hooks/CompanyInfoAPI";
 
 const CompanyInfoPage = ({location}) => {
+  const [companyName, setCompanyName] = useState("");
   const loggedUser = location.state?.loggedUser ?? LoggedUser();
+  
   document.title = "Onboarding: informacje o firmie";
+
+  console.log(loggedUser)
+
+  useEffect(() => {
+    if(loggedUser.id){
+
+      CompanyInfoAPI.getCompanyName(loggedUser.company_id)
+      .catch(error => console.log(error.message))
+      .then(result => setCompanyName(result));
+    }
+  }, [loggedUser]);
 
   return (
     <div className="app">
@@ -24,7 +38,7 @@ const CompanyInfoPage = ({location}) => {
                 page={"Informacje o firmie"}
                 loggedUser={loggedUser}
               />
-              <CompanyInfoEdit />
+              <CompanyInfoEdit companyName={ companyName } />
             </div>
           </div>
         </div>

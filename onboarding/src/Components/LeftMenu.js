@@ -103,17 +103,17 @@ function LeftMenu(props) {
                   </ul>
                 )}
               </li>
-              <li className="menu-item">
-                <NavLink to={{ pathname: "/company", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
-                <span className="menu-icon fas fa-file"></span>{" "}
-                  <span className="menu-text">O Organizacji</span>
-                </NavLink>
-              </li>
               {userListUrls.map((link, keyProp) => (
                 <li className="menu-item" key={keyProp}>
                   {link}
                 </li>
               ))}
+              <li className="menu-item">
+                <NavLink to={{ pathname: "/company", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
+                <span className="menu-icon fas fa-file"></span>{" "}
+                  <span className="menu-text">O firmie</span>
+                </NavLink>
+              </li>
               <li className="menu-item">
                 <NavLink to={{ pathname: "/q_and_a", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
                   <span className="menu-icon fas fa-file"></span>{" "}

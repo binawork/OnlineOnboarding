@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import parse from "html-react-parser";
 import MarkdownArea from "../MarkdownArea";
 
-function CompanyInfoEdit() {
+function CompanyInfoEdit({ companyName }) {
   const [isEditMode, toggleEditMode] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -12,8 +12,16 @@ function CompanyInfoEdit() {
   const [aboutCompany, setAboutCompany] = useState("");
   const [link, setLink] = useState("https://www.youtube.com/embed/JxRiPBuPR1k");
 
+  let pageLink;
+  if(link.match(/^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i)) {
+    pageLink = link.replace(/watch\?v=/g, "embed/");
+  } else if(link?.match(/^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i)) {
+    pageLink = link.replace(/vimeo\.com/g, "player.vimeo.com/video");
+  }
+
   const handleSave = (e) => {
     e.preventDefault();
+    console.log("Zapisywanie...")
   };
   const handleShow = (e) => {
     e.preventDefault();
@@ -33,7 +41,7 @@ function CompanyInfoEdit() {
       <div className="card card-fluid">
         <div className="card-header">Informacje o firmie</div>
         {isEditMode ? (
-          <div className="card-body">
+          <div className="card-body col-xl-6 col-lg-8 col-12">
             <div className="media mb-5">
               <div className="user-avatar user-avatar-xl fileinput-button">
                 <div className="fileinput-button-label"> Zmień logo </div>
@@ -51,63 +59,85 @@ function CompanyInfoEdit() {
               </div>
             </div>
 
-            <div className="mb-5">
-              <h3 className="card-title">O firmie</h3>
+            <div className="">
+              {/* <h3 className="card-title">O firmie</h3> */}
+              <label htmlFor="">Nagłówek:</label>
               <MarkdownArea
                 id={"company-mission"}
                 content={mission}
                 contentChange={handleMission}
                 simple={false}
-                placeholder={"Misja / wizja firmy"}
+                placeholder={"Np. misja firmy"}
               />
               <div className="form-group">
+                <label htmlFor="video-link">Link:</label>
                 <input
                   type="url"
                   className="form-control"
                   id="video-link"
-                  placeholder="Link do wideo"
+                  placeholder="Np. https://www.youtube.com/..."
                   aria-label="Link do wideo o firmie"
                   value={link}
                   onChange={handleLink}
                 />
               </div>
+              <label htmlFor="about-company">Opis:</label>
               <MarkdownArea
-                id={"about-company"}
+                id="about-company"
                 content={aboutCompany}
                 contentChange={handleAboutCompany}
                 simple={false}
-                placeholder={"Napisz coś o firmie"}
-                height={300}
+                placeholder={"O firmie"}
+                height={200}
               />
             </div>
           </div>
         ) : (
           <div className="card-body">
-            {logo === "/onboarding/static/images/circle.png" ? (
+            {/* {logo === "/onboarding/static/images/circle.png" ? (
               <></>
-            ) : (
-              <div className="media mb-5">
-                <div className="user-avatar user-avatar-xl fileinput-button">
-                  <img src={logo} />
-                </div>
+            ) : ( */}
+            <div className="media mb-5 d-flex align-items-center">
+              <div className="user-avatar user-avatar-xl fileinput-button mr-4">
+                <img src={logo} />
               </div>
-            )}
-            <div className="mb-5 w-100">
+              <p className="m-0" style={{ fontSize: "1.5rem" }}>
+                <b>{companyName}</b>
+              </p>
+            </div>
+            {/* )} */}
+            <div className="mb-5 w-100 col-xl-6 col-lg-8 col-12">
               <section className="mb-3">{parse(mission)}</section>
-              {/* Responsive video */}
-              <div
-                className="w-100 position-relative"
-                style={{ overflow: "hidden", paddingTop: "56.25%" }}
-              >
-                <iframe
-                  className="w-100 h-100 position-absolute"
-                  style={{ top: "0", left: "0" }}
-                  src={link}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
+
+              {link !== "" 
+                ? pageLink 
+                  ? (
+                    <div
+                      className="position-relative"
+                      style={{
+                        overflow: "hidden",
+                        paddingTop: "56.25%",
+                        background: "rgba(255, 255, 255, 0.2)",
+                      }}
+                    >
+                   {/* <div className="embed-responsive embed-responsive-21by9"> */}
+                      <p className="position-absolute" style={{ top: "10px", left: "10px" }}>Ładowanie...</p>
+                      <iframe
+                        // className="embed-responsive-item"
+                        className="w-100 h-100 position-absolute"
+                        style={{ top: "0", left: "0" }}
+                        src={link}
+                        frameBorder="0"
+                        // allow="autoplay; encrypted-media"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        title="video"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+              ) : ( <a href={ link } target="_blank">LINK</a> ) : (
+                <></>
+              )}
+
               <section className="mt-3">{parse(aboutCompany)}</section>
             </div>
           </div>

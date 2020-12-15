@@ -48,7 +48,7 @@ function LeftMenuEmployee(props) {
               </li>
               <li className="menu-item">
                 <a href="#" onClick={ goToCompanyInfoPage } className="menu-link">
-                  <span className="menu-text">O Organizacji</span>
+                  <span className="menu-text">O firmie</span>
                 </a>
               </li>
               <li className="menu-item">
