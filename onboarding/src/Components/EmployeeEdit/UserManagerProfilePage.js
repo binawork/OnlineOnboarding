@@ -20,6 +20,7 @@ function UserManagerProfilePage(props) {
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;
         loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
+
         stateExists = true;
     } else
         loggedUser = LoggedUser();
@@ -50,6 +51,11 @@ function UserManagerProfilePage(props) {
             singleUser.avatar = user.avatar;
     }
 
+    let enableUploadAvatar = false;
+    if(stateExists && props.location.state.enableUploadAvatar)
+        enableUploadAvatar = true;
+
+
     return (
     	<div className="app">
     		<header className="app-header app-header-dark">
@@ -64,7 +70,10 @@ function UserManagerProfilePage(props) {
     					<div className="page-section">
     						<div className="card card-fluid">
     							<div className="card-header">Pracownik</div>
-    							<EmployeeEditForm user={ singleUser } loggedUser={ loggedUser } packageId={ packageIdRef.current } />
+    							<EmployeeEditForm user={ singleUser }
+    							                  loggedUser={ loggedUser }
+    							                  packageId={ packageIdRef.current }
+    							                  enableUploadAvatar={ enableUploadAvatar } />
     						</div>
     					</div>
     				</div>
