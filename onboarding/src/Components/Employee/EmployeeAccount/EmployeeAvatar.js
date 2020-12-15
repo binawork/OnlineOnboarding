@@ -5,6 +5,9 @@ function EmployeeAvatar(props) {
     const fileNameRef = useRef("");
 
     let userCp = props.loggedUser, avatar = "";
+    if(userCp.avatar)
+        avatar = userCp.avatar;
+
 
     if(props.image){
         if(typeof props.image === "string")
@@ -12,8 +15,7 @@ function EmployeeAvatar(props) {
         else if(typeof props.image.name === "string" && props.image.name.length > 0 && props.image instanceof File)
             avatar = props.image.name
 
-    } else if(userCp.avatar)
-        avatar = userCp.avatar;
+    }
 
 
     const [imgSrc, setImage] = useState(avatar);
