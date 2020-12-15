@@ -6,20 +6,35 @@ import LeftMenuEmployee from "./LeftMenuEmployee";
 import LoggedUser from "../hooks/LoggedUser.js";
 import EmployeeAccount from "./EmployeeAccount/EmployeeAccount.js";
 import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
-import EmployeeForm from "./EmployeeForm";
+import EmployeeFormPages from "./EmployeeFormPages/EmployeeFormPages";
+import EmployeeSingleFormPage from "./EmployeeFormPages/EmployeeSingleFormPage";
 import QnAList from "./QnA/QnAList";
 import WelcomePage from "./WelcomePage";
 
 function EmployeeMainPage() {
     const [welcomeView, setWelcomeView] = useState(true);
-    let loggedUser = LoggedUser();
+    const loggedUser = LoggedUser();
+ 
+    const loadSinglePage = (page) => {
+      switchComponent(
+        <EmployeeSingleFormPage
+          page={page}
+        />
+      );
+    };
 
-    const loadForm = () => {
-        switchComponent(<EmployeeForm />);
+
+    const loadFormPages = (packageId) => {
+      switchComponent(
+        <EmployeeFormPages
+          switchPage={loadSinglePage}
+          actualPackageId={packageId}
+        />
+      );
     };
 
     const loadFormList = () => {
-        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
+        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } />);
     };
 
     const loadEmployeePage = function(){
@@ -32,7 +47,7 @@ function EmployeeMainPage() {
         switchComponent(<QnAList />);
     };
 
-    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);
+    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } />);
 
     return(
         <>
