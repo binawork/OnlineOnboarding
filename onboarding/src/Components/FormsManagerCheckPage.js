@@ -7,10 +7,10 @@ import React from "react";
 import Navbar from "./Navbar";
 import LeftMenu from "./LeftMenu";
 import PageAddressBar from "./PageAddressBar";
-import FormOpenAnswer from "./FormsEdit/FormOpenAnswer";
-import FormChoiceAnswer from "./FormsEdit/FormChoiceAnswer";
-import FormMultiChoiceAnswer from "./FormsEdit/FormMultiChoiceAnswer";
-import { formsEmployeeData } from "./FormsEdit/FormsEmployeeData.js";
+// import FormOpenAnswer from "./FormsEdit/FormOpenAnswer";
+// import FormChoiceAnswer from "./FormsEdit/FormChoiceAnswer";
+// import FormMultiChoiceAnswer from "./FormsEdit/FormMultiChoiceAnswer";
+// import { formsEmployeeData } from "./FormsEdit/FormsEmployeeData.js";
 
 function FormsManagerCheckPage() {
     var forms = [];
@@ -61,4 +61,3 @@ function FormsManagerCheckPage() {
 }
 
 export default FormsManagerCheckPage;
-

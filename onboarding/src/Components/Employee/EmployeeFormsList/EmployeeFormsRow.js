@@ -2,14 +2,14 @@ import React from "react";
 
 
 function EmployeeFormsRow(props) {
-    const moveToForm = (e) => {
+    const moveToFormPages = (e) => {
         e.preventDefault();
-        props.switchToForm();
+        props.switchToFormPages(props.row.key);
     };
 
     return(
         <tr>
-            <td><a href="#" onClick={ moveToForm }>{props.row.name}</a></td>
+            <td><a href="#" onClick={ moveToFormPages }>{props.row.name}</a></td>
             <td>{props.row.progress}</td>
         </tr>
     )
