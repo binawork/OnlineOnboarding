@@ -191,7 +191,7 @@ export function removeCombo(handleSuccess, packageId, title) {
  * assumption: {userId: , packageIds: new Set() }.
  * ToFix: computational complexity O(n^2);
  */
-function addUsers(usersPackages, packageObject){
+function assignPackageToUsers(usersPackages, packageObject){
     if( !packageObject.hasOwnProperty("users") )
         return;
 
@@ -234,7 +234,7 @@ export function usersWithPackages(props){
                     let i, count = result.length;
 
                     for(i = 0; i < count; i++){
-                        addUsers(users4Packages, result[i]);
+                        assignPackageToUsers(users4Packages, result[i]);
                     }
 
                     for(i = users4Packages.length - 1; i >= 0; i--){
