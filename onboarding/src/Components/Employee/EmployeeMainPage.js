@@ -35,7 +35,7 @@ function EmployeeMainPage() {
 
     const loadCompanyInfo = () => {
         document.title = "Onboarding: informacje o firmie";
-        switchComponent(<CompanyInfoPage />);
+        switchComponent(<CompanyInfoPage loggedUser={loggedUser} />);
     }
 
     const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadForm } />);

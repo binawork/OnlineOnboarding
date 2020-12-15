@@ -13,8 +13,6 @@ const CompanyInfoPage = ({location}) => {
   
   document.title = "Onboarding: informacje o firmie";
 
-  console.log(loggedUser)
-
   useEffect(() => {
     if(loggedUser.id){
 
