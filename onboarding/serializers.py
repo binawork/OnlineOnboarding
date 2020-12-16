@@ -51,7 +51,8 @@ class CompanyFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = ('id',
-                  'file',)
+                  'file',
+                  )
 
 
 
