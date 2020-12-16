@@ -25,10 +25,12 @@ function UsersList(props) {
     const [searchResult, setSearchResult] = useState([]);
 
     useEffect(() => {
-        Users( loggedUser, setUsers, setSearchResult, isLoaded, showError);
-    }, [])
+        if(loggedUser.id !== 0) {
+            Users( loggedUser, setUsers, setSearchResult, isLoaded, showError);
+        }
+    }, [loggedUser])
 
-    console.log(users)
+    // console.log(users)
 
 
     var updateUsers = function(){// simple to refresh component when anything chnages inside;
