@@ -9,6 +9,11 @@ from django.utils import timezone
 
 class Company(models.Model):
     name = models.TextField(max_length=500)
+    about = models.TextField(max_length=2000, null=True, blank=True)
+    mission = models.TextField(max_length=2000, null=True, blank=True)
+    vision = models.TextField(max_length=2000, null=True, blank=True)
+    info = models.TextField(max_length=2000, null=True, blank=True)
+    link = models.TextField(max_length=2000, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     how_many_sent_packages = models.IntegerField(default=1)
