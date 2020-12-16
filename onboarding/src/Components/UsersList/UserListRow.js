@@ -28,7 +28,7 @@ function UserListRow(props) {
                                 { props.user.name }
                             </Link>
                         </h3>
-                        <h6 className="card-subtitle text-muted"> { props.user.position } </h6>
+                        <p className="card-subtitle text-muted"> { props.user.position } </p>
                         <small className="text-muted">
                             <Link to={{ pathname: "/employee_profile", state: { user: props.user, loggedUser: loggedUser } }}>
                                 { props.user.email }
@@ -37,21 +37,21 @@ function UserListRow(props) {
                     </div>
 
                     <div className="col">
-                        <h3 className="card-title">
+                        <p className="card-title mb-2">
                             <small className="text-muted">Dział:</small> { props.user.department }
-                        </h3>
-                        <h3 className="card-title">
+                        </p>
+                        <p className="card-title mb-2">
                             <small className="text-muted">Lokalizacja:</small> { props.user.location }
-                        </h3>
+                        </p>
                     </div>
 
-                    <div className="col-auto">
-                        <h3 className="card-title">
+                    <div className="col">
+                        <p className="card-title mb-2">
                             <small className="text-muted">Wysłane formularze:</small> { props.user.sent }
-                        </h3>
-                        <h3 className="card-title">
+                        </p>
+                        <p className="card-title mb-2">
                             <small className="text-muted">Skończone formularze:</small> { props.user.finished }
-                        </h3>
+                        </p>
 
                     </div>
                     <div className="col-auto d-flex flex-column">

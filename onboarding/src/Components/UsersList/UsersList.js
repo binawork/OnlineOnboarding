@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-//import "../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-
 import UserListSearch from "../UserListSearch";
 import Users, { employeeRemove } from "../hooks/Users";
 import LoggedUser from "../hooks/LoggedUser.js";
@@ -11,7 +7,6 @@ import UserListRow from "./UserListRow";
 
 
 function UsersList(props) {
-    //const [loggedUser, setLoggedUser ] = useState(loggedUserCp);
     let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
     let packageId = 0;
     if(props.packageId)
@@ -28,16 +23,9 @@ function UsersList(props) {
         if(loggedUser.id !== 0) {
             Users( loggedUser, setUsers, setSearchResult, isLoaded, showError);
         }
-    }, [loggedUser])
+    }, [loggedUser, countUpdate])
 
-    // console.log(users)
-
-
-    var updateUsers = function(){// simple to refresh component when anything chnages inside;
-    	update(countUpdate + 1);
-    }
-
-    var removeAsk = (e) => {
+    const removeAsk = (e) => {
         setIdModal({id: e.target.value,
             modal: <ModalWarning handleAccept={ removeUser } handleCancel={ hideModal }
             					title={ "Usunięcie pracownika" }
@@ -77,15 +65,17 @@ function UsersList(props) {
           {error
               ? <p>Wystąpił błąd podczas ładowania danych</p>
               : loaded
-                ? searchResult.map((user) => (
-                <UserListRow
-                    user={user}
-                    key={user.id}
-                    handleRemove={removeAsk}
-                    packageId={packageId}
-                    loggedUser={loggedUser}
-                />
-                )) : <p>Ładowanie...</p>
+                ? searchResult.length !== 0
+                    ? searchResult.map((user) => (
+                        <UserListRow
+                            user={user}
+                            key={user.id}
+                            handleRemove={removeAsk}
+                            packageId={packageId}
+                            loggedUser={loggedUser}
+                        />
+                    )) : <p>Brak wyników</p>
+                : <p>Ładowanie...</p>
             }
           </div>
 
