@@ -7,7 +7,21 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 
+def upload_to(instance, filename):
+    """
+    :param instance:
+    :param filename:
+    :return:
+    """
+    now = timezone.now()
+    base, extension = os.path.splitext(filename.lower())
+    milliseconds = now.microsecond // 1000
+    return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+
+
 class Company(models.Model):
+
+    company_logo = models.ImageField(upload_to=upload_to, null=True, blank=True)
     name = models.TextField(max_length=500)
     about = models.TextField(max_length=2000, null=True, blank=True)
     mission = models.TextField(max_length=2000, null=True, blank=True)
@@ -63,19 +77,6 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_('Superuser must have is_superuser=True.'))
         return self.create_user(email, password, **extra_fields)
 
-
-
-def upload_to(instance, filename):
-    """
-
-    :param instance:
-    :param filename:
-    :return:
-    """
-    now = timezone.now()
-    base, extension = os.path.splitext(filename.lower())
-    milliseconds = now.microsecond // 1000
-    return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
 
 
 class User(AbstractUser):

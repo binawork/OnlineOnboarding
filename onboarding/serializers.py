@@ -47,6 +47,14 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CompanyFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('id',
+                  'file',)
+
+
+
 class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompanyQuestionAndAnswer

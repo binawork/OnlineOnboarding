@@ -31,7 +31,7 @@ from onboarding.models import User, Company, CompanyQuestionAndAnswer
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
-from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
+from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
 
 from .permissions import IsHrUser
@@ -189,6 +189,21 @@ def manager_view(request):
 # REST
 
 # ViewSets define the view behavior
+
+class CompanyLogoViewSet(views.APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        if self.request.user.is_hr:
+            serializer = CompanyFileSerializer(data=request.data, instance=request.user.company)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class UserAvatarUpload(views.APIView):
     parser_classes = [MultiPartParser, FormParser]
