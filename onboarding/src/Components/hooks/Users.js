@@ -57,9 +57,10 @@ function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
         .filter((user) => user.id !== loggedUser.id)
         .map((user) => {
           user = checkUser(user, user.id);
-          console.log(user);
           return user;
-        });
+				})
+				.sort((a,b) => a.id - b.id);
+
       isLoaded(true);
 			setUsers(users);
 			setSearchResult(users);
