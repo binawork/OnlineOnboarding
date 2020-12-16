@@ -12,7 +12,7 @@ from django.contrib.auth import views as auth_views
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
     ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView,\
     UserProgressOnPackageView, PackagePagesViewSet, SectionAnswersViewSet, CustomPasswordResetConfirmView, \
-    WhenPackageSendToEmployeeView
+    WhenPackageSendToEmployeeView, AddUserToPackageViewSet
 
 # base
 urlpatterns = [
@@ -46,7 +46,7 @@ urlpatterns += [
     path('email/reminder/<employee_id>/<package_id>/', views.reminder, name='reminder'),
 ]
 
-#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 # API
 urlpatterns += [
@@ -69,6 +69,7 @@ router.register(r'api/contact_form', ContactFormViewSet, basename='contact_form'
 router.register(r'api/q_and_a', CompanyQuestionAndAnswerViewSet, basename='contact_form')
 router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePages')
 router.register(r'api/section_answers', SectionAnswersViewSet, basename='SectionAnswers')
+router.register(r'api/add_users_to_package', AddUserToPackageViewSet, basename='Add user to package')
 
 
 # Wire up our API using automatic URL routing.

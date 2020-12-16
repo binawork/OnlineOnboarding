@@ -121,7 +121,7 @@ class Package(models.Model):
     description = models.TextField(max_length=1000, help_text='Enter a brief description', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    users = models.ManyToManyField(User, through='PackagesUsers', blank=True)
+    users = models.ManyToManyField(User, through='PackagesUsers', null=True, blank=True)
 
     def __str__(self):
         return self.title

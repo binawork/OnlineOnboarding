@@ -165,23 +165,7 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
 
 
 # PACKAGE
-# class PackageUsersSerializer(serializers.ModelSerializer):
-#     ordering = ['-id']
-#     model = Package
-#     fields = (
-#             'id',
-#             'users',
-#         )
-
-
-class PackageUsersSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PackagesUsers
-        fields = '__all__'
-
-
 class PackageSerializer(serializers.ModelSerializer):
-    users = PackageUsersSerializer(source='packagesusers_set', many=True)
 
     class Meta:
         ordering = ['-id']
@@ -192,6 +176,26 @@ class PackageSerializer(serializers.ModelSerializer):
             'description',
             'created_on',
             'updated_on',
+            'users',
+        )
+
+
+class PackageUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PackagesUsers
+        fields = '__all__'
+
+
+class PackageAddUsersSerializer(serializers.ModelSerializer):
+    users = PackageUsersSerializer(source='packagesusers_set', many=True)
+
+    class Meta:
+        ordering = ['-id']
+        model = Package
+        fields = (
+            'id',
+            'title',
+            'description',
             'users'
         )
 

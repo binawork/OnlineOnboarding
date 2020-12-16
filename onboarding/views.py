@@ -28,8 +28,8 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer
+from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
 from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
@@ -311,6 +311,55 @@ class ContactFormViewSet(viewsets.ModelViewSet):
     queryset = ContactRequestDetail.objects.all()
     serializer_class = ContactRequestDetail
 
+class AddUserToPackageViewSet(viewsets.ModelViewSet):
+
+    queryset = Package.objects.all()
+    serializer_class = PackageAddUsersSerializer
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=True, methods=['post'])
+    def add_user_to_package(self, request, pk=None):
+        """
+        :param request: user id in request.data.users
+        :param pk: package primary key
+        """
+        package = Package.objects.get(id=pk)
+        pkg_company = package.owner
+        hr_user = User.objects.get(id=request.user.id)
+        users = User.objects.filter(id__in=request.data["users"])
+        serializer = PackageAddUsersSerializer
+
+        for user in users:
+
+            # check if the hr_user is from the same company as the package (form)
+            # to which he /she wants to add a new user
+            if hr_user.company_id == pkg_company.id:
+                pass
+            else:
+                e = "Możesz dodawać tylko do formularzy firmy, do której należysz."
+                raise ValueError(e)
+
+            # check if the hr_user is from the same company as the user
+            # he /she wants to add to the package (form)
+            if hr_user.company_id == user.company_id:
+                pass
+            else:
+                e2 = "Możesz dodawać do formularzy tylko tych użytowników, którzy"
+                e3 = " są z tej samej firmy."
+                e4 = e2 + e3
+                raise ValueError(e4)
+
+            if user not in package.users.all():
+                package.users.add(user)
+                send_add_user_to_package_email(
+                    EMAIL_HOST_USER,
+                    user,
+                    package
+                )
+
+        serializer = PackageSerializer(package)
+        return Response(serializer.data)
+
 
 class PackageViewSet(viewsets.ModelViewSet):
     """
@@ -350,48 +399,6 @@ class PackageViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    @action(detail=True, methods=['post'])
-    def add_user_to_package(self, request, pk=None):
-        """
-        :param request: user id in request.data.users
-        :param pk: package primary key
-        """
-        package = Package.objects.get(id=pk)
-        pkg_company = package.owner
-        hr_user = User.objects.get(id=request.user.id)
-        users = User.objects.filter(id__in=request.data["users"])
-
-        for user in users:
-
-        
-            # check if the hr_user is from the same company as the package (form)
-            # to which he /she wants to add a new user
-            if hr_user.company_id == pkg_company.id:
-                pass
-            else:
-                e = "Możesz dodawać tylko do formularzy firmy, do której należysz."
-                raise ValueError(e)
-
-            # check if the hr_user is from the same company as the user
-            # he /she wants to add to the package (form)
-            if hr_user.company_id == user.company_id:
-                pass
-            else:
-                e2 = "Możesz dodawać do formularzy tylko tych użytowników, którzy"
-                e3 = " są z tej samej firmy."
-                e4 = e2 + e3
-                raise ValueError(e4)
-
-            if user not in package.users.all():
-                package.users.add(user)
-                send_add_user_to_package_email(
-                    EMAIL_HOST_USER,
-                    user,
-                    package
-                )
-
-        serializer = PackageSerializer(package)
-        return Response(serializer.data)
 
 
 class PageViewSet(viewsets.ModelViewSet):
