@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //import "../static/looper/stylesheets/theme.min.css";
 //import "../static/looper/stylesheets/theme-dark.min.css";
@@ -11,11 +11,25 @@ import UserListRow from "./UserListRow";
 
 
 function UsersList(props) {
-    const [countUpdate, update] = useState(0);
-    const [employeeIdModal, setIdModal ] = useState({id: 0, modal: <></>});
-
-    let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
     //const [loggedUser, setLoggedUser ] = useState(loggedUserCp);
+    let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
+    let packageId = 0;
+    if(props.packageId)
+        packageId = props.packageId;
+
+	const [loaded, isLoaded] = useState(false);
+	const [error, showError] = useState(null);
+    const [countUpdate, update] = useState(0);
+    const [employeeIdModal, setIdModal] = useState({id: 0, modal: <></>});
+    const [users, setUsers] = useState([]);
+    const [searchResult, setSearchResult] = useState([]);
+
+    useEffect(() => {
+        Users( loggedUser, setUsers, setSearchResult, isLoaded, showError);
+    }, [])
+
+    console.log(users)
+
 
     var updateUsers = function(){// simple to refresh component when anything chnages inside;
     	update(countUpdate + 1);
@@ -50,33 +64,33 @@ function UsersList(props) {
         update(countUpdate + 1);
     };
 
-    let packageId = 0;
-    if(props.packageId)
-        packageId = props.packageId;
+    return (
+      <div className="page-section">
+        <div className="card card-fluid">
+          <div className="card-header">Lista pracowników</div>
+          <div className="card-body">
+            <UserListSearch users={users} setSearchResult={setSearchResult}/>
+          </div>
+          <div className="card-body">
+          {error
+              ? <p>Wystąpił błąd podczas ładowania danych</p>
+              : loaded
+                ? searchResult.map((user) => (
+                <UserListRow
+                    user={user}
+                    key={user.id}
+                    handleRemove={removeAsk}
+                    packageId={packageId}
+                    loggedUser={loggedUser}
+                />
+                )) : <p>Ładowanie...</p>
+            }
+          </div>
 
-    let users = Users({loggedUser: loggedUser, count: countUpdate}), usersRows = [];
-    users.forEach((singleUser, i) => {
-        usersRows.push(<UserListRow user={ singleUser } key={ i } handleRemove={ removeAsk } packageId={ packageId } loggedUser={ loggedUser } />);
-    });	
-
-
-    return(
-        <div className="page-section">
-            <div className="card card-fluid">
-                <div className="card-header">
-                 Lista pracowników
-                </div>
-                <div className="card-body">
-                    <UserListSearch />
-                </div>
-                <div className="card-body">
-                    { usersRows }
-                </div>
-
-                { employeeIdModal.modal }
-            </div>
+          {employeeIdModal.modal}
         </div>
-    )
+      </div>
+    );
 }
 
 export default UsersList;
