@@ -14,7 +14,9 @@ function FormSection({
   setAnswers,
 }) {
   const sectionsRef = useRef(sections);
-  useEffect(() => sectionsRef.current = sections);
+  useEffect(() => {
+    sectionsRef.current = sections;
+  });
 
   const cardHeader = (type) =>
     type === "oa"
@@ -34,7 +36,7 @@ function FormSection({
   };
 
   const changeDescription = (content, sectionId) => {
-    const updatedSections = sections.map((section) => {
+    const updatedSections = sectionsRef.current.map((section) => {
       if (section.id === sectionId) section.description = content;
       return section;
     });
@@ -81,7 +83,7 @@ function FormSection({
 
   return (
     <>
-      {sectionsRef.current.map((section, index) => (
+      {sections.map((section, index) => (
         <Draggable
           key={section.id}
           draggableId={"draggable-" + section.id}

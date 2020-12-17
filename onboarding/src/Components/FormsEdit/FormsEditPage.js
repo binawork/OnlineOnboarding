@@ -24,8 +24,6 @@ function FormsEditPage({ location, match }) {
   const [update, setUpdate] = useState(true);
   const [saved, setSaved] = useState(false);
 
-
-
   useEffect(() => {
     let mounted = true;
     FormSectionsAPI.getAllSections(pageId)
