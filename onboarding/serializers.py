@@ -202,8 +202,6 @@ class PackageAddUsersSerializer(serializers.ModelSerializer):
         model = Package
         fields = (
             'id',
-            'title',
-            'description',
             'users'
         )
 
