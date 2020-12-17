@@ -155,7 +155,7 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId){
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
 
 	fullPath = fullPath + "api/add_users_to_package/" + packageId + "/add_user_to_package/";
-	data = {title: ".", users: [employeeId]};
+	data = {users: [employeeId]};
 	//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
 	//data.users.push(userPackageObject);
 	fetchProps.body = JSON.stringify(data);
