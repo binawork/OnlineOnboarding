@@ -154,8 +154,10 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId){
 	let data, token = getCookie("csrftoken"), fullPath = getPath(),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
 
-	fullPath = fullPath + "api/package/" + packageId + "/add_user_to_package/";
-	data = {users: employeeId};
+	fullPath = fullPath + "api/add_users_to_package/" + packageId + "/add_user_to_package/";
+	data = {users: [employeeId]};
+	//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
+	//data.users.push(userPackageObject);
 	fetchProps.body = JSON.stringify(data);
 
 	fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})

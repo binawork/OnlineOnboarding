@@ -64,12 +64,12 @@ function Users(props){
 	let users = [];
 
 	if(error){
-		singleUser = {name: error.message, first_name: error.message, last_name: "", email: "-", tel: "",
+		singleUser = {id: 0, name: error.message, first_name: error.message, last_name: "", email: "-", tel: "",
 			position: "-", department: "-", location: "-",
 			sent: "-", finished: "-", avatar: ""};
 		users.push(singleUser);
 	} else if(!loaded){
-		singleUser = {name: "Ładowanie ...", first_name: "", last_name: "", email: "Ładowanie ...", tel: "",
+		singleUser = {id: 0, name: "Ładowanie ...", first_name: "", last_name: "", email: "Ładowanie ...", tel: "",
 			position: "Ładowanie ...", department: "Ładowanie ...", location: "Ładowanie ...",
 			sent: "-", finished: "-", avatar: ""};
 

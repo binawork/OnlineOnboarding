@@ -5,6 +5,7 @@ import PageAddressBar from "../PageAddressBar";
 import EmployeeProfileUser from "./EmployeeProfileUser";
 import ProcessPreviewTables from "./ProcessPreviewTables";
 import LoggedUser from "../hooks/LoggedUser.js";
+import { isNumber } from "../utils";
 
 
 function EmployeeProfilePage(props) {
@@ -43,7 +44,7 @@ function EmployeeProfilePage(props) {
         if(typeof user.location === "string")
             singleUser.location = user.location;
 
-        if(typeof user.sent === "string")
+        if(typeof user.sent === "string" || isNumber(user.sent) )
             singleUser.sent = user.sent;
         if(typeof user.finished === "string")
             singleUser.finished = user.finished;
