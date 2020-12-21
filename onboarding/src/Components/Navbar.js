@@ -1,5 +1,5 @@
 import React from "react";
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { getPath } from "./utils.js";
 
 function Navbar(props) {
@@ -76,8 +76,10 @@ function Navbar(props) {
                         </button>
                         <div className="dropdown-menu" id="userDropDown">
                             <div className="dropdown-arrow ml-3"></div>
-                            {/*<h6 className="dropdown-header d-none d-md-block d-lg-none">  user username</h6> */}
-                            <a className="dropdown-item" href="#"><span className="dropdown-icon oi oi-person"></span> Profil</a>
+                            {/*<h6 className="dropdown-header d-none d-md-block d-lg-none">  user username</h6>
+                            <a className="dropdown-item" href="#"><span className="dropdown-icon oi oi-person"></span> Profil</a> */}
+                            <Link to={{ pathname: "/add_user", state: { user: loggedUser, packageId: 0, loggedUser: loggedUser, enableUploadAvatar: true } }}
+                        				className="dropdown-item" data-toggle="tooltip"><span className="dropdown-icon oi oi-person"></span> Profil</Link>
                             <a className="dropdown-item" href={"/accounts/logout/"}><span className="dropdown-icon oi oi-account-logout"></span> Wyloguj</a>
                             <div className="dropdown-divider"></div>
                         </div>

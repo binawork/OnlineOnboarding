@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserListSearch from "../UserListSearch";
 import Users, { employeeRemove } from "../hooks/Users";
+import { usersWithPackages } from "../hooks/Packages";
 import LoggedUser from "../hooks/LoggedUser.js";
 import ModalWarning from "../ModalWarning";
 import UserListRow from "./UserListRow";
@@ -18,6 +19,19 @@ function UsersList(props) {
     const [employeeIdModal, setIdModal] = useState({id: 0, modal: <></>});
     const [users, setUsers] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
+
+    const usersForPackages = usersWithPackages({count: 0});// [{userId: , packageIds: []}, ...];
+    if(usersForPackages.length !== 0) {
+        let updatedUsers = [];
+        for(let i = users.length - 1; i >= 0; i--){
+            for(let j = usersForPackages.length - 1; j >= 0; j--){
+                if(usersForPackages[j].userId === users[i].id) {
+                    users[i].sent = usersForPackages[j].packageIds.length;
+                    updatedUsers.push(users[i]);
+                }
+            }
+        }
+    }
 
     useEffect(() => {
         if(loggedUser.id !== 0) {

@@ -68,7 +68,7 @@ function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
     .catch((error) => {
       showError(error);
       console.log(error);
-    });
+		});
 }
 
 
