@@ -23,7 +23,7 @@ function UsersList(props) {
         if(loggedUser.id !== 0) {
             Users( loggedUser, setUsers, setSearchResult, isLoaded, showError);
         }
-    }, [loggedUser, countUpdate])
+    }, [loggedUser, countUpdate]);
 
     const removeAsk = (e) => {
         setIdModal({id: e.target.value,

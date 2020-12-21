@@ -63,7 +63,7 @@ function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
 
       isLoaded(true);
 			setUsers(users);
-			setSearchResult(users);
+			setSearchResult ? setSearchResult(users) : null;
     })
     .catch((error) => {
       showError(error);
