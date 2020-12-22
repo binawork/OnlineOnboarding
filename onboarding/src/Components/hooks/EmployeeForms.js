@@ -150,7 +150,7 @@ export function SingleEmployeeForms(props){
 /**
  * Employee assignment to package/combo;
  */
-export function assignEmployeeToPackage(handleMessage, employeeId, packageId){
+export function assignEmployeeToPackage(handleMessage, employeeId, packageId, setUsersInPackage){
 	let data, token = getCookie("csrftoken"), fullPath = getPath(),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
 
@@ -167,6 +167,7 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId){
 				if(typeof result.detail === 'string')
 					msg += result.detail;
 				handleMessage(msg);
+				setUsersInPackage(result.users)
 			},
 			(error) => {
 				handleMessage(error.message);

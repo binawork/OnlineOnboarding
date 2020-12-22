@@ -61,14 +61,14 @@ function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
 				})
 				.sort((a,b) => a.id - b.id);
 
-      isLoaded(true);
 			setUsers(users);
 			setSearchResult ? setSearchResult(users) : null;
     })
     .catch((error) => {
-      showError(error);
+      showError(true);
       console.log(error);
-		});
+		})
+		.finally(() => isLoaded(true));
 }
 
 
