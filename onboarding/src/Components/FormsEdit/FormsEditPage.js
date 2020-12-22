@@ -11,6 +11,11 @@ import LoggedUser from "../hooks/LoggedUser.js";
 
 function FormsEditPage({ location, match }) {
   const loggedUser = location.state?.loggedUser ?? LoggedUser();
+  const pageId = match.params.form_id;
+  const packageIdRef = useRef(0);
+  if (match.params.form_id)
+    packageIdRef.current = match.params.form_id;
+
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);
   const [answers, setAnswers] = useState([]);
@@ -19,14 +24,9 @@ function FormsEditPage({ location, match }) {
   const [update, setUpdate] = useState(true);
   const [saved, setSaved] = useState(false);
 
-  const pageID = match.params.form_id;
-  const packageIdRef = useRef(0);
-  if (location.state.packageId)
-    packageIdRef.current = location.state.packageId;
-
   useEffect(() => {
     let mounted = true;
-    FormSectionsAPI.getAllSections(pageID)
+    FormSectionsAPI.getAllSections(pageId)
       .then((response) => {
         const sortedResponse = response.sort((a, b) => a.order - b.order);
         setSections(sortedResponse);
@@ -111,7 +111,7 @@ function FormsEditPage({ location, match }) {
                 page={"Formularz / Edytuj"}
                 loggedUser={loggedUser}
               />{" "}
-              <FormDescription location={location} pageId={pageID} />
+              <FormDescription location={location} pageId={pageId} />
               <section className="page-section">
                 <header className="card-header">Sekcje strony</header>
                 <form onSubmit={handleSave}>
@@ -152,7 +152,7 @@ function FormsEditPage({ location, match }) {
                         answers={answers}
                         updateMaxOrder={updateMaxOrder}
                         maxOrder={maxOrder}
-                        pageId={pageID}
+                        pageId={pageId}
                       />
                     </div>
                   </div>

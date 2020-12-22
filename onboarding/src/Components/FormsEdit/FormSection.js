@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import MarkdownArea from "../MarkdownArea";
 import SectionAnswers from "./SectionAnswers";
 import { Draggable } from "react-beautiful-dnd";
@@ -13,6 +13,11 @@ function FormSection({
   answers,
   setAnswers,
 }) {
+  const sectionsRef = useRef(sections);
+  useEffect(() => {
+    sectionsRef.current = sections;
+  });
+
   const cardHeader = (type) =>
     type === "oa"
       ? "Pytanie otwarte"
@@ -31,7 +36,7 @@ function FormSection({
   };
 
   const changeDescription = (content, sectionId) => {
-    const updatedSections = sections.map((section) => {
+    const updatedSections = sectionsRef.current.map((section) => {
       if (section.id === sectionId) section.description = content;
       return section;
     });
