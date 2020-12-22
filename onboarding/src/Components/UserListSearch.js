@@ -1,54 +1,101 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-
-function UserListSearch() {
-    let locations = ["Warszawa", "Łódź", "Poznań", "Gdańsk", "Wrocław"], dataOptions = [];
-    dataOptions = locations.map( (city, i) =>
+function UserListSearch({ users, setSearchResult }) {
+    const [searchName, setSearchName] = useState("");
+    const [searchDepartment, setSearchDepartment] = useState("");
+    const [searchPosition, setSearchPosition] = useState("");
+    const [searchLocation, setSearchLocation] = useState("");
+    const locations = [
+        "Białystok", 
+        "Bydgoszcz", 
+        "Gdańsk", 
+        "Katowice",
+        "Kielce",
+        "Kraków",
+        "Lublin",
+        "Łódź",
+        "Olsztyn",
+        "Opole",
+        "Poznań",
+        "Rzeszów",
+        "Szczecin",
+        "Warszawa",
+        "Wrocław",
+        "Zielona Góra"
+    ];
+    const dataOptions = locations.map( (city, i) =>
         <option key={ i } value={ city } />
-    )
+    );
 
-    return(
-        <>
-        <div className="row mb-4">
-            <div className="col">
-                <div className="has-clearable">
-                    <button type="button" className="close" aria-label="Close"><span aria-hidden="true"><i className="fa fa-times-circle"></i></span></button>
-                    <input type="text" className="form-control" placeholder="Szukaj" />
-                </div>
-            </div>
-            <div className="col-auto">
-                <div className="dropdown">
-                    <button className="btn btn-secondary" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">Wyszukaj</button>
-                </div>
-            </div>
-        </div>
+    useEffect(() => {
+      setSearchResult(
+        users.filter(
+          (user) =>
+            user.name?.toLowerCase().includes(searchName.toLowerCase())
+            && user.department?.toLowerCase().includes(searchDepartment.toLowerCase())
+            && user.position?.toLowerCase().includes(searchPosition.toLowerCase())
+            && user.location?.toLowerCase().includes(searchLocation.toLowerCase())
+        )
+      );
+    }, [searchName, searchDepartment, searchPosition, searchLocation]);
 
-        <div className="row mb-4">
-            <div className="col">
-                <div className="has-clearable">
-                    <button type="button" className="close" aria-label="Close"><span aria-hidden="true"><i className="fa fa-times-circle"></i></span></button>
-                    <input type="text" className="form-control" placeholder="Dział" />
-                </div>
-            </div>
-            <div className="col">
-                <div className="has-clearable">
-                    <button type="button" className="close" aria-label="Close"><span aria-hidden="true"><i className="fa fa-times-circle"></i></span></button>
-                    <input type="text" className="form-control" placeholder="Stanowisko" />
-                </div>
-            </div>
-            <div className="col">
-                <div className="has-clearable">
-                    <button type="button" className="close" aria-label="Close"><span aria-hidden="true"><i className="fa fa-times-circle"></i></span></button>
-                    <input type="text" className="form-control" placeholder="Lokalizacja" list="location" />
-                    <datalist id="location">{ dataOptions }</datalist>
-                </div>
-            </div>
-            <div className="col-auto">
-                <div className="dropdown"></div>
-            </div>
+    const filterByName = (e) => {
+        setSearchName(e.target.value);
+    }
+    const filterByDepartment = (e) => {
+        setSearchDepartment(e.target.value);
+    }
+    const filterByPosition = (e) => {
+        setSearchPosition(e.target.value);
+    }
+    const filterByLocation = (e) => {
+        setSearchLocation(e.target.value);
+    }
+
+    return (
+      <>
+        <div className="mb-3">
+          <div className="col-sm-4 col-10">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Szukaj pracownika"
+              onChange={ filterByName }
+            />
+          </div>
         </div>
-        </>
-    )
+        <p style={{ marginBottom: ".5rem" }}>Filtry</p>
+        <div className="d-flex flex-sm-row flex-column mb-4">
+          <div className="col-sm-4 col-10 mb-1">
+            <div className="has-clearable">
+              <input type="text" className="form-control" placeholder="Dział" onChange={ filterByDepartment }/>
+            </div>
+          </div>
+          <div className="col-sm-4 col-10 mb-1">
+            <div className="has-clearable">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Stanowisko"
+                onChange={ filterByPosition }
+              />
+            </div>
+          </div>
+          <div className="col-sm-4 col-10">
+            <div className="has-clearable">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Lokalizacja"
+                list="location"
+                onChange={ filterByLocation }
+              />
+              <datalist id="location">{ dataOptions }</datalist>
+            </div>
+          </div>
+        </div>
+      </>
+    );
 }
 
 export default UserListSearch;

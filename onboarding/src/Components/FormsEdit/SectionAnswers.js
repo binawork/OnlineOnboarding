@@ -8,7 +8,7 @@ function SectionAnswers({ sectionId, answers, setAnswers, name, type }) {
     const answerToAdd = {
       id: uuid.v4(),
       section: sectionId,
-      data: "Odpowiedź",
+      data: {title: "Odpowiedź", is_checked: false},
     };
     setAnswers([...answers, answerToAdd]);
   };

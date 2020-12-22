@@ -39,70 +39,36 @@ function checkUser(userObject, userId){
 /**
  * Get users/employees from Onboarding API when UserList component is loaded;
  */
-function Users(props){
-	var [rows , setRows] = useState([]),
-		[loaded, isLoaded] = useState(false);
-	const [error, showError] = useState(null);
-	let url = getPath(),
-		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}},
-		singleUser;
+function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
+  let url = getPath(),
+    fetchProps = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": "",
+      },
+    };
 
-	useEffect(() => {
-		fetch(url + "api/users/", fetchProps).then(res => res.json()).then(
-			(result) => {
-				isLoaded(true);
-				setRows(result);
-			},
-			(error) => {
-				showError(error);
-				console.log(error);
-			}
-		);
-	}, [props.count]);
+		fetch(url + "api/users/", fetchProps)
+    .then((res) => res.json())
+    .then((result) => {
+      const users = result
+        .filter((user) => user.id !== loggedUser.id)
+        .map((user) => {
+          user = checkUser(user, user.id);
+          return user;
+				})
+				.sort((a,b) => a.id - b.id);
 
-
-	let users = [];
-
-	if(error){
-		singleUser = {name: error.message, first_name: error.message, last_name: "", email: "-", tel: "",
-			position: "-", department: "-", location: "-",
-			sent: "-", finished: "-", avatar: ""};
-		users.push(singleUser);
-	} else if(!loaded){
-		singleUser = {name: "Ładowanie ...", first_name: "", last_name: "", email: "Ładowanie ...", tel: "",
-			position: "Ładowanie ...", department: "Ładowanie ...", location: "Ładowanie ...",
-			sent: "-", finished: "-", avatar: ""};
-
-		users.push(singleUser);
-		// <UserListRow user = { singleUser } key = { 0 } />
-	} else {
-		var count = rows.length;
-		let i, packageId = 0, loggedUser = {id:0, first_name: ""};
-		if(props.packageId)
-			packageId = props.packageId;
-
-		if(props.loggedUser)
-			loggedUser = props.loggedUser;
-
-		for(i = 0; i < count; i++){
-			/*singleUser = {id: 0, name: "-", first_name: "", last_name: "", email: "-", tel: "",
-				position: "-", department: "-", location: "-", sent: "-", finished: "-", avatar:""};*/
-
-			if(rows[i].id){
-				if(rows[i].id == loggedUser.id)
-					continue;
-			}
-
-			singleUser = checkUser(rows[i], rows[i].id);
-
-			users.push(singleUser);
-			// users.push(<UserListRow user={ singleUser } key={ i } handleRemove={ props.handleRemove } packageId={ packageId } loggedUser={ loggedUser } />);
-		}
-
-
-	}
-
-	return users;
+      isLoaded(true);
+			setUsers(users);
+			setSearchResult ? setSearchResult(users) : null;
+    })
+    .catch((error) => {
+      showError(error);
+      console.log(error);
+		});
 }
 
 

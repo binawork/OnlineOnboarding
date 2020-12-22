@@ -60,9 +60,14 @@ export function validEmail(email){
 	return regExp.test(String(email));
 }
 
+export function isNumber(val){
+	return ( Object.prototype.toString.call(val)!=='[object Array]' && (val-parseFloat(val)+1)>=0)?true:false;
+}
+
 export function clickButtonAfterPressingEnter(e, buttonId) {
 	if (e.key === "Enter") {
 			e.preventDefault();
 			document.getElementById(buttonId).click();
 	}
 };
+

@@ -1,27 +1,45 @@
-import React, { useState } from "react";
-
-//import "../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-
+import React, { useState, useEffect } from "react";
 import UserListSearch from "../UserListSearch";
 import Users, { employeeRemove } from "../hooks/Users";
+import { usersWithPackages } from "../hooks/Packages";
 import LoggedUser from "../hooks/LoggedUser.js";
 import ModalWarning from "../ModalWarning";
 import UserListRow from "./UserListRow";
 
 
 function UsersList(props) {
-    const [countUpdate, update] = useState(0);
-    const [employeeIdModal, setIdModal ] = useState({id: 0, modal: <></>});
-
     let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
-    //const [loggedUser, setLoggedUser ] = useState(loggedUserCp);
+    let packageId = 0;
+    if(props.packageId)
+        packageId = props.packageId;
 
-    var updateUsers = function(){// simple to refresh component when anything chnages inside;
-    	update(countUpdate + 1);
+	const [loaded, isLoaded] = useState(false);
+	const [error, showError] = useState(null);
+    const [countUpdate, update] = useState(0);
+    const [employeeIdModal, setIdModal] = useState({id: 0, modal: <></>});
+    const [users, setUsers] = useState([]);
+    const [searchResult, setSearchResult] = useState([]);
+
+    const usersForPackages = usersWithPackages({count: 0});// [{userId: , packageIds: []}, ...];
+    if(usersForPackages.length !== 0) {
+        let updatedUsers = [];
+        for(let i = users.length - 1; i >= 0; i--){
+            for(let j = usersForPackages.length - 1; j >= 0; j--){
+                if(usersForPackages[j].userId === users[i].id) {
+                    users[i].sent = usersForPackages[j].packageIds.length;
+                    updatedUsers.push(users[i]);
+                }
+            }
+        }
     }
 
-    var removeAsk = (e) => {
+    useEffect(() => {
+        if(loggedUser.id !== 0) {
+            Users( loggedUser, setUsers, setSearchResult, isLoaded, showError);
+        }
+    }, [loggedUser, countUpdate]);
+
+    const removeAsk = (e) => {
         setIdModal({id: e.target.value,
             modal: <ModalWarning handleAccept={ removeUser } handleCancel={ hideModal }
             					title={ "Usunięcie pracownika" }
@@ -50,33 +68,35 @@ function UsersList(props) {
         update(countUpdate + 1);
     };
 
-    let packageId = 0;
-    if(props.packageId)
-        packageId = props.packageId;
+    return (
+      <div className="page-section">
+        <div className="card card-fluid">
+          <div className="card-header">Lista pracowników</div>
+          <div className="card-body">
+            <UserListSearch users={users} setSearchResult={setSearchResult}/>
+          </div>
+          <div className="card-body">
+          {error
+              ? <p>Wystąpił błąd podczas ładowania danych</p>
+              : loaded
+                ? searchResult.length !== 0
+                    ? searchResult.map((user) => (
+                        <UserListRow
+                            user={user}
+                            key={user.id}
+                            handleRemove={removeAsk}
+                            packageId={packageId}
+                            loggedUser={loggedUser}
+                        />
+                    )) : <p>Brak wyników</p>
+                : <p>Ładowanie...</p>
+            }
+          </div>
 
-    let users = Users({loggedUser: loggedUser, count: countUpdate}), usersRows = [];
-    users.forEach((singleUser, i) => {
-        usersRows.push(<UserListRow user={ singleUser } key={ i } handleRemove={ removeAsk } packageId={ packageId } loggedUser={ loggedUser } />);
-    });	
-
-
-    return(
-        <div className="page-section">
-            <div className="card card-fluid">
-                <div className="card-header">
-                 Lista pracowników
-                </div>
-                <div className="card-body">
-                    <UserListSearch />
-                </div>
-                <div className="card-body">
-                    { usersRows }
-                </div>
-
-                { employeeIdModal.modal }
-            </div>
+          {employeeIdModal.modal}
         </div>
-    )
+      </div>
+    );
 }
 
 export default UsersList;

@@ -4,7 +4,8 @@ import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
 const AnswerRow = ({ answerId, name, text, type, answers, setAnswers }) => {
   const [editing, setEditing] = useState(false);
-  const [data, setData] = useState(text);
+  const [title, setTitle] = useState(text);
+  // console.log(answerId, title)
 
   const onEditTitleMode = (e) => {
     e.preventDefault();
@@ -24,13 +25,13 @@ const AnswerRow = ({ answerId, name, text, type, answers, setAnswers }) => {
   const saveAnswer = () => {
     setAnswers(
       answers.map((answer) => {
-        if (answer.id === answerId) answer.data = data;
+        if (answer.id === answerId) answer.data.title = title;
         return answer;
       })
     );
   };
   const editAnswer = (e) => {
-    setData(e.target.value);
+    setTitle(e.target.value);
   };
   const deleteAnswer = (e) => {
     e.preventDefault();
@@ -55,7 +56,7 @@ const AnswerRow = ({ answerId, name, text, type, answers, setAnswers }) => {
                 id={`edit-${answerId}`}
                 name={name}
                 type="text"
-                value={data}
+                value={title}
                 onChange={editAnswer}
                 onKeyDown={onEnter}
               />
