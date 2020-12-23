@@ -1,38 +1,21 @@
-import React, { useState } from "react";
-import parse from "html-react-parser";
+import React, { useState, useEffect, useRef } from "react";
 import MarkdownArea from "../MarkdownArea";
+import CompanyInfoAPI from "../hooks/CompanyInfoAPI";
+import CompanyInfoPreview from "./CompanyInfoPreview";
 
-function CompanyInfoEdit({ companyName }) {
+function CompanyInfoEdit({ company }) {
   const [isEditMode, toggleEditMode] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [saved, setSaved] = useState(false);
-  const [mission, setMission] = useState("");
-  const [logo, setLogo] = useState("");
-  const [aboutCompany, setAboutCompany] = useState("");
-  const [link, setLink] = useState("https://www.youtube.com/embed/JxRiPBuPR1k");
+  const [imageFile, setImageFile] = useState("");
+  const [logo, setLogo] = useState(company.company_logo || "");
+  const [mission, setMission] = useState(company.mission || "");
+  const [link, setLink] = useState(company.link || "");
+  // const [link, setLink] = useState("https://www.youtube.com/embed/JxRiPBuPR1k");
+  const [aboutCompany, setAboutCompany] = useState(company.info || "");
 
-  let pageLink;
-  if (
-    link.match(
-      /^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i
-    )
-  ) {
-    pageLink = link.replace(/watch\?v=/g, "embed/");
-  } else if (
-    link?.match(/^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i)
-  ) {
-    pageLink = link.replace(/vimeo\.com/g, "player.vimeo.com/video");
-  }
+  const logoRef = useRef("");
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log("Zapisywanie...");
-  };
-  const handleShow = (e) => {
-    e.preventDefault();
-    toggleEditMode(!isEditMode);
-  };
   const handleMission = (content) => {
     setMission(content);
   };
@@ -42,10 +25,31 @@ function CompanyInfoEdit({ companyName }) {
   const handleLink = (e) => {
     setLink(e.target.value);
   };
+  const handleLogo = (e) => {
+    if (logoRef.current.files.length > 0) {
+      if (FileReader) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(logoRef.current.files[0]);
+        fileReader.onload = () => {
+          setLogo(fileReader.result);
+        };
+      }
+      setImageFile(logoRef.current.files[0]);
+    }
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    CompanyInfoAPI.saveCompanyInfo(company.id, imageFile, mission, link, aboutCompany);
+    // employeeAddEdit(showModal, user);
+  };
+  const handleShow = (e) => {
+    e.preventDefault();
+    toggleEditMode(!isEditMode);
+  };
+
   return (
-    <div className="page-section">
-      <div className="card card-fluid">
-        <div className="card-header">Informacje o firmie</div>
+    <>
         {isEditMode ? (
           <div className="card-body col-xl-6 col-lg-8 col-12">
             <div className="pb-3">
@@ -60,7 +64,7 @@ function CompanyInfoEdit({ companyName }) {
             <div className="media mb-4 d-flex align-items-center">
               <div className="user-avatar user-avatar-xl fileinput-button mr-5">
                 <div className="fileinput-button-label"> Zmień logo </div>
-                {/* <img src={logo} /> */}
+                {logo ? <img alt="logo" src={logo} /> : <></>}
                 <div
                   style={{
                     border: "2px solid #dadada",
@@ -69,16 +73,14 @@ function CompanyInfoEdit({ companyName }) {
                     height: "80px",
                   }}
                 ></div>
-                <input id="fileupload-logo" type="file" name="logo" />
+                <input id="fileupload-logo" type="file" name="logo" ref={ logoRef } onChange={handleLogo} />
               </div>
               <p className="m-0" style={{ fontSize: "1.5rem" }}>
-                <b>{companyName}</b>
+                <b>{company.name}</b>
               </p>
             </div>
 
             <div className="">
-              {/* <h4 className="card-title">O firmie</h4> */}
-              {/* <h6 className="card-subtitle text-muted">Wpisz tekst:</h6> */}
               <MarkdownArea
                 id={"company-mission"}
                 content={mission}
@@ -88,7 +90,6 @@ function CompanyInfoEdit({ companyName }) {
               />
               <hr />
               <div className="form-group">
-                {/* <h6 className="card-subtitle text-muted">Dodaj link:</h6> */}
                 <input
                   type="url"
                   className="form-control"
@@ -100,7 +101,6 @@ function CompanyInfoEdit({ companyName }) {
                 />
               </div>
               <hr />
-              {/* <h6 className="card-subtitle text-muted">Wpisz inne informa:</h6> */}
               <MarkdownArea
                 id="about-company"
                 content={aboutCompany}
@@ -112,64 +112,13 @@ function CompanyInfoEdit({ companyName }) {
             </div>
           </div>
         ) : (
-          <div className="card-body">
-            <div className="media mb-5 d-flex align-items-center">
-              {logo ? (
-                <div className="user-avatar user-avatar-xl fileinput-button mr-4">
-                  <img src={logo} />
-                </div>
-              ) : (
-                <></>
-              )}
-
-              <p className="m-0" style={{ fontSize: "1.5rem" }}>
-                <b>{companyName}</b>
-              </p>
-            </div>
-
-            <div className="mb-5 w-100 col-xl-6 col-lg-8 col-12">
-              <section className="mb-3">{parse(mission)}</section>
-              {link !== "" ? (
-                pageLink ? (
-                  <div
-                    className="position-relative"
-                    style={{
-                      overflow: "hidden",
-                      paddingTop: "56.25%",
-                      background: "rgba(255, 255, 255, 0.2)",
-                    }}
-                  >
-                    {/* <div className="embed-responsive embed-responsive-21by9"> */}
-                    <p
-                      className="position-absolute"
-                      style={{ top: "10px", left: "10px" }}
-                    >
-                      Ładowanie...
-                    </p>
-                    <iframe
-                      // className="embed-responsive-item"
-                      className="w-100 h-100 position-absolute"
-                      style={{ top: "0", left: "0" }}
-                      src={link}
-                      frameBorder="0"
-                      // allow="autoplay; encrypted-media"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      title="video"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                ) : (
-                  <a href={link} target="_blank">
-                    LINK
-                  </a>
-                )
-              ) : (
-                <></>
-              )}
-
-              <section className="mt-3">{parse(aboutCompany)}</section>
-            </div>
-          </div>
+          <CompanyInfoPreview
+            logo={logo}
+            link={link}
+            companyName={company.name}
+            mission={mission}
+            aboutCompany={aboutCompany}
+          />
         )}
         <div className="card-body rounded-bottom border-top">
           <button className="btn btn-success mr-3" onClick={handleSave}>
@@ -179,8 +128,7 @@ function CompanyInfoEdit({ companyName }) {
             {isEditMode ? "Podgląd" : "Edytuj"}
           </button>
         </div>
-      </div>
-    </div>
+    </>
   );
 }
 
