@@ -8,7 +8,7 @@ function CompanyInfoPreview({ logo, link, companyName, mission, aboutCompany }) 
       /^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i
     )
   ) {
-    pageLink = link.replace(/watch\?v=/g, "embed/");
+    pageLink = link.replace(/watch\?v=/g, "embed/").replace(/&[\w]+=[\w]+/g, "");
   } else if (
     link?.match(/^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i)
   ) {
@@ -43,7 +43,6 @@ function CompanyInfoPreview({ logo, link, companyName, mission, aboutCompany }) 
                       background: "rgba(255, 255, 255, 0.2)",
                     }}
                   >
-                    {/* <div className="embed-responsive embed-responsive-21by9"> */}
                     <p
                       className="position-absolute"
                       style={{ top: "10px", left: "10px" }}
@@ -51,12 +50,10 @@ function CompanyInfoPreview({ logo, link, companyName, mission, aboutCompany }) 
                       Ładowanie...
                     </p>
                     <iframe
-                      // className="embed-responsive-item"
                       className="w-100 h-100 position-absolute"
                       style={{ top: "0", left: "0" }}
-                      src={link}
+                      src={pageLink}
                       frameBorder="0"
-                      // allow="autoplay; encrypted-media"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       title="video"
                       allowFullScreen
