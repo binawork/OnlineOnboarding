@@ -55,7 +55,6 @@ class CompanyFileSerializer(serializers.ModelSerializer):
                   )
 
 
-
 class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompanyQuestionAndAnswer
