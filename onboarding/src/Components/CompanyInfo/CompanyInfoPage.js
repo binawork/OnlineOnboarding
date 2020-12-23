@@ -4,7 +4,7 @@ import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import LoggedUser from "../hooks/LoggedUser.js";
 import ModalWarning from "../ModalWarning";
-import CompanyInfoEdit from "./CompanyInfoEdit";
+import CompanyInfoContent from "./CompanyInfoContent";
 import CompanyInfoAPI from "../hooks/CompanyInfoAPI";
 
 const CompanyInfoPage = ({ location }) => {
@@ -49,7 +49,7 @@ const CompanyInfoPage = ({ location }) => {
                   ) : error ? (
                     <div className="card-body">{ error }</div>
                   ) : (
-                    <CompanyInfoEdit company={ company } />
+                    <CompanyInfoContent company={ company } />
                   )}
                 </div>
               </div>

@@ -10,19 +10,14 @@ const CompanyInfoAPI = {
       "GET"
     );
     const response = await company.json();
-    console.log(response);
     return response;
   },
   saveCompanyInfo: async function (companyId, logo, mission, link, aboutCompany) {
     if(logo) {
       let data = new FormData();
-      data.append('company_logo', logo)
+      data.append("company_logo", logo);
 
-      await makeImageRequest(
-        `${BASE_URL}api/company-logo/`,
-        "POST",
-        data
-        );
+      await makeImageRequest(`${BASE_URL}api/company-logo/`, "POST", data);
     }
 
     const company = await makeRequest(
