@@ -76,7 +76,6 @@ function CompanyInfoContent({ company }) {
         <button className="btn btn-success mr-3" onClick={handleShow}>
           {isEditMode ? "Podgląd" : "Edytuj"}
         </button>
-        {/* { error ? <p>{ error }</p> : null } */}
       </div>
       {showSaveModal ? (
         <ModalWarning
