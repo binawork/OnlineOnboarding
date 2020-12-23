@@ -29,7 +29,7 @@ from onboarding.models import Package, ContactRequestDetail, Page, Section, Answ
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer, SectionsUsersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
@@ -703,8 +703,24 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
         return Response(serializer.data)
 
 
+class EmployeeAnswersViewSet(viewsets.ModelViewSet):
+    serializer_class = SectionsUsersSerializer
 
+    def get_queryset(self):
+        section_id = self.kwargs.get('section', None);
+        if section_id is not None:
+            queryset = SectionsUsers.objects.filter(user=self.request.user, section=section_id)
+        else:
+            queryset = SectionsUsers.objects.filter(user=self.request.user)
+        return queryset
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    @action(detail=False)
+    def answer(self, request):
+        pass
+#
 
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):
