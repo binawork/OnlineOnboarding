@@ -26,7 +26,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
-from onboarding.models import User, Company, CompanyQuestionAndAnswer
+from onboarding.models import User, Company, CompanyQuestionAndAnswer, SectionsUsers
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer, SectionsUsersSerializer
@@ -705,6 +705,7 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
 
 class EmployeeAnswersViewSet(viewsets.ModelViewSet):
     serializer_class = SectionsUsersSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         section_id = self.kwargs.get('section', None);
@@ -717,9 +718,25 @@ class EmployeeAnswersViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def delete(self, request):
+        return Response(serializer.data)
+
+    def patch(self, request, pk):
+        user_section = self.get_object() # user_section = SectionsUsers.objects.get(id=pk)
+        """ Section.objects.get(owner=self.request.user.company, section_id) empty -> no access for this user; except KeyError
+        user_section.data = request.data['data'];
+        user_section.save()
+        serializer = SectionsUsersSerializer(user_section) # SectionsUsersSerializer(instance=user_section, user_section)
+        if serializer.is_valid():
+            serializer.save()
+        """
+        return Response(serializer.data)
+
     @action(detail=False)
     def answer(self, request):
         pass
+        # serializer = SectionSerializer(section)
+        # return Response(serializer.data)
 #
 
 

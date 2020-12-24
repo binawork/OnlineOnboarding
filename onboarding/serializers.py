@@ -297,7 +297,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 
 class SectionsUsersSerializer(serializers.ModelSerializer):
-    section_set = SectionSerializer()
+    section_set = SectionSerializer(many=True)
 
     class Meta:
         model = SectionsUsers
@@ -309,12 +309,24 @@ class SectionsUsersSerializer(serializers.ModelSerializer):
             'section_set',
         )
 
+    """def validate(self, data):
+        " " "
+        Check that the start is before the stop.
+        " " "
+        if data['start_date'] > data['end_date']:
+            raise serializers.ValidationError("finish must occur after start")
+        return data"""
+
+
     def create(self, validated_data):
         pass
         # section = validated_data.pop('section')
+        # return SectionsUsers.objects.create(validated_data)
 
     def update(self, instance, validated_data):
-        pass
+        instance.data = validated_data.get('data', instance.data)
+        instance.save()
+        return instance
 
 
 class AnswersProgressStatusSerializer(serializers.ModelSerializer):
