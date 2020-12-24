@@ -209,6 +209,10 @@ class SectionsUsers(models.Model):
     data = JSONField(null=True, blank=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        pass
+        unique_together = [['user', 'section']]
+
 
 # knowledge base
 
