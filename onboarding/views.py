@@ -220,6 +220,7 @@ class UserAvatarUpload(views.APIView):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    # permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
 
     def get_permissions(self):
