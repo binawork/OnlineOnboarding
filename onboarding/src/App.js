@@ -14,11 +14,13 @@ import UserManagerProfilePage from "./Components/EmployeeEdit/UserManagerProfile
 import PackagesListPage from "./Components/PackagesList/PackagesListPage";
 import QnAPage from "./Components/QnA/QnAPage";
 import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
+import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
 
 
 function App() {
     return (
         <HashRouter>
+            <Route path="/company" component={ CompanyInfoPage } />
             <Route path="/profile/manager" component={ UserManagerProfilePage } />
             <Route path="/employee_profile" component={ EmployeeProfilePage } />
             <Route path="/add_user" component={ UserManagerProfilePage } />
