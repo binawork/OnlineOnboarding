@@ -26,7 +26,12 @@ const WelcomePage = ({ setWelcomeView }) => {
               <p className="state-description">Kliknij poniższy przycisk</p>
               <form>
                 <div className="form-group w-75 mx-auto">
-                  <button className="btn btn-success text-secondary px-5" style={{fontSize: "1.4rem", fontWeight: "600", height: "max-content", lineHeight: "1"}} onClick={ handleClick }>Zaczynamy</button>
+                  <button 
+                    className="btn btn-success text-secondary px-5" 
+                    style={{fontSize: "1.4rem", fontWeight: "600", height: "max-content", lineHeight: "1"}} 
+                    onClick={ handleClick } 
+                    autoFocus
+                  >Zaczynamy</button>
                 </div>
               </form>
             </div>

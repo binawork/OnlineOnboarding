@@ -17,31 +17,38 @@ function LeftMenuEmployee(props) {
     e.preventDefault();
     props.q_n_aPage();
   };
+  
+  const goToCompanyInfoPage = (e) => {
+    e.preventDefault();
+    props.aboutCompanyPage();
+  }
 
 
   return (
-    <aside className="app-aside app-aside-expand-md app-aside-light">
+    <aside className="app-aside app-aside-expand-md app-aside-light p-5">
       <div className="aside-content">
         <header className="aside-header d-block d-md-none"></header>
         <div className="aside-menu overflow-hidden">
           <nav id="stacked-menu" className="stacked-menu">
             <ul className="menu">
-              <li className="menu-header px-0">
-                <a href="#" onClick={ goToDashboard } className="menu-link p-0">
-                  <span className="menu-icon fas fa-home"></span>{" "}
-                  <span className="menu-text">Dashboard</span>
+              <li className="menu-item">
+                <a href="#" onClick={ goToUserPage } className="menu-link">
+                  <span className="menu-text">Mój profil</span>
                 </a>
               </li>
               <li className="menu-item">
-                <a href="#" onClick={ goToUserPage } className="menu-link">
-                  <span className="menu-icon far fa-file"></span>{" "}
-                  <span className="menu-text">Moje dane</span>
+                <a href="#" onClick={ goToDashboard } className="menu-link">
+                  <span className="menu-text">Wdrożenia</span>
                 </a>
               </li>
               <li className="menu-item">
                 <a href="#" onClick={ goToQnA } className="menu-link">
-                  <span className="menu-icon far fa-file"></span>{" "}
                   <span className="menu-text">Q&A</span>
+                </a>
+              </li>
+              <li className="menu-item">
+                <a href="#" onClick={ goToCompanyInfoPage } className="menu-link">
+                  <span className="menu-text">O firmie</span>
                 </a>
               </li>
               <li className="menu-item">

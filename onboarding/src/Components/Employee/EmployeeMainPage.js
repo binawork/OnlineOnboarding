@@ -9,6 +9,7 @@ import EmployeeFormsList from "./EmployeeFormsList/EmployeeFormsList";
 import EmployeeFormPages from "./EmployeeFormPages/EmployeeFormPages";
 import EmployeeSingleFormPage from "./EmployeeFormPages/EmployeeSingleFormPage";
 import QnAList from "./QnA/QnAList";
+import CompanyInfoPage from "./CompanyInfoPage";
 import WelcomePage from "./WelcomePage";
 
 function EmployeeMainPage() {
@@ -47,6 +48,11 @@ function EmployeeMainPage() {
         switchComponent(<QnAList />);
     };
 
+    const loadCompanyInfo = () => {
+        document.title = "Onboarding: informacje o firmie";
+        switchComponent(<CompanyInfoPage loggedUser={loggedUser} />);
+    }
+
     const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } />);
 
     return(
@@ -62,6 +68,7 @@ function EmployeeMainPage() {
                         mainPage={ loadFormList }
                         employeePage={ loadEmployeePage }
                         q_n_aPage={ loadQnA }
+                        aboutCompanyPage={ loadCompanyInfo }
                     />
 
                     <main className="app-main">
