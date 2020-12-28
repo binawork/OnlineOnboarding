@@ -5,27 +5,31 @@ function LeftMenuEmployee(props) {
 
   const goToDashboard = function(e){
     e.preventDefault();
+    props.setToggleAside(false);
     props.mainPage();
   };
-
+  
   const goToUserPage = (e) => {
     e.preventDefault();
+    props.setToggleAside(false);
     props.employeePage();
   };
-
+  
   const goToQnA = function(e){
     e.preventDefault();
+    props.setToggleAside(false);
     props.q_n_aPage();
   };
   
   const goToCompanyInfoPage = (e) => {
     e.preventDefault();
+    props.setToggleAside(false);
     props.aboutCompanyPage();
   }
 
 
   return (
-    <aside className="app-aside app-aside-expand-md app-aside-light p-5">
+    <aside className={`app-aside app-aside-expand-md app-aside-light p-5 ${props.showAside ? "show" : ""}`} style={{zIndex: "9"}}>
       <div className="aside-content">
         <header className="aside-header d-block d-md-none"></header>
         <div className="aside-menu overflow-hidden">

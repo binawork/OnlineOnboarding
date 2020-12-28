@@ -14,8 +14,9 @@ import WelcomePage from "./WelcomePage";
 
 function EmployeeMainPage() {
     const [welcomeView, setWelcomeView] = useState(true);
+    const [showAside, setToggleAside] = useState(false);
     const loggedUser = LoggedUser();
- 
+
     const loadSinglePage = (page) => {
       switchComponent(
         <EmployeeSingleFormPage
@@ -62,13 +63,15 @@ function EmployeeMainPage() {
             ) : (
                 <>
                     <header className="app-header app-header-dark">
-                        <NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } />{/* placeholder; */}
+                        <NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } showAside={ showAside } setToggleAside={ setToggleAside } />{/* placeholder; */}
                     </header>
                     <LeftMenuEmployee
                         mainPage={ loadFormList }
                         employeePage={ loadEmployeePage }
                         q_n_aPage={ loadQnA }
                         aboutCompanyPage={ loadCompanyInfo }
+                        showAside={ showAside }
+                        setToggleAside={ setToggleAside }
                     />
 
                     <main className="app-main">
@@ -77,7 +80,7 @@ function EmployeeMainPage() {
                         </div>
                     </main>
                     <div style={{ position: "fixed", bottom: "0px", left: "0px" }}>
-                        <ModeButton />
+                        {/* <ModeButton /> */}
                     </div>
                 </>
             )}
