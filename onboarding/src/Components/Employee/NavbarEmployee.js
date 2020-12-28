@@ -49,8 +49,7 @@ function NavbarEmployee(props) {
                         </button>
                         <div className="dropdown-menu">
                             <div className="dropdown-arrow ml-3"></div>
-                            <a className="dropdown-item" href={"/accounts/logout/"}><span className="dropdown-icon oi oi-account-logout"></span> Logout</a>
-                            <div className="dropdown-divider"></div>
+                            <a className="dropdown-item" href={"/accounts/logout/"}><span className="dropdown-icon oi oi-account-logout"></span>Wyloguj</a>
                         </div>
                     </div>
                 </div>
