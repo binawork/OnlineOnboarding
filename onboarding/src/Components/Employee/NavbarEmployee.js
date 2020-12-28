@@ -40,12 +40,12 @@ function NavbarEmployee(props) {
                 <div className="my-2 my-lg-0 col-6 p-0"></div>
 
             </div>
-            <div className="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
+            <div className="top-bar-item top-bar-item-right px-0">
                 <div className="dropdown d-flex">
                     <div className="form-inline my-2 my-lg-0">
-                        <button className="btn-account d-none d-md-flex" type="button" data-toggle="dropdown">
+                        <button className="btn-account d-md-flex" type="button" data-toggle="dropdown">
                             <span className="user-avatar user-avatar-md"><img src={ loggedUser.avatar } alt={ loggedUser.first_name + " - avatar" } /></span>
-                            <span><i>Witaj { loggedUser.first_name }</i></span>
+                            <span className="d-none d-sm-flex"><i>Witaj { loggedUser.first_name }</i></span>
                         </button>
                         <div className="dropdown-menu">
                             <div className="dropdown-arrow ml-3"></div>
