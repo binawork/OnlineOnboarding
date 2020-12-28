@@ -16,7 +16,7 @@ function NavbarEmployee(props) {
     return(
       <nav className="top-bar navbar p-0 flex-nowrap">
         <div className="top-bar-brand" style={{height: "auto"}}>
-            <a className="navbar-brand">Online Onboarding</a>
+            <a className="navbar-brand" href="#" onClick={ moveToDashboard }>Online Onboarding</a>
         </div>
 
         <div className="top-bar-list" id="navbarSupportedContent">
@@ -25,13 +25,16 @@ function NavbarEmployee(props) {
             </div>
 
             <div className="top-bar-item top-bar-item-full px-2">
-                <ul className="navbar-nav d-flex breadcrumb my-2 my-lg-0">
+                <ul className="navbar-nav d-flex flex-row breadcrumb my-2 my-lg-0 w-100 text-nowrap">
                     <li className="breadcrumb-item">
                         <a href="#" onClick={ moveToDashboard }>Pulpit</a>
                     </li>
-                    <li className="breadcrumb-item active">
-                        tytuł formularza
-                    </li>
+                    { props.pageTitle 
+                        ? <li className="breadcrumb-item active">
+                            { props.pageTitle }
+                        </li> 
+                        : <></>
+                    }
                 </ul>
 
                 <div className="my-2 my-lg-0 col-6 p-0"></div>

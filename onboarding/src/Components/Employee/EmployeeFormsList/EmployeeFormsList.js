@@ -21,7 +21,7 @@ function EmployeeFormsList(props) {
     return(
         <div className="page">
             <div className="page-inner">
-                <EmployeeFormsTable loggedUser={ loggedUser } switchToFormPages={ switchToFormPages } />
+                <EmployeeFormsTable loggedUser={ loggedUser } switchToFormPages={ switchToFormPages } setPageTitle={props.setPageTitle} />
             </div>
         </div>
     )

@@ -36,13 +36,13 @@ function LeftMenuEmployee(props) {
           <nav id="stacked-menu" className="stacked-menu">
             <ul className="menu">
               <li className="menu-item">
-                <a href="#" onClick={ goToUserPage } className="menu-link">
-                  <span className="menu-text">Mój profil</span>
+                <a href="#" onClick={ goToDashboard } className="menu-link">
+                  <span className="menu-text">Wdrożenia</span>
                 </a>
               </li>
               <li className="menu-item">
-                <a href="#" onClick={ goToDashboard } className="menu-link">
-                  <span className="menu-text">Wdrożenia</span>
+                <a href="#" onClick={ goToUserPage } className="menu-link">
+                  <span className="menu-text">Mój profil</span>
                 </a>
               </li>
               <li className="menu-item">
