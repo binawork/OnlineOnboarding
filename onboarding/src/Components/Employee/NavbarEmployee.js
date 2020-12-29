@@ -24,7 +24,7 @@ function NavbarEmployee(props) {
                 <button className={`hamburger hamburger-squeeze ${props.showAside ? "active" : ""}`} type="button" data-toggle="aside" aria-label="toggle menu" onClick={() => props.setToggleAside(!props.showAside)}><span className="hamburger-box"><span className="hamburger-inner"></span></span></button>
             </div>
 
-            <div className="top-bar-item top-bar-item-full px-2">
+            <div className="top-bar-item top-bar-item-full px-2 d-none d-sm-flex">
                 <ul className="navbar-nav d-flex flex-row breadcrumb my-2 my-lg-0 w-100 text-nowrap">
                     <li className="breadcrumb-item">
                         <a href="#" onClick={ moveToDashboard }>Pulpit</a>
@@ -45,8 +45,6 @@ function NavbarEmployee(props) {
                         : <></>
                     }
                 </ul>
-
-                <div className="my-2 my-lg-0 col-6 p-0"></div>
 
             </div>
             <div className="top-bar-item top-bar-item-right px-0">

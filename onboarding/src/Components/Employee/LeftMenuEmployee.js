@@ -29,8 +29,8 @@ function LeftMenuEmployee(props) {
 
 
   return (
-    <aside className={`app-aside app-aside-expand-md app-aside-light p-5 ${props.showAside ? "show" : ""}`} style={{zIndex: "9"}}>
-      <div className="aside-content">
+    <aside className={`app-aside app-aside-expand-md app-aside-light ${props.showAside ? "show" : ""}`} style={{zIndex: "9"}}>
+      <div className="aside-content mx-3 my-5 mx-sm-5">
         <header className="aside-header d-block d-md-none"></header>
         <div className="aside-menu overflow-hidden">
           <nav id="stacked-menu" className="stacked-menu">
