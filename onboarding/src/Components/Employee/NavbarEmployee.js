@@ -30,8 +30,17 @@ function NavbarEmployee(props) {
                         <a href="#" onClick={ moveToDashboard }>Pulpit</a>
                     </li>
                     { props.pageTitle 
+                        ? <li className={`breadcrumb-item ${props.formTitle ? "" : "active"}`}>
+                            { props.formTitle 
+                                ? <a href="#" onClick={ () => props.loadFormPages(props.actualPackage) }>{ props.pageTitle }</a> 
+                                : props.pageTitle 
+                            }
+                        </li> 
+                        : <></>
+                    }
+                    { props.formTitle
                         ? <li className="breadcrumb-item active">
-                            { props.pageTitle }
+                            { props.formTitle }
                         </li> 
                         : <></>
                     }
