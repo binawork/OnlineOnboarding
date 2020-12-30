@@ -27,50 +27,36 @@ function Navbar(props) {
     }
 
     return(
-        <nav className="top-bar navbar navbar-expand-lg navbar-dark bg-dark">
-            <a className="navbar-brand">Online Onboarding</a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"/>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav d-flex">
-                    <li className="nav-item active">
-                        <a href={ path } className="nav-link">Home <span className="sr-only">(current)</span></a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link">Link</a>
-                    </li>
-                    <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a className="dropdown-item" href="#">Akcja</a>
-                            <a className="dropdown-item" href="#">Reakcja</a>
-                            <div className="dropdown-divider"/>
-                            <a className="dropdown-item" href="#">Lorem Ipsum</a>
-                        </div>
-                    </li>
-                </ul>
-                <div className="my-2 my-lg-0 col-6 p-0">
-                    <form className="form-inline">
-                        <input className="form-control mr-sm-2 col-9" type="search" placeholder="Szukaj" aria-label="Search"/>
-                        <button className="btn btn-outline-success my-2 my-sm-0 col-2 float-left" type="submit">Szukaj</button>
-                    </form>
-                </div>
-                {/*<div className="ml-4">
-                    <div className="form-inline my-2 my-lg-0">
-                        <p><em>Witaj #login</em></p>
-                    </div>
-                </div>*/}
+        // <nav className="top-bar navbar navbar-expand-lg navbar-dark">
+       <nav className="top-bar navbar p-0 flex-nowrap">
+            <div className="top-bar-brand pr-5" style={{height: "auto"}}>
+                <Link to={{ pathname: "/", state: { packageId: 0, loggedUser: loggedUser } }} className="navbar-brand">Online Onboarding</Link>
             </div>
-            <div className="top-bar-item top-bar-item-right px-0 d-none d-sm-flex">
+
+            <div className="pl-3 d-flex justify-content-center w-100">
+                {/* <div className="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
+                    <button 
+                        className={`hamburger hamburger-squeeze ${props.showAside ? "active" : ""}`} 
+                        type="button" 
+                        data-toggle="aside" 
+                        aria-label="toggle menu" 
+                        // onClick={() => props.setToggleAside(!props.showAside)}
+                    >
+                        <span className="hamburger-box">
+                            <span className="hamburger-inner"></span>
+                        </span>
+                    </button>
+                </div> */}
+                {/* <form className="form-inline w-100">
+                    <input className="form-control col-6 mr-2" type="search" placeholder="Szukaj" aria-label="Szukaj"/>
+                    <button className="btn btn-success col-auto" type="submit">Szukaj</button>
+                </form> */}
+            </div>
+            
+            <div className="top-bar-item px-0">
                 <div className="dropdown d-flex">
                     <div className="form-inline my-2 my-lg-0">
-                        <button className="btn-account d-none d-md-flex" type="button" data-toggle="dropdown" onClick={ dropDownSwitch }>
+                        <button className="btn-account d-flex" type="button" data-toggle="dropdown" onClick={ dropDownSwitch }>
                             <span className="user-avatar user-avatar-md"><img src={ loggedUser.avatar } alt={ loggedUser.first_name + " - avatar" } /></span>
                             <span className="account-summary pr-lg-4 d-none d-lg-block">Witaj <span className="account-name">{ loggedUser.first_name }</span></span>
                         </button>
@@ -81,7 +67,6 @@ function Navbar(props) {
                             <Link to={{ pathname: "/add_user", state: { user: loggedUser, packageId: 0, loggedUser: loggedUser, enableUploadAvatar: true } }}
                         				className="dropdown-item" data-toggle="tooltip"><span className="dropdown-icon oi oi-person"></span> Profil</Link>
                             <a className="dropdown-item" href={"/accounts/logout/"}><span className="dropdown-icon oi oi-account-logout"></span> Wyloguj</a>
-                            <div className="dropdown-divider"></div>
                         </div>
                     </div>
                 </div>

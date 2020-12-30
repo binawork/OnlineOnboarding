@@ -27,7 +27,7 @@ const WelcomePage = ({ setWelcomeView }) => {
               <form>
                 <div className="form-group w-75 mx-auto">
                   <button 
-                    className="btn btn-success text-secondary px-5" 
+                    className="btn btn-success text-secondary px-4" 
                     style={{fontSize: "1.4rem", fontWeight: "600", height: "max-content", lineHeight: "1"}} 
                     onClick={ handleClick } 
                     autoFocus

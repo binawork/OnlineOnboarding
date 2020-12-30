@@ -14,46 +14,64 @@ import WelcomePage from "./WelcomePage";
 
 function EmployeeMainPage() {
     const [welcomeView, setWelcomeView] = useState(true);
+    const [showAside, setToggleAside] = useState(false);
+    const [pageTitle, setPageTitle] = useState("");
+    const [formTitle, setFormTitle] = useState("");
+    const [actualPackage, setActualPackage] = useState("");
     const loggedUser = LoggedUser();
- 
+
     const loadSinglePage = (page) => {
-      switchComponent(
-        <EmployeeSingleFormPage
-          page={page}
-        />
-      );
+        setFormTitle(page.title)
+        switchComponent(
+            <EmployeeSingleFormPage
+                page={ page }
+            />
+        );
     };
 
 
     const loadFormPages = (packageId) => {
-      switchComponent(
-        <EmployeeFormPages
-          switchPage={loadSinglePage}
-          actualPackageId={packageId}
-        />
-      );
+        setActualPackage(packageId);
+        setFormTitle("");
+        switchComponent(
+            <EmployeeFormPages
+                switchPage={ loadSinglePage }
+                actualPackageId={ packageId }
+            />
+        );
     };
 
     const loadFormList = () => {
-        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } />);
+        setPageTitle("");
+        setFormTitle("");
+        switchComponent(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } setPageTitle={setPageTitle} />);
     };
 
     const loadEmployeePage = function(){
         document.title = "Onboarding: konto";
+        setPageTitle("Mój profil");
+        setFormTitle("");
+        setActualPackage("");
         switchComponent(<EmployeeAccount loggedUser={ loggedUser } />);
     };
 
     const loadQnA = function(){
         document.title = "Onboarding: pytania i odpowiedzi";
+        setPageTitle("Q&A");
+        setFormTitle("");
+        setActualPackage("");
         switchComponent(<QnAList />);
     };
 
     const loadCompanyInfo = () => {
         document.title = "Onboarding: informacje o firmie";
+        setPageTitle("O firmie");
+        setActualPackage("");
+        setFormTitle("");
         switchComponent(<CompanyInfoPage loggedUser={loggedUser} />);
     }
 
-    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } />);
+    const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } setPageTitle={setPageTitle} />);
 
     return(
         <>
@@ -62,13 +80,15 @@ function EmployeeMainPage() {
             ) : (
                 <>
                     <header className="app-header app-header-dark">
-                        <NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } />{/* placeholder; */}
+                        <NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } showAside={ showAside } setToggleAside={ setToggleAside } pageTitle={ pageTitle } formTitle={ formTitle } actualPackage={ actualPackage } loadFormPages={ loadFormPages }/>{/* placeholder; */}
                     </header>
                     <LeftMenuEmployee
                         mainPage={ loadFormList }
                         employeePage={ loadEmployeePage }
                         q_n_aPage={ loadQnA }
                         aboutCompanyPage={ loadCompanyInfo }
+                        showAside={ showAside }
+                        setToggleAside={ setToggleAside }
                     />
 
                     <main className="app-main">
@@ -77,7 +97,7 @@ function EmployeeMainPage() {
                         </div>
                     </main>
                     <div style={{ position: "fixed", bottom: "0px", left: "0px" }}>
-                        <ModeButton />
+                        {/* <ModeButton /> */}
                     </div>
                 </>
             )}
