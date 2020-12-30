@@ -29,6 +29,11 @@ function FormsEditPage({ location, match }) {
     FormSectionsAPI.getAllSections(pageId)
       .then((response) => {
         const sortedResponse = response.sort((a, b) => a.order - b.order);
+        for(let i = sortedResponse.length - 1; i >= 0; i--){
+          if( !Array.isArray(sortedResponse[i].data) )
+            sortedResponse[i].data = [];
+        }
+
         setSections(sortedResponse);
         updateMaxOrder(response.length);
       })
