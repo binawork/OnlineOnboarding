@@ -13,8 +13,8 @@ function FormsEditPage({ location, match }) {
   const loggedUser = location.state?.loggedUser ?? LoggedUser();
   const pageId = match.params.form_id;
   const packageIdRef = useRef(0);
-  if (match.params.form_id)
-    packageIdRef.current = match.params.form_id;
+  if (location.state)
+    packageIdRef.current = location.state.packageId || 0;
 
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);

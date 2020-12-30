@@ -4,6 +4,7 @@ import React from "react";
 function EmployeeFormsRow(props) {
     const moveToFormPages = (e) => {
         e.preventDefault();
+        props.setPageTitle(props.row.name);
         props.switchToFormPages(props.row.key);
     };
 
