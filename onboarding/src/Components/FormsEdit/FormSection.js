@@ -81,6 +81,36 @@ function FormSection({
     updateMaxOrder(maxOrder - 1);
   };
 
+  const inputAnswer = function(sectionId){
+    const updatedSections = sections.map((section) => {
+      if (section.id === sectionId) section.data.push({title: "Odpowiedź", is_checked: false});
+      return section;
+    });
+    setSections(updatedSections);
+  };
+  const removeAnswer = function(sectionId, answerIndex){
+    if(answerIndex < 0)
+      return ;
+
+    const updatedSections = sections.map((section) => {
+      if (section.id === sectionId) section.data.splice(answerIndex, 1);
+      return section;
+    });
+    setSections(updatedSections);
+  };
+  const editAnswer = function(value, sectionId, answerIndex){
+    if(answerIndex < 0)
+      return ;
+
+    const updatedSections = sections.map((section) => {
+      if (section.id === sectionId && answerIndex < section.data.length)
+        section.data[answerIndex].title = value;
+      return section;
+    });
+    setSections(updatedSections);
+  };
+
+
   return (
     <>
       {sections.map((section, index) => (
@@ -133,7 +163,9 @@ function FormSection({
                   </div>
                 ) : (
                   <SectionAnswers
-                    setSections={setSections}
+                    inputAnswer={ inputAnswer }
+                    editAnswer={ editAnswer }
+                    removeAnswer={ removeAnswer }
                     sectionId={section.id}
                     answers={answers}
                     setAnswers={setAnswers}
