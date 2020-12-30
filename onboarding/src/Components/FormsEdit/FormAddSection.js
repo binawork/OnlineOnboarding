@@ -4,8 +4,8 @@ import uuid from "uuid";
 function FormAddSection({
   setSections,
   sections,
-  setAnswers,
-  answers,
+  /*setAnswers,
+  answers,*/
   updateMaxOrder,
   maxOrder,
   pageId,
@@ -19,15 +19,15 @@ function FormAddSection({
       order: maxOrder + 1,
       title: "",
       description: "",
-      data: []
+      data: []/* [{title: sectionType === "oa" ? "" : "Odpowiedź", is_checked: false}]; */
     };
-    const answerToAdd = {
+    /*const answerToAdd = {
       id: uuid.v4(),
       data: {title: sectionType === "oa" ? "" : "Odpowiedź", is_checked: false},
       section: sectionToAdd.id,
-    };
+    };*/
     setSections([...sections, sectionToAdd]);
-    setAnswers([...answers, answerToAdd]);
+    //setAnswers([...answers, answerToAdd]);
     updateMaxOrder(maxOrder + 1);
   };
 
