@@ -2,36 +2,37 @@ import React from "react";
 import uuid from "uuid";
 import AnswerRow from "./AnswerRow";
 
-function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, answers, setAnswers, name, type }) {
+function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sectionData, answers, setAnswers, name, type }) {
   const addAnswer = (e) => {
     e.preventDefault();
-    const answerToAdd = {
+    /*const answerToAdd = {
       id: uuid.v4(),
       section: sectionId,
       data: {title: "Odpowiedź", is_checked: false},
     };
-    setAnswers([...answers, answerToAdd]);
+    setAnswers([...answers, answerToAdd]);*/
     inputAnswer(sectionId);
   };
 
-  const answersList = answers
-    .filter((answer) => answer.section === sectionId)
+  const answersList = sectionData
+    //.filter((answer) => answer.section === sectionId)
     .map((answer, i) => {
       try {
         if (type === "osa" || type === "msa") {
           return (
             <AnswerRow
-              key={answer.id}
+              key={ i }
               index={ i }
               sectionId={ sectionId }
               changeAnswer={ editAnswer }
               removeAnswer={ removeAnswer }
-              answerId={answer.id}
+              //answersData={ sectionData }
+              //answerId={answer.id}
               name={name}
-              text={answer.data.title || ""}
+              text={answer.title || ""}
               type={type}
-              answers={answers}
-              setAnswers={setAnswers}
+              /*answers={answers}
+              setAnswers={setAnswers}*/
             />
           );
         } else if (type !== "oa") {
