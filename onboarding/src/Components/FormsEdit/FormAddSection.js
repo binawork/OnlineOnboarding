@@ -19,6 +19,7 @@ function FormAddSection({
       order: maxOrder + 1,
       title: "",
       description: "",
+      data: []
     };
     const answerToAdd = {
       id: uuid.v4(),

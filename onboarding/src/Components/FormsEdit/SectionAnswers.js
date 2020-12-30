@@ -2,7 +2,7 @@ import React from "react";
 import uuid from "uuid";
 import AnswerRow from "./AnswerRow";
 
-function SectionAnswers({ sectionId, answers, setAnswers, name, type }) {
+function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, answers, setAnswers, name, type }) {
   const addAnswer = (e) => {
     e.preventDefault();
     const answerToAdd = {
@@ -11,16 +11,21 @@ function SectionAnswers({ sectionId, answers, setAnswers, name, type }) {
       data: {title: "Odpowiedź", is_checked: false},
     };
     setAnswers([...answers, answerToAdd]);
+    inputAnswer(sectionId);
   };
 
   const answersList = answers
     .filter((answer) => answer.section === sectionId)
-    .map((answer) => {
+    .map((answer, i) => {
       try {
         if (type === "osa" || type === "msa") {
           return (
             <AnswerRow
               key={answer.id}
+              index={ i }
+              sectionId={ sectionId }
+              changeAnswer={ editAnswer }
+              removeAnswer={ removeAnswer }
               answerId={answer.id}
               name={name}
               text={answer.data.title || ""}

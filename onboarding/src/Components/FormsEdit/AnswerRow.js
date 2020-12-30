@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
-const AnswerRow = ({ answerId, name, text, type, answers, setAnswers }) => {
+const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, name, text, type, answers, setAnswers }) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(text);
   // console.log(answerId, title)
@@ -29,6 +29,7 @@ const AnswerRow = ({ answerId, name, text, type, answers, setAnswers }) => {
         return answer;
       })
     );
+    changeAnswer(title, sectionId, index);
   };
   const editAnswer = (e) => {
     setTitle(e.target.value);
@@ -36,6 +37,7 @@ const AnswerRow = ({ answerId, name, text, type, answers, setAnswers }) => {
   const deleteAnswer = (e) => {
     e.preventDefault();
     FormSectionsAPI.deleteAnswer(answerId);
+    removeAnswer(sectionId, index);
     setAnswers(answers.filter((answer) => answer.id !== answerId));
   };
   const onEnter = (e) => {
