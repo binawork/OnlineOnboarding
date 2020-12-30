@@ -30,7 +30,7 @@ function Navbar(props) {
         // <nav className="top-bar navbar navbar-expand-lg navbar-dark">
        <nav className="top-bar navbar p-0 flex-nowrap">
             <div className="top-bar-brand pr-5" style={{height: "auto"}}>
-                <Link exact to="/" className="navbar-brand">Online Onboarding</Link>
+                <Link to={{ pathname: "/", state: { packageId: 0, loggedUser: loggedUser } }} className="navbar-brand">Online Onboarding</Link>
             </div>
 
             <div className="pl-3 d-flex justify-content-center w-100">
