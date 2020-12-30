@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import FormSectionsAPI from "../hooks/FormSectionsAPI";
+//import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
-const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, name, text, type, answers, setAnswers }) => {
+const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, name, text, type/*, answers, setAnswers*/ }) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(text);
   // console.log(answerId, title)
+  const domIdIndex = "" + sectionId + "-" + index;
 
   const onEditTitleMode = (e) => {
     e.preventDefault();
     setEditing(true);
     const timer = setTimeout(() => {
-      const editingInput = document.getElementById("edit-" + answerId);
+      const editingInput = document.getElementById("edit-" + domIdIndex);
       editingInput.focus();
       editingInput.select();
     }, 0);
@@ -23,12 +24,12 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, nam
     saveAnswer();
   };
   const saveAnswer = () => {
-    setAnswers(
+    /*setAnswers(
       answers.map((answer) => {
         if (answer.id === answerId) answer.data.title = title;
         return answer;
       })
-    );
+    );*/
     changeAnswer(title, sectionId, index);
   };
   const editAnswer = (e) => {
@@ -36,14 +37,14 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, nam
   };
   const deleteAnswer = (e) => {
     e.preventDefault();
-    FormSectionsAPI.deleteAnswer(answerId);
+    //FormSectionsAPI.deleteAnswer(answerId);
     removeAnswer(sectionId, index);
-    setAnswers(answers.filter((answer) => answer.id !== answerId));
+    //setAnswers(answers.filter((answer) => answer.id !== answerId));
   };
   const onEnter = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      document.getElementById(`save-button-${answerId}`).click();
+      document.getElementById(`save-button-${domIdIndex}`).click();
     }
   };
   return (
@@ -53,9 +54,9 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, nam
           {editing === true ? (
             <div className="input-group">
               <input
-                key={`edit-answ-input-${answerId}`}
+                key={`edit-answ-input-${domIdIndex}`}
                 className="form-control"
-                id={`edit-${answerId}`}
+                id={`edit-${domIdIndex}`}
                 name={name}
                 type="text"
                 value={title}
@@ -70,13 +71,13 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, nam
               }`}
             >
               <input
-                key={`saved-answ-input-${answerId}`}
+                key={`saved-answ-input-${domIdIndex}`}
                 className={"custom-control-input"}
-                id={answerId}
+                id={domIdIndex}
                 name={name}
                 type={type === "osa" ? "radio" : "checkbox"}
               />
-              <label className="custom-control-label" htmlFor={answerId}>
+              <label className="custom-control-label" htmlFor={domIdIndex}>
                 {text}
               </label>
             </div>
@@ -85,8 +86,8 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, nam
         <div className="d-flex justify-content-end">
           {editing === true ? (
             <button
-              key={`save-answer-btn-${answerId}`}
-              id={`save-button-${answerId}`}
+              key={`save-answer-btn-${domIdIndex}`}
+              id={`save-button-${domIdIndex}`}
               className="btn"
               onClick={offEditTitleMode}
               title="Zapisz"
@@ -95,7 +96,7 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, nam
             </button>
           ) : (
             <button
-              key={`edit-answer-btn-${answerId}`}
+              key={`edit-answer-btn-${domIdIndex}`}
               className="btn"
               onClick={onEditTitleMode}
               title="Edytuj"
@@ -118,13 +119,14 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, nam
 };
 
 AnswerRow.propTypes = {
-  answerId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    .isRequired,
+  /*answerId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,*/
+  index: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   name: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  answers: PropTypes.array.isRequired,
-  setAnswers: PropTypes.func.isRequired,
+  //answers: PropTypes.array.isRequired,
+  //setAnswers: PropTypes.func.isRequired,
 };
 
 export default React.memo(AnswerRow);
