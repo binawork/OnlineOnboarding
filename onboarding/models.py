@@ -180,7 +180,6 @@ class Section(models.Model):
         default='msa',
         help_text='Answer type',
     )
-    users = models.ManyToManyField(User, through='SectionsUsers', null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -196,23 +195,6 @@ class Answer(models.Model):
     confirmed = models.BooleanField(default=False, help_text='confirmation of familiarization, if its true freezing'
                                                              ' this answer')
     updated_on = models.DateTimeField(auto_now=True)
-
-
-class SectionsUsers(models.Model):
-    """
-    user - one who gives an answer;
-    section - question he is answering for;
-    data - JSON of his answers or simple answer as text
-    """
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    section = models.ForeignKey(Section, on_delete=models.PROTECT)
-    data = JSONField(null=True, blank=True)
-    updated_on = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        pass
-        unique_together = [['user', 'section']]
-
 
 # knowledge base
 
