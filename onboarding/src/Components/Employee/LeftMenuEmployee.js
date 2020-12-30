@@ -8,19 +8,19 @@ function LeftMenuEmployee(props) {
     props.setToggleAside(false);
     props.mainPage();
   };
-  
+
   const goToUserPage = (e) => {
     e.preventDefault();
     props.setToggleAside(false);
     props.employeePage();
   };
-  
+
   const goToQnA = function(e){
     e.preventDefault();
     props.setToggleAside(false);
     props.q_n_aPage();
   };
-  
+
   const goToCompanyInfoPage = (e) => {
     e.preventDefault();
     props.setToggleAside(false);
