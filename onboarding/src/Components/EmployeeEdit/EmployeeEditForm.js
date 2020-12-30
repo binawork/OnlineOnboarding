@@ -27,7 +27,7 @@ function EmployeeEditForm(props) {
 
     const handleSaveEdit = user => {
         if(typeof fileNameRef.current.files !== 'undefined' && fileNameRef.current.files.length > 0){
-            console.log("EEF - av");
+            // console.log("EEF - av");
             uploadAvatar(updateImage, fileNameRef.current.files[0], user);
         }
 

@@ -94,8 +94,15 @@ export function employeeAddEdit(handleMessage, employeeObject){
 
 	fetchProps.headers = {"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token};
 
-	data = employeeObject;
-	data.first_name = employeeObject.name;
+	data = {
+		email: employeeObject.email,
+		first_name: employeeObject.name,
+		last_name: employeeObject.last_name,
+		phone_number: employeeObject.tel,
+		location: employeeObject.location,
+		team: employeeObject.department,
+		job_position: employeeObject.position,
+	};
 	fetchProps.body = JSON.stringify(data);
 
 	let path = "api/users/", employeeId = 0;
@@ -108,7 +115,6 @@ export function employeeAddEdit(handleMessage, employeeObject){
 	} else
 		path += "create_user/";// SMTPAuthenticationError * /
 
-
 	fetch(url + path, fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
 			if(result.hasOwnProperty('detail') )
@@ -116,7 +122,7 @@ export function employeeAddEdit(handleMessage, employeeObject){
 			handleMessage(msg, true);
 		},
 		(error) => {
-			console.log("Users: eA");
+			// console.log("Users: eA");
 			handleMessage("Błąd. " + error, false);
 		}
 	);
