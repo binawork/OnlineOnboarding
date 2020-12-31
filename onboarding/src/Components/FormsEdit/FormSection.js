@@ -46,6 +46,8 @@ function FormSection({
   const handleCopySection = (e, order, section) => {
     e.preventDefault();
     const copiedSection = { ...section, id: uuid.v4(), order: order + 1 };
+    copiedSection.data = JSON.parse(JSON.stringify(section.data) );
+
     /*const copiedAnswers = answers
       .filter((answer) => answer.section === section.id)
       .map((answer) => {
