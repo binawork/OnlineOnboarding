@@ -146,6 +146,28 @@ export function SingleEmployeeForms(props){
 	}
 }
 
+export async function getEmployeesSection(pageId, errorMessageFunction){
+	let url = getPath(),
+		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+
+	url += "api/section/" + pageId + "/list_by_page_employee/";
+	const response = await fetch(url, fetchProps);
+	if(!response.ok){
+		errorMessageFunction("Błąd w pobieraniu formularza!");
+		return ;
+	}
+
+	let sectionForms = await response.json();
+	return sectionForms.sort((a, b) => a.order - b.order);
+}
+
+export function sendEmployeesAnswers(){
+
+}
+
+export async function getEmployeesAnswers(pageId, errorMessageFunction){
+}
+
 
 /**
  * Employee assignment to package/combo;
