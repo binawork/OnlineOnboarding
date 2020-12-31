@@ -46,7 +46,7 @@ function FormSection({
   const handleCopySection = (e, order, section) => {
     e.preventDefault();
     const copiedSection = { ...section, id: uuid.v4(), order: order + 1 };
-    copiedSection.data = JSON.parse(JSON.stringify(section.data) );
+    copiedSection.data = JSON.parse(JSON.stringify(section.data) );// fast cloning with data loss (slice() was not enough)! No problem for numbers, strings and bools;
 
     /*const copiedAnswers = answers
       .filter((answer) => answer.section === section.id)
