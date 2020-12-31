@@ -130,22 +130,32 @@ export function employeeAddEdit(handleMessage, employeeObject){
 }
 
 export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
-	let url = getPath(), data, token = getCookie('csrftoken'),
-		fetchProps = {method:"POST", headers:{"Accept":"application/json", "X-CSRFToken":token, "Authorization": "Token " + token}, body:null};
+// export function uploadAvatar(avatarFile, employeeObject){
+	let data = new FormData();
+	let url = getPath(), 
+		token = getCookie('csrftoken'),
+		fetchProps = {
+			method:"POST", 
+			headers:{"Accept":"application/json", "X-CSRFToken":token, "Authorization": "Token " + token}, 
+			body:null
+		};
 
-	if(employeeObject.id && employeeObject.id > 0){
-		let data = {id: employeeObject.id};
-		fetchProps.body = JSON.stringify(data);
-	}
-
-	data = new FormData();
+	// if(employeeObject.id && employeeObject.id > 0){
+	// 	data.id = employeeObject.id;
+	// 	fetchProps.body = JSON.stringify(data);
+	// }
+console.log(employeeObject)
+	// data = new FormData();
+	// data.append('id', employeeObject.id);
 	data.append('avatar', avatarFile);
 	fetchProps.body = data;
-
+console.log(data)
+console.log(fetchProps.body)
 	fetch(url + 'api/user-avatar/', fetchProps).then(response => response.json()).then(
 		data => {
 			console.log(data);
 			handleSuccess(data);
+			return data;
 		},
 		(error) => {
 			console.error('Error:', error);

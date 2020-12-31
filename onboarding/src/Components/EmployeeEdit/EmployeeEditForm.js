@@ -6,37 +6,45 @@ import ModalWarning from "../ModalWarning";
 
 function EmployeeEditForm(props) {
     document.title = "Onboarding: dodaj pracownika";
-    const fileNameRef = useRef("");
-    const [employeeModal, setModal ] = useState(<></>);
 
     let userCp = {id: 0, name: "", last_name: "", email: "", tel: "",
         position: "", department: "", location: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
     if(props.user)
         userCp = {...props.user};
 
-    let imageBox = <img src={ userCp.avatar } alt="avatar" />;
-    if(props.enableUploadAvatar){
-        imageBox = <>
-                     <div className="fileinput-button-label"> Dodaj/zmień zdjęcie </div><img src={ userCp.avatar } alt="avatar" />
-                     <input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } />
-                   </>;
-    }
+    const fileNameRef = useRef("");
+    const [employeeModal, setModal ] = useState(<></>);
+    const [imageFile, setFile] = useState("");
+    const [image, setImage] = useState(userCp.avatar || "");
 
-
-    const [imageLink, updateImageLink] = useState(userCp.avatar);
+    const changeAvatar = function(){
+        console.log(fileNameRef)
+    	if(fileNameRef.current.files.length > 0){
+    	    if(FileReader){
+    	        const fileReader = new FileReader();
+    	        fileReader.readAsDataURL(fileNameRef.current.files[0]);
+    	        fileReader.onload = function(){
+                    setImage(fileReader.result);
+                    // userCp.avatar = fileReader.result;
+    	        }
+    	    }
+    	    setFile(fileNameRef.current.files[0]);
+    	}
+    };
 
     const handleSaveEdit = user => {
         if(typeof fileNameRef.current.files !== 'undefined' && fileNameRef.current.files.length > 0){
             // console.log("EEF - av");
-            uploadAvatar(updateImage, fileNameRef.current.files[0], user);
+            uploadAvatar(updateImage, imageFile, user);
+            // uploadAvatar(imageFile, user);
         }
 
         employeeAddEdit(showModal, user);
     }
 
     const updateImage = function(response){
-        if(typeof response.avatar === "string")
-            updateImageLink(response.avatar);
+        // if(typeof response.avatar === "string")
+        //     updateImageLink(response.avatar);
     }
 
 
@@ -57,7 +65,10 @@ function EmployeeEditForm(props) {
     		<div className="col">
     			<div className="card-body align-items-center text-center">
     				<div className="user-avatar user-avatar-xl fileinput-button">
-    					{ imageBox }
+    					{/* { imageBox } */}
+                        <div className="fileinput-button-label"> Dodaj/zmień zdjęcie </div>
+                        <img src={ image } alt="avatar" />
+                        <input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } onChange={ changeAvatar } />
     				</div>
     			</div>
     		</div>
