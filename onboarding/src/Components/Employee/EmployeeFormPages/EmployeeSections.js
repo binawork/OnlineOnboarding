@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import parse from "html-react-parser";
 import { v4 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
+import { getEmployeesSection } from "../../hooks/EmployeeForms";
 import FormSectionsAPI from "../../hooks/FormSectionsAPI";
 import EmployeeAnswers from "./EmployeeAnswers";
 import ModalWarning from "../../ModalWarning";
@@ -9,18 +10,16 @@ import ModalWarning from "../../ModalWarning";
 const EmployeeSections = ({pageId}) => {
     const [sections, setSections] = useState([]);
     const [answers, setAnswers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, isLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [confirmationModal, setModal] = useState({id: 0, modal: <></>});
 
     useEffect(() => {
-        FormSectionsAPI.getAllSections(pageId)
-            .then((response) => {
-                const sortedResponse = response.sort((a, b) => a.order - b.order);
-                setSections(sortedResponse);
-            })
-            .catch((error) => setErrorMessage(error.message))
-            .finally(() => setLoading(false));
+        getEmployeesSection(pageId, function(){})
+            .then(function(sectionForms){
+                setSections(sectionForms);
+            }).catch((error) => setErrorMessage(error.message))
+            .finally(() => isLoading(false));
 
         FormSectionsAPI.getAllAnswers()
             .then((response) => {
@@ -59,11 +58,6 @@ const EmployeeSections = ({pageId}) => {
 
     const saveAnswers = (e) => {
         e.preventDefault();
-        FormSectionsAPI.saveAnswers(answers)
-            .catch((error) => setErrorMessage(error.message))
-            .then(() => {
-                popUpConfirmationModal();
-            });
     };
 
     const hideModal = () => {
