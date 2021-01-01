@@ -161,8 +161,50 @@ export async function getEmployeesSection(pageId, errorMessageFunction){
 	return sectionForms.sort((a, b) => a.order - b.order);
 }
 
-export function sendEmployeesAnswers(){
+/*
+ * Send series of employee answers;
+ * assumption: sectionAnswers = [{sectionId: ., answer: string or JSON-string}, ...]
+ * responseFunction = function(sectionId, requestSuccess){}
+ */
+export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
+	let url = getPath(), token = getCookie("csrftoken"), xhr,
+		i, data;
+	var sectionId;
 
+	i = sectionsAnswers.length - 1;
+	for(; i >= 0; i--){
+		if(typeof sectionsAnswers[i].sectionId === 'undefined')
+			continue;
+
+		xhr = new XMLHttpRequest();
+
+		sectionId = sectionsAnswers[i].sectionId;
+		data = {section: sectionId, data: sectionsAnswers[i].answer}
+		if( typeof data.data !== "string" && (typeof data.data !== "object" || data.data.constructor !== String) )
+			data.data = JSON.stringify(sectionsAnswers[i].answer);
+
+
+		xhr.onReadyStateChange = function(){
+			if(xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300){
+				/*var res = xhr.responseText, obj;
+				try {
+					obj = JSON.parse(res);
+				}catch(e){obj = {};}*/
+
+				responseFunction(sectionId, true);
+			} else if(xhr.readyState==4){
+				responseFunction(sectionId, false);
+			}
+		}
+
+		xhr.open("POST", url + "api/answer/", true);/* async: true (asynchronous) or false (synchronous); */
+		xhr.setRequestHeader("Accept", "application/json");
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.setRequestHeader("X-CSRFToken", token);
+		xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+		xhr.send( JSON.stringify(data) );
+	}
 }
 
 export async function getEmployeesAnswers(pageId, errorMessageFunction){
