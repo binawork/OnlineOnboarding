@@ -85,7 +85,17 @@ function FormSection({
 
   const inputAnswer = function(sectionId){
     const updatedSections = sections.map((section) => {
-      if (section.id === sectionId) section.data.push({title: "Odpowiedź", is_checked: false});
+      if (section.id === sectionId){
+        let maxId = section.data.length - 1, i = section.data.length - 1, intId;
+        for(; i >= 0; i--){
+          if(section.data[i].hasOwnProperty('id') ){
+            intId = parseInt(section.data[i].id, 10);
+            if(intId > maxId) maxId = intId;
+          }
+        }
+
+        section.data.push({id: maxId + 1, title: "Odpowiedź", is_checked: false});
+      }
       return section;
     });
     setSections(updatedSections);
