@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import parse from "html-react-parser";
 import { v4 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
-import { getEmployeesSection } from "../../hooks/EmployeeForms";
+import { getEmployeesSection, sendEmployeesAnswers } from "../../hooks/EmployeeForms";
 import FormSectionsAPI from "../../hooks/FormSectionsAPI";
 import EmployeeAnswers from "./EmployeeAnswers";
 import ModalWarning from "../../ModalWarning";
 
+
 const EmployeeSections = ({pageId}) => {
     const [sections, setSections] = useState([]);
     const [answers, setAnswers] = useState([]);
+    const [message, setMessage] = useState("");
     const [loading, isLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [confirmationModal, setModal] = useState({id: 0, modal: <></>});
+
 
     useEffect(() => {
         getEmployeesSection(pageId, function(){})
@@ -21,13 +24,13 @@ const EmployeeSections = ({pageId}) => {
             }).catch((error) => setErrorMessage(error.message))
             .finally(() => isLoading(false));
 
-        FormSectionsAPI.getAllAnswers()
+        /*FormSectionsAPI.getAllAnswers()
             .then((response) => {
                 if(response.length === 0) return;
                 const sortedAnswers = response.sort((a, b) => a.id - b.id);
                 setAnswers(sortedAnswers);
             })
-            .catch((error) => setErrorMessage(error.message));
+            .catch((error) => setErrorMessage(error.message));*/
     }, []);
 
     const toggleChecked = (e) => {
@@ -56,12 +59,29 @@ const EmployeeSections = ({pageId}) => {
         setAnswers(updatedAnswers);
     };
 
+
     const saveAnswers = (e) => {
         e.preventDefault();
+        //sendEmployeesAnswers([], sendingSectionAnswerResponse);
     };
 
-    const hideModal = () => {
-        setModal({id: 0, modal: <></>});
+
+    const sendingSectionAnswerResponse = function(sectionId, isSuccess){
+        // sections = [{id:sectionId, title: "", ...}, ...]
+        i = sections.length - 1, msgAppend = "\nWysyłanie odpowiedzi dla ";
+        for(; i >= 0; i--){
+            if(sections[i].id === sectionId){
+                msgAppend += "\"" + sections[i].title + "\" ";
+                break;
+            }
+        }
+        if(isSuccess)
+            msgAppend += "udane";
+        else
+            msgAppend += "nie powiodło się!";
+
+        setMessage(message + msgAppend);
+        popUpConfirmationModal();
     };
 
     const popUpConfirmationModal = () => {
@@ -71,7 +91,7 @@ const EmployeeSections = ({pageId}) => {
                 <ModalWarning
                     handleAccept={hideModal}
                     title="Potwierdzenie wysłania"
-                    message="Wysłano odpowiedzi"
+                    message=message
                     id={0}
                     show={true}
                     acceptText="Ok"
@@ -80,8 +100,13 @@ const EmployeeSections = ({pageId}) => {
         });
     };
 
+    const hideModal = () => {
+        setModal({id: 0, modal: <></>});
+    };
+
+
     return (
-        <form onSubmit={saveAnswers}>
+        <form onSubmit={ saveAnswers }>
             {loading ? (
                 <div className="p-3">Ładowanie...</div>
             ): errorMessage !== "" ? (
