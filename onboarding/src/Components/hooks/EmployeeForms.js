@@ -153,12 +153,46 @@ export async function getEmployeesSection(pageId, errorMessageFunction){
 	url += "api/section/" + pageId + "/list_by_page_employee/";
 	const response = await fetch(url, fetchProps);
 	if(!response.ok){
-		errorMessageFunction("Błąd w pobieraniu formularza!");
-		return ;
+		//errorMessageFunction("Błąd w pobieraniu formularza!");
+		throw new Error("Błąd w pobieraniu formularza!");
+		return [];
 	}
 
 	let sectionForms = await response.json();
 	return sectionForms.sort((a, b) => a.order - b.order);
+}
+
+export async function getEmployeesAnswersForSections(sections){
+	let mainUrl = getPath(), url,
+		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+	var results = Array(sections.length).fill(null);
+
+	for(let i =results.length - 1; i >= 0; i--){
+		url = mainUrl + "api/answer/" + sections[i].id + "/list_by_section_employee/";
+		fetch(url, fetchProps).then(res => res.json()).then(
+				(result) => {
+					results[i] = {};
+					if(Object.prototype.toString.call(result)==='[object Array]' && result.length > 0)
+						results[i] = result[0];
+				},
+				(error) => {
+					results[i] = null;
+				}
+			);
+	}
+
+	return results;
+}
+
+export async function getEmployeesSectionsAndAnswers(pageId, errorMessageFunction){
+	let result = {sections: [], answers: []};
+
+	result.sections = await getEmployeesSection(pageId, errorMessageFunction);
+	if(result.sections.length < 1)
+		return result;
+
+	result.answers = await getEmployeesAnswersForSections(result.sections);
+	return result;
 }
 
 /*
