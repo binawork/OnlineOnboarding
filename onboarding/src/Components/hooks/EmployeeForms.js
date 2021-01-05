@@ -171,12 +171,12 @@ export async function getEmployeesAnswersForSections(sections){
 		url = mainUrl + "api/answer/" + sections[i].id + "/list_by_section_employee/";
 		fetch(url, fetchProps).then(res => res.json()).then(
 				(result) => {
-					results[i] = {};
+					results[i] = {data: []};
 					if(Object.prototype.toString.call(result)==='[object Array]' && result.length > 0)
 						results[i] = result[0];
 				},
 				(error) => {
-					results[i] = null;
+					results[i] = {data: []};
 				}
 			);
 	}
