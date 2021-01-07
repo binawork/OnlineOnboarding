@@ -2,25 +2,27 @@ import React, { useState, useEffect } from "react";
 import parse from "html-react-parser";
 import { v4 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
-import { getEmployeesSection, sendEmployeesAnswers } from "../../hooks/EmployeeForms";
-import FormSectionsAPI from "../../hooks/FormSectionsAPI";
-import EmployeeAnswers from "./EmployeeAnswers";
+import SectionForm from "./SectionForm";
+import OpenAnswer from "./OpenAnswer";
+//import EmployeeAnswerRow from "./EmployeeAnswerRow";
+import { getEmployeesSection, sendEmployeesAnswers, getEmployeesSectionsAndAnswers } from "../../hooks/EmployeeForms";
+//import FormSectionsAPI from "../../hooks/FormSectionsAPI";
 import ModalWarning from "../../ModalWarning";
 
 
 const EmployeeSections = ({pageId}) => {
-    const [sections, setSections] = useState([]);
-    const [answers, setAnswers] = useState([]);
+    const [sectionsAnswers, setSectionsAnswers] = useState([]);
     const [message, setMessage] = useState("");
     const [loading, isLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
+    const [sectionsView, setView] = useState({view: [], init: false});
     const [confirmationModal, setModal] = useState({id: 0, modal: <></>});
 
 
     useEffect(() => {
-        getEmployeesSection(pageId, function(){})
+        getEmployeesSectionsAndAnswers(pageId, setErrorMessage)
             .then(function(sectionForms){
-                setSections(sectionForms);
+                setSectionsAnswers(sectionForms);
             }).catch((error) => setErrorMessage(error.message))
             .finally(() => isLoading(false));
 
@@ -31,9 +33,10 @@ const EmployeeSections = ({pageId}) => {
                 setAnswers(sortedAnswers);
             })
             .catch((error) => setErrorMessage(error.message));*/
-    }, []);
+    }, [pageId]);
 
-    const toggleChecked = (e) => {
+
+    /*const toggleChecked = (e) => {
         const toggle = answers.map((answer) => {
             if(
                 e.target.type === "radio" &&
@@ -47,18 +50,20 @@ const EmployeeSections = ({pageId}) => {
             return answer;
         });
         setAnswers(toggle);
+    };*/
+
+    const changeOpenAnswerText = (index, value) => {
+        sectionsAnswers.answers[index].data = value;
+        console.log(sectionsAnswers.answers);
+        /*setAnswers(updatedAnswers);*/
     };
 
-    const changeOpenAnswerText = (e) => {
-        const updatedAnswers = answers.map((answer) => {
-            if(answer.id == e.target.id){
-                answer.data.title = e.target.value;
-            }
-            return answer;
-        });
-        setAnswers(updatedAnswers);
-    };
+    const setAnswer = function(ind, value){
+        if(ind < 0 || ind >= sectionsAnswers.answers.length)
+            return;
 
+        sectionsAnswers.answers[ind].data = value;
+    };
 
     const saveAnswers = (e) => {
         e.preventDefault();
@@ -67,11 +72,11 @@ const EmployeeSections = ({pageId}) => {
 
 
     const sendingSectionAnswerResponse = function(sectionId, isSuccess){
-        // sections = [{id:sectionId, title: "", ...}, ...]
-        i = sections.length - 1, msgAppend = "\nWysyłanie odpowiedzi dla ";
+        // sectionsAnswers.sections = [{id:sectionId, title: "", ...}, ...]
+        i = sectionsAnswers.sections.length - 1, msgAppend = "\nWysyłanie odpowiedzi dla ";
         for(; i >= 0; i--){
-            if(sections[i].id === sectionId){
-                msgAppend += "\"" + sections[i].title + "\" ";
+            if(sectionsAnswers.sections[i].id === sectionId){
+                msgAppend += "\"" + sectionsAnswers.sections[i].title + "\" ";
                 break;
             }
         }
@@ -89,9 +94,9 @@ const EmployeeSections = ({pageId}) => {
             id: 0,
             modal: (
                 <ModalWarning
-                    handleAccept={hideModal}
+                    handleAccept={ hideModal }
                     title="Potwierdzenie wysłania"
-                    message=message
+                    message={ message }
                     id={0}
                     show={true}
                     acceptText="Ok"
@@ -105,6 +110,36 @@ const EmployeeSections = ({pageId}) => {
     };
 
 
+    useEffect(() => {
+        let sectionsView2 = [];
+        if(sectionsAnswers.sections && sectionsAnswers.answers){
+            let count = Math.min(sectionsAnswers.sections.length, sectionsAnswers.answers.length), i,
+                sections = sectionsAnswers.sections;
+            for(i = 0; i < count; i++){
+                sectionsView2.push(<section key={uuidv4()} className="card my-3">
+                        <header className="card-header">
+                            <div>{sections[i].title}</div>
+                        </header>
+                        <div className="card-body">
+                            {sections[i].description ? parse(sections[i].description): <></>}
+                            {sections[i].type == "oa" ? (
+                                <OpenAnswer id={ sections[i].id } index={ i } data={ sectionsAnswers.answers[i].data } changeOpenAnswerText={ changeOpenAnswerText } />
+                            ) : (
+                                <table className="table table-hover"><tbody>
+                                    <SectionForm section={ sections[i] }
+                                            answerId={ i }
+                                            answerData={ sectionsAnswers.answers[i].data } setAnswer={ setAnswer } />
+                                </tbody></table>
+                            )}
+                        </div>
+                </section>);
+            }
+            setView({view: sectionsView2, init: true});
+        }
+    }, [pageId, loading]);
+
+
+
     return (
         <form onSubmit={ saveAnswers }>
             {loading ? (
@@ -112,25 +147,7 @@ const EmployeeSections = ({pageId}) => {
             ): errorMessage !== "" ? (
                 <div className="p-3">{errorMessage}</div>
             ): (
-                sections.map((section) => (
-                    <section key={uuidv4()} className="card my-3">
-                        <header className="card-header">
-                            <div>{section.title}</div>
-                        </header>
-                        <div className="card-body">
-                            {section.description ? parse(section.description): <></>}
-                            <EmployeeAnswers
-                                sectionAnswers={answers.filter(
-                                    (answer) => answer.section === section.id
-                                )}
-                                type={section.type}
-                                name={`section-${section.id}`}
-                                toggleChecked={toggleChecked}
-                                changeOpenAnswerText={changeOpenAnswerText}
-                            />
-                        </div>
-                    </section>
-                ))
+                sectionsView.view
             )}
             <button type="submit" className="btn btn-success mr-3">
                 Wyślij odpowiedzi
