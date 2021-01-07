@@ -11,35 +11,24 @@ const EmployeeAnswers = ({
   changeOpenAnswerText,
 }) => {
   return (
-    <>
-      {type === "oa" ? (
-        <OpenAnswer
-          key={sectionAnswers[0]?.id}
-          id={sectionAnswers[0]?.id}
-          data={sectionAnswers[0]?.data || {}}
-          changeOpenAnswerText={changeOpenAnswerText}
-        />
-      ) : (
-        <table className="table table-hover">
-          <tbody>
-            {sectionAnswers.map((answer) =>
-              type === "osa" || type === "msa" ? (
-                <EmployeeAnswerRow
-                  key={answer.id}
-                  id={answer.id}
-                  data={answer.data || {}}
-                  type={type}
-                  name={name}
-                  toggleChecked={toggleChecked}
-                />
-              ) : (
-                <></>
-              )
-            )}
-          </tbody>
-        </table>
-      )}
-    </>
+    <table className="table table-hover">
+      <tbody>
+        {sectionAnswers.map((answer) =>
+          type === "osa" || type === "msa" ? (
+            <EmployeeAnswerRow
+              key={answer.id}
+              id={answer.id}
+              data={answer.title || {}}
+              type={type}
+              name={name}
+              toggleChecked={toggleChecked}
+            />
+          ) : (
+            <></>
+          )
+        )}
+      </tbody>
+    </table>
   );
 };
 
