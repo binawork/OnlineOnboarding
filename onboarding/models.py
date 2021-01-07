@@ -135,7 +135,7 @@ class Package(models.Model):
 
 class PackagesUsers(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    package = models.ForeignKey(Package, on_delete=models.PROTECT)
+    package = models.ForeignKey(Package, on_delete=models.PROTECT) # CASCADE - when package removed, remove fields from this model where package = removed_package also;
     send_on = models.DateTimeField(auto_now_add=True)
 
 
@@ -196,6 +196,7 @@ class Answer(models.Model):
     confirmed = models.BooleanField(default=False, help_text='confirmation of familiarization, if its true freezing'
                                                              ' this answer')
     updated_on = models.DateTimeField(auto_now=True)
+    # finished
 
 
 class SectionsUsers(models.Model):
