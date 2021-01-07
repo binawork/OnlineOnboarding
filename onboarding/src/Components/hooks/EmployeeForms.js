@@ -165,7 +165,7 @@ export async function getEmployeesSection(pageId, errorMessageFunction){
 export async function getEmployeesAnswersForSections(sections){
 	let mainUrl = getPath(), url,
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
-	var results = Array(sections.length).fill(null);
+	var results = Array(sections.length).fill({data: []});
 
 	for(let i =results.length - 1; i >= 0; i--){
 		url = mainUrl + "api/answer/" + sections[i].id + "/list_by_section_employee/";
