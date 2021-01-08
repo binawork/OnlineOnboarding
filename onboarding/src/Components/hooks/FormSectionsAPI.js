@@ -17,13 +17,13 @@ const FormSectionsAPI = {
     const response = await answers.json();
     return response;
   },
-  deleteSection: async function (idToDelete, answers) {
+  deleteSection: async function (idToDelete) {
     if (!idToDelete) {
       throw new Error("Section has to have an id to be deleted");
     }
     if (typeof idToDelete === "number") {
       await makeRequest(`${BASE_URL}api/section/${idToDelete}`, "DELETE");
-      await Promise.all(
+      /*await Promise.all(
         answers.map((answer) => {
           if (
             (typeof answer.id === "number" && answer.section === idToDelete) ||
@@ -32,7 +32,7 @@ const FormSectionsAPI = {
             makeRequest(`${BASE_URL}api/answer/${answer.id}`, "DELETE");
           }
         })
-      );
+      );*/
     }
   },
   deleteAnswer: async function (idToDelete) {
@@ -52,7 +52,7 @@ const FormSectionsAPI = {
       })
     );
   },
-  saveAll: async function (sections, answers) {
+  saveAll: async function (sections/*, answers*/) {
     //Save sections
     const sectionsSaveResult = await Promise.all(
       sections.map((section) =>
@@ -62,7 +62,7 @@ const FormSectionsAPI = {
               .then((result) => {
                 const savedSection = result;
                 //Save answers of section
-                Promise.all(
+                /*Promise.all(
                   answers.map((answer, index) => {
                     if (answer.section === section.id) {
                       makeRequest(`${BASE_URL}api/answer/`, "POST", {
@@ -75,7 +75,7 @@ const FormSectionsAPI = {
                         });
                     }
                   })
-                );
+                );*/
                 return savedSection;
               })
           : makeRequest(
@@ -87,7 +87,7 @@ const FormSectionsAPI = {
               .then((result) => {
                 const savedSection = result;
                 //Save answers of section
-                Promise.all(
+                /*Promise.all(
                   answers.map((answer) => {
                     if (answer.section === section.id) {
                       typeof answer.id === "string"
@@ -102,12 +102,12 @@ const FormSectionsAPI = {
                           );
                     }
                   })
-                );
+                );*/
                 return savedSection;
               })
       )
     );
-    return [sectionsSaveResult, answers];
+    return [sectionsSaveResult/*, answers*/];
   },
 };
 

@@ -632,7 +632,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         """
         answer = Answer.objects.filter(
                         section__id=pk,
-                        section__page_package__owner=self.request.user.company,
+                        section__page__package__owner=self.request.user.company,
         )
         serializer = AnswerSerializer(answer, many=True)
 
@@ -649,7 +649,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         answer = Answer.objects.filter(
                                 section__id=pk,
                                 owner=self.request.user,
-                                section__page_package__user=self.request.user
+                                section__page__package__users=self.request.user
         )
         serializer = AnswerSerializer(answer, many=True)
 
