@@ -146,6 +146,104 @@ export function SingleEmployeeForms(props){
 	}
 }
 
+export async function getEmployeesSection(pageId, errorMessageFunction){
+	let url = getPath(),
+		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+
+	url += "api/section/" + pageId + "/list_by_page_employee/";
+	const response = await fetch(url, fetchProps);
+	if(!response.ok){
+		//errorMessageFunction("Błąd w pobieraniu formularza!");
+		throw new Error("Błąd w pobieraniu formularza!");
+		return [];
+	}
+
+	let sectionForms = await response.json();
+	return sectionForms.sort((a, b) => a.order - b.order);
+}
+
+export async function getEmployeesAnswersForSections(sections){
+	let mainUrl = getPath(), url,
+		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+	var results = Array(sections.length).fill({data: []});
+
+	for(let i =results.length - 1; i >= 0; i--){
+		url = mainUrl + "api/answer/" + sections[i].id + "/list_by_section_employee/";
+		fetch(url, fetchProps).then(res => res.json()).then(
+				(result) => {
+					results[i] = {data: []};
+					if(Object.prototype.toString.call(result)==='[object Array]' && result.length > 0)
+						results[i] = result[0];
+				},
+				(error) => {
+					results[i] = {data: []};
+				}
+			);
+	}
+
+	return results;
+}
+
+export async function getEmployeesSectionsAndAnswers(pageId, errorMessageFunction){
+	let result = {sections: [], answers: []};
+
+	result.sections = await getEmployeesSection(pageId, errorMessageFunction);
+	if(result.sections.length < 1)
+		return result;
+
+	result.answers = await getEmployeesAnswersForSections(result.sections);
+	return result;
+}
+
+/*
+ * Send series of employee answers;
+ * assumption: sectionAnswers = [{sectionId: ., answer: string or JSON-string}, ...]
+ * responseFunction = function(sectionId, requestSuccess){}
+ */
+export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
+	let url = getPath(), token = getCookie("csrftoken"), xhr,
+		i, data;
+	var sectionId;
+
+	i = sectionsAnswers.length - 1;
+	for(; i >= 0; i--){
+		if(typeof sectionsAnswers[i].sectionId === 'undefined')
+			continue;
+
+		xhr = new XMLHttpRequest();
+
+		sectionId = sectionsAnswers[i].sectionId;
+		data = {section: sectionId, data: sectionsAnswers[i].answer}
+		if( typeof data.data !== "string" && (typeof data.data !== "object" || data.data.constructor !== String) )
+			data.data = JSON.stringify(sectionsAnswers[i].answer);
+
+
+		xhr.onReadyStateChange = function(){
+			if(xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300){
+				/*var res = xhr.responseText, obj;
+				try {
+					obj = JSON.parse(res);
+				}catch(e){obj = {};}*/
+
+				responseFunction(sectionId, true);
+			} else if(xhr.readyState==4){
+				responseFunction(sectionId, false);
+			}
+		}
+
+		xhr.open("POST", url + "api/answer/", true);/* async: true (asynchronous) or false (synchronous); */
+		xhr.setRequestHeader("Accept", "application/json");
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.setRequestHeader("X-CSRFToken", token);
+		xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+		xhr.send( JSON.stringify(data) );
+	}
+}
+
+export async function getEmployeesAnswers(pageId, errorMessageFunction){
+}
+
 
 /**
  * Employee assignment to package/combo;

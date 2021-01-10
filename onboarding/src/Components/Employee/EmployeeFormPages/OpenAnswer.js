@@ -1,12 +1,24 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const OpenAnswer = ({ id, data, changeOpenAnswerText }) => {
-  const [answerText, setAnswerText] = useState(data.title);
+
+const OpenAnswer = ({ id, index, data, changeOpenAnswerText }) => {
+  let text = "";
+  if(typeof data === 'string' || data instanceof String)
+    text = data;
+  else if(Array.isArray(data) && data.length > 0)
+    text = data[0];
+
+  const [answerText, setAnswerText] = useState(text);
 
   const changeAnswerText = (e) => {
     setAnswerText(e.target.value);
   };
+
+  const updateAnswerText = function(e){
+    changeOpenAnswerText(index, e.target.value);
+  };
+
 
   return (
     <div key={id} className="form-group">
@@ -17,7 +29,7 @@ const OpenAnswer = ({ id, data, changeOpenAnswerText }) => {
         rows="4"
         value={answerText}
         onChange={changeAnswerText}
-        onBlur={changeOpenAnswerText}
+        onBlur={ updateAnswerText }
         required
       ></textarea>
     </div>
@@ -26,7 +38,8 @@ const OpenAnswer = ({ id, data, changeOpenAnswerText }) => {
 
 OpenAnswer.propTypes = {
   id: PropTypes.number,
-  data: PropTypes.object.isRequired,
+  index: PropTypes.number,
+  //data: PropTypes.object.isRequired,
   changeOpenAnswerText: PropTypes.func,
 };
 
