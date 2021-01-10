@@ -26,11 +26,10 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
-from onboarding.models import User, Company, CompanyQuestionAndAnswer, SectionsUsers
+from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
-from .serializers import UserAnswerSerializer, SectionsUsersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
@@ -704,77 +703,8 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
         return Response(serializer.data)
 
 
-class EmployeeAnswersViewSet(viewsets.ModelViewSet):
-    default_serializer_class = SectionsUsersSerializer
-    permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        page_id = self.kwargs.get('page', None)
-        if page_id is not None:
-            queryset = SectionsUsers.objects.filter(user=self.request.user, section__page__id=page_id, section__owner=self.request.user.company)
-        else:
-            queryset = SectionsUsers.objects.filter(user=self.request.user, section__owner=self.request.user.company)
-        return queryset
 
-    def get_serializer_class(self):
-        if self.request.method == "PATCH":
-            return UserAnswerSerializer
-        else:
-            return SectionsUsersSerializer
-
-    """def get(self, request, *args, **kwargs):
-        page_id = kwargs.get['page']
-        print(self.action)
-        print(page_id)
-        serializer = SectionsUsersSerializer(queryset, many=True)
-
-        return Response(serializer.data)"""
-
-    """def perform_create(self, serializer):
-        serializer.save(user=self.request.user)"""
-
-    def create(self, request):
-        page_id = self.kwargs.get('page', None)
-
-        answers = request.data['answers']
-        for answer in answers:
-            section_id = answer['section']
-            data = answer['answer']
-
-            try:
-                section = Section.objects.get(id=section_id, owner=self.request.user.company)
-            except Section.DoesNotExist:
-                continue
-
-            if request.user not in section.users:
-                section.users.add(request.user, through_defaults={'data': data})
-        #
-        serializer = SectionsUsersSerializer(queryset, many=True)
-        # headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data) #, headers=headers)
-
-    def destroy(self, request):
-        return Response(serializer.data)
-
-    def update(self, request, pk):
-        user_section = self.get_object() # user_section = SectionsUsers.objects.get(id=pk)
-        """ Section.objects.get(owner=self.request.user.company, section_id) empty -> no access for this user; except KeyError
-        user_section.data = request.data['data'];
-        user_section.save()
-        serializer = SectionsUsersSerializer(user_section) # SectionsUsersSerializer(instance=user_section, user_section)
-        if serializer.is_valid():
-            serializer.save()
-        """
-        return Response(serializer.data)
-
-    @action(detail=False)
-    def answer(self, request, page):
-        # print(page)
-        queryset = SectionsUsers.objects.filter(user=self.request.user, section__id=page, section__owner=self.request.user.company)
-        serializer = UserAnswerSerializer(queryset, many=True)
-
-        return Response(serializer.data)
-#
 
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):
