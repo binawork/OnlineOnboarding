@@ -237,9 +237,10 @@ class UserViewSet(viewsets.ModelViewSet):
     def login_user(self, request):
         queryset = User.objects.filter(pk=self.request.user.id)
         serializer = LogInUserSerializer(queryset, many=True)
+        response = Response(serializer.data)
         queryset.update(welcome_board = False)
 
-        return Response(serializer.data)
+        return response
 
     def list(self, request):
 
