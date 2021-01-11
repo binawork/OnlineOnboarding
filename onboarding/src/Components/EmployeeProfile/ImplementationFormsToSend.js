@@ -19,11 +19,20 @@ function ImplementationFormsToSend(props) {
         props.setCount(props.count + 1);
     };
 
-    form_table
-        .filter(form => !form.users.includes(props.userId))
-        .forEach(function (element, i){
+    const formsToSend = form_table.filter(form => !form.users.includes(props.userId));
+    if(formsToSend.length !== 0) {
+        formsToSend.forEach(function (element, i){
             forms.push(<FormsToSendTableRow key={ element.key } row={ element } handleChecked={ showHide } handleSendPackage={ sendPackage } />);
-    });
+        });
+    } else {
+        forms.push(        
+            <tr key={ 0 }>
+                <td style={{ columnSpan: 7 }}>Brak formularzy do wysłania</td>
+            </tr>
+        );
+    }
+    console.log(forms)
+    console.log(form_table)
 
     return(
         <div className="card card-fluid">
