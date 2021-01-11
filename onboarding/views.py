@@ -616,12 +616,20 @@ class SectionViewSet(viewsets.ModelViewSet):
 
 
 class AnswerViewSet(viewsets.ModelViewSet):
-    queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        user = self.request.user
+
+        if user is None or self.request.user.is_hr:
+            queryset = Answer.objects.filter(section__page__owner=self.request.user.company)
+        else:
+            queryset = Answer.objects.filter(owner=user)
+
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -641,7 +649,6 @@ class AnswerViewSet(viewsets.ModelViewSet):
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
-
 
     @action(detail=True)
     def list_by_section_employee(self, request, pk):
