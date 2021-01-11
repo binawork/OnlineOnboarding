@@ -5,7 +5,8 @@ import EmployeeForms, { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 
 function ImplementationFormsToSend(props) {
     const [numberChecked, checkedChange] = useState(0);
-    let form_table = EmployeeForms(props), forms = [];
+    const [count, setCount] = useState(0);
+    let form_table = EmployeeForms(props, count), forms = [];
 
     const showHide = (isChecked) => {
         if(isChecked)
@@ -16,11 +17,13 @@ function ImplementationFormsToSend(props) {
 
     const sendPackage = function(packageId){
         assignEmployeeToPackage(props.showModal, props.userId, packageId);
+        setCount(count + 1);
     };
 
-
-    form_table.forEach(function (element, i){
-        forms.push(<FormsToSendTableRow key={ element.key } row={ element } handleChecked={ showHide } handleSendPackage={ sendPackage } />);
+    form_table
+        .filter(form => !form.users.includes(props.userId))
+        .forEach(function (element, i){
+            forms.push(<FormsToSendTableRow key={ element.key } row={ element } handleChecked={ showHide } handleSendPackage={ sendPackage } />);
     });
 
     return(
