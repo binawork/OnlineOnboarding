@@ -37,7 +37,7 @@ function UserListSearch({ users, setSearchResult }) {
             && user.location?.toLowerCase().includes(searchLocation.toLowerCase())
         )
       );
-    }, [searchName, searchDepartment, searchPosition, searchLocation]);
+    }, [searchName, searchDepartment, searchPosition, searchLocation, users]);
 
     const filterByName = (e) => {
         setSearchName(e.target.value);
