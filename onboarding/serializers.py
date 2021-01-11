@@ -121,7 +121,7 @@ class UsersListSerializer(serializers.ModelSerializer):
             'team',
             'job_position',
             'last_login',
-            'welcome_board'
+            # 'welcome_board'
         )
 
 
@@ -139,7 +139,7 @@ class UserSerializer(serializers.ModelSerializer):
             'location',
             'team',
             'job_position',
-            'welcome_board'
+            # 'welcome_board'
         )
 
     def create(self, validated_data):
