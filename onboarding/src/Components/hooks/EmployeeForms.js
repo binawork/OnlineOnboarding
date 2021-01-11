@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPath, getCookie, dateToString, tryFetchJson } from "../utils.js";
+import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../utils.js";
 
 
 /**
@@ -197,12 +197,12 @@ export async function getEmployeesSectionsAndAnswers(pageId, errorMessageFunctio
 
 /*
  * Send series of employee answers;
- * assumption: sectionAnswers = [{sectionId: ., answer: string or JSON-string}, ...]
+ * assumption: sectionAnswers = [{sectionId: ., data: string or JSON-string}, ...]
  * responseFunction = function(sectionId, requestSuccess){}
  */
 export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
 	let url = getPath(), token = getCookie("csrftoken"), xhr,
-		i, data;
+		i, data, answerId;
 	var sectionId;
 
 	i = sectionsAnswers.length - 1;
@@ -213,9 +213,12 @@ export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
 		xhr = new XMLHttpRequest();
 
 		sectionId = sectionsAnswers[i].sectionId;
-		data = {section: sectionId, data: sectionsAnswers[i].answer}
+		answerId = -1;
+		data = {section: sectionId, data: sectionsAnswers[i].data}
 		if( typeof data.data !== "string" && (typeof data.data !== "object" || data.data.constructor !== String) )
-			data.data = JSON.stringify(sectionsAnswers[i].answer);
+			data.data = JSON.stringify(sectionsAnswers[i].data);
+		if( isNumber(sectionsAnswers[i].answerId) )
+			answerId = sectionsAnswers[i].answerId;
 
 
 		xhr.onReadyStateChange = function(){
@@ -231,7 +234,11 @@ export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
 			}
 		}
 
-		xhr.open("POST", url + "api/answer/", true);/* async: true (asynchronous) or false (synchronous); */
+		if(answerId >= 0)
+			xhr.open("PATCH", url + "api/answer/" + answerId + "/", true);/* async: true (asynchronous) or false (synchronous); */
+		else
+			xhr.open("POST", url + "api/answer/", true);/* async: true (asynchronous) or false (synchronous); */
+
 		xhr.setRequestHeader("Accept", "application/json");
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.setRequestHeader("X-CSRFToken", token);
