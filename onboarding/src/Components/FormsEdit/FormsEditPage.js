@@ -13,12 +13,12 @@ function FormsEditPage({ location, match }) {
   const loggedUser = location.state?.loggedUser ?? LoggedUser();
   const pageId = match.params.form_id;
   const packageIdRef = useRef(0);
-  if (match.params.form_id)
-    packageIdRef.current = match.params.form_id;
+  if (location.state)
+    packageIdRef.current = location.state.packageId || 0;
 
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);
-  const [answers, setAnswers] = useState([]);
+  //const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [update, setUpdate] = useState(true);
@@ -29,19 +29,24 @@ function FormsEditPage({ location, match }) {
     FormSectionsAPI.getAllSections(pageId)
       .then((response) => {
         const sortedResponse = response.sort((a, b) => a.order - b.order);
+        for(let i = sortedResponse.length - 1; i >= 0; i--){
+          if( !Array.isArray(sortedResponse[i].data) )
+            sortedResponse[i].data = [];
+        }
+
         setSections(sortedResponse);
         updateMaxOrder(response.length);
       })
       .catch((error) => setErrorMessage(error.message))
       .finally(() => setLoading(false));
 
-    FormSectionsAPI.getAllAnswers()
+    /*FormSectionsAPI.getAllAnswers()
       .then((response) => {
         if (response.length === 0) return;
         const sortedAnswers = response.sort((a, b) => a.id - b.id);
         setAnswers(sortedAnswers);
       })
-      .catch((error) => setErrorMessage(error.message));
+      .catch((error) => setErrorMessage(error.message));*/
 
     setUpdate(false);
 
@@ -62,7 +67,7 @@ function FormsEditPage({ location, match }) {
 
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections, answers)
+    FormSectionsAPI.saveAll(sections/*, answers*/)
       .catch((error) => setErrorMessage(error.message))
       .then(() => {
         setUpdate(true);
@@ -77,7 +82,7 @@ function FormsEditPage({ location, match }) {
     if (!destination || reason === "CANCEL") {
       return;
     }
-    //If dorp an element to the same place, it should do nothing
+    //If drop an element to the same place, it should do nothing
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -132,8 +137,8 @@ function FormsEditPage({ location, match }) {
                             ) : (
                               <FormSection
                                 sections={sections}
-                                answers={answers}
-                                setAnswers={setAnswers}
+                                /*answers={answers}
+                                setAnswers={setAnswers}*/
                                 setSections={setSections}
                                 maxOrder={maxOrder}
                                 updateMaxOrder={updateMaxOrder}
@@ -148,8 +153,8 @@ function FormsEditPage({ location, match }) {
                       <FormAddSection
                         setSections={setSections}
                         sections={sections}
-                        setAnswers={setAnswers}
-                        answers={answers}
+                        /*setAnswers={setAnswers}
+                        answers={answers}*/
                         updateMaxOrder={updateMaxOrder}
                         maxOrder={maxOrder}
                         pageId={pageId}

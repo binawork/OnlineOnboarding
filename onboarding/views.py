@@ -220,6 +220,7 @@ class UserAvatarUpload(views.APIView):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    # permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
 
     def get_permissions(self):
@@ -236,7 +237,10 @@ class UserViewSet(viewsets.ModelViewSet):
     def login_user(self, request):
         queryset = User.objects.filter(pk=self.request.user.id)
         serializer = LogInUserSerializer(queryset, many=True)
-        return Response(serializer.data)
+        response = Response(serializer.data)
+        queryset.update(welcome_board = False)
+
+        return response
 
     def list(self, request):
 
@@ -632,7 +636,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         """
         answer = Answer.objects.filter(
                         section__id=pk,
-                        section__page_package__owner=self.request.user.company,
+                        section__page__package__owner=self.request.user.company,
         )
         serializer = AnswerSerializer(answer, many=True)
 
@@ -649,7 +653,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         answer = Answer.objects.filter(
                                 section__id=pk,
                                 owner=self.request.user,
-                                section__page_package__user=self.request.user
+                                section__page__package__users=self.request.user
         )
         serializer = AnswerSerializer(answer, many=True)
 

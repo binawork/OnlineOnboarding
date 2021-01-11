@@ -27,10 +27,11 @@ function EmployeeAvatar(props) {
     	        let fr = new FileReader(),
     	            url = fr.readAsDataURL(fileNameRef.current.files[0]);
     	        fr.onload = function(e){
-    	            setImage(fr.result);
+    	            setImage(fr.result);/* uploads binary data in src of image <img /> */
     	        }
     	    }
 
+    	    /* sends file object into parent component state, to be able to send this file to the server */
     	    props.setFile(fileNameRef.current.files[0]);
     	}
     };

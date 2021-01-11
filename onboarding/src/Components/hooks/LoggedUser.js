@@ -28,7 +28,7 @@ function LoggedUser(){
 			(error) => {
 				showError(true);
 			}
-		);console.log("   Use effect is used");
+		);console.log("   Log-user effect is used");
 	}, []);
 
 

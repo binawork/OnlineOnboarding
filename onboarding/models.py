@@ -78,7 +78,6 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-
 class User(AbstractUser):
     """
 
@@ -95,6 +94,7 @@ class User(AbstractUser):
     job_position = models.CharField(max_length=50, blank=True, null=True)
 
     date_left = models.DateTimeField(null=True, blank=True)
+    welcome_board = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
