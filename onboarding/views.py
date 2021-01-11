@@ -220,6 +220,7 @@ class UserAvatarUpload(views.APIView):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    # permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
 
     def get_permissions(self):
@@ -236,7 +237,10 @@ class UserViewSet(viewsets.ModelViewSet):
     def login_user(self, request):
         queryset = User.objects.filter(pk=self.request.user.id)
         serializer = LogInUserSerializer(queryset, many=True)
-        return Response(serializer.data)
+        response = Response(serializer.data)
+        queryset.update(welcome_board = False)
+
+        return response
 
     def list(self, request):
 
