@@ -127,7 +127,7 @@ const EmployeeSections = ({pageId}) => {
                 sections = sectionsAnswers.sections, answers = sectionsAnswers.answers_cp;
 
             for(i = 0; i < count; i++){
-                // to-fix: answers[i] does not give the same alement which is listed in answers, console.log(answers, answers[i]);
+                // to-fix: answers[i] does not give the same element which is listed in answers, console.log(answers, answers[i]);
                 sectionsView2.push(<section key={uuidv4()} className="card my-3">
                         <header className="card-header">
                             <div>{sections[i].title}</div>

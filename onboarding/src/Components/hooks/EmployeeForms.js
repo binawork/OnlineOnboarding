@@ -165,15 +165,20 @@ export async function getEmployeesSection(pageId, errorMessageFunction){
 export async function getEmployeesAnswersForSections(sections){
 	let mainUrl = getPath(), url,
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
-	var results = Array(sections.length).fill({data: []});
+	var results = {answers: Array(sections.length).fill({data: []}), answers_cp: Array(sections.length).fill({data: []})};
 
-	for(let i =results.length - 1; i >= 0; i--){
+	for(let i = sections.length - 1; i >= 0; i--){
 		url = mainUrl + "api/answer/" + sections[i].id + "/list_by_section_employee/";
 		fetch(url, fetchProps).then(res => res.json()).then(
 				(result) => {
-					results[i] = {data: []};
-					if(Object.prototype.toString.call(result)==='[object Array]' && result.length > 0)
-						results[i] = result[0];
+					results.answers[i] = {data: []};
+					if(Object.prototype.toString.call(result)==='[object Array]' && result.length > 0){
+						results.answers[i] = result[0];
+						try {
+							results.answers[i].data = JSON.parse(result[0].data);
+						}catch(e){}
+						results.answers_cp[i] = JSON.parse(JSON.stringify(result[0]));
+					}
 				},
 				(error) => {
 					results[i] = {data: []};
@@ -185,7 +190,7 @@ export async function getEmployeesAnswersForSections(sections){
 }
 
 export async function getEmployeesSectionsAndAnswers(pageId, errorMessageFunction){
-	let result = {sections: [], answers: []};
+	let result = {sections: [], answers: [], answers_cp: []};
 
 	result.sections = await getEmployeesSection(pageId, errorMessageFunction);
 	if(result.sections.length < 1)
