@@ -50,7 +50,6 @@ export function tryFetchJson(res, noJsonMessage){
 	if(res.ok){
 		result = res.json().catch(() => {return noJsonObj});
 	} else {
-		console.log(res);
 		result = res.text();
 	}
 	return result;
@@ -60,4 +59,15 @@ export function validEmail(email){
 	let regExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	return regExp.test(String(email));
 }
+
+export function isNumber(val){
+	return ( Object.prototype.toString.call(val)!=='[object Array]' && (val-parseFloat(val)+1)>=0)?true:false;
+}
+
+export function clickButtonAfterPressingEnter(e, buttonId) {
+	if (e.key === "Enter") {
+			e.preventDefault();
+			document.getElementById(buttonId).click();
+	}
+};
 

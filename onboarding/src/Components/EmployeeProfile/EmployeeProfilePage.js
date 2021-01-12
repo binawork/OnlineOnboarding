@@ -1,14 +1,16 @@
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import EmployeeProfileUser from "./EmployeeProfileUser";
 import ProcessPreviewTables from "./ProcessPreviewTables";
 import LoggedUser from "../hooks/LoggedUser.js";
+import { isNumber } from "../utils";
 
 
 function EmployeeProfilePage(props) {
-	document.title = "Onboarding: podgląd procesu pracownika";
+    document.title = "Onboarding: podgląd procesu pracownika";
+    const [count, setCount] = useState(0);
     const packageIdRef = useRef(0);
     const singleUser = {id: 0, name: "", last_name: "", email: "", tel: "",
     				position: "", department: "", location: "", sent: "-", finished: "-", avatar: "/onboarding/static/images/unknown-profile.jpg"};
@@ -43,8 +45,8 @@ function EmployeeProfilePage(props) {
         if(typeof user.location === "string")
             singleUser.location = user.location;
 
-        if(typeof user.sent === "string")
-            singleUser.sent = user.sent;
+        if(typeof user.sent === "string" || isNumber(user.sent) )
+            singleUser.sent = user.sent + count;
         if(typeof user.finished === "string")
             singleUser.finished = user.finished;
 
@@ -65,7 +67,7 @@ function EmployeeProfilePage(props) {
                             <PageAddressBar page = { "Podgląd procesu pracownika" } loggedUser={ loggedUser } />
                             <div className="page-section">
                                 <EmployeeProfileUser user={ singleUser } />
-                                <ProcessPreviewTables loggedUser={ loggedUser } userId={ singleUser.id } />
+                                <ProcessPreviewTables loggedUser={ loggedUser } userId={ singleUser.id } count={ count } setCount={ setCount } />
                             </div>
                         </div>
                     </div>

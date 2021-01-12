@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { dateToString } from "../utils";
 //import { removeCombo } from "../hooks/Packages";
-import "../../../static/css/styles.css";
+import "../../static/css/style.css";
 
 
 function PackagesRow({ row, handleRemoveAsk, lastRow, loggedUser }) {

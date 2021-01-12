@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import MarkdownArea from "../MarkdownArea";
-import SaveInfo from "../SaveInfo";
 import SectionAnswers from "./SectionAnswers";
 import { Draggable } from "react-beautiful-dnd";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
@@ -11,10 +10,14 @@ function FormSection({
   setSections,
   maxOrder,
   updateMaxOrder,
-  answers,
-  setAnswers,
+  //answers,
+  //setAnswers,
 }) {
-  // const [saved, setSaved] = useState(false);
+  const sectionsRef = useRef(sections);
+  useEffect(() => {
+    sectionsRef.current = sections;
+  });
+
   const cardHeader = (type) =>
     type === "oa"
       ? "Pytanie otwarte"
@@ -23,36 +26,6 @@ function FormSection({
       : type === "msa"
       ? "Wielokrotny wybór"
       : "";
-
-  // useEffect(() => {
-  //   // Show info "Zapisano zmiany" for 3sec when the changes were saved
-  //   if (saved) {
-  //     setTimeout(setSaved, 3000, false);
-  //   }
-  // }, [saved]);
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (sectionTitle !== title) {
-  //       title = sectionTitle;
-  //       // updateSection("title", id, sectionTitle, updateSections, setSaved);
-  //     }
-  //     if (sectionDescription !== description) {
-  //       description = sectionDescription;
-  //       // updateSection(
-  //       //   "description",
-  //       //   id,
-  //       //   sectionDescription,
-  //       //   updateSections,
-  //       //   setSaved
-  //       // );
-  //     }
-  //   }, 4000);
-
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [sectionTitle, sectionDescription]);
 
   const changeTitle = (e, sectionId) => {
     const updatedSections = sections.map((section) => {
@@ -63,7 +36,7 @@ function FormSection({
   };
 
   const changeDescription = (content, sectionId) => {
-    const updatedSections = sections.map((section) => {
+    const updatedSections = sectionsRef.current.map((section) => {
       if (section.id === sectionId) section.description = content;
       return section;
     });
@@ -73,11 +46,13 @@ function FormSection({
   const handleCopySection = (e, order, section) => {
     e.preventDefault();
     const copiedSection = { ...section, id: uuid.v4(), order: order + 1 };
-    const copiedAnswers = answers
+    copiedSection.data = JSON.parse(JSON.stringify(section.data) );// fast cloning with data loss (slice() was not enough)! No problem for numbers, strings and bools;
+
+    /*const copiedAnswers = answers
       .filter((answer) => answer.section === section.id)
       .map((answer) => {
         return { id: uuid.v4(), data: answer.data, section: copiedSection.id };
-      });
+      });*/
     const updatedSections = sections.map((section) => {
       if (section.order > order) {
         section.order = section.order + 1;
@@ -86,7 +61,7 @@ function FormSection({
     });
     updatedSections.splice(order, 0, copiedSection);
     setSections(updatedSections);
-    setAnswers([...answers, ...copiedAnswers]);
+    //setAnswers([...answers, ...copiedAnswers]);
     updateMaxOrder(maxOrder + 1);
   };
 
@@ -98,15 +73,57 @@ function FormSection({
       }
       return section;
     });
-    FormSectionsAPI.deleteSection(sectionId, answers, setAnswers);
+    FormSectionsAPI.deleteSection(sectionId/*, answers, setAnswers*/);
     setSections(updatedSections.filter((item) => item.id !== sectionId));
-    setAnswers(
+    /*setAnswers(
       answers.filter(
         (item) => item.section !== sectionId && item.section !== null
       )
-    );
+    );*/
     updateMaxOrder(maxOrder - 1);
   };
+
+  const inputAnswer = function(sectionId){
+    const updatedSections = sections.map((section) => {
+      if (section.id === sectionId){
+        let maxId = section.data.length - 1, i = section.data.length - 1, intId;
+        for(; i >= 0; i--){// = max(section.data[...].id,  data.length - 1);
+          if(typeof section.data[i].id !== 'undefined' ){// 'id' in section.data[i];
+            intId = parseInt(section.data[i].id, 10);
+            if(intId > maxId) maxId = intId;
+          }
+        }
+
+        section.data.push({id: maxId + 1, title: "Odpowiedź", is_checked: false});
+      }
+
+      return section;
+    });
+
+    setSections(updatedSections);
+  };
+  const removeAnswer = function(sectionId, answerIndex){
+    if(answerIndex < 0)
+      return ;
+
+    const updatedSections = sections.map((section) => {
+      if (section.id === sectionId) section.data.splice(answerIndex, 1);
+      return section;
+    });
+    setSections(updatedSections);
+  };
+  const editAnswer = function(value, sectionId, answerIndex){
+    if(answerIndex < 0)
+      return ;
+
+    const updatedSections = sections.map((section) => {
+      if (section.id === sectionId && answerIndex < section.data.length)
+        section.data[answerIndex].title = value;
+      return section;
+    });
+    setSections(updatedSections);
+  };
+
 
   return (
     <>
@@ -160,10 +177,13 @@ function FormSection({
                   </div>
                 ) : (
                   <SectionAnswers
-                    setSections={setSections}
+                    inputAnswer={ inputAnswer }
+                    editAnswer={ editAnswer }
+                    removeAnswer={ removeAnswer }
                     sectionId={section.id}
-                    answers={answers}
-                    setAnswers={setAnswers}
+                    sectionData={ section.data }
+                    /*answers={answers}
+                    setAnswers={setAnswers}*/
                     name={section.type + section.id}
                     type={section.type}
                   />
@@ -187,7 +207,6 @@ function FormSection({
                   </i>
                 </button>
               </footer>
-              {/* {saved ? <SaveInfo /> : <></>} */}
             </section>
           )}
         </Draggable>

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from onboarding.models import ContactRequestDetail, Package, Page, Section, User
+from onboarding.models import ContactRequestDetail, Package, Page, Section, User, PackagesUsers
 from onboarding.models import Answer, Company, CompanyQuestionAndAnswer
 from . import mock_password
 
@@ -47,6 +47,14 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CompanyFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ('id',
+                  'company_logo',
+                  )
+
+
 class CompanyQuestionAndAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompanyQuestionAndAnswer
@@ -83,7 +91,8 @@ class LogInUserSerializer(serializers.ModelSerializer):
             'team',
             'job_position',
             'last_login',
-            'company_id'
+            'company_id',
+            'welcome_board'
         ]
 
 
@@ -112,6 +121,7 @@ class UsersListSerializer(serializers.ModelSerializer):
             'team',
             'job_position',
             'last_login',
+            # 'welcome_board'
         )
 
 
@@ -129,6 +139,7 @@ class UserSerializer(serializers.ModelSerializer):
             'location',
             'team',
             'job_position',
+            # 'welcome_board'
         )
 
     def create(self, validated_data):
@@ -165,16 +176,6 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
 
 
 # PACKAGE
-class PackageUsersSerializer(serializers.ModelSerializer):
-    class Meta:
-        ordering = ['-id']
-        model = Package
-        fields = (
-            'id',
-            'users'
-        )
-
-
 class PackageSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
@@ -185,6 +186,24 @@ class PackageSerializer(serializers.ModelSerializer):
             'description',
             'created_on',
             'updated_on',
+            'users',
+        )
+
+
+class PackageUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PackagesUsers
+        fields = '__all__'
+
+
+class PackageAddUsersSerializer(serializers.ModelSerializer):
+    users = PackageUsersSerializer(source='packagesusers_set', many=True)
+
+    class Meta:
+        ordering = ['-id']
+        model = Package
+        fields = (
+            'id',
             'users'
         )
 
@@ -281,12 +300,23 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 
 class AnswersProgressStatusSerializer(serializers.ModelSerializer):
+    # sen_on = serializers.ReadOnlyField(source='packageusers.send_on')
+
     class Meta:
         model = Answer
         fields = (
             'id',
             'updated_on',
-            'confirmed'
+            'confirmed',
+        )
+
+
+class WhenPackageSendToEmployeeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PackagesUsers
+        fields = (
+            'send_on',
         )
 
 

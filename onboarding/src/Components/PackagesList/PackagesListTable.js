@@ -20,7 +20,7 @@ function PackagesListTable(props) {
         setPackageIdModal({id: e.target.value,
             modal: <ModalWarning handleAccept={ removePackage } handleCancel={ hideModal }
             					title={ "Usunięcie wdrożenia" }
-            					message={ "Czy na pewno chcesz usunąć wdrożenie" }
+            					message={ "Czy na pewno chcesz usunąć wdrożenie?" }
             					show={ true }
             					id={ e.target.value } />
         });

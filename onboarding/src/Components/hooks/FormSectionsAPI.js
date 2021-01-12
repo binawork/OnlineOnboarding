@@ -17,13 +17,13 @@ const FormSectionsAPI = {
     const response = await answers.json();
     return response;
   },
-  deleteSection: async function (idToDelete, answers) {
+  deleteSection: async function (idToDelete) {
     if (!idToDelete) {
       throw new Error("Section has to have an id to be deleted");
     }
     if (typeof idToDelete === "number") {
       await makeRequest(`${BASE_URL}api/section/${idToDelete}`, "DELETE");
-      await Promise.all(
+      /*await Promise.all(
         answers.map((answer) => {
           if (
             (typeof answer.id === "number" && answer.section === idToDelete) ||
@@ -32,7 +32,7 @@ const FormSectionsAPI = {
             makeRequest(`${BASE_URL}api/answer/${answer.id}`, "DELETE");
           }
         })
-      );
+      );*/
     }
   },
   deleteAnswer: async function (idToDelete) {
@@ -43,7 +43,16 @@ const FormSectionsAPI = {
       await makeRequest(`${BASE_URL}api/answer/${idToDelete}`, "DELETE");
     }
   },
-  saveAll: async function (sections, answers, setUpdate) {
+  saveAnswers: async function (answers) {
+    await Promise.all(
+      answers.map((answer) => {
+        makeRequest(`${BASE_URL}api/answer/${answer.id}/`, "PATCH", {
+          data: answer.data,
+        });
+      })
+    );
+  },
+  saveAll: async function (sections/*, answers*/) {
     //Save sections
     const sectionsSaveResult = await Promise.all(
       sections.map((section) =>
@@ -53,7 +62,7 @@ const FormSectionsAPI = {
               .then((result) => {
                 const savedSection = result;
                 //Save answers of section
-                Promise.all(
+                /*Promise.all(
                   answers.map((answer, index) => {
                     if (answer.section === section.id) {
                       makeRequest(`${BASE_URL}api/answer/`, "POST", {
@@ -66,7 +75,7 @@ const FormSectionsAPI = {
                         });
                     }
                   })
-                );
+                );*/
                 return savedSection;
               })
           : makeRequest(
@@ -78,11 +87,12 @@ const FormSectionsAPI = {
               .then((result) => {
                 const savedSection = result;
                 //Save answers of section
-                Promise.all(
+                /*Promise.all(
                   answers.map((answer) => {
                     if (answer.section === section.id) {
                       typeof answer.id === "string"
                         ? makeRequest(`${BASE_URL}api/answer/`, "POST", {
+                            section: savedSection.id,
                             data: answer.data,
                           })
                         : makeRequest(
@@ -92,13 +102,12 @@ const FormSectionsAPI = {
                           );
                     }
                   })
-                );
+                );*/
                 return savedSection;
               })
       )
     );
-    setUpdate(true);
-    return [sectionsSaveResult, answers];
+    return [sectionsSaveResult/*, answers*/];
   },
 };
 

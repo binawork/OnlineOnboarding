@@ -13,7 +13,7 @@ export function getQnA(setQaList, setMaxOrder, setLoading, setError) {
     },
   };
 
-  fetch(url + "api/q_and_a/", fetchProps)
+  fetch(url + "api/q_and_a/list_by_company/", fetchProps)
     .then((res) => res.json())
     .then((result) => {
       const orders = result

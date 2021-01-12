@@ -11,43 +11,68 @@ import LoggedUser from "../hooks/LoggedUser.js";
 
 function FormsEditPage({ location, match }) {
   const loggedUser = location.state?.loggedUser ?? LoggedUser();
+  const pageId = match.params.form_id;
+  const packageIdRef = useRef(0);
+  if (location.state)
+    packageIdRef.current = location.state.packageId || 0;
+
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);
-  const [answers, setAnswers] = useState([]);
+  //const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [update, setUpdate] = useState(true);
-  const pageID = match.params.form_id;
-  const packageIdRef = useRef(0);
-  if (match.params.form_id)
-    packageIdRef.current = parseInt(match.params.form_id);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    FormSectionsAPI.getAllSections(pageID)
+    let mounted = true;
+    FormSectionsAPI.getAllSections(pageId)
       .then((response) => {
         const sortedResponse = response.sort((a, b) => a.order - b.order);
+        for(let i = sortedResponse.length - 1; i >= 0; i--){
+          if( !Array.isArray(sortedResponse[i].data) )
+            sortedResponse[i].data = [];
+        }
+
         setSections(sortedResponse);
         updateMaxOrder(response.length);
       })
       .catch((error) => setErrorMessage(error.message))
       .finally(() => setLoading(false));
 
-    FormSectionsAPI.getAllAnswers()
+    /*FormSectionsAPI.getAllAnswers()
       .then((response) => {
         if (response.length === 0) return;
         const sortedAnswers = response.sort((a, b) => a.id - b.id);
         setAnswers(sortedAnswers);
       })
-      .catch((error) => setErrorMessage(error.message));
-      
+      .catch((error) => setErrorMessage(error.message));*/
+
     setUpdate(false);
+
+    return function cleanup() {
+      mounted = false;
+    };
   }, [update]);
+
+  useEffect(() => {
+    // Show info "Zapisano zmiany" for 3sec when the changes were saved
+    if (saved) {
+      const timer = setTimeout(setSaved, 3000, false);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [saved]);
 
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections, answers, setUpdate).catch((error) =>
-      setErrorMessage(error.message)
-    );
+    FormSectionsAPI.saveAll(sections/*, answers*/)
+      .catch((error) => setErrorMessage(error.message))
+      .then(() => {
+        setUpdate(true);
+        setSaved(true);
+      });
   };
 
   const onDragEnd = (result) => {
@@ -57,7 +82,7 @@ function FormsEditPage({ location, match }) {
     if (!destination || reason === "CANCEL") {
       return;
     }
-    //If dorp an element to the same place, it should do nothing
+    //If drop an element to the same place, it should do nothing
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -91,7 +116,7 @@ function FormsEditPage({ location, match }) {
                 page={"Formularz / Edytuj"}
                 loggedUser={loggedUser}
               />{" "}
-              <FormDescription location={location} pageId={pageID} />
+              <FormDescription location={location} pageId={pageId} />
               <section className="page-section">
                 <header className="card-header">Sekcje strony</header>
                 <form onSubmit={handleSave}>
@@ -112,8 +137,8 @@ function FormsEditPage({ location, match }) {
                             ) : (
                               <FormSection
                                 sections={sections}
-                                answers={answers}
-                                setAnswers={setAnswers}
+                                /*answers={answers}
+                                setAnswers={setAnswers}*/
                                 setSections={setSections}
                                 maxOrder={maxOrder}
                                 updateMaxOrder={updateMaxOrder}
@@ -128,11 +153,11 @@ function FormsEditPage({ location, match }) {
                       <FormAddSection
                         setSections={setSections}
                         sections={sections}
-                        setAnswers={setAnswers}
-                        answers={answers}
+                        /*setAnswers={setAnswers}
+                        answers={answers}*/
                         updateMaxOrder={updateMaxOrder}
                         maxOrder={maxOrder}
-                        pageId={pageID}
+                        pageId={pageId}
                       />
                     </div>
                   </div>
@@ -142,6 +167,27 @@ function FormsEditPage({ location, match }) {
           </div>
         </div>
       </main>
+      {saved ? (
+        <div
+          className="fixed-bottom d-flex justify-content-center show-and-hide"
+          style={{ display: "fixed-bottom", left: "240px" }}
+        >
+          <div
+            className="m-2 p-2"
+            style={{
+              width: "150px",
+              backgroundColor: "rgba(226, 232, 238, 0.57)",
+              color: "black",
+              textAlign: "center",
+              borderRadius: "4px",
+            }}
+          >
+            Zapisano zmiany
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

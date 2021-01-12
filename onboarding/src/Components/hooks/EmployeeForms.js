@@ -5,7 +5,7 @@ import { getPath, getCookie, dateToString, tryFetchJson } from "../utils.js";
 /**
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
-function EmployeeForms(props){
+function EmployeeForms(props, count){
 	var [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
@@ -23,9 +23,9 @@ function EmployeeForms(props){
 				showError(error);
 			}
 		);
-	}, [props.count]);
+	}, [props.count, count]);
 
-	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: []};
+	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []};
 
 	if(error){
 		rowModel.name = error.message;
@@ -61,6 +61,7 @@ function EmployeeForms(props){
 			row.pagesCount = 0;
 			row.created = dateToString(rows[i].created_on);
 			row.last_edit = dateToString(rows[i].updated_on);
+			row.users = rows[i].users;
 			if( Object.prototype.toString.call(rows[i].page_set)==='[object Array]' ){ // Array.isArray(object)
 				row.pages = rows[i].page_set.slice();
 				row.pagesCount = row.pages.length;
@@ -73,7 +74,7 @@ function EmployeeForms(props){
 
 			form_table.push(row);
 		}
-
+		
 		return form_table;
 	}
 
@@ -150,12 +151,14 @@ export function SingleEmployeeForms(props){
 /**
  * Employee assignment to package/combo;
  */
-export function assignEmployeeToPackage(handleMessage, employeeId, packageId){
+export function assignEmployeeToPackage(handleMessage, employeeId, packageId, setUsersInPackage){
 	let data, token = getCookie("csrftoken"), fullPath = getPath(),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
 
-	fullPath = fullPath + "api/package/" + packageId + "/add_user_to_package/";
-	data = {users: employeeId};
+	fullPath = fullPath + "api/add_users_to_package/" + packageId + "/add_user_to_package/";
+	data = {users: [employeeId]};
+	//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
+	//data.users.push(userPackageObject);
 	fetchProps.body = JSON.stringify(data);
 
 	fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})
@@ -165,6 +168,7 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId){
 				if(typeof result.detail === 'string')
 					msg += result.detail;
 				handleMessage(msg);
+				setUsersInPackage(result.users)
 			},
 			(error) => {
 				handleMessage(error.message);

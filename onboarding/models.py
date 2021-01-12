@@ -7,8 +7,27 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 
+def upload_to(instance, filename):
+    """
+    :param instance:
+    :param filename:
+    :return:
+    """
+    now = timezone.now()
+    base, extension = os.path.splitext(filename.lower())
+    milliseconds = now.microsecond // 1000
+    return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+
+
 class Company(models.Model):
+
+    company_logo = models.ImageField(upload_to=upload_to, null=True, blank=True)
     name = models.TextField(max_length=500)
+    about = models.TextField(max_length=2000, null=True, blank=True)
+    mission = models.TextField(max_length=2000, null=True, blank=True)
+    vision = models.TextField(max_length=2000, null=True, blank=True)
+    info = models.TextField(max_length=2000, null=True, blank=True)
+    link = models.TextField(max_length=2000, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
     how_many_sent_packages = models.IntegerField(default=1)
@@ -44,18 +63,19 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
+    def create_superuser(self, email, password, **extra_fields):
+        """
+        Create and save a SuperUser with the given email and password.
+        """
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
 
-def upload_to(instance, filename):
-    """
-
-    :param instance:
-    :param filename:
-    :return:
-    """
-    now = timezone.now()
-    base, extension = os.path.splitext(filename.lower())
-    milliseconds = now.microsecond // 1000
-    return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError(_('Superuser must have is_staff=True.'))
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError(_('Superuser must have is_superuser=True.'))
+        return self.create_user(email, password, **extra_fields)
 
 
 class User(AbstractUser):
@@ -74,6 +94,7 @@ class User(AbstractUser):
     job_position = models.CharField(max_length=50, blank=True, null=True)
 
     date_left = models.DateTimeField(null=True, blank=True)
+    welcome_board = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -106,19 +127,16 @@ class Package(models.Model):
     description = models.TextField(max_length=1000, help_text='Enter a brief description', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    users = models.ManyToManyField(User, related_name='package_users', blank=True)
+    users = models.ManyToManyField(User, through='PackagesUsers', null=True, blank=True)
 
     def __str__(self):
         return self.title
 
 
-# class PackageUsers(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.PROTECT)
-#     package = models.ForeignKey(Package, on_delete=models.PROTECT)
-#     send_on = models.DateTimeField(auto_now_add=True)
-#
-#     class Meta:
-#         db_table = 'onboarding_package_users'
+class PackagesUsers(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    package = models.ForeignKey(Package, on_delete=models.PROTECT)
+    send_on = models.DateTimeField(auto_now_add=True)
 
 
 class Page(models.Model):

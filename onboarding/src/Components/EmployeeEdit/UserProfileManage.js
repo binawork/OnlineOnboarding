@@ -38,7 +38,24 @@ function UserProfileManage(props) {
             props.showMessage("Format e-mail'a jest nieprawidłowy");
     };
 
-    let locations = ["Warszawa", "Łódź", "Poznań", "Gdańsk", "Wrocław"], dataOptions = [];
+    let locations = [
+        "Białystok", 
+        "Bydgoszcz", 
+        "Gdańsk", 
+        "Katowice",
+        "Kielce",
+        "Kraków",
+        "Lublin",
+        "Łódź",
+        "Olsztyn",
+        "Opole",
+        "Poznań",
+        "Rzeszów",
+        "Szczecin",
+        "Warszawa",
+        "Wrocław",
+        "Zielona Góra"
+    ], dataOptions = [];
     dataOptions = locations.map( (city, i) =>
         <option key={ i } value={ city } />
     );

@@ -11,7 +11,8 @@ from django.contrib.auth import views as auth_views
 
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
     ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView,\
-    UserProgressOnPackageView, PackagePagesViewSet, SectionAnswersViewSet, CustomPasswordResetConfirmView
+    UserProgressOnPackageView, PackagePagesViewSet, SectionAnswersViewSet, CustomPasswordResetConfirmView, \
+    WhenPackageSendToEmployeeView, AddUserToPackageViewSet, CompanyLogoViewSet
 
 # base
 urlpatterns = [
@@ -45,12 +46,15 @@ urlpatterns += [
     path('email/reminder/<employee_id>/<package_id>/', views.reminder, name='reminder'),
 ]
 
-#urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 # API
 urlpatterns += [
     path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/', UserProgressOnPageView.as_view(), name='progress_on_page'),
     path(r'api/user/<int:employe_id>/progress_on_package/<int:package_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
+    path(r'api/user/<int:employe_id>/when_package_send_to_user/<int:package_id>/', WhenPackageSendToEmployeeView.as_view(),
+         name='when_package_send_to_user'),
+
 ]
 
 
@@ -67,6 +71,7 @@ router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePage
 # router.register(r'api/package_pages/list_by_company_employee', PackagePagesViewSet, basename='PackagePages')
 # router.register(r'api/package_pages/<employee_id>/list_by_company_employee/', PackagePagesViewSet, basename='PackagePages')
 router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet, basename='SectionAnswers')
+router.register(r'api/add_users_to_package', AddUserToPackageViewSet, basename='Add user to package')
 
 
 # Wire up our API using automatic URL routing.
@@ -76,5 +81,6 @@ urlpatterns += [
     path(r'api/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
     path("api/user-avatar/", UserAvatarUpload.as_view(), name="rest_user_avatar_upload"),
+    path("api/company-logo/", CompanyLogoViewSet.as_view(), name="company avatar uploud"),
 
 ]

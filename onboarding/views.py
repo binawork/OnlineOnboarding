@@ -28,10 +28,11 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer
-from .serializers import AnswerSerializer, CompanySerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer
+from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
+from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
+
 
 from .permissions import IsHrUser
 from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email
@@ -189,6 +190,21 @@ def manager_view(request):
 
 # ViewSets define the view behavior
 
+class CompanyLogoViewSet(views.APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        if self.request.user.is_hr:
+            serializer = CompanyFileSerializer(data=request.data, instance=request.user.company)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 class UserAvatarUpload(views.APIView):
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [IsAuthenticated]
@@ -204,6 +220,7 @@ class UserAvatarUpload(views.APIView):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    # permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
 
     def get_permissions(self):
@@ -220,7 +237,10 @@ class UserViewSet(viewsets.ModelViewSet):
     def login_user(self, request):
         queryset = User.objects.filter(pk=self.request.user.id)
         serializer = LogInUserSerializer(queryset, many=True)
-        return Response(serializer.data)
+        response = Response(serializer.data)
+        queryset.update(welcome_board = False)
+
+        return response
 
     def list(self, request):
 
@@ -230,6 +250,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def create_user(self, request):
+        permission_classes = [IsHrUser, IsAuthenticated]
         user_serializer = self.serializer_class(data=request.data)
         if user_serializer.is_valid():
             user = user_serializer.save()
@@ -251,6 +272,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def remove_user(self, request):
+        permission_classes = (IsHrUser, IsAuthenticated)
         user_email = request.user.email
         username = request.user.username
         request.user.email = 'removed'
@@ -313,6 +335,55 @@ class ContactFormViewSet(viewsets.ModelViewSet):
     queryset = ContactRequestDetail.objects.all()
     serializer_class = ContactRequestDetail
 
+class AddUserToPackageViewSet(viewsets.ModelViewSet):
+
+    queryset = Package.objects.all()
+    serializer_class = PackageAddUsersSerializer
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=True, methods=['post'])
+    def add_user_to_package(self, request, pk=None):
+        """
+        :param request: user id in request.data.users
+        :param pk: package primary key
+        """
+        package = Package.objects.get(id=pk)
+        pkg_company = package.owner
+        hr_user = User.objects.get(id=request.user.id)
+        users = User.objects.filter(id__in=request.data["users"])
+        serializer = PackageAddUsersSerializer
+
+        for user in users:
+
+            # check if the hr_user is from the same company as the package (form)
+            # to which he /she wants to add a new user
+            if hr_user.company_id == pkg_company.id:
+                pass
+            else:
+                e = "Możesz dodawać tylko do formularzy firmy, do której należysz."
+                raise ValueError(e)
+
+            # check if the hr_user is from the same company as the user
+            # he /she wants to add to the package (form)
+            if hr_user.company_id == user.company_id:
+                pass
+            else:
+                e2 = "Możesz dodawać do formularzy tylko tych użytowników, którzy"
+                e3 = " są z tej samej firmy."
+                e4 = e2 + e3
+                raise ValueError(e4)
+
+            if user not in package.users.all():
+                package.users.add(user)
+                send_add_user_to_package_email(
+                    EMAIL_HOST_USER,
+                    user,
+                    package
+                )
+
+        serializer = PackageSerializer(package)
+        return Response(serializer.data)
+
 
 class PackageViewSet(viewsets.ModelViewSet):
     """
@@ -352,12 +423,12 @@ class PackageViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    @action(detail=True, methods=['post'])
+    """@action(detail=True, methods=['post'])
     def add_user_to_package(self, request, pk=None):
-        """
+        " " "
         :param request: user id in request.data.users
         :param pk: package primary key
-        """
+        " " "
         package = Package.objects.get(id=pk)
         pkg_company = package.owner
         hr_user = User.objects.get(id=request.user.id)
@@ -391,7 +462,8 @@ class PackageViewSet(viewsets.ModelViewSet):
 
         serializer = PackageUsersSerializer(package)
 
-        return Response(serializer.data)
+        return Response(serializer.data) """
+
 
 
 class PageViewSet(viewsets.ModelViewSet):
@@ -564,7 +636,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         """
         answer = Answer.objects.filter(
                         section__id=pk,
-                        section__page_package__owner=self.request.user.company,
+                        section__page__package__owner=self.request.user.company,
         )
         serializer = AnswerSerializer(answer, many=True)
 
@@ -581,7 +653,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         answer = Answer.objects.filter(
                                 section__id=pk,
                                 owner=self.request.user,
-                                section__page_package__user=self.request.user
+                                section__page__package__users=self.request.user
         )
         serializer = AnswerSerializer(answer, many=True)
 
@@ -611,11 +683,31 @@ class UserProgressOnPackageView(generics.ListAPIView):
         employe_id = kwargs.get('employe_id')
         package_id = kwargs.get('package_id')
 
-        queryset = Answer.objects.filter(section__page__package_id=package_id,
-                                         owner_id=employe_id)
+        queryset = Answer.objects.filter(
+            section__page__package_id=package_id,
+            owner_id=employe_id)
         serializer = AnswersProgressStatusSerializer(queryset, many=True)
 
         return Response(serializer.data)
+
+class WhenPackageSendToEmployeeView(generics.ListAPIView):
+    queryset = PackagesUsers.objects.all()
+    serializer_class = WhenPackageSendToEmployeeSerializer
+
+    def get(self, request, *args, **kwargs):
+        employe_id = kwargs.get('employe_id')
+        package_id = kwargs.get('package_id')
+
+        queryset = PackagesUsers.objects.filter(
+            package_id=package_id,
+            user_id=employe_id,
+            user__company=request.user.company
+        )
+        serializer = WhenPackageSendToEmployeeSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+
 
 
 

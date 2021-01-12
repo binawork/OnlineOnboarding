@@ -10,6 +10,8 @@ function PackagePage(props){
 	var [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
+  const [newRowId, setNewRowId] = useState(null);
+
 	let url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
@@ -17,7 +19,10 @@ function PackagePage(props){
 		fetch(url + "api/page/" + props.id + "/list_by_package_hr/", fetchProps).then(res => res.json()).then(
 			(result) => {
 				isLoaded(true);
-				setRows(result);
+				setRows(result.sort((a, b) => b.id - a.id));
+				const ids = result.map((res) => res.id);
+				const maxId = Math.max(...ids);
+				setNewRowId(maxId);
 			},
 			(error) => {
 				showError(error);
@@ -39,11 +44,24 @@ function PackagePage(props){
 
 		for(i = 0; i < count; i++){
 			order = parseInt(rows[i].order, 10);
-			form_table.push(<FormTableRow key={ rows[i].id } packageId={ props.id }
-								row={ {name: rows[i].title, order: order, last_edit: rows[i].updated_on,
-									description: rows[i].description, link: rows[i].link, key: rows[i].id } }
-								handleUpdate = { props.handleUpdate }
-								loggedUser={ loggedUser } />);
+			form_table.push(
+        <FormTableRow
+          key={rows[i].id}
+          packageId={props.id}
+          row={{
+            name: rows[i].title,
+            order: order,
+            last_edit: rows[i].updated_on,
+            description: rows[i].description,
+            link: rows[i].link,
+            key: rows[i].id,
+          }}
+          handleRemoveAsk={ props.handleRemoveAsk }
+          handleUpdate={props.handleUpdate}
+          lastRow={newRowId === rows[i].id}
+          loggedUser={loggedUser}
+        />
+      );
 			if(order > maxOrder)
 				maxOrder = order;
 		}
@@ -153,15 +171,23 @@ export function addPage(handleSuccess, title, packageId, order, owner){
 }
 
 export function removePage(handleSuccess, pageId, title){
-	console.log(pageId);
-	let url = getPath(), data, token = getCookie('csrftoken'),
-		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}};
-	data = {"id": pageId};
+	let url = getPath(),
+    data,
+    token = getCookie("csrftoken"),
+    fetchProps = {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": token,
+      },
+    };
+  data = { id: pageId };
 	fetchProps.body = JSON.stringify(data);
 
 	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
-			handleSuccess(result);
+			handleSuccess("Strona została usunięta.");
 		},
 		(error) => {
 			handleSuccess(error);

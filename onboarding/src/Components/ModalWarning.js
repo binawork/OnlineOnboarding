@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 
 
 // Alert Warning Modal
 function ModalWarning(props) {
+    const linkButton = useRef();
+    useEffect(() => {
+        if(props.link) {
+            linkButton.current.focus();
+        }
+    }, [])
+
     let state = {className: "modal modal-alert fade", style: {}, border: {} };
     if(props.show)
         state = {className: "modal modal-alert fade show", style: {display: "block"}, border:{border:"1px solid #FFF"} };
@@ -23,7 +30,7 @@ function ModalWarning(props) {
     let link, useLink = false;
     if(props.link && props.link.loggedUser && typeof props.link.packageId !== 'undefined' && props.link.to){
         useLink = true;
-        link = (<NavLink to={{ pathname: props.link.to, state: { packageId: props.link.packageId, loggedUser: props.link.loggedUser } }} className="btn btn-warning" >
+        link = (<NavLink to={{ pathname: props.link.to, state: { packageId: props.link.packageId, loggedUser: props.link.loggedUser } }} className="btn btn-warning" ref={ linkButton }>
         { acceptText }</NavLink>);
     }
 
@@ -35,7 +42,6 @@ function ModalWarning(props) {
     const accept = () => {
         props.handleAccept(props.id);
     }
-
 
     return(
         <div className={ state.className } style={ state.style } data-backdrop="static" tabIndex="-1" role="dialog" aria-labelledby="modalAlertWarningLabel" aria-hidden="false">
@@ -53,7 +59,7 @@ function ModalWarning(props) {
                      {useLink ? (
                          link
                      ) : (
-                         <button type="button" onClick={ accept } className="btn btn-warning" data-dismiss="modal">{ acceptText }</button>
+                         <button type="button" onClick={ accept } className="btn btn-warning" data-dismiss="modal" autoFocus>{ acceptText }</button>
                      )} { cancelButton }
                     </div>
                 </div>

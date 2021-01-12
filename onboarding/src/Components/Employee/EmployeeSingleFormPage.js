@@ -2,22 +2,22 @@ import React from "react";
 
 import NavbarEmployee from "./NavbarEmployee.js";
 import ModeButton from "../ModeButton";
-import FormOpenAnswer from "../FormsEdit/FormOpenAnswer";
-import FormChoiceAnswer from "../FormsEdit/FormChoiceAnswer";
-import FormMultiChoiceAnswer from "../FormsEdit/FormMultiChoiceAnswer";
-import { formsEmployeeData } from "../FormsEdit/FormsEmployeeData.js";
+// import FormOpenAnswer from "../FormsEdit/FormOpenAnswer";
+// import FormChoiceAnswer from "../FormsEdit/FormChoiceAnswer";
+// import FormMultiChoiceAnswer from "../FormsEdit/FormMultiChoiceAnswer";
+// import { formsEmployeeData } from "../FormsEdit/FormsEmployeeData.js";
 
 
 function EmployeeSingleFormPage() {
-    var forms = [];
-    for(var i = 0; i < formsEmployeeData.length; i++){
-    	if(formsEmployeeData[i].type === "oa")
-    		forms.push(<div className="card-body" key = { i }><FormOpenAnswer form = { formsEmployeeData[i] } /></div>);
-    	else if(formsEmployeeData[i].type === "osa")
-    		forms.push(<div className="card-body"  key = { i }><FormChoiceAnswer form = { formsEmployeeData[i] } /></div>);
-    	else if(formsEmployeeData[i].type === "msa")
-    		forms.push(<div className="card-body" key = { i }><FormMultiChoiceAnswer form = { formsEmployeeData[i] } /></div>);
-    }
+    // var forms = [];
+    // for(var i = 0; i < formsEmployeeData.length; i++){
+    // 	if(formsEmployeeData[i].type === "oa")
+    // 		forms.push(<div className="card-body" key = { i }><FormOpenAnswer form = { formsEmployeeData[i] } /></div>);
+    // 	else if(formsEmployeeData[i].type === "osa")
+    // 		forms.push(<div className="card-body"  key = { i }><FormChoiceAnswer form = { formsEmployeeData[i] } /></div>);
+    // 	else if(formsEmployeeData[i].type === "msa")
+    // 		forms.push(<div className="card-body" key = { i }><FormMultiChoiceAnswer form = { formsEmployeeData[i] } /></div>);
+    // }
 
     return(
     	<>
@@ -44,7 +44,7 @@ function EmployeeSingleFormPage() {
     								</div>
     							</div>
 
-    							{ forms }
+    							{/* { forms } */}
     						</div>
     					</div>
     				</div>
