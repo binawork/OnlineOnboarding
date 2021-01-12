@@ -5,7 +5,7 @@ import { getPath, getCookie, dateToString, tryFetchJson } from "../utils.js";
 /**
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
-function EmployeeForms(props, count){
+function EmployeeForms(props, setError, setLoading, count){
 	var [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
@@ -18,11 +18,12 @@ function EmployeeForms(props, count){
 				isLoaded(true);
 				setRows(result);
 			},
-			(error) => {
-				console.log(error);
-				showError(error);
+			(err) => {
+				console.log(err);
+				setError(true);
+				showError(err);
 			}
-		);
+		).finally(() => setLoading(false));
 	}, [props.count, count]);
 
 	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []};
