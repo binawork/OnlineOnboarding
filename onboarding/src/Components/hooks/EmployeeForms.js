@@ -190,15 +190,58 @@ export async function getEmployeesAnswersForSections(sections){
 	return results;
 }
 
-export async function getEmployeesSectionsAndAnswers(pageId, errorMessageFunction){
-	let result = {sections: [], answers: [], answers_cp: []};
+export function getEmployeesSectionsAndAnswers(pageId, errorMessageFunction, setSectionsAnswers){
+	let xhr = new XMLHttpRequest(), url = getPath();
 
-	result.sections = await getEmployeesSection(pageId, errorMessageFunction);
-	if(result.sections.length < 1)
-		return result;
+	url += "api/section_answers/" + pageId + "/";
 
-	result.answers = await getEmployeesAnswersForSections(result.sections);
-	return result;
+	xhr.onreadystatechange = () => {
+		if(xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300){
+			let resp = xhr.responseText, sections;
+			try {
+				sections = JSON.parse(resp);
+			} catch(e){
+				errorMessageFunction(e.message);
+				return ;
+			}
+
+			let result = {sections: sections, answers: [], answers_cp: []};
+			result.answers = sections.map(function(section){
+				let answer = {data: ""};
+				if(typeof section.answers === 'undefined' || section.answers === null)
+					return answer;
+
+				let i = section.answers.length - 1, id = -1, idInt;
+				for(; i >= 0; i--){// .reduce(function(prev, curr){return prev.id > curr.id ? prev : curr;});
+					idInt = section.answers[i].id ? parseInt(section.answers[i].id, 10) : -1;
+
+					if(idInt > id){
+						id = idInt;
+						answer = section.answers[i];
+					}
+				}
+
+				try {
+					answer.data = JSON.parse(answer.data);
+				}catch(e){}
+
+				return answer;
+			});
+
+			result.answers_cp = JSON.parse(JSON.stringify(result.answers));
+			setSectionsAnswers(result);
+		} else if(xhr.readyState==4){
+			errorMessageFunction("Nie udało się zdobyć danych!");
+		}
+	};
+
+	xhr.open("GET", url, true);/* async: true (asynchronous) or false (synchronous); */
+
+	xhr.setRequestHeader("Accept", "application/json");
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.setRequestHeader("X-CSRFToken", "");
+	xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+	xhr.send();
 }
 
 /*
