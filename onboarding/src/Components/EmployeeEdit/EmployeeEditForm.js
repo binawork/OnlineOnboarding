@@ -16,6 +16,17 @@ function EmployeeEditForm(props) {
     const [employeeModal, setModal ] = useState(<></>);
     const [imageFile, setFile] = useState("");
     const [image, setImage] = useState(userCp.avatar || "");
+    const [imageLink, updateImageLink] = useState(userCp.avatar);
+
+    let imageBox = <img src={ userCp.avatar } alt="avatar" />;
+    if(props.enableUploadAvatar){
+        imageBox = (
+            <>
+                <div className="fileinput-button-label"> Dodaj/zmień zdjęcie </div><img src={ userCp.avatar } alt="avatar" />
+                <input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } />
+            </>
+        );
+    }
 
     const changeAvatar = function(){
         console.log(fileNameRef)
@@ -43,8 +54,8 @@ function EmployeeEditForm(props) {
     }
 
     const updateImage = function(response){
-        // if(typeof response.avatar === "string")
-        //     updateImageLink(response.avatar);
+        if(typeof response.avatar === "string")
+            updateImageLink(response.avatar);
     }
 
 
@@ -65,10 +76,10 @@ function EmployeeEditForm(props) {
     		<div className="col">
     			<div className="card-body align-items-center text-center">
     				<div className="user-avatar user-avatar-xl fileinput-button">
-    					{/* { imageBox } */}
-                        <div className="fileinput-button-label"> Dodaj/zmień zdjęcie </div>
-                        <img src={ image } alt="avatar" />
-                        <input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } onChange={ changeAvatar } />
+    					{ imageBox }
+                        {/* <div className="fileinput-button-label"> Dodaj/zmień zdjęcie </div> */}
+                        {/* <img src={ image } alt="avatar" /> */}
+                        {/* <input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } onChange={ changeAvatar } /> */}
     				</div>
     			</div>
     		</div>
