@@ -5,13 +5,13 @@ import PropTypes from "prop-types";
 import SectionForm from "./SectionForm";
 import OpenAnswer from "./OpenAnswer";
 //import EmployeeAnswerRow from "./EmployeeAnswerRow";
-import { getEmployeesSection, sendEmployeesAnswers, getEmployeesSectionsAndAnswers } from "../../hooks/EmployeeForms";
+import { sendEmployeesAnswers, getEmployeesSectionsAndAnswers } from "../../hooks/EmployeeForms";
 //import FormSectionsAPI from "../../hooks/FormSectionsAPI";
 import ModalWarning from "../../ModalWarning";
 
 
 const EmployeeSections = ({pageId}) => {
-    const [sectionsAnswers, setSectionsAnswers] = useState([]);
+    const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [message, setMessage] = useState("");
     const [loading, isLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
@@ -22,17 +22,14 @@ const EmployeeSections = ({pageId}) => {
     useEffect(() => {
         getEmployeesSectionsAndAnswers(pageId, setErrorMessage)
             .then(function(sectionForms){
+                sectionForms.answers_cp = sectionForms.answers.answers_cp;
+                sectionForms.answers = sectionForms.answers.answers;
                 setSectionsAnswers(sectionForms);
             }).catch((error) => setErrorMessage(error.message))
             .finally(() => isLoading(false));
-
-        /*FormSectionsAPI.getAllAnswers()
-            .then((response) => {
-                if(response.length === 0) return;
-                const sortedAnswers = response.sort((a, b) => a.id - b.id);
-                setAnswers(sortedAnswers);
-            })
-            .catch((error) => setErrorMessage(error.message));*/
+        /*getEmployeesAnswersForSections(sectionsAnswers.sections).then(function(answersForms){
+            setSectionsAnswers({...sectionsAnswers, answers: answersForms.answers, answers_cp: answersForms.answers_cp});
+        }).catch((error) => setErrorMessage(error.message));*/
     }, [pageId]);
 
 
@@ -66,14 +63,27 @@ const EmployeeSections = ({pageId}) => {
     };
 
     const saveAnswers = (e) => {
-        e.preventDefault();
-        //sendEmployeesAnswers([], sendingSectionAnswerResponse);
+        e.preventDefault();console.log(sectionsAnswers);
+        let i, count = Math.min(sectionsAnswers.sections.length, sectionsAnswers.answers.length);
+        let answersToSend = [], element;
+
+        for(i = 0; i < count; i++){
+            element = {sectionId: -1, data: "", answerId: -1};
+            element.sectionId = sectionsAnswers.sections[i].id;
+            element.data = sectionsAnswers.answers[i].data;
+            if(sectionsAnswers.answers[i].id)
+                element.answerId = sectionsAnswers.answers[i].id;
+
+            answersToSend.push(element);
+        }
+
+        sendEmployeesAnswers(answersToSend, sendingSectionAnswerResponse);
     };
 
 
     const sendingSectionAnswerResponse = function(sectionId, isSuccess){
         // sectionsAnswers.sections = [{id:sectionId, title: "", ...}, ...]
-        i = sectionsAnswers.sections.length - 1, msgAppend = "\nWysyłanie odpowiedzi dla ";
+        let i = sectionsAnswers.sections.length - 1, msgAppend = "\nWysyłanie odpowiedzi dla ";
         for(; i >= 0; i--){
             if(sectionsAnswers.sections[i].id === sectionId){
                 msgAppend += "\"" + sectionsAnswers.sections[i].title + "\" ";
@@ -114,8 +124,10 @@ const EmployeeSections = ({pageId}) => {
         let sectionsView2 = [];
         if(sectionsAnswers.sections && sectionsAnswers.answers){
             let count = Math.min(sectionsAnswers.sections.length, sectionsAnswers.answers.length), i,
-                sections = sectionsAnswers.sections;
+                sections = sectionsAnswers.sections, answers = sectionsAnswers.answers_cp;
+
             for(i = 0; i < count; i++){
+                // to-fix: answers[i] does not give the same alement which is listed in answers, console.log(answers, answers[i]);
                 sectionsView2.push(<section key={uuidv4()} className="card my-3">
                         <header className="card-header">
                             <div>{sections[i].title}</div>
@@ -123,12 +135,12 @@ const EmployeeSections = ({pageId}) => {
                         <div className="card-body">
                             {sections[i].description ? parse(sections[i].description): <></>}
                             {sections[i].type == "oa" ? (
-                                <OpenAnswer id={ sections[i].id } index={ i } data={ sectionsAnswers.answers[i].data } changeOpenAnswerText={ changeOpenAnswerText } />
+                                <OpenAnswer id={ sections[i].id } index={ i } data={ answers[i].data } changeOpenAnswerText={ changeOpenAnswerText } />
                             ) : (
                                 <table className="table table-hover"><tbody>
                                     <SectionForm section={ sections[i] }
                                             answerId={ i }
-                                            answerData={ sectionsAnswers.answers[i].data } setAnswer={ setAnswer } />
+                                            answerData={ answers[i].data } setAnswer={ setAnswer } />
                                 </tbody></table>
                             )}
                         </div>
@@ -136,7 +148,7 @@ const EmployeeSections = ({pageId}) => {
             }
             setView({view: sectionsView2, init: true});
         }
-    }, [pageId, loading]);
+    }, [pageId, loading, sectionsAnswers]);
 
 
 
@@ -149,6 +161,9 @@ const EmployeeSections = ({pageId}) => {
             ): (
                 sectionsView.view
             )}
+            <button type="button" className="btn btn-success mr-3">
+                Zapisz odpowiedzi
+            </button>
             <button type="submit" className="btn btn-success mr-3">
                 Wyślij odpowiedzi
             </button>
