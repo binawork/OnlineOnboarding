@@ -667,7 +667,6 @@ class AnswerViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-
 class UserProgressOnPageView(generics.ListAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswersProgressStatusSerializer
@@ -697,6 +696,7 @@ class UserProgressOnPackageView(generics.ListAPIView):
 
         return Response(serializer.data)
 
+
 class WhenPackageSendToEmployeeView(generics.ListAPIView):
     queryset = PackagesUsers.objects.all()
     serializer_class = WhenPackageSendToEmployeeSerializer
@@ -715,9 +715,6 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
 
 
 
-
-
-
 class SectionAnswersViewSet(viewsets.ModelViewSet):
     """
     List all Sections with related answers.
@@ -726,9 +723,13 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         page_args = self.kwargs['page']
-        if page_args is not None:
-            queryset = Section.objects.filter(page=page_args)
+
+        if page_args is not None and self.request.user.is_hr:
+            queryset = Section.objects.filter(page__id=page_args,
+                                              owner=self.request.user.company)
         else:
-            queryset = Section.objects.all()
+            queryset = Section.objects.all(page__id=page_args,
+                                           owner=self.request.user.company,
+                                           page__package__users=self.request.user)
         return queryset
 
