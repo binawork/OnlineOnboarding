@@ -5,7 +5,7 @@ import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../uti
 /**
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
-function EmployeeForms(props){
+function EmployeeForms(props, count){
 	var [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
@@ -23,9 +23,9 @@ function EmployeeForms(props){
 				showError(error);
 			}
 		);
-	}, [props.count]);
+	}, [props.count, count]);
 
-	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: []};
+	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []};
 
 	if(error){
 		rowModel.name = error.message;
@@ -61,6 +61,7 @@ function EmployeeForms(props){
 			row.pagesCount = 0;
 			row.created = dateToString(rows[i].created_on);
 			row.last_edit = dateToString(rows[i].updated_on);
+			row.users = rows[i].users;
 			if( Object.prototype.toString.call(rows[i].page_set)==='[object Array]' ){ // Array.isArray(object)
 				row.pages = rows[i].page_set.slice();
 				row.pagesCount = row.pages.length;
@@ -73,7 +74,7 @@ function EmployeeForms(props){
 
 			form_table.push(row);
 		}
-
+		
 		return form_table;
 	}
 
