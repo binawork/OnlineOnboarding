@@ -20,13 +20,11 @@ const EmployeeSections = ({pageId}) => {
 
 
     useEffect(() => {
-        getEmployeesSectionsAndAnswers(pageId, setErrorMessage)
-            .then(function(sectionForms){
-                sectionForms.answers_cp = sectionForms.answers.answers_cp;
-                sectionForms.answers = sectionForms.answers.answers;
-                setSectionsAnswers(sectionForms);
-            }).catch((error) => setErrorMessage(error.message))
-            .finally(() => isLoading(false));
+        getEmployeesSectionsAndAnswers(pageId, setErrorMessage, function(result){
+            //console.log(result);
+            isLoading(false);
+            setSectionsAnswers(result);
+        });
         /*getEmployeesAnswersForSections(sectionsAnswers.sections).then(function(answersForms){
             setSectionsAnswers({...sectionsAnswers, answers: answersForms.answers, answers_cp: answersForms.answers_cp});
         }).catch((error) => setErrorMessage(error.message));*/

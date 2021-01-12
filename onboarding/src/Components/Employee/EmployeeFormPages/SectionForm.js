@@ -55,7 +55,7 @@ const SectionForm = ({ section, answerId, answerData, setAnswer }) => {
       for(i = 0; i < count; i++){
           isChecked = false;
           for(let j = answerData.length - 1; j >= 0; j--){
-              if(answerData[i].id == section.data[i].id || answerData[i].text === section.data[i].title){
+              if(answerData[j].id == section.data[i].id || answerData[j].text === section.data[i].title){
                   isChecked = true;
                   break;
               }
