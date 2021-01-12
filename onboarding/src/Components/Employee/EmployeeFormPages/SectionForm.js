@@ -50,16 +50,16 @@ const SectionForm = ({ section, answerId, answerData, setAnswer }) => {
 
   useEffect(() => {
       let inputs2 = [], name = 'section-'+section.id,
-          i, count = section.data.length;//, isChecked;
+          i, count = section.data.length, isChecked;
 
       for(i = 0; i < count; i++){
-          /*isChecked = false;
+          isChecked = false;
           for(let j = answerData.length - 1; j >= 0; j--){
               if(answerData[i].id == section.data[i].id || answerData[i].text === section.data[i].title){
                   isChecked = true;
                   break;
               }
-          }*/
+          }
 
           inputs2.push(<>
                 <input className="custom-control-input"
@@ -69,6 +69,7 @@ const SectionForm = ({ section, answerId, answerData, setAnswer }) => {
                     value={ i }
                     onChange={ toggleChecked }
                     required={ selection.isRadio }
+                    defaultChecked={ isChecked }
                 />
                 <label className="custom-control-label w-100" style={{cursor: "pointer"}} htmlFor={section.id + "-" + i}>
                    {section.data[i].title}
