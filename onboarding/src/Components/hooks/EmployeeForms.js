@@ -153,28 +153,44 @@ export function SingleEmployeeForms(props){
  * Employee assignment to package/combo;
  */
 export function assignEmployeeToPackage(handleMessage, employeeId, packageId, setUsersInPackage){
-	let data, token = getCookie("csrftoken"), fullPath = getPath(),
+	let data, token = getCookie("csrftoken"), path = getPath(),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
 
-	fullPath = fullPath + "api/add_users_to_package/" + packageId + "/add_user_to_package/";
 	data = {users: [employeeId]};
-	//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
-	//data.users.push(userPackageObject);
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})
+	if(typeof packageId === "string" || typeof packageId === "number") {
+		const fullPath = path + "api/add_users_to_package/" + packageId + "/add_user_to_package/";
+
+		//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
+		//data.users.push(userPackageObject);
+
+		fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})
 		.then(
 			(result) => {
 				let msg = "Formularz został wysłany do pracownika. ";
 				if(typeof result.detail === 'string')
-					msg += result.detail;
+				msg += result.detail;
 				handleMessage(msg);
-				setUsersInPackage(result.users)
+				setUsersInPackage ? setUsersInPackage(result.users) : null;
 			},
 			(error) => {
-				handleMessage(error.message);
+				console.log(error.message);
 			}
-		);
+			);
+		} else if(typeof packageId === "object") {
+			Promise.all(packageId.map(id => {
+				const fullPath = path + "api/add_users_to_package/" + id + "/add_user_to_package/";
+				fetch(fullPath, fetchProps)
+			})).then(() => {
+						let msg = "Wybrane formularze zostały wysłane do pracownika.";
+						handleMessage(msg);
+					}, 
+					(error) => {
+						console.log(error.message);
+					}
+				);
+		}
 }
 
 /**

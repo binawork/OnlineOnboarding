@@ -6,7 +6,7 @@ function FormsToSendTableRow(props){
     const [rotate, setCaretIcon] = useState(false);
 
     const countChecked = function(e){
-        props.handleChecked(e.target.checked);
+        props.handleChecked(e.target.checked, props.row.key);
     };
 
     const showPages = function(){

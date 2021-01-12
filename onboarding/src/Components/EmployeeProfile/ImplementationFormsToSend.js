@@ -4,22 +4,32 @@ import EmployeeForms, { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsToSend(props) {
+    const [idsChecked, setIdsChecked] = useState([]);
     const [numberChecked, checkedChange] = useState(0);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
     let form_table = EmployeeForms(props, setError, setLoading, props.count), forms = [];
 
-    const showHide = (isChecked) => {
-        if(isChecked)
+    const showHide = (isChecked, packageId) => {
+        if(isChecked) {
             checkedChange(numberChecked + 1);
-        else
+            setIdsChecked([...idsChecked, packageId]);
+        } else {
             checkedChange(numberChecked - 1);
+            setIdsChecked(idsChecked.filter(id => id !== packageId));
+        }
     };
-
     const sendPackage = function(packageId){
         assignEmployeeToPackage(props.showModal, props.userId, packageId);
+        setIdsChecked(idsChecked.filter(id => id !== packageId));
         props.setCount(props.count + 1);
     };
+    
+    const sendCheckedPackages = (e) => {
+        assignEmployeeToPackage(props.showModal, props.userId, idsChecked);
+        setIdsChecked([]);
+        props.setCount(props.count + 1);
+    }
 
     const formsToSend = form_table.filter(form => !form.users.includes(props.userId));
 
@@ -34,7 +44,7 @@ function ImplementationFormsToSend(props) {
             </tr>
         );
     }
-
+    
     return(
         <div className="card card-fluid">
             <div className="card-header">
@@ -55,7 +65,7 @@ function ImplementationFormsToSend(props) {
                         <tbody id="form_table_data_container">
                             { forms }
                             <tr style={{display: numberChecked>0 ? "" : "none"}}>
-                                <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary">Wyślij zaznaczone</button></td>
+                                <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary" onClick={ sendCheckedPackages }>Wyślij zaznaczone</button></td>
                             </tr>
                         </tbody>
                     </table>
