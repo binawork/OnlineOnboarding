@@ -728,7 +728,7 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
             queryset = Section.objects.filter(page__id=page_args,
                                               owner=self.request.user.company)
         else:
-            queryset = Section.objects.all(page__id=page_args,
+            queryset = Section.objects.filter(page__id=page_args,
                                            owner=self.request.user.company,
                                            page__package__users=self.request.user)
         return queryset
