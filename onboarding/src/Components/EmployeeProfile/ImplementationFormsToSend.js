@@ -31,8 +31,8 @@ function ImplementationFormsToSend(props) {
             </tr>
         );
     }
-    console.log(forms)
-    console.log(form_table)
+    /*console.log(forms)
+    console.log(form_table)*/
 
     return(
         <div className="card card-fluid">
