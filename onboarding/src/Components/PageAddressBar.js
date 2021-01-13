@@ -13,7 +13,7 @@ function PageAddressBar(props) {
                     <hr />
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
-                            <Link to={{ pathname: "/", state: {loggedUser: loggedUser} }}>Pulpit</Link>
+                            <Link to={{ pathname: "/", state: {loggedUser: loggedUser} }}>DASHBOARD</Link>
                         </li>
                         <li className="breadcrumb-item active">{ props.page }</li>
                     </ol>
