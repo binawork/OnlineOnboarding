@@ -8,7 +8,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.db.models.query_utils import Q
+from django.db.models.query_utils import Q, FilteredRelation
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -29,7 +29,7 @@ from onboarding.models import Package, ContactRequestDetail, Page, Section, Answ
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, AnswersSectionSerializer, PackagePagesSerializer, PackageAddUsersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
@@ -473,11 +473,8 @@ class PageViewSet(viewsets.ModelViewSet):
     ordering_fields = ['release_date']
     permission_classes = [IsAuthenticated]
 
-
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
-
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -531,7 +528,6 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
     serializer_class = PackagePagesSerializer
     permission_classes = [IsAuthenticated]
 
-
     def get_queryset(self):
         user = self.request.user
 
@@ -576,7 +572,6 @@ class SectionViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
-
 
     @action(detail=True)
     def list_by_page_hr(self, request, pk):
@@ -717,6 +712,7 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
     List all Sections with related answers.
     """
     serializer_class = SectionAnswersSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         page_args = self.kwargs['page']
@@ -725,8 +721,13 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
             queryset = Section.objects.filter(page__id=page_args,
                                               owner=self.request.user.company)
         else:
-            queryset = Section.objects.filter(page__id=page_args,
-                                           owner=self.request.user.company,
-                                           page__package__users=self.request.user)
+            q1 = Q(page__id=page_args,
+                   owner=self.request.user.company,
+                   page__package__users=self.request.user,
+                   answer__owner=self.request.user)
+            # q_owner = Q(answer__owner=self.request.user)
+            # queryset = Section.objects.annotate(ans=FilteredRelation('answer', condition=q_owner)).filter(q1)
+            queryset = Section.objects.filter(q1)
+            print(queryset.query)
         return queryset
 
