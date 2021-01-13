@@ -81,6 +81,6 @@ urlpatterns += [
     path(r'api/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
     path("api/user-avatar/", UserAvatarUpload.as_view(), name="rest_user_avatar_upload"),
-    path("api/company-logo/", CompanyLogoViewSet.as_view(), name="company avatar uploud"),
+    path("api/company-logo/", CompanyLogoViewSet.as_view(), name="company logo upload"),
 
 ]

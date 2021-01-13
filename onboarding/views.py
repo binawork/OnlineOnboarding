@@ -293,18 +293,15 @@ class CompanyViewSet(viewsets.ModelViewSet):
     serializer_class = CompanySerializer
 
 
-    # @action(detail=False)
-    # def user_job_data(self, request):
-    #     queryset = User.objects.filter(company=self.request.user.company).aggregate(location=ArrayAgg('location', distinct=True))
-    #     from django.db import connection
-    #     connection.queries
-    #         # .aggregate(result=ArrayAgg('team'))\
-    #         # .aggregate(result=ArrayAgg('job_position'))
-    #         # .distinct("location",'team','job_position',)
-    # 
-    #     serializer = UserJobDataSerializer(queryset, many=True)
-    # 
-    #     return Response(serializer.data)
+    @action(detail=False)
+    def user_job_data(self, request):
+        queryset = User.objects.filter(company=self.request.user.company).aggregate(location=ArrayAgg('location', distinct=True))
+        from django.db import connection
+        connection.queries.aggregate(result=ArrayAgg('team')).aggregate(result=ArrayAgg('job_position')).distinct("location",'team','job_position')
+    
+        serializer = UserJobDataSerializer(queryset, many=True)
+    
+        return Response(serializer.data)
 
 
 class CompanyQuestionAndAnswerViewSet(viewsets.ModelViewSet):
