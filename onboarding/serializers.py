@@ -322,7 +322,7 @@ class WhenPackageSendToEmployeeSerializer(serializers.ModelSerializer):
 
 # SECTION with ANSWERS
 class SectionAnswersSerializer(serializers.ModelSerializer):
-    answers = AnswerSerializer(source='answer_set', many=True)
+    answers = AnswerSerializer(source='answer_set', many=True, allow_null=True)
 
     class Meta:
         ordering = ['-order']

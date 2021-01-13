@@ -29,7 +29,7 @@ from onboarding.models import Package, ContactRequestDetail, Page, Section, Answ
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, AnswersSectionSerializer, PackagePagesSerializer, PackageAddUsersSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
