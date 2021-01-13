@@ -37,6 +37,7 @@ function ImplementationFormsToSend(props) {
     return(
         <div className="card card-fluid">
             <div className="card-header">
+                <i class="bi bi-cloud-upload mr-2" style={{ fontSize: "18px" }}></i>
                 Wyślij Formularze do pracownika
             </div>
             <div className="card-body">
