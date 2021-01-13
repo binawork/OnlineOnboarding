@@ -190,7 +190,7 @@ export async function getEmployeesAnswersForSections(sections){
 	return results;
 }
 
-export function getEmployeesSectionsAndAnswers(pageId, errorMessageFunction, setSectionsAnswers){
+export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunction, setSectionsAnswers){
 	let xhr = new XMLHttpRequest(), url = getPath();
 
 	url += "api/section_answers/" + pageId + "/";
@@ -213,6 +213,12 @@ export function getEmployeesSectionsAndAnswers(pageId, errorMessageFunction, set
 
 				let i = section.answers.length - 1, id = -1, idInt;
 				for(; i >= 0; i--){// .reduce(function(prev, curr){return prev.id > curr.id ? prev : curr;});
+					/*if(section.answers[i].owner){
+						idInt = parseInt(section.answers[i].owner, 10);
+						if(idInt !== userId)
+							continue;
+					}*/
+
 					idInt = section.answers[i].id ? parseInt(section.answers[i].id, 10) : -1;
 
 					if(idInt > id){
