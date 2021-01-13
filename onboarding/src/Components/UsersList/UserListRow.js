@@ -40,7 +40,7 @@ function UserListRow(props) {
                         <p className="card-title mb-2">
                             <small className="text-muted">Dział:</small> { props.user.department }
                         </p>
-                        <p className="card-title mb-2">
+                        <p className="card-title mb-0">
                             <small className="text-muted">Lokalizacja:</small> { props.user.location }
                         </p>
                     </div>
@@ -49,24 +49,29 @@ function UserListRow(props) {
                         <p className="card-title mb-2">
                             <small className="text-muted">Wysłane formularze:</small> { props.user.sent }
                         </p>
-                        <p className="card-title mb-2">
+                        <p className="card-title mb-0">
                             <small className="text-muted">Skończone formularze:</small> { props.user.finished }
                         </p>
 
                     </div>
                     <div className="col-auto d-flex flex-column">
-                        <Link to={{ pathname: "/add_user", state: { user: props.user, packageId: props.packageId, loggedUser: loggedUser } }}
-                        				className="btn btn-secondary btn-sm mb-1" data-toggle="tooltip">
-                        	Edytuj
-                        </Link>
                         <Link to={{ pathname: "/employee_profile", state: { user: props.user, packageId: props.packageId, loggedUser: loggedUser } }}
-                        				className="btn btn-secondary btn-sm mb-1" data-toggle="tooltip">
-                        	Dodaj formularz
+                            className="btn btn-secondary mb-1" 
+                            data-toggle="tooltip"
+                        >
+                            Dodaj formularz
                         </Link>
-                        { props.user.id != loggedUser.id &&
-                            <button type="button" value={ props.user.id } onClick={ props.handleRemove } className="btn btn-warning btn-sm mb-1" data-toggle="tooltip">Usuń</button>
-                        }
-
+                        <div>
+                            <Link to={{ pathname: "/add_user", state: { user: props.user, packageId: props.packageId, loggedUser: loggedUser } }}
+                                className="btn btn-secondary mr-1" 
+                                data-toggle="tooltip"
+                            >
+                                Edytuj profil
+                            </Link>
+                            { props.user.id != loggedUser.id &&
+                                <button type="button" value={ props.user.id } onClick={ props.handleRemove } className="btn btn-warning" data-toggle="tooltip">Usuń</button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
