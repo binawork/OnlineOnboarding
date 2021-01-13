@@ -723,11 +723,10 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
         else:
             q1 = Q(page__id=page_args,
                    owner=self.request.user.company,
-                   page__package__users=self.request.user,
-                   answer__owner=self.request.user)
+                   # answer__owner=self.request.user,
+                   page__package__users=self.request.user)
             # q_owner = Q(answer__owner=self.request.user)
             # queryset = Section.objects.annotate(ans=FilteredRelation('answer', condition=q_owner)).filter(q1)
             queryset = Section.objects.filter(q1)
-            print(queryset.query)
         return queryset
 
