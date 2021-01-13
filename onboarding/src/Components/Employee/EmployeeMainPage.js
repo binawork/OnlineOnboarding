@@ -26,10 +26,10 @@ function EmployeeMainPage() {
     }, [loggedUser])
 
     const loadSinglePage = (page) => {
-        setFormTitle(page.title)
+        setFormTitle(page.title);
         switchComponent(
             <EmployeeSingleFormPage
-                page={ page }
+                page={ page } userId={ loggedUser.id }
             />
         );
     };

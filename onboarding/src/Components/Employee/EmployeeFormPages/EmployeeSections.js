@@ -10,7 +10,7 @@ import { sendEmployeesAnswers, getEmployeesSectionsAndAnswers } from "../../hook
 import ModalWarning from "../../ModalWarning";
 
 
-const EmployeeSections = ({pageId}) => {
+const EmployeeSections = ({pageId, userId}) => {
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [message, setMessage] = useState("");
     const [loading, isLoading] = useState(true);
@@ -20,7 +20,7 @@ const EmployeeSections = ({pageId}) => {
 
 
     useEffect(() => {
-        getEmployeesSectionsAndAnswers(pageId, setErrorMessage, function(result){
+        getEmployeesSectionsAndAnswers(pageId, userId, setErrorMessage, function(result){
             //console.log(result);
             isLoading(false);
             setSectionsAnswers(result);
