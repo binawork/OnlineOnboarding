@@ -190,9 +190,47 @@ export async function getEmployeesAnswersForSections(sections){
 	return results;
 }
 
-export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunction, setSectionsAnswers){
+
+function getUserId(pageId, errorMessageFunction, setSectionsAnswers){
 	let xhr = new XMLHttpRequest(), url = getPath();
 
+	url += "api/users/login_user/";
+
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300){
+			let resp = xhr.responseText, user;
+			try {
+				user = JSON.parse(resp);
+				if(Array.isArray(user) && user.length > 0)
+					user = user[0];
+
+				user = (user.id) ? user.id : false;
+			} catch(e){
+				getEmployeesSectionsAndAnswers(pageId, false, errorMessageFunction, setSectionsAnswers);
+				return ;
+			}
+
+			getEmployeesSectionsAndAnswers(pageId, user, errorMessageFunction, setSectionsAnswers);
+		} else if(xhr.readyState==4){
+			getEmployeesSectionsAndAnswers(pageId, false, errorMessageFunction, setSectionsAnswers);
+		}
+	}
+
+	xhr.open("GET", url, true);/* async: true (asynchronous) or false (synchronous); */
+
+	xhr.setRequestHeader("Accept", "application/json");
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.setRequestHeader("X-CSRFToken", "");
+	xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+	xhr.send();
+}
+
+export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunction, setSectionsAnswers){
+	if( (typeof userId === 'undefined' || userId < 1) && userId !== false){
+		getUserId(pageId, errorMessageFunction, setSectionsAnswers);
+	}
+
+	let xhr = new XMLHttpRequest(), url = getPath();
 	url += "api/section_answers/" + pageId + "/";
 
 	xhr.onreadystatechange = () => {
@@ -213,11 +251,11 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 
 				let i = section.answers.length - 1, id = -1, idInt;
 				for(; i >= 0; i--){// .reduce(function(prev, curr){return prev.id > curr.id ? prev : curr;});
-					/*if(section.answers[i].owner){
+					if(section.answers[i].owner){
 						idInt = parseInt(section.answers[i].owner, 10);
 						if(idInt !== userId)
 							continue;
-					}*/
+					}
 
 					idInt = section.answers[i].id ? parseInt(section.answers[i].id, 10) : -1;
 
