@@ -294,8 +294,8 @@ class AnswerSerializer(serializers.ModelSerializer):
             'section',
             'data',
             'owner',
-            'confirmed'
-
+            'confirmed',
+            'finished'
         )
 
 
@@ -308,6 +308,7 @@ class AnswersProgressStatusSerializer(serializers.ModelSerializer):
             'id',
             'updated_on',
             'confirmed',
+            'finished',
         )
 
 

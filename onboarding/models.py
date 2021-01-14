@@ -195,7 +195,7 @@ class Answer(models.Model):
     confirmed = models.BooleanField(default=False, help_text='confirmation of familiarization, if its true freezing'
                                                              ' this answer')
     updated_on = models.DateTimeField(auto_now=True)
-    # finished
+    finished = models.BooleanField(default=False, help_text='True if employee finally accepted his own answers.')
 
 
 # knowledge base
