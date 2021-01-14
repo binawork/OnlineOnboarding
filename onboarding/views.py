@@ -608,10 +608,16 @@ class SectionViewSet(viewsets.ModelViewSet):
 
 
 class AnswerViewSet(viewsets.ModelViewSet):
-    serializer_class = AnswerSerializer
+    default_serializer_class = AnswerSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.action is 'finished':
+            return AnswersProgressStatusSerializer
+        else:
+            return AnswerSerializer
 
     def get_queryset(self):
         user = self.request.user
@@ -655,6 +661,22 @@ class AnswerViewSet(viewsets.ModelViewSet):
                                 section__page__package__users=self.request.user
         )
         serializer = AnswerSerializer(answer, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=True)
+    def finished(self, request, pk):
+        """
+        :param request:
+        :param pk: this is section ID
+        :return: answers list by section id
+        """
+        answer = Answer.objects.filter(
+                                section__id=pk,
+                                owner=self.request.user,
+                                section__page__package__users=self.request.user
+        )
+        serializer = AnswersProgressStatusSerializer(answer, many=True)
 
         return Response(serializer.data)
 
