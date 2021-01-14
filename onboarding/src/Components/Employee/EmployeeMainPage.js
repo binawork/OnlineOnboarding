@@ -26,6 +26,7 @@ function EmployeeMainPage() {
         if(loggedUser.id !== 0 && loggedUser.welcome_board === false) setWelcomeView(false)
     }, [loggedUser]);
 
+
     const loadSinglePage = (page) => {
         setFormTitle(page.title);
         switchComponent(
@@ -34,7 +35,6 @@ function EmployeeMainPage() {
             />
         );
     };
-
 
     const loadFormPages = (packageId, userId) => {
         setActualPackage(packageId);
@@ -79,6 +79,7 @@ function EmployeeMainPage() {
     }
 
     const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } setPageTitle={setPageTitle} />);
+
 
     return(
         <>

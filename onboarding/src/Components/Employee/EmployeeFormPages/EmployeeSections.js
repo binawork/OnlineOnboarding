@@ -4,9 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
 import SectionForm from "./SectionForm";
 import OpenAnswer from "./OpenAnswer";
-//import EmployeeAnswerRow from "./EmployeeAnswerRow";
 import { sendEmployeesAnswers, getEmployeesSectionsAndAnswers } from "../../hooks/EmployeeForms";
-//import FormSectionsAPI from "../../hooks/FormSectionsAPI";
 import ModalWarning from "../../ModalWarning";
 
 
