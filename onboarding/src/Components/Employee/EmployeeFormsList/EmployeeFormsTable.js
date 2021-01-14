@@ -15,7 +15,8 @@ function EmployeeFormsTable(props) {
     }*/
 
     employeeForms.forEach(function(element, i){
-        employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages } setPageTitle={props.setPageTitle} />);
+        employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages }
+                                                    setPageTitle={props.setPageTitle} loggedUser={ props.loggedUser } />);
     });
 
 

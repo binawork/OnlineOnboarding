@@ -19,11 +19,12 @@ function EmployeeMainPage() {
     const [formTitle, setFormTitle] = useState("");
     const [actualPackage, setActualPackage] = useState("");
     const loggedUser = LoggedUser();
-    
+
+
     useEffect(() => {
         if(loggedUser.id !== 0 && loggedUser.welcome_board === true) setWelcomeView(true)
         if(loggedUser.id !== 0 && loggedUser.welcome_board === false) setWelcomeView(false)
-    }, [loggedUser])
+    }, [loggedUser]);
 
     const loadSinglePage = (page) => {
         setFormTitle(page.title);
@@ -35,13 +36,14 @@ function EmployeeMainPage() {
     };
 
 
-    const loadFormPages = (packageId) => {
+    const loadFormPages = (packageId, userId) => {
         setActualPackage(packageId);
         setFormTitle("");
         switchComponent(
             <EmployeeFormPages
                 switchPage={ loadSinglePage }
                 actualPackageId={ packageId }
+                userId={ userId }
             />
         );
     };
