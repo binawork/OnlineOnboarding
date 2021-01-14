@@ -294,8 +294,8 @@ class AnswerSerializer(serializers.ModelSerializer):
             'section',
             'data',
             'owner',
-            'confirmed'
-
+            'confirmed',
+            'finished'
         )
 
 
@@ -308,6 +308,7 @@ class AnswersProgressStatusSerializer(serializers.ModelSerializer):
             'id',
             'updated_on',
             'confirmed',
+            'finished',
         )
 
 
@@ -322,7 +323,7 @@ class WhenPackageSendToEmployeeSerializer(serializers.ModelSerializer):
 
 # SECTION with ANSWERS
 class SectionAnswersSerializer(serializers.ModelSerializer):
-    answer_set = AnswerSerializer(many=True)
+    answers = AnswerSerializer(source='answer_set', many=True, allow_null=True)
 
     class Meta:
         ordering = ['-order']
@@ -336,6 +337,6 @@ class SectionAnswersSerializer(serializers.ModelSerializer):
             'type',
             'data',
             'page',
-            'answer_set',
+            'answers',
         )
 

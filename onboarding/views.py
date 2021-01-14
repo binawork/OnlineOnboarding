@@ -8,7 +8,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.db.models.query_utils import Q
+from django.db.models.query_utils import Q, FilteredRelation
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -473,11 +473,8 @@ class PageViewSet(viewsets.ModelViewSet):
     ordering_fields = ['release_date']
     permission_classes = [IsAuthenticated]
 
-
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
-
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -531,7 +528,6 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
     serializer_class = PackagePagesSerializer
     permission_classes = [IsAuthenticated]
 
-
     def get_queryset(self):
         user = self.request.user
 
@@ -577,7 +573,6 @@ class SectionViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
 
-
     @action(detail=True)
     def list_by_page_hr(self, request, pk):
         """
@@ -613,12 +608,26 @@ class SectionViewSet(viewsets.ModelViewSet):
 
 
 class AnswerViewSet(viewsets.ModelViewSet):
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
+    default_serializer_class = AnswerSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['release_date']
     permission_classes = [IsAuthenticated]
 
+    def get_serializer_class(self):
+        if self.action is 'finished':
+            return AnswersProgressStatusSerializer
+        else:
+            return AnswerSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user is None or self.request.user.is_hr:
+            queryset = Answer.objects.filter(section__page__owner=self.request.user.company)
+        else:
+            queryset = Answer.objects.filter(owner=user)
+
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -639,7 +648,6 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-
     @action(detail=True)
     def list_by_section_employee(self, request, pk):
         """
@@ -656,6 +664,21 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=True)
+    def finished(self, request, pk):
+        """
+        :param request:
+        :param pk: this is section ID
+        :return: answers list by section id
+        """
+        answer = Answer.objects.filter(
+                                section__id=pk,
+                                owner=self.request.user,
+                                section__page__package__users=self.request.user
+        )
+        serializer = AnswersProgressStatusSerializer(answer, many=True)
+
+        return Response(serializer.data)
 
 
 class UserProgressOnPageView(generics.ListAPIView):
@@ -687,6 +710,7 @@ class UserProgressOnPackageView(generics.ListAPIView):
 
         return Response(serializer.data)
 
+
 class WhenPackageSendToEmployeeView(generics.ListAPIView):
     queryset = PackagesUsers.objects.all()
     serializer_class = WhenPackageSendToEmployeeSerializer
@@ -705,20 +729,26 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
 
 
 
-
-
-
 class SectionAnswersViewSet(viewsets.ModelViewSet):
     """
     List all Sections with related answers.
     """
     serializer_class = SectionAnswersSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         page_args = self.kwargs['page']
-        if page_args is not None:
-            queryset = Section.objects.filter(page=page_args)
+
+        if page_args is not None and self.request.user.is_hr:
+            queryset = Section.objects.filter(page__id=page_args,
+                                              owner=self.request.user.company)
         else:
-            queryset = Section.objects.all()
+            q1 = Q(page__id=page_args,
+                   owner=self.request.user.company,
+                   # answer__owner=self.request.user,
+                   page__package__users=self.request.user)
+            # q_owner = Q(answer__owner=self.request.user)
+            # queryset = Section.objects.annotate(ans=FilteredRelation('answer', condition=q_owner)).filter(q1)
+            queryset = Section.objects.filter(q1)
         return queryset
 
