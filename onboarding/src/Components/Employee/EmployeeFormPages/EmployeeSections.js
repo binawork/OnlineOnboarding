@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
 import SectionForm from "./SectionForm";
 import OpenAnswer from "./OpenAnswer";
-import { sendEmployeesAnswers, getEmployeesSectionsAndAnswers } from "../../hooks/EmployeeForms";
+import { sendEmployeesAnswers, getEmployeesSectionsAndAnswers, finishEmployeesAnswers } from "../../hooks/EmployeeForms";
 import ModalWarning from "../../ModalWarning";
 
 
@@ -59,7 +59,8 @@ const EmployeeSections = ({pageId, userId}) => {
     };
 
     const saveAnswers = (e) => {
-        e.preventDefault();console.log(sectionsAnswers);
+        e.preventDefault();
+       console.log(sectionsAnswers);
         let i, count = Math.min(sectionsAnswers.sections.length, sectionsAnswers.answers.length);
         let answersToSend = [], element;
 
@@ -74,6 +75,13 @@ const EmployeeSections = ({pageId, userId}) => {
         }
 
         sendEmployeesAnswers(answersToSend, sendingSectionAnswerResponse);
+    };
+    const finishAnswers = function(e) => {
+        e.preventDefault();
+        finishEmployeesAnswers(pageId, function(msg){
+                setMessage(msg);
+                popUpConfirmationModal();
+            });
     };
 
 
@@ -157,11 +165,11 @@ const EmployeeSections = ({pageId, userId}) => {
             ): (
                 sectionsView.view
             )}
-            <button type="button" className="btn btn-success mr-3">
-                Zapisz odpowiedzi
-            </button>
             <button type="submit" className="btn btn-success mr-3">
                 Wyślij odpowiedzi
+            </button>
+            <button type="button" className="btn btn-success mr-3" onClick={ finishAnswers }>
+                Zapisz odpowiedzi
             </button>
             {confirmationModal.modal}
         </form>
