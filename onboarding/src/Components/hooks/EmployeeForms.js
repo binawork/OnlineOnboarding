@@ -245,7 +245,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 
 			let result = {sections: sections, answers: [], answers_cp: []};
 			result.answers = sections.map(function(section){
-				let answer = {data: ""};
+				let answer = {data: []};
 				if(typeof section.answers === 'undefined' || section.answers === null)
 					return answer;
 
@@ -341,7 +341,19 @@ export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
 	}
 }
 
-export async function getEmployeesAnswers(pageId, errorMessageFunction){
+export async function finishEmployeesAnswers(pageId, handleMessage){
+	let data, token = getCookie("csrftoken"), fullPath = getPath(),
+		fetchProps = {method:"PATCH", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	fullPath = fullPath + "api/answer/" + pageId + "/finished/";
+	fetch(fullPath, fetchProps).then(
+		(result) => {
+			handleMessage("Formularz został wysłany do HR. ");
+		},
+		(error) => {
+			handleMessage("Wystąpił błąd! " + error.message);
+		}
+	);
 }
 
 
