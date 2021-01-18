@@ -60,7 +60,6 @@ const EmployeeSections = ({pageId, userId}) => {
 
     const saveAnswers = (e) => {
         e.preventDefault();
-       console.log(sectionsAnswers);
         let i, count = Math.min(sectionsAnswers.sections.length, sectionsAnswers.answers.length);
         let answersToSend = [], element;
 
@@ -76,7 +75,7 @@ const EmployeeSections = ({pageId, userId}) => {
 
         sendEmployeesAnswers(answersToSend, sendingSectionAnswerResponse);
     };
-    const finishAnswers = function(e) => {
+    const finishAnswers = function(e){
         e.preventDefault();
         finishEmployeesAnswers(pageId, function(msg){
                 setMessage(msg);
@@ -85,12 +84,14 @@ const EmployeeSections = ({pageId, userId}) => {
     };
 
 
-    const sendingSectionAnswerResponse = function(sectionId, isSuccess){
+    const sendingSectionAnswerResponse = function(sectionId, isSuccess, answerIdResponse){
         // sectionsAnswers.sections = [{id:sectionId, title: "", ...}, ...]
-        let i = sectionsAnswers.sections.length - 1, msgAppend = "\nWysyłanie odpowiedzi dla ";
+        let i = sectionsAnswers.sections.length - 1, msgAppend = "\nZapisanie odpowiedzi dla ";
         for(; i >= 0; i--){
             if(sectionsAnswers.sections[i].id === sectionId){
                 msgAppend += "\"" + sectionsAnswers.sections[i].title + "\" ";
+                if( !sectionsAnswers.answers[i].hasOwnProperty('id') )
+                    sectionsAnswers.answers[i].id = answerIdResponse;
                 break;
             }
         }
@@ -166,10 +167,10 @@ const EmployeeSections = ({pageId, userId}) => {
                 sectionsView.view
             )}
             <button type="submit" className="btn btn-success mr-3">
-                Wyślij odpowiedzi
+                Zapisz odpowiedzi
             </button>
             <button type="button" className="btn btn-success mr-3" onClick={ finishAnswers }>
-                Zapisz odpowiedzi
+                Wyślij odpowiedzi
             </button>
             {confirmationModal.modal}
         </form>

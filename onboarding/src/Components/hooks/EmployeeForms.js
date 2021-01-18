@@ -294,9 +294,9 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
  * responseFunction = function(sectionId, requestSuccess){}
  */
 export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
-	let url = getPath(), token = getCookie("csrftoken"), xhr,
+	let url = getPath(), token = getCookie("csrftoken"),
 		i, data, answerId;
-	var sectionId;
+	var sectionId, xhr;
 
 	i = sectionsAnswers.length - 1;
 	for(; i >= 0; i--){
@@ -314,18 +314,22 @@ export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
 			answerId = sectionsAnswers[i].answerId;
 
 
-		xhr.onReadyStateChange = function(){
-			if(xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 300){
-				/*var res = xhr.responseText, obj;
+		xhr.onreadystatechange = function(){
+			if(this.readyState == 4 && this.status >= 200 && this.status < 300){
+				let resp, answerIdResp = -1, sectionIdResp = -1;
 				try {
-					obj = JSON.parse(res);
-				}catch(e){obj = {};}*/
+					resp = JSON.parse(this.responseText);
+					if(resp.hasOwnProperty('id') )
+						answerIdResp = parseInt(resp.id, 10);
+					if(resp.hasOwnProperty('section') )
+						sectionIdResp = parseInt(resp.section, 10);
+				}catch(e){}
 
-				responseFunction(sectionId, true);
-			} else if(xhr.readyState==4){
+				responseFunction(sectionIdResp, true, answerIdResp);
+			} else if(this.readyState == 4){
 				responseFunction(sectionId, false);
 			}
-		}
+		};
 
 		if(answerId >= 0)
 			xhr.open("PATCH", url + "api/answer/" + answerId + "/", true);/* async: true (asynchronous) or false (synchronous); */
