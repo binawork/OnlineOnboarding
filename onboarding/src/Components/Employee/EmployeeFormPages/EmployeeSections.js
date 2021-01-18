@@ -10,17 +10,17 @@ import ModalWarning from "../../ModalWarning";
 
 const EmployeeSections = ({pageId, userId}) => {
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
+    const [loadingSaved, isLoadingSaved] = useState({load: true, saved: false});
     const [message, setMessage] = useState("");
-    const [loading, isLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [sectionsView, setView] = useState({view: [], init: false});
     const [confirmationModal, setModal] = useState({id: 0, modal: <></>});
 
 
     useEffect(() => {
-        getEmployeesSectionsAndAnswers(pageId, userId, setErrorMessage, function(result){
+        getEmployeesSectionsAndAnswers(pageId, userId, setErrorMessage, function(result, areSaved){
             //console.log(result);
-            isLoading(false);
+            isLoadingSaved({load: false, saved: areSaved});
             setSectionsAnswers(result);
         });
         /*getEmployeesAnswersForSections(sectionsAnswers.sections).then(function(answersForms){
@@ -47,8 +47,8 @@ const EmployeeSections = ({pageId, userId}) => {
 
     const changeOpenAnswerText = (index, value) => {
         sectionsAnswers.answers[index].data = value;
-        console.log(sectionsAnswers.answers);
-        /*setAnswers(updatedAnswers);*/
+        /* console.log(sectionsAnswers.answers);
+        / *setAnswers(updatedAnswers);*/
     };
 
     const setAnswer = function(ind, value){
@@ -58,7 +58,7 @@ const EmployeeSections = ({pageId, userId}) => {
         sectionsAnswers.answers[ind].data = value;
     };
 
-    const saveAnswers = (e) => {
+    const saveAnswers = (e, anotherResponse) => {
         e.preventDefault();
         let i, count = Math.min(sectionsAnswers.sections.length, sectionsAnswers.answers.length);
         let answersToSend = [], element;
@@ -73,16 +73,24 @@ const EmployeeSections = ({pageId, userId}) => {
             answersToSend.push(element);
         }
 
-        sendEmployeesAnswers(answersToSend, sendingSectionAnswerResponse);
+        let sendingResponse = sendingSectionAnswerResponse;
+        if(typeof anotherResponse !== 'undefined')
+            sendingResponse = anotherResponse;
+
+        sendEmployeesAnswers(answersToSend, sendingResponse);
     };
     const finishAnswers = function(e){
+        if(!loadingSaved.saved){
+            saveAnswers(e, sendAndFinishResponse);
+            return;
+        }
+
         e.preventDefault();
         finishEmployeesAnswers(pageId, function(msg){
                 setMessage(msg);
                 popUpConfirmationModal();
             });
     };
-
 
     const sendingSectionAnswerResponse = function(sectionId, isSuccess, answerIdResponse){
         // sectionsAnswers.sections = [{id:sectionId, title: "", ...}, ...]
@@ -102,6 +110,28 @@ const EmployeeSections = ({pageId, userId}) => {
 
         setMessage(message + msgAppend);
         popUpConfirmationModal();
+
+        if(!loadingSaved.saved)
+            isLoadingSaved({...loadingSaved, saved: true});
+    };
+    const sendAndFinishResponse = function(sectionId, isSuccess, answerIdResponse){
+        let i = sectionsAnswers.sections.length - 1;
+        for(; i >= 0; i--){
+            if(sectionsAnswers.sections[i].id === sectionId){
+                if( !sectionsAnswers.answers[i].hasOwnProperty('id') )
+                    sectionsAnswers.answers[i].id = answerIdResponse;
+
+                break;
+            }
+        }
+
+        finishEmployeesAnswers(pageId, function(msg){
+                setMessage(msg);
+                popUpConfirmationModal();
+
+                if(!loadingSaved.saved)
+                    isLoadingSaved({...loadingSaved, saved: true});
+            });
     };
 
     const popUpConfirmationModal = () => {
@@ -153,13 +183,13 @@ const EmployeeSections = ({pageId, userId}) => {
             }
             setView({view: sectionsView2, init: true});
         }
-    }, [pageId, loading, sectionsAnswers]);
+    }, [pageId, loadingSaved.load, sectionsAnswers]);
 
 
 
     return (
         <form onSubmit={ saveAnswers }>
-            {loading ? (
+            {loadingSaved.load ? (
                 <div className="p-3">Ładowanie...</div>
             ): errorMessage !== "" ? (
                 <div className="p-3">{errorMessage}</div>
