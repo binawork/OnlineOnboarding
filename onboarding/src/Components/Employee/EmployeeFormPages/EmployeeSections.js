@@ -11,10 +11,9 @@ import ModalWarning from "../../ModalWarning";
 const EmployeeSections = ({pageId, userId}) => {
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [loadingSaved, isLoadingSaved] = useState({load: true, saved: false});
-    const [message, setMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [sectionsView, setView] = useState({view: [], init: false});
-    const [confirmationModal, setModal] = useState({id: 0, modal: <></>});
+    const [confirmationModal, setModal] = useState({msg: "", modal: <></>});
 
 
     useEffect(() => {
@@ -87,15 +86,14 @@ const EmployeeSections = ({pageId, userId}) => {
 
         e.preventDefault();
         finishEmployeesAnswers(pageId, function(msg){
-                setMessage(msg);
-                popUpConfirmationModal();
+                popUpConfirmationModal(msg, false);
             });
     };
 
     const sendingSectionAnswerResponse = function(sectionId, isSuccess, answerIdResponse){
         // sectionsAnswers.sections = [{id:sectionId, title: "", ...}, ...]
         let i = sectionsAnswers.sections.length - 1, msgAppend = "\nZapisanie odpowiedzi dla ";
-        for(; i >= 0; i--){
+        for(; i >= 0 && sectionId > 0; i--){
             if(sectionsAnswers.sections[i].id === sectionId){
                 msgAppend += "\"" + sectionsAnswers.sections[i].title + "\" ";
                 if( !sectionsAnswers.answers[i].hasOwnProperty('id') )
@@ -108,15 +106,14 @@ const EmployeeSections = ({pageId, userId}) => {
         else
             msgAppend += "nie powiodło się!";
 
-        setMessage(message + msgAppend);
-        popUpConfirmationModal();
+        popUpConfirmationModal(msgAppend, true);
 
         if(!loadingSaved.saved)
             isLoadingSaved({...loadingSaved, saved: true});
     };
     const sendAndFinishResponse = function(sectionId, isSuccess, answerIdResponse){
         let i = sectionsAnswers.sections.length - 1;
-        for(; i >= 0; i--){
+        for(; i >= 0 && sectionId > 0; i--){
             if(sectionsAnswers.sections[i].id === sectionId){
                 if( !sectionsAnswers.answers[i].hasOwnProperty('id') )
                     sectionsAnswers.answers[i].id = answerIdResponse;
@@ -126,22 +123,25 @@ const EmployeeSections = ({pageId, userId}) => {
         }
 
         finishEmployeesAnswers(pageId, function(msg){
-                setMessage(msg);
-                popUpConfirmationModal();
+                popUpConfirmationModal(msg, false);
 
                 if(!loadingSaved.saved)
                     isLoadingSaved({...loadingSaved, saved: true});
             });
     };
 
-    const popUpConfirmationModal = () => {
+    const popUpConfirmationModal = (message, append) => {
+        let newMessage = message;
+        if(append)
+            newMessage = confirmationModal.msg + message;
+
         setModal({
-            id: 0,
+            msg: newMessage,
             modal: (
                 <ModalWarning
                     handleAccept={ hideModal }
                     title="Potwierdzenie wysłania"
-                    message={ message }
+                    message={ newMessage }
                     id={0}
                     show={true}
                     acceptText="Ok"
@@ -151,7 +151,7 @@ const EmployeeSections = ({pageId, userId}) => {
     };
 
     const hideModal = () => {
-        setModal({id: 0, modal: <></>});
+        setModal({msg: "", modal: <></>});
     };
 
 

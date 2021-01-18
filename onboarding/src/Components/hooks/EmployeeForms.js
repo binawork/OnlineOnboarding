@@ -251,15 +251,14 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 
 				let i = section.answers.length - 1, id = -1, idInt;
 				for(; i >= 0; i--){// .reduce(function(prev, curr){return prev.id > curr.id ? prev : curr;});
-					if(section.answers[i].owner){
+					if(section.answers[i].owner){// Skip answers of another employees;
 						idInt = parseInt(section.answers[i].owner, 10);
 						if(idInt !== userId)
 							continue;
 					}
 
 					idInt = section.answers[i].id ? parseInt(section.answers[i].id, 10) : -1;
-
-					if(idInt > id){
+					if(idInt > id){// include only the answer with highest 'id' and set flag if it was saved on DB;
 						id = idInt;
 						answer = section.answers[i];
 						areSaved = true;
