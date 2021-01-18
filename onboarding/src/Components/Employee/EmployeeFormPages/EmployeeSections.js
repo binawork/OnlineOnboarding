@@ -48,6 +48,7 @@ const EmployeeSections = ({pageId, userId}) => {
         sectionsAnswers.answers[index].data = value;
         /* console.log(sectionsAnswers.answers);
         / *setAnswers(updatedAnswers);*/
+        isLoadingSaved({...loadingSaved, saved: false});
     };
 
     const setAnswer = function(ind, value){
@@ -55,6 +56,7 @@ const EmployeeSections = ({pageId, userId}) => {
             return;
 
         sectionsAnswers.answers[ind].data = value;
+        isLoadingSaved({...loadingSaved, saved: false});
     };
 
     const saveAnswers = (e, anotherResponse) => {
