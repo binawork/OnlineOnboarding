@@ -148,7 +148,7 @@ export function SingleEmployeeForms(props){
 	}
 }
 
-export async function getEmployeesSection(pageId, errorMessageFunction){
+/*export async function getEmployeesSection(pageId, errorMessageFunction){
 	let url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
@@ -162,9 +162,9 @@ export async function getEmployeesSection(pageId, errorMessageFunction){
 
 	let sectionForms = await response.json();
 	return sectionForms.sort((a, b) => a.order - b.order);
-}
+}*/
 
-export async function getEmployeesAnswersForSections(sections){
+/*export async function getEmployeesAnswersForSections(sections){
 	let mainUrl = getPath(), url,
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 	var results = {answers: Array(sections.length).fill({data: []}), answers_cp: Array(sections.length).fill({data: []})};
@@ -189,7 +189,7 @@ export async function getEmployeesAnswersForSections(sections){
 	}
 
 	return results;
-}
+}*/
 
 
 function getUserId(pageId, errorMessageFunction, setSectionsAnswers){
@@ -386,14 +386,14 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 				if(typeof result.detail === 'string')
 				msg += result.detail;
 				handleMessage(msg);
-				setUsersInPackage ? setUsersInPackage(result.users) : null;
+				setUsersInPackage ? setUsersInPackage(result.users) : null;// ESLint: Expected an assignment or function call and instead saw an expression.(no-unused-expressions);
 			},
 			(error) => {
 				console.log(error.message);
 			}
 			);
 		} else if(typeof packageId === "object") {
-			Promise.all(packageId.map(id => {
+			Promise.all(packageId.map(id => {// ESLint: Expected to return a value in arrow function.(array-callback-return);
 				const fullPath = path + "api/add_users_to_package/" + id + "/add_user_to_package/";
 				fetch(fullPath, fetchProps)
 			})).then(() => {
