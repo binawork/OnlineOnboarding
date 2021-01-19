@@ -5,7 +5,7 @@ import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../uti
 /**
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
-function EmployeeForms(props, count){
+function EmployeeForms(props, setError, setLoading, count){
 	var [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
@@ -18,11 +18,12 @@ function EmployeeForms(props, count){
 				isLoaded(true);
 				setRows(result);
 			},
-			(error) => {
-				console.log(error);
-				showError(error);
+			(err) => {
+				console.log(err);
+				setError(true);
+				showError(err);
 			}
-		);
+		).finally(() => setLoading(false));
 	}, [props.count, count]);
 
 	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []};
@@ -365,28 +366,44 @@ export async function finishEmployeesAnswers(pageId, handleMessage){
  * Employee assignment to package/combo;
  */
 export function assignEmployeeToPackage(handleMessage, employeeId, packageId, setUsersInPackage){
-	let data, token = getCookie("csrftoken"), fullPath = getPath(),
+	let data, token = getCookie("csrftoken"), path = getPath(),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
 
-	fullPath = fullPath + "api/add_users_to_package/" + packageId + "/add_user_to_package/";
 	data = {users: [employeeId]};
-	//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
-	//data.users.push(userPackageObject);
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})
+	if(typeof packageId === "string" || typeof packageId === "number") {
+		const fullPath = path + "api/add_users_to_package/" + packageId + "/add_user_to_package/";
+
+		//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
+		//data.users.push(userPackageObject);
+
+		fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})
 		.then(
 			(result) => {
 				let msg = "Formularz został wysłany do pracownika. ";
 				if(typeof result.detail === 'string')
-					msg += result.detail;
+				msg += result.detail;
 				handleMessage(msg);
-				setUsersInPackage(result.users)
+				setUsersInPackage ? setUsersInPackage(result.users) : null;
 			},
 			(error) => {
-				handleMessage(error.message);
+				console.log(error.message);
 			}
-		);
+			);
+		} else if(typeof packageId === "object") {
+			Promise.all(packageId.map(id => {
+				const fullPath = path + "api/add_users_to_package/" + id + "/add_user_to_package/";
+				fetch(fullPath, fetchProps)
+			})).then(() => {
+						let msg = "Wybrane formularze zostały wysłane do pracownika.";
+						handleMessage(msg);
+					}, 
+					(error) => {
+						console.log(error.message);
+					}
+				);
+		}
 }
 
 /**
