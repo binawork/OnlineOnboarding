@@ -85,8 +85,9 @@ function FormTable({ packageId, loggedUser }) {
           </div>
         </div>
         <div className="card card-fluid">
-          <div className="card-header">Stwórz strone</div>
+          <div className="card-header">Stwórz formularz, który wyślesz do pracownika</div>
           <div className="card-body">
+            <small style={{ paddingLeft: "12px" }}>Nazwa formularza</small>
             <FormTableAddNew
               id={packageId}
               handleUpdate={updatePackages}
@@ -96,7 +97,7 @@ function FormTable({ packageId, loggedUser }) {
           </div>
         </div>
         <div className="card card-fluid">
-          <div className="card-header">Lista Stron</div>
+          <div className="card-header">Lista formularzy</div>
           <div className="card-body">
           { error && <p>{ error }</p> }
           { isLoading && <p>Ładowanie...</p> }
@@ -104,7 +105,7 @@ function FormTable({ packageId, loggedUser }) {
             <table className="table table-striped">
                <thead>
                     <tr>
-                        <th scope="col" style={{width: "50%"}}>Nazwa strony</th>
+                        <th scope="col" style={{width: "50%"}}>Nazwa formularza</th>
                         {/* <th scope="col" style={{width: "10%"}}>Kolejność</th> */}
                         <th scope="col" style={{width: "25%"}}>Edytowany</th>
                         <th scope="col" style={{width: "15%"}}>Działanie</th>

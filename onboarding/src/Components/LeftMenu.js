@@ -39,8 +39,9 @@ const LeftMenu = (props) => {
                         }}
                         className="menu-link"
                         activeStyle={{color: "#346CB0"}}
+                        style={{ whiteSpace: "normal"}}
                       >
-                        Lista formularzy
+                        Lista formularzy w katalogu
                       </NavLink>
                     </li>
                     <li className="menu-item">
