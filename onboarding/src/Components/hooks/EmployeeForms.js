@@ -229,6 +229,7 @@ function getUserId(pageId, errorMessageFunction, setSectionsAnswers){
 export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunction, setSectionsAnswers){
 	if( (typeof userId === 'undefined' || userId < 1) && userId !== false){
 		getUserId(pageId, errorMessageFunction, setSectionsAnswers);
+		return;
 	}
 
 	let xhr = new XMLHttpRequest(), url = getPath();
