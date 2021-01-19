@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { dateToString } from "../utils";
-//import { removeCombo } from "../hooks/Packages";
-import "../../static/css/style.css";
+import "../../static/css/packages.css";
 
 
-function PackagesRow({ row, handleRemoveAsk, lastRow, loggedUser }) {
+function PackagesRow({ row, removeAsk, lastRow }) {
     const [styleRow, setStyleRow] = useState(null);
+    const [showPages, setShowPages] = useState(false);
+    const [rotate, setCaretIcon] = useState(false);
+    const [showStyle, setShowStyle] = useState("none");
 
-    /*var removeSuccess = (result) => {
-        handleUpdate();/ / update list of packages;
-    };*/
-
-    /*var handleRemove = function(){
-        removeCombo(handleUpdate, row.key);
-    }*/
+    const pagesRows = row.pages.map((page) => 
+        <tr className="table__row" key={ page.id } style={{ display: showStyle }}>
+            <td colSpan="3">
+                <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
+                <Link
+                    to={{
+                        pathname: `/form_edit/${page.id}`,
+                        state: {
+                            packageId: row.id,
+                            pageId: page.id,
+                            pageName: page.name,
+                            description: page.description,
+                            link: page.link,
+                        },
+                    }}
+                >
+                    { page.title }
+                </Link>
+            </td>
+        </tr>
+    )
 
     useEffect(() => {
         if(lastRow && Date.now() - Date.parse(row.created) < 3000) {
@@ -24,14 +40,49 @@ function PackagesRow({ row, handleRemoveAsk, lastRow, loggedUser }) {
         }
     }, [lastRow]);
 
+    const toggleShowPages = function(){
+        setCaretIcon(!rotate);
+        setShowPages(!showPages);
+        setShowStyle(showStyle === "none" ? "table-row" : "none");
+    };
+
     return(
-        <tr className={styleRow}>
-            <td><Link to={{ pathname: "/package_page/" + row.key, state: { packageId: row.key, loggedUser: loggedUser } }} className="link">{row.name}</Link></td> 
-            <td>{ dateToString(row.last_edit) }</td>{/* na polski; */}
-            <td>
-                <Link to={{ pathname: "/package_page/" + row.key, state: { packageId: row.key, loggedUser: loggedUser } }} className="btn btn-secondary">edytuj</Link> / <button type="button" value={ row.key } className="btn btn-secondary" onClick={ handleRemoveAsk }>usuń</button>
-            </td>
-        </tr>
+        <>
+            <tr className={ `table__row ${styleRow || ""}` }>
+                <td className="table__data" style={{ paddingLeft: row.pages.length === 0 ? "38px" : "" }}>
+                    <div>
+                        <button className={`caret-icon ${rotate ? "caret-rotate" : ""}`} onClick={ toggleShowPages } style={{ display: row.pages.length > 0 ? "inline-block" : "none" }}>
+                            <i className="fas fa-caret-right"></i>
+                        </button> 
+                        <i className="fa fa-folder folder-icon"></i>
+                        <Link to={{ pathname: "/package_page/" + row.id, state: { packageId: row.id} }} 
+                            className="link mr-4" 
+                            title="Kliknij, aby przejść do edycji zawartości katalogu"
+                        >{ row.name }</Link>
+                        <small className="info-tag">
+                            Liczba plików: { row.pages.length || 0 }
+                        </small>
+                    </div>
+                    <small><i>{ row.description }</i></small>
+                </td>
+
+                <td className="table__data">{ dateToString(row.last_edit) }</td>
+
+                <td  className="table__data table__data--nowrap">
+                    <Link to={{ pathname: "/package_page/" + row.id, state: { packageId: row.id} }} className="btn btn-secondary mr-1">
+                        Edytuj
+                    </Link>
+                    <button 
+                        value={ row.id }
+                        className="btn btn-warning"
+                        onClick={ removeAsk }
+                    >
+                        Usuń
+                    </button>
+                </td>
+            </tr>
+            { showPages && pagesRows }
+        </>
     )
 }
 export default PackagesRow;

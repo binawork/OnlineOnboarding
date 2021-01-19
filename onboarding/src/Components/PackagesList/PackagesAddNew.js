@@ -31,7 +31,7 @@ function PackagesAddNew(props) {
             </div>
             <div className="col-auto">
                 <div className="dropdown">
-                    <button id="btn-add-package" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick={ handleClick }>Dodaj do listy</button>
+                    <button id="btn-add-package" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick={ handleClick }>Stwórz katalog</button>
                 </div>{/* zrobienie przejścia do listy formularzy - package_page; */}
             </div>
         </div>

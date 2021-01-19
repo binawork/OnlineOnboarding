@@ -12,12 +12,10 @@ function FormTablePage(props) {
     if(props.match.params.package_id)
         packageIdRef.current = parseInt(props.match.params.package_id);
 
-    let loggedUser;
+    const loggedUser = props.location.state?.loggedUser ?? LoggedUser();
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;// when packageId is in state also - use this one (or comment this line).
-        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
-    } else
-        loggedUser = LoggedUser();
+    };
 
 
     return(

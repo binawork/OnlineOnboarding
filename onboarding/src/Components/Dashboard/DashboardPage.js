@@ -13,11 +13,7 @@ import { usersWithPackages } from "../hooks/Packages";
 function DashboardPage(props) {
   const packageIdRef = useRef(0);
   const usersForPackages = usersWithPackages({count: 0});
-  let loggedUser;
-  if(props.location.state){
-    loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
-  } else
-    loggedUser = LoggedUser();
+  const loggedUser = props.location.state?.loggedUser ?? LoggedUser();
 
   const [isEmployee, setIsEmployee] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);

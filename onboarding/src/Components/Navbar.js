@@ -26,6 +26,10 @@ function Navbar(props) {
             dropDownList.style.display="block";
     }
 
+    const handleLogout = () => {
+        sessionStorage.clear();
+    }
+
     return(
         // <nav className="top-bar navbar navbar-expand-lg navbar-dark">
        <nav className="top-bar navbar p-0 flex-nowrap">
@@ -66,7 +70,7 @@ function Navbar(props) {
                             <a className="dropdown-item" href="#"><span className="dropdown-icon oi oi-person"></span> Profil</a> */}
                             <Link to={{ pathname: "/add_user", state: { user: loggedUser, packageId: 0, loggedUser: loggedUser, enableUploadAvatar: true } }}
                         				className="dropdown-item" data-toggle="tooltip"><span className="dropdown-icon oi oi-person"></span> Profil</Link>
-                            <a className="dropdown-item" href={"/accounts/logout/"}><span className="dropdown-icon oi oi-account-logout"></span> Wyloguj</a>
+                            <a className="dropdown-item" href={"/accounts/logout/"} onClick={ handleLogout }><span className="dropdown-icon oi oi-account-logout"></span> Wyloguj</a>
                         </div>
                     </div>
                 </div>

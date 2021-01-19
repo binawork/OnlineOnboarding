@@ -15,15 +15,13 @@ function UserManagerProfilePage(props) {
     const singleUser = {id: 0, name: "", last_name: "", email: "", tel: "",
         position: "", department: "", location: "", avatar: "/onboarding/static/images/unknown-profile.jpg"};
 
-
-    let stateExists = false, loggedUser;
+    const loggedUser = props.location.state?.loggedUser ?? LoggedUser();
+    let stateExists = false
+    ;
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;
-        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
-
         stateExists = true;
-    } else
-        loggedUser = LoggedUser();
+    };
 
     if(stateExists && props.location.state.user){
         let user = props.location.state.user;

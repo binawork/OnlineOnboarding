@@ -1,4 +1,29 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+@import "animations.css";
+
+@font-face {
+    font-family: "summernote";
+    src: url("../fonts/summernote.eot");
+    src: url("../fonts/summernote.eot") format("embedded-opentype");
+    src: url("../fonts/summernote.ttf") format("truetype");
+    src: url("../fonts/summernote.woff") format("woff");
+    src: url("../fonts/summernote.woff2") format("woff2");
+}
+
+.table__data {
+    vertical-align: middle!important;
+}
+.table__data--nowrap {
+    white-space: nowrap;
+}
+.table__row {
+    transition: all .2s ease-in-out;
+}
+.table__row:hover {
+    background: #1c1c27!important;
+    transition: background .2s ease-in-out;
+}
+
 .navbar1{
     background: aqua;
     color: Black;
@@ -11,43 +36,6 @@
     overflow: visible;
 }
 
-@font-face {
-    font-family: "summernote";
-    src: url("../fonts/summernote.eot");
-    src: url("../fonts/summernote.eot") format("embedded-opentype");
-    src: url("../fonts/summernote.ttf") format("truetype");
-    src: url("../fonts/summernote.woff") format("woff");
-    src: url("../fonts/summernote.woff2") format("woff2");
-}
-@keyframes newRowColor {
-    0% {
-        background: none;
-    }
-    25% {
-        background: #4d4d6e;
-    }
-    75% {
-        background: #4d4d6e;
-    }
-    100% {
-        background: none;
-    }
-}
-@keyframes showAndHide {
-    0% {
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
 .show-and-hide {
     animation: showAndHide 3s linear forwards;
 }
@@ -56,8 +44,4 @@
     margin-top: 100px;
     padding: 0;
     list-style: none;
-}
-
-.style-package-row {
-    animation: newRowColor 3s ease-in-out;
 }

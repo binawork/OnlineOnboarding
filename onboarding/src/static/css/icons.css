@@ -1,0 +1,25 @@
+.caret-icon {
+  width: 24px;
+  margin-right: 2px;
+  padding: 0;
+  color: inherit;
+  background: none;
+  border: none;
+}
+.caret-icon:focus {
+  outline: none;
+}
+.caret-icon > svg {
+  transition: all .1s linear;
+}
+.caret-rotate > svg {
+  transform: rotate(90deg);
+  transition: transform .1s linear;
+}
+
+.fa-folder {
+  width: 24px!important;
+  /* height: 16px!important; */
+  color: #F7C46C;
+  margin-right: 2px!important;
+}
