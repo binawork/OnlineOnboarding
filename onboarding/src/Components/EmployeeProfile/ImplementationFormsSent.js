@@ -5,8 +5,10 @@ import EmployeeForms, { remindEmployeeOfPackage } from "../hooks/EmployeeForms";
 
 function ImplementationFormsSent(props) {
     const [numberChecked, checkedChange] = useState(0);
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
     let propsCp = {...props, specificEmployee: props.userId},
-        user_table = EmployeeForms(propsCp), forms = [];
+        user_table = EmployeeForms(propsCp, setError, setLoading), forms = [];
 
     const showHide = (isChecked) => {
         if(isChecked)
@@ -19,36 +21,42 @@ function ImplementationFormsSent(props) {
 		remindEmployeeOfPackage(props.showModal, props.userId, packageId);
 	};
 
-    user_table.forEach(function (element, i) {
-        forms.push(<FormsSentTableRow key={ element.key } row={element} handleChecked={ showHide } handleRemind={ sendRemind } />)
-    });
+    if(user_table.length !== 0) {
+        user_table.forEach(function (element, i) {
+            forms.push(<FormsSentTableRow key={ element.key } row={element} handleChecked={ showHide } handleRemind={ sendRemind } />)
+        });
+    } else {
+        forms.push(        
+            <tr key={ 0 }>
+                <td colSpan="5">Brak wysłanych formularzy</td>
+            </tr>
+        );
+    }
 
     return(
         <div className="card card-fluid">
             <div className="card-header"> Wysłane Formularze wdrożeniowe </div>
             <div className="card-body">
-                <table className="table table-striped">
-                    <thead><tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Formularze</th>
-                        <th scope="col">Postęp</th>
-                        <th scope="col">Data wysłania</th>
-                        <th scope="col">Data zakończenia</th>
-                        <th scope="col">Działanie</th>
-                    </tr></thead>
-                    <tbody>
-                        { forms }
-                        <tr style={{display: numberChecked>0 ? "" : "none"}}>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td colSpan={2}><button className="btn btn-secondary">Przypomnienie o zaznaczonych</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                { error && <p>Wystąpił błąd podczas ładowania</p> }
+                { loading && <p>Ładowanie...</p> }
+                { !loading && !error && (
+                    <table className="table table-striped">
+                        <thead><tr>
+                            <th scope="col">Formularze</th>
+                            <th scope="col">Postęp</th>
+                            <th scope="col">Data wysłania</th>
+                            <th scope="col">Data zakończenia</th>
+                            <th scope="col">Działanie</th>
+                        </tr></thead>
+                        <tbody>
+                            { forms }
+                            <tr style={{display: numberChecked>0 ? "" : "none"}}>
+                                <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary">Przypomnienie o zaznaczonych</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                )}
+
             </div>
         </div>
     )
