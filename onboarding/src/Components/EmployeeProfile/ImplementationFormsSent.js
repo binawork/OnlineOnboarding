@@ -7,7 +7,7 @@ function ImplementationFormsSent(props) {
     const [numberChecked, checkedChange] = useState(0);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
-    let propsCp = {...props, specificEmployee: props.userId},
+    let propsCp = {...props, specificEmployee: props.employee.id},
         user_table = EmployeeForms(propsCp, setError, setLoading), forms = [];
 
     const showHide = (isChecked) => {
@@ -18,12 +18,14 @@ function ImplementationFormsSent(props) {
     };
 
 	const sendRemind = function(packageId){
-		remindEmployeeOfPackage(props.showModal, props.userId, packageId);
+		remindEmployeeOfPackage(props.showModal, props.employee.id, packageId);
 	};
 
     if(user_table.length !== 0) {
         user_table.forEach(function (element, i) {
-            forms.push(<FormsSentTableRow key={ element.key } row={element} handleChecked={ showHide } handleRemind={ sendRemind } />)
+            forms.push(<FormsSentTableRow key={ element.key } row={element}
+                                          packageId={ props.packageId } loggedUser={ props.loggedUser }
+                                          handleChecked={ showHide } handleRemind={ sendRemind } />)
         });
     } else {
         forms.push(        
