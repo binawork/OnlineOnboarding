@@ -25,6 +25,7 @@ function ImplementationFormsSent(props) {
         user_table.forEach(function (element, i) {
             forms.push(<FormsSentTableRow key={ element.key } row={element}
                                           packageId={ props.packageId } loggedUser={ props.loggedUser }
+                                          employee={ props.employee }
                                           handleChecked={ showHide } handleRemind={ sendRemind } />)
         });
     } else {

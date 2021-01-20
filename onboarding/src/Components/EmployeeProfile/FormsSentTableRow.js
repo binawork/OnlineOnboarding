@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 
 function FormsSentTableRow(props) {
     const [toggleObj, switchVisibility] = useState({style:{ display: "none" },
@@ -38,7 +40,10 @@ function FormsSentTableRow(props) {
                 <tr key={ i } style={ toggleObj.style }>
                     <td colSpan="5">
                         <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
-                        { page.title }
+                        <Link to={{ pathname: "/employee_answers",
+                                    state: { packageId: props.packageId, loggedUser: props.loggedUser, pageId: page.id, employee: props.employee } }}>
+                            { page.title }
+                        </Link>
                     </td>
                 </tr>
             );
