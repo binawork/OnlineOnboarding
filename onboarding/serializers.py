@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from onboarding.models import ContactRequestDetail, Package, Page, Section, User, PackagesUsers
+from onboarding.models import ContactRequestDetail, Package, Page, Section, User, PackagesUsers, SectionsUsers
 from onboarding.models import Answer, Company, CompanyQuestionAndAnswer
 from . import mock_password
 
@@ -297,6 +297,57 @@ class AnswerSerializer(serializers.ModelSerializer):
             'confirmed',
             'finished'
         )
+
+
+class UserAnswerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SectionsUsers
+        fields = (
+            'data',
+            'updated_on'
+        )
+
+
+class SectionsUsersSerializer(serializers.ModelSerializer):
+    users = UserAnswerSerializer(source='sectionsusers_set', many=True)
+
+    class Meta:
+        ordering = ['-id']
+        model = Package
+        fields = (
+            'id',
+            'users'
+        )
+
+    """section_set = SectionSerializer(many=True)
+    class Meta:
+        model = SectionsUsers
+        fields = (
+            'user',
+            'section',
+            'data',
+            'updated_on',
+            'section_set',
+        )
+    " " "def validate(self, data):
+        " " "
+        Check that the start is before the stop.
+        " " "
+        if data['start_date'] > data['end_date']:
+            raise serializers.ValidationError("finish must occur after start")
+        return data"""
+
+
+    def create(self, validated_data):
+        pass
+        # section = validated_data.pop('section')
+        # return SectionsUsers.objects.create(validated_data)
+
+    def update(self, instance, validated_data):
+        instance.data = validated_data.get('data', instance.data)
+        instance.save()
+        return instance
 
 
 class AnswersProgressStatusSerializer(serializers.ModelSerializer):
