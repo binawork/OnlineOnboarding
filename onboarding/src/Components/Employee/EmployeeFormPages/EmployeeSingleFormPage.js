@@ -2,7 +2,7 @@ import React from "react";
 import EmployeeSections from "./EmployeeSections";
 import PropTypes from "prop-types";
 
-const EmployeeSinglePage = ({ page }) => {
+const EmployeeSinglePage = ({ page, userId }) => {
   let pageLink;
   if(page.link?.match(/^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i)) {
     pageLink = page.link ? page.link.replace(/watch\?v=/g, "embed/") : "";
@@ -35,7 +35,7 @@ const EmployeeSinglePage = ({ page }) => {
               }
             </div>
           </div>
-          <EmployeeSections pageId={page.id} />
+          <EmployeeSections pageId={page.id} userId={ userId } />
         </div>
       </div>
     </div>

@@ -664,19 +664,28 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    @action(detail=True)
+    @action(detail=True, methods=['get', 'patch'])
     def finished(self, request, pk):
         """
         :param request:
-        :param pk: this is section ID
+        :param pk: this is section ID if method is GET or page ID of section it belongs to if the method is PATCH
         :return: answers list by section id
         """
-        answer = Answer.objects.filter(
+        if request.method == 'PATCH':
+            answers = Answer.objects.filter(section__page__id=pk, owner=self.request.user) # id__in=request.data['answers']
+
+            if answers.count() < 1:
+                return Response(status=status.HTTP_404_NOT_FOUND) # Resource not found
+            
+            answers.update(finished = True)
+        else:
+            answers = Answer.objects.filter(
                                 section__id=pk,
                                 owner=self.request.user,
                                 section__page__package__users=self.request.user
-        )
-        serializer = AnswersProgressStatusSerializer(answer, many=True)
+            )
+        #
+        serializer = AnswersProgressStatusSerializer(answers, many=True)
 
         return Response(serializer.data)
 

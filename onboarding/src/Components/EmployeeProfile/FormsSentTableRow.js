@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
 function FormsSentTableRow(props) {
-    const [toggleObj, switchVisibility] = useState({style:{ display: "none" }, display: false, hasContent: props.empty? false : props.row.pagesCount > 0});
-    const [rotate, setCaretIcon] = useState(false);
+    const [toggleObj, switchVisibility] = useState({style:{ display: "none" },
+                                                    display: false,
+                                                    hasContent: props.empty? false : props.row.pagesCount > 0,
+                                                    rotate: false});
 
     const countChecked = function(e){
         props.handleChecked(e.target.checked);
@@ -13,8 +15,7 @@ function FormsSentTableRow(props) {
             return;
 
         let newStyle = toggleObj.display? {display: "none"} : {display: ""};
-        setCaretIcon(!rotate);
-        switchVisibility({...toggleObj, style: newStyle, display: !toggleObj.display});
+        switchVisibility({...toggleObj, style: newStyle, display: !toggleObj.display, rotate: !toggleObj.rotate});
     };
 
     const remind = (e) => {
@@ -49,7 +50,7 @@ function FormsSentTableRow(props) {
         <>
             <tr>
                 <td style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
-                    { toggleObj.hasContent && <button className={`caret-icon ${rotate ? "caret-rotate" : ""}`} onClick={ showPages } type="button"><i className="fas fa-caret-right"></i></button> }
+                    { toggleObj.hasContent && <button className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`} onClick={ showPages } type="button"><i className="fas fa-caret-right"></i></button> }
                     { checkBox }
                     <i className="fa fa-folder" style={{ width: "24px", color: "#F7C46C", marginRight: "2px" }}></i>
                     {props.row.form}

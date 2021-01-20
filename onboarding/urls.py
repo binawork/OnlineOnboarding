@@ -11,8 +11,8 @@ from django.contrib.auth import views as auth_views
 
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
     ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView,\
-    UserProgressOnPackageView, PackagePagesViewSet, SectionAnswersViewSet, CustomPasswordResetConfirmView, \
-    WhenPackageSendToEmployeeView, AddUserToPackageViewSet, CompanyLogoViewSet
+    UserProgressOnPackageView, PackagePagesViewSet, CustomPasswordResetConfirmView, \
+    WhenPackageSendToEmployeeView, AddUserToPackageViewSet, CompanyLogoViewSet, SectionAnswersViewSet
 
 # base
 urlpatterns = [

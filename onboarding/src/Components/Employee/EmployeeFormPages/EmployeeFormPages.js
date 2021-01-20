@@ -39,7 +39,7 @@ const EmployeeFormPages = ({ switchPage, actualPackageId }) => {
                     </tr>
                   ) : errorMessage ? (
                     <tr>
-                      <td>{error}</td>
+                      <td>{ errorMessage }</td>
                     </tr>
                   ) : (
                     <EmployeeFormPagesList
