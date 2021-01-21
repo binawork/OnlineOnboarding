@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import parse from "html-react-parser";
 import { getEmployeesSectionsAndAnswers } from "../hooks/EmployeeForms";
+import OpenAnswer from "./OpenAnswer";
+import SectionAnswers from "./SectionAnswers";
 //import PropTypes from "prop-types";
 
 
@@ -14,10 +17,35 @@ function EmployeeAnswers(props){
     };
 
     const showSectionsAnswers = (sectionsAnswersResult, employeeDidAnswer) => {
-        console.log(sectionsAnswersResult);
-        //let newSectionsView = [];
-        //setSectionsAnswers(sectionsAnswersResult);
+        if(typeof sectionsAnswersResult.sections === 'undefined' || sectionsAnswersResult.sections === null ||
+           typeof sectionsAnswersResult.answers === 'undefined' || sectionsAnswersResult.answers === null){
+             setMessage({message: "Miał miejsce błąd w pobieraniu formularza!", print: true});
+             setView([]);
+         }
 
+
+        setSectionsAnswers(sectionsAnswersResult);
+
+        let newSectionsView = [], sections = sectionsAnswersResult.sections,
+            i, count = Math.min(sectionsAnswersResult.sections.length, sectionsAnswersResult.answers.length);
+        for(i = 0; i < count; i++){
+            newSectionsView.push(<section key={ i } className="card my-3">
+                        <header className="card-header">
+                            <div>{sections[i].title}</div>
+                        </header>
+                        { sections[i].description && <div className="card-body">{ parse(sections[i].description) }</div> }
+                        <div className="card-body">
+                            {sections[i].type == "oa" ? (
+                                <OpenAnswer data={ sectionsAnswersResult.answers[i].data } />
+                            ) : (
+                                // todo: list of options and answers;
+                                <SectionAnswers />
+                            )}
+                        </div>
+            </section>);
+        }
+
+        setView(newSectionsView);
 
         if(!employeeDidAnswer)
             setMessage({message: "Pracownik jeszcze nie odpowiedział na pytania", print: true});
