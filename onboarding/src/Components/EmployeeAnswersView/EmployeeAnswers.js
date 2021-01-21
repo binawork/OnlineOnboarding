@@ -14,11 +14,15 @@ function EmployeeAnswers(props){
     };
 
     const showSectionsAnswers = (sectionsAnswersResult, employeeDidAnswer) => {
-        console.log(employeeDidAnswer);
         console.log(sectionsAnswersResult);
         //let newSectionsView = [];
-        setMessage({message: "Pobrano", print: true});
         //setSectionsAnswers(sectionsAnswersResult);
+
+
+        if(!employeeDidAnswer)
+            setMessage({message: "Pracownik jeszcze nie odpowiedział na pytania", print: true});
+        else
+            setMessage({message: "Pobrano", print: true});
     };
 
 
@@ -34,13 +38,16 @@ function EmployeeAnswers(props){
 
 
     return (
-      <div className="card card-fluid">
-        { loadingMessage.print ? (
-            <div className="p-3">{ loadingMessage.message }</div>
-        ) : (
+      <>
+        { loadingMessage.print &&
+            <div className="card card-fluid">
+                <div className="card-body"><div className="p-3">{ loadingMessage.message }</div></div>
+            </div>
+        }
+        <div className="card card-fluid">{ sectionsView.length > 0 &&
             sectionsView
-        ) }
-      </div>
+        }</div>
+      </>
     );
 }
 

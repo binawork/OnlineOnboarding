@@ -5,18 +5,21 @@ import PageAddressBar from "../PageAddressBar";
 import LeftMenu from "../LeftMenu";
 import EmployeeAnswers from "./EmployeeAnswers";
 import EmployeeProfileUser from "../EmployeeProfile/EmployeeProfileUser";
+import PageCard from "./PageCard";
 
 
 /**
  * Loads page with answers for a page answered by employee
- * @param props - location.state: {packageId: number, loggedUser: Object, pageId: number, employee: Object}
+ * @param props - location.state: {packageId: number, loggedUser: Object, page: Object, employee: Object}
  * @returns {JSX.Element}
  * @constructor
  */
 function EmployeeAnswersViewPage(props){
     document.title = "Onboarding: odpowiedzi pracownika";
     const packageIdRef = useRef(0);
-    let loggedUser, employeeComponent = <></>, employeeId = -1, pageId = -1;
+    let loggedUser, employeeId = -1, pageId = -1,
+        employeeComponent = <></>, pageComponent = <></>;
+
 
     if(props.match.params.page_id)
         pageId = parseInt(props.match.params.page_id, 10);
@@ -28,6 +31,9 @@ function EmployeeAnswersViewPage(props){
             employeeComponent = <EmployeeProfileUser user={ props.location.state.employee } />;
             if(props.location.state.employee.id)
                 employeeId = props.location.state.employee.id;
+        }
+        if(props.location.state.page){
+            pageComponent = <PageCard page={ props.location.state.page } />
         }
     } else
         loggedUser = LoggedUser();
@@ -46,6 +52,7 @@ function EmployeeAnswersViewPage(props){
                             <PageAddressBar page = { "Podgląd odpowiedzi pracownika" } loggedUser={ loggedUser } />
                             <div className="page-section">
                                 { employeeComponent }
+                                { pageComponent }
                                 <EmployeeAnswers pageId={ pageId } employeeId={ employeeId }/>
                             </div>
                         </div>

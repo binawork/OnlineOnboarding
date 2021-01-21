@@ -41,7 +41,7 @@ function FormsSentTableRow(props) {
                     <td colSpan="5">
                         <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
                         <Link to={{ pathname: "/employee_answers/" + page.id,
-                                    state: { packageId: props.packageId, loggedUser: props.loggedUser, pageId: page.id, employee: props.employee } }}>
+                                    state: { packageId: props.packageId, loggedUser: props.loggedUser, page: page, employee: props.employee } }}>
                             { page.title }
                         </Link>
                     </td>
