@@ -38,8 +38,10 @@ function EmployeeAnswers(props){
                             {sections[i].type == "oa" ? (
                                 <OpenAnswer data={ sectionsAnswersResult.answers[i].data } />
                             ) : (
-                                // todo: list of options and answers;
-                                <SectionAnswers />
+                                <SectionAnswers sectionData={ sections[i].data }
+                                                answerData={ sectionsAnswersResult.answers[i].data }
+                                                sectionType={ sections[i].type }
+                                                employeeDidAnswer={ employeeDidAnswer } />
                             )}
                         </div>
             </section>);
