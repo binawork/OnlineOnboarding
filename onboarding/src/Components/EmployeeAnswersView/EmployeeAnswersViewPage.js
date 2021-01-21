@@ -27,8 +27,9 @@ function EmployeeAnswersViewPage(props){
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;
         loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
+
         if(props.location.state.employee){
-            employeeComponent = <EmployeeProfileUser user={ props.location.state.employee } />;
+            employeeComponent = <EmployeeProfileUser user={ props.location.state.employee } loggedUser={ loggedUser } packageId={ packageIdRef.current } />;
             if(props.location.state.employee.id)
                 employeeId = props.location.state.employee.id;
         }
