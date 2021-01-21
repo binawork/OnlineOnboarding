@@ -8,18 +8,18 @@ import SectionAnswers from "./SectionAnswers";
 
 function EmployeeAnswers(props){
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
-    const [loadingMessage, setMessage] = useState({message: "Ładowanie...", print: true});
+    const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [sectionsView, setView] = useState([]);
 
 
-    const setErrorMessage = function(message){
+    /*const setErrorMessage = function(message){
         setMessage({message: message, print: true});
-    };
+    };*/
 
     const showSectionsAnswers = (sectionsAnswersResult, employeeDidAnswer) => {
         if(typeof sectionsAnswersResult.sections === 'undefined' || sectionsAnswersResult.sections === null ||
            typeof sectionsAnswersResult.answers === 'undefined' || sectionsAnswersResult.answers === null){
-             setMessage({message: "Miał miejsce błąd w pobieraniu formularza!", print: true});
+             setMessage("Miał miejsce błąd w pobieraniu formularza!");
              setView([]);
          }
 
@@ -50,18 +50,18 @@ function EmployeeAnswers(props){
         setView(newSectionsView);
 
         if(!employeeDidAnswer)
-            setMessage({message: "Pracownik jeszcze nie odpowiedział na pytania", print: true});
+            setMessage("Pracownik jeszcze nie odpowiedział na pytania");
         else
-            setMessage({message: "Pobrano", print: true});
+            setMessage("");
     };
 
 
     useEffect(() => {
         if(typeof props.employeeId === 'undefined' || props.employeeId === null ||
             props.employeeId < 1 || props.employeeId === false){
-            setMessage({message: "Nie zdefiniowano pracownika!", print: true});
+            setMessage("Nie zdefiniowano pracownika!");
         } else {
-            getEmployeesSectionsAndAnswers(props.pageId, props.employeeId, setErrorMessage, showSectionsAnswers);
+            getEmployeesSectionsAndAnswers(props.pageId, props.employeeId, setMessage, showSectionsAnswers);
             //return () => clearInterval(saveInterval);
         }
     }, [props.pageId]);
@@ -69,9 +69,9 @@ function EmployeeAnswers(props){
 
     return (
       <>
-        { loadingMessage.print &&
+        { loadingMessage.length > 0 &&
             <div className="card card-fluid">
-                <div className="card-body"><div className="p-3">{ loadingMessage.message }</div></div>
+                <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
             </div>
         }
         <div className="card card-fluid">{ sectionsView.length > 0 &&
@@ -85,3 +85,4 @@ function EmployeeAnswers(props){
 };*/
 
 export default EmployeeAnswers;
+

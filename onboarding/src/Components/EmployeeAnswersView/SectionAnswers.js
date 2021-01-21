@@ -32,6 +32,7 @@ function SectionAnswers(props){
                 break;
             }
         }
+        // sectionData[i].is_checked;
 
         if(isChecked)
             answers.push(<div key={ i } className="row align-items-center" style={{ backgroundColor: "#4D4D6E" }}>
