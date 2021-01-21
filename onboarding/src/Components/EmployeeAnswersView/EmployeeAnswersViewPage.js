@@ -16,7 +16,10 @@ import EmployeeProfileUser from "../EmployeeProfile/EmployeeProfileUser";
 function EmployeeAnswersViewPage(props){
     document.title = "Onboarding: odpowiedzi pracownika";
     const packageIdRef = useRef(0);
-    let loggedUser, employeeComponent = <></>, employeeId = -1;
+    let loggedUser, employeeComponent = <></>, employeeId = -1, pageId = -1;
+
+    if(props.match.params.page_id)
+        pageId = parseInt(props.match.params.page_id, 10);
 
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;
@@ -43,7 +46,7 @@ function EmployeeAnswersViewPage(props){
                             <PageAddressBar page = { "Podgląd odpowiedzi pracownika" } loggedUser={ loggedUser } />
                             <div className="page-section">
                                 { employeeComponent }
-                                <EmployeeAnswers pageId={ props.pageId } employeeId={ employeeId }/>
+                                <EmployeeAnswers pageId={ pageId } employeeId={ employeeId }/>
                             </div>
                         </div>
                     </div>

@@ -24,7 +24,7 @@ function App() {
             <Route path="/company" component={ CompanyInfoPage } />
             <Route path="/profile/manager" component={ UserManagerProfilePage } />
             <Route path="/employee_profile" component={ EmployeeProfilePage } />
-            <Route path="/employee_answers" component={ EmployeeAnswersViewPage } />
+            <Route path="/employee_answers/:page_id" component={ EmployeeAnswersViewPage } />
             <Route path="/add_user" component={ UserManagerProfilePage } />
             <Route path="/form_edit/:form_id" component={ FormsEditPage } />
             <Route path="/packages" component={ PackagesListPage } />
