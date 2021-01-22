@@ -17,8 +17,8 @@ function SectionAnswers(props){
         return <div  className="row">Brak odpowiedzi do wyświetlenia</div>;
 
 
-    const answerType = props.sectionType === "osa" ? "()" : "[]";
-    let answers = [], i, j, isChecked;
+    const answerType = props.sectionType === "osa" ? ["(", ")"] : ["[", "]"];
+    let answers = [], i, j, isChecked, checkSign;
 
     for(i = 0; i < count; i++){
         isChecked = false;
@@ -32,17 +32,21 @@ function SectionAnswers(props){
                 break;
             }
         }
-        // sectionData[i].is_checked;
+
+        if(sectionData[i].is_checked)
+            checkSign = answerType[0] + "x" + answerType[1];
+        else
+            checkSign = answerType[0] + answerType[1];
 
         if(isChecked)
             answers.push(<div key={ i } className="row align-items-center" style={{ backgroundColor: "#4D4D6E" }}>
-                    <div className="col-auto">{ answerType }</div>
+                    <div className="col-auto">{ checkSign }</div>
                     <div className="col">{ sectionData[i].title }</div>
                 </div>
             );
         else
             answers.push(<div key={ i } className="row align-items-center">
-                    <div className="col-auto">{ answerType }</div>
+                    <div className="col-auto">{ checkSign }</div>
                     <div className="col">{ sectionData[i].title }</div>
                 </div>
             );

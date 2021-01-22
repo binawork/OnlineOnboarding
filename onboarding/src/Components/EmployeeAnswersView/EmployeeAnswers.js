@@ -21,6 +21,7 @@ function EmployeeAnswers(props){
            typeof sectionsAnswersResult.answers === 'undefined' || sectionsAnswersResult.answers === null){
              setMessage("Miał miejsce błąd w pobieraniu formularza!");
              setView([]);
+             return;
          }
 
 
@@ -62,7 +63,7 @@ function EmployeeAnswers(props){
             setMessage("Nie zdefiniowano pracownika!");
         } else {
             getEmployeesSectionsAndAnswers(props.pageId, props.employeeId, setMessage, showSectionsAnswers);
-            //return () => clearInterval(saveInterval);
+            //return () => clearInterval(requestInterval);
         }
     }, [props.pageId]);
 
