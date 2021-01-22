@@ -7,9 +7,7 @@ function EmployeeProfileUser(props) {
     if(props.user.avatar && props.user.avatar.length > 1)
         avatar = props.user.avatar;
 
-    let avatarComponent = <a href="#" className="user-avatar user-avatar-xl"><img src={ avatar } alt="avatar" /> <span className="avatar-badge idle" title="idle"></span></a>,
-        nameLink = <a href="#">{ props.user.name }</a>,
-        emailLink = <a href="#">{ props.user.email }</a>;
+    let avatarComponent, nameLink, emailLink;
 
     if(typeof props.loggedUser !== 'undefined'){
         avatarComponent = <Link to={{ pathname: "/employee_profile", state: { packageId: props.packageId, loggedUser: props.loggedUser, user: props.user } }} className="user-avatar user-avatar-xl">
@@ -19,6 +17,10 @@ function EmployeeProfileUser(props) {
         nameLink = <Link to={{ pathname: "/employee_profile", state: { packageId: props.packageId, loggedUser: props.loggedUser, user: props.user } }}>{ props.user.name }</Link>;
 
         emailLink = <Link to={{ pathname: "/employee_profile", state: { packageId: props.packageId, loggedUser: props.loggedUser, user: props.user } }}>{ props.user.email }</Link>;
+    } else {
+        avatarComponent = <a href="#" className="user-avatar user-avatar-xl"><img src={ avatar } alt="avatar" /> <span className="avatar-badge idle" title="idle"></span></a>;
+        nameLink = <a href="#">{ props.user.name }</a>;
+        emailLink = <a href="#">{ props.user.email }</a>;
     }
 
 

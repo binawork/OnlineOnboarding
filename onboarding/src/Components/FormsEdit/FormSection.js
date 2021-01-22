@@ -138,7 +138,7 @@ function FormSection({
 
       return section;
     });
-console.log(updatedSections);
+
     setSections(updatedSections);
   };
 
