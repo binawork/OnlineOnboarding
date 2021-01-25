@@ -27,6 +27,7 @@ function EmployeeAnswers(props){
 
         setSectionsAnswers(sectionsAnswersResult);
 
+        const areAnswered = areSaved & employeeDidAnswer;
         let newSectionsView = [], sections = sectionsAnswersResult.sections,
             i, count = Math.min(sectionsAnswersResult.sections.length, sectionsAnswersResult.answers.length);
         for(i = 0; i < count; i++){
@@ -42,7 +43,7 @@ function EmployeeAnswers(props){
                                 <SectionAnswers sectionData={ sections[i].data }
                                                 answerData={ sectionsAnswersResult.answers[i].data }
                                                 sectionType={ sections[i].type }
-                                                employeeDidAnswer={ employeeDidAnswer } />
+                                                employeeDidAnswer={ areAnswered } />
                             )}
                         </div>
             </section>);

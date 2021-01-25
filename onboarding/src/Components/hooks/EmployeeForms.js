@@ -265,7 +265,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 						answer = section.answers[i];
 						areSaved = true;
 					}
-					if(typeof section.answers[i].finished)
+					if(typeof section.answers[i].finished !== 'undefined')
 						areFinished &= section.answers[i].finished;
 				}
 
@@ -277,7 +277,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 			});
 
 			result.answers_cp = JSON.parse(JSON.stringify(result.answers));
-			setSectionsAnswers(result, areSaved, areFinished);
+			setSectionsAnswers(result, areSaved, areFinished/*, todo: maybe use confirmed field later; */);
 		} else if(xhr.readyState==4){
 			errorMessageFunction("Nie udało się zdobyć danych!");
 		}
