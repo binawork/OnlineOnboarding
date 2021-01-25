@@ -35,7 +35,7 @@ from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializ
 
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email, send_remove_acc_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm, CustomSetPasswordForm
 
@@ -151,7 +151,7 @@ def password_reset_request(request):
     return render(
         request=request,
         template_name='registration/password_reset_form.html',
-        context={'password_reset_form': password_reset_form}
+        context={'form': password_reset_form}
     )
 
 
