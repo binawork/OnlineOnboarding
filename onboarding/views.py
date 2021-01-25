@@ -151,7 +151,7 @@ def password_reset_request(request):
     return render(
         request=request,
         template_name='registration/password_reset_form.html',
-        context={'form': password_reset_form}
+        context={'form': password_reset_form}  # {'password_reset_form': password_reset_form} didn't work;
     )
 
 
