@@ -2,7 +2,7 @@ import React from "react";
 
 
 function PageCard(props) {
-    let pageTitle, pageDesc, link="", exists = true;
+    let pageTitle, pageDesc="", link="", exists = true;
 
     if(props.page){
         if(props.page.title)
@@ -11,8 +11,6 @@ function PageCard(props) {
 
         if(props.page.description)
             pageDesc = props.page.description;
-        else
-            exists = false;
     }
 
     if(!exists)

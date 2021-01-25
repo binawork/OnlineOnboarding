@@ -245,7 +245,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 				return ;
 			}
 
-			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false;
+			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true;
 			result.answers = sections.map(function(section){
 				let answer = {data: []};
 				if(typeof section.answers === 'undefined' || section.answers === null)
@@ -265,6 +265,8 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 						answer = section.answers[i];
 						areSaved = true;
 					}
+					if(typeof section.answers[i].finished)
+						areFinished &= section.answers[i].finished;
 				}
 
 				try {
@@ -275,7 +277,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 			});
 
 			result.answers_cp = JSON.parse(JSON.stringify(result.answers));
-			setSectionsAnswers(result, areSaved);
+			setSectionsAnswers(result, areSaved, areFinished);
 		} else if(xhr.readyState==4){
 			errorMessageFunction("Nie udało się zdobyć danych!");
 		}

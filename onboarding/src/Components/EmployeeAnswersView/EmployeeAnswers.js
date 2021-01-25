@@ -16,7 +16,7 @@ function EmployeeAnswers(props){
         setMessage({message: message, print: true});
     };*/
 
-    const showSectionsAnswers = (sectionsAnswersResult, employeeDidAnswer) => {
+    const showSectionsAnswers = (sectionsAnswersResult, areSaved, employeeDidAnswer) => {
         if(typeof sectionsAnswersResult.sections === 'undefined' || sectionsAnswersResult.sections === null ||
            typeof sectionsAnswersResult.answers === 'undefined' || sectionsAnswersResult.answers === null){
              setMessage("Miał miejsce błąd w pobieraniu formularza!");
