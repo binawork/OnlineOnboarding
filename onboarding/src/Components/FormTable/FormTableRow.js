@@ -5,9 +5,6 @@ import "../../static/css/style.css";
 
 function FormTableRow(props) {
     const [styleRow, setStyleRow] = useState(null);
-    // let loggedUser = {};
-    // if(props.loggedUser)
-    //     loggedUser = props.loggedUser;
 
     useEffect(() => {
         if(props.lastRow && Date.now() - Date.parse(props.row.last_edit) < 3000) {
@@ -23,11 +20,11 @@ function FormTableRow(props) {
         <td className="table__data">
           <Link
             to={{
-              pathname: `/form_edit/${props.row.id}`,
+              pathname: `/form/${props.row.id}`,
               state: {
                 packageId: props.packageId,
-                pageId: props.row.id,
-                pageName: props.row.name,
+                formId: props.row.id,
+                formName: props.row.name,
                 description: props.row.description,
                 link: props.row.link,
               },
@@ -36,19 +33,17 @@ function FormTableRow(props) {
             {props.row.name}
           </Link>
         </td>
-        {/* <td className="table__data">{props.row.order}</td> */}
         <td className="table__data">{dateToString(props.row.last_edit)}</td>
         <td className="table__data table__data--nowrap">
           <Link
             to={{
-              pathname: `/form_edit/${props.row.id}`,
+              pathname: `/form/${props.row.id}`,
               state: {
                 packageId: props.packageId,
-                pageId: props.row.id,
-                pageName: props.row.name,
+                formId: props.row.id,
+                formName: props.row.name,
                 description: props.row.description,
                 link: props.row.link,
-                // loggedUser: loggedUser,
               },
             }}
             className="btn btn-secondary mr-1"

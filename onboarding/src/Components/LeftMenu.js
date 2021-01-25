@@ -1,14 +1,20 @@
-import React, { useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useRef, useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import ModeButton from "./ModeButton";
 
-const LeftMenu = (props) => {
-  const loggedUser = JSON.parse(sessionStorage.getItem("logged_user"));
-  const packageIdRef = useRef(0);
+const LeftMenu = ({ loggedUser }) => {
+  // const loggedUser = JSON.parse(sessionStorage.getItem("logged_user"));
+  // const [packageId, setPackageId] = useState(sessionStorage.getItem("package_id"));
+  // useEffect(() => {
+  //   setPackageId(sessionStorage.getItem("package_id"))
+  // })
 
-  if (props.packageId && isFinite(String(props.packageId))) {
-    packageIdRef.current = props.packageId;
-  }
+
+  // const packageIdRef = useRef(0);
+
+  // if (props.packageId && isFinite(String(props.packageId))) {
+  //   packageIdRef.current = props.packageId;
+  // }
 
   return (
     <aside className="app-aside app-aside-expand-md app-aside-light">
@@ -18,46 +24,51 @@ const LeftMenu = (props) => {
           <nav id="stacked-menu" className="stacked-menu">
             <ul className="menu pl-3">
               <li className="menu-header px-0">
-                <NavLink exact to={{ pathname: "/", state: {loggedUser: loggedUser} }} className="menu-link p-0" activeStyle={{color: "#346CB0"}}>
+                <NavLink 
+                  exact to="/"
+                  className="menu-link p-0"
+                  activeStyle={{color: "#346CB0"}}
+                >
                     <span className="menu-icon fas fa-home"></span>{" "}
                     <span className="menu-text">Dashboard</span>
                 </NavLink>
               </li>
 
               <li className="menu-item has-child has-active">
-                <NavLink to={{ pathname: "/packages", state: {loggedUser: loggedUser} }} className="menu-link" activeStyle={{color: "#346CB0"}}>
+                <NavLink 
+                  to="/packages" 
+                  className="menu-link"
+                  activeStyle={{color: "#346CB0"}}
+                >
                   <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text"> Wdrożenia</span>
                 </NavLink>
-                {packageIdRef.current > 0 && (
+                {/* { packageId > 0 && (
                   <ul className="menu">
                     <li className="menu-item">
                       <NavLink
-                        to={{
-                          pathname: "/package_page/" + packageIdRef.current,
-                          state: { packageId: packageIdRef.current, loggedUser: loggedUser },
-                        }}
+                        to={ "/package/" + packageId }
                         className="menu-link"
                         activeStyle={{color: "#346CB0"}}
                         style={{ whiteSpace: "normal"}}
                       >
                         Lista formularzy w katalogu
                       </NavLink>
-                    </li>
-                    <li className="menu-item">
-                      <NavLink to={{ pathname: "/users_pages", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
+                    </li> */}
+                    {/* <li className="menu-item">
+                      <NavLink to="/user_forms"
+                      className="menu-link"
+                      activeStyle={{color: "#346CB0"}}
+                    >
                         - Wyślij pracownikowi
                       </NavLink>
-                    </li>
-                  </ul>
-                )}
+                    </li> */}
+                  {/* </ul>
+                )} */}
               </li>
               <li className="menu-item">
                 <NavLink
-                  to={{
-                    pathname: "/add_user",
-                    state: { packageId: packageIdRef.current, loggedUser: loggedUser }
-                  }}
+                  to="/add_user"
                   className="menu-link"
                   activeStyle={{color: "#346CB0"}}
                 >
@@ -69,7 +80,7 @@ const LeftMenu = (props) => {
                 <NavLink
                   to={{
                     pathname: "/user_list",
-                    state: { packageId: packageIdRef.current, loggedUser: loggedUser }
+                    state: { loggedUser: loggedUser }
                   }}
                   className="menu-link"
                   activeStyle={{color: "#346CB0"}}
@@ -79,13 +90,21 @@ const LeftMenu = (props) => {
                 </NavLink>
               </li>
               <li className="menu-item">
-                <NavLink to={{ pathname: "/company", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
+                <NavLink 
+                  to="/company"
+                  className="menu-link"
+                  activeStyle={{color: "#346CB0"}}
+                >
                   <i className="bi bi-building mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text"> O firmie</span>
                 </NavLink>
               </li>
               <li className="menu-item">
-                <NavLink to={{ pathname: "/q_and_a", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
+                <NavLink 
+                  to="/q_and_a"
+                  className="menu-link"
+                  activeStyle={{color: "#346CB0"}}
+                >
                   <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text"> Q&A</span>
                 </NavLink>
@@ -107,7 +126,7 @@ const LeftMenu = (props) => {
                             <Link to="/profile/manager" className="menu-link"> UserManagerProfile</Link>
                         </li>
                         <li className="menu-item">
-                            <Link to="/employee_profile" className="menu-link"> EmployeeProfile</Link>
+                            <Link to="/employee/:employee_id" className="menu-link"> EmployeeProfile</Link>
                         </li>
                         <li className="menu-item">
                             <Link to="/add_user" className="menu-link"> UserManagerProfile</Link>

@@ -4,7 +4,8 @@ import ImplementationFormsToSend from "./ImplementationFormsToSend";
 import ModalWarning from "../ModalWarning";
 
 function ProcessPreviewTables(props) {
-    const [confirmationModal, setIdModal ] = useState({id: 0, modal: <></>});
+    console.log(props)
+    const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
 
     const popUpConfirmationModal = (message) => {
         let count = confirmationModal.id;

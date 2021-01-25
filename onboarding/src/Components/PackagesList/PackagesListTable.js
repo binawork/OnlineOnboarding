@@ -6,24 +6,24 @@ import PackagesRow from "../PackagesList/PackagesRow";
 
 function PackagesListTable() {
     const [count, setCount] = useState(0);
-    const [packageIdModal, setPackageIdModal ] = useState({id: 0, modal: <></>});
+    const [packageIdModal, setPackageIdModal] = useState({id: 0, modal: <></>});
     const [newRowId, setNewRowId] = useState(null);
  
     const { packages, isLoading, error } = fetchPackages(count);
-    const { packagesAndPages } = fetchPackagesAndForms(count);
+    const { packagesAndForms } = fetchPackagesAndForms(count);
 
     useEffect(() => {
-        if(packages && packagesAndPages) {
+        if(packages && packagesAndForms) {
             const ids = packages.map((element) => element.id);
             const maxId = Math.max(...ids);
             setNewRowId(maxId);
             
             packages.forEach(element => {
-                const foundPackage = packagesAndPages.find(pack => pack.id === element.id);
+                const foundPackage = packagesAndForms.find(pack => pack.id === element.id);
                 element.pages = foundPackage ? foundPackage.page_set : [];
             })
         }
-    }, [packages, packagesAndPages]);
+    }, [packages, packagesAndForms]);
 
     const updatePackages = function(){
     	setCount(count + 1);
@@ -39,7 +39,7 @@ function PackagesListTable() {
         });
     };
 
-    const packagesRows = packages && packagesAndPages && packages.map(element => (
+    const packagesRows = packages && packagesAndForms && packages.map(element => (
         <PackagesRow
             key={ element.id }
             row={{

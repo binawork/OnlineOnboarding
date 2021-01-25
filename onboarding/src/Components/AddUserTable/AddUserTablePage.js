@@ -1,6 +1,4 @@
 import React, { useState, useRef } from "react";
-import Navbar from "../Navbar";
-import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import AddUserTable from "./AddUserTable";
 import LoggedUser from "../hooks/LoggedUser.js";
@@ -34,11 +32,12 @@ function AddUserTablePage(props) {
 
 
     return(
-        <div className="app">
-            <header className="app-header app-header-dark">
-                <Navbar loggedUser={ loggedUser } />
-            </header>
-            <LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
+        // <div className="app">
+        //     <header className="app-header app-header-dark">
+        //         <Navbar loggedUser={ loggedUser } />
+        //     </header>
+        //     <LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
+        <>
             <main className="app-main">
                 <div className="wrapper">
                     <div className="page">
@@ -50,7 +49,7 @@ function AddUserTablePage(props) {
                     { confirmationModal.modal }
                 </div>
             </main>
-        </div>
+        </>
     )
 }
 export default AddUserTablePage;

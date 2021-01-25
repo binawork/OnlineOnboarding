@@ -2,24 +2,18 @@ import React, { useState, useEffect } from "react";
 import UserListSearch from "../UserListSearch";
 import Users, { employeeRemove } from "../hooks/Users";
 import { usersWithPackages } from "../hooks/Packages";
-import LoggedUser from "../hooks/LoggedUser.js";
 import ModalWarning from "../ModalWarning";
 import UserListRow from "./UserListRow";
 
 
-function UsersList(props) {
-    let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
-    let packageId = 0;
-    if(props.packageId)
-        packageId = props.packageId;
-
+function UsersList({ loggedUser }) {
 	const [loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
     const [countUpdate, update] = useState(0);
     const [employeeIdModal, setIdModal] = useState({id: 0, modal: <></>});
     const [users, setUsers] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
-
+  
     const usersForPackages = usersWithPackages({count: 0});// [{userId: , packageIds: []}, ...];
     if(usersForPackages.length !== 0) {
         let updatedUsers = [];
@@ -73,28 +67,24 @@ function UsersList(props) {
         <div className="card card-fluid">
           <div className="card-header">Lista pracowników</div>
           <div className="card-body">
-            <UserListSearch users={users} setSearchResult={setSearchResult}/>
+            <UserListSearch users={ users } setSearchResult={ setSearchResult }/>
           </div>
-          <div className="card-body">
-          {error
-              ? <p>Wystąpił błąd podczas ładowania danych</p>
-              : loaded
-                ? searchResult.length !== 0
-                    ? searchResult.map((user) => (
-                        <UserListRow
-                            user={user}
-                            key={user.id}
-                            handleRemove={removeAsk}
-                            packageId={packageId}
-                            loggedUser={loggedUser}
-                        />
-                    )) : <p>Brak wyników</p>
-                : <p>Ładowanie...</p>
-            }
-          </div>
-
-          {employeeIdModal.modal}
         </div>
+        { !loaded && <p>Ładowanie...</p> }
+        { error && <p>Wystąpił błąd podczas ładowania danych</p> }
+        { loaded 
+            ? searchResult.length !== 0
+                ? searchResult.map((user) => (
+                    <UserListRow
+                        loggedUser={ loggedUser }
+                        user={ user }
+                        key={ user.id }
+                        handleRemove={ removeAsk }
+                    />
+                )) : <p>Brak wyników</p>
+            : null
+        }
+        {employeeIdModal.modal}
       </div>
     );
 }

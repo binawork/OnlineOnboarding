@@ -18,14 +18,14 @@ const Employee = ({ employee, loggedUser }) => {
       <div className="card-body">
         <div className="row align-items-center">
           <div className="col-auto">
-            <Link to={{ pathname: "/employee_profile", state: {user: employee, loggedUser: loggedUserCp } }} className="user-avatar user-avatar-lg">
+            <Link to={{ pathname: `/employee/${employee.id}`, state: {user: employee, loggedUser: loggedUserCp } }} className="user-avatar user-avatar-lg">
               <img src={ avatar } alt="avatar" />{" "}
               <span className="avatar-badge idle" title="idle"></span>
             </Link>
           </div>
           <div className="col">
             <h3 className="card-title mb-1">
-              <Link to={{ pathname: "/employee_profile", state: {user: employee, loggedUser: loggedUserCp } }}>{`${employee.first_name} ${employee.last_name}`}</Link>{" "}
+              <Link to={{ pathname: `/employee/${employee.id}`, state: {user: employee, loggedUser: loggedUserCp } }}>{`${employee.first_name} ${employee.last_name}`}</Link>{" "}
             </h3>
             <small className="">
               {employee.email}

@@ -1,20 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import Navbar from "../Navbar";
-import LeftMenu from "../LeftMenu";
+import React, { useState, useEffect } from "react";
 import PageAddressBar from "../PageAddressBar";
-import LoggedUser from "../hooks/LoggedUser.js";
 import ModalWarning from "../ModalWarning";
 import CompanyInfoContent from "./CompanyInfoContent";
 import CompanyInfoAPI from "../hooks/CompanyInfoAPI";
 
-const CompanyInfoPage = ({ location }) => {
+const CompanyInfoPage = ({ loggedUser }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [company, setCompany] = useState("");
-  const loggedUser = location.state?.loggedUser ?? LoggedUser();
 
   document.title = "Onboarding: informacje o firmie";
-
+  
   useEffect(() => {
     if(loggedUser.id) {
       CompanyInfoAPI.getCompanyInfo(loggedUser.company_id)
@@ -28,18 +24,12 @@ const CompanyInfoPage = ({ location }) => {
   }, [loggedUser]);
 
   return (
-    <div className="app">
-      <header className="app-header app-header-dark">
-        <Navbar loggedUser={ loggedUser } />
-      </header>
-      <LeftMenu loggedUser={ loggedUser } />
       <main className="app-main">
         <div className="wrapper">
           <div className="page">
             <div className="page-inner">
               <PageAddressBar
                 page={"Informacje o firmie"}
-                loggedUser={ loggedUser }
               />
               <div className="page-section">
                 <div className="card card-fluid">
@@ -57,7 +47,6 @@ const CompanyInfoPage = ({ location }) => {
           </div>
         </div>
       </main>
-    </div>
   );
 };
 

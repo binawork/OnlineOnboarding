@@ -1,24 +1,16 @@
-import React from "react";
-import Navbar from "../Navbar";
-import LeftMenu from "../LeftMenu";
+import React, { useEffect } from "react";
 import PageAddressBar from "../PageAddressBar";
 import QnAList from "./QnAList";
-import LoggedUser from "../hooks/LoggedUser.js";
 
-const QnAPage = ({ location }) => {
-  const loggedUser = location.state?.loggedUser ?? LoggedUser();
-
+const QnAPage = () => {
+  document.title= "Onboarding: Q&A";
+  
   return (
-    <div className="app">
-      <header className="app-header app-header-dark">
-        <Navbar loggedUser={ loggedUser }/>
-      </header>
-      <LeftMenu loggedUser={ loggedUser }/>
       <main className="app-main">
         <div className="wrapper">
           <div className="page">
             <div className="page-inner">
-              <PageAddressBar page={"Q&A"} loggedUser={ loggedUser }/>
+              <PageAddressBar page={"Q&A"} />
               <div className="page-section">
                 <form>
                   <div className="page-section">
@@ -30,7 +22,6 @@ const QnAPage = ({ location }) => {
           </div>
         </div>
       </main>
-    </div>
   );
 };
 

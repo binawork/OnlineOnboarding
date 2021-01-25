@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 
-
 // Alert Warning Modal
 function ModalWarning(props) {
     const linkButton = useRef();
+
     useEffect(() => {
         if(props.link) {
-            linkButton.current.focus();
+            linkButton.current?.focus();
         }
     }, [])
 
@@ -28,9 +28,9 @@ function ModalWarning(props) {
 
 
     let link, useLink = false;
-    if(props.link && props.link.loggedUser && typeof props.link.packageId !== 'undefined' && props.link.to){
+    if(props.link && props.link.to){
         useLink = true;
-        link = (<NavLink to={{ pathname: props.link.to, state: { packageId: props.link.packageId, loggedUser: props.link.loggedUser } }} className="btn btn-warning" ref={ linkButton }>
+        link = (<NavLink to={ props.link.to } className="btn btn-warning" ref={ linkButton }>
         { acceptText }</NavLink>);
     }
 

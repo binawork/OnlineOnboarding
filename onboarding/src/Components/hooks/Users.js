@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
+import useFetch from "./useFetch.js";
 //import UserListRow from "../UsersList/UserListRow";
 
-
 function checkUser(userObject, userId){
-	const singleUser = {id: userId, name: "-", first_name: "", last_name: "", email: "-", tel: "",
-				position: "-", department: "-", location: "-", sent: "-", finished: "-", avatar:""};
+	const singleUser = {id: userId, name: "", first_name: "", last_name: "", email: "", tel: "",
+				position: "", department: "", location: "", sent: "", finished: "", avatar:""};
 
 	if(typeof userObject.first_name === "string" && userObject.first_name.length > 0){
 		singleUser.name = userObject.first_name;
@@ -15,21 +14,16 @@ function checkUser(userObject, userId){
 		singleUser.name = singleUser.name + " " + userObject.last_name;
 		singleUser.last_name = userObject.last_name;
 	}
-
 	if(typeof userObject.email === "string" && userObject.email.length > 0)
 		singleUser.email = userObject.email;
 	if(typeof userObject.phone_number === "string" && userObject.phone_number.length > 0)
 		singleUser.tel = userObject.phone_number;
-
 	if(typeof userObject.location === "string" && userObject.location.length > 0)
 		singleUser.location = userObject.location;
-
 	if(typeof userObject.team === "string" && userObject.team.length > 0)
 		singleUser.department = userObject.team;
-
 	if(typeof userObject.job_position === "string" && userObject.job_position.length > 0)
 		singleUser.position = userObject.job_position;
-
 	if(typeof userObject.avatar === "string" && userObject.avatar.length > 0)
 		singleUser.avatar = userObject.avatar;
 
@@ -71,6 +65,21 @@ function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
 		.finally(() => isLoaded(true));
 }
 
+export function getUserById(id) {
+	const url = getPath(),
+	fetchProps = {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			"X-CSRFToken": "",
+		},
+	};
+
+  const { data, isLoading, error } = useFetch(`${url}api/users/${id}`, fetchProps);
+
+	return { data, isLoading, error };
+}
 
 /**
  * 
@@ -104,7 +113,7 @@ export function employeeAddEdit(handleMessage, employeeObject){
 		employeeId = employeeObject.id;
 		path += employeeId + "/";
 		fetchProps.method = "PATCH";
-		msg = "Zmodyfikowano pracownika. ";
+		msg = "Pomyślnie zapisano dane. ";
 	} else
 		path += "create_user/";// SMTPAuthenticationError * /
 

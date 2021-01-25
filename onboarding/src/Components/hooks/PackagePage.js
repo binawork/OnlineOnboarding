@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
-import FormPackageEdit from "../FormTable/FormPackageEdit";
+import useFetch from "./useFetch.js";
 
 /**
  * Get pages for package with defined id from Onboarding API when FormTable component is loaded;
@@ -30,36 +30,13 @@ function PackagePage(count, id){
 	return { pages, isLoading, error };
 }
 
-export function OnePackageEdit(props){
-	var [element, setElement] = useState({title: "", description: ""}),
-		[loaded, isLoaded] = useState(false);
-	const [error, showError] = useState(null);
-	let url = getPath(),
-		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+export function fetchOnePackageAndForms(packageId, count){
+	const url = getPath();
+	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
-	useEffect(() => {
-		fetch(url + "api/package/" + props.packageId, fetchProps).then(res => res.json()).then(
-			(result) => {
-			    if(!result.description)
-			        result.description = "";
+	const { data:packageAndForms, isLoading, error } = useFetch(`${url}api/package_pages/${packageId}`, fetchProps, count);
 
-				isLoaded(true);
-				setElement(result);
-			},
-			(error) => {
-				showError(error);
-				console.log(error);
-			}
-		);
-	}, []);
-
-	if(error){
-		return <FormPackageEdit key={0} error = { error.message } />
-	} else if(!loaded)
-		return <FormPackageEdit key={0} />
-	else {
-		return <FormPackageEdit key={0} pack={ {title: element.title, description: element.description, packageId: props.packageId} } />
-	}
+	return { packageAndForms, isLoading, error };
 }
 
 export function savePackageDetails(handleSuccess, packageId, title, description){
@@ -100,10 +77,9 @@ export function savePackageDetails(handleSuccess, packageId, title, description)
 /**
  * Add page into Pages for Package (todo: set owner as a logged HR manager?);
  */
-export function addPage(handleSuccess, title, order, packageId, owner){
+export function addPage(handleSuccess, title, packageId, order, owner){
 	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
 		return false;
-
 	let url = getPath(), data, token = getCookie('csrftoken'),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
 
@@ -127,7 +103,7 @@ export function addPage(handleSuccess, title, order, packageId, owner){
 	return true;
 }
 
-export function removePage(handleSuccess, pageId, title){
+export function removeForm(handleSuccess, pageId){
 	let url = getPath(),
     data,
     token = getCookie("csrftoken"),
@@ -142,14 +118,17 @@ export function removePage(handleSuccess, pageId, title){
   data = { id: pageId };
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
-		(result) => {
-			handleSuccess("Strona została usunięta.");
-		},
-		(error) => {
-			handleSuccess(error);
-		}
-	);
+	fetch(url + "api/page/" + pageId + "/", fetchProps)
+		.then(res => {
+			if(!res.ok) {
+				throw Error("Nie udało się usunąć formularza!");
+			}
+			return tryFetchJson(res) 
+		}).then((result) => {
+				handleSuccess("Formularz został usunięty.");
+		}).catch((error) => {
+		handleSuccess(error.message);
+	});
 	return true;
 }
 

@@ -10,18 +10,19 @@ function EmployeeProfileUser(props) {
         <div className="card card-fluid">
             <div className="card-header"> Status procesu </div>
             <div className="card-body">
-                <div className="card mb-2">
+                <div className="card m-0">
                     <div className="card-body">
                         <div className="row align-items-center">
                             <div className="col-auto">
-                                <a href="#" className="user-avatar user-avatar-xl"><img src={ avatar } alt="avatar" /> <span className="avatar-badge idle" title="idle"></span></a>
+                                <p className="user-avatar user-avatar-xl"><img src={ avatar } alt="avatar" /></p>
                             </div>
 
                             <div className="col">
-                                <h3 className="card-title">
-                                    <a href="#">{ props.user.name }</a> <small className="text-muted"><a href="#">{ props.user.email }</a></small>
+                                <h3 className="card-title mb-1">
+                                    { props.user.name }
                                 </h3>
-                                <h6 className="card-subtitle text-muted"> { props.user.tel } </h6>
+                                <p className="mb-1">{ props.user.email }</p>
+                                <p className="mb-0">{ props.user.tel }</p>
                             </div>
 
                             <div className="col">
@@ -31,7 +32,7 @@ function EmployeeProfileUser(props) {
                                 <h3 className="card-title">
                                     <small className="text-muted">Lokalizacja:</small> { props.user.location }
                                 </h3>
-                                <h3 className="card-title">
+                                <h3 className="card-title m-0">
                                     <small className="text-muted">Stanowisko:</small> { props.user.position }
                                 </h3>
                             </div>
