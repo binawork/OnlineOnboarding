@@ -6,7 +6,7 @@ import PageAddressBar from "../PageAddressBar";
 import Employee from "./Employee";
 import { usersWithPackages } from "../hooks/Packages";
 
-function DashboardPage({ loggedUser }) {
+function DashboardPage({ loggedUserId }) {
   const usersForPackages = usersWithPackages({count: 0});
 
   const [isEmployee, setIsEmployee] = useState(false);
@@ -34,7 +34,7 @@ function DashboardPage({ loggedUser }) {
   };
 
   useEffect(() => {
-    loggedUser.id !== 0 && fetch(url + "api/users/", fetchProps)
+    loggedUserId !== 0 && fetch(url + "api/users/", fetchProps)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -42,7 +42,7 @@ function DashboardPage({ loggedUser }) {
             setIsEmployee(false);
           } else {
             setIsEmployee(true);
-            setEmployees(result.filter(user => user.id !== loggedUser.id).sort((a,b) => a.id - b.id));
+            setEmployees(result.filter(user => user.id !== loggedUserId).sort((a,b) => a.id - b.id));
           }
 
           setIsLoaded(true);
@@ -51,61 +51,55 @@ function DashboardPage({ loggedUser }) {
           console.error(error);
         }
       );
-  }, [loggedUser]);
+  }, [loggedUserId]);
 
   document.title= "Onboarding: pulpit";
 
   return (
-    <main className="app-main">
-      <div className="wrapper">
-        <div className="page">
-          <div className="page-inner">
-            <PageAddressBar page={"Wdrażani pracownicy"} /> {/* placeholder */}
-            <div className="page-section">
-              {" "}
-              {/* placeholder */}
-              {isLoaded ? (
-                isEmployee ? (
-                  employees.map((employee) => {
-                    return <Employee employee={employee} key={uuidv4()} loggedUser={ loggedUser } />;
-                  })
-                ) : (
-                  <div className="card card-fluid p-4">
-                    <div className="card-body">
-                      Nie masz jeszcze wdrażanych pracowników (żeby wdrażać
-                      musisz mieć stworzony profil pracownika i podpięty pod
-                      niego content wdrożenia)
-                    </div>
-                    <div className="card-body">
-                      <Link
-                        to="/add_user"
-                        className="menu-link"
-                      >
-                        <button className="btn btn-secondary mr-5">
-                          Stwórz profil pracownika
-                        </button>
-                      </Link>
-                      <Link
-                        to="/packages"
-                        className="menu-link"
-                      >
-                        <button className="btn btn-secondary">
-                          Stwórz content wdrożenia
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                )
-              ) : (
-                <div className="card card-fluid p-4">
-                  <div className="card-body">Loading...</div>
-                </div>
-              )}
+    <div className="page-inner">
+      <PageAddressBar page={"Wdrażani pracownicy"} /> {/* placeholder */}
+      <div className="page-section">
+        {" "}
+        {/* placeholder */}
+        {isLoaded ? (
+          isEmployee ? (
+            employees.map((employee) => {
+              return <Employee employee={employee} key={uuidv4()} />;
+            })
+          ) : (
+            <div className="card card-fluid p-4">
+              <div className="card-body">
+                Nie masz jeszcze wdrażanych pracowników (żeby wdrażać
+                musisz mieć stworzony profil pracownika i podpięty pod
+                niego content wdrożenia)
+              </div>
+              <div className="card-body">
+                <Link
+                  to="/add_user"
+                  className="menu-link"
+                >
+                  <button className="btn btn-secondary mr-5">
+                    Stwórz profil pracownika
+                  </button>
+                </Link>
+                <Link
+                  to="/packages"
+                  className="menu-link"
+                >
+                  <button className="btn btn-secondary">
+                    Stwórz content wdrożenia
+                  </button>
+                </Link>
+              </div>
             </div>
+          )
+        ) : (
+          <div className="card card-fluid p-4">
+            <div className="card-body">Loading...</div>
           </div>
-        </div>
+        )}
       </div>
-    </main>
+    </div>
   );
 }
 

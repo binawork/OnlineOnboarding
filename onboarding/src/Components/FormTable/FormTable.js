@@ -4,17 +4,17 @@ import { fetchOnePackageAndForms, removeForm } from "../hooks/PackagePage";
 import ModalWarning from "../ModalWarning";
 import FormPackageEdit from "./FormPackageEdit";
 import FormTableRow from "./FormTableRow";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 
-function FormTable({ loggedUser }) {
+function FormTable({ companyId }) {
     const location = useLocation();
     const [countUpdate, setCount] = useState(0);
     const [pageIdModal, setPageIdModal ] = useState({id: 0, modal: <></>});
     // newRowId is used to style only the newest row
     const [newRowId, setNewRowId] = useState(null);
     const order = useRef(0);
-    const packageId = location.state?.id || location.pathname.split("/")[2];
+    const { package_id:packageId } = useParams();
     
     let pages;
     let packageData;
@@ -116,7 +116,7 @@ function FormTable({ loggedUser }) {
                 id={ packageId }
                 handleUpdate={ updatePackages }
                 getOrder={ getOrder }
-                loggedUser={ loggedUser }
+                companyId={ companyId }
               />
             </div>
           </div>

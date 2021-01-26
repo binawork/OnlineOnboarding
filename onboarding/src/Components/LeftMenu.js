@@ -1,8 +1,8 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import ModeButton from "./ModeButton";
 
-const LeftMenu = ({ loggedUser }) => {
+const LeftMenu = () => {
   // const loggedUser = JSON.parse(sessionStorage.getItem("logged_user"));
   // const [packageId, setPackageId] = useState(sessionStorage.getItem("package_id"));
   // useEffect(() => {
@@ -78,10 +78,7 @@ const LeftMenu = ({ loggedUser }) => {
               </li>
               <li className="menu-item">
                 <NavLink
-                  to={{
-                    pathname: "/user_list",
-                    state: { loggedUser: loggedUser }
-                  }}
+                  to="/user_list"
                   className="menu-link"
                   activeStyle={{color: "#346CB0"}}
                 >

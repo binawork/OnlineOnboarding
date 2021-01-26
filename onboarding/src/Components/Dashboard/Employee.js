@@ -3,29 +3,24 @@ import { Link } from "react-router-dom";
 import LoggedUser from "../hooks/LoggedUser.js";
 
 
-const Employee = ({ employee, loggedUser }) => {
-  let avatar = "/onboarding/static/images/unknown-profile.jpg", loggedUserCp;
+const Employee = ({ employee }) => {
+  let avatar = "/onboarding/static/images/unknown-profile.jpg";
   if(employee.avatar && employee.avatar.length > 1)
     avatar = employee.avatar;
-
-  if(loggedUser){
-    loggedUserCp = loggedUser;
-  } else
-    loggedUserCp = LoggedUser();
 
   return (
     <div className="card mb-2">
       <div className="card-body">
         <div className="row align-items-center">
           <div className="col-auto">
-            <Link to={{ pathname: `/employee/${employee.id}`, state: {user: employee, loggedUser: loggedUserCp } }} className="user-avatar user-avatar-lg">
+            <Link to={{ pathname: `/employee/${employee.id}`, state: {user: employee } }} className="user-avatar user-avatar-lg">
               <img src={ avatar } alt="avatar" />{" "}
               <span className="avatar-badge idle" title="idle"></span>
             </Link>
           </div>
           <div className="col">
             <h3 className="card-title mb-1">
-              <Link to={{ pathname: `/employee/${employee.id}`, state: {user: employee, loggedUser: loggedUserCp } }}>{`${employee.first_name} ${employee.last_name}`}</Link>{" "}
+              <Link to={{ pathname: `/employee/${employee.id}`, state: {user: employee } }}>{`${employee.first_name} ${employee.last_name}`}</Link>{" "}
             </h3>
             <small className="">
               {employee.email}

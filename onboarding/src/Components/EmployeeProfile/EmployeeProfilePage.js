@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PageAddressBar from "../PageAddressBar";
 import EmployeeProfileUser from "./EmployeeProfileUser";
 import ProcessPreviewTables from "./ProcessPreviewTables";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { getUserById } from "../hooks/Users";
 import { userWithPackages } from "../hooks/Packages";
 
@@ -10,7 +10,7 @@ import { userWithPackages } from "../hooks/Packages";
 function EmployeeProfilePage() {
     document.title = "Onboarding: podgląd procesu pracownika";
     const location = useLocation();
-    const userId = parseInt(location.pathname.split("/")[2]);
+    let { employee_id:userId } = useParams();
     const [count, setCount] = useState(0);
     const [singleUser, setSingleUser] = useState({});    
 
@@ -46,19 +46,13 @@ function EmployeeProfilePage() {
       },[user]);
 
     return(
-        <main className="app-main">
-            <div className="wrapper">
-                <div className="page">
-                    <div className="page-inner">
-                        <PageAddressBar page = { "Podgląd procesu pracownika" } />
-                        <div className="page-section">
-                            <EmployeeProfileUser user={ singleUser } />
-                            <ProcessPreviewTables userId={ userId } count={ count } setCount={ setCount } />
-                        </div>
-                    </div>
-                </div>
+        <div className="page-inner">
+            <PageAddressBar page = { "Podgląd procesu pracownika" } />
+            <div className="page-section">
+                <EmployeeProfileUser user={ singleUser } />
+                <ProcessPreviewTables userId={ userId } count={ count } setCount={ setCount } />
             </div>
-        </main>
+        </div>
     )
 }
 export default EmployeeProfilePage;

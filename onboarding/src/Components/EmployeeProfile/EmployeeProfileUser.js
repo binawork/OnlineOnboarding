@@ -27,13 +27,13 @@ function EmployeeProfileUser(props) {
 
                             <div className="col">
                                 <h3 className="card-title">
-                                    <small className="text-muted">Dział:</small> { props.user.department }
+                                    <small className="text-muted">Dział:</small> { props.user.department ? props.user.department : <small className="text-muted"><i>brak</i></small> }
                                 </h3>
                                 <h3 className="card-title">
-                                    <small className="text-muted">Lokalizacja:</small> { props.user.location }
+                                    <small className="text-muted">Lokalizacja:</small> { props.user.location ? props.user.location : <small className="text-muted"><i>brak</i></small> }
                                 </h3>
                                 <h3 className="card-title m-0">
-                                    <small className="text-muted">Stanowisko:</small> { props.user.position }
+                                    <small className="text-muted">Stanowisko:</small> { props.user.position ? props.user.position : <small className="text-muted"><i>brak</i></small> }
                                 </h3>
                             </div>
 
@@ -42,7 +42,7 @@ function EmployeeProfileUser(props) {
                                     <small className="text-muted">Wysłane formularze:</small> { props.user.sent }
                                 </h3>
                                 <h3 className="card-title">
-                                    <small className="text-muted">Skończone formularze:</small> { props.user.finished }
+                                    <small className="text-muted">Skończone formularze:</small> { props.user.finished ? props.user.department : "0" }
                                 </h3>
                             </div>
                         </div>

@@ -24,29 +24,23 @@ const CompanyInfoPage = ({ loggedUser }) => {
   }, [loggedUser]);
 
   return (
-      <main className="app-main">
-        <div className="wrapper">
-          <div className="page">
-            <div className="page-inner">
-              <PageAddressBar
-                page={"Informacje o firmie"}
-              />
-              <div className="page-section">
-                <div className="card card-fluid">
-                  <div className="card-header">Informacje o firmie</div>
-                  {loading ? (
-                    <div className="card-body">Ładowanie...</div>
-                  ) : error ? (
-                    <div className="card-body">{ error }</div>
-                  ) : (
-                    <CompanyInfoContent company={ company } />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="page-inner">
+      <PageAddressBar
+        page={"Informacje o firmie"}
+      />
+      <div className="page-section">
+        <div className="card card-fluid">
+          <div className="card-header">Informacje o firmie</div>
+          {loading ? (
+            <div className="card-body">Ładowanie...</div>
+          ) : error ? (
+            <div className="card-body">{ error }</div>
+          ) : (
+            <CompanyInfoContent company={ company } />
+          )}
         </div>
-      </main>
+      </div>
+    </div>
   );
 };
 

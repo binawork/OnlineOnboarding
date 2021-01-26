@@ -6,10 +6,10 @@ import { getPath, getCookie, dateToString, tryFetchJson } from "../utils.js";
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
 function EmployeeForms(props, count){
-	var [rows , setRows] = useState([]),
+	const [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
-	let url = getPath(),
+	const url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
@@ -43,9 +43,6 @@ function EmployeeForms(props, count){
 		var form_table = [], count = rows.length;
 		let i, j, row;//, loggedUser = {id:0, first_name: ""};
 		const specificEmployee = (props.specificEmployee && props.specificEmployee > 0)?props.specificEmployee:-1;
-
-		/*if(props.loggedUser)
-			loggedUser = props.loggedUser;*/
 
 		for(i = 0; i < count; i++){
 			if(specificEmployee > 0 && rows[i].users && Array.isArray(rows[i].users)){

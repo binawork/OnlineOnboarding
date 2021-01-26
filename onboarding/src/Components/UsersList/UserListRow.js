@@ -91,17 +91,15 @@ function UserListRow(props) {
                             >
                                 Edytuj profil
                             </Link>
-                            { props.user.id != props.loggedUser.id &&
-                                <button
-                                    type="button"
-                                    value={ props.user.id }
-                                    onClick={ props.handleRemove }
-                                    className="btn btn-warning"
-                                    data-toggle="tooltip"
-                                >
-                                    Usuń
-                                </button>
-                            }
+                            <button
+                                type="button"
+                                value={ props.user.id }
+                                onClick={ props.handleRemove }
+                                className="btn btn-warning"
+                                data-toggle="tooltip"
+                            >
+                                Usuń
+                            </button>
                         </div>
                     </div>
                 </div>

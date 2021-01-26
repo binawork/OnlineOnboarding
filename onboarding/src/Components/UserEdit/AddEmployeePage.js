@@ -18,26 +18,18 @@ function AddEmployeePage() {
     };
 
     return (
-        <main className="app-main">
-            <div className="wrapper">
-                <div className="page">
-                    <div className="page-inner">
-                        <PageAddressBar page="Dodaj pracownika" />
-                        <div className="page-section">
-                            <div className="card card-fluid">
-                                <div className="card-header">Dodaj pracownika</div>
-                                <UserEditForm
-                                    user={ singleUser }
-                                    enableUploadAvatar={ false }
-                                    buttonTitle={ "Dodaj" }
-                                    modalTitle={"Dodanie pracownika"}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div className="page-inner">
+            <PageAddressBar page="Dodaj pracownika" />
+            <div className="card card-fluid">
+                <div className="card-header">Dodaj pracownika</div>
+                <UserEditForm
+                    user={ singleUser }
+                    enableUploadAvatar={ false }
+                    buttonTitle={ "Dodaj" }
+                    modalTitle={"Dodanie pracownika"}
+                />
             </div>
-        </main>
+        </div>
     );
 }
 

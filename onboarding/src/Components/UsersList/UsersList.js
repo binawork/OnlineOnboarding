@@ -6,7 +6,7 @@ import ModalWarning from "../ModalWarning";
 import UserListRow from "./UserListRow";
 
 
-function UsersList({ loggedUser }) {
+function UsersList({ loggedUserId }) {
 	const [loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
     const [countUpdate, update] = useState(0);
@@ -28,10 +28,10 @@ function UsersList({ loggedUser }) {
     }
 
     useEffect(() => {
-        if(loggedUser.id !== 0) {
-            Users( loggedUser, setUsers, setSearchResult, isLoaded, showError);
+        if(loggedUserId !== 0) {
+            Users( loggedUserId, setUsers, setSearchResult, isLoaded, showError);
         }
-    }, [loggedUser, countUpdate]);
+    }, [loggedUserId, countUpdate]);
 
     const removeAsk = (e) => {
         setIdModal({id: e.target.value,
@@ -76,7 +76,6 @@ function UsersList({ loggedUser }) {
             ? searchResult.length !== 0
                 ? searchResult.map((user) => (
                     <UserListRow
-                        loggedUser={ loggedUser }
                         user={ user }
                         key={ user.id }
                         handleRemove={ removeAsk }

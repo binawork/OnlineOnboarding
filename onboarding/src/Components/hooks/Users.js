@@ -33,7 +33,7 @@ function checkUser(userObject, userId){
 /**
  * Get users/employees from Onboarding API when UserList component is loaded;
  */
-function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
+function Users(loggedUserId, setUsers, setSearchResult, isLoaded, showError) {
   let url = getPath(),
     fetchProps = {
       method: "GET",
@@ -48,7 +48,7 @@ function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
     .then((res) => res.json())
     .then((result) => {
       const users = result
-        .filter((user) => user.id !== loggedUser.id)
+        .filter((user) => user.id !== loggedUserId)
         .map((user) => {
           user = checkUser(user, user.id);
           return user;

@@ -4,7 +4,6 @@ import ImplementationFormsToSend from "./ImplementationFormsToSend";
 import ModalWarning from "../ModalWarning";
 
 function ProcessPreviewTables(props) {
-    console.log(props)
     const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
 
     const popUpConfirmationModal = (message) => {
@@ -20,8 +19,8 @@ function ProcessPreviewTables(props) {
 
     return(
         <>
-            <ImplementationFormsSent showModal={ popUpConfirmationModal } userId={ props.userId } count={ confirmationModal.id } />
-            <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ props.userId }  count={ props.count } setCount={ props.setCount } />
+            <ImplementationFormsSent showModal={ popUpConfirmationModal } userId={ parseInt(props.userId) } count={ confirmationModal.id } />
+            <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ parseInt(props.userId) }  count={ props.count } setCount={ props.setCount } />
             { confirmationModal.modal }
         </>
     )

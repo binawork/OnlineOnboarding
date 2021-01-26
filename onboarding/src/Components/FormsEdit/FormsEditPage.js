@@ -5,11 +5,11 @@ import PageAddressBar from "../PageAddressBar";
 import FormDescription from "./FormDescription";
 import FormAddSection from "./FormAddSection";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 function FormsEditPage() {
   const location = useLocation();
-  const formId = location.state?.formId || location.pathname.split("/")[2];
+  const { form_id:formId } = useParams();
 
   let formName;
   let description;
@@ -120,86 +120,80 @@ function FormsEditPage() {
   };
 
   return (
-    <main className="app-main">
-      <div className="wrapper">
-        <div className="page has-sidebar-expand-xl">
-          <div className="page-inner">
-            <PageAddressBar page={"Formularz / Edytuj"} />
-            { loading && <p>Ładowanie...</p> }
-            { errorMessage && <p>{ errorMessage }</p> }
+    <div className="page-inner">
+      <PageAddressBar page={"Formularz / Edytuj"} />
+      { loading && <p>Ładowanie...</p> }
+      { errorMessage && <p>{ errorMessage }</p> }
 
-            <FormDescription location={location} pageId={formId} />
-            <section className="page-section">
-              <header className="card-header">Sekcje formularza</header>
-              <form onSubmit={handleSave}>
-                <div className="row">
-                  <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="dp1">
-                      {(provided) => (
-                        <div
-                          className="col"
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                        >
-                          {loading ? (
-                            <div className="p-3">Ładowanie...</div>
-                          ) : null}
-                          {errorMessage !== "" ? (
-                            <div className="p-3">{errorMessage}</div>
-                          ) : (
-                            <FormSection
-                              sections={sections}
-                              /*answers={answers}
-                              setAnswers={setAnswers}*/
-                              setSections={setSections}
-                              maxOrder={maxOrder}
-                              updateMaxOrder={updateMaxOrder}
-                            />
-                          )}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
-                  <div className="col-auto">
-                    <FormAddSection
-                      setSections={setSections}
-                      sections={sections}
-                      /*setAnswers={setAnswers}
-                      answers={answers}*/
-                      updateMaxOrder={updateMaxOrder}
-                      maxOrder={maxOrder}
-                      pageId={formId}
-                    />
+      <FormDescription location={location} pageId={formId} />
+      <section className="page-section">
+        <header className="card-header">Sekcje formularza</header>
+        <form onSubmit={handleSave}>
+          <div className="row">
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="dp1">
+                {(provided) => (
+                  <div
+                    className="col"
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {loading ? (
+                      <div className="p-3">Ładowanie...</div>
+                    ) : null}
+                    {errorMessage !== "" ? (
+                      <div className="p-3">{errorMessage}</div>
+                    ) : (
+                      <FormSection
+                        sections={sections}
+                        /*answers={answers}
+                        setAnswers={setAnswers}*/
+                        setSections={setSections}
+                        maxOrder={maxOrder}
+                        updateMaxOrder={updateMaxOrder}
+                      />
+                    )}
+                    {provided.placeholder}
                   </div>
-                </div>
-              </form>
-            </section>
-            {saved ? (
-              <div
-                className="fixed-bottom d-flex justify-content-center show-and-hide"
-                style={{ display: "fixed-bottom", left: "240px" }}
-              >
-                <div
-                  className="m-2 p-2"
-                  style={{
-                    width: "150px",
-                    backgroundColor: "rgba(226, 232, 238, 0.57)",
-                    color: "black",
-                    textAlign: "center",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Zapisano zmiany
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
+                )}
+              </Droppable>
+            </DragDropContext>
+            <div className="col-auto">
+              <FormAddSection
+                setSections={setSections}
+                sections={sections}
+                /*setAnswers={setAnswers}
+                answers={answers}*/
+                updateMaxOrder={updateMaxOrder}
+                maxOrder={maxOrder}
+                pageId={formId}
+              />
+            </div>
+          </div>
+        </form>
+      </section>
+      {saved ? (
+        <div
+          className="fixed-bottom d-flex justify-content-center show-and-hide"
+          style={{ display: "fixed-bottom", left: "240px" }}
+        >
+          <div
+            className="m-2 p-2"
+            style={{
+              width: "150px",
+              backgroundColor: "rgba(226, 232, 238, 0.57)",
+              color: "black",
+              textAlign: "center",
+              borderRadius: "4px",
+            }}
+          >
+            Zapisano zmiany
           </div>
         </div>
-      </div>
-    </main>
+      ) : (
+        <></>
+      )}
+    </div>
   );
 }
 

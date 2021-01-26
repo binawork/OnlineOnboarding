@@ -2,18 +2,12 @@ import React from "react";
 import PageAddressBar from "../PageAddressBar";
 import FormTable from "./FormTable";
 
-function FormTablePage({ loggedUser }) {
+function FormTablePage({ companyId }) {
     return(
-        <main className="app-main">
-            <div className="wrapper">
-                <div className="page">
-                    <div className="page-inner">
-                        <PageAddressBar page={ "Formularze" } loggedUser={ loggedUser } />
-                        <FormTable loggedUser={ loggedUser } />
-                    </div>
-                </div>
-            </div>
-        </main>
+        <div className="page-inner">
+            <PageAddressBar page={ "Formularze" } />
+            <FormTable companyId={ companyId } />
+        </div>
     )
 }
 

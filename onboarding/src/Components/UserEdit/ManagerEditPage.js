@@ -32,26 +32,18 @@ function ManagerEditPage({ user }) {
     },[user]);
 
     return (
-        <main className="app-main">
-            <div className="wrapper">
-                <div className="page">
-                    <div className="page-inner">
-                        <PageAddressBar page="Twój profil" />
-                        <div className="page-section">
-                            <div className="card card-fluid">
-                                <div className="card-header">Twój profil</div>
-                                <EmployeeEditForm
-                                    user={ singleUser }
-                                    enableUploadAvatar={ true }
-                                    buttonTitle={ "Zapisz" }
-                                    modalTitle={"Edycja danych"}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div className="page-inner">
+            <PageAddressBar page="Twój profil" />
+            <div className="card card-fluid">
+                <div className="card-header">Twój profil</div>
+                <EmployeeEditForm
+                    user={ singleUser }
+                    enableUploadAvatar={ true }
+                    buttonTitle={ "Zapisz" }
+                    modalTitle={"Edycja danych"}
+                />
             </div>
-        </main>
+        </div>
     );
 }
 
