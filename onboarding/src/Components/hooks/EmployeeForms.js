@@ -312,8 +312,8 @@ export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
 		sectionId = sectionsAnswers[i].sectionId;
 		answerId = -1;
 		data = {section: sectionId, data: sectionsAnswers[i].data}
-		if( typeof data.data !== "string" && (typeof data.data !== "object" || data.data.constructor !== String) )
-			data.data = JSON.stringify(sectionsAnswers[i].data);
+		/*if( typeof data.data !== "string" && (typeof data.data !== "object" || data.data.constructor !== String) )
+			data.data = JSON.stringify(sectionsAnswers[i].data);*/
 		if( isNumber(sectionsAnswers[i].answerId) )
 			answerId = sectionsAnswers[i].answerId;
 
