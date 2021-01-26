@@ -10,6 +10,11 @@ function NavbarEmployee(props) {
     let loggedUser = {first_name: "employee-name #login"};
     if(props.loggedUser){
         loggedUser = {...props.loggedUser};
+
+        if(typeof props.loggedUser.avatar !== "string" ||
+        (typeof props.loggedUser.avatar === "string" && props.loggedUser.avatar.length < 2) ) {
+            loggedUser.avatar = "/onboarding/static/images/unknown-profile.jpg";
+        }
     }
 
 

@@ -53,7 +53,6 @@ function UserManagerProfilePage(props) {
     if(stateExists && props.location.state.enableUploadAvatar)
         enableUploadAvatar = true;
 
-
     return (
     	<div className="app">
     		<header className="app-header app-header-dark">

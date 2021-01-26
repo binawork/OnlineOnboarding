@@ -15,7 +15,7 @@ function EmployeeFormsList(props) {
 
 
     const switchToFormPages = (packageId) => {
-        props.switchPage(packageId);
+        props.switchPage(packageId, loggedUser.id);
     };
 
     return(

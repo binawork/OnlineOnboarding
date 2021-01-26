@@ -2,7 +2,22 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 //import FormSectionsAPI from "../hooks/FormSectionsAPI";
 
-const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, name, text, type/*, answers, setAnswers*/ }) => {
+/**
+ *
+ * @param sectionId
+ * @param answerId - id value of answer from list: [{id: maxId + 1, title: "Odpowiedź", is_checked: false}, ...];
+ * @param index - index of element in list like above;
+ * @param changeAnswer
+ * @param removeAnswer
+ * @param setUnsetChecked - function to modify is_checked property: setUnsetChecked(sectionId, answerId);
+ * @param isChecked
+ * @param name
+ * @param text
+ * @param type
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, setUnsetChecked, isChecked, name, text, type }) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(text);
   // console.log(answerId, title)
@@ -47,6 +62,12 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, nam
       document.getElementById(`save-button-${domIdIndex}`).click();
     }
   };
+
+  const checkAnswer = function(){
+    setUnsetChecked(sectionId, answerId);
+  };
+
+
   return (
     <tr>
       <td className="d-flex justify-content-between align-items-center pr-0">
@@ -76,6 +97,8 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, nam
                 id={domIdIndex}
                 name={name}
                 type={type === "osa" ? "radio" : "checkbox"}
+                onChange={ checkAnswer }
+                defaultChecked={ isChecked }
               />
               <label className="custom-control-label" htmlFor={domIdIndex}>
                 {text}

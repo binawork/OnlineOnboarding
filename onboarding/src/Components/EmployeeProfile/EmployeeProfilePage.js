@@ -65,7 +65,10 @@ function EmployeeProfilePage(props) {
                             <PageAddressBar page = { "Podgląd procesu pracownika" } loggedUser={ loggedUser } />
                             <div className="page-section">
                                 <EmployeeProfileUser user={ singleUser } />
-                                <ProcessPreviewTables loggedUser={ loggedUser } userId={ singleUser.id } count={ count } setCount={ setCount } />
+                                <ProcessPreviewTables packageId={ packageIdRef.current } loggedUser={ loggedUser }
+                                                      employee={ singleUser }
+                                                      count={ count }
+                                                      setCount={ setCount } />
                             </div>
                         </div>
                     </div>

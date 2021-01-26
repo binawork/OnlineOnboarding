@@ -11,7 +11,7 @@ function UserProfileManage(props) {
         userCp = {...props.user};
     const [user, setUser] = useState(userCp);
 
-    const handleChangeName = e => {
+    const handleChangeName = function(e){
         setUser({...user, name: e.target.value});
     };
     const handleChangeLName = function(e){
@@ -22,11 +22,17 @@ function UserProfileManage(props) {
         setUser({...user, email: e.target.value});
     };
 
-    const handleTel = e => {
+    const handleTel = function(e){
         setUser({...user, tel: e.target.value});
+    };
+    const handleDepartment = function(e){
+        setUser({...user, department: e.target.value});
     };
     const handleLocation = function(e){
         setUser({...user, location: e.target.value});
+    };
+    const handlePosition = function(e){
+        setUser({...user, position: e.target.value});
     };
 
 
@@ -87,7 +93,7 @@ function UserProfileManage(props) {
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="dział" value={ user.department } />{/* może lista rozwijana/do wyboru */}
+                    <input type="text" className="form-control" placeholder="dział" value={ user.department } onChange={ handleDepartment } />{/* może lista rozwijana/do wyboru */}
                 </div>
             </div>
             <div className="form-group">
@@ -98,7 +104,7 @@ function UserProfileManage(props) {
             </div>
             <div className="form-group">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="stanowisko" value={ user.position } />
+                    <input type="text" className="form-control" placeholder="stanowisko" value={ user.position } onChange={ handlePosition } />
                 </div>
             </div>
             <div className="form-group">

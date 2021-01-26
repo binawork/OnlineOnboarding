@@ -18,7 +18,7 @@ function UserListRow(props) {
 
                     <div className="col-auto">
                         <Link to={{ pathname: "/employee_profile", state: { user: props.user, loggedUser: loggedUser } }} className="user-avatar user-avatar-xl">
-                            <img src={ avatar } alt="avatar" /> <span className="avatar-badge idle" title="idle"></span>
+                            <img src={ avatar } alt="avatar" />
                         </Link>
                     </div>
 

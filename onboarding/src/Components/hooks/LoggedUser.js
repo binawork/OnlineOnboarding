@@ -4,7 +4,7 @@ import { getPath/*, getCookie*/ } from "../utils.js";
 function LoggedUser(){
 	const userModel = {id: 0, email: "", first_name: "", last_name: "",
 							phone_number: "", location: "", team: "",
-							job_position: "",last_login: "", avatar: ""};
+							job_position: "",last_login: "", avatar: "", welcome_board: null};
 	const loggedUserRef = useRef(userModel), [loggedUser, setUser] = useState(userModel);
 
 	const [error, showError] = useState(false), [loaded, isLoaded] = useState(false);

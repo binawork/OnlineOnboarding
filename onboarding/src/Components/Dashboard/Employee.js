@@ -19,8 +19,7 @@ const Employee = ({ employee, loggedUser }) => {
         <div className="row align-items-center">
           <div className="col-auto">
             <Link to={{ pathname: "/employee_profile", state: {user: employee, loggedUser: loggedUserCp } }} className="user-avatar user-avatar-lg">
-              <img src={ avatar } alt="avatar" />{" "}
-              <span className="avatar-badge idle" title="idle"></span>
+              <img src={ avatar } alt="avatar" />
             </Link>
           </div>
           <div className="col">
