@@ -51,7 +51,7 @@ function EmployeeAnswers(props){
 
         setView(newSectionsView);
 
-        if(!employeeDidAnswer)
+        if(!areAnswered)
             setMessage("Pracownik jeszcze nie odpowiedział na pytania");
         else
             setMessage("");
