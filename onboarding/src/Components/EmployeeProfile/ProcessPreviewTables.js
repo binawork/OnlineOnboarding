@@ -19,8 +19,11 @@ function ProcessPreviewTables(props) {
 
     return(
         <>
-            <ImplementationFormsSent showModal={ popUpConfirmationModal } userId={ props.userId } count={ confirmationModal.id } />
-            <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ props.userId }  count={ props.count } setCount={ props.setCount } />
+            <ImplementationFormsSent packageId={ props.packageId } loggedUser={ props.loggedUser }
+                                     employee={ props.employee }
+                                     showModal={ popUpConfirmationModal }
+                                     count={ confirmationModal.id } />
+            <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ props.employee.id }  count={ props.count } setCount={ props.setCount } />
             { confirmationModal.modal }
         </>
     )

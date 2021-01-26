@@ -245,7 +245,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 				return ;
 			}
 
-			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false;
+			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true;
 			result.answers = sections.map(function(section){
 				let answer = {data: []};
 				if(typeof section.answers === 'undefined' || section.answers === null)
@@ -265,6 +265,8 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 						answer = section.answers[i];
 						areSaved = true;
 					}
+					if(typeof section.answers[i].finished !== 'undefined')
+						areFinished &= section.answers[i].finished;
 				}
 
 				try {
@@ -275,7 +277,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 			});
 
 			result.answers_cp = JSON.parse(JSON.stringify(result.answers));
-			setSectionsAnswers(result, areSaved);
+			setSectionsAnswers(result, areSaved, areFinished/*, todo: maybe use confirmed field later; */);
 		} else if(xhr.readyState==4){
 			errorMessageFunction("Nie udało się zdobyć danych!");
 		}
@@ -310,8 +312,8 @@ export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
 		sectionId = sectionsAnswers[i].sectionId;
 		answerId = -1;
 		data = {section: sectionId, data: sectionsAnswers[i].data}
-		if( typeof data.data !== "string" && (typeof data.data !== "object" || data.data.constructor !== String) )
-			data.data = JSON.stringify(sectionsAnswers[i].data);
+		/*if( typeof data.data !== "string" && (typeof data.data !== "object" || data.data.constructor !== String) )
+			data.data = JSON.stringify(sectionsAnswers[i].data);*/
 		if( isNumber(sectionsAnswers[i].answerId) )
 			answerId = sectionsAnswers[i].answerId;
 
