@@ -144,7 +144,7 @@ export function removePage(handleSuccess, pageId, title){
 
 	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
-			handleSuccess("Strona została usunięta.");
+			handleSuccess("Formularz został usunięty.");
 		},
 		(error) => {
 			handleSuccess(error);

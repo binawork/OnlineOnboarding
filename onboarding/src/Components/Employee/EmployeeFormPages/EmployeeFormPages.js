@@ -22,13 +22,13 @@ const EmployeeFormPages = ({ switchPage, actualPackageId }) => {
       <div className="page-inner">
         <div className="page-section">
           <div className="card card-fluid">
-            <div className="card-header">Lista Stron</div>
+            <div className="card-header">Lista formularzy</div>
             <div className="card-body">
               <table className="table table-striped">
                 <thead>
                   <tr>
                     <th scope="col" style={{ width: "50%" }}>
-                      Nazwa strony
+                      Nazwa formularza
                     </th>
                   </tr>
                 </thead>

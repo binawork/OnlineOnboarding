@@ -45,7 +45,7 @@ function FormTable({ packageId, loggedUser }) {
         modal: (
           <ModalWarning
             handleAccept={idle}
-            title={"Usunięcie strony"}
+            title={"Usunięcie formularza"}
             message={message}
             id={0}
             show={true}
@@ -65,8 +65,8 @@ function FormTable({ packageId, loggedUser }) {
             <ModalWarning
               handleAccept={removePackage}
               handleCancel={hideModal}
-              title={"Usunięcie strony"}
-              message={"Czy na pewno chcesz usunąć stronę?"}
+              title={"Usunięcie formularza"}
+              message={"Czy na pewno chcesz usunąć formularz?"}
               show={true}
               id={e.target.value}
             />
