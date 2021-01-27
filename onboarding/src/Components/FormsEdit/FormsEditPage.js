@@ -10,7 +10,7 @@ import { useLocation, useParams } from "react-router-dom";
 function FormsEditPage() {
   const location = useLocation();
   const { form_id:formId } = useParams();
-
+  
   let formName;
   let description;
   let link;
@@ -23,7 +23,7 @@ function FormsEditPage() {
     link = location.state.link;
   } else {
     // const { packageAndForms, isLoading, error } = fetchOnePackageAndForms(packageId, countUpdate);
-
+    
     // if(packageAndForms) {
     //   packageData = packageAndForms;
     //   pages = packageAndForms?.page_set.sort((a,b) =>  b.id - a.id);
@@ -121,7 +121,7 @@ function FormsEditPage() {
 
   return (
     <div className="page-inner">
-      <PageAddressBar page={"Formularz / Edytuj"} />
+      <PageAddressBar page={ location.state?.formName || "Formularz" } previousPages={[ {title: "Twoje wdrożenia", url: "/packages"}, {title: "Formularze", url: `/package/${location.state?.packageId}`} ]} />
       { loading && <p>Ładowanie...</p> }
       { errorMessage && <p>{ errorMessage }</p> }
 

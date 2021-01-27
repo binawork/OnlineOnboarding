@@ -57,7 +57,7 @@ function DashboardPage({ loggedUserId }) {
 
   return (
     <div className="page-inner">
-      <PageAddressBar page={"Wdrażani pracownicy"} /> {/* placeholder */}
+      <PageAddressBar page={""} /> {/* placeholder */}
       <div className="page-section">
         {" "}
         {/* placeholder */}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-function PageAddressBar(props) {
+function PageAddressBar({ page, previousPages=[] }) {
     return(
         <header className="page-title-bar">
             <div className="card card-fluid">
@@ -12,7 +12,14 @@ function PageAddressBar(props) {
                         <li className="breadcrumb-item">
                             <Link exact="true" to="/">DASHBOARD</Link>
                         </li>
-                        <li className="breadcrumb-item active">{ props.page }</li>
+                        {
+                            previousPages && previousPages.map(element => (
+                                <li className="breadcrumb-item">
+                                    <Link to={ element.url }>{ element.title }</Link>
+                                </li>
+                            ))
+                        }
+                        { page && <li className="breadcrumb-item active">{ page }</li> }
                     </ol>
                 </div>
             </div>
