@@ -100,7 +100,7 @@ export function savePackageDetails(handleSuccess, packageId, title, description)
 /**
  * Add page into Pages for Package (todo: set owner as a logged HR manager?);
  */
-export function addPage(handleSuccess, title, order, packageId, owner){
+export function addPage(handleSuccess, title, packageId, order, owner){
 	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
 		return false;
 
