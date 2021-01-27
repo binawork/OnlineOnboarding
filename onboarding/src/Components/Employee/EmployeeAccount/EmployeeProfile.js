@@ -30,6 +30,10 @@ function EmployeeProfile(props) {
             props.showMessage("Format e-mail'a jest nieprawidłowy");
     };
 
+    const handleGoToPackages = (e) => {
+        e.preventDefault();
+        props.loadFormList();
+    }
 
     return (
       <div className="card-body">
@@ -72,7 +76,8 @@ function EmployeeProfile(props) {
             </div>
             <div className="form-group">
                 <div className="input-group-append">
-                    <button className="btn btn-secondary" onClick={ handleSave }>Zmień</button>
+                    <button className="btn btn-secondary mr-2" onClick={ handleSave }>Zapisz zmiany</button>
+                    <button className="btn btn-success" onClick={ handleGoToPackages }>Wdrożenia</button>
                 </div>
             </div>
         </form>

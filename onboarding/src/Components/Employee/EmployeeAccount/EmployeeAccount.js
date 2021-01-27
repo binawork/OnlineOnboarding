@@ -69,7 +69,7 @@ function EmployeeAccount(props){
     					<div className="row">
     						<EmployeeAvatar loggedUser={ editedUser } setFile={ changeImage } image={ imageFile } />
     						<div className="col">
-    							<EmployeeProfile loggedUser={ editedUser } handleEdit={ handleEdit } showMessage={ showModal } />
+    							<EmployeeProfile loggedUser={ editedUser } handleEdit={ handleEdit } showMessage={ showModal } loadFormList={ props.loadFormList } />
     						</div>
     						{ employeeModal }
     					</div>
