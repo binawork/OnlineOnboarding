@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { validEmail } from "../../utils";
 
-
 function EmployeeProfile(props) {
     let userCp = {id: 0, first_name: "", last_name: "", email: "", phone_number: "", team: "-", location: "-", job_position: "-"};
     if(props.loggedUser)
