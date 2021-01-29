@@ -91,10 +91,10 @@ function FormsEditPage() {
   return (
     <div className="page-inner">
       <PageAddressBar 
-        page={ location.state?.title || formData?.title || "" } 
+        page={ `Formularz: ${location.state?.title || formData?.title || ""}` } 
         previousPages={[ 
           {title: "Twoje wdrożenia", url: "/packages"}, 
-          {title: `Katalog ${packageTitle}` || "Katalog", 
+          {title: `Katalog: ${packageTitle || ""}`, 
             url: `/package/${location.state?.packageId || formData?.package}`
           } 
         ]} 
