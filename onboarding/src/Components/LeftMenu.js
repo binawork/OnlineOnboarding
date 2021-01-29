@@ -6,12 +6,10 @@ const LeftMenu = ({ packagesList }) => {
   const location = useLocation();
   const [showFolders, setShowFolders] = useState(false);
   useEffect(() => {
-    if(showFolders && !packagesList) {
+    if(showFolders && packagesList === 0) {
       packagesList = JSON.parse(sessionStorage.getItem("packages_list"));
     }
   }, [showFolders]);
-  console.log(packagesList)
-  console.log(showFolders)
 
   useEffect(() => {
     location 

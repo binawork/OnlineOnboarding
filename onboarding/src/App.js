@@ -25,8 +25,9 @@ function App() {
   const [packagesList, setPackagesList] = useState([]); //[{id: number, title: string}]
  
   useEffect(() => {
-    if(!packagesList)
-      sessionStorage.setItem("packages_list", JSON.stringify(packagesList));
+    if(packagesList?.length > 0)
+      sessionStorage.setItem("packages_list", JSON.stringify(packagesList))
+    else setPackagesList(JSON.parse(sessionStorage.getItem("packages_list")));
   }, [packagesList]);
 
   useEffect(() => {
