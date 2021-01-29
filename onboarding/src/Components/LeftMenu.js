@@ -4,29 +4,22 @@ import ModeButton from "./ModeButton";
 
 const LeftMenu = ({ packagesList }) => {
   const location = useLocation();
-  console.log(location)
   const [showFolders, setShowFolders] = useState(false);
+  useEffect(() => {
+    if(showFolders && !packagesList) {
+      packagesList = JSON.parse(sessionStorage.getItem("packages_list"));
+    }
+  }, [showFolders]);
+  console.log(packagesList)
+  console.log(showFolders)
 
   useEffect(() => {
     location 
-      && (location.pathname.match(/\/package\/\d+/g)
-        || location.pathname.match(/\/form\/\d+/g))
+      && (/\/package\/\d+/g).test(location.pathname)
+        || (/\/form\/\d+/g).test(location.pathname)
         ? setShowFolders(true)
         : setShowFolders(false);
   }, [location.pathname]);
-  // const loggedUser = JSON.parse(sessionStorage.getItem("logged_user"));
-  // const [packageId, setPackageId] = useState(sessionStorage.getItem("package_id"));
-  // useEffect(() => {
-  //   setPackageId(sessionStorage.getItem("package_id"))
-  // })
-
-
-  // const packageIdRef = useRef(0);
-
-  // if (props.packageId && isFinite(String(props.packageId))) {
-  //   packageIdRef.current = props.packageId;
-  // }
-  console.log(packagesList)
 
   return (
     <aside className="app-aside app-aside-expand-md app-aside-light">

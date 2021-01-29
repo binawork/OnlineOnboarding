@@ -140,7 +140,7 @@ function FormTable({ companyId, setFormTitle }) {
                     <FormTableRow
                         key={ row.id }
                         packageId={ packageId }
-                        packageTitle={packageAndForms.title}
+                        packageTitle={packageAndForms?.title}
                         row={{
                           name: row.title,
                           last_edit: row.updated_on,

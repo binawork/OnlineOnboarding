@@ -19,6 +19,7 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                         pathname: `/form/${page.id}`,
                         state: {
                             packageId: row.id,
+                            packageTitle: row.name,
                             formId: page.id,
                             formName: page.title,
                             description: page.description,

@@ -68,7 +68,7 @@ export function singleCombo(packageId){
         fetchProps = {method: "GET", headers: {"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken": ""}};
 
     useEffect(() => {
-        fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
+      packageId && fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
             (result) => {
                 setCombo(result);
             },
@@ -77,8 +77,7 @@ export function singleCombo(packageId){
                 showError(error);
             }
         );
-    }, []);
-
+    }, [packageId]);
     return combo;
 }
 

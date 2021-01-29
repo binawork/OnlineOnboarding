@@ -7,6 +7,7 @@ import FormAddSection from "./FormAddSection";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import { useLocation, useParams } from "react-router-dom";
 import FormsEdit, { fetchFormData } from "../hooks/FormsEdit";
+import { singleCombo } from "../hooks/Packages";
 
 function FormsEditPage() {
   const location = useLocation();
@@ -17,8 +18,19 @@ function FormsEditPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [update, setUpdate] = useState(true);
   const [saved, setSaved] = useState(false);
-  const { sections:sortedSections, loading:isLoading, errorMessage:error } = FormsEdit(formId, update);
+  const [packageTitle, setPackageTitle] = useState("");
+
   const { data:formData } = fetchFormData(formId);
+  const { sections:sortedSections, loading:isLoading, errorMessage:error } = FormsEdit(formId, update);
+  
+  // Set title of package in navigation bar
+  let title = singleCombo(formData?.package)?.title;
+  if(location.state?.packageTitle && !packageTitle) setPackageTitle(location.state.packageTitle);
+
+  useEffect(() => {
+    title && setPackageTitle(title);
+  }, [title]);
+  // End of set title of package in navigation bar
 
   useEffect(() => {
     const abortCont = new AbortController();
@@ -75,14 +87,14 @@ function FormsEditPage() {
 
     setSections(updatedList);
   };
-console.log(formData)
+
   return (
     <div className="page-inner">
       <PageAddressBar 
-        page={ location.state?.title || formData?.title || "Formularz" } 
+        page={ location.state?.title || formData?.title || "" } 
         previousPages={[ 
           {title: "Twoje wdrożenia", url: "/packages"}, 
-          {title: location.state?.packageTitle || "Formularze", 
+          {title: `Katalog ${packageTitle}` || "Katalog", 
             url: `/package/${location.state?.packageId || formData?.package}`
           } 
         ]} 

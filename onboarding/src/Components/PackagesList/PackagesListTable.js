@@ -11,7 +11,7 @@ function PackagesListTable({ setPackagesList }) {
  
     const { packages, isLoading, error } = fetchPackages(count);
     const { packagesAndForms } = fetchPackagesAndForms(count);
-console.log(packages)
+
     useEffect(() => {
         if(packages && packagesAndForms) {
             const ids = packages.map((element) => element.id);
@@ -42,12 +42,6 @@ console.log(packages)
             					id={ e.target.value } />
         });
     };
-
-    // const handleSetPacgagesInMenu = () => {
-    //     packages && setPackagesList(packages.map(element => {
-    //         return { id: element.id, title: element.title };
-    //     }));
-    // }
 
     const packagesRows = packages && packagesAndForms && packages.map(element => (
         <PackagesRow

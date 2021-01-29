@@ -8,7 +8,7 @@ function FormTablePage({ companyId }) {
     return(
         <div className="page-inner">
             <PageAddressBar 
-                page={ formTitle || "Formularze" }
+                page={ `Katalog ${formTitle}` || "Katalog" }
                 previousPages={[ {title: "Twoje wdrożenia", url: "/packages"} ]}
             />
             <FormTable companyId={ companyId } setFormTitle={ setFormTitle } />

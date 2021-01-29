@@ -25,6 +25,11 @@ function App() {
   const [packagesList, setPackagesList] = useState([]); //[{id: number, title: string}]
  
   useEffect(() => {
+    if(!packagesList)
+      sessionStorage.setItem("packages_list", JSON.stringify(packagesList));
+  }, [packagesList]);
+
+  useEffect(() => {
     if (loggedUser.id > 0)
       sessionStorage.setItem("logged_user", JSON.stringify(loggedUser));
   }, [loggedUser]);
