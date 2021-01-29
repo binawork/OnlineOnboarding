@@ -7,7 +7,7 @@ import FormTableRow from "./FormTableRow";
 import { useLocation, useParams } from "react-router-dom";
 
 
-function FormTable({ companyId }) {
+function FormTable({ companyId, setFormTitle }) {
     const location = useLocation();
     const [countUpdate, setCount] = useState(0);
     const [pageIdModal, setPageIdModal ] = useState({id: 0, modal: <></>});
@@ -15,7 +15,8 @@ function FormTable({ companyId }) {
     const [newRowId, setNewRowId] = useState(null);
     const order = useRef(0);
     const { package_id:packageId } = useParams();
-    
+    const { packageAndForms, isLoading, error } = fetchOnePackageAndForms(packageId, countUpdate);
+
     let pages;
     let packageData;
     let loading = true;
@@ -25,9 +26,8 @@ function FormTable({ companyId }) {
       loading = false;
       packageData = location.state.packageData;
       pages = location.state.pages;
-    } else {
-      const { packageAndForms, isLoading, error } = fetchOnePackageAndForms(packageId, countUpdate);
-
+    } 
+    if(!location.state || countUpdate > 0) {
       if(packageAndForms) {
         packageData = packageAndForms;
         pages = packageAndForms?.page_set.sort((a,b) =>  b.id - a.id);
@@ -43,6 +43,9 @@ function FormTable({ companyId }) {
           setNewRowId(maxId);
       }
     }, [pages]);
+    useEffect(() => {
+      packageAndForms && setFormTitle(packageAndForms.title);
+    })
 
     const updatePackages = function(){
     	setCount(countUpdate + 1);
@@ -137,6 +140,7 @@ function FormTable({ companyId }) {
                     <FormTableRow
                         key={ row.id }
                         packageId={ packageId }
+                        packageTitle={packageAndForms.title}
                         row={{
                           name: row.title,
                           last_edit: row.updated_on,

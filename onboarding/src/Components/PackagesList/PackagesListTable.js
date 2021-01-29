@@ -4,14 +4,14 @@ import fetchPackages, { fetchPackagesAndForms, removeCombo } from "../hooks/Pack
 import ModalWarning from "../ModalWarning";
 import PackagesRow from "../PackagesList/PackagesRow";
 
-function PackagesListTable() {
+function PackagesListTable({ setPackagesList }) {
     const [count, setCount] = useState(0);
     const [packageIdModal, setPackageIdModal] = useState({id: 0, modal: <></>});
     const [newRowId, setNewRowId] = useState(null);
  
     const { packages, isLoading, error } = fetchPackages(count);
     const { packagesAndForms } = fetchPackagesAndForms(count);
-
+console.log(packages)
     useEffect(() => {
         if(packages && packagesAndForms) {
             const ids = packages.map((element) => element.id);
@@ -23,6 +23,10 @@ function PackagesListTable() {
                 element.pages = foundPackage ? foundPackage.page_set : [];
             })
         }
+
+        packages && setPackagesList(packages.map(element => {
+            return { id: element.id, title: element.title };
+        }));
     }, [packages, packagesAndForms]);
 
     const updatePackages = function(){
@@ -38,6 +42,12 @@ function PackagesListTable() {
             					id={ e.target.value } />
         });
     };
+
+    // const handleSetPacgagesInMenu = () => {
+    //     packages && setPackagesList(packages.map(element => {
+    //         return { id: element.id, title: element.title };
+    //     }));
+    // }
 
     const packagesRows = packages && packagesAndForms && packages.map(element => (
         <PackagesRow

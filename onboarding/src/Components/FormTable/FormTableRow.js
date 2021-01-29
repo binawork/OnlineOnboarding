@@ -23,6 +23,7 @@ function FormTableRow(props) {
               pathname: `/form/${props.row.id}`,
               state: {
                 packageId: props.packageId,
+                packageTitle: props.packageTitle,
                 formId: props.row.id,
                 formName: props.row.name,
                 description: props.row.description,
@@ -40,6 +41,7 @@ function FormTableRow(props) {
               pathname: `/form/${props.row.id}`,
               state: {
                 packageId: props.packageId,
+                packageTitle: props.packageTitle,
                 formId: props.row.id,
                 formName: props.row.name,
                 description: props.row.description,

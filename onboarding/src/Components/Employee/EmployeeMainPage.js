@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import NavbarEmployee from "./NavbarEmployee.js";
 import ModeButton from "../ModeButton";
@@ -13,30 +13,37 @@ import CompanyInfoPage from "./CompanyInfoPage";
 import WelcomePage from "./WelcomePage";
 
 function EmployeeMainPage() {
-    const [welcomeView, setWelcomeView] = useState(true);
+    const [welcomeView, setWelcomeView] = useState(null);
     const [showAside, setToggleAside] = useState(false);
     const [pageTitle, setPageTitle] = useState("");
     const [formTitle, setFormTitle] = useState("");
     const [actualPackage, setActualPackage] = useState("");
     const loggedUser = LoggedUser();
 
+
+    useEffect(() => {
+        if(loggedUser.id !== 0 && loggedUser.welcome_board === true) setWelcomeView(true)
+        if(loggedUser.id !== 0 && loggedUser.welcome_board === false) setWelcomeView(false)
+    }, [loggedUser]);
+
+
     const loadSinglePage = (page) => {
-        setFormTitle(page.title)
+        setFormTitle(page.title);
         switchComponent(
             <EmployeeSingleFormPage
-                page={ page }
+                page={ page } userId={ loggedUser.id }
             />
         );
     };
 
-
-    const loadFormPages = (packageId) => {
+    const loadFormPages = (packageId, userId) => {
         setActualPackage(packageId);
         setFormTitle("");
         switchComponent(
             <EmployeeFormPages
                 switchPage={ loadSinglePage }
                 actualPackageId={ packageId }
+                userId={ userId }
             />
         );
     };
@@ -73,11 +80,12 @@ function EmployeeMainPage() {
 
     const [component, switchComponent] = useState(<EmployeeFormsList loggedUser={ loggedUser } switchPage={ loadFormPages } setPageTitle={setPageTitle} />);
 
+
     return(
         <>
-            {welcomeView ? (
-                <WelcomePage setWelcomeView={setWelcomeView} />
-            ) : (
+            {welcomeView !== null && welcomeView === true && <WelcomePage setWelcomeView={setWelcomeView} />
+            }
+            { welcomeView !== null && welcomeView === false && (
                 <>
                     <header className="app-header app-header-dark">
                         <NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } showAside={ showAside } setToggleAside={ setToggleAside } pageTitle={ pageTitle } formTitle={ formTitle } actualPackage={ actualPackage } loadFormPages={ loadFormPages }/>{/* placeholder; */}

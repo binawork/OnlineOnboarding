@@ -6,71 +6,28 @@ import FormDescription from "./FormDescription";
 import FormAddSection from "./FormAddSection";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import { useLocation, useParams } from "react-router-dom";
+import FormsEdit, { fetchFormData } from "../hooks/FormsEdit";
 
 function FormsEditPage() {
   const location = useLocation();
   const { form_id:formId } = useParams();
-  
-  let formName;
-  let description;
-  let link;
-  // let loading = true;
-  // let errorMessage;
-
-  if(location.state) {
-    formName = location.state.formName;
-    description = location.state.description;
-    link = location.state.link;
-  } else {
-    // const { packageAndForms, isLoading, error } = fetchOnePackageAndForms(packageId, countUpdate);
-    
-    // if(packageAndForms) {
-    //   packageData = packageAndForms;
-    //   pages = packageAndForms?.page_set.sort((a,b) =>  b.id - a.id);
-    //   errorMessage = error;
-    //   loading = isLoading;
-    // };
-  }
-  
-
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);
-  //const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [update, setUpdate] = useState(true);
   const [saved, setSaved] = useState(false);
+  const { sections:sortedSections, loading:isLoading, errorMessage:error } = FormsEdit(formId, update);
+  const { data:formData } = fetchFormData(formId);
 
   useEffect(() => {
-    let mounted = true;
-    FormSectionsAPI.getAllSections(formId)
-      .then((response) => {
-        const sortedResponse = response.sort((a, b) => a.order - b.order);
-        for(let i = sortedResponse.length - 1; i >= 0; i--){
-          if( !Array.isArray(sortedResponse[i].data) )
-            sortedResponse[i].data = [];
-        }
-
-        setSections(sortedResponse);
-        updateMaxOrder(response.length);
-      })
-      .catch((error) => setErrorMessage(error.message))
-      .finally(() => setLoading(false));
-
-    /*FormSectionsAPI.getAllAnswers()
-      .then((response) => {
-        if (response.length === 0) return;
-        const sortedAnswers = response.sort((a, b) => a.id - b.id);
-        setAnswers(sortedAnswers);
-      })
-      .catch((error) => setErrorMessage(error.message));*/
-
-    setUpdate(false);
-
-    return function cleanup() {
-      mounted = false;
-    };
-  }, [update]);
+    const abortCont = new AbortController();
+    setSections(sortedSections);
+    updateMaxOrder(sortedSections?.length);
+    setLoading(isLoading);
+    setErrorMessage(error);
+    return () => abortCont.abort();
+  }, [sortedSections, isLoading, error]);
 
   useEffect(() => {
     // Show info "Zapisano zmiany" for 3sec when the changes were saved
@@ -84,7 +41,7 @@ function FormsEditPage() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections/*, answers*/)
+    FormSectionsAPI.saveAll(sections)
       .catch((error) => setErrorMessage(error.message))
       .then(() => {
         setUpdate(true);
@@ -118,19 +75,24 @@ function FormsEditPage() {
 
     setSections(updatedList);
   };
-
+console.log(formData)
   return (
     <div className="page-inner">
-      <PageAddressBar page={ location.state?.formName || "Formularz" } previousPages={[ {title: "Twoje wdrożenia", url: "/packages"}, {title: "Formularze", url: `/package/${location.state?.packageId}`} ]} />
-      { loading && <p>Ładowanie...</p> }
-      { errorMessage && <p>{ errorMessage }</p> }
-
-      <FormDescription location={location} pageId={formId} />
+      <PageAddressBar 
+        page={ location.state?.title || formData?.title || "Formularz" } 
+        previousPages={[ 
+          {title: "Twoje wdrożenia", url: "/packages"}, 
+          {title: location.state?.packageTitle || "Formularze", 
+            url: `/package/${location.state?.packageId || formData?.package}`
+          } 
+        ]} 
+      />
+      <FormDescription formId={ formId } formData={ formData } />
       <section className="page-section">
         <header className="card-header">Sekcje formularza</header>
-        <form onSubmit={handleSave}>
+        <form onSubmit={ handleSave }>
           <div className="row">
-            <DragDropContext onDragEnd={onDragEnd}>
+            <DragDropContext onDragEnd={ onDragEnd }>
               <Droppable droppableId="dp1">
                 {(provided) => (
                   <div
@@ -138,19 +100,14 @@ function FormsEditPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    {loading ? (
-                      <div className="p-3">Ładowanie...</div>
-                    ) : null}
-                    {errorMessage !== "" ? (
-                      <div className="p-3">{errorMessage}</div>
-                    ) : (
+                    { loading &&  <div className="p-3">Ładowanie...</div> }
+                    { errorMessage && <div className="p-3">{ errorMessage }</div> }
+                    { sections && (
                       <FormSection
-                        sections={sections}
-                        /*answers={answers}
-                        setAnswers={setAnswers}*/
-                        setSections={setSections}
-                        maxOrder={maxOrder}
-                        updateMaxOrder={updateMaxOrder}
+                        sections={ sections }
+                        setSections={ setSections }
+                        maxOrder={ maxOrder }
+                        updateMaxOrder={ updateMaxOrder }
                       />
                     )}
                     {provided.placeholder}
@@ -160,13 +117,11 @@ function FormsEditPage() {
             </DragDropContext>
             <div className="col-auto">
               <FormAddSection
-                setSections={setSections}
-                sections={sections}
-                /*setAnswers={setAnswers}
-                answers={answers}*/
-                updateMaxOrder={updateMaxOrder}
-                maxOrder={maxOrder}
-                pageId={formId}
+                setSections={ setSections }
+                sections={ sections }
+                updateMaxOrder={ updateMaxOrder }
+                maxOrder={ maxOrder }
+                pageId={ formId }
               />
             </div>
           </div>

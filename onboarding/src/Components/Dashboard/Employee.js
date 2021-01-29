@@ -1,21 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LoggedUser from "../hooks/LoggedUser.js";
-
 
 const Employee = ({ employee }) => {
   let avatar = "/onboarding/static/images/unknown-profile.jpg";
   if(employee.avatar && employee.avatar.length > 1)
     avatar = employee.avatar;
 
-  return (
+    return (
     <div className="card mb-2">
       <div className="card-body">
         <div className="row align-items-center">
           <div className="col-auto">
             <Link to={{ pathname: `/employee/${employee.id}`, state: {user: employee } }} className="user-avatar user-avatar-lg">
-              <img src={ avatar } alt="avatar" />{" "}
-              <span className="avatar-badge idle" title="idle"></span>
+              <img src={ avatar } alt="avatar" />
+            {/* <Link to={{ pathname: "/employee_profile", state: {user: employee, loggedUser: loggedUserCp } }} className="user-avatar user-avatar-lg"> */}
             </Link>
           </div>
           <div className="col">

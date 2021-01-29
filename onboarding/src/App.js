@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
 import Navbar from "./Components/Navbar";
@@ -16,12 +16,13 @@ import PackagesListPage from "./Components/PackagesList/PackagesListPage";
 import QnAPage from "./Components/QnA/QnAPage";
 import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
 import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
-//import UserListSearch from "./Components/UserListSearch";
+// import EmployeeAnswersViewPage from "./Components/EmployeeAnswersView/EmployeeAnswersViewPage";
 //import UserListRow from "../Components/UsersList/UserListRow";
 // import FormsManagerCheckPage from "./Components/FormsManagerCheckPage"; // where manager checks how form was filled;
 
 function App() {
   const loggedUser = LoggedUser();
+  const [packagesList, setPackagesList] = useState([]); //[{id: number, title: string}]
  
   useEffect(() => {
     if (loggedUser.id > 0)
@@ -34,10 +35,10 @@ function App() {
         <header className="app-header app-header-dark">
           <Navbar loggedUser={ loggedUser } />
         </header>
-        <LeftMenu />
+        <LeftMenu packagesList={ packagesList } />
         <main className="app-main">
           <div className="wrapper">
-            <div className="page">
+            <div className="page container-xl">
             {/* <div className="page has-sidebar-expand-xl"> */}
                 <Switch>
                     <Route path="/user_list">
@@ -55,8 +56,11 @@ function App() {
                     <Route path="/employee/:employee_id">
                         <EmployeeProfilePage />
                     </Route>
+                    {/* <Route path="/employee_answers/:page_id">
+                        <EmployeeAnswersViewPage />
+                    </Route> */}
                     <Route path="/packages">
-                        <PackagesListPage />
+                        <PackagesListPage setPackagesList={ setPackagesList } />
                     </Route>
                     <Route path="/package/:package_id">
                         <FormTablePage companyId={ loggedUser.company_id } />
@@ -83,6 +87,25 @@ function App() {
       </div>
     </HashRouter>
   );
+
+
+// function App() {
+//     return (
+//         <HashRouter>
+//             <Route path="/company" component={ CompanyInfoPage } />
+//             <Route path="/profile/manager" component={ UserManagerProfilePage } />
+//             <Route path="/employee_profile" component={ EmployeeProfilePage } />
+//             <Route path="/employee_answers/:page_id" component={ EmployeeAnswersViewPage } />
+//             <Route path="/add_user" component={ UserManagerProfilePage } />
+//             <Route path="/form_edit/:form_id" component={ FormsEditPage } />
+//             <Route path="/packages" component={ PackagesListPage } />
+//             <Route path="/package_page/:package_id" component={ FormTablePage } />
+//             <Route path="/q_and_a" component={ QnAPage } />
+//             <Route path="/user_list" component={ UserListPage } />
+//             <Route path="/users_pages" component={ AddUserTablePage } />
+//             <Route path="/" exact component={ DashboardPage } />
+//         </HashRouter>
+//     );
 }
 
 export default App;

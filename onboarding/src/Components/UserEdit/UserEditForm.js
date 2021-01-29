@@ -54,7 +54,6 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle }) {
         setModal(<></>);
     };
 
-
     return (
     	<div className="row">
     		<div className="col">

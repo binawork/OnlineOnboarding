@@ -3,13 +3,13 @@ import PageAddressBar from "../PageAddressBar";
 import PackagesListTable from "./PackagesListTable";
 
 
-function PackagesListPage() {
+function PackagesListPage({ setPackagesList }) {
     document.title = "Onboarding: wdrożenia";
 
     return(
         <div className="page-inner">
             <PageAddressBar page = { "Twoje wdrożenia" } />
-            <PackagesListTable />
+            <PackagesListTable setPackagesList={ setPackagesList } />
         </div>
     )
 }

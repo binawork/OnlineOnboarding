@@ -9,12 +9,12 @@ function FormTableAddNew(props) {
         let order = props.getOrder();
         let accepted = addPage(props.handleUpdate, title, props.id, order+1, props.companyId);
         setTitle("");
+    console.log(accepted)
     }
-
+    
     var handleInputTitle = (e) => {
         setTitle(e.target.value);
     }
-
     return(
         <div className="row mb-4">
             <div className="col">

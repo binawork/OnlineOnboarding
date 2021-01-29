@@ -2,13 +2,23 @@ import React, { useEffect, useState } from "react";
 import { validEmail } from "../utils";
 
 function UserProfileManage(props) {
-    const [user, setUser] = useState(props.user);
+    const [user, setUser] = useState({
+        name: "",
+        last_name: "",
+        email: "",
+        tel: "",
+        department: "",
+        location: "",
+        position: ""
+    });
 
     useEffect(() => {
-        setUser(props.user)
+        if(props.user?.email) {
+            setUser(props.user);
+        };
     }, [props.user]);
 
-    const handleChangeName = e => {
+    const handleChangeName = function(e){
         setUser({...user, name: e.target.value});
     };
     const handleChangeLName = function(e){
@@ -19,11 +29,17 @@ function UserProfileManage(props) {
         setUser({...user, email: e.target.value});
     };
 
-    const handleTel = e => {
+    const handleTel = function(e){
         setUser({...user, tel: e.target.value});
+    };
+    const handleDepartment = function(e){
+        setUser({...user, department: e.target.value});
     };
     const handleLocation = function(e){
         setUser({...user, location: e.target.value});
+    };
+    const handlePosition = function(e){
+        setUser({...user, position: e.target.value});
     };
 
 
@@ -80,16 +96,16 @@ function UserProfileManage(props) {
             </div>
             <div className="form-group">
                 <label htmlFor="department" className="m-0">Dział</label>
-                <input id="department" type="text" className="form-control" placeholder="dział" value={ user.department } />{/* może lista rozwijana/do wyboru */}
+                <input id="department" type="text" className="form-control" placeholder="dział" value={ user.department } onChange={ handleDepartment } />{/* może lista rozwijana/do wyboru */}
             </div>
             <div className="form-group">
                 <label htmlFor="location" className="m-0">Lokalizacja</label>
-                <input id="location" type="text" className="form-control" placeholder="lokalizacja" value={ user.location } onChange={ handleLocation } list="location" />
-                <datalist id="location">{ dataOptions }</datalist>
+                <input id="location" type="text" className="form-control" placeholder="lokalizacja" value={ user.location } onChange={ handleLocation } list="location-list" />
+                <datalist id="location-list">{ dataOptions }</datalist>
             </div>
             <div className="form-group">
                 <label htmlFor="position" className="m-0">Stanowisko</label>
-                <input id="position" type="text" className="form-control" placeholder="stanowisko" value={ user.position } />
+                <input id="position" type="text" className="form-control" placeholder="stanowisko" value={ user.position } onChange={ handlePosition } />
             </div>
             <div className="form-group">
 				<div className="input-group-append">

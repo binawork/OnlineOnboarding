@@ -7,7 +7,7 @@ function UserListPage({ loggedUserId }) {
 
     return(
 			<div className="page-inner">
-				<PageAddressBar page = { "Konta" } />
+				<PageAddressBar page = { "Lista pracowników" } />
 				<UsersList loggedUserId={ loggedUserId } />
 			</div>
     );

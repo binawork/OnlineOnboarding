@@ -1,8 +1,19 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import ModeButton from "./ModeButton";
 
-const LeftMenu = () => {
+const LeftMenu = ({ packagesList }) => {
+  const location = useLocation();
+  console.log(location)
+  const [showFolders, setShowFolders] = useState(false);
+
+  useEffect(() => {
+    location 
+      && (location.pathname.match(/\/package\/\d+/g)
+        || location.pathname.match(/\/form\/\d+/g))
+        ? setShowFolders(true)
+        : setShowFolders(false);
+  }, [location.pathname]);
   // const loggedUser = JSON.parse(sessionStorage.getItem("logged_user"));
   // const [packageId, setPackageId] = useState(sessionStorage.getItem("package_id"));
   // useEffect(() => {
@@ -15,6 +26,7 @@ const LeftMenu = () => {
   // if (props.packageId && isFinite(String(props.packageId))) {
   //   packageIdRef.current = props.packageId;
   // }
+  console.log(packagesList)
 
   return (
     <aside className="app-aside app-aside-expand-md app-aside-light">
@@ -43,27 +55,32 @@ const LeftMenu = () => {
                   <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text"> Wdrożenia</span>
                 </NavLink>
-                {/* { packageId > 0 && (
+                { showFolders && packagesList &&  (
                   <ul className="menu">
+                    { packagesList.map(element => (
+                      <li key={`package-${element.id}`} className="menu-item">
+                        <NavLink
+                          to={ "/package/" + element.id }
+                          className="menu-link"
+                          activeStyle={{color: "#346CB0"}}
+                          style={{ whiteSpace: "normal"}}
+                        >
+                          Katalog { element.title }
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {/* { packageId > 0 && (
                     <li className="menu-item">
-                      <NavLink
-                        to={ "/package/" + packageId }
+                      <NavLink to="/user_forms"
                         className="menu-link"
                         activeStyle={{color: "#346CB0"}}
-                        style={{ whiteSpace: "normal"}}
                       >
-                        Lista formularzy w katalogu
-                      </NavLink>
-                    </li> */}
-                    {/* <li className="menu-item">
-                      <NavLink to="/user_forms"
-                      className="menu-link"
-                      activeStyle={{color: "#346CB0"}}
-                    >
                         - Wyślij pracownikowi
                       </NavLink>
-                    </li> */}
-                  {/* </ul>
+                    </li>
+                
                 )} */}
               </li>
               <li className="menu-item">

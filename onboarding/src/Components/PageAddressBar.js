@@ -13,8 +13,8 @@ function PageAddressBar({ page, previousPages=[] }) {
                             <Link exact="true" to="/">DASHBOARD</Link>
                         </li>
                         {
-                            previousPages && previousPages.map(element => (
-                                <li className="breadcrumb-item">
+                            previousPages && previousPages.map((element, i) => (
+                                <li key={ `${element.title + i}` } className="breadcrumb-item">
                                     <Link to={ element.url }>{ element.title }</Link>
                                 </li>
                             ))

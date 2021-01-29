@@ -103,8 +103,15 @@ export function employeeAddEdit(handleMessage, employeeObject){
 
 	fetchProps.headers = {"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token};
 
-	data = employeeObject;
-	data.first_name = employeeObject.name;
+	data = {
+		email: employeeObject.email,
+		first_name: employeeObject.name,
+		last_name: employeeObject.last_name,
+		phone_number: employeeObject.tel,
+		location: employeeObject.location,
+		team: employeeObject.department,
+		job_position: employeeObject.position,
+	};
 	fetchProps.body = JSON.stringify(data);
 
 	let path = "api/users/", employeeId = 0;
@@ -117,7 +124,6 @@ export function employeeAddEdit(handleMessage, employeeObject){
 	} else
 		path += "create_user/";// SMTPAuthenticationError * /
 
-
 	fetch(url + path, fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
 			if(result.hasOwnProperty('detail') )
@@ -125,7 +131,7 @@ export function employeeAddEdit(handleMessage, employeeObject){
 			handleMessage(msg, true);
 		},
 		(error) => {
-			console.log("Users: eA");
+			// console.log("Users: eA");
 			handleMessage("Błąd. " + error, false);
 		}
 	);
@@ -133,22 +139,32 @@ export function employeeAddEdit(handleMessage, employeeObject){
 }
 
 export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
-	let url = getPath(), data, token = getCookie('csrftoken'),
-		fetchProps = {method:"POST", headers:{"Accept":"application/json", "X-CSRFToken":token, "Authorization": "Token " + token}, body:null};
+// export function uploadAvatar(avatarFile, employeeObject){
+	let data = new FormData();
+	let url = getPath(), 
+		token = getCookie('csrftoken'),
+		fetchProps = {
+			method:"POST", 
+			headers:{"Accept":"application/json", "X-CSRFToken":token, "Authorization": "Token " + token}, 
+			body:null
+		};
 
-	if(employeeObject.id && employeeObject.id > 0){
-		let data = {id: employeeObject.id};
-		fetchProps.body = JSON.stringify(data);
-	}
-
-	data = new FormData();
+	// if(employeeObject.id && employeeObject.id > 0){
+	// 	data.id = employeeObject.id;
+	// 	fetchProps.body = JSON.stringify(data);
+	// }
+console.log(employeeObject)
+	// data = new FormData();
+	// data.append('id', employeeObject.id);
 	data.append('avatar', avatarFile);
 	fetchProps.body = data;
-
+console.log(data)
+console.log(fetchProps.body)
 	fetch(url + 'api/user-avatar/', fetchProps).then(response => response.json()).then(
 		data => {
 			console.log(data);
 			handleSuccess(data);
+			return data;
 		},
 		(error) => {
 			console.error('Error:', error);

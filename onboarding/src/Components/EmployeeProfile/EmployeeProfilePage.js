@@ -9,20 +9,32 @@ import { userWithPackages } from "../hooks/Packages";
 
 function EmployeeProfilePage() {
     document.title = "Onboarding: podgląd procesu pracownika";
-    const location = useLocation();
-    let { employee_id:userId } = useParams();
-    const [count, setCount] = useState(0);
-    const [singleUser, setSingleUser] = useState({});    
 
+    const location = useLocation();
+    const employeeId = parseInt(useParams().employee_id);
+    const [count, setCount] = useState(0);
+    const [singleUser, setSingleUser] = useState({
+        avatar: "",
+        department: "",
+        email: "",
+        finished: "",
+        last_name: "",
+        location: "",
+        name: "",
+        position: "", 
+        sent: "", 
+        team: "", 
+        tel: "",
+    });    
     let user;
     let packagesSent = {};
 
     if(location.state) {
         user = location.state.user;
     } else {
-        const { data } = getUserById(userId);
+        const { data } = getUserById(employeeId);
         user = data;
-        packagesSent = userWithPackages(userId, count);
+        packagesSent = userWithPackages(employeeId, count);
     };
 
     useEffect(() => {
@@ -47,10 +59,14 @@ function EmployeeProfilePage() {
 
     return(
         <div className="page-inner">
-            <PageAddressBar page = { "Podgląd procesu pracownika" } />
+            <PageAddressBar page={ `Proces wdrażania pracownika ${singleUser.name} ${singleUser.last_name}` } previousPages={[ {title: "Lista pracowników", url: "/user_list"} ]} />
             <div className="page-section">
                 <EmployeeProfileUser user={ singleUser } />
-                <ProcessPreviewTables userId={ userId } count={ count } setCount={ setCount } />
+                <ProcessPreviewTables employeeId={ employeeId } count={ count } setCount={ setCount } />
+                {/* <ProcessPreviewTables packageId={ packageIdRef.current } loggedUser={ loggedUser }
+                                        employee={ singleUser }
+                                        count={ count }
+                                        setCount={ setCount } /> */}
             </div>
         </div>
     )
