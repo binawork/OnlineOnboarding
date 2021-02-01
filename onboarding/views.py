@@ -30,7 +30,7 @@ from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, UserProgressSerializer
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
 
@@ -736,6 +736,27 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
         serializer = WhenPackageSendToEmployeeSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
+class UserProgressView(viewsets.ModelViewSet):
+    """
+    List answers of user/employee with corresponding sections with information
+        about page and package id;
+    """
+    serializer_class = UserProgressSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        employee = self.kwargs['user_id']
+
+        if self.request.user.is_hr:
+            # queryset = Page.objects.filter(section__answer__owner=employee, section__owner=user.company)
+            queryset = Answer.objects.select_related('section', 'section__page').filter(owner=employee, section__owner=user.company)
+        else:
+            queryset = Answer.objects.select_related('section', 'section__page').filter(owner=user, section__owner=user.company)
+
+        return queryset
+#
 
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):
