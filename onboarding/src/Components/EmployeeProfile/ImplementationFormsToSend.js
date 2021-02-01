@@ -49,7 +49,7 @@ function ImplementationFormsToSend(props) {
         <div className="card card-fluid">
             <div className="card-header">
                 <i className="bi bi-cloud-upload mr-2" style={{ fontSize: "18px" }}></i>
-                Wyślij Formularze do pracownika
+                Wyślij katalog do pracownika
             </div>
             <div className="card-body">
                 { error && <p>Wystąpił błąd podczas ładowania</p> }
@@ -57,7 +57,7 @@ function ImplementationFormsToSend(props) {
                 { !loading && !error && (
                     <table className="table table-striped">
                         <thead><tr>
-                            <th scope="col">Formularze</th>
+                            <th scope="col">Katalog</th>
                             <th scope="col">Liczba zadań</th>
                             <th scope="col">Utworzony</th>
                             <th scope="col">Ostatnia edycja</th>

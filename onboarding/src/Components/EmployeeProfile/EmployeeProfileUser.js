@@ -74,10 +74,10 @@ function EmployeeProfileUser({ user }) {
 
                     <div className="col-auto">
                         <h3 className="card-title">
-                            <small className="text-muted">Wysłane formularze:</small> { user.sent }
+                            <small className="text-muted">Wysłane katalogi:</small> { user.sent }
                         </h3>
                         <h3 className="card-title">
-                            <small className="text-muted">Skończone formularze: </small>
+                            <small className="text-muted">Skończone katalogi: </small>
                             { user.finished 
                                 ? user.department 
                                 : "0" 

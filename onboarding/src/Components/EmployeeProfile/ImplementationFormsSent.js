@@ -39,7 +39,7 @@ function ImplementationFormsSent(props) {
     return(
         <div className="card card-fluid">
             <div className="card-header">
-                <i className="bi bi-cloud-check mr-2" style={{ fontSize: "18px" }}></i> Wysłane Formularze wdrożeniowe
+                <i className="bi bi-cloud-check mr-2" style={{ fontSize: "18px" }}></i> Wysłane katalogi wdrożeniowe
             </div>
             <div className="card-body">
                 { error && <p>Wystąpił błąd podczas ładowania</p> }
@@ -47,7 +47,7 @@ function ImplementationFormsSent(props) {
                 { !loading && !error && (
                     <table className="table table-striped">
                         <thead><tr>
-                            <th scope="col">Formularze</th>
+                            <th scope="col">Katalog</th>
                             <th scope="col">Postęp</th>
                             <th scope="col">Data wysłania</th>
                             <th scope="col">Data zakończenia</th>

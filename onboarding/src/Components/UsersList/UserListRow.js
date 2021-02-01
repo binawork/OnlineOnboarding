@@ -82,7 +82,7 @@ function UserListRow(props) {
                             className="btn btn-secondary mb-1" 
                             data-toggle="tooltip"
                         >
-                            Dodaj formularz
+                            Dodaj katalog
                         </Link>
                         <div>
                             <Link to={{ pathname: `/edit_employee/${props.user.id}`, state: { user: props.user } }}
