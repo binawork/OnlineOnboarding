@@ -3,7 +3,7 @@ import { validEmail } from "../utils";
 
 function UserProfileManage(props) {
     const [user, setUser] = useState({
-        name: "",
+        first_name: "",
         last_name: "",
         email: "",
         tel: "",
@@ -19,7 +19,7 @@ function UserProfileManage(props) {
     }, [props.user]);
 
     const handleChangeName = function(e){
-        setUser({...user, name: e.target.value});
+        setUser({...user, first_name: e.target.value});
     };
     const handleChangeLName = function(e){
         setUser({...user, last_name: e.target.value});
@@ -79,7 +79,7 @@ function UserProfileManage(props) {
         <form>
             <div className="form-group">
                 <label htmlFor="first-name" className="m-0">Imię</label>
-                <input id="first-name" type="text" className="form-control" placeholder="Imie" value={ user.name } onChange={ handleChangeName } />
+                <input id="first-name" type="text" className="form-control" placeholder="Imie" value={ user.first_name } onChange={ handleChangeName } />
             </div>
             <div className="form-group">
                 <label htmlFor="last-name" className="m-0">Nazwisko</label>

@@ -22,11 +22,10 @@ function EmployeeEditPage() {
         location.state && user && setSingleUser(user)
         !location.state && user && setSingleUser({
             ...user,
-            name: user.first_name || "",
             tel: user.phone_number || "",
             position: user.job_position || "", 
             department: user.team || "", 
-            })
+        });
     },[user]);
 
     return (
