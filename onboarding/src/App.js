@@ -15,6 +15,7 @@ import PackagesListPage from "./Components/PackagesList/PackagesListPage";
 import QnAPage from "./Components/QnA/QnAPage";
 import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
 import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
+import EmployeeAnswersViewPage from "./Components/EmployeeAnswersView/EmployeeAnswersViewPage";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/company" component={ CompanyInfoPage } />
             <Route path="/profile/manager" component={ UserManagerProfilePage } />
             <Route path="/employee_profile" component={ EmployeeProfilePage } />
+            <Route path="/employee_answers/:page_id" component={ EmployeeAnswersViewPage } />
             <Route path="/add_user" component={ UserManagerProfilePage } />
             <Route path="/form_edit/:form_id" component={ FormsEditPage } />
             <Route path="/packages" component={ PackagesListPage } />
