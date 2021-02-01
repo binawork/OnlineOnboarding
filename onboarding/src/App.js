@@ -35,6 +35,15 @@ function App() {
       sessionStorage.setItem("logged_user", JSON.stringify(loggedUser));
   }, [loggedUser]);
 
+  const handleEditTitle = (packageId, newTitle) => {
+    setPackagesList(packagesList.map(element => {
+        element.id == packageId
+            ? element.title = newTitle
+            : null;
+        return element;
+    }))
+  }
+
   return (
     <HashRouter>
       <div className="app">
@@ -69,7 +78,7 @@ function App() {
                         <PackagesListPage setPackagesList={ setPackagesList } />
                     </Route>
                     <Route path="/package/:package_id">
-                        <FormTablePage companyId={ loggedUser.company_id } />
+                        <FormTablePage companyId={ loggedUser.company_id } handleEditTitle={ handleEditTitle } />
                     </Route>
                     <Route path="/form/:form_id">
                         <FormsEditPage />

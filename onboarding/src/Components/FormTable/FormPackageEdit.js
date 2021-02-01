@@ -3,15 +3,14 @@ import { savePackageDetails } from "../hooks/PackagePage";
 import { clickButtonAfterPressingEnter } from "../utils";
 import ModalWarning from "../ModalWarning";
 
-function FormPackageEdit({ title, description, packageId }) {
+function FormPackageEdit({ title, description, packageId, setPackageTitleInAddressBar, handleEditTitle }) {
     const [saveModal, setSaveModal] = useState(<></>);
     const [packageTitle, setPackageTitle] = useState("");
     const [packageDescription, setPackageDescription] = useState("");
     const [editTitle, setEditTitle] = useState(false);
-
     useEffect(() => {
         title && setPackageTitle(title);
-        description && setPackageDescription(description);
+        description ? setPackageDescription(description) : setPackageDescription("");
     }, [title, description])
 
     const handleInputTitle = function(e){
@@ -31,7 +30,7 @@ function FormPackageEdit({ title, description, packageId }) {
             setSaveModal(
                 <ModalWarning
                     handleAccept={hideModal}
-                    title={""}
+                    title={"Zmiana danych katalogu"}
                     message={"Zapisano zmiany"}
                     show={true}
                     acceptText={"Ok"}
@@ -40,6 +39,8 @@ function FormPackageEdit({ title, description, packageId }) {
             );
         }
         setEditTitle(false);
+        setPackageTitleInAddressBar(packageTitle);
+        handleEditTitle(packageId, packageTitle);
     }
 
     return(

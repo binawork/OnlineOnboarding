@@ -7,7 +7,7 @@ import FormTableRow from "./FormTableRow";
 import { useLocation, useParams } from "react-router-dom";
 
 
-function FormTable({ companyId, setFormTitle }) {
+function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) {
     const location = useLocation();
     const [countUpdate, setCount] = useState(0);
     const [pageIdModal, setPageIdModal ] = useState({id: 0, modal: <></>});
@@ -21,7 +21,7 @@ function FormTable({ companyId, setFormTitle }) {
     let packageData;
     let loading = true;
     let errorMessage;
-
+    
     if(location.state) {
       loading = false;
       packageData = location.state.packageData;
@@ -43,19 +43,20 @@ function FormTable({ companyId, setFormTitle }) {
           setNewRowId(maxId);
       }
     }, [pages]);
+
     useEffect(() => {
-      packageAndForms && setFormTitle(packageAndForms.title);
-    })
+      packageAndForms && setPackageTitleInAddressBar(packageAndForms.title);
+    }, [packageAndForms]);
 
     const updatePackages = function(){
     	setCount(countUpdate + 1);
-    }
+    };
 
     const getOrder = () => order.current;
 
     const hideModal = function(){
         setPageIdModal({id: 0, modal: <></>});
-    }
+    };
     const idle = () => {
         hideModal();
         setCount(countUpdate + 1);
@@ -78,7 +79,7 @@ function FormTable({ companyId, setFormTitle }) {
     const removePackage = function(id){
         hideModal();
         removeForm(popUpRemoveConfirmation, id);
-    }
+    };
     const removeAsk = (e) => {
         setPageIdModal({
           id: e.target.value,
@@ -108,6 +109,8 @@ function FormTable({ companyId, setFormTitle }) {
                 title={ packageData?.title }
                 description={ packageData?.description }
                 packageId={ packageId }
+                setPackageTitleInAddressBar={ setPackageTitleInAddressBar }
+                handleEditTitle={ handleEditTitle }
               />
             </div>
           </div>
