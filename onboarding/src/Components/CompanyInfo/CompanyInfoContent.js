@@ -80,7 +80,7 @@ function CompanyInfoContent({ company }) {
       {showSaveModal ? (
         <ModalWarning
           handleAccept={hideModal}
-          title={""}
+          title={"Zapisywanie informacji o firmie"}
           message={
             error
               ? "Nie udało się zapisać"

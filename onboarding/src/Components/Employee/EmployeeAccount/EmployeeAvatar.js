@@ -40,7 +40,7 @@ function EmployeeAvatar(props) {
     return (
     	<div className="col">
     		<div className="card-body align-items-center text-center">
-    			<div className="user-avatar user-avatar-xl fileinput-button">
+    			<div className="user-avatar user-avatar-xxl fileinput-button">
     				<div className="fileinput-button-label"> Dodaj/zmień zdjęcie </div><img src={ imgSrc } alt="avatar" />
     				<input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } onChange={ changeAvatar } />
     			</div>

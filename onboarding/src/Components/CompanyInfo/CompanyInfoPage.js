@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PageAddressBar from "../PageAddressBar";
-import ModalWarning from "../ModalWarning";
 import CompanyInfoContent from "./CompanyInfoContent";
 import CompanyInfoAPI from "../hooks/CompanyInfoAPI";
 

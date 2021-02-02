@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { dateToString } from "../utils";
 import "../../static/css/packages.css";
 
-
 function PackagesRow({ row, removeAsk, lastRow }) {
     const [styleRow, setStyleRow] = useState(null);
     const [showPages, setShowPages] = useState(false);

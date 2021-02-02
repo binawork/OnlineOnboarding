@@ -3,11 +3,11 @@
       background: none;
   }
   25% {
-      background: var(--gray);
+      background: var(--pink);
       color: #333;
   }
   75% {
-      background: var(--gray);
+      background: var(--pink);
       color: #333;
   }
   100% {
