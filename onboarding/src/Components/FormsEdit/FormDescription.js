@@ -46,14 +46,14 @@ const FormDescription = ({ location, pageId }) => {
       {/* form placeholder */}
       <section className="page-section">
         <div className="card card-fluid">
-          <header className="card-header">Strona</header>
+          <header className="card-header">Formularz</header>
           <div className="card-body">
             <div className="form-group">
               <div className="input-group">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Nazwa strony"
+                  placeholder="Nazwa formularza"
                   value={pageName}
                   onChange={(e) => setPageName(e.target.value)}
                   required
@@ -83,7 +83,7 @@ const FormDescription = ({ location, pageId }) => {
             <div className="form-group">
               <div className="input-group-append">
                 <button className="btn btn-success" onClick={handleSave}>
-                  Zapisz stronę
+                  Zapisz opis formularza
                 </button>
               </div>
             </div>

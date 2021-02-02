@@ -12,14 +12,12 @@ function AddUserTablePage(props) {
     const packageIdRef = useRef(0),
         [confirmationModal, setIdModal ] = useState({id: 0, modal: <></>});
 
-    let loggedUser, packageObj = null;
+    const loggedUser = props.location.state?.loggedUser ?? LoggedUser();
+    let packageObj = null;
     if(props.location.state){
         packageIdRef.current = props.location.state.packageId;
         packageObj = singleCombo(packageIdRef.current);
-
-        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
-    } else
-        loggedUser = LoggedUser();
+    };
 
     document.title = "Onboarding: wyślij pracownikowi";
 

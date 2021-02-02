@@ -1,0 +1,31 @@
+@keyframes newRowColor {
+  0% {
+      background: none;
+  }
+  25% {
+      background: var(--pink);
+      color: #333;
+  }
+  75% {
+      background: var(--pink);
+      color: #333;
+  }
+  100% {
+      background: none;
+  }
+}
+
+@keyframes showAndHide {
+  0% {
+      opacity: 0;
+  }
+  10% {
+      opacity: 1;
+  }
+  90% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}

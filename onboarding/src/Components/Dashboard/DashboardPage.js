@@ -1,25 +1,33 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getPath } from "../utils.js";
-import LoggedUser from "../hooks/LoggedUser.js";
 import { v4 as uuidv4 } from "uuid";
 
+import LoggedUser from "../hooks/LoggedUser.js";
 import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import Employee from "./Employee";
+import { usersWithPackages } from "../hooks/Packages";
 
 function DashboardPage(props) {
   const packageIdRef = useRef(0);
-  let loggedUser;
-  if(props.location.state){
-    loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
-  } else
-    loggedUser = LoggedUser();
+  const usersForPackages = usersWithPackages({count: 0});
+  const loggedUser = props.location.state?.loggedUser ?? LoggedUser();
 
   const [isEmployee, setIsEmployee] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [employees, setEmployees] = useState([]);
+
+  if(usersForPackages.length !== 0) {
+    for(let i = employees.length - 1; i >= 0; i--){
+      for(let j = usersForPackages.length - 1; j >= 0; j--){
+        if(usersForPackages[j].userId === employees[i].id) {
+          employees[i].sent = usersForPackages[j].packageIds.length;
+        }
+      }
+    }
+  }
 
   const url = getPath();
   const fetchProps = {
@@ -32,7 +40,7 @@ function DashboardPage(props) {
   };
 
   useEffect(() => {
-    fetch(url + "api/users/", fetchProps)
+    loggedUser.id !== 0 && fetch(url + "api/users/", fetchProps)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -40,7 +48,7 @@ function DashboardPage(props) {
             setIsEmployee(false);
           } else {
             setIsEmployee(true);
-            setEmployees(result);
+            setEmployees(result.filter(user => user.id !== loggedUser.id).sort((a,b) => a.id - b.id));
           }
 
           setIsLoaded(true);
@@ -49,8 +57,7 @@ function DashboardPage(props) {
           console.error(error);
         }
       );
-    //loggedUser = LoggedUser();
-  }, [props.count]);
+  }, [props.count, loggedUser]);
 
   document.title= "Onboarding: pulpit";
 
@@ -64,7 +71,7 @@ function DashboardPage(props) {
         <div className="wrapper">
           <div className="page">
             <div className="page-inner">
-              <PageAddressBar page={"Pulpit"} loggedUser={ loggedUser } /> {/* placeholder */}
+              <PageAddressBar page={"Wdrażani pracownicy"} loggedUser={ loggedUser } /> {/* placeholder */}
               <div className="page-section">
                 {" "}
                 {/* placeholder */}

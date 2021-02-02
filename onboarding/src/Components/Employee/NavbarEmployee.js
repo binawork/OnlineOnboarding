@@ -24,7 +24,7 @@ function NavbarEmployee(props) {
             <a className="navbar-brand" href="#" onClick={ moveToDashboard }>Online Onboarding</a>
         </div>
 
-        <div className="top-bar-list" id="navbarSupportedContent">
+        <div className="top-bar-list pl-4" id="navbarSupportedContent">
             <div className="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
                 <button className={`hamburger hamburger-squeeze ${props.showAside ? "active" : ""}`} type="button" data-toggle="aside" aria-label="toggle menu" onClick={() => props.setToggleAside(!props.showAside)}><span className="hamburger-box"><span className="hamburger-inner"></span></span></button>
             </div>

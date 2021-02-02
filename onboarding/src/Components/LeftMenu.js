@@ -1,65 +1,13 @@
 import React, { useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import ModeButton from "./ModeButton";
-import LoggedUser from "./hooks/LoggedUser.js";
 
-function LeftMenu(props) {
+const LeftMenu = (props) => {
+  const loggedUser = JSON.parse(sessionStorage.getItem("logged_user"));
   const packageIdRef = useRef(0);
-  let loggedUser;
-  if(props.loggedUser)
-    loggedUser = props.loggedUser;
-  else
-    loggedUser = LoggedUser();
-
 
   if (props.packageId && isFinite(String(props.packageId))) {
     packageIdRef.current = props.packageId;
-  }
-
-  let userListUrls = [];
-  if (packageIdRef.current > 0) {
-    userListUrls.push(
-      <NavLink
-        to={{
-          pathname: "/add_user",
-          state: { packageId: packageIdRef.current, loggedUser: loggedUser }
-        }}
-        className="menu-link"
-        activeStyle={{color: "#346CB0"}}
-      >
-        <span className="menu-icon fas fa-file"></span>{" "}
-        <span className="menu-text">Dodaj pracownika</span>
-      </NavLink>
-    );
-    userListUrls.push(
-      <NavLink
-        to={{
-          pathname: "/user_list",
-          state: { packageId: packageIdRef.current, loggedUser: loggedUser }
-        }}
-        className="menu-link"
-        activeStyle={{color: "#346CB0"}}
-      >
-        <span className="menu-icon fas fa-file"></span>{" "}
-        <span className="menu-text">Lista pracowników</span>
-      </NavLink>
-    );
-  } else {
-    userListUrls.push(
-      <NavLink to={{ pathname: "/add_user", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
-        <span className="menu-icon fas fa-file"></span>{" "}
-        <span className="menu-text">Dodaj pracownika</span>
-      </NavLink>
-    );
-    userListUrls.push(
-      <NavLink to={{
-          pathname: "/user_list",
-          state: {loggedUser: loggedUser}
-      }} className="menu-link" activeStyle={{color: "#346CB0"}}>
-        <span className="menu-icon fas fa-file"></span>{" "}
-        <span className="menu-text">Lista pracowników</span>
-      </NavLink>
-    );
   }
 
   return (
@@ -68,7 +16,7 @@ function LeftMenu(props) {
         <header className="aside-header d-block d-md-none"></header>
         <div className="aside-menu overflow-hidden">
           <nav id="stacked-menu" className="stacked-menu">
-            <ul className="menu">
+            <ul className="menu pl-3">
               <li className="menu-header px-0">
                 <NavLink exact to={{ pathname: "/", state: {loggedUser: loggedUser} }} className="menu-link p-0" activeStyle={{color: "#346CB0"}}>
                     <span className="menu-icon fas fa-home"></span>{" "}
@@ -78,8 +26,8 @@ function LeftMenu(props) {
 
               <li className="menu-item has-child has-active">
                 <NavLink to={{ pathname: "/packages", state: {loggedUser: loggedUser} }} className="menu-link" activeStyle={{color: "#346CB0"}}>
-                  <span className="menu-icon far fa-file"></span>{" "}
-                  <span className="menu-text">Wdrożenia</span>
+                  <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
+                  <span className="menu-text"> Wdrożenia</span>
                 </NavLink>
                 {packageIdRef.current > 0 && (
                   <ul className="menu">
@@ -91,8 +39,9 @@ function LeftMenu(props) {
                         }}
                         className="menu-link"
                         activeStyle={{color: "#346CB0"}}
+                        style={{ whiteSpace: "normal"}}
                       >
-                        Lista formularzy
+                        Lista formularzy w katalogu
                       </NavLink>
                     </li>
                     <li className="menu-item">
@@ -103,21 +52,42 @@ function LeftMenu(props) {
                   </ul>
                 )}
               </li>
-              {userListUrls.map((link, keyProp) => (
-                <li className="menu-item" key={keyProp}>
-                  {link}
-                </li>
-              ))}
+              <li className="menu-item">
+                <NavLink
+                  to={{
+                    pathname: "/add_user",
+                    state: { packageId: packageIdRef.current, loggedUser: loggedUser }
+                  }}
+                  className="menu-link"
+                  activeStyle={{color: "#346CB0"}}
+                >
+                  <i className="bi bi-plus-circle mr-2" style={{ fontSize: "18px"}}></i>
+                  <span className="menu-text"> Dodaj pracownika</span>
+                </NavLink>
+              </li>
+              <li className="menu-item">
+                <NavLink
+                  to={{
+                    pathname: "/user_list",
+                    state: { packageId: packageIdRef.current, loggedUser: loggedUser }
+                  }}
+                  className="menu-link"
+                  activeStyle={{color: "#346CB0"}}
+                >
+                  <i className="bi bi-people mr-2" style={{ fontSize: "18px"}}></i>
+                  <span className="menu-text"> Lista pracowników</span>
+                </NavLink>
+              </li>
               <li className="menu-item">
                 <NavLink to={{ pathname: "/company", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
-                <span className="menu-icon fas fa-file"></span>{" "}
-                  <span className="menu-text">O firmie</span>
+                  <i className="bi bi-building mr-2" style={{ fontSize: "18px"}}></i>
+                  <span className="menu-text"> O firmie</span>
                 </NavLink>
               </li>
               <li className="menu-item">
                 <NavLink to={{ pathname: "/q_and_a", state: { packageId: packageIdRef.current, loggedUser: loggedUser } }} className="menu-link" activeStyle={{color: "#346CB0"}}>
-                  <span className="menu-icon fas fa-file"></span>{" "}
-                  <span className="menu-text">Q&A</span>
+                  <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i>
+                  <span className="menu-text"> Q&A</span>
                 </NavLink>
               </li>
             </ul>

@@ -1,39 +1,34 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import FormTableAddNew from "./FormTableAddNew";
 import PackagePage, { OnePackageEdit, removePage } from "../hooks/PackagePage";
 import ModalWarning from "../ModalWarning";
+import FormTableRow from "./FormTableRow";
 
 
-function FormTable(props) {
-    const [countUpdate, update] = useState(0),
-    order = useRef(0);
+function FormTable({ packageId, loggedUser }) {
+    const [countUpdate, setCount] = useState(0);
     const [pageIdModal, setPageIdModal ] = useState({id: 0, modal: <></>});
+    const [newRowId, setNewRowId] = useState(null);
+    const order = useRef(0);
+    // const packageId = sessionStorage.getItem("package_id")
+    const { pages, isLoading, error } = PackagePage(countUpdate, packageId);
 
-    let loggedUser = {
-      id: 0,
-      email: "",
-      first_name: "",
-      last_name: "",
-      phone_number: "",
-      location: "",
-      team: "",
-      job_position: "",
-      last_login: "",
-      avatar: "",
-    };
-    if(props.loggedUser)
-        loggedUser = props.loggedUser;
-    //let packages = <Packages count = countUpdate />;
+    useEffect(() => {
+      if(pages) {
+          const ids = pages.map((element) => element.id);
+          const maxId = Math.max(...ids);
+          setNewRowId(maxId);
+      }
+    }, [pages]);
 
-    var updatePackages = function(){
-    	update(countUpdate + 1);
-        //packages = Packages(countUpdate);
+    const updatePackages = function(){
+    	setCount(countUpdate + 1);
     }
 
-    const updateOrder = (nr) => {
-        if(nr > order.current)
-            order.current = nr;
-    }
+    // const updateOrder = (nr) => {
+    //     if(nr > order.current)
+    //         order.current = nr;
+    // }
 
     const getOrder = () => order.current;
 
@@ -42,7 +37,7 @@ function FormTable(props) {
     }
     const idle = () => {
         hideModal();
-        update(countUpdate + 1);
+        setCount(countUpdate + 1);
     };
     const popUpRemoveConfirmation = (message) => {
         setPageIdModal({
@@ -50,7 +45,7 @@ function FormTable(props) {
         modal: (
           <ModalWarning
             handleAccept={idle}
-            title={"Usunięcie strony"}
+            title={"Usunięcie formularza"}
             message={message}
             id={0}
             show={true}
@@ -70,8 +65,8 @@ function FormTable(props) {
             <ModalWarning
               handleAccept={removePackage}
               handleCancel={hideModal}
-              title={"Usunięcie strony"}
-              message={"Czy na pewno chcesz usunąć stronę?"}
+              title={"Usunięcie formularza"}
+              message={"Czy na pewno chcesz usunąć formularz?"}
               show={true}
               id={e.target.value}
             />
@@ -82,19 +77,19 @@ function FormTable(props) {
     return (
       <div className="page-section">
         <div className="card card-fluid">
-          <div className="card-header">Edytuj formularz</div>
+          <div className="card-header">Edytuj katalog</div>
           <div className="card-body">
             <OnePackageEdit
-              packageId={props.packageId}
-              loggedUser={loggedUser}
+              packageId={packageId}
             />
           </div>
         </div>
         <div className="card card-fluid">
-          <div className="card-header">Stwórz strone</div>
+          <div className="card-header">Stwórz formularz, który wyślesz do pracownika</div>
           <div className="card-body">
+            <small style={{ paddingLeft: "12px" }}>Nazwa formularza</small>
             <FormTableAddNew
-              id={props.packageId}
+              id={packageId}
               handleUpdate={updatePackages}
               getOrder={getOrder}
               loggedUser={loggedUser}
@@ -102,28 +97,43 @@ function FormTable(props) {
           </div>
         </div>
         <div className="card card-fluid">
-          <div className="card-header">Lista Stron</div>
+          <div className="card-header">Lista formularzy</div>
           <div className="card-body">
+          { error && <p>{ error }</p> }
+          { isLoading && <p>Ładowanie...</p> }
+          { pages && 
             <table className="table table-striped">
                <thead>
                     <tr>
-                        <th scope="col" style={{width: "50%"}}>Nazwa strony</th>
-                        <th scope="col" style={{width: "10%"}}>Kolejność</th>
+                        <th scope="col" style={{width: "50%"}}>Nazwa formularza</th>
+                        {/* <th scope="col" style={{width: "10%"}}>Kolejność</th> */}
                         <th scope="col" style={{width: "25%"}}>Edytowany</th>
                         <th scope="col" style={{width: "15%"}}>Działanie</th>
                     </tr>
                 </thead>
               <tbody id="form_table_data_container">
-                <PackagePage
-                  id={props.packageId}
-                  count={countUpdate}
-                  handleUpdate={updatePackages}
-                  updateOrder={updateOrder}
-                  handleRemoveAsk={removeAsk}
-                  loggedUser={loggedUser}
-                />
+              { pages.map(row => 
+                  <FormTableRow
+                      key={row.id}
+                      packageId={packageId}
+                      row={{
+                        name: row.title,
+                        // order: order,
+                        last_edit: row.updated_on,
+                        description: row.description,
+                        link: row.link,
+                        id: row.id,
+                      }}
+                      handleRemoveAsk={ removeAsk }
+                      handleUpdate={updatePackages}
+                      lastRow={newRowId === row.id}
+                      // loggedUser={loggedUser}
+                  />
+                )
+              }
               </tbody>
             </table>
+          }
           </div>
           {pageIdModal.modal}
         </div>

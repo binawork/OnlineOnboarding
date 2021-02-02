@@ -1,76 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
-import FormTableRow from "../FormTable/FormTableRow";
 import FormPackageEdit from "../FormTable/FormPackageEdit";
 
 /**
  * Get pages for package with defined id from Onboarding API when FormTable component is loaded;
  */
-function PackagePage(props){
-	var [rows , setRows] = useState([]),
-		[loaded, isLoaded] = useState(false);
-	const [error, showError] = useState(null);
-  const [newRowId, setNewRowId] = useState(null);
+function PackagePage(count, id){
+  const [pages, setPages] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, showError] = useState(null);
 
 	let url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
-		fetch(url + "api/page/" + props.id + "/list_by_package_hr/", fetchProps).then(res => res.json()).then(
-			(result) => {
-				isLoaded(true);
-				setRows(result.sort((a, b) => b.id - a.id));
-				const ids = result.map((res) => res.id);
-				const maxId = Math.max(...ids);
-				setNewRowId(maxId);
-			},
-			(error) => {
-				showError(error);
-				console.log(error);
-			}
-		);
-	}, [props.count]);
+		fetch(url + "api/page/" + id + "/list_by_package_hr/", fetchProps)
+			.catch(error => {
+				showError(error.message);
+				console.error(error);
+			})
+			.then(res => res.json())
+			.then((result) => {
+					setPages(result.sort((a, b) => b.id - a.id));
+				},
+			)
+			.finally(() => setIsLoading(false));
+	}, [count]);
 
-	if(error){
-		return <FormTableRow key={0} row={ {name: error.message, last_edit: ""} }/>
-	} else if(!loaded)
-		return <FormTableRow key={0} row={ {name: "Ładowanie ...", last_edit: ""} }/>
-	else {
-		var form_table = [], count = rows.length, maxOrder = -1, order;
-		let i, loggedUser = {id:0, first_name: ""};
-
-		if(props.loggedUser)
-			loggedUser = props.loggedUser;
-
-		for(i = 0; i < count; i++){
-			order = parseInt(rows[i].order, 10);
-			form_table.push(
-        <FormTableRow
-          key={rows[i].id}
-          packageId={props.id}
-          row={{
-            name: rows[i].title,
-            order: order,
-            last_edit: rows[i].updated_on,
-            description: rows[i].description,
-            link: rows[i].link,
-            key: rows[i].id,
-          }}
-          handleRemoveAsk={ props.handleRemoveAsk }
-          handleUpdate={props.handleUpdate}
-          lastRow={newRowId === rows[i].id}
-          loggedUser={loggedUser}
-        />
-      );
-			if(order > maxOrder)
-				maxOrder = order;
-		}
-
-		props.updateOrder(maxOrder);
-
-		return ( <>{ form_table }</> )
-	}
-
+	return { pages, isLoading, error };
 }
 
 export function OnePackageEdit(props){
@@ -187,7 +144,7 @@ export function removePage(handleSuccess, pageId, title){
 
 	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
 		(result) => {
-			handleSuccess("Strona została usunięta.");
+			handleSuccess("Formularz został usunięty.");
 		},
 		(error) => {
 			handleSuccess(error);
