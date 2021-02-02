@@ -3,7 +3,6 @@ import Navbar from "../Navbar";
 import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
 import LoggedUser from "../hooks/LoggedUser.js";
-import ModalWarning from "../ModalWarning";
 import CompanyInfoContent from "./CompanyInfoContent";
 import CompanyInfoAPI from "../hooks/CompanyInfoAPI";
 

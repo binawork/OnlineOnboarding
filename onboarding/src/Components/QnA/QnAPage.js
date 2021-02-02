@@ -6,7 +6,7 @@ import QnAList from "./QnAList";
 import LoggedUser from "../hooks/LoggedUser.js";
 
 const QnAPage = ({ location }) => {
-  let loggedUser = location.state?.loggedUser ? location.state.loggedUser : LoggedUser();
+  const loggedUser = location.state?.loggedUser ?? LoggedUser();
 
   return (
     <div className="app">

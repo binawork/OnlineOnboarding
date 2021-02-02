@@ -20,7 +20,7 @@ function FormTableAddNew(props) {
             <div className="col">
                 <div className="has-clearable">
                     <button type="button" className="close" aria-label="Close"><span aria-hidden="true"/></button>
-                    <input type="text" value={ title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-add-page") } className="form-control" placeholder="Nowa nazwa strony" />
+                    <input type="text" value={ title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-add-page") } className="form-control" placeholder="Nowa nazwa formularza" />
                 </div>
             </div>
             <div className="col-auto">

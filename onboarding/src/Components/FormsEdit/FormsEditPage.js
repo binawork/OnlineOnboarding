@@ -118,7 +118,7 @@ function FormsEditPage({ location, match }) {
               />{" "}
               <FormDescription location={location} pageId={pageId} />
               <section className="page-section">
-                <header className="card-header">Sekcje strony</header>
+                <header className="card-header">Sekcje formularza</header>
                 <form onSubmit={handleSave}>
                   <div className="row">
                     <DragDropContext onDragEnd={onDragEnd}>

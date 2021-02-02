@@ -4,15 +4,16 @@ import { clickButtonAfterPressingEnter } from "../utils";
 import ModalWarning from "../ModalWarning";
 
 function FormPackageEdit(props) {
-   if(! props.pack){
-        return (
-            <div>
-                Ładowanie ...
-            </div>
-        )
-   }
-   const [saveModal, setSaveModal] = useState(<></>);
+    if(! props.pack){
+            return (
+                <div>
+                    Ładowanie ...
+                </div>
+            )
+    }
+    const [saveModal, setSaveModal] = useState(<></>);
     const [pack, setPackage] = useState(props.pack);
+    const [editTitle, setEditTitle] = useState(false);
 
     useEffect(() => {
         setPackage(props.pack);
@@ -46,29 +47,37 @@ function FormPackageEdit(props) {
             />
             );
         }
+        setEditTitle(false);
     }
 
     return(
         <div>
             <div className="row mb-4">
-                <div className="col">
-                    <div className="has-clearable">
-                        <input type="text" value={ pack.title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-save-form-name") } className="form-control" placeholder="Nazwa formularza" />
+                <div className="col d-flex align-items-center">
+                    <div className="has-clearable w-100">
+                    { editTitle
+                        ? <input type="text" value={ pack.title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-save-form-name") } className="form-control" placeholder="Nazwa katalogu" />
+                        : <b className="font-weight-light font-size-lg" style={{ paddingLeft: "12px" }}>{ pack.title }</b>
+                    }
                     </div>
                 </div>
                 <div className="col-auto">
                     <div className="dropdown">
-                        <button id="btn-save-form-name" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
+                    { editTitle
+                        ? <button id="btn-save-form-name" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
+                        : <button id="btn-save-form-name" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { () => setEditTitle(true) }>Zmień</button>
+                    }
                     </div>
                 </div>
             </div>
             <div className="row mb-4">
-                <div className="col">
-                    <div className="has-clearable">
-                        <input type="text" value={ pack.description } onChange = { handleInputDesc } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-save-form-description") } className="form-control" placeholder="Opis Formularza" />
+                <div className="col d-flex align-items-center">
+                    <div className="has-clearable w-100">
+                    <small style={{ paddingLeft: "12px" }}>Opis katalogu (tu możesz opisać w kilku słowach zawartość tego katalogu, np. wytyczne do tworzonych treści, zawartości etc.)</small>
+                        <input type="text" value={ pack.description } onChange = { handleInputDesc } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-save-form-description") } className="form-control" placeholder="Opis katalogu" />
                     </div>
                 </div>
-                <div className="col-auto">
+                <div className="col-auto d-flex align-items-end">
                     <div className="dropdown">
                         <button id="btn-save-form-description" className="btn btn-secondary" data-display="static" aria-expanded="false" onClick = { handleSave }>Zapisz</button>
                     </div>

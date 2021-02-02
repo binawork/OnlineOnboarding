@@ -10,13 +10,11 @@ import PageAddressBar from "../PageAddressBar";
 import LoggedUser from "../hooks/LoggedUser";
 
 function UserListPage(props) {
+		const loggedUser = props.location.state?.loggedUser ?? LoggedUser();
     const packageIdRef = useRef(0);
-    let loggedUser;
     if(props.location.state){
-        packageIdRef.current = props.location.state.packageId;
-        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
-    } else
-        loggedUser = LoggedUser();
+				packageIdRef.current = props.location.state.packageId;
+		};
 
     document.title= "Onboarding: lista pracowników";
 

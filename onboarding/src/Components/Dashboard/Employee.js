@@ -23,12 +23,36 @@ const Employee = ({ employee, loggedUser }) => {
             </Link>
           </div>
           <div className="col">
-            <h3 className="card-title">
+            <h3 className="card-title mb-1">
               <Link to={{ pathname: "/employee_profile", state: {user: employee, loggedUser: loggedUserCp } }}>{`${employee.first_name} ${employee.last_name}`}</Link>{" "}
             </h3>
-            <h6 className="card-subtitle text-muted">
-              {employee.job_position}
-            </h6>
+            <small className="">
+              {employee.email}
+            </small>
+            <br />
+            <small className="">
+              {employee.phone_number}
+            </small>
+          </div>
+          <div className="col">
+            <p className="mb-0">
+              <span className="text-muted">Dział:</span> {employee.team || <span className="text-muted"><i>brak</i></span>}
+            </p>
+          </div>
+          <div className="col">
+            <p className="mb-0">
+            <span className="text-muted">Stanowisko:</span> {employee.job_position || <span className="text-muted"><i>brak</i></span>}
+            </p>
+          </div>
+          <div className="col">
+            <p className="mb-0">
+            <span className="text-muted">Lokalizacja:</span> {employee.location || <span className="text-muted"><i>brak</i></span>}
+            </p>
+          </div>
+          <div className="col">
+            <p className="m-0">
+            <span className="text-muted">Postęp wdrożenia:</span> 0 / {employee.sent || "0"}
+            </p>
           </div>
         </div>
       </div>

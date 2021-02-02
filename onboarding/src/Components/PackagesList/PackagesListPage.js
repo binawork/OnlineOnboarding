@@ -7,11 +7,7 @@ import PackagesListTable from "./PackagesListTable";
 
 
 function PackagesListPage(props) {
-    let loggedUser;
-    if(props.location.state)
-        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
-    else
-        loggedUser = LoggedUser();
+    const loggedUser = props.location.state?.loggedUser ?? LoggedUser();
 
     document.title = "Onboarding: wdrożenia";
 
@@ -25,7 +21,7 @@ function PackagesListPage(props) {
                 <div className="wrapper">
                     <div className="page">
                         <div className="page-inner">
-                            <PageAddressBar page = { "Formularze" } loggedUser={ loggedUser } />
+                            <PageAddressBar page = { "Twoje wdrożenia" } loggedUser={ loggedUser } />
                             <PackagesListTable loggedUser={ loggedUser } />
                         </div>
                     </div>

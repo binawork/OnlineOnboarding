@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 
 //import Navbar from "./Components/Navbar";
 //import UserListSearch from "./Components/UserListSearch";
 //import UserListRow from "../Components/UsersList/UserListRow";
+import LoggedUser from "./Components/hooks/LoggedUser.js";
 import FormsManagerCheckPage from "./Components/FormsManagerCheckPage";// where manager checks how form was filled;
 import DashboardPage from "./Components/Dashboard/DashboardPage";
 import UserListPage from "./Components/UsersList/UserListPage";
@@ -19,6 +20,12 @@ import EmployeeAnswersViewPage from "./Components/EmployeeAnswersView/EmployeeAn
 
 
 function App() {
+    const loggedUser = LoggedUser();
+
+    useEffect(() => {
+        if(loggedUser.id > 0) sessionStorage.setItem("logged_user", JSON.stringify(loggedUser));
+    }, [loggedUser]);
+
     return (
         <HashRouter>
             <Route path="/company" component={ CompanyInfoPage } />

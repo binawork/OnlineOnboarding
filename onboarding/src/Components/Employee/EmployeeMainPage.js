@@ -59,7 +59,7 @@ function EmployeeMainPage() {
         setPageTitle("Mój profil");
         setFormTitle("");
         setActualPackage("");
-        switchComponent(<EmployeeAccount loggedUser={ loggedUser } />);
+        switchComponent(<EmployeeAccount loggedUser={ loggedUser } loadFormList={ loadFormList } />);
     };
 
     const loadQnA = function(){

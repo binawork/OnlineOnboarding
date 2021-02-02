@@ -38,7 +38,9 @@ function ImplementationFormsSent(props) {
 
     return(
         <div className="card card-fluid">
-            <div className="card-header"> Wysłane Formularze wdrożeniowe </div>
+            <div className="card-header">
+                <i className="bi bi-cloud-check mr-2" style={{ fontSize: "18px" }}></i> Wysłane Formularze wdrożeniowe
+            </div>
             <div className="card-body">
                 { error && <p>Wystąpił błąd podczas ładowania</p> }
                 { loading && <p>Ładowanie...</p> }

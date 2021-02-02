@@ -1,22 +1,35 @@
-import React, { useState/*, useEffect*/ } from "react";
+import React, { useEffect, useState } from "react";
 import PackagesAddNew from "./PackagesAddNew";
-import Packages, { removeCombo } from "../hooks/Packages";
-import LoggedUser from "../hooks/LoggedUser.js";
+import fetchPackages, { fetchPackagesAndForms, removeCombo } from "../hooks/Packages";
 import ModalWarning from "../ModalWarning";
+import PackagesRow from "../PackagesList/PackagesRow";
 
-
-function PackagesListTable(props) {
-    const [countUpdate, update] = useState(0);
+function PackagesListTable() {
+    const [count, setCount] = useState(0);
     const [packageIdModal, setPackageIdModal ] = useState({id: 0, modal: <></>});
-    //let packages = <Packages count = countUpdate />;
-    let loggedUser = (props.loggedUser)?props.loggedUser:LoggedUser();
+    const [newRowId, setNewRowId] = useState(null);
+ 
+    const { packages, isLoading, error } = fetchPackages(count);
+    const { packagesAndPages } = fetchPackagesAndForms(count);
 
-    var updatePackages = function(){
-    	update(countUpdate + 1);
-        //packages = Packages(countUpdate);
+    useEffect(() => {
+        if(packages && packagesAndPages) {
+            const ids = packages.map((element) => element.id);
+            const maxId = Math.max(...ids);
+            setNewRowId(maxId);
+            
+            packages.forEach(element => {
+                const foundPackage = packagesAndPages.find(pack => pack.id === element.id);
+                element.pages = foundPackage ? foundPackage.page_set : [];
+            })
+        }
+    }, [packages, packagesAndPages]);
+
+    const updatePackages = function(){
+    	setCount(count + 1);
     }
 
-    var removeAsk = (e) => {
+    const removeAsk = (e) => {
         setPackageIdModal({id: e.target.value,
             modal: <ModalWarning handleAccept={ removePackage } handleCancel={ hideModal }
             					title={ "Usunięcie wdrożenia" }
@@ -25,6 +38,22 @@ function PackagesListTable(props) {
             					id={ e.target.value } />
         });
     };
+
+    const packagesRows = packages && packagesAndPages && packages.map(element => (
+        <PackagesRow
+            key={ element.id }
+            row={{
+                id: element.id,
+                name: element.title,
+                last_edit: element.updated_on,
+                created: element.created_on,
+                description: element.description,
+                pages: element.pages || []
+            }}
+            removeAsk={ removeAsk }
+            lastRow={ newRowId === element.id }
+        />
+    ))
 
     const hideModal = function(){
         setPackageIdModal({id: 0, modal: <></>});
@@ -43,15 +72,14 @@ function PackagesListTable(props) {
 
     const idle = () => {
         hideModal();
-        update(countUpdate + 1);
+        setCount(count + 1);
     };
-
 
     return (
         <div className="page-section">
             <div className="card card-fluid">
                 <div className="card-header">
-                    Dodanie nowego dokumentu
+                    Dodaj nowy katalog wdrożeń (np. BHP, Szkolenia produktowe, Osoby kluczowe etc.)
                 </div>
                 <div className="card-body">
                     <PackagesAddNew handleUpdate = { updatePackages } />
@@ -59,23 +87,26 @@ function PackagesListTable(props) {
             </div>
             <div className="card card-fluid">
                 <div className="card-header">
-                    Lista Formularzy
+                    Lista twoich katalogów
                 </div>
                 <div className="card-body">
-                    <table className="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col" style={{width: "50%"}}>Nazwa</th>{/* sortowanie po * */}
-                            <th scope="col" style={{width: "25%"}}>Edytowany</th>
-                            <th scope="col" style={{width: "15%"}}>Działanie</th>
-                        </tr>
-                        </thead>
-                        <tbody id="form_table_data_container">
-                            <Packages count = { countUpdate } handleRemoveAsk = { removeAsk } loggedUser={ loggedUser } />
-                        </tbody>
-                    </table>
+                    { error && <p>{ error }</p> }
+                    { isLoading && <p>Ładowanie...</p> }
+                    { packages && (
+                        <table className="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Nazwa</th>{/* sortowanie po * */}
+                                <th scope="col" style={{width: "25%"}}>Edytowany</th>
+                                <th scope="col" style={{width: "15%"}}>Działanie</th>
+                            </tr>
+                            </thead>
+                            <tbody id="form_table_data_container">
+                                { packagesRows }
+                            </tbody>
+                        </table>
+                    )}
                 </div>
-
                 { packageIdModal.modal }
             </div>
         </div>
