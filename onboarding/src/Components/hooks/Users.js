@@ -86,7 +86,7 @@ export function getUserById(id) {
  * employeeObject = {name: "", last_name: "", email: "", tel: "", department: "", location: "", position: ""};
  */
 export function employeeAddEdit(handleMessage, employeeObject){
-	if(typeof employeeObject.name !== "string" || typeof employeeObject.last_name !== "string"
+	if(typeof employeeObject.first_name !== "string" || typeof employeeObject.last_name !== "string"
 		|| typeof employeeObject.email !== "string" || typeof employeeObject.email.length < 2){
 		handleMessage("Błędny format danych lub brak e-maila!", false);
 		return false;
@@ -105,7 +105,7 @@ export function employeeAddEdit(handleMessage, employeeObject){
 
 	data = {
 		email: employeeObject.email,
-		first_name: employeeObject.name,
+		first_name: employeeObject.first_name,
 		last_name: employeeObject.last_name,
 		phone_number: employeeObject.tel,
 		location: employeeObject.location,
