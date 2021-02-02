@@ -59,7 +59,7 @@ function UserListRow(props) {
                             className="btn btn-secondary mb-1" 
                             data-toggle="tooltip"
                         >
-                            Dodaj formularz
+                            Dodaj katalog
                         </Link>
                         <div>
                             <Link to={{ pathname: "/add_user", state: { user: props.user, packageId: props.packageId, loggedUser: loggedUser } }}
@@ -69,7 +69,9 @@ function UserListRow(props) {
                                 Edytuj profil
                             </Link>
                             { props.user.id != loggedUser.id &&
-                                <button type="button" value={ props.user.id } onClick={ props.handleRemove } className="btn btn-warning" data-toggle="tooltip">Usuń</button>
+                                <button type="button" value={ props.user.id } onClick={ props.handleRemove } className="btn btn-warning" data-toggle="tooltip">
+                                    Usuń
+                                </button>
                             }
                         </div>
                     </div>

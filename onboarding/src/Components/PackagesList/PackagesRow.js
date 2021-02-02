@@ -67,17 +67,22 @@ function PackagesRow({ row, removeAsk, lastRow }) {
 
                 <td className="table__data">{ dateToString(row.last_edit) }</td>
 
-                <td  className="table__data table__data--nowrap">
-                    <Link to={{ pathname: "/package_page/" + row.id, state: { packageId: row.id} }} className="btn btn-secondary mr-1">
-                        Edytuj
+                <td  className="table__data table__data--nowrap d-flex flex-column">
+                    <Link to={{ pathname: `/send_package/${row.id}`, state: { packageId: row.id} }} className="btn btn-secondary mb-1">
+                        Wyślij pracownikowi
                     </Link>
-                    <button 
-                        value={ row.id }
-                        className="btn btn-warning"
-                        onClick={ removeAsk }
-                    >
-                        Usuń
-                    </button>
+                    <div>
+                        <Link to={{ pathname: "/package_page/" + row.id, state: { packageId: row.id} }} className="btn btn-secondary mr-1 w-50">
+                            Edytuj
+                        </Link>
+                        <button 
+                            value={ row.id }
+                            className="btn btn-warning w-50"
+                            onClick={ removeAsk }
+                        >
+                            Usuń
+                        </button>
+                    </div>
                 </td>
             </tr>
             { showPages && pagesRows }

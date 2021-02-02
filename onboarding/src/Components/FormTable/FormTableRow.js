@@ -5,9 +5,6 @@ import "../../static/css/style.css";
 
 function FormTableRow(props) {
     const [styleRow, setStyleRow] = useState(null);
-    // let loggedUser = {};
-    // if(props.loggedUser)
-    //     loggedUser = props.loggedUser;
 
     useEffect(() => {
         if(props.lastRow && Date.now() - Date.parse(props.row.last_edit) < 3000) {
