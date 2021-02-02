@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import EmployeeEditForm from "./UserEditForm";
+import UserEditForm from "./UserEditForm";
 import PageAddressBar from "../PageAddressBar"
 
 function ManagerEditPage({ user }) {
@@ -7,7 +7,7 @@ function ManagerEditPage({ user }) {
     
     const [singleUser, setSingleUser] = useState({
         id: 0, 
-        name: "", 
+        first_name: "", 
         last_name: "", 
         email: "", 
         tel: "",
@@ -20,12 +20,12 @@ function ManagerEditPage({ user }) {
     useEffect(() => {
         user && setSingleUser({
                 id: user.id,
-                name: user.first_name || "",
+                first_name: user.first_name || "",
                 last_name: user.last_name || "", 
                 email: user.email || "", 
-                tel: user.tel || "",
-                position: user.position || "", 
-                department: user.department || "", 
+                tel: user.phone_number || "",
+                position: user.job_position || "", 
+                department: user.team || "", 
                 location: user.location || "", 
                 avatar: user.avatar || "/onboarding/static/images/unknown-profile.jpg"
             })
@@ -36,7 +36,8 @@ function ManagerEditPage({ user }) {
             <PageAddressBar page="Twój profil" />
             <div className="card card-fluid">
                 <div className="card-header">Twój profil</div>
-                <EmployeeEditForm
+                <UserEditForm
+                    loggedUser={ user }
                     user={ singleUser }
                     enableUploadAvatar={ true }
                     buttonTitle={ "Zapisz" }
