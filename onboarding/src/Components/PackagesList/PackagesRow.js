@@ -68,7 +68,7 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                 <td className="table__data">{ dateToString(row.last_edit) }</td>
 
                 <td  className="table__data table__data--nowrap d-flex flex-column">
-                    <Link to={{ pathname: `/send_package/${row.id}`, state: { packageId: row.id} }} className="btn btn-secondary mb-1">
+                    <Link to={ `/send_package/${row.id}` } className="btn btn-secondary mb-1">
                         Wyślij pracownikowi
                     </Link>
                     <div>

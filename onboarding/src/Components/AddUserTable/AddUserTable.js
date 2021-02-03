@@ -8,7 +8,6 @@ import UserListSearch from "../UserListSearch";
 
 function AddUserTable(props) {
     let loggedUser = (props.loggedUser) ? props.loggedUser : LoggedUser();
-    let title = "Adresaci";
 
     const [error, showError] = useState(false);
     const [loaded, isLoaded] = useState(false);
@@ -21,8 +20,6 @@ function AddUserTable(props) {
       if(props.packageCurrent) {
         if(props.packageCurrent.users && Array.isArray(props.packageCurrent.users) )
           setUsersInPackage(props.packageCurrent.users);
-        if(props.packageCurrent.title)
-          title += ` formularza "${props.packageCurrent.title}"`; /* https://stackoverflow.com/questions/39758136/render-html-string-as-real-html-in-a-react-component */
       }
     }, [props.packageCurrent]);
 
@@ -52,7 +49,7 @@ function AddUserTable(props) {
           <div className="card-body"><UserListSearch users={ userTable } setSearchResult={ setSearchResult }/></div>
         </div>
         <div className="card card-fluid">
-          <div className="card-header">{ title }</div>
+          <div className="card-header">{ `Wyślij katalog ${props.packageCurrent ? `"${props.packageCurrent.title}"` : ""} do pracownika:` }</div>
           <div className="card-body">
             <table className="table table-striped">
               <thead>

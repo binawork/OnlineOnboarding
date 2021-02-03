@@ -5,21 +5,15 @@ import PageAddressBar from "../PageAddressBar";
 import AddUserTable from "./AddUserTable";
 import { singleCombo } from "../hooks/Packages";
 import ModalWarning from "../ModalWarning";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 
 function AddUserTablePage() {
     document.title = "Onboarding: wyślij pracownikowi";
-    // const location = useLocation();
+
     const { package_id:packageId } = useParams();
     const [confirmationModal, setIdModal ] = useState({id: 0, modal: <></>});
-// console.log(location)
     let packageObj = singleCombo(packageId);
-    // if(location.state){
-    //     packageObj = singleCombo(packageId);
-    // };
-
-
 
     const popUpConfirmationModal = (message) => {
         setIdModal({id: 0,
@@ -31,7 +25,6 @@ function AddUserTablePage() {
         setIdModal({id: 0, modal: <></>});
     };
 
-
     return(
         <div className="app">
             <header className="app-header app-header-dark">
@@ -42,7 +35,7 @@ function AddUserTablePage() {
                 <div className="wrapper">
                     <div className="page">
                       <div className="page-inner">
-                        <PageAddressBar page = { "Wyślij pracownikowi" } />
+                        <PageAddressBar page = { `Wyślij katalog ${packageObj ? `"${packageObj.title}"` : ""}` } />
                         <AddUserTable packageId={ packageId } packageCurrent={ packageObj } showModal={ popUpConfirmationModal } />
                         { confirmationModal.modal }
                         </div>
