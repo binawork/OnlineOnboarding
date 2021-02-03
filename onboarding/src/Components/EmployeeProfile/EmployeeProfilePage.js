@@ -18,6 +18,7 @@ function EmployeeProfilePage() {
         department: "",
         email: "",
         finished: "",
+        first_name: "",
         last_name: "",
         location: "",
         name: "",
@@ -33,7 +34,7 @@ function EmployeeProfilePage() {
         user = location.state.user;
     } else {
         const { data } = getUserById(employeeId);
-        user = data;
+        if(data) user = data;
         packagesSent = userWithPackages(employeeId, count);
     };
 
