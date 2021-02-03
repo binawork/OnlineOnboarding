@@ -41,7 +41,7 @@ function EmployeeProfileUser({ user }) {
                     <div className="col">
                         {/* <Link to={{ pathname: `/employee/${props.user.id}`, state: { packageId: props.packageId, user: props.user } }}> */}
                         <h3 className="card-title mb-1">
-                            { user.name }
+                            { `${user.first_name} ${user.last_name}` }
                         </h3>
                         {/* </Link> */}
                         
