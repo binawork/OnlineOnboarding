@@ -33,6 +33,7 @@ function CompanyInfoEdit({
       />
 
       <div className="">
+        <label className="text-muted" htmlFor="company-mission">Misja firmy</label>
         <MarkdownArea
           id={"company-mission"}
           content={mission}
@@ -42,6 +43,7 @@ function CompanyInfoEdit({
         />
         <hr />
         <div className="form-group">
+          <label className="text-muted" htmlFor="about-company">Link do filmiku</label>
           <input
             type="url"
             className="form-control"
@@ -53,6 +55,7 @@ function CompanyInfoEdit({
           />
         </div>
         <hr />
+        <label className="text-muted" htmlFor="about-company">Inne informacje o firmie</label>
         <MarkdownArea
           id="about-company"
           content={aboutCompany}
