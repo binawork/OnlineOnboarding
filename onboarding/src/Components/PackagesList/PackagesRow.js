@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { dateToString } from "../utils";
 import "../../static/css/packages.css";
+import Tag from "../Tag";
 
 function PackagesRow({ row, removeAsk, lastRow }) {
     const [styleRow, setStyleRow] = useState(null);
@@ -58,9 +59,7 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                             className="link mr-4" 
                             title="Kliknij, aby przejść do edycji zawartości katalogu"
                         >{ row.name }</Link>
-                        <small className="info-tag">
-                            Liczba plików: { row.pages.length || 0 }
-                        </small>
+                        <Tag title={`Liczba plików: ${ row.pages.length || 0 }`} color={"amaranthine"} />
                     </div>
                     <small><i>{ row.description }</i></small>
                 </td>

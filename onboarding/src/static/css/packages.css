@@ -5,11 +5,14 @@
   animation: newRowColor 3s ease-in-out;
 }
 
-.info-tag {
-  padding: 3px 6px;
-  white-space: nowrap;
-  background: #DA0063;
-  color: #FFF;
-  border-radius: 4px;
-  font-size: 75%;
+.package-progress {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.form-progress {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
