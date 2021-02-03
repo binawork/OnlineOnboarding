@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import UserEditForm from "./UserEditForm";
 import PageAddressBar from "../PageAddressBar"
 
-function ManagerEditPage({ user }) {
+function ManagerEditPage({ user, editLoggedUser, setEditLoggedUser }) {
     document.title = "Onboarding: profil użytkownika";
     
     const [singleUser, setSingleUser] = useState({
@@ -14,9 +14,9 @@ function ManagerEditPage({ user }) {
         position: "", 
         department: "", 
         location: "", 
-        avatar: "/onboarding/static/images/unknown-profile.jpg"
+        avatar: ""
     });
-    
+
     useEffect(() => {
         user && setSingleUser({
                 id: user.id,
@@ -37,11 +37,12 @@ function ManagerEditPage({ user }) {
             <div className="card card-fluid">
                 <div className="card-header">Twój profil</div>
                 <UserEditForm
-                    loggedUser={ user }
                     user={ singleUser }
                     enableUploadAvatar={ true }
                     buttonTitle={ "Zapisz" }
                     modalTitle={"Edycja danych"}
+                    editLoggedUser={ editLoggedUser }
+                    setEditLoggedUser={ setEditLoggedUser }
                 />
             </div>
         </div>

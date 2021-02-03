@@ -5,7 +5,7 @@ import ModalWarning from "../ModalWarning";
 import { useLocation } from "react-router-dom";
 
 
-function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle }) {
+function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editLoggedUser, setEditLoggedUser }) {
     const fileNameRef = useRef("");
     const location = useLocation();
     const [employeeModal, setModal] = useState(<></>);
@@ -30,8 +30,11 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle }) {
             // console.log("EEF - av");
             uploadAvatar(updateImage, fileNameRef.current.files[0], user);
         }
-
+        
         employeeAddEdit(showModal, user);
+        if(setEditLoggedUser) {
+            setEditLoggedUser(editLoggedUser + 1);
+        };
     }
 
     const updateImage = function(response){

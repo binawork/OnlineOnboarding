@@ -9,7 +9,8 @@ function UserProfileManage(props) {
         tel: "",
         department: "",
         location: "",
-        position: ""
+        position: "",
+        // avatar: props.user.avatar
     });
 
     useEffect(() => {
@@ -49,8 +50,8 @@ function UserProfileManage(props) {
             props.handleSaveEdit(user);
         else
             props.showMessage("Format e-mail'a jest nieprawidłowy");
-    };
-
+        };
+        
     let locations = [
         "Białystok", 
         "Bydgoszcz", 
@@ -72,7 +73,6 @@ function UserProfileManage(props) {
     dataOptions = locations.map( (city, i) =>
         <option key={ i } value={ city } />
     );
-
 
     return (
       <div className="card-body">

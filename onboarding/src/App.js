@@ -21,9 +21,10 @@ import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
 // import FormsManagerCheckPage from "./Components/FormsManagerCheckPage"; // where manager checks how form was filled;
 
 function App() {
-  const loggedUser = LoggedUser();
+  const [editLoggedUser, setEditLoggedUser] =useState(0);
+  const loggedUser = LoggedUser(editLoggedUser);
   const [packagesList, setPackagesList] = useState([]); //[{id: number, title: string}]
- 
+
   useEffect(() => {
     if(packagesList?.length > 0)
       sessionStorage.setItem("packages_list", JSON.stringify(packagesList))
@@ -60,7 +61,7 @@ function App() {
                         <UserListPage loggedUserId={ loggedUser.id } />
                     </Route>
                     <Route path="/profile/manager">
-                        <ManagerEditPage user={ loggedUser } />
+                        <ManagerEditPage user={ loggedUser } editLoggedUser={ editLoggedUser } setEditLoggedUser={ setEditLoggedUser } />
                     </Route>
                     <Route path="/add_user/">
                         <AddEmployeePage />

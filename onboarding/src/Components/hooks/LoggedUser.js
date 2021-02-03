@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { getPath/*, getCookie*/ } from "../utils.js";
 
-function LoggedUser(){
+function LoggedUser(editLoggedUser){
 	const userModel = {id: 0, email: "", first_name: "", last_name: "",
 							phone_number: "", location: "", team: "",
 							job_position: "",last_login: "", avatar: "", welcome_board: null};
@@ -29,7 +29,7 @@ function LoggedUser(){
 				showError(true);
 			}
 		);console.log("   Log-user effect is used");
-	}, []);
+	}, [editLoggedUser]);
 
 
 	if(error){
