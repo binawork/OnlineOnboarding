@@ -10,13 +10,12 @@ function UserProfileManage(props) {
         department: "",
         location: "",
         position: "",
-        // avatar: props.user.avatar
     });
 
     useEffect(() => {
         if(props.user?.email) {
             setUser(props.user);
-        };
+        }
     }, [props.user]);
 
     const handleChangeName = function(e){
@@ -50,7 +49,7 @@ function UserProfileManage(props) {
             props.handleSaveEdit(user);
         else
             props.showMessage("Format e-mail'a jest nieprawidłowy");
-        };
+        }
         
     let locations = [
         "Białystok", 

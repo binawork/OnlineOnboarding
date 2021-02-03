@@ -159,7 +159,6 @@ export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
 	fetchProps.body = data;
 	fetch(url + 'api/user-avatar/', fetchProps).then(response => response.json()).then(
 		data => {
-			console.log(data);
 			handleSuccess(data);
 			return data;
 		},

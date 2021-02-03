@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import UserProfileManage from "./UserProfileManage";
 import { uploadAvatar, employeeAddEdit } from "../hooks/Users";
 import ModalWarning from "../ModalWarning";
@@ -9,7 +9,24 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     const fileNameRef = useRef("");
     const location = useLocation();
     const [employeeModal, setModal] = useState(<></>);
+    const [imageLink, updateImageLink] = useState("/onboarding/static/images/unknown-profile.jpg");
 
+    useEffect(() => {
+        updateImageLink(user.avatar || "/onboarding/static/images/unknown-profile.jpg");
+    },[user.avatar]);
+    
+    const changeAvatar = function(e){
+    	if(fileNameRef.current.files.length > 0){
+    	    if(FileReader){
+                let fr = new FileReader();
+                fr.readAsDataURL(fileNameRef.current.files[0]);
+                fr.onload = function(e){
+                    updateImageLink(fr.result);/* uploads binary data in src of image <img /> */
+    	        }
+    	    }
+    	}
+    };
+    
     let imageBox = <img src={ user.avatar || "/onboarding/static/images/unknown-profile.jpg" } alt="avatar" />;
     if(enableUploadAvatar){
         imageBox = (
@@ -17,13 +34,16 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
                 <div className="fileinput-button-label">
                     Dodaj/zmień zdjęcie 
                 </div>
-                <img src={ user.avatar || "/onboarding/static/images/unknown-profile.jpg" } alt="avatar" />
-                <input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } />
+                <img src={ imageLink } alt="avatar" />
+                <input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } onChange={ changeAvatar } />
             </>
         );
     }
 
-    const [imageLink, updateImageLink] = useState(user.avatar || "/onboarding/static/images/unknown-profile.jpg");
+    const updateImage = function(response){
+        if(typeof response.avatar === "string")
+            updateImageLink(response.avatar);
+    }
 
     const handleSaveEdit = user => {
         if(typeof fileNameRef.current.files !== 'undefined' && fileNameRef.current.files.length > 0){
@@ -37,10 +57,6 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
         };
     }
 
-    const updateImage = function(response){
-        if(typeof response.avatar === "string")
-            updateImageLink(response.avatar);
-    }
 
     const showModal = (message, out) => {
         if(out){
@@ -61,9 +77,9 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     	<div className="row">
     		<div className="col">
     			<div className="card-body align-items-center text-center">
-    				<div className="user-avatar user-avatar-xxl fileinput-button">
-    					{ imageBox }
-    				</div>
+                    <div className="user-avatar user-avatar-xxl fileinput-button">
+                        { imageBox }
+        			</div>
     			</div>
     		</div>
 
