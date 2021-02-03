@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import EmployeeEditForm from "./UserEditForm";
+import UserEditForm from "./UserEditForm";
 import PageAddressBar from "../PageAddressBar"
 import { useLocation, useParams } from "react-router-dom";
 import { getUserById } from "../hooks/Users";
@@ -33,7 +33,7 @@ function EmployeeEditPage() {
             <PageAddressBar page="Edytuj pracownika" />
             <div className="card card-fluid">
                 <div className="card-header">Edytuj pracownika</div>
-                <EmployeeEditForm
+                <UserEditForm
                     user={ singleUser }
                     enableUploadAvatar={ false }
                     buttonTitle={ "Zapisz" }

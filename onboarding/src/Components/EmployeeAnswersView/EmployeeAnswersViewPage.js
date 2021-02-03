@@ -33,7 +33,7 @@ function EmployeeAnswersViewPage(props){
             // pageComponent = <PageCard page={ props.page } />
         // }
     // };
-    const hanldeClick = (e) => {
+    const handleClick = (e) => {
         e.preventDefault();
         props.setAnswersPage(null);
     }
@@ -43,7 +43,7 @@ function EmployeeAnswersViewPage(props){
         // <div className="page-inner">
             // <PageAddressBar page = { "Podgląd odpowiedzi pracownika" } />
             <div>
-                <button className="btn btn-outline-warning button-back mb-3" style={ buttonBackStyle } onClick={ hanldeClick }>
+                <button className="btn btn-outline-warning button-back mb-3" style={ buttonBackStyle } onClick={ handleClick }>
                     <i className="bi bi-arrow-left-circle back-icon"></i>&nbsp;Wstecz
                 </button>
             {/* <div className="page-section"> */}
