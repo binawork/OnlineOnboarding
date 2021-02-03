@@ -33,7 +33,7 @@ function EmployeeAnswersViewPage(props){
             // pageComponent = <PageCard page={ props.page } />
         // }
     // };
-    const hanldeClick = (e) => {
+    const handleClick = (e) => {
         e.preventDefault();
         props.setAnswersPage(null);
     }
