@@ -48,15 +48,16 @@ function EmployeeProfilePage() {
     }, [packagesSent])
 
     useEffect(() => {
-        location.state && user && setSingleUser(user);
-        !location.state && user && setSingleUser({
-            ...singleUser,
-            ...user,
-            name: user.first_name || "",
-            tel: user.phone_number || "",
-            position: user.job_position || "", 
-            department: user.team || "", 
-        });
+        if(user){
+            location.state ? setSingleUser(user) : setSingleUser({
+                ...singleUser,
+                ...user,
+                name: user.first_name || "",
+                tel: user.phone_number || "",
+                position: user.job_position || "", 
+                department: user.team || "", 
+            });
+        }
     },[user]);
 
     const goBackToMainProfilePage = (e) => {
