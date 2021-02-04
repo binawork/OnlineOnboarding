@@ -23,6 +23,7 @@ function FormsEditPage({ location, match }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [update, setUpdate] = useState(true);
   const [saved, setSaved] = useState(false);
+  const [editMode, setEditMode] = useState(true);
 
   useEffect(() => {
     let mounted = true;
@@ -142,6 +143,7 @@ function FormsEditPage({ location, match }) {
                                 setSections={setSections}
                                 maxOrder={maxOrder}
                                 updateMaxOrder={updateMaxOrder}
+                                editMode={ editMode }
                               />
                             )}
                             {provided.placeholder}
@@ -158,6 +160,8 @@ function FormsEditPage({ location, match }) {
                         updateMaxOrder={updateMaxOrder}
                         maxOrder={maxOrder}
                         pageId={pageId}
+                        editMode={ editMode }
+                        setEditMode={ setEditMode }
                       />
                     </div>
                   </div>

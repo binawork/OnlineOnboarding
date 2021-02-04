@@ -18,12 +18,6 @@ import AnswerRow from "./AnswerRow";
 function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sectionData, setUnsetChecked, name, type }) {
   const addAnswer = (e) => {
     e.preventDefault();
-    /*const answerToAdd = {
-      id: uuid.v4(),
-      section: sectionId,
-      data: {title: "Odpowiedź", is_checked: false},
-    };
-    setAnswers([...answers, answerToAdd]);*/
     inputAnswer(sectionId);
   };
 

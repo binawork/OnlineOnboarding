@@ -9,6 +9,8 @@ function FormAddSection({
   updateMaxOrder,
   maxOrder,
   pageId,
+  setEditMode,
+  editMode
 }) {
   const handleAddSection = (e, sectionType) => {
     e.preventDefault();
@@ -30,6 +32,11 @@ function FormAddSection({
     //setAnswers([...answers, answerToAdd]);
     updateMaxOrder(maxOrder + 1);
   };
+
+  const handleChangeMode = (e) => {
+    e.preventDefault();
+    setEditMode(!editMode);
+  }
 
   return (
     <div style={{ position: "sticky", top: "100px" }}>
@@ -79,8 +86,14 @@ function FormAddSection({
       </div>
       <div className="form-group">
         <div className="input-group-append">
-          <button type="submit" className="btn btn-success">
+          <button type="submit" className="btn btn-success mr-1">
             Zapisz pytania
+          </button>
+          <button className="btn btn-success" onClick={ handleChangeMode }>
+            { editMode
+              ? "Podgląd"
+              : "Edytuj"
+            }
           </button>
         </div>
       </div>
