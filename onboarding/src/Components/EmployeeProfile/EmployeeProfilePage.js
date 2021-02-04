@@ -13,6 +13,7 @@ function EmployeeProfilePage() {
     const location = useLocation();
     const employeeId = parseInt(useParams().employee_id);
     const [count, setCount] = useState(0);
+    const [answersPage, setAnswersPage] = useState(null);
     const [singleUser, setSingleUser] = useState({
         avatar: "",
         department: "",
@@ -50,20 +51,32 @@ function EmployeeProfilePage() {
         location.state && user && setSingleUser(user);
         !location.state && user && setSingleUser({
             ...singleUser,
-                  ...user,
-                  name: user.first_name || "",
-                  tel: user.phone_number || "",
-                  position: user.job_position || "", 
-                  department: user.team || "", 
+            ...user,
+            name: user.first_name || "",
+            tel: user.phone_number || "",
+            position: user.job_position || "", 
+            department: user.team || "", 
         });
-      },[user]);
+    },[user]);
+
+    const goBackToMainProfilePage = (e) => {
+        e.preventDefault();
+        setAnswersPage(null);
+    }
 
     return(
         <div className="page-inner">
             <PageAddressBar page={ `Proces wdrażania pracownika ${singleUser.name} ${singleUser.last_name}` } previousPages={[ {title: "Lista pracowników", url: "/user_list"} ]} />
             <div className="page-section">
-                <EmployeeProfileUser user={ singleUser } />
-                <ProcessPreviewTables employeeId={ employeeId } count={ count } setCount={ setCount } />
+                <EmployeeProfileUser user={ singleUser } goBackToMainProfilePage={ goBackToMainProfilePage } />
+                <ProcessPreviewTables 
+                    employeeId={ employeeId }
+                    count={ count }
+                    setCount={ setCount }
+                    answersPage={ answersPage }
+                    setAnswersPage={ setAnswersPage }
+                    goBackToMainProfilePage={ goBackToMainProfilePage }
+                />
                 {/* <ProcessPreviewTables packageId={ packageIdRef.current } loggedUser={ loggedUser }
                                         employee={ singleUser }
                                         count={ count }

@@ -6,7 +6,6 @@ import EmployeeAnswersViewPage from "../EmployeeAnswersView/EmployeeAnswersViewP
 
 function ProcessPreviewTables(props) {
     const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
-    const [answersPage, setAnswersPage] = useState(null);
 
     const popUpConfirmationModal = (message) => {
         let count = confirmationModal.id;
@@ -22,13 +21,13 @@ function ProcessPreviewTables(props) {
     return(
         <>
             {
-                answersPage
-                    ? <EmployeeAnswersViewPage employeeId={ props.employeeId } page={ answersPage } setAnswersPage={ setAnswersPage } />
+                props.answersPage
+                    ? <EmployeeAnswersViewPage employeeId={ props.employeeId } page={ props.answersPage } goBackToMainProfilePage={ props.goBackToMainProfilePage } />
                     : (
                         <>
                         <ImplementationFormsSent 
                             employeeId={ parseInt(props.employeeId) }
-                            setAnswersPage={ setAnswersPage }
+                            setAnswersPage={ props.setAnswersPage }
                             showModal={ popUpConfirmationModal }
                             count={ confirmationModal.id }
                         />

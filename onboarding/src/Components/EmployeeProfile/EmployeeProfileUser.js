@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 
-function EmployeeProfileUser({ user }) {
+function EmployeeProfileUser({ user, goBackToMainProfilePage }) {
     let avatar = "/onboarding/static/images/unknown-profile.jpg";
     if(user.avatar && user.avatar.length > 1)
         avatar = user.avatar;
@@ -35,13 +35,15 @@ function EmployeeProfileUser({ user }) {
                 <div className="row align-items-center">
                     <div className="col-auto">
                         {/* <Link to={{ pathname: `/employee/${props.user.id}`, state: { packageId: props.packageId, user: props.user } }} className="user-avatar user-avatar-xl"> */}
-                            <p className="user-avatar user-avatar-xl"><img src={ avatar } alt="avatar" /></p>
+                            <a className="user-avatar user-avatar-xl" onClick={ goBackToMainProfilePage } style={{ cursor: "pointer" }}><img src={ avatar } alt="avatar" /></a>
                         {/* </Link> */}
                     </div>
                     <div className="col">
                         {/* <Link to={{ pathname: `/employee/${props.user.id}`, state: { packageId: props.packageId, user: props.user } }}> */}
                         <h3 className="card-title mb-1">
-                            { `${user.first_name} ${user.last_name}` }
+                            <a onClick={ goBackToMainProfilePage } style={{ cursor: "pointer" }}>
+                                { `${user.first_name} ${user.last_name}` }
+                            </a>
                         </h3>
                         {/* </Link> */}
                         
