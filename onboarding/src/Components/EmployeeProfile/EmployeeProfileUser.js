@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import { validateURL } from "../utils";
 
 function EmployeeProfileUser({ user, goBackToMainProfilePage }) {
     let avatar = "/onboarding/static/images/unknown-profile.jpg";
-    if(user.avatar && user.avatar.length > 1)
+    if(user.avatar && user.avatar.length > 1) {
+        user.avatar = validateURL(user.avatar, "/onboarding/static/images/unknown-profile.jpg");
         avatar = user.avatar;
+    }
     // let avatarComponent, nameLink, emailLink;
 
     // if(typeof props.loggedUser !== 'undefined'){

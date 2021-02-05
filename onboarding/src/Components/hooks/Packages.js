@@ -51,7 +51,7 @@ export const fetchPackagesAndForms = (count) => {
   };
 
   const { data:packagesAndForms, isLoading, error } = useFetch(`${url}api/package_pages`, fetchProps, count);
-  packagesAndForms && packagesAndForms.sort((a, b) => b.id - a.id) || [];
+  if(packagesAndForms) packagesAndForms.sort((a, b) => b.id - a.id);
 
   return { packagesAndForms, isLoading, error };
 }

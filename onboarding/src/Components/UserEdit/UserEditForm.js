@@ -3,6 +3,7 @@ import UserProfileManage from "./UserProfileManage";
 import { uploadAvatar, employeeAddEdit } from "../hooks/Users";
 import ModalWarning from "../ModalWarning";
 import { useLocation } from "react-router-dom";
+import { validateURL } from "../utils";
 
 
 function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editLoggedUser, setEditLoggedUser }) {
@@ -12,6 +13,7 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     const [imageLink, updateImageLink] = useState("/onboarding/static/images/unknown-profile.jpg");
 
     useEffect(() => {
+        user.avatar = validateURL(user.avatar, "/onboarding/static/images/unknown-profile.jpg");
         updateImageLink(user.avatar || "/onboarding/static/images/unknown-profile.jpg");
     },[user.avatar]);
     
