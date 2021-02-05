@@ -19,13 +19,15 @@ function EmployeeEditPage() {
     };
     
     useEffect(() => {
-        location.state && user && setSingleUser(user)
-        !location.state && user && setSingleUser({
-            ...user,
-            tel: user.phone_number || "",
-            position: user.job_position || "", 
-            department: user.team || "", 
-        });
+        if(user){
+            location.state ? setSingleUser(user) : setSingleUser({
+                ...user,
+                id: employee_id,
+                tel: user.phone_number || "",
+                position: user.job_position || "", 
+                department: user.team || "", 
+            });
+        }
     },[user]);
 
     return (

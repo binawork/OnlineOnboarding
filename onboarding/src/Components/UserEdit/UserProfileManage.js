@@ -3,6 +3,7 @@ import { validEmail } from "../utils";
 
 function UserProfileManage(props) {
     const [user, setUser] = useState({
+        id: 0,
         first_name: "",
         last_name: "",
         email: "",
@@ -11,7 +12,7 @@ function UserProfileManage(props) {
         location: "",
         position: "",
     });
-
+    
     useEffect(() => {
         if(props.user?.email) {
             setUser(props.user);

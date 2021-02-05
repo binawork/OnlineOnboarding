@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useState, useEffect } from "react";
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
 import useFetch from "./useFetch.js";

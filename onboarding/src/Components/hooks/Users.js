@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
 import useFetch from "./useFetch.js";
 //import UserListRow from "../UsersList/UserListRow";
@@ -56,7 +57,7 @@ function Users(loggedUserId, setUsers, setSearchResult, isLoaded, showError) {
 				.sort((a,b) => a.id - b.id);
 
 			setUsers(users);
-			setSearchResult ? setSearchResult(users) : null;
+			if(setSearchResult) setSearchResult(users);
     })
     .catch((error) => {
       showError(true);

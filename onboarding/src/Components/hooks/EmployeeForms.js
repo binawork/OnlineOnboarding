@@ -6,7 +6,7 @@ import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../uti
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
 // function EmployeeForms(props, count){
-	function EmployeeForms(props, setError, setLoading, count){
+function EmployeeForms(props, setError, setLoading, count){
 	const [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
@@ -385,7 +385,7 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 				if(typeof result.detail === 'string')
 				msg += result.detail;
 				handleMessage(msg);
-				setUsersInPackage ? setUsersInPackage(result.users) : null;// ESLint: Expected an assignment or function call and instead saw an expression.(no-unused-expressions);
+				if(setUsersInPackage) setUsersInPackage(result.users);
 			},
 			(error) => {
 				console.log(error.message);
