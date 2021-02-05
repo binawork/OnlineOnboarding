@@ -38,9 +38,7 @@ function App() {
 
   const handleEditTitle = (packageId, newTitle) => {
     setPackagesList(packagesList.map(element => {
-        element.id == packageId
-            ? element.title = newTitle
-            : null;
+        if(element.id == packageId) element.title = newTitle;
         return element;
     }))
   }
