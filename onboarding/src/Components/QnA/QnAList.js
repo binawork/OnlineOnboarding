@@ -16,7 +16,7 @@ const QnAList = () => {
 
   useEffect(() => {
     const accepted = getQnA(setQaList, setMaxOrder, setLoading, setError);
-    accepted ? setError(false) : null;
+    if(accepted) setError(false);
   }, []);
 
   useEffect(() => {
@@ -27,9 +27,7 @@ const QnAList = () => {
         3000
       );
       return () => clearTimeout(saveInterval);
-    } else {
-      window.refreshIntervalId;
-    }
+    } 
   }, [qaList]);
 
   useEffect(() => {
@@ -54,9 +52,9 @@ const QnAList = () => {
     setMaxOrder(maxOrder + 1);
   };
   
-    const hideModal = () => {
-      setShowSaveModal(false);
-    };
+  const hideModal = () => {
+    setShowSaveModal(false);
+  };
 
   const handleSaveAll = (e) => {
     e.preventDefault();

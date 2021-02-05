@@ -8,6 +8,7 @@ import FormDescription from "./FormDescription";
 import FormAddSection from "./FormAddSection";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import LoggedUser from "../hooks/LoggedUser.js";
+import ModalWarning from "../ModalWarning";
 
 function FormsEditPage({ location, match }) {
   const loggedUser = location.state?.loggedUser ?? LoggedUser();
@@ -18,11 +19,10 @@ function FormsEditPage({ location, match }) {
 
   const [maxOrder, updateMaxOrder] = useState(0);
   const [sections, setSections] = useState([]);
-  //const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [update, setUpdate] = useState(true);
-  const [saved, setSaved] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
   const [editMode, setEditMode] = useState(true);
 
   useEffect(() => {
@@ -41,14 +41,6 @@ function FormsEditPage({ location, match }) {
       .catch((error) => setErrorMessage(error.message))
       .finally(() => setLoading(false));
 
-    /*FormSectionsAPI.getAllAnswers()
-      .then((response) => {
-        if (response.length === 0) return;
-        const sortedAnswers = response.sort((a, b) => a.id - b.id);
-        setAnswers(sortedAnswers);
-      })
-      .catch((error) => setErrorMessage(error.message));*/
-
     setUpdate(false);
 
     return function cleanup() {
@@ -56,15 +48,9 @@ function FormsEditPage({ location, match }) {
     };
   }, [update]);
 
-  useEffect(() => {
-    // Show info "Zapisano zmiany" for 3sec when the changes were saved
-    if (saved) {
-      const timer = setTimeout(setSaved, 3000, false);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [saved]);
+  const hideModal = () => {
+    setShowSaveModal(false);
+  };
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -72,7 +58,7 @@ function FormsEditPage({ location, match }) {
       .catch((error) => setErrorMessage(error.message))
       .then(() => {
         setUpdate(true);
-        setSaved(true);
+        setShowSaveModal(true);
       });
   };
 
@@ -166,32 +152,25 @@ function FormsEditPage({ location, match }) {
                     </div>
                   </div>
                 </form>
+                {showSaveModal ? (
+                  <ModalWarning
+                    handleAccept={ hideModal }
+                    title={ "Zapisywanie sekcji formularza" }
+                    message={
+                      errorMessage
+                        ? "Nie udało się zapisać"
+                        : "Zmiany zostały pomyślnie zapisane"
+                    }
+                    show={ true }
+                    acceptText="Ok"
+                    id={ 0 }
+                  />
+                ) : null}
               </section>
             </div>
           </div>
         </div>
       </main>
-      {saved ? (
-        <div
-          className="fixed-bottom d-flex justify-content-center show-and-hide"
-          style={{ display: "fixed-bottom", left: "240px" }}
-        >
-          <div
-            className="m-2 p-2"
-            style={{
-              width: "150px",
-              backgroundColor: "rgba(226, 232, 238, 0.57)",
-              color: "black",
-              textAlign: "center",
-              borderRadius: "4px",
-            }}
-          >
-            Zapisano zmiany
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
     </div>
   );
 }

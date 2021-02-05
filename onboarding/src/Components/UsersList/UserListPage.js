@@ -23,17 +23,16 @@ function UserListPage(props) {
     		<header className="app-header app-header-dark">
     			<Navbar loggedUser={ loggedUser } />
     		</header>
-			<LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
-			<main className="app-main">
-				<div className="wrapper"><div className="page">
-					<div className="page-inner">
-						<PageAddressBar page = { "Konta" } loggedUser={ loggedUser } />
-
-						<UsersList packageId={ packageIdRef.current } loggedUser={ loggedUser } />
-					</div>
-				</div></div>
-		    </main>
-        </div>
+				<LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
+				<main className="app-main">
+					<div className="wrapper"><div className="page">
+						<div className="page-inner">
+							<PageAddressBar page = { "Konta" } loggedUser={ loggedUser } />
+							<UsersList packageId={ packageIdRef.current } loggedUser={ loggedUser } />
+						</div>
+					</div></div>
+				</main>
+			</div>
     )
 }
 
