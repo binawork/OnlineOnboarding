@@ -4,8 +4,6 @@ import uuid from "uuid";
 function FormAddSection({
   setSections,
   sections,
-  /*setAnswers,
-  answers,*/
   updateMaxOrder,
   maxOrder,
   pageId,
@@ -21,13 +19,8 @@ function FormAddSection({
       description: "",
       data: []/* [{title: sectionType === "oa" ? "" : "Odpowiedź", is_checked: false}]; */
     };
-    /*const answerToAdd = {
-      id: uuid.v4(),
-      data: {title: sectionType === "oa" ? "" : "Odpowiedź", is_checked: false},
-      section: sectionToAdd.id,
-    };*/
+
     setSections([...sections, sectionToAdd]);
-    //setAnswers([...answers, answerToAdd]);
     updateMaxOrder(maxOrder + 1);
   };
 

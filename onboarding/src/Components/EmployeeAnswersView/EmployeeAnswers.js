@@ -6,11 +6,10 @@ import SectionAnswers from "./SectionAnswers";
 //import PropTypes from "prop-types";
 
 
-function EmployeeAnswers(props){
+function EmployeeAnswers({ pageId, employeeId }){
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [sectionsView, setView] = useState([]);
-
 
     /*const setErrorMessage = function(message){
         setMessage({message: message, print: true});
@@ -59,26 +58,26 @@ function EmployeeAnswers(props){
 
 
     useEffect(() => {
-        if(typeof props.employeeId === 'undefined' || props.employeeId === null ||
-            props.employeeId < 1 || props.employeeId === false){
+        if(typeof employeeId === 'undefined' || employeeId === null ||
+            employeeId < 1 || employeeId === false){
             setMessage("Nie zdefiniowano pracownika!");
         } else {
-            getEmployeesSectionsAndAnswers(props.pageId, props.employeeId, setMessage, showSectionsAnswers);
+            getEmployeesSectionsAndAnswers(pageId, employeeId, setMessage, showSectionsAnswers);
             //return () => clearInterval(requestInterval);
         }
-    }, [props.pageId]);
+    }, [pageId]);
 
 
     return (
       <>
         { loadingMessage.length > 0 &&
-            <div className="card card-fluid">
+            <div className="card card-fluid text-black bg-warning">
                 <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
             </div>
         }
-        <div className="card card-fluid">{ sectionsView.length > 0 &&
-            sectionsView
-        }</div>
+        <div className="card card-fluid">
+            { sectionsView.length > 0 && sectionsView }
+        </div>
       </>
     );
 }

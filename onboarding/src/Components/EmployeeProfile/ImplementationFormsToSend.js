@@ -20,18 +20,18 @@ function ImplementationFormsToSend(props) {
         }
     };
     const sendPackage = function(packageId){
-        assignEmployeeToPackage(props.showModal, props.userId, packageId);
+        assignEmployeeToPackage(props.showModal, props.employeeId, packageId);
         setIdsChecked(idsChecked.filter(id => id !== packageId));
         props.setCount(props.count + 1);
     };
     
     const sendCheckedPackages = (e) => {
-        assignEmployeeToPackage(props.showModal, props.userId, idsChecked);
+        assignEmployeeToPackage(props.showModal, props.employeeId, idsChecked);
         setIdsChecked([]);
         props.setCount(props.count + 1);
     }
 
-    const formsToSend = form_table.filter(form => !form.users.includes(props.userId));
+    const formsToSend = form_table.filter(form => !form.users.includes(props.employeeId));
 
     if(formsToSend.length !== 0) {
         formsToSend.forEach(function (element, i){
@@ -49,7 +49,7 @@ function ImplementationFormsToSend(props) {
         <div className="card card-fluid">
             <div className="card-header">
                 <i className="bi bi-cloud-upload mr-2" style={{ fontSize: "18px" }}></i>
-                Wyślij Formularze do pracownika
+                Wyślij katalog do pracownika
             </div>
             <div className="card-body">
                 { error && <p>Wystąpił błąd podczas ładowania</p> }
@@ -57,7 +57,7 @@ function ImplementationFormsToSend(props) {
                 { !loading && !error && (
                     <table className="table table-striped">
                         <thead><tr>
-                            <th scope="col">Formularze</th>
+                            <th scope="col">Katalog</th>
                             <th scope="col">Liczba zadań</th>
                             <th scope="col">Utworzony</th>
                             <th scope="col">Ostatnia edycja</th>

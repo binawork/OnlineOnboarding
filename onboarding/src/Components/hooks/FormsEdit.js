@@ -1,42 +1,53 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
+import FormSectionsAPI from "./FormSectionsAPI.js";
+import useFetch from "./useFetch.js";
 
 /**
- * todos: get page sections;
+ * Get page sections;
  */
-function FormsEdit(props){
-	/*var [rows , setRows] = useState([]),
-		[loaded, isLoaded] = useState(false);
-	const [error, showError] = useState(null);
-	let url = getPath(),
-		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
-
+function FormsEdit(formId, update){
+	const [sections, setSections] = useState(null);
+  const [loading, setLoading] = useState(true);
+	const [errorMessage, setErrorMessage] = useState("");
+	
 	useEffect(() => {
-		fetch(url + "api/page/" + props.id + "/list_by_package_hr/", fetchProps).then(res => res.json()).then(
-			(result) => {
-				isLoaded(true);
-				setRows(result);
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
-	}, [props.count]);
+    const abortCont = new AbortController();
 
-	if(error){
-		return <FormTableRow key={0} row={ {name: error.message, last_edit: ""} }/>
-	} else if(!loaded)
-		return <FormTableRow key={0} row={ {name: "Ładowanie ...", last_edit: ""} }/>
-	else {
-		var form_table = [], i, count = rows.length;
-		for(i = 0; i < count; i++)
-			form_table.push(<FormTableRow key={ rows[i].id }
-								row={ {name: rows[i].title, order: rows[i].order, last_edit: "<do poprawy po stronie api>",
-									description: rows[i].description, link: rows[i].link, key: rows[i].id } }
-								handleUpdate = { props.handleUpdate } />);
-		return ( <>{ form_table }</> )
-	}*/
+		FormSectionsAPI.getAllSections(formId)
+			.then((response) => {
+				setSections((response.sort((a, b) => a.order - b.order)));
+				// for(let i = sections.length - 1; i >= 0; i--){
+				// 	if( !Array.isArray(sections[i].data) )
+				// 	sections[i].data = [];
+				// }
+			})
+			.catch((error) => setErrorMessage(error.message))
+			.finally(() => setLoading(false));
 
+		return () => abortCont.abort();
+	}, [update]);
+
+	return { sections, loading, errorMessage };
+}
+
+/**
+ * Get page details;
+ */
+export function fetchFormData(formId) {
+	const url = getPath(),
+	fetchProps = {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			"X-CSRFToken": "",
+		},
+	};
+
+  const { data, isLoading, error } = useFetch(`${url}api/page/${formId}`, fetchProps);
+
+	return { data, isLoading, error };
 }
 
 /**

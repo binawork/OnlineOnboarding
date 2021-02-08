@@ -10,8 +10,6 @@ function FormSection({
   setSections,
   maxOrder,
   updateMaxOrder,
-  //answers,
-  //setAnswers,
 }) {
   const sectionsRef = useRef(sections);
   useEffect(() => {
@@ -48,11 +46,6 @@ function FormSection({
     const copiedSection = { ...section, id: uuid.v4(), order: order + 1 };
     copiedSection.data = JSON.parse(JSON.stringify(section.data) );// fast cloning with data loss (slice() was not enough)! No problem for numbers, strings and bools;
 
-    /*const copiedAnswers = answers
-      .filter((answer) => answer.section === section.id)
-      .map((answer) => {
-        return { id: uuid.v4(), data: answer.data, section: copiedSection.id };
-      });*/
     const updatedSections = sections.map((section) => {
       if (section.order > order) {
         section.order = section.order + 1;
@@ -61,7 +54,6 @@ function FormSection({
     });
     updatedSections.splice(order, 0, copiedSection);
     setSections(updatedSections);
-    //setAnswers([...answers, ...copiedAnswers]);
     updateMaxOrder(maxOrder + 1);
   };
 
@@ -73,13 +65,8 @@ function FormSection({
       }
       return section;
     });
-    FormSectionsAPI.deleteSection(sectionId/*, answers, setAnswers*/);
+    FormSectionsAPI.deleteSection(sectionId);
     setSections(updatedSections.filter((item) => item.id !== sectionId));
-    /*setAnswers(
-      answers.filter(
-        (item) => item.section !== sectionId && item.section !== null
-      )
-    );*/
     updateMaxOrder(maxOrder - 1);
   };
 
@@ -145,7 +132,7 @@ function FormSection({
 
   return (
     <>
-      {sections.map((section, index) => (
+      {sections && sections.map((section, index) => (
         <Draggable
           key={section.id}
           draggableId={"draggable-" + section.id}
