@@ -86,11 +86,9 @@ function QnA({
       <div className="card">
         <div className="card-body">
           <div className="form-group">
-            <p className="m-0">
               { parse(question) }
-            </p>
           </div>
-          <p className="m-0">{ parse(answer) }</p>
+          { parse(answer) }
         </div>
       </div>
     </div>

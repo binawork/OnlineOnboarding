@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import QnA from "./QnA";
 import { getQnA, saveAll } from "../hooks/QnAAPI";
 import ModalWarning from "../ModalWarning";
+import SaveInfo from "../SaveInfo";
 
 const QnAList = () => {
   const [maxOrder, setMaxOrder] = useState(0);
@@ -12,19 +13,28 @@ const QnAList = () => {
   const [editMode, changeEditMode] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState(null);
+  const [autosave, setAutosave] = useState(false);
+  const [saveOnDemand, setSaveOnDemand] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
 
   useEffect(() => {
     const accepted = getQnA(setQaList, setMaxOrder, setLoading, setError);
     if(accepted) setError(false);
   }, []);
-
+  
   useEffect(() => {
-    if (editMode) {
+    if(editMode && saveOnDemand !== true) {
       // Save changes after 3 sec. form last change
       const saveInterval = setTimeout(
-        () => saveAll(qaList, setQaList, setSaved),
+        () => {
+          if(saveOnDemand !== true) {
+            const accepted = saveAll(qaList, setSaveError);
+            if(accepted) {
+              setAutosave(true);
+            }
+          }
+        },
         3000
       );
       return () => clearTimeout(saveInterval);
@@ -35,13 +45,17 @@ const QnAList = () => {
 
   useEffect(() => {
     // Show info "Zapisano zmiany" for 3 sec. when the changes were saved
-    if (saved) {
-      const timer = setTimeout(setSaved, 3000, false);
+    if(autosave && saveOnDemand !== true) {
+      const timer = setTimeout(() => {
+        if(saveOnDemand !== true) {
+          setAutosave(false);
+        }
+      }, 3000);
       return () => {
-        clearTimeout(timer);
+          clearTimeout(timer);
       };
     }
-  }, [saved]);
+  }, [autosave]);
 
   const handleAddQnA = (e) => {
     e.preventDefault();
@@ -57,12 +71,19 @@ const QnAList = () => {
   
     const hideModal = () => {
       setShowSaveModal(false);
+      setSaveError(null);
+      setSaveOnDemand(false);
     };
 
   const handleSaveAll = (e) => {
     e.preventDefault();
-    saveAll(qaList, setQaList);
-    setShowSaveModal(true);
+    setAutosave(false);
+    const accepted = saveAll(qaList, setSaveError);
+    if(accepted) {
+      setSaveOnDemand(true);
+      setQaList(accepted);
+      setShowSaveModal(true);
+    }
   };
 
   const handleShowPreview = (e) => {
@@ -185,41 +206,23 @@ const QnAList = () => {
         </button>
       </div>
 
-      {saved ? (
-        <div
-          className="fixed-bottom d-flex justify-content-center show-and-hide"
-          style={{ display: "fixed-bottom", left: "240px" }}
-        >
-          <div
-            className="m-2 p-2"
-            style={{
-              width: "150px",
-              backgroundColor: "rgba(226, 232, 238, 0.57)",
-              color: "black",
-              textAlign: "center",
-              borderRadius: "4px",
-            }}
-          >
-            Zapisano zmiany
-          </div>
-        </div>
-      ) : (
-        <></>
+      {autosave && (
+        <SaveInfo message={saveError ? "Nie udało się zapisać - któreś z pól może zawierać za dużo znaków." : "Zapisano zmiany"} />
       )}
-      {showSaveModal ? (
+      {showSaveModal && saveOnDemand && (
         <ModalWarning
           handleAccept={hideModal}
           title={"Zapisywanie Q&A"}
           message={
-            error
-              ? "Nie udało się zapisać"
+            saveError
+              ? saveError
               : "Zmiany zostały pomyślnie zapisane"
           }
           show={true}
           acceptText={"Ok"}
           id={0}
         />
-      ) : null}
+      )}
     </div>
   );
 };
