@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
+import useFetch from "./useFetch.js";
 //import UserListRow from "../UsersList/UserListRow";
 
-
 function checkUser(userObject, userId){
-	const singleUser = {id: userId, name: "-", first_name: "", last_name: "", email: "-", tel: "",
-				position: "-", department: "-", location: "-", sent: "-", finished: "-", avatar:""};
+	const singleUser = {id: userId, name: "", first_name: "", last_name: "", email: "", tel: "",
+				position: "", department: "", location: "", sent: "", finished: "", avatar:""};
 
 	if(typeof userObject.first_name === "string" && userObject.first_name.length > 0){
 		singleUser.name = userObject.first_name;
@@ -15,21 +15,16 @@ function checkUser(userObject, userId){
 		singleUser.name = singleUser.name + " " + userObject.last_name;
 		singleUser.last_name = userObject.last_name;
 	}
-
 	if(typeof userObject.email === "string" && userObject.email.length > 0)
 		singleUser.email = userObject.email;
 	if(typeof userObject.phone_number === "string" && userObject.phone_number.length > 0)
 		singleUser.tel = userObject.phone_number;
-
 	if(typeof userObject.location === "string" && userObject.location.length > 0)
 		singleUser.location = userObject.location;
-
 	if(typeof userObject.team === "string" && userObject.team.length > 0)
 		singleUser.department = userObject.team;
-
 	if(typeof userObject.job_position === "string" && userObject.job_position.length > 0)
 		singleUser.position = userObject.job_position;
-
 	if(typeof userObject.avatar === "string" && userObject.avatar.length > 0)
 		singleUser.avatar = userObject.avatar;
 
@@ -39,7 +34,7 @@ function checkUser(userObject, userId){
 /**
  * Get users/employees from Onboarding API when UserList component is loaded;
  */
-function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
+function Users(loggedUserId, setUsers, setSearchResult, isLoaded, showError) {
   let url = getPath(),
     fetchProps = {
       method: "GET",
@@ -54,7 +49,7 @@ function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
     .then((res) => res.json())
     .then((result) => {
       const users = result
-        .filter((user) => user.id !== loggedUser.id)
+        .filter((user) => user.id !== loggedUserId)
         .map((user) => {
           user = checkUser(user, user.id);
           return user;
@@ -62,7 +57,7 @@ function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
 				.sort((a,b) => a.id - b.id);
 
 			setUsers(users);
-			setSearchResult ? setSearchResult(users) : null;
+			if(setSearchResult) setSearchResult(users);
     })
     .catch((error) => {
       showError(true);
@@ -71,13 +66,28 @@ function Users(loggedUser, setUsers, setSearchResult, isLoaded, showError) {
 		.finally(() => isLoaded(true));
 }
 
+export function getUserById(id) {
+	const url = getPath(),
+	fetchProps = {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			"X-CSRFToken": "",
+		},
+	};
+
+  const { data, isLoading, error } = useFetch(`${url}api/users/${id}`, fetchProps);
+
+	return { data, isLoading, error };
+}
 
 /**
  * 
  * employeeObject = {name: "", last_name: "", email: "", tel: "", department: "", location: "", position: ""};
  */
 export function employeeAddEdit(handleMessage, employeeObject){
-	if(typeof employeeObject.name !== "string" || typeof employeeObject.last_name !== "string"
+	if(typeof employeeObject.first_name !== "string" || typeof employeeObject.last_name !== "string"
 		|| typeof employeeObject.email !== "string" || typeof employeeObject.email.length < 2){
 		handleMessage("Błędny format danych lub brak e-maila!", false);
 		return false;
@@ -96,7 +106,7 @@ export function employeeAddEdit(handleMessage, employeeObject){
 
 	data = {
 		email: employeeObject.email,
-		first_name: employeeObject.name,
+		first_name: employeeObject.first_name,
 		last_name: employeeObject.last_name,
 		phone_number: employeeObject.tel,
 		location: employeeObject.location,
@@ -111,7 +121,7 @@ export function employeeAddEdit(handleMessage, employeeObject){
 		employeeId = employeeObject.id;
 		path += employeeId + "/";
 		fetchProps.method = "PATCH";
-		msg = "Zmodyfikowano pracownika. ";
+		msg = "Pomyślnie zapisano dane. ";
 	} else
 		path += "create_user/";// SMTPAuthenticationError * /
 
@@ -144,16 +154,12 @@ export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
 	// 	data.id = employeeObject.id;
 	// 	fetchProps.body = JSON.stringify(data);
 	// }
-console.log(employeeObject)
 	// data = new FormData();
 	// data.append('id', employeeObject.id);
 	data.append('avatar', avatarFile);
 	fetchProps.body = data;
-console.log(data)
-console.log(fetchProps.body)
 	fetch(url + 'api/user-avatar/', fetchProps).then(response => response.json()).then(
 		data => {
-			console.log(data);
 			handleSuccess(data);
 			return data;
 		},

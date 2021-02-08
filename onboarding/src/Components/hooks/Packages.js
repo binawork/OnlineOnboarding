@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useState, useEffect } from "react";
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
+import useFetch from "./useFetch.js";
 
 /**
  * Get packages from Onboarding API when Packages component is loaded;
@@ -36,11 +38,10 @@ function fetchPackages(count) {
   return { packages, isLoading, error };
 }
 
+/**
+ * Get all packages with theirs forms
+ */
 export const fetchPackagesAndForms = (count) => {
-  const [packagesAndPages, setPackagesAndPages] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, showError] = useState(null);
-
   const url = getPath();
   const fetchProps = {
       method:"GET", 
@@ -49,20 +50,10 @@ export const fetchPackagesAndForms = (count) => {
       }
   };
 
-  useEffect(() => {
-      fetch(url + "api/package_pages", fetchProps)
-      .catch(error => {
-          showError(error.message);
-          console.error(error);
-      })
-      .then(res => res.json())
-      .then((result) => {
-        setPackagesAndPages(result.sort((a, b) => b.id - a.id) || []);
-      })
-      .finally(() => setIsLoading(false));
-  }, [count]);
+  const { data:packagesAndForms, isLoading, error } = useFetch(`${url}api/package_pages`, fetchProps, count);
+  if(packagesAndForms) packagesAndForms.sort((a, b) => b.id - a.id);
 
-  return { packagesAndPages, isLoading, error };
+  return { packagesAndForms, isLoading, error };
 }
 
 /**
@@ -78,7 +69,7 @@ export function singleCombo(packageId){
         fetchProps = {method: "GET", headers: {"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken": ""}};
 
     useEffect(() => {
-        fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
+      packageId && fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
             (result) => {
                 setCombo(result);
             },
@@ -87,8 +78,7 @@ export function singleCombo(packageId){
                 showError(error);
             }
         );
-    }, []);
-
+    }, [packageId]);
     return combo;
 }
 
@@ -245,6 +235,14 @@ export function usersWithPackages(props){
     }, [props.count]);
 
     return usersForPackages;
+}
+
+/**
+ * Get packages of user by user's id
+ */
+export function userWithPackages(id, count) {
+  const users = usersWithPackages(count);
+  return users.find(user => user.userId == id);
 }
 
 export default fetchPackages;

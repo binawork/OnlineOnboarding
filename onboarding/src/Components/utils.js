@@ -86,5 +86,5 @@ export function clickButtonAfterPressingEnter(e, buttonId) {
 			e.preventDefault();
 			document.getElementById(buttonId).click();
 	}
-};
+}
 

@@ -36,6 +36,12 @@
     overflow: visible;
 }
 
+.button-back {
+    display: flex;
+    align-items: center;
+    border-radius: 2rem;
+}
+
 .show-and-hide {
     animation: showAndHide 3s linear forwards;
 }

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import ImplementationFormsSent from "./ImplementationFormsSent";
 import ImplementationFormsToSend from "./ImplementationFormsToSend";
 import ModalWarning from "../ModalWarning";
+import EmployeeAnswersViewPage from "../EmployeeAnswersView/EmployeeAnswersViewPage";
 
 function ProcessPreviewTables(props) {
-    const [confirmationModal, setIdModal ] = useState({id: 0, modal: <></>});
+    const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
 
     const popUpConfirmationModal = (message) => {
         let count = confirmationModal.id;
@@ -19,12 +20,33 @@ function ProcessPreviewTables(props) {
 
     return(
         <>
-            <ImplementationFormsSent packageId={ props.packageId } loggedUser={ props.loggedUser }
+            {
+                props.answersPage
+                    ? <EmployeeAnswersViewPage employeeId={ props.employeeId } page={ props.answersPage } goBackToMainProfilePage={ props.goBackToMainProfilePage } />
+                    : (
+                        <>
+                        <ImplementationFormsSent 
+                            employeeId={ parseInt(props.employeeId) }
+                            setAnswersPage={ props.setAnswersPage }
+                            showModal={ popUpConfirmationModal }
+                            count={ confirmationModal.id }
+                        />
+                        <ImplementationFormsToSend 
+                            showModal={ popUpConfirmationModal }
+                            employeeId={ parseInt(props.employeeId) }
+                            count={ props.count }
+                            setCount={ props.setCount }
+                        />
+                        { confirmationModal.modal }
+                        </>
+                    )
+            }
+
+            {/* <ImplementationFormsSent packageId={ props.packageId } 
                                      employee={ props.employee }
                                      showModal={ popUpConfirmationModal }
-                                     count={ confirmationModal.id } />
-            <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ props.employee.id }  count={ props.count } setCount={ props.setCount } />
-            { confirmationModal.modal }
+                                     count={ confirmationModal.id } /> */}
+            {/* <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ props.employee.id }  count={ props.count } setCount={ props.setCount } /> */}
         </>
     )
 }
