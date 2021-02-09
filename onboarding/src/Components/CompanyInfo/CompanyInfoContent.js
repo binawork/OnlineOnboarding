@@ -6,7 +6,7 @@ import ModalWarning from "../ModalWarning";
 
 function CompanyInfoContent({ company }) {
   const [isEditMode, toggleEditMode] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const [imageFile, setImageFile] = useState("");
   const [logo, setLogo] = useState(company.company_logo || "");
   const [mission, setMission] = useState(company.mission || "");
@@ -26,6 +26,7 @@ function CompanyInfoContent({ company }) {
 
   const hideModal = () => {
     setShowSaveModal(false);
+    setError(null);
   };
 
   const handleSave = (e) => {
@@ -83,7 +84,7 @@ function CompanyInfoContent({ company }) {
           title={"Zapisywanie informacji o firmie"}
           message={
             error
-              ? "Nie udało się zapisać"
+              ? error
               : "Zmiany zostały pomyślnie zapisane"
           }
           show={true}
