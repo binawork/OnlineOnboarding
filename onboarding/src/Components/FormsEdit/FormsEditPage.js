@@ -8,6 +8,7 @@ import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import { useLocation, useParams } from "react-router-dom";
 import FormsEdit, { fetchFormData } from "../hooks/FormsEdit";
 import { singleCombo } from "../hooks/Packages";
+import { onDragEnd } from "../utils";
 
 function FormsEditPage() {
   const location = useLocation();
@@ -61,33 +62,6 @@ function FormsEditPage() {
       });
   };
 
-  const onDragEnd = (result) => {
-    // destination, source -> objects in which you can find the index of the destination and index of source item
-    const { destination, source, reason } = result;
-    // Not a thing to do...
-    if (!destination || reason === "CANCEL") {
-      return;
-    }
-    //If drop an element to the same place, it should do nothing
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
-      return;
-
-    const droppedSection = sections[source.index];
-    const pageSections = [...sections];
-    pageSections.splice(source.index, 1);
-    pageSections.splice(destination.index, 0, droppedSection);
-
-    const updatedList = pageSections.map((section, index) => {
-      section.order = index + 1;
-      return section;
-    });
-
-    setSections(updatedList);
-  };
-
   return (
     <div className="page-inner">
       <PageAddressBar 
@@ -104,7 +78,7 @@ function FormsEditPage() {
         <header className="card-header">Sekcje formularza</header>
         <form onSubmit={ handleSave }>
           <div className="row">
-            <DragDropContext onDragEnd={ onDragEnd }>
+            <DragDropContext onDragEnd={(result) => onDragEnd(result, sections, setSections)}>
               <Droppable droppableId="dp1">
                 {(provided) => (
                   <div

@@ -6,6 +6,7 @@ import QnA from "./QnA";
 import { getQnA, saveAll } from "../hooks/QnAAPI";
 import ModalWarning from "../ModalWarning";
 import SaveInfo from "../SaveInfo";
+import { onDragEnd } from "../utils";
 
 const QnAList = () => {
   const [maxOrder, setMaxOrder] = useState(0);
@@ -47,9 +48,7 @@ const QnAList = () => {
     // Show info "Zapisano zmiany" for 3 sec. when the changes were saved
     if(autosave && saveOnDemand !== true) {
       const timer = setTimeout(() => {
-        if(saveOnDemand !== true) {
           setAutosave(false);
-        }
       }, 3000);
       return () => {
           clearTimeout(timer);
@@ -89,34 +88,6 @@ const QnAList = () => {
   const handleShowPreview = (e) => {
     e.preventDefault();
     changeEditMode(!editMode);
-  };
-
-  const onDragEnd = (result) => {
-    // destination, source -> objects in which you can find the index of the destination and index of source item
-    const { destination, source, reason } = result;
-    // Not a thing to do...
-    if (!destination || reason === "CANCEL") {
-      return;
-    }
-    //If drop an element to the same place, it should do nothing
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
-      return;
-
-    const droppedSection = qaList[source.index];
-    const pageSections = [...qaList];
-
-    pageSections.splice(source.index, 1);
-    pageSections.splice(destination.index, 0, droppedSection);
-
-    const updatedList = pageSections.map((qa, index) => {
-      qa.order = index + 1;
-      return qa;
-    });
-
-    setQaList(updatedList);
   };
 
   const questionsAndAnswers = qaList
@@ -168,7 +139,7 @@ const QnAList = () => {
             Wciśnij przycisk "Edytuj", aby móc dodawać pytania i odpowiedzi
           </div>
         ) : editMode ? (
-          <DragDropContext onDragEnd={onDragEnd}>
+          <DragDropContext onDragEnd={(result) => onDragEnd(result, qaList, setQaList)}>
             <Droppable droppableId="dp1">
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>

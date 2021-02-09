@@ -99,12 +99,11 @@ function QnA({
   ) : (
     <div className="task-issue" {...draggableProps} ref={innerRef}>
       { order === 1 ? <></> : <hr /> }
-      <div className="card d-flex p-2" {...dragHandleProps}>
-        <div className="p-1 d-flex justify-content-center">
+      <div className="card d-flex p-2">
+        <div className="p-1 d-flex justify-content-center" {...dragHandleProps}>
           <span
             className="drag-indicator"
             style={{ transform: "rotate(90deg)" }}
-            {...dragHandleProps}
           ></span>
         </div>
         <MarkdownArea

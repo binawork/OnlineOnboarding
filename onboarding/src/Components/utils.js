@@ -88,3 +88,30 @@ export function clickButtonAfterPressingEnter(e, buttonId) {
 	}
 }
 
+export function onDragEnd(result, list, setList) {
+	// destination, source -> objects in which you can find the index of the destination and index of source item
+	const { destination, source, reason } = result;
+	// Not a thing to do...
+	if (!destination || reason === "CANCEL") {
+		return;
+	}
+	//If drop an element to the same place, it should do nothing
+	if (
+		destination.droppableId === source.droppableId &&
+		destination.index === source.index
+	)
+		return;
+
+	const droppedSection = list[source.index];
+	const pageSections = [...list];
+
+	pageSections.splice(source.index, 1);
+	pageSections.splice(destination.index, 0, droppedSection);
+
+	const updatedList = pageSections.map((qa, index) => {
+		qa.order = index + 1;
+		return qa;
+	});
+
+	setList(updatedList);
+};
