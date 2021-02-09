@@ -169,7 +169,8 @@ export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
 	);
 }
 
-export function employeeRemove(handleSuccess, userId){
+export function employeeRemove(handleSuccess, userId, setLoadingSave){
+	setLoadingSave(true);
 	if(userId < 2)
 		return false;
 	let url = getPath(), data, token = getCookie('csrftoken'),
@@ -178,17 +179,25 @@ export function employeeRemove(handleSuccess, userId){
 	data = {"id": userId};
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/users/" + userId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
-		(result) => {
-			let msg = "Pracownik usunięty";
+	fetch(url + "api/users/" + userId + "/", fetchProps)
+		.then(res => {
+			if(!res.ok) {
+				throw Error("Nie udało się usunąć pracownika!");
+			}
+			return tryFetchJson(res);
+		})
+		.then((result) => {
+			let msg = "Pracownik został usunięty";
 			if(result.hasOwnProperty('detail') )
 				msg += "  " + result.detail;
 			handleSuccess(msg);
 		},
 		(error) => {
-			handleSuccess("Kłopoty z usunięciem pracownika!");
-		}
-	);
+			handleSuccess(error.message);
+		})
+		.finally(() => {
+			setLoadingSave(false);
+		});
 	return true;
 }
 
