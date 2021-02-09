@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormsSentTableRow from "./FormsSentTableRow";
-import EmployeeForms, { remindEmployeeOfPackage } from "../hooks/EmployeeForms";
+import EmployeeForms, { remindEmployeeOfPackage, getProgress } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsSent(props) {
@@ -17,9 +17,29 @@ function ImplementationFormsSent(props) {
             checkedChange(numberChecked - 1);
     };
 
-	const sendRemind = function(packageId){
-		remindEmployeeOfPackage(props.showModal, props.employeeId, packageId);
-	};
+    const sendRemind = function(packageId){
+        remindEmployeeOfPackage(props.showModal, props.employeeId, packageId);
+    };
+
+
+    const progressCallback = (result) => {
+        console.log(result);
+        let i, packageId;
+        for(i = user_table.length - 1; i >= 0; i--){
+            packageId = parseInt(user_table[i].key, 10);
+            if( !result.hasOwnProperty(packageId) )
+                continue;
+            user_table[i].progress = result[packageId].finished + "/" + result[packageId].count;
+            console.log(user_table[i]);
+        }
+    };
+
+
+    useEffect(() => {
+        if(!loading)
+            getProgress(props.employeeId, progressCallback);
+    }, [loading]);
+
 
     if(user_table.length !== 0) {
         user_table.forEach(function (element, i) {
