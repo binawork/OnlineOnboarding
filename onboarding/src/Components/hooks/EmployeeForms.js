@@ -5,11 +5,12 @@ import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../uti
 /**
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
+// function EmployeeForms(props, count){
 function EmployeeForms(props, setError, setLoading, count){
-	var [rows , setRows] = useState([]),
+	const [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
-	let url = getPath(),
+	const url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
@@ -44,9 +45,6 @@ function EmployeeForms(props, setError, setLoading, count){
 		var form_table = [], count = rows.length;
 		let i, j, row;//, loggedUser = {id:0, first_name: ""};
 		const specificEmployee = (props.specificEmployee && props.specificEmployee > 0)?props.specificEmployee:-1;
-
-		/*if(props.loggedUser)
-			loggedUser = props.loggedUser;*/
 
 		for(i = 0; i < count; i++){
 			if(specificEmployee > 0 && rows[i].users && Array.isArray(rows[i].users)){
@@ -387,7 +385,7 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 				if(typeof result.detail === 'string')
 				msg += result.detail;
 				handleMessage(msg);
-				setUsersInPackage ? setUsersInPackage(result.users) : null;// ESLint: Expected an assignment or function call and instead saw an expression.(no-unused-expressions);
+				if(setUsersInPackage) setUsersInPackage(result.users);
 			},
 			(error) => {
 				console.log(error.message);

@@ -16,3 +16,12 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.info-tag {
+  padding: 3px 6px;
+  white-space: nowrap;
+  background: #da0062d2;
+  color: #FFF;
+  border-radius: 4px;
+  font-size: 75%;
+}

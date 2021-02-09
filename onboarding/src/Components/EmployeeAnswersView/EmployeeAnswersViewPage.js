@@ -1,66 +1,53 @@
-import React, { useRef } from "react";
-import LoggedUser from "../hooks/LoggedUser.js";
-import Navbar from "../Navbar";
-import PageAddressBar from "../PageAddressBar";
-import LeftMenu from "../LeftMenu";
+import React from "react";
+// import { useLocation } from "react-router-dom";
+// import PageAddressBar from "../PageAddressBar";
 import EmployeeAnswers from "./EmployeeAnswers";
-import EmployeeProfileUser from "../EmployeeProfile/EmployeeProfileUser";
+// import EmployeeProfileUser from "../EmployeeProfile/EmployeeProfileUser";
 import PageCard from "./PageCard";
+// import "../../static/css/style.css";
 
+const buttonBackStyle = {
+    display: "flex",
+    alignItems: "center",
+    borderRadius: "2rem"
+}
 
 /**
  * Loads page with answers for a page answered by employee
- * @param props - location.state: {packageId: number, loggedUser: Object, page: Object, employee: Object}
+ * @param props - location.state: { page: Object, employeeId: number, setAnswersPage: function }
  * @returns {JSX.Element}
  * @constructor
  */
 function EmployeeAnswersViewPage(props){
     document.title = "Onboarding: odpowiedzi pracownika";
-    const packageIdRef = useRef(0);
-    let loggedUser, employeeId = -1, pageId = -1,
-        employeeComponent = <></>, pageComponent = <></>;
+    // const location = useLocation();
+    const employeeId = props.employeeId;
+    // let employeeComponent = <></>, pageComponent = <></>;
 
-
-    if(props.match.params.page_id)
-        pageId = parseInt(props.match.params.page_id, 10);
-
-    if(props.location.state){
-        packageIdRef.current = props.location.state.packageId;
-        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
-
-        if(props.location.state.employee){
-            employeeComponent = <EmployeeProfileUser user={ props.location.state.employee } loggedUser={ loggedUser } packageId={ packageIdRef.current } />;
-            if(props.location.state.employee.id)
-                employeeId = props.location.state.employee.id;
-        }
-        if(props.location.state.page){
-            pageComponent = <PageCard page={ props.location.state.page } />
-        }
-    } else
-        loggedUser = LoggedUser();
-
+    // if(location.state){
+        // if(location.state.employeeId){
+            // employeeComponent = <EmployeeProfileUser employeeId={ location.state.employeeId } />;
+            // employeeId = ;
+        // }
+        // if(location.state.page){
+            // pageComponent = <PageCard page={ props.page } />
+        // }
+    // };
 
     return(
-        <div className="app">
-            <header className="app-header app-header-dark">
-                <Navbar loggedUser={ loggedUser } />
-            </header>
-            <LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
-            <main className="app-main">
-                <div className="wrapper">
-                    <div className="page">
-                        <div className="page-inner">
-                            <PageAddressBar page = { "Podgląd odpowiedzi pracownika" } loggedUser={ loggedUser } />
-                            <div className="page-section">
-                                { employeeComponent }
-                                { pageComponent }
-                                <EmployeeAnswers pageId={ pageId } employeeId={ employeeId }/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+        // <div className="page-inner">
+            // <PageAddressBar page = { "Podgląd odpowiedzi pracownika" } />
+            <div>
+                <button className="btn btn-outline-warning button-back mb-3" style={ buttonBackStyle } onClick={ props.goBackToMainProfilePage }>
+                    <i className="bi bi-arrow-left-circle back-icon"></i>&nbsp;Wstecz
+                </button>
+            {/* <div className="page-section"> */}
+                {/* { employeeComponent } */}
+                {/* { pageComponent } */}
+                <PageCard page={ props.page } />
+                <EmployeeAnswers pageId={ props.page.id } employeeId={ employeeId }/>
+            </div>
+        // </div>
     )
 }
 

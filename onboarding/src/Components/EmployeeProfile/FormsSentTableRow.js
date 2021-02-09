@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 // import Tag from "../Tag";
 // import ProgressBar from "../ProgressBar";
 import "../../static/css/packages.css"
@@ -26,6 +25,10 @@ function FormsSentTableRow(props) {
         props.handleRemind(e.target.value);
     };
 
+    const handleShowAnswers = (e, page) => {
+        e.preventDefault();
+        props.setAnswersPage(page);
+    }
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
         buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>,
@@ -42,10 +45,9 @@ function FormsSentTableRow(props) {
                 <tr key={ i } style={ toggleObj.style }>
                     <td className="table__data" colSpan="1">
                         <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
-                        <Link to={{ pathname: "/employee_answers/" + page.id,
-                                    state: { packageId: props.packageId, loggedUser: props.loggedUser, page: page, employee: props.employee } }}>
+                        <a href="" title="Kliknij, aby przejść do odpowiedzi pracownika" onClick={ (e) => handleShowAnswers(e, page) }>
                             { page.title }
-                        </Link>
+                        </a>
                     </td>
                     <td className="table__data form-progress" colSpan="1">
                         {/* Add below lines if progress is implemented, add condition when it has to appear */}

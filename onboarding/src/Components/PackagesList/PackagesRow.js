@@ -16,11 +16,12 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                 <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
                 <Link
                     to={{
-                        pathname: `/form_edit/${page.id}`,
+                        pathname: `/form/${page.id}`,
                         state: {
                             packageId: row.id,
-                            pageId: page.id,
-                            pageName: page.name,
+                            packageTitle: row.name,
+                            formId: page.id,
+                            formName: page.title,
                             description: page.description,
                             link: page.link,
                         },
@@ -34,7 +35,7 @@ function PackagesRow({ row, removeAsk, lastRow }) {
 
     useEffect(() => {
         if(lastRow && Date.now() - Date.parse(row.created) < 3000) {
-            setStyleRow('style-package-row')
+            setStyleRow("style-package-row");
         } else {
             setStyleRow(null);
         }
@@ -51,11 +52,25 @@ function PackagesRow({ row, removeAsk, lastRow }) {
             <tr className={ `table__row ${styleRow || ""}` }>
                 <td className="table__data" style={{ paddingLeft: row.pages.length === 0 ? "38px" : "" }}>
                     <div>
-                        <button className={`caret-icon ${rotate ? "caret-rotate" : ""}`} onClick={ toggleShowPages } style={{ display: row.pages.length > 0 ? "inline-block" : "none" }}>
+                        <button 
+                            className={`caret-icon ${rotate ? "caret-rotate" : ""}`}
+                            onClick={ toggleShowPages }
+                            style={{ display: row.pages.length > 0 ? "inline-block" : "none" }}
+                        >
                             <i className="fas fa-caret-right"></i>
                         </button> 
                         <i className="fa fa-folder folder-icon"></i>
-                        <Link to={{ pathname: "/package_page/" + row.id, state: { packageId: row.id} }} 
+                        <Link to={{ 
+                            pathname: `/package/${row.id}`,
+                            state: {
+                                packageData: {
+                                    id: row.id,
+                                    title: row.name,
+                                    description: row.description
+                                },
+                                pages: row.pages
+                            }
+                        }}
                             className="link mr-4" 
                             title="Kliknij, aby przejść do edycji zawartości katalogu"
                         >{ row.name }</Link>
@@ -71,16 +86,26 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                         Wyślij pracownikowi
                     </Link>
                     <div>
-                        <Link to={{ pathname: "/package_page/" + row.id, state: { packageId: row.id} }} className="btn btn-secondary mr-1 w-50">
-                            Edytuj
-                        </Link>
+                        <Link to={{ 
+                                pathname: `/package/${row.id}`,
+                                state: {
+                                    packageData: {
+                                        id: row.id,
+                                        title: row.name,
+                                        description: row.description
+                                    },
+                                    pages: row.pages
+                                }
+                            }}
+                            className="btn btn-secondary mr-1"
+                            style={{ width: "calc(50% - 2px)" }}
+                        >Edytuj</Link>
                         <button 
                             value={ row.id }
-                            className="btn btn-warning w-50"
+                            className="btn btn-warning"
                             onClick={ removeAsk }
-                        >
-                            Usuń
-                        </button>
+                            style={{ width: "calc(50% - 2px)" }}
+                        >Usuń</button>
                     </div>
                 </td>
             </tr>
