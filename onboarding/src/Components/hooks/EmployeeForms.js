@@ -281,7 +281,14 @@ export function getProgress(employeeId, progressCallback){
 			progressCallback(progress);
 
 		} else if(this.readyState == 4){
-			progressCallback(false, this.responseText);
+			let message = this.responseText;
+			if(this.status >= 500 && this.status < 600)
+				message = "Napotkano błąd po stronie serwera.";
+			else if(this.status >= 400 && this.status < 500){
+				message = "Napotkano błędne zapytanie serwera.";
+			}
+
+			progressCallback(false, message);
 		}
 	}
 
