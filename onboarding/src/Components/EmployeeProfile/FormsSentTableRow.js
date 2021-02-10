@@ -40,9 +40,12 @@ function FormsSentTableRow(props) {
 
     if(toggleObj.hasContent){
         pages = props.row.pages.map((page, i) => {
+            let finishedDate = "";
+            if(page.finished) finishedDate = page.finished;
+
             return (
                 <tr key={ i } style={ toggleObj.style }>
-                    <td colSpan="5">
+                    <td colSpan="3">
                         <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
                         {/* <Link to={{ pathname: "/employee_answers/" + page.id, */}
                                     {/* state: { page: page, employeeId: props.employeeId } }}> */}
@@ -51,6 +54,8 @@ function FormsSentTableRow(props) {
                         </a>
                         {/* </Link> */}
                     </td>
+                    <td>{ page.finished }</td>
+                    <td></td>
                 </tr>
             );
         });
