@@ -278,8 +278,8 @@ export function getProgress(employeeId, progressCallback){
 			    progressAnswers = [];}
 
 			progress = revertProgressAnswers(progressAnswers);
-
 			progressCallback(progress);
+
 		} else if(this.readyState == 4){
 			progressCallback(false, this.responseText);
 		}
@@ -298,6 +298,34 @@ export function getProgress(employeeId, progressCallback){
 	}
 	return abortFun;
 }
+
+/*export function getProgress(employeeId, progressCallback){
+	let url = getPath();
+	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}},
+		abortCont = new AbortController();
+
+	fetchProps.signal = abortCont.signal;
+	url += "api/user_progress/" + employeeId;
+
+	fetch(url, fetchProps).then( (res) => {
+		if(!res.ok)
+			throw Error("Problem z pobraniem danych!");
+
+		return res.json();
+	}).then(function(result){
+		let progress = revertProgressAnswers(result);
+		progressCallback(progress);
+
+	}).catch((err) => {
+		progressCallback(false, err.message);// console.log(err);
+	});
+
+
+	let abortFun = function(){
+		abortCont.abort();
+	}
+	return abortFun;
+}*/
 
 
 /**
