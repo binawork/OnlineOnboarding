@@ -726,13 +726,20 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
 
     def get(self, request, *args, **kwargs):
         employe_id = kwargs.get('employe_id')
-        package_id = kwargs.get('package_id')
+        package_id = kwargs.get('package_id', None)
 
-        queryset = PackagesUsers.objects.filter(
-            package_id=package_id,
-            user_id=employe_id,
-            user__company=request.user.company
-        )
+        if package_id is not None:
+            queryset = PackagesUsers.objects.filter(
+                package_id=package_id,
+                user_id=employe_id,
+                user__company=request.user.company
+            )
+        else:
+            queryset = PackagesUsers.objects.filter(
+                user_id=employe_id,
+                user__company=request.user.company
+            )
+
         serializer = WhenPackageSendToEmployeeSerializer(queryset, many=True)
         return Response(serializer.data)
 
