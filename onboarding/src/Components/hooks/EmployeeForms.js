@@ -5,7 +5,6 @@ import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../uti
 /**
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
-// function EmployeeForms(props, count){
 function EmployeeForms(props, setError, setLoading, count){
 	const [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
@@ -73,7 +72,7 @@ function EmployeeForms(props, setError, setLoading, count){
 
 			form_table.push(row);
 		}
-		
+
 		return form_table;
 	}
 
@@ -188,7 +187,122 @@ export function SingleEmployeeForms(props){
 	return results;
 }*/
 
+function revertProgressAnswers(progressAnswers){
+	let progress = {};
+	if(progressAnswers.length < 1)
+		return progress;
 
+	let packageId, pageId, finishDate, data, empty = true;
+	progressAnswers.forEach(function(answer){
+		if(typeof answer.section.package_id === 'undefined' || answer.section.package_id === null || typeof answer.section.page === 'undefined')
+			return;
+
+		empty = false;
+
+		finishDate = new Date(0);// anything small; here '1970';
+		if( answer.hasOwnProperty('updated_on') ){
+			try {
+				finishDate = new Date(answer.updated_on);
+			} catch(e){}
+		}
+
+		packageId = answer.section.package_id;
+		if( !progress.hasOwnProperty(packageId) )
+			progress[packageId] = {packageId: packageId, date: finishDate, finished: 0, count: 0, pages: {}};
+		else if(finishDate > progress[packageId].date){
+			progress[packageId].date = finishDate;
+		}
+
+		pageId = answer.section.page;
+		if( !progress[packageId].pages.hasOwnProperty(pageId) )
+			progress[packageId].pages[pageId] = {finished: true, date: finishDate, title: "", answers: {}};
+		else if(finishDate > progress[packageId].pages[pageId].date){
+			progress[packageId].pages[pageId].date = finishDate;
+		}
+
+		if(answer.section.hasOwnProperty("page_title") )
+			progress[packageId].pages[pageId].title = answer.section.page_title;
+
+
+		data = {id: -1, owner: -1, finished: false, confirmed: false, data: {}};
+
+		if( answer.hasOwnProperty("id") )
+			data.id = parseInt(answer.id, 10);
+
+		if( answer.hasOwnProperty("owner") )
+			data.owner = parseInt(answer.owner, 10);
+
+		if( answer.hasOwnProperty("finished") ){
+			data.finished = answer.finished === 'true' || answer.finished === true;
+			progress[packageId].pages[pageId].finished &= data.finished;
+		}
+
+		if( answer.hasOwnProperty("confirmed") )
+			data.confirmed = answer.confirmed;
+		/*if( answer.hasOwnProperty("data") )
+			data.data = answer.data;*/
+
+		progress[packageId].pages[pageId].answers[data.id] = data;
+	});
+
+	if(empty)
+		return progress;
+
+	// counting finished forms and converting dates to string representation;
+	Object.keys(progress).forEach( (id) => {
+		progress[id].count = Object.keys(progress[id].pages).length;
+		let countFinished = 0;
+		Object.keys(progress[id].pages).forEach( (pId) => {
+			if(progress[id].pages[pId].finished)
+				countFinished += 1;
+					
+			progress[id].pages[pId].date = dateToString(progress[id].pages[pId].date);
+		});
+		progress[id].finished = countFinished;
+		progress[id].date = dateToString(progress[id].date);
+	});
+	return progress;
+}
+
+export function getProgress(employeeId, progressCallback){
+	let xhr = new XMLHttpRequest(), url = getPath();
+
+	url += "api/user_progress/" + employeeId;
+
+	xhr.onreadystatechange = function(){
+		if(this.readyState == 4 && this.status >= 200 && this.status < 300){
+			let progressAnswers, progress = {};
+			try {
+				progressAnswers = JSON.parse(this.responseText);
+			}catch(e){
+			    progressAnswers = [];}
+
+			progress = revertProgressAnswers(progressAnswers);
+
+			progressCallback(progress);
+		} else if(this.readyState == 4){
+			progressCallback(false, this.responseText);
+		}
+	}
+
+	xhr.open("GET", url, true);/* async: true (asynchronous) or false (synchronous); */
+
+	xhr.setRequestHeader("Accept", "application/json");
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.setRequestHeader("X-CSRFToken", "");
+	xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+	xhr.send();
+
+	let abortFun = function(){
+		xhr.abort();
+	}
+	return abortFun;
+}
+
+
+/**
+ * Rescue request an id of the logged user when it is not set;
+ */
 function getUserId(pageId, errorMessageFunction, setSectionsAnswers){
 	let xhr = new XMLHttpRequest(), url = getPath();
 
