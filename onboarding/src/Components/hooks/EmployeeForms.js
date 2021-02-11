@@ -187,6 +187,9 @@ export function SingleEmployeeForms(props){
 	return results;
 }*/
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - Functions requesting progress - - - - - - - - - - - - - - - -
+
 function revertProgressAnswers(progressAnswers){
 	let progress = {};
 	if(progressAnswers.length < 1)
@@ -334,6 +337,58 @@ export function getProgress(employeeId, progressCallback){
 	return abortFun;
 }*/
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - -Functions requesting dates when packages were sent - - - - - - - - - - -
+
+function processDatesOfSending(sendDates){
+	let result = {};
+	if( !Array.isArray(sendDates) || sendDates.length < 1)
+		return result;
+
+	let i, count = sendDates.length, packageId, date;
+	for(i = 0; i < count; i++){
+		packageId = -1;
+		date = "";
+
+		if( sendDates[i].hasOwnProperty("package") )
+			packageId = parseInt(sendDates[i]["package"], 10);
+
+		if( sendDates[i].hasOwnProperty("send_on") ){
+			result[packageId] = dateToString(sendDates[i].send_on);
+		}
+	}
+	return result;
+}
+
+// [{"package": 1, "send_on": "2021-01-13T13:02:54.156492Z"}, {"package": 3, "send_on": "2021-01-18T16:07:40.058879Z"}, ...]
+export function datesOfSendingPackages(employeeId, sendDateCallback){
+	let url = getPath(), abortCont;
+	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+
+	abortCont = new AbortController();
+	fetchProps.signal = abortCont.signal;
+	url += "api/user/" + employeeId + "/when_package_send_to_user/";
+
+	fetch(url, fetchProps).then(function(res){
+		if(!res.ok)
+			throw Error("Problem z pobraniem danych!");
+
+		return res.json();
+	}).then( (result) => {
+		let sendDates = processDatesOfSending(result);
+		sendDateCallback(sendDates);
+	}).catch((err) => {
+		sendDateCallback(false, err.message);// console.log(err);
+	});
+
+
+	let abortFun = function(){
+		abortCont.abort();
+	}
+	return abortFun;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 /**
  * Rescue request an id of the logged user when it is not set;
