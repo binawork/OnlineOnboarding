@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import FormsSentTableRow from "./FormsSentTableRow";
-import EmployeeForms, { remindEmployeeOfPackage, getProgress } from "../hooks/EmployeeForms";
+import EmployeeForms, { remindEmployeeOfPackage, getProgress, datesOfSendingPackages } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsSent(props) {
     const [numberChecked, checkedChange] = useState(0);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [formTable, setSentPackages] = useState([]);
     let propsCp = {...props, specificEmployee: props.employeeId},
-        user_table = EmployeeForms(propsCp, setError, setLoading), forms = [];
+        form_table = EmployeeForms(propsCp, setError, setLoading), forms = [];
+
+
 
     const showHide = (isChecked) => {
         if(isChecked)
@@ -22,27 +25,73 @@ function ImplementationFormsSent(props) {
     };
 
 
-    const progressCallback = (result) => {
+    const progressCallback = (result, message) => {
+    	if(typeof message === 'string' && message.length > 0)
+    		return;// todo: maybe inform about error;
+
         console.log(result);
-        let i, packageId;
-        for(i = user_table.length - 1; i >= 0; i--){
-            packageId = parseInt(user_table[i].key, 10);
+        let i, j, packageId, pId;
+        for(i = form_table.length - 1; i >= 0; i--){
+            packageId = parseInt(form_table[i].key, 10);
             if( !result.hasOwnProperty(packageId) )
                 continue;
-            user_table[i].progress = result[packageId].finished + "/" + result[packageId].count;
-            console.log(user_table[i]);
+            form_table[i].progress = result[packageId].finished + "/" + result[packageId].count;
+            form_table[i].finish_date = result[packageId].date;
+
+            for(j = form_table[i].pages.length - 1; j >= 0; j--){
+                form_table[i].pages[j].finished = "Not started";
+
+                pId = parseInt(form_table[i].pages[j].id, 10);
+                if( result[packageId].pages.hasOwnProperty(pId) )
+                    form_table[i].pages[j].finished = result[packageId].pages[pId].finished ? result[packageId].pages[pId].date : "In progress";
+
+            }
         }
+        setSentPackages(form_table);
+        datesOfSendingPackages(props.employeeId, sendDateCallback);
     };
 
+    const sendDateCallback = function(result, message){
+        if(!result && (typeof message === 'undefined' || typeof message !== 'string') )
+            return;
+
+        if(formTable.length > 0)
+            form_table = formTable;
+
+        let newFormTable = [];
+
+        if(typeof message === 'string')
+            newFormTable = form_table.map(function(element){
+                    element.send_date = message;
+                    return element;
+                });
+        else if(typeof result === 'object'){
+            let packageId;
+            newFormTable = form_table.map(function(element){
+                    packageId = parseInt(element.key, 10);
+                    if( result.hasOwnProperty(packageId) )
+                        element.send_date = result[packageId];
+
+                    return element;
+                });
+        }
+
+        if(newFormTable.length > 0)
+            setSentPackages(newFormTable);
+    };
 
     useEffect(() => {
-        if(!loading)
-            getProgress(props.employeeId, progressCallback);
+        if(!loading){
+            let abortFun = getProgress(props.employeeId, progressCallback);
+            return abortFun;
+        }
     }, [loading]);
 
 
-    if(user_table.length !== 0) {
-        user_table.forEach(function (element, i) {
+    if(form_table.length !== 0 || formTable.length>0) {
+        if(formTable.length > 0) form_table = formTable;
+
+        form_table.forEach(function (element, i) {
             forms.push(<FormsSentTableRow key={ element.key } row={ element }
                 setAnswersPage={ props.setAnswersPage }
                                         employeeId={ props.employeeId }
@@ -55,6 +104,7 @@ function ImplementationFormsSent(props) {
             </tr>
         );
     }
+
 
     return(
         <div className="card card-fluid">
