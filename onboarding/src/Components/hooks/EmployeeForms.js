@@ -267,6 +267,12 @@ function revertProgressAnswers(progressAnswers){
 	return progress;
 }
 
+/**
+ * Requests server for the list of answers with corresponding section and page keys;
+ * @param employeeId: id (int) of employee it is requested for;
+ * @param progressCallback: callback function to make use of the result;
+ * @returns {abortFun}: function to abort by XMLHttpRequest.abort() property method;
+ */
 export function getProgress(employeeId, progressCallback){
 	let xhr = new XMLHttpRequest(), url = getPath();
 
@@ -340,15 +346,20 @@ export function getProgress(employeeId, progressCallback){
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - -Functions requesting dates when packages were sent - - - - - - - - - - -
 
+/**
+ * Converts list of key-value pairs like [{"package": int, "send_on": string}, ...]
+ * into indexed list like {package_1: send_on_1, package_2: send_on_2, ...};
+ * @param sendDates: list of objects like [{"package": int, "send_on": string}, ...] or another object to return {};
+ * @returns {{}} indexed list or empty object;
+ */
 function processDatesOfSending(sendDates){
 	let result = {};
 	if( !Array.isArray(sendDates) || sendDates.length < 1)
 		return result;
 
-	let i, count = sendDates.length, packageId, date;
+	let i, count = sendDates.length, packageId;
 	for(i = 0; i < count; i++){
 		packageId = -1;
-		date = "";
 
 		if( sendDates[i].hasOwnProperty("package") )
 			packageId = parseInt(sendDates[i]["package"], 10);
@@ -360,7 +371,12 @@ function processDatesOfSending(sendDates){
 	return result;
 }
 
-// [{"package": 1, "send_on": "2021-01-13T13:02:54.156492Z"}, {"package": 3, "send_on": "2021-01-18T16:07:40.058879Z"}, ...]
+/**
+ * Requests server for the list of date when package was sent for corresponding package id;
+ * @param employeeId: id (int) of employee it is requested for;
+ * @param sendDateCallback: callback function to make use of the result;
+ * @returns {abortFun}: function to abort by AbortController()
+ */
 export function datesOfSendingPackages(employeeId, sendDateCallback){
 	let url = getPath(), abortCont;
 	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
