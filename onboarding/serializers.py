@@ -317,6 +317,7 @@ class WhenPackageSendToEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PackagesUsers
         fields = (
+            'package',
             'send_on',
         )
 
