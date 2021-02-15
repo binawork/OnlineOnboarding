@@ -190,6 +190,20 @@ export function SingleEmployeeForms(props){
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - - - Functions requesting progress - - - - - - - - - - - - - - - -
 
+/**
+ *
+ * @param progressAnswers
+ * [{
+    id: int,
+    section: {id: int, title: string, data: [], page: int, company_id: int, package_id: int, page_title: string, page_link: string, page_updated": date-string},
+    data: string or Object,
+    confirmed: boolean,
+    updated_on: date-string,
+    finished: boolean,
+    owner: int
+  }, ...]
+ * @returns {{}}
+ */
 function revertProgressAnswers(progressAnswers){
 	let progress = {};
 	if(progressAnswers.length < 1)
