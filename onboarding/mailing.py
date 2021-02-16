@@ -66,7 +66,7 @@ def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
     html_message = render_to_string(
         'templated_email/add_user_to_form.html',
         {
-            "username": user,
+            "user": user,
             "package": package
         }
     )
