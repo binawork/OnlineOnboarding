@@ -2,31 +2,32 @@ import React from "react";
 import parse from "html-react-parser";
 
 function FormsSectionsPreview({ section }) {
-  const answersList = section.data.map((answer, i) => {
-    if (section.type === "osa" || section.type === "msa") {
-      return (
-        <tr key={ `answ-${answer.id}` }>
-          <td className="d-flex justify-content-between align-items-center pr-0">
-            <div className="w-100">
-                <div
+  const answersList = (section.type !== "osa" && section.type !== "msa") ? [] : section.data.map((answer, i) => {
+    let keyId = (typeof answer.id !== 'undefined') ? answer.id : "_" ;
+    keyId = `answ-${keyId}-${section.id}-${i}`;
+
+    return (
+      <tr key={ keyId }>
+        <td className="d-flex justify-content-between align-items-center pr-0">
+          <div className="w-100">
+              <div
                   className={`custom-control custom-control-inline custom-${
-                    section.type === "osa" ? "radio" : "checkbox"
-                  }`}
-                >
+                      section.type === "osa" ? "radio": "checkbox"}`
+                  }
+              >
                   <input
-                    id={ `answ-${answer.id}` }
-                    className="custom-control-input"
-                    type={ section.type === "osa" ? "radio" : "checkbox" }
+                      id={ keyId }
+                      className="custom-control-input"
+                      type={section.type === "osa" ? "radio": "checkbox"}
                   />
-                  <label className="custom-control-label" htmlFor={ `answ-${answer.id}` }>
-                    { answer.title }
+                  <label className="custom-control-label" htmlFor={ keyId }>
+                      {answer.title}
                   </label>
-                </div>
-            </div>
-          </td>
-        </tr>
-      );
-    }
+              </div>
+          </div>
+        </td>
+      </tr>
+    );
   });
 
   return (
@@ -60,3 +61,4 @@ function FormsSectionsPreview({ section }) {
 }
 
 export default FormsSectionsPreview;
+
