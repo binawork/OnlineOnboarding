@@ -43,20 +43,20 @@ function FormsSentTableRow(props) {
         pages = props.row.pages.map((page, i) => {
             return (
                 <tr key={ i } style={ toggleObj.style }>
-                    <td className="table__data" colSpan="1">
-                        <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
+                    <td className="table__data">
+                        <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}/>
                         <a href="" title="Kliknij, aby przejść do odpowiedzi pracownika" onClick={ (e) => handleShowAnswers(e, page) }>
                             { page.title }
                         </a>
                     </td>
-                    <td className="table__data form-progress" colSpan="1">
+                    <td className="table__data form-progress">
                         {/* Add below lines if progress is implemented, add condition when it has to appear */}
                         {/* Change 'backgroundSize' to a value which is equal to the percentage of finished forms */}
                         {/* Change "W toku" to the proper value: "Skończone", "W toku" or "Nie zaczęte" */}
                         {/* <ProgressBar color="purple" backgroundSize={"75%"} /> */}
                         {/* <small className="ml-1">{ "W toku" }</small> */}
                     </td>
-                    <td colSpan="3"></td>
+                    <td colSpan="3"/>
                 </tr>
             );
         });
