@@ -17,7 +17,8 @@ function FormAddSection({
       order: maxOrder + 1,
       title: "",
       description: "",
-      data: []/* [{title: sectionType === "oa" ? "" : "Odpowiedź", is_checked: false}]; */
+      data: [],/* [{title: sectionType === "oa" ? "" : "Odpowiedź", is_checked: false}]; */
+      isNew: true
     };
 
     setSections([...sections, sectionToAdd]);
