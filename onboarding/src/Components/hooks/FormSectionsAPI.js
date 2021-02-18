@@ -52,30 +52,15 @@ const FormSectionsAPI = {
       })
     );
   },
-  saveAll: async function (sections/*, answers*/) {
+  saveAll: async function (sections, updateSectionsCallback) {
     //Save sections
     const sectionsSaveResult = await Promise.all(
       sections.map((section) =>
-        typeof section.id === "string"
+        typeof section.hasOwnProperty('isNew') && section.isNew === true
           ? makeRequest(`${BASE_URL}api/section/`, "POST", section)
               .then((res) => res.json())
               .then((result) => {
                 const savedSection = result;
-                //Save answers of section
-                /*Promise.all(
-                  answers.map((answer, index) => {
-                    if (answer.section === section.id) {
-                      makeRequest(`${BASE_URL}api/answer/`, "POST", {
-                        section: savedSection.id,
-                        data: answer.data,
-                      })
-                        .then((res) => res.json())
-                        .then((response) => {
-                          answers.splice(index, 1, response);
-                        });
-                    }
-                  })
-                );*/
                 return savedSection;
               })
           : makeRequest(
@@ -86,28 +71,13 @@ const FormSectionsAPI = {
               .then((res) => res.json())
               .then((result) => {
                 const savedSection = result;
-                //Save answers of section
-                /*Promise.all(
-                  answers.map((answer) => {
-                    if (answer.section === section.id) {
-                      typeof answer.id === "string"
-                        ? makeRequest(`${BASE_URL}api/answer/`, "POST", {
-                            section: savedSection.id,
-                            data: answer.data,
-                          })
-                        : makeRequest(
-                            `${BASE_URL}api/answer/${answer.id}/`,
-                            "PATCH",
-                            { data: answer.data }
-                          );
-                    }
-                  })
-                );*/
                 return savedSection;
               })
       )
     );
-    return [sectionsSaveResult/*, answers*/];
+
+    /*await*/ updateSectionsCallback(sectionsSaveResult);
+    return sectionsSaveResult;
   },
 };
 
