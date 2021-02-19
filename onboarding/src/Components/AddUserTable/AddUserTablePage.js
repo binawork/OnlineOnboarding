@@ -1,22 +1,18 @@
-import React, { useState, useRef } from "react";
+
+import React, { useState } from "react";
 import PageAddressBar from "../PageAddressBar";
 import AddUserTable from "./AddUserTable";
 import { singleCombo } from "../hooks/Packages";
 import ModalWarning from "../ModalWarning";
+import { useParams } from "react-router-dom";
 
 
-function AddUserTablePage(props) {
-    const packageIdRef = useRef(0),
-        [confirmationModal, setIdModal ] = useState({id: 0, modal: <></>});
-
-    let packageObj = null;
-    if(props.location.state){
-        packageIdRef.current = props.location.state.packageId;
-        packageObj = singleCombo(packageIdRef.current);
-    };
-
+function AddUserTablePage({ loggedUserId }) {
     document.title = "Onboarding: wyślij pracownikowi";
 
+    const { package_id:packageId } = useParams();
+    const [confirmationModal, setIdModal ] = useState({id: 0, modal: <></>});
+    let packageObj = singleCombo(packageId);
 
     const popUpConfirmationModal = (message) => {
         setIdModal({id: 0,
@@ -28,19 +24,17 @@ function AddUserTablePage(props) {
         setIdModal({id: 0, modal: <></>});
     };
 
-
     return(
-        <main className="app-main">
-            <div className="wrapper">
-                <div className="page">
-                    <div className="page-inner">
-                        <PageAddressBar page = { "Wyślij pracownikowi" } />
-                        <AddUserTable loggedUserId={ props.loggedUserId } packageId={ packageIdRef.current } packageCurrent={ packageObj } showModal={ popUpConfirmationModal } />
-                    </div>
-                </div>
-                { confirmationModal.modal }
-            </div>
-        </main>
+        <div className="page-inner">
+            <PageAddressBar page = { `Wyślij katalog ${packageObj ? `"${packageObj.title}"` : ""}` } />
+            <AddUserTable 
+                loggedUserId={ loggedUserId }
+                packageId={ packageId }
+                packageCurrent={ packageObj } 
+                showModal={ popUpConfirmationModal }
+            />
+            { confirmationModal.modal }
+        </div>
     )
 }
 export default AddUserTablePage;

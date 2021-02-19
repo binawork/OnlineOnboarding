@@ -33,8 +33,11 @@ function ImplementationFormsSent(props) {
         let i, j, packageId, pId;
         for(i = form_table.length - 1; i >= 0; i--){
             packageId = parseInt(form_table[i].key, 10);
-            if( !result.hasOwnProperty(packageId) )
+            if( !result.hasOwnProperty(packageId) ){
+                form_table[i].finish_date = "Nie rozpoczął";
                 continue;
+            }
+
             form_table[i].progress = result[packageId].finished + "/" + result[packageId].count;
             form_table[i].finish_date = result[packageId].date;
 
