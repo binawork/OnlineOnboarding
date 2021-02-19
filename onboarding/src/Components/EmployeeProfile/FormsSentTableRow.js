@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-
+// import Tag from "../Tag";
+// import ProgressBar from "../ProgressBar";
+import "../../static/css/packages.css"
 
 function FormsSentTableRow(props) {
     const [toggleObj, switchVisibility] = useState({style:{ display: "none" },
@@ -42,34 +43,44 @@ function FormsSentTableRow(props) {
         pages = props.row.pages.map((page, i) => {
             return (
                 <tr key={ i } style={ toggleObj.style }>
-                    <td colSpan="5">
-                        <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
-                        {/* <Link to={{ pathname: "/employee_answers/" + page.id, */}
-                                    {/* state: { page: page, employeeId: props.employeeId } }}> */}
+                    <td className="table__data">
+                        <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}/>
                         <a href="" title="Kliknij, aby przejść do odpowiedzi pracownika" onClick={ (e) => handleShowAnswers(e, page) }>
                             { page.title }
                         </a>
-                        {/* </Link> */}
                     </td>
+                    <td className="table__data form-progress">
+                        {/* Add below lines if progress is implemented, add condition when it has to appear */}
+                        {/* Change 'backgroundSize' to a value which is equal to the percentage of finished forms */}
+                        {/* Change "W toku" to the proper value: "Skończone", "W toku" or "Nie zaczęte" */}
+                        {/* <ProgressBar color="purple" backgroundSize={"75%"} /> */}
+                        {/* <small className="ml-1">{ "W toku" }</small> */}
+                    </td>
+                    <td colSpan="3"/>
                 </tr>
             );
         });
     }
 
-
     return(
         <>
             <tr>
-                <td style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
+                <td className="table__data" style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
                     { toggleObj.hasContent && <button className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`} onClick={ showPages } type="button"><i className="fas fa-caret-right"></i></button> }
                     { checkBox }
                     <i className="fa fa-folder" style={{ width: "24px", color: "#F7C46C", marginRight: "2px" }}></i>
                     {props.row.form}
                 </td>
-                <td style={{ verticalAlign: "middle" }}>{props.row.progress}</td>
-                <td style={{ verticalAlign: "middle" }}>{props.row.send_date}</td>
-                <td style={{ verticalAlign: "middle" }}>{props.row.finish_date}</td>
-                <td style={{ verticalAlign: "middle", textAlign: "end", width: "120px" }}>{ buttonObj }</td>
+                <td className="table__data">
+                    <div className="package-progress">
+                        {props.row.progress}
+                        {/* Add below line if progress is implemented, add condition when it has to appear (when all of the forms in the package are finished) */}
+                        {/* <Tag title="Skończone" color="yellow" /> */}
+                    </div>
+                </td>
+                <td className="table__data">{props.row.send_date}</td>
+                <td className="table__data">{props.row.finish_date}</td>
+                <td className="table__data" style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td>
             </tr>
             { pages }
         </>

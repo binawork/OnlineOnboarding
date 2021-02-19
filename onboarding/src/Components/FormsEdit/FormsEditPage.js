@@ -8,6 +8,7 @@ import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import { useLocation, useParams } from "react-router-dom";
 import FormsEdit, { fetchFormData } from "../hooks/FormsEdit";
 import { singleCombo } from "../hooks/Packages";
+import ModalWarning from "../ModalWarning";
 
 function FormsEditPage() {
   const location = useLocation();
@@ -17,8 +18,10 @@ function FormsEditPage() {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [update, setUpdate] = useState(true);
-  const [saved, setSaved] = useState(false);
+  // const [saved, setSaved] = useState(false);
   const [packageTitle, setPackageTitle] = useState("");
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [editMode, setEditMode] = useState(true);
 
   const { data:formData } = fetchFormData(formId);
   const { sections:sortedSections, loading:isLoading, errorMessage:error } = FormsEdit(formId, update);
@@ -26,30 +29,22 @@ function FormsEditPage() {
   // Set title of package in navigation bar
   let title = singleCombo(formData?.package)?.title;
   if(location.state?.packageTitle && !packageTitle) setPackageTitle(location.state.packageTitle);
-
+  
   useEffect(() => {
     title && setPackageTitle(title);
   }, [title]);
   // End of set title of package in navigation bar
 
   useEffect(() => {
-    const abortCont = new AbortController();
     setSections(sortedSections);
     updateMaxOrder(sortedSections?.length);
     setLoading(isLoading);
     setErrorMessage(error);
-    return () => abortCont.abort();
   }, [sortedSections, isLoading, error]);
 
-  useEffect(() => {
-    // Show info "Zapisano zmiany" for 3sec when the changes were saved
-    if (saved) {
-      const timer = setTimeout(setSaved, 3000, false);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [saved]);
+  const hideModal = () => {
+    setShowSaveModal(false);
+  };
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -57,7 +52,7 @@ function FormsEditPage() {
       .catch((error) => setErrorMessage(error.message))
       .then(() => {
         setUpdate(true);
-        setSaved(true);
+        setShowSaveModal(true);
       });
   };
 
@@ -120,6 +115,7 @@ function FormsEditPage() {
                         setSections={ setSections }
                         maxOrder={ maxOrder }
                         updateMaxOrder={ updateMaxOrder }
+                        editMode={ editMode }
                       />
                     )}
                     {provided.placeholder}
@@ -134,12 +130,28 @@ function FormsEditPage() {
                 updateMaxOrder={ updateMaxOrder }
                 maxOrder={ maxOrder }
                 pageId={ formId }
+                editMode={ editMode }
+                setEditMode={ setEditMode }
               />
             </div>
           </div>
         </form>
       </section>
-      {saved ? (
+      {showSaveModal && (
+        <ModalWarning
+          handleAccept={ hideModal }
+          title={ "Zapisywanie sekcji formularza" }
+          message={
+            errorMessage
+              ? "Nie udało się zapisać"
+              : "Zmiany zostały pomyślnie zapisane"
+          }
+          show={ true }
+          acceptText="Ok"
+          id={ 0 }
+        />
+      )}
+      {/* {saved ? (
         <div
           className="fixed-bottom d-flex justify-content-center show-and-hide"
           style={{ display: "fixed-bottom", left: "240px" }}
@@ -159,7 +171,7 @@ function FormsEditPage() {
         </div>
       ) : (
         <></>
-      )}
+      )} */}
     </div>
   );
 }
