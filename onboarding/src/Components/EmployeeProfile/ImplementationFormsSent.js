@@ -45,7 +45,7 @@ function ImplementationFormsSent(props) {
 
             isFinished = true;
             for(j = form_table[i].pages.length - 1; j >= 0; j--){
-                form_table[i].pages[j].finished = notStartedMsg;
+                form_table[i].pages[j].finished = "";// notStartedMsg;
 
                 pId = parseInt(form_table[i].pages[j].id, 10);
                 if( result[packageId].pages.hasOwnProperty(pId) ){
