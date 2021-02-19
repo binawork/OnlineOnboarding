@@ -27,8 +27,7 @@ function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sect
     inputAnswer(sectionId);
   };
 
-  const answersList = sectionData
-    .map((answer, i) => {
+  const answersList = sectionData?.map((answer, i) => {
       try {
         if (type === "osa" || type === "msa") {
           return (

@@ -86,7 +86,11 @@ export function getUserById(id) {
  * 
  * employeeObject = {name: "", last_name: "", email: "", tel: "", department: "", location: "", position: ""};
  */
-export function employeeAddEdit(handleMessage, employeeObject){
+export function employeeAddEdit(handleMessage, employeeObject, updateData){
+	// if(avatarSaveError) {
+	// 	handleMessage("Nie udało się zapisać avatara!", false);
+	// 	return false;
+	// }
 	if(typeof employeeObject.first_name !== "string" || typeof employeeObject.last_name !== "string"
 		|| typeof employeeObject.email !== "string" || typeof employeeObject.email.length < 2){
 		handleMessage("Błędny format danych lub brak e-maila!", false);
@@ -130,6 +134,7 @@ export function employeeAddEdit(handleMessage, employeeObject){
 			if(result.hasOwnProperty('detail') )
 				msg += "  " + String(result.detail);
 			handleMessage(msg, true);
+			updateData();
 		},
 		(error) => {
 			// console.log("Users: eA");
@@ -139,7 +144,7 @@ export function employeeAddEdit(handleMessage, employeeObject){
 	return true;
 }
 
-export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
+export function uploadAvatar(handleSuccess, avatarFile, employeeObject, showModal, updateData){
 // export function uploadAvatar(avatarFile, employeeObject){
 	let data = new FormData();
 	let url = getPath(), 
@@ -158,15 +163,23 @@ export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
 	// data.append('id', employeeObject.id);
 	data.append('avatar', avatarFile);
 	fetchProps.body = data;
-	fetch(url + 'api/user-avatar/', fetchProps).then(response => response.json()).then(
-		data => {
-			handleSuccess(data);
-			return data;
-		},
-		(error) => {
+	fetch(url + 'api/user-avatar/', fetchProps)
+		.then(response => {
+			if(!response.ok) {
+				throw Error("Wystąpił błąd podczas zapisywania avatara!")
+			}
+			return response.json();
+		})
+		.then(data => {
+				handleSuccess(data);
+				employeeAddEdit(showModal, employeeObject);
+				updateData();
+				return data;
+		})
+		.catch(error => {
+			showModal(error.message);
 			console.error('Error:', error);
-		}
-	);
+		});
 }
 
 export function employeeRemove(handleSuccess, userId, setLoadingSave){
