@@ -41,6 +41,9 @@ function FormsSentTableRow(props) {
 
     if(toggleObj.hasContent){
         pages = props.row.pages.map((page, i) => {
+            /*let finishedDate = "";
+            if(page.finished) finishedDate = page.finished;*/
+
             return (
                 <tr key={ i } style={ toggleObj.style }>
                     <td className="table__data">
@@ -56,7 +59,9 @@ function FormsSentTableRow(props) {
                         {/* <ProgressBar color="purple" backgroundSize={"75%"} /> */}
                         {/* <small className="ml-1">{ "W toku" }</small> */}
                     </td>
-                    <td colSpan="3"/>
+                    <td/>
+                    <td>{ page.finished }</td>
+                    <td></td>
                 </tr>
             );
         });
