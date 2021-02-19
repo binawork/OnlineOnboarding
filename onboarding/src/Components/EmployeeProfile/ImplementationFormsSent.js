@@ -29,27 +29,39 @@ function ImplementationFormsSent(props) {
     	if(typeof message === 'string' && message.length > 0)
     		return;// todo: maybe inform about error;
 
-        console.log(result);
-        let i, j, packageId, pId;
+        let i, j, packageId, pId, isFinished;
+        const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie";
         for(i = form_table.length - 1; i >= 0; i--){
             packageId = parseInt(form_table[i].key, 10);
+            form_table[i].finish_date = notStartedMsg;
+
             if( !result.hasOwnProperty(packageId) ){
-                form_table[i].finish_date = "Nie rozpoczął";
+                form_table[i].progress = "0/" + form_table[i].pagesCount;// "0" + form_table[i].progress.substring(1).
                 continue;
             }
 
             form_table[i].progress = result[packageId].finished + "/" + result[packageId].count;
-            form_table[i].finish_date = result[packageId].date;
+            form_table[i].finish_date = inProgressMsg;
 
+            isFinished = true;
             for(j = form_table[i].pages.length - 1; j >= 0; j--){
-                form_table[i].pages[j].finished = "Not started";
+                form_table[i].pages[j].finished = notStartedMsg;
 
                 pId = parseInt(form_table[i].pages[j].id, 10);
-                if( result[packageId].pages.hasOwnProperty(pId) )
-                    form_table[i].pages[j].finished = result[packageId].pages[pId].finished ? result[packageId].pages[pId].date : "In progress";
-
+                if( result[packageId].pages.hasOwnProperty(pId) ){
+                    if(result[packageId].pages[pId].finished){
+                        form_table[i].pages[j].finished = result[packageId].pages[pId].date;
+                    } else {
+                        form_table[i].pages[j].finished = inProgressMsg;
+                        isFinished = false;
+                    }
+                }
             }
+
+            if(isFinished)
+                form_table[i].finish_date = result[packageId].date;            
         }
+
         setSentPackages(form_table);
         datesOfSendingPackages(props.employeeId, sendDateCallback);
     };

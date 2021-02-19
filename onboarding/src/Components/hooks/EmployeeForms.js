@@ -68,6 +68,7 @@ function EmployeeForms(props, setError, setLoading, count){
 					if(row.pages[j].hasOwnProperty('updated_on') )
 						row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
 				}
+				row.progress = "?/" + row.pagesCount;
 			}
 
 			form_table.push(row);
