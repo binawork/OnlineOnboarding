@@ -36,11 +36,11 @@ function ImplementationFormsSent(props) {
             form_table[i].finish_date = notStartedMsg;
 
             if( !result.hasOwnProperty(packageId) ){
-                form_table[i].progress = "0/" + form_table[i].pagesCount;// "0" + form_table[i].progress.substring(1).
+                form_table[i].progress = "0" + form_table[i].progress.substring(1);// "0/" + form_table[i].pagesCount;
                 continue;
             }
 
-            form_table[i].progress = result[packageId].finished + "/" + result[packageId].count;
+            form_table[i].progress = result[packageId].finished + "/" + form_table[i].progress.substring(2);
             form_table[i].finish_date = inProgressMsg;
 
             isFinished = true;
