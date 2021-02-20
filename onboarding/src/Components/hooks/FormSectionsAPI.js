@@ -4,12 +4,15 @@ import "regenerator-runtime/runtime.js";
 const BASE_URL = getPath();
 
 const FormSectionsAPI = {
-  getAllSections: async function (pageID) {
+  getAllSections: async function (pageID, abortCont) {
     const sections = await makeRequest(
       `${BASE_URL}api/section/${pageID}/list_by_page_hr/`,
-      "GET"
+      "GET",
+      null,
+      abortCont
     );
     const response = await sections.json();
+
     return response;
   },
   getAllAnswers: async function () {
@@ -23,16 +26,6 @@ const FormSectionsAPI = {
     }
     if (typeof idToDelete === "number") {
       await makeRequest(`${BASE_URL}api/section/${idToDelete}`, "DELETE");
-      /*await Promise.all(
-        answers.map((answer) => {
-          if (
-            (typeof answer.id === "number" && answer.section === idToDelete) ||
-            answer.section === null
-          ) {
-            makeRequest(`${BASE_URL}api/answer/${answer.id}`, "DELETE");
-          }
-        })
-      );*/
     }
   },
   deleteAnswer: async function (idToDelete) {
@@ -83,7 +76,7 @@ const FormSectionsAPI = {
 
 export default FormSectionsAPI;
 
-async function makeRequest(url, method, body) {
+async function makeRequest(url, method, body, abortCont) {
   const jsonBody = body ? JSON.stringify(body) : undefined;
   const response = await fetch(url, {
     method: method,
@@ -93,9 +86,12 @@ async function makeRequest(url, method, body) {
       "X-CSRFToken": getCookie("csrftoken"),
     },
     body: jsonBody,
+    signal: abortCont?.signal
   });
+  
   if (!response.ok) {
     throw new Error("Wystąpił błąd");
   }
-  return response;
+  
+  return  response;
 }

@@ -5,6 +5,18 @@
   animation: newRowColor 3s ease-in-out;
 }
 
+.package-progress {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.form-progress {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .info-tag {
   padding: 3px 6px;
   white-space: nowrap;

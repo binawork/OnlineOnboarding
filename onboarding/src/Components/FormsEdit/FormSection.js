@@ -4,12 +4,14 @@ import SectionAnswers from "./SectionAnswers";
 import { Draggable } from "react-beautiful-dnd";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
 import uuid from "uuid";
+import FormsSectionsPreview from "./FormsSectionsPreview";
 
 function FormSection({
   sections,
   setSections,
   maxOrder,
   updateMaxOrder,
+  editMode
 }) {
   const sectionsRef = useRef(sections);
   useEffect(() => {
@@ -132,7 +134,8 @@ function FormSection({
 
   return (
     <>
-      {sections && sections.map((section, index) => (
+      {sections && sections.map((section, index) => editMode 
+        ? (
         <Draggable
           key={section.id}
           draggableId={"draggable-" + section.id}
@@ -214,7 +217,10 @@ function FormSection({
             </section>
           )}
         </Draggable>
-      ))}
+      ) : (
+        <FormsSectionsPreview key={section.id} section={ section } />
+      )
+      )}
     </>
   );
 }
