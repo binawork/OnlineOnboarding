@@ -2,21 +2,26 @@ import React from "react";
 import uuid from "uuid";
 import AnswerRow from "./AnswerRow";
 
-function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sectionData, answers, setAnswers, name, type }) {
+/**
+ *
+ * @param inputAnswer
+ * @param editAnswer
+ * @param removeAnswer
+ * @param sectionId
+ * @param sectionData - array of objects like [{id: maxId + 1, title: "Odpowiedź", is_checked: false}, ...];
+ * @param setUnsetChecked - function to change is_checked value: setUnsetChecked(sectionId, answerId);
+ * @param name
+ * @param type
+ * @returns {JSX.Element}
+ * @constructor
+ */
+function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sectionData, setUnsetChecked, name, type }) {
   const addAnswer = (e) => {
     e.preventDefault();
-    /*const answerToAdd = {
-      id: uuid.v4(),
-      section: sectionId,
-      data: {title: "Odpowiedź", is_checked: false},
-    };
-    setAnswers([...answers, answerToAdd]);*/
     inputAnswer(sectionId);
   };
 
-  const answersList = sectionData
-    //.filter((answer) => answer.section === sectionId)
-    .map((answer, i) => {
+  const answersList = sectionData?.map((answer, i) => {
       try {
         if (type === "osa" || type === "msa") {
           return (
@@ -26,13 +31,12 @@ function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sect
               sectionId={ sectionId }
               changeAnswer={ editAnswer }
               removeAnswer={ removeAnswer }
-              //answersData={ sectionData }
-              //answerId={answer.id}
+              answerId={ answer.id }
+              isChecked={ answer.is_checked }
+              setUnsetChecked={ setUnsetChecked }
               name={name}
               text={answer.title || ""}
               type={type}
-              /*answers={answers}
-              setAnswers={setAnswers}*/
             />
           );
         } else if (type !== "oa") {

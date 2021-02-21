@@ -13,6 +13,23 @@ export function getPath(){
 	return url;
 }
 
+/**
+ * Checks if url is a address of website itself;
+ * @param url: string af page/path address
+ * @param defaultUrl: default url to use;
+ * @returns {*}
+ */
+export function validateURL(url, defaultUrl) {
+	let a  = document.createElement('a');
+	a.href = url;
+	if(a.host && a.host != window.location.host){
+		// maybe also: if(url.startsWith(getPath()) ) return url;
+		return defaultUrl;
+	}
+
+	return url;
+}
+
 export function dateToString(str){
 	var date, formatted;
 	try {
@@ -69,5 +86,5 @@ export function clickButtonAfterPressingEnter(e, buttonId) {
 			e.preventDefault();
 			document.getElementById(buttonId).click();
 	}
-};
+}
 

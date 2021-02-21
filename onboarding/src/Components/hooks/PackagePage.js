@@ -1,108 +1,42 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
-import FormTableRow from "../FormTable/FormTableRow";
-import FormPackageEdit from "../FormTable/FormPackageEdit";
+import useFetch from "./useFetch.js";
 
 /**
  * Get pages for package with defined id from Onboarding API when FormTable component is loaded;
  */
-function PackagePage(props){
-	var [rows , setRows] = useState([]),
-		[loaded, isLoaded] = useState(false);
-	const [error, showError] = useState(null);
-  const [newRowId, setNewRowId] = useState(null);
+function PackagePage(count, id){
+  const [pages, setPages] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, showError] = useState(null);
 
 	let url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
-		fetch(url + "api/page/" + props.id + "/list_by_package_hr/", fetchProps).then(res => res.json()).then(
-			(result) => {
-				isLoaded(true);
-				setRows(result.sort((a, b) => b.id - a.id));
-				const ids = result.map((res) => res.id);
-				const maxId = Math.max(...ids);
-				setNewRowId(maxId);
-			},
-			(error) => {
-				showError(error);
-				console.log(error);
-			}
-		);
-	}, [props.count]);
+		fetch(url + "api/page/" + id + "/list_by_package_hr/", fetchProps)
+			.catch(error => {
+				showError(error.message);
+				console.error(error);
+			})
+			.then(res => res.json())
+			.then((result) => {
+					setPages(result.sort((a, b) => b.id - a.id));
+				},
+			)
+			.finally(() => setIsLoading(false));
+	}, [count]);
 
-	if(error){
-		return <FormTableRow key={0} row={ {name: error.message, last_edit: ""} }/>
-	} else if(!loaded)
-		return <FormTableRow key={0} row={ {name: "Ładowanie ...", last_edit: ""} }/>
-	else {
-		var form_table = [], count = rows.length, maxOrder = -1, order;
-		let i, loggedUser = {id:0, first_name: ""};
-
-		if(props.loggedUser)
-			loggedUser = props.loggedUser;
-
-		for(i = 0; i < count; i++){
-			order = parseInt(rows[i].order, 10);
-			form_table.push(
-        <FormTableRow
-          key={rows[i].id}
-          packageId={props.id}
-          row={{
-            name: rows[i].title,
-            order: order,
-            last_edit: rows[i].updated_on,
-            description: rows[i].description,
-            link: rows[i].link,
-            key: rows[i].id,
-          }}
-          handleRemoveAsk={ props.handleRemoveAsk }
-          handleUpdate={props.handleUpdate}
-          lastRow={newRowId === rows[i].id}
-          loggedUser={loggedUser}
-        />
-      );
-			if(order > maxOrder)
-				maxOrder = order;
-		}
-
-		props.updateOrder(maxOrder);
-
-		return ( <>{ form_table }</> )
-	}
-
+	return { pages, isLoading, error };
 }
 
-export function OnePackageEdit(props){
-	var [element, setElement] = useState({title: "", description: ""}),
-		[loaded, isLoaded] = useState(false);
-	const [error, showError] = useState(null);
-	let url = getPath(),
-		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+export function fetchOnePackageAndForms(packageId, count){
+	const url = getPath();
+	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
-	useEffect(() => {
-		fetch(url + "api/package/" + props.packageId, fetchProps).then(res => res.json()).then(
-			(result) => {
-			    if(!result.description)
-			        result.description = "";
+	const { data:packageAndForms, isLoading, error } = useFetch(`${url}api/package_pages/${packageId}`, fetchProps, count);
 
-				isLoaded(true);
-				setElement(result);
-			},
-			(error) => {
-				showError(error);
-				console.log(error);
-			}
-		);
-	}, []);
-
-	if(error){
-		return <FormPackageEdit key={0} error = { error.message } />
-	} else if(!loaded)
-		return <FormPackageEdit key={0} />
-	else {
-		return <FormPackageEdit key={0} pack={ {title: element.title, description: element.description, packageId: props.packageId} } />
-	}
+	return { packageAndForms, isLoading, error };
 }
 
 export function savePackageDetails(handleSuccess, packageId, title, description){
@@ -146,7 +80,6 @@ export function savePackageDetails(handleSuccess, packageId, title, description)
 export function addPage(handleSuccess, title, packageId, order, owner){
 	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
 		return false;
-
 	let url = getPath(), data, token = getCookie('csrftoken'),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token}, body:null};
 
@@ -170,7 +103,7 @@ export function addPage(handleSuccess, title, packageId, order, owner){
 	return true;
 }
 
-export function removePage(handleSuccess, pageId, title){
+export function removeForm(handleSuccess, pageId){
 	let url = getPath(),
     data,
     token = getCookie("csrftoken"),
@@ -185,14 +118,17 @@ export function removePage(handleSuccess, pageId, title){
   data = { id: pageId };
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
-		(result) => {
-			handleSuccess("Strona została usunięta.");
-		},
-		(error) => {
-			handleSuccess(error);
-		}
-	);
+	fetch(url + "api/page/" + pageId + "/", fetchProps)
+		.then(res => {
+			if(!res.ok) {
+				throw Error("Nie udało się usunąć formularza!");
+			}
+			return tryFetchJson(res) 
+		}).then((result) => {
+				handleSuccess("Formularz został usunięty.");
+		}).catch((error) => {
+		handleSuccess(error.message);
+	});
 	return true;
 }
 

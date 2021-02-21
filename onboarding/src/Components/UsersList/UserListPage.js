@@ -1,43 +1,17 @@
-import React, { useRef } from "react";
-
-//import "../../static/looper/stylesheets/theme.min.css";
-//import "../static/looper/stylesheets/theme-dark.min.css";
-
-import Navbar from "../Navbar";
+import React from "react";
 import UsersList from "./UsersList";
-import LeftMenu from "../LeftMenu";
 import PageAddressBar from "../PageAddressBar";
-import LoggedUser from "../hooks/LoggedUser";
 
-function UserListPage(props) {
-    const packageIdRef = useRef(0);
-    let loggedUser;
-    if(props.location.state){
-        packageIdRef.current = props.location.state.packageId;
-        loggedUser = (props.location.state.loggedUser)?props.location.state.loggedUser:LoggedUser();
-    } else
-        loggedUser = LoggedUser();
-
-    document.title= "Onboarding: lista pracowników";
+function UserListPage({ loggedUserId }) {
+		document.title= "Onboarding: lista pracowników";
 
     return(
-    	<div className="app">
-    		<header className="app-header app-header-dark">
-    			<Navbar loggedUser={ loggedUser } />
-    		</header>
-			<LeftMenu packageId = { packageIdRef.current } loggedUser={ loggedUser } />
-			<main className="app-main">
-				<div className="wrapper"><div className="page">
-					<div className="page-inner">
-						<PageAddressBar page = { "Konta" } loggedUser={ loggedUser } />
-
-						<UsersList packageId={ packageIdRef.current } loggedUser={ loggedUser } />
-					</div>
-				</div></div>
-		    </main>
-        </div>
-    )
-}
+			<div className="page-inner">
+				<PageAddressBar page = { "Lista pracowników" } />
+				<UsersList loggedUserId={ loggedUserId } />
+			</div>
+    );
+};
 
 export default UserListPage;
 

@@ -368,6 +368,7 @@ class WhenPackageSendToEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PackagesUsers
         fields = (
+            'package',
             'send_on',
         )
 
@@ -390,4 +391,52 @@ class SectionAnswersSerializer(serializers.ModelSerializer):
             'page',
             'answers',
         )
+#
+
+
+class SectionProgressSerializer(serializers.ModelSerializer):
+    # page = PageSerializer()
+    package_id = serializers.SerializerMethodField()
+    page_title = serializers.SerializerMethodField()
+    company_id = serializers.SerializerMethodField()
+    page_link = serializers.SerializerMethodField()
+    page_updated = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Section
+        fields = (
+            'id',
+            'title',
+            'data',
+            'page',
+            'company_id',
+            'package_id',
+            'page_title',
+            'page_link',
+            'page_updated'
+        )
+
+    def get_package_id(self, obj):
+        return obj.page.package_id
+    def get_page_title(self, obj):
+        return obj.page.title
+    def get_company_id(self, obj):
+        return obj.owner_id
+    def get_page_link(self, obj):
+        return obj.page.link
+    def get_page_updated(self, obj):
+        return obj.page.updated_on
+
+
+class UserProgressSerializer(serializers.ModelSerializer):
+    # section_set = SectionAnswersSerializer(many=True, allow_null=True)
+    section = SectionProgressSerializer()
+    # page = PageSerializer()
+    # answer_set = AnswerSerializer(many=True, allow_null=True)
+
+    class Meta:
+        model = Answer
+        fields = '__all__'
+        # depth = 3
+#
 

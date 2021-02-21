@@ -7,20 +7,20 @@ function FormTableAddNew(props) {
 
     var handleClick = function(e){
         let order = props.getOrder();
-        let accepted = addPage(props.handleUpdate, title, props.id, order+1, props.loggedUser.company_id);
+        let accepted = addPage(props.handleUpdate, title, props.id, order+1, props.companyId);
         setTitle("");
+    console.log(accepted)
     }
-
+    
     var handleInputTitle = (e) => {
         setTitle(e.target.value);
     }
-
     return(
         <div className="row mb-4">
             <div className="col">
                 <div className="has-clearable">
                     <button type="button" className="close" aria-label="Close"><span aria-hidden="true"/></button>
-                    <input type="text" value={ title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-add-page") } className="form-control" placeholder="Nowa nazwa strony" />
+                    <input type="text" value={ title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-add-page") } className="form-control" placeholder="Nowa nazwa formularza" />
                 </div>
             </div>
             <div className="col-auto">

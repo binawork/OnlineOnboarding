@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 import QnA from "./QnA";
 import { getQnA, saveAll } from "../hooks/QnAAPI";
+import ModalWarning from "../ModalWarning";
 
 const QnAList = () => {
   const [maxOrder, setMaxOrder] = useState(0);
@@ -11,26 +13,26 @@ const QnAList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
 
   useEffect(() => {
     const accepted = getQnA(setQaList, setMaxOrder, setLoading, setError);
-    accepted ? setError(false) : null;
+    if(accepted) setError(false);
   }, []);
 
   useEffect(() => {
     if (editMode) {
-      const saveInterval = setInterval(
+      // Save changes after 3 sec. form last change
+      const saveInterval = setTimeout(
         () => saveAll(qaList, setQaList, setSaved),
-        30000
+        3000
       );
-      return () => clearInterval(saveInterval);
-    } else {
-      window.refreshIntervalId;
-    }
-  }, [editMode, qaList]);
+      return () => clearTimeout(saveInterval);
+    } 
+  }, [qaList]);
 
   useEffect(() => {
-    // Show info "Zapisano zmiany" for 3sec when the changes were saved
+    // Show info "Zapisano zmiany" for 3 sec. when the changes were saved
     if (saved) {
       const timer = setTimeout(setSaved, 3000, false);
       return () => {
@@ -50,10 +52,15 @@ const QnAList = () => {
     setQaList([...qaList, newQnA]);
     setMaxOrder(maxOrder + 1);
   };
+  
+  const hideModal = () => {
+    setShowSaveModal(false);
+  };
 
   const handleSaveAll = (e) => {
     e.preventDefault();
-    saveAll(qaList, setQaList, setSaved);
+    saveAll(qaList, setQaList);
+    setShowSaveModal(true);
   };
 
   const handleShowPreview = (e) => {
@@ -197,6 +204,20 @@ const QnAList = () => {
       ) : (
         <></>
       )}
+      {showSaveModal ? (
+        <ModalWarning
+          handleAccept={hideModal}
+          title={"Zapisywanie Q&A"}
+          message={
+            error
+              ? "Nie udało się zapisać"
+              : "Zmiany zostały pomyślnie zapisane"
+          }
+          show={true}
+          acceptText={"Ok"}
+          id={0}
+        />
+      ) : null}
     </div>
   );
 };

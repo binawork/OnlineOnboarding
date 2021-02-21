@@ -1,24 +1,38 @@
-import React, { useState } from "react";
-
-//import "../static/looper/stylesheets/theme.min.css";
+import React, { useEffect } from "react";
 import "../static/looper/stylesheets/theme-dark.min.css";
 
 function ModeButton() {
-    const [mode, setMode] = useState(true);
+    const mode = localStorage.getItem("skin") || "dark";
+
+    useEffect(() => {
+        mode === "light" 
+        ? require("../static/looper/stylesheets/theme.min.css")
+        : require("../static/looper/stylesheets/theme-dark.min.css");
+
+    }, [mode]);
 
     const changeState = () => {
-        //let path = "../static/looper/stylesheets/theme-dark.min.css";
-        if(mode)
-            require("../static/looper/stylesheets/theme.min.css");
-        else
-            require("../static/looper/stylesheets/theme-dark.min.css");
+        if(mode === "light") localStorage.setItem("skin", "dark")
+        else localStorage.setItem("skin", "light")
 
-        setMode(!mode);
+        document.location.reload(true);
     }
 
     return(
         <footer className="aside-footer border-top p-2">
-            <button onClick={ changeState } className="btn btn-light btn-block text-primary" data-toggle="skin"><span className="d-compact-menu-none">Tryb nocny</span> <i className="fas fa-moon ml-1"></i></button>
+            <button onClick={ changeState } className="btn btn-light btn-block text-primary" data-toggle="skin">
+                { mode === "dark" ? (
+                    <>
+                        <span className="d-compact-menu-none">Tryb nocny</span>
+                        <i className="fas fa-moon ml-1"></i>
+                    </>
+                ) : (
+                    <>
+                        <span className="d-compact-menu-none">Tryb dzienny</span>
+                        <i className="fas fa-sun ml-1"></i>
+                    </>
+                )}
+            </button>
         </footer>
     )
 }

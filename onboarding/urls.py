@@ -12,7 +12,8 @@ from django.contrib.auth import views as auth_views
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
     ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView,\
     UserProgressOnPackageView, PackagePagesViewSet, CustomPasswordResetConfirmView, \
-    WhenPackageSendToEmployeeView, AddUserToPackageViewSet, CompanyLogoViewSet, SectionAnswersViewSet, EmployeeAnswersViewSet
+    WhenPackageSendToEmployeeView, AddUserToPackageViewSet, CompanyLogoViewSet, UserProgressView, SectionAnswersViewSet, EmployeeAnswersViewSet
+
 
 # base
 urlpatterns = [
@@ -54,6 +55,8 @@ urlpatterns += [
     path(r'api/user/<int:employe_id>/progress_on_package/<int:package_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
     path(r'api/user/<int:employe_id>/when_package_send_to_user/<int:package_id>/', WhenPackageSendToEmployeeView.as_view(),
          name='when_package_send_to_user'),
+    path(r'api/user/<int:employe_id>/when_package_send_to_user/', WhenPackageSendToEmployeeView.as_view(),
+         name='when_package_send_to_user'),
 
 ]
 
@@ -72,6 +75,7 @@ router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePage
 # router.register(r'api/package_pages/<employee_id>/list_by_company_employee/', PackagePagesViewSet, basename='PackagePages')
 router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet, basename='SectionAnswers')
 router.register(r'api/user_answers/(?P<page>\d+)', EmployeeAnswersViewSet, basename='EmployeeAnswers')
+router.register(r'api/user_progress/(?P<user_id>\d+)', UserProgressView, basename='UserProgress')
 router.register(r'api/add_users_to_package', AddUserToPackageViewSet, basename='Add user to package')
 
 
