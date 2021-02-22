@@ -619,7 +619,7 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 			})
 			.then(
 				(result) => {
-					let msg = "Formularz został wysłany do pracownika. ";
+					let msg = "Katalog został wysłany do pracownika. ";
 					if(typeof result.detail === 'string')
 					msg += result.detail;
 					handleMessage(msg);
@@ -631,20 +631,17 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 			);
 		} else if(typeof packageId === "object") {
 			Promise.all(packageId.map(id => {// ESLint: Expected to return a value in arrow function.(array-callback-return);
-				const fullPath = path + "api/add_sers_to_package/" + id + "/add_user_to_package/";
+				const fullPath = path + "api/add_users_to_package/" + id + "/add_user_to_package/";
 				fetch(fullPath, fetchProps)
+					.then(res => {
+						if(!res.ok)	throw new Error("Wystąpił błąd: nie udało się wysłać wybranych katalogów do pracownika!");
+					})
+					.catch(error => handleMessage(error.message))
 			}))
-				.then(res => {
-					if(!res.ok)	throw new Error("Wystąpił błąd: nie udało się wysłać wybranych katalogów do pracownika!");
-				})
 				.then(() => {
-						let msg = "Wybrane formularze zostały wysłane do pracownika.";
-						handleMessage(msg);
-					}, 
-					(error) => {
-						handleMessage(error.message);
-					}
-				);
+					let msg = "Wybrane katalogi zostały wysłane do pracownika.";
+					handleMessage(msg);
+				});
 		}
 }
 
