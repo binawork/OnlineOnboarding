@@ -30,7 +30,7 @@ function ImplementationFormsSent(props) {
     		return;// todo: maybe inform about error;
 
         let i, j, packageId, pId, isFinished;
-        const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie";
+        const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
         for(i = form_table.length - 1; i >= 0; i--){
             packageId = parseInt(form_table[i].key, 10);
             form_table[i].finish_date = notStartedMsg;
@@ -41,18 +41,28 @@ function ImplementationFormsSent(props) {
             }
 
             form_table[i].progress = result[packageId].finished + "/" + form_table[i].progress.substring(2);
+
+            form_table[i].percentage = result[packageId].finished / form_table[i].pagesCount;
+            if(result[packageId].finished == 0)
+                form_table[i].percentage = 0.01;
+
             form_table[i].finish_date = inProgressMsg;
 
             isFinished = true;
             for(j = form_table[i].pages.length - 1; j >= 0; j--){
-                form_table[i].pages[j].finished = "";// notStartedMsg;
+                form_table[i].pages[j].finished = notStartedMsg;
+                form_table[i].pages[j].finishMsg = notStartedMsg;
+                form_table[i].pages[j].percentage = 0;
 
                 pId = parseInt(form_table[i].pages[j].id, 10);
                 if( result[packageId].pages.hasOwnProperty(pId) ){
                     if(result[packageId].pages[pId].finished){
                         form_table[i].pages[j].finished = result[packageId].pages[pId].date;
+                        form_table[i].pages[j].finishMsg = finishedMsg;
+                        form_table[i].pages[j].percentage = 100;
                     } else {
-                        form_table[i].pages[j].finished = inProgressMsg;
+                        form_table[i].pages[j].finished = form_table[i].pages[j].finishMsg = inProgressMsg;
+                        form_table[i].pages[j].percentage = 50;
                         isFinished = false;
                     }
                 }
