@@ -39,9 +39,7 @@ const QnAList = () => {
         3000
       );
       return () => clearTimeout(saveInterval);
-    } else {
-      window.refreshIntervalId;
-    }
+    } 
   }, [qaList]);
 
   useEffect(() => {
@@ -68,11 +66,11 @@ const QnAList = () => {
     setMaxOrder(maxOrder + 1);
   };
   
-    const hideModal = () => {
-      setShowSaveModal(false);
-      setSaveError(null);
-      setSaveOnDemand(false);
-    };
+  const hideModal = () => {
+    setShowSaveModal(false);
+    setSaveError(null);
+    setSaveOnDemand(false);
+  };
 
   const handleSaveAll = (e) => {
     e.preventDefault();

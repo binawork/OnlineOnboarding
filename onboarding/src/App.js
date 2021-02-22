@@ -16,8 +16,6 @@ import PackagesListPage from "./Components/PackagesList/PackagesListPage";
 import QnAPage from "./Components/QnA/QnAPage";
 import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
 import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
-// import EmployeeAnswersViewPage from "./Components/EmployeeAnswersView/EmployeeAnswersViewPage";
-//import UserListRow from "../Components/UsersList/UserListRow";
 // import FormsManagerCheckPage from "./Components/FormsManagerCheckPage"; // where manager checks how form was filled;
 
 function App() {
@@ -70,9 +68,6 @@ function App() {
                     <Route path="/employee/:employee_id">
                         <EmployeeProfilePage />
                     </Route>
-                    {/* <Route path="/employee_answers/:page_id">
-                        <EmployeeAnswersViewPage />
-                    </Route> */}
                     <Route path="/packages">
                         <PackagesListPage setPackagesList={ setPackagesList } />
                     </Route>
@@ -82,7 +77,7 @@ function App() {
                     <Route path="/form/:form_id">
                         <FormsEditPage />
                     </Route>
-                    <Route path="/user_forms">
+                    <Route path="/send_package/:package_id">
                         <AddUserTablePage loggedUserId={ loggedUser.id } />
                     </Route>
                     <Route path="/company">
@@ -101,25 +96,6 @@ function App() {
       </div>
     </HashRouter>
   );
-
-
-// function App() {
-//     return (
-//         <HashRouter>
-//             <Route path="/company" component={ CompanyInfoPage } />
-//             <Route path="/profile/manager" component={ UserManagerProfilePage } />
-//             <Route path="/employee_profile" component={ EmployeeProfilePage } />
-//             <Route path="/employee_answers/:page_id" component={ EmployeeAnswersViewPage } />
-//             <Route path="/add_user" component={ UserManagerProfilePage } />
-//             <Route path="/form_edit/:form_id" component={ FormsEditPage } />
-//             <Route path="/packages" component={ PackagesListPage } />
-//             <Route path="/package_page/:package_id" component={ FormTablePage } />
-//             <Route path="/q_and_a" component={ QnAPage } />
-//             <Route path="/user_list" component={ UserListPage } />
-//             <Route path="/users_pages" component={ AddUserTablePage } />
-//             <Route path="/" exact component={ DashboardPage } />
-//         </HashRouter>
-//     );
 }
 
 export default App;

@@ -5,7 +5,6 @@ import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../uti
 /**
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
-// function EmployeeForms(props, count){
 function EmployeeForms(props, setError, setLoading, count){
 	const [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
@@ -69,11 +68,12 @@ function EmployeeForms(props, setError, setLoading, count){
 					if(row.pages[j].hasOwnProperty('updated_on') )
 						row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
 				}
+				row.progress = "?/" + row.pagesCount;
 			}
 
 			form_table.push(row);
 		}
-		
+
 		return form_table;
 	}
 
@@ -188,7 +188,242 @@ export function SingleEmployeeForms(props){
 	return results;
 }*/
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - Functions requesting progress - - - - - - - - - - - - - - - -
 
+/**
+ *
+ * @param progressAnswers
+ * [{
+    id: int,
+    section: {id: int, title: string, data: [], page: int, company_id: int, package_id: int, page_title: string, page_link: string, page_updated": date-string},
+    data: string or Object,
+    confirmed: boolean,
+    updated_on: date-string,
+    finished: boolean,
+    owner: int
+  }, ...]
+ * @returns {{}}
+ */
+function revertProgressAnswers(progressAnswers){
+	let progress = {};
+	if(progressAnswers.length < 1)
+		return progress;
+
+	let packageId, pageId, finishDate, data, empty = true;
+	progressAnswers.forEach(function(answer){
+		if(typeof answer.section.package_id === 'undefined' || answer.section.package_id === null || typeof answer.section.page === 'undefined')
+			return;
+
+		empty = false;
+
+		finishDate = new Date(0);// anything small; here '1970';
+		if( answer.hasOwnProperty('updated_on') ){
+			try {
+				finishDate = new Date(answer.updated_on);
+			} catch(e){}
+		}
+
+		packageId = answer.section.package_id;
+		if( !progress.hasOwnProperty(packageId) )
+			progress[packageId] = {packageId: packageId, date: finishDate, finished: 0, count: 0, pages: {}};
+		else if(finishDate > progress[packageId].date){
+			progress[packageId].date = finishDate;
+		}
+
+		pageId = answer.section.page;
+		if( !progress[packageId].pages.hasOwnProperty(pageId) )
+			progress[packageId].pages[pageId] = {finished: true, date: finishDate, title: "", answers: {}};
+		else if(finishDate > progress[packageId].pages[pageId].date){
+			progress[packageId].pages[pageId].date = finishDate;
+		}
+
+		if(answer.section.hasOwnProperty("page_title") )
+			progress[packageId].pages[pageId].title = answer.section.page_title;
+
+
+		data = {id: -1, owner: -1, finished: false, confirmed: false, data: {}};
+
+		if( answer.hasOwnProperty("id") )
+			data.id = parseInt(answer.id, 10);
+
+		if( answer.hasOwnProperty("owner") )
+			data.owner = parseInt(answer.owner, 10);
+
+		if( answer.hasOwnProperty("finished") ){
+			data.finished = answer.finished === 'true' || answer.finished === true;
+			progress[packageId].pages[pageId].finished &= data.finished;
+		}
+
+		if( answer.hasOwnProperty("confirmed") )
+			data.confirmed = answer.confirmed;
+		/*if( answer.hasOwnProperty("data") )
+			data.data = answer.data;*/
+
+		progress[packageId].pages[pageId].answers[data.id] = data;
+	});
+
+	if(empty)
+		return progress;
+
+	// counting finished forms and converting dates to string representation;
+	Object.keys(progress).forEach( (id) => {
+		progress[id].count = Object.keys(progress[id].pages).length;
+		let countFinished = 0;
+		Object.keys(progress[id].pages).forEach( (pId) => {
+			if(progress[id].pages[pId].finished)
+				countFinished += 1;
+					
+			progress[id].pages[pId].date = dateToString(progress[id].pages[pId].date);
+		});
+		progress[id].finished = countFinished;
+		progress[id].date = dateToString(progress[id].date);
+	});
+	return progress;
+}
+
+/**
+ * Requests server for the list of answers with corresponding section and page keys;
+ * @param employeeId: id (int) of employee it is requested for;
+ * @param progressCallback: callback function to make use of the result;
+ * @returns {abortFun}: function to abort by XMLHttpRequest.abort() property method;
+ */
+export function getProgress(employeeId, progressCallback){
+	let xhr = new XMLHttpRequest(), url = getPath();
+
+	url += "api/user_progress/" + employeeId;
+
+	xhr.onreadystatechange = function(){
+		if(this.readyState == 4 && this.status >= 200 && this.status < 300){
+			let progressAnswers, progress = {};
+			try {
+				progressAnswers = JSON.parse(this.responseText);
+			}catch(e){
+			    progressAnswers = [];}
+
+			progress = revertProgressAnswers(progressAnswers);
+			progressCallback(progress);
+
+		} else if(this.readyState == 4){
+			let message = this.responseText;
+			if(this.status >= 500 && this.status < 600)
+				message = "Napotkano błąd po stronie serwera.";
+			else if(this.status >= 400 && this.status < 500){
+				message = "Napotkano błędne zapytanie serwera.";
+			}
+
+			progressCallback(false, message);
+		}
+	}
+
+	xhr.open("GET", url, true);/* async: true (asynchronous) or false (synchronous); */
+
+	xhr.setRequestHeader("Accept", "application/json");
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.setRequestHeader("X-CSRFToken", "");
+	xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+	xhr.send();
+
+	let abortFun = function(){
+		xhr.abort();
+	}
+	return abortFun;
+}
+
+/*export function getProgress(employeeId, progressCallback){
+	let url = getPath();
+	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}},
+		abortCont = new AbortController();
+
+	fetchProps.signal = abortCont.signal;
+	url += "api/user_progress/" + employeeId;
+
+	fetch(url, fetchProps).then( (res) => {
+		if(!res.ok)
+			throw Error("Problem z pobraniem danych!");
+
+		return res.json();
+	}).then(function(result){
+		let progress = revertProgressAnswers(result);
+		progressCallback(progress);
+
+	}).catch((err) => {
+		progressCallback(false, err.message);// console.log(err);
+	});
+
+
+	let abortFun = function(){
+		abortCont.abort();
+	}
+	return abortFun;
+}*/
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - -Functions requesting dates when packages were sent - - - - - - - - - - -
+
+/**
+ * Converts list of key-value pairs like [{"package": int, "send_on": string}, ...]
+ * into indexed list like {package_1: send_on_1, package_2: send_on_2, ...};
+ * @param sendDates: list of objects like [{"package": int, "send_on": string}, ...] or another object to return {};
+ * @returns {{}} indexed list or empty object;
+ */
+function processDatesOfSending(sendDates){
+	let result = {};
+	if( !Array.isArray(sendDates) || sendDates.length < 1)
+		return result;
+
+	let i, count = sendDates.length, packageId;
+	for(i = 0; i < count; i++){
+		packageId = -1;
+
+		if( sendDates[i].hasOwnProperty("package") )
+			packageId = parseInt(sendDates[i]["package"], 10);
+
+		if( sendDates[i].hasOwnProperty("send_on") ){
+			result[packageId] = dateToString(sendDates[i].send_on);
+		}
+	}
+	return result;
+}
+
+/**
+ * Requests server for the list of date when package was sent for corresponding package id;
+ * @param employeeId: id (int) of employee it is requested for;
+ * @param sendDateCallback: callback function to make use of the result;
+ * @returns {abortFun}: function to abort by AbortController()
+ */
+export function datesOfSendingPackages(employeeId, sendDateCallback){
+	let url = getPath(), abortCont;
+	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+
+	abortCont = new AbortController();
+	fetchProps.signal = abortCont.signal;
+	url += "api/user/" + employeeId + "/when_package_send_to_user/";
+
+	fetch(url, fetchProps).then(function(res){
+		if(!res.ok)
+			throw Error("Problem z pobraniem danych!");
+
+		return res.json();
+	}).then( (result) => {
+		let sendDates = processDatesOfSending(result);
+		sendDateCallback(sendDates);
+	}).catch((err) => {
+		sendDateCallback(false, err.message);// console.log(err);
+	});
+
+
+	let abortFun = function(){
+		abortCont.abort();
+	}
+	return abortFun;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+/**
+ * Rescue request an id of the logged user when it is not set;
+ */
 function getUserId(pageId, errorMessageFunction, setSectionsAnswers){
 	let xhr = new XMLHttpRequest(), url = getPath();
 

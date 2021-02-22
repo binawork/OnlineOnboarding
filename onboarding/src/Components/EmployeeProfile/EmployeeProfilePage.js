@@ -45,7 +45,7 @@ function EmployeeProfilePage() {
             sent: packagesSent.packageIds.length,
             finished: 0
         });
-    }, [packagesSent])
+    }, [packagesSent]);
 
     useEffect(() => {
         if(user){
