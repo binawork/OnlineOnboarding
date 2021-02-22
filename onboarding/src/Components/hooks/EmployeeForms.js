@@ -26,7 +26,7 @@ function EmployeeForms(props, setError, setLoading, count){
 		).finally(() => setLoading(false));
 	}, [props.count, count]);
 
-	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []};
+	const rowModel = {key: 0, name: "", pagesCount: "", percentage: 0,  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []};
 
 	if(error){
 		rowModel.name = error.message;
