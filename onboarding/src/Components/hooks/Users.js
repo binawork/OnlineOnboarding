@@ -129,7 +129,7 @@ export function employeeAddEdit(handleMessage, employeeObject, updateData){
 	} else
 		path += "create_user/";// SMTPAuthenticationError * /
 
-	fetch(url + path, fetchProps).then(res => tryFetchJson(res) ).then(
+	fetch(url + path, fetchProps).then(res => tryFetchJson(res, "nie udało się zapisać danych pracownika!") ).then(
 		(result) => {
 			if(result.hasOwnProperty('detail') )
 				msg += "  " + String(result.detail);
@@ -138,7 +138,7 @@ export function employeeAddEdit(handleMessage, employeeObject, updateData){
 		},
 		(error) => {
 			// console.log("Users: eA");
-			handleMessage("Błąd. " + error, false);
+			handleMessage("Wystąpił błąd: " + error.message, false);
 		}
 	);
 	return true;
