@@ -45,10 +45,11 @@ const FormSectionsAPI = {
       })
     );
   },
-  saveAll: async function (sections) {
+  saveAll: async function (sections, updateSectionsCallback) {
+    //Save sections
     const sectionsSaveResult = await Promise.all(
       sections.map((section) =>
-        typeof section.id === "string"
+        typeof section.hasOwnProperty('isNew') && section.isNew === true
           ? makeRequest(`${BASE_URL}api/section/`, "POST", section)
               .then((res) => res.json())
               .then((result) => {
@@ -67,7 +68,9 @@ const FormSectionsAPI = {
               })
       )
     );
-    return [sectionsSaveResult];
+
+    /*await*/ updateSectionsCallback(sectionsSaveResult);
+    return sectionsSaveResult;
   },
 };
 
