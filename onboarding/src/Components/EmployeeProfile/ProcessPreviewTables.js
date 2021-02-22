@@ -41,12 +41,6 @@ function ProcessPreviewTables(props) {
                         </>
                     )
             }
-
-            {/* <ImplementationFormsSent packageId={ props.packageId } 
-                                     employee={ props.employee }
-                                     showModal={ popUpConfirmationModal }
-                                     count={ confirmationModal.id } /> */}
-            {/* <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ props.employee.id }  count={ props.count } setCount={ props.setCount } /> */}
         </>
     )
 }

@@ -31,12 +31,12 @@ function FormsSentTableRow(props) {
     }
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>,
+        // buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>,
         pages;
 
     if(props.empty){
         checkBox = "";
-        buttonObj = "";
+        // buttonObj = "";
     }
 
     if(toggleObj.hasContent){
@@ -85,7 +85,7 @@ function FormsSentTableRow(props) {
                 </td>
                 <td className="table__data">{props.row.send_date}</td>
                 <td className="table__data">{props.row.finish_date}</td>
-                <td className="table__data" style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td>
+                {/* <td className="table__data" style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td> */}
             </tr>
             { pages }
         </>

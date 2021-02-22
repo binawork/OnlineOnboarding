@@ -78,10 +78,6 @@ function EmployeeProfilePage() {
                     setAnswersPage={ setAnswersPage }
                     goBackToMainProfilePage={ goBackToMainProfilePage }
                 />
-                {/* <ProcessPreviewTables packageId={ packageIdRef.current } loggedUser={ loggedUser }
-                                        employee={ singleUser }
-                                        count={ count }
-                                        setCount={ setCount } /> */}
             </div>
         </div>
     )
