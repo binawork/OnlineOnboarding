@@ -2,10 +2,20 @@ import React, { useState, useEffect } from "react";
 import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../utils.js";
 
 
-/**
- * Get packages or pages when ProcessPreviewTables component is loaded;
- */
 function EmployeeForms(props, setError, setLoading, count){
+
+}
+
+/**
+ * Get result of requesting server for packages and pages;
+ * @param props - {count: int, specificEmployee: int};
+ * @param setError - callback function to set if error occurred;
+ * @param setLoading - callback function to signalize that loading has finished
+ * @param count
+ * @returns {[]} - array/list of packages and pages for every package;
+ * @constructor
+ */
+export function EmployeeFormsList(props, setError, setLoading, count){
 	const [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
@@ -80,7 +90,10 @@ function EmployeeForms(props, setError, setLoading, count){
 }
 
 /**
- * Get packages or pages when ProcessPreviewTables component is loaded;
+ * Get packages or pages when for logged-in employee (pages for employees);
+ * @param props - {count: int}
+ * @returns {[]} - list of packages;
+ * @constructor
  */
 export function SingleEmployeeForms(props){
 	var [rows , setRows] = useState([]),

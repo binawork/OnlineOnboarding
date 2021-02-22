@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FormsSentTableRow from "./FormsSentTableRow";
-import EmployeeForms, { remindEmployeeOfPackage, getProgress, datesOfSendingPackages } from "../hooks/EmployeeForms";
+import { EmployeeFormsList, remindEmployeeOfPackage, getProgress, datesOfSendingPackages } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsSent(props) {
@@ -9,7 +9,7 @@ function ImplementationFormsSent(props) {
     const [loading, setLoading] = useState(true);
     const [formTable, setSentPackages] = useState([]);
     let propsCp = {...props, specificEmployee: props.employeeId},
-        form_table = EmployeeForms(propsCp, setError, setLoading), forms = [];
+        form_table = EmployeeFormsList(propsCp, setError, setLoading, props.count), forms = [];
 
 
 
@@ -110,7 +110,7 @@ function ImplementationFormsSent(props) {
             let abortFun = getProgress(props.employeeId, progressCallback);
             return abortFun;
         }
-    }, [loading]);
+    }, [loading, props.count]);
 
 
     if(form_table.length !== 0 || formTable.length>0) {
