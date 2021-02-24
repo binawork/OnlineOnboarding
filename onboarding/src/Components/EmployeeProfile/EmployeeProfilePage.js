@@ -18,6 +18,7 @@ function EmployeeProfilePage() {
     //const [formTable, setSentPackages] = useState({msg: "Ładowanie ..."});
     const [errorOfPackages, setError] = useState(false);
     const [loadingPackages, setLoadingPackages] = useState(true);
+    const [sentAndFinished, setSentAndFinished] = useState({sent: -1, finished: -1});
     const [singleUser, setSingleUser] = useState({
         avatar: "",
         department: "",
@@ -39,6 +40,7 @@ function EmployeeProfilePage() {
     if(location.state) {
         user = location.state.user;
     } else {
+        // when page refresh:
         const { data } = getUserById(employeeId);
         if(data) user = data;
         // packagesSent = userWithPackages(employeeId, count);
@@ -59,7 +61,10 @@ function EmployeeProfilePage() {
     }, [user]);
 
     const updateSentAndFinished = function(sent, finished){
-        setSingleUser({...singleUser, sent: sent, finished: finished});
+        if(typeof user !== 'undefined')
+            setSingleUser({...singleUser, sent: sent, finished: finished});
+        else
+            setSentAndFinished({sent: sent, finished: finished});
     };
 
     /*useEffect(() => {
@@ -72,14 +77,14 @@ function EmployeeProfilePage() {
     const goBackToMainProfilePage = (e) => {
         e.preventDefault();
         setAnswersPage(null);
-    }
+    };
 
 
     return(
         <div className="page-inner">
             <PageAddressBar page={ `Proces wdrażania pracownika ${singleUser.name} ${singleUser.last_name}` } previousPages={[ {title: "Lista pracowników", url: "/user_list"} ]} />
             <div className="page-section">
-                <EmployeeProfileUser user={ singleUser } goBackToMainProfilePage={ goBackToMainProfilePage } />
+                <EmployeeProfileUser user={ singleUser } goBackToMainProfilePage={ goBackToMainProfilePage } sentAndFinished={ sentAndFinished } />
                 <ProcessPreviewTables 
                     employeeId={ employeeId }
                     groupedPackages={ groupedPackages }
