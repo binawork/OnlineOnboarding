@@ -5,11 +5,8 @@ import { /*EmployeeFormsList, getProgress,*/ remindEmployeeOfPackage } from "../
 
 function ImplementationFormsSent(props) {
     const [numberChecked, checkedChange] = useState(0);
-    const [error, setError] = useState(false);
-    const [countUpdate, update] = useState(0);
-    const [formTable, setSentPackages] = useState([]);
-    let propsCp = {...props, specificEmployee: props.employeeId},
-        forms = [];//, form_table = props.packages/*EmployeeFormsList(propsCp, setError, setLoading, props.count);
+    let forms = [];//,
+        //propsCp = {...props, specificEmployee: props.employeeId};//, form_table = props.packages/*EmployeeFormsList(propsCp, setError, setLoading, props.count);
 
 
     const showHide = (isChecked) => {
@@ -47,8 +44,8 @@ function ImplementationFormsSent(props) {
                 <i className="bi bi-cloud-check mr-2" style={{fontSize: "18px"}}/> Wysłane katalogi wdrożeniowe
             </div>
             <div className="card-body">
-                { error && <p>Wystąpił błąd podczas ładowania</p> }
-                { !error && (
+                { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
+                { !props.isError && (
                     <table className="table table-striped">
                         <thead><tr>
                             <th scope="col">Katalog</th>

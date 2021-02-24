@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import FormsToSendTableRow from "./FormsToSendTableRow";
-import { assignEmployeeToPackage, EmployeeFormsList } from "../hooks/EmployeeForms";
+import { assignEmployeeToPackage/*, EmployeeFormsList*/ } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsToSend(props) {
     const [idsChecked, setIdsChecked] = useState([]);
     const [numberChecked, checkedChange] = useState(0);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
     let forms = [];//, form_table = props.packages/ /EmployeeFormsList(props, setError, setLoading, props.count);
 
     const showHide = (isChecked, packageId) => {
@@ -53,9 +51,9 @@ function ImplementationFormsToSend(props) {
                 Wyślij katalog do pracownika
             </div>
             <div className="card-body">
-                { error && <p>Wystąpił błąd podczas ładowania</p> }
-                { loading && <p>Ładowanie...</p> }
-                { !loading && !error && (
+                { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
+                { props.isLoading && <p>Ładowanie...</p> }
+                { !props.isLoading && !props.isError && (
                     <table className="table table-striped">
                         <thead><tr>
                             <th scope="col">Katalog</th>

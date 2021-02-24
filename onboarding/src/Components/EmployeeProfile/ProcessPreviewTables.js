@@ -7,7 +7,7 @@ import { getProgress, datesOfSendingPackages } from "../hooks/EmployeeForms";
 
 
 function ProcessPreviewTables(props) {
-    const [loading, setLoading] = useState(true);
+    //const [loading, setLoading] = useState(true);
     const [sentPackages, setSentPackages] = useState([]);
     const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
 
@@ -130,6 +130,11 @@ function ProcessPreviewTables(props) {
         }
     }, [props.groupedPackages]);
 
+    /*useEffect(() => {
+        if(props.isError)
+            console.log("Error of packages");// todo;
+    }, [props.isError]);*/
+
 
     return(
         <>
@@ -142,12 +147,16 @@ function ProcessPreviewTables(props) {
                             employeeId={ parseInt(props.employeeId) }
                             packages={ sentPackages }
                             setAnswersPage={ props.setAnswersPage }
+                            /*isLoading={ props.isLoading }*/
+                            isError={ props.isError }
                             showModal={ popUpConfirmationModal }
                             count={ confirmationModal.id }
                         />
                         <ImplementationFormsToSend 
                             employeeId={ parseInt(props.employeeId) }
                             packages={ props.groupedPackages.available }
+                            isLoading={ props.isLoading }
+                            isError={ props.isError }
                             showModal={ popUpConfirmationModal }
                             count={ props.count }
                             setCount={ props.setCount }

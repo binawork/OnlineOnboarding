@@ -17,6 +17,7 @@ function EmployeeProfilePage() {
     const [answersPage, setAnswersPage] = useState(null);
     //const [formTable, setSentPackages] = useState({msg: "Ładowanie ..."});
     const [errorOfPackages, setError] = useState(false);
+    const [loadingPackages, setLoadingPackages] = useState(true);
     const [singleUser, setSingleUser] = useState({
         avatar: "",
         department: "",
@@ -31,7 +32,7 @@ function EmployeeProfilePage() {
         team: "", 
         tel: "",
     });
-    const groupedPackages = EmployeeForms(employeeId, count, setError, function(isLoading){});
+    const groupedPackages = EmployeeForms(employeeId, count, setError, setLoadingPackages);
     let user;
     // let packagesSent = {};
 
@@ -82,6 +83,8 @@ function EmployeeProfilePage() {
                 <ProcessPreviewTables 
                     employeeId={ employeeId }
                     groupedPackages={ groupedPackages }
+                    isLoading={ loadingPackages }
+                    isError={ errorOfPackages }
                     count={ count }
                     setCount={ setCount }
                     answersPage={ answersPage }
