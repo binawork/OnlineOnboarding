@@ -7,8 +7,8 @@ function ImplementationFormsToSend(props) {
     const [idsChecked, setIdsChecked] = useState([]);
     const [numberChecked, checkedChange] = useState(0);
     const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
-    let form_table = EmployeeFormsList(props, setError, setLoading, props.count), forms = [];
+    const [loading, setLoading] = useState(false);
+    let forms = [];//, form_table = props.packages/ /EmployeeFormsList(props, setError, setLoading, props.count);
 
     const showHide = (isChecked, packageId) => {
         if(isChecked) {
@@ -31,7 +31,7 @@ function ImplementationFormsToSend(props) {
         props.setCount(props.count + 1);
     }
 
-    const formsToSend = form_table.filter(form => !form.users.includes(props.employeeId));
+    const formsToSend = props.packages;//.filter(form => !form.users.includes(props.employeeId));
 
     if(formsToSend.length !== 0) {
         formsToSend.forEach(function (element, i){
@@ -44,7 +44,8 @@ function ImplementationFormsToSend(props) {
             </tr>
         );
     }
-    
+
+
     return(
         <div className="card card-fluid">
             <div className="card-header">

@@ -4,7 +4,8 @@ import EmployeeProfileUser from "./EmployeeProfileUser";
 import ProcessPreviewTables from "./ProcessPreviewTables";
 import { useLocation, useParams } from "react-router-dom";
 import { getUserById } from "../hooks/Users";
-import { userWithPackages } from "../hooks/Packages";
+// import { userWithPackages } from "../hooks/Packages";
+import EmployeeForms/*, { getProgress }*/ from "../hooks/EmployeeForms";
 
 
 function EmployeeProfilePage() {
@@ -14,6 +15,8 @@ function EmployeeProfilePage() {
     const employeeId = parseInt(useParams().employee_id);
     const [count, setCount] = useState(0);
     const [answersPage, setAnswersPage] = useState(null);
+    //const [formTable, setSentPackages] = useState({msg: "Ładowanie ..."});
+    const [errorOfPackages, setError] = useState(false);
     const [singleUser, setSingleUser] = useState({
         avatar: "",
         department: "",
@@ -27,25 +30,19 @@ function EmployeeProfilePage() {
         sent: "", 
         team: "", 
         tel: "",
-    });    
+    });
+    const groupedPackages = EmployeeForms(employeeId, count, setError, function(isLoading){});
     let user;
-    let packagesSent = {};
+    // let packagesSent = {};
 
     if(location.state) {
         user = location.state.user;
     } else {
         const { data } = getUserById(employeeId);
         if(data) user = data;
-        packagesSent = userWithPackages(employeeId, count);
-    };
+        // packagesSent = userWithPackages(employeeId, count);
+    }
 
-    useEffect(() => {
-        !location.state && packagesSent && setSingleUser({
-            ...singleUser,
-            sent: packagesSent.packageIds.length,
-            finished: 0
-        });
-    }, [packagesSent]);
 
     useEffect(() => {
         if(user){
@@ -58,12 +55,20 @@ function EmployeeProfilePage() {
                 department: user.team || "", 
             });
         }
-    },[user]);
+    }, [user]);
+
+    /*useEffect(() => {
+        if(groupedPackages.hasOwnProperty('sent') && groupedPackages.sent.length > 0){console.log("  here EPP");
+            let abortFun = getProgress(employeeId, progressCallback);
+            return abortFun;
+        }
+    }, [groupedPackages]);*/
 
     const goBackToMainProfilePage = (e) => {
         e.preventDefault();
         setAnswersPage(null);
     }
+
 
     return(
         <div className="page-inner">
@@ -72,6 +77,7 @@ function EmployeeProfilePage() {
                 <EmployeeProfileUser user={ singleUser } goBackToMainProfilePage={ goBackToMainProfilePage } />
                 <ProcessPreviewTables 
                     employeeId={ employeeId }
+                    groupedPackages={ groupedPackages }
                     count={ count }
                     setCount={ setCount }
                     answersPage={ answersPage }
