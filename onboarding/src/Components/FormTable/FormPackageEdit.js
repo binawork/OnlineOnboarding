@@ -24,20 +24,22 @@ function FormPackageEdit({ title, description, packageId, setPackageTitleInAddre
         setSaveModal(<></>);
     }
 
+    const popUpSaveForm = (message) => {
+        
+        setSaveModal(
+            <ModalWarning
+                handleAccept={hideModal}
+                title={"Zmiana danych katalogu"}
+                message={message}
+                show={true}
+                acceptText={"Ok"}
+                id={0}
+            />
+        );
+    };
+
     const handleSave = () => {
-        const isSaved = savePackageDetails(function(){}, packageId, packageTitle, packageDescription);// pack as one argument;
-        if(isSaved) {
-            setSaveModal(
-                <ModalWarning
-                    handleAccept={hideModal}
-                    title={"Zmiana danych katalogu"}
-                    message={"Zapisano zmiany"}
-                    show={true}
-                    acceptText={"Ok"}
-                    id={0}
-                />
-            );
-        }
+        savePackageDetails(popUpSaveForm, packageId, packageTitle, packageDescription);// pack as one argument;
         setEditTitle(false);
         setPackageTitleInAddressBar(packageTitle);
         handleEditTitle(packageId, packageTitle);

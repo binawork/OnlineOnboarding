@@ -66,7 +66,7 @@ export function tryFetchJson(res, noJsonMessage){
 
 	if(!res.ok){
 		result = res.json().catch(() => {
-			throw new Error(noJsonMessage)
+			throw new Error(noJsonObj.detail)
 		});
 	} else {
 		result = res.text();
