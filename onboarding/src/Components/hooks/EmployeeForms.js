@@ -615,7 +615,11 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 
 		fetch(fullPath, fetchProps)
 			.then(res => {
-				return tryFetchJson(res, "Wystąpił błąd: nie udało się wysłać katalogu wdrożeniowego do pracownika!");
+				if(!res.ok) {
+					throw Error("Wystąpił błąd: nie udało się wysłać katalogu wdrożeniowego do pracownika!");
+				} else {
+					return res.json();
+				}
 			})
 			.then(
 				(result) => {
