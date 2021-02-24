@@ -85,7 +85,7 @@ export function singleCombo(packageId){
 /**
  * Add package/combo into Packages (todo: set owner as a logged HR manager?);
  */
-export function addCombo(handleSuccess, title, owner) {
+export function addCombo(handleSuccess, title, popUpAddPackageError) {
   if (
     typeof title !== "string" ||
     (typeof title === "string" && title.length < 1)
@@ -108,13 +108,13 @@ export function addCombo(handleSuccess, title, owner) {
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/package/", fetchProps)
-    .then((res) => res.json())
+    .then((res) => tryFetchJson(res, "Wystąpił błąd podczas dodawania katalogu!"))
     .then(
       (result) => {
         handleSuccess(result);
       },
       (error) => {
-        console.log(error);
+        popUpAddPackageError(error.message);
       }
     );
   return true;
@@ -155,13 +155,13 @@ export function removeCombo(handleSuccess, packageId, title) {
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/package/" + packageId + "/", fetchProps)
-    .then((res) => tryFetchJson(res) )
+    .then((res) => tryFetchJson(res, "Nie udało się usunąć katalogu wdrożeniowego! Jeśli katalog został wysłany pracownikowi, nie może zostać usunięty.") )
     .then(
       (result) => {
-        handleSuccess("Wdrożenie zostało usunięte.");
+        handleSuccess("Katalog wdrożeniowy został usunięty.");
       },
       (error) => {
-        handleSuccess(error);
+        handleSuccess(error.message);
       }
     );
   return true;

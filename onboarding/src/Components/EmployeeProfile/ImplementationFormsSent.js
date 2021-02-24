@@ -104,7 +104,7 @@ function ImplementationFormsSent(props) {
     }, [loading]);
 
 
-    if(form_table.length !== 0 || formTable.length>0) {
+    if(form_table.length !== 0 || formTable.length > 0) {
         if(formTable.length > 0) form_table = formTable;
 
         form_table.forEach(function (element, i) {
