@@ -16,7 +16,7 @@ function ProcessPreviewTables(props) {
     	if(typeof message === 'string' && message.length > 0)
     		return;// todo: maybe inform about error;
 
-        let i, j, packageId, pId, isFinished, countFinished = 0;
+        let i, j, packageId, pId, isFinished, countFinished = 0, countPages;
         const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
 
         for(i = props.groupedPackages.sent.length - 1; i >= 0; i--){
@@ -37,13 +37,16 @@ function ProcessPreviewTables(props) {
             props.groupedPackages.sent[i].finish_date = inProgressMsg;
 
             isFinished = true;
-            for(j = props.groupedPackages.sent[i].pages.length - 1; j >= 0; j--){
+            countPages = 0;
+            j = props.groupedPackages.sent[i].pages.length - 1;
+            for(; j >= 0; j--){
                 props.groupedPackages.sent[i].pages[j].finished = notStartedMsg;
                 props.groupedPackages.sent[i].pages[j].finishMsg = notStartedMsg;
                 props.groupedPackages.sent[i].pages[j].percentage = 0;
 
                 pId = parseInt(props.groupedPackages.sent[i].pages[j].id, 10);
                 if( result[packageId].pages.hasOwnProperty(pId) ){
+                    countPages++;
                     if(result[packageId].pages[pId].finished){
                         props.groupedPackages.sent[i].pages[j].finished = result[packageId].pages[pId].date;
                         props.groupedPackages.sent[i].pages[j].finishMsg = finishedMsg;
@@ -56,7 +59,7 @@ function ProcessPreviewTables(props) {
                 }
             }
 
-            if(isFinished){
+            if(isFinished && countPages == props.groupedPackages.sent[i].pagesCount){
                 props.groupedPackages.sent[i].finish_date = result[packageId].date;
                 countFinished++;
             }
