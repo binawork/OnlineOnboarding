@@ -36,7 +36,7 @@ function FormsSentTableRow(props) {
 
     if(props.row.hasOwnProperty("percentage") ){// "purple", "yellow", "amaranthine"
         let prc = parseFloat(props.row.percentage);
-        console.log(prc, props.row.percentage);
+
         if(prc > 0.99)
             tag = <Tag title="Skończone" color="purple" />;
         else if(prc > 0.0)
@@ -74,19 +74,20 @@ function FormsSentTableRow(props) {
                     </td>
                     <td/>
                     <td>{ page.finished }</td>
-                    <td></td>
+                    <td/>
                 </tr>
             );
         });
     }
 
+
     return(
         <>
             <tr>
                 <td className="table__data" style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
-                    { toggleObj.hasContent && <button className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`} onClick={ showPages } type="button"><i className="fas fa-caret-right"></i></button> }
+                    { toggleObj.hasContent && <button className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`} onClick={ showPages } type="button"><i className="fas fa-caret-right"/></button> }
                     { checkBox }
-                    <i className="fa fa-folder" style={{ width: "24px", color: "#F7C46C", marginRight: "2px" }}></i>
+                    <i className="fa fa-folder" style={{width: "24px", color: "#F7C46C", marginRight: "2px"}}/>
                     {props.row.form}
                 </td>
                 <td className="table__data">
