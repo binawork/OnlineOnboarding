@@ -57,6 +57,10 @@ function EmployeeProfilePage() {
         }
     }, [user]);
 
+    const updateSentAndFinished = function(sent, finished){
+        setSingleUser({...singleUser, sent: sent, finished: finished});
+    };
+
     /*useEffect(() => {
         if(groupedPackages.hasOwnProperty('sent') && groupedPackages.sent.length > 0){console.log("  here EPP");
             let abortFun = getProgress(employeeId, progressCallback);
@@ -82,6 +86,7 @@ function EmployeeProfilePage() {
                     setCount={ setCount }
                     answersPage={ answersPage }
                     setAnswersPage={ setAnswersPage }
+                    updateSentAndFinished={ updateSentAndFinished }
                     goBackToMainProfilePage={ goBackToMainProfilePage }
                 />
                 {/* <ProcessPreviewTables packageId={ packageIdRef.current } loggedUser={ loggedUser }

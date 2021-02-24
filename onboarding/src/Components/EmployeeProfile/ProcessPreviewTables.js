@@ -16,7 +16,7 @@ function ProcessPreviewTables(props) {
     	if(typeof message === 'string' && message.length > 0)
     		return;// todo: maybe inform about error;
 
-        let i, j, packageId, pId, isFinished;
+        let i, j, packageId, pId, isFinished, countFinished = 0;
         const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
 
         for(i = props.groupedPackages.sent.length - 1; i >= 0; i--){
@@ -56,12 +56,16 @@ function ProcessPreviewTables(props) {
                 }
             }
 
-            if(isFinished)
-                props.groupedPackages.sent[i].finish_date = result[packageId].date;            
+            if(isFinished){
+                props.groupedPackages.sent[i].finish_date = result[packageId].date;
+                countFinished++;
+            }
         }
 
         // setSentPackages(props.groupedPackages.sent);
         datesOfSendingPackages(props.employeeId, sendDateCallback);
+        i = props.groupedPackages.sent.length;
+        props.updateSentAndFinished(i, countFinished);
     };
 
     const sendDateCallback = function(result, message){

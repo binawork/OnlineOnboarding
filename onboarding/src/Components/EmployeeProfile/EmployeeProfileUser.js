@@ -81,10 +81,7 @@ function EmployeeProfileUser({ user, goBackToMainProfilePage }) {
                         </h3>
                         <h3 className="card-title">
                             <small className="text-muted">Skończone katalogi: </small>
-                            { user.finished 
-                                ? user.department 
-                                : "0" 
-                            }
+                            { user.finished ? user.finished : "0" }
                         </h3>
                     </div>
                 </div>
