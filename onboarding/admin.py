@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User, Package, Page, Section, Answer, Company, ContactRequestDetail
 
+admin.site.register(ContactRequestDetail)
+admin.site.register(Company)
 # information about django administration site
 # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
 
@@ -15,9 +17,10 @@ class CustomUserAdmin(UserAdmin):
     '''custom panel for User is for convenience, since 'User' uses custom model'''
 
     model = User
-    list_display = ('username', 'email', 'company', 'is_hr')
-    list_filter = ('username', 'email', 'is_hr', 'is_staff' 'company', 'location')
-    if User.is_superuser is True:
+    list_display = ('username', 'email', 'company', 'is_hr', 'is_superuser')
+    list_filter = ('username', 'email', 'is_hr', 'is_staff', 'company', 'location')
+
+    if User.is_superuser: #need to get instance of current User here - request?
     #not sure if all fields are required with superuser
         fieldsets = (
             ('General data', {'fields': ('email', 'username', 'phone_number',
@@ -27,7 +30,6 @@ class CustomUserAdmin(UserAdmin):
             ('Admin stuff', {'fields': ('is_active', 'is_staff')})
         )
     else:
-    #can one person be both admin and platform user? I guess so.
         fieldsets = (
             ('General data', {'fields': ('email', 'username', 'phone_number',
                 'location')}),
@@ -74,10 +76,7 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ('id', 'section', 'owner', 'updated_on', 'confirmed')
     ordering = ('id',)
 
-admin.site.register(User)
-admin.site.register(ContactRequestDetail)
-admin.site.register(Company)
-admin.site.register(CustomUserAdmin)
+admin.site.register(User, CustomUserAdmin)
 
 
 
