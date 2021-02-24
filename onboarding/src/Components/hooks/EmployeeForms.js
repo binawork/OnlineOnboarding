@@ -2,8 +2,71 @@ import React, { useState, useEffect } from "react";
 import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../utils.js";
 
 
-function EmployeeForms(props, setError, setLoading, count){
+function groupFormsResult(result, employeeId){
+	let available = [], sent = [], i, j, row, appendToAvailable;
+	const rowModel = {key: 0, name: "", pagesCount: "", percentage: 0,  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []},
+		count = result.length;
+	const specificEmployee = (employeeId && employeeId > 0)?employeeId:-1;
 
+	for(i = 0; i < count; i++){
+		appendToAvailable = true;
+		if(specificEmployee > 0 && result[i].users && Array.isArray(result[i].users) ){
+			if(result[i].users.indexOf(specificEmployee) >= 0)
+				appendToAvailable = false;
+		}
+
+		row = {...rowModel};
+		row.key = result[i].id;
+		row.name = row.form = result[i].title;
+		row.progress = "?/?";
+		row.send_date = row.finish_date = "?";
+		row.pagesCount = 0;
+		row.created = dateToString(result[i].created_on);
+		row.last_edit = dateToString(result[i].updated_on);
+		row.users = result[i].users;
+		if(Object.prototype.toString.call(result[i].page_set) === '[object Array]'){ // Array.isArray(object);
+			row.pages = result[i].page_set.slice();
+			row.pagesCount = row.pages.length;
+
+			for(j = row.pagesCount - 1; j >= 0; j--){
+				if(row.pages[j].hasOwnProperty('updated_on') )
+					row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
+			}
+			row.progress = "?/" + row.pagesCount;
+		}
+
+		if(appendToAvailable)
+			available.push(row);
+		else
+			sent.push(row);
+	}
+
+	return {available: available, sent: sent}
+}
+
+function EmployeeForms(employeeId, count, setError, setLoading){
+	const [groupedPackages, setPackages] = useState({available: [], sent: [], msg: "Ładowanie ..."});
+	const url = getPath(),
+		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+
+	useEffect(() => {
+		fetch(url + "api/package_pages/", fetchProps).then(res => res.json()).then(
+			(result) => {
+				let processedResult = groupFormsResult(result, employeeId);
+				setPackages({...groupedPackages, available: processedResult.available, sent: processedResult.sent, msg: ""});
+			},
+			(err) => {
+				console.log(err);
+				setError(true);
+			}
+		).catch(err => {
+				setError(true);
+				setPackages({...groupedPackages, msg: err.message});
+			}
+		).finally(() => {setLoading(false);} );
+	}, [count, employeeId]);
+
+	return groupedPackages;
 }
 
 /**
