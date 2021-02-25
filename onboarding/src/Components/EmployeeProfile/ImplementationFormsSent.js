@@ -32,7 +32,7 @@ function ImplementationFormsSent(props) {
     } else {
         forms.push(        
             <tr key={ 0 }>
-                <td colSpan="5">Brak wysłanych formularzy</td>
+                <td colSpan="5">Brak wysłanych katalogów</td>
             </tr>
         );
     }
