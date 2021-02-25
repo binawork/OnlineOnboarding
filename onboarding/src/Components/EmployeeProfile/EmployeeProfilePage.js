@@ -33,7 +33,7 @@ function EmployeeProfilePage() {
         team: "", 
         tel: "",
     });
-    const groupedPackages = EmployeeForms(employeeId, count, setError, setLoadingPackages);
+    const groupedPackages = EmployeeForms(employeeId, count, setError, function(isLoading){});
     let user;
     // let packagesSent = {};
 
@@ -89,6 +89,7 @@ function EmployeeProfilePage() {
                     employeeId={ employeeId }
                     groupedPackages={ groupedPackages }
                     isLoading={ loadingPackages }
+                    setLoading={ setLoadingPackages }
                     isError={ errorOfPackages }
                     count={ count }
                     setCount={ setCount }

@@ -30,7 +30,7 @@ function ImplementationFormsSent(props) {
                                         handleChecked={ showHide } handleRemind={ sendRemind } />)
         });
     } else {
-        forms.push(        
+        forms.push(
             <tr key={ 0 }>
                 <td colSpan="5">Brak wysłanych katalogów</td>
             </tr>

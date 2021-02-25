@@ -94,9 +94,9 @@ function ProcessPreviewTables(props) {
         }
 
         if(newFormTable.length > 0){
-            setSentPackages(props.groupedPackages.sent);
+            setSentPackages(newFormTable);
         }
-        //setLoading(false);
+        props.setLoading(false);
     };
 
 
@@ -128,6 +128,7 @@ function ProcessPreviewTables(props) {
 
     useEffect(() => {
         if(props.groupedPackages.hasOwnProperty('sent') && props.groupedPackages.sent.length > 0){
+            setSentPackages(props.groupedPackages.sent);
             let abortFun = getProgress(props.employeeId, progressCallback);
             return abortFun;
         }
