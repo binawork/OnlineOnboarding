@@ -45,7 +45,8 @@ function ImplementationFormsSent(props) {
             </div>
             <div className="card-body">
                 { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
-                { !props.isError && (
+                { props.isLoading && <p>Ładowanie...</p> }
+                { !props.isLoading && !props.isError && (
                     <table className="table table-striped">
                         <thead><tr>
                             <th scope="col">Katalog</th>

@@ -150,7 +150,7 @@ function ProcessPreviewTables(props) {
                             employeeId={ parseInt(props.employeeId) }
                             packages={ sentPackages }
                             setAnswersPage={ props.setAnswersPage }
-                            /*isLoading={ props.isLoading }*/
+                            isLoading={ props.isLoading }
                             isError={ props.isError }
                             showModal={ popUpConfirmationModal }
                             count={ confirmationModal.id }
