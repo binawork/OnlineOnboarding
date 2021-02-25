@@ -7,7 +7,7 @@ import { getProgress, datesOfSendingPackages } from "../hooks/EmployeeForms";
 
 
 function ProcessPreviewTables(props) {
-    //const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [sentPackages, setSentPackages] = useState([]);
     const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
 
@@ -96,7 +96,7 @@ function ProcessPreviewTables(props) {
         if(newFormTable.length > 0){
             setSentPackages(newFormTable);
         }
-        props.setLoading(false);
+        setLoading(false);
     };
 
 
@@ -151,7 +151,7 @@ function ProcessPreviewTables(props) {
                             employeeId={ parseInt(props.employeeId) }
                             packages={ sentPackages }
                             setAnswersPage={ props.setAnswersPage }
-                            isLoading={ props.isLoading }
+                            isLoading={ loading }
                             isError={ props.isError }
                             showModal={ popUpConfirmationModal }
                             count={ confirmationModal.id }
