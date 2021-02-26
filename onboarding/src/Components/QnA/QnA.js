@@ -51,7 +51,7 @@ function QnA({
   const handleCopyQA = (e) => {
     e.preventDefault();
     const updatedList = refValue.current.map((qa) => {
-      qa.order > order ? (qa.order = qa.order + 1) : qa;
+      if(qa.order > order) qa.order = qa.order + 1;
       return qa;
     });
     const copiedQnA = {

@@ -37,21 +37,25 @@ function LeftMenuEmployee(props) {
             <ul className="menu">
               <li className="menu-item">
                 <a href="#" onClick={ goToDashboard } className="menu-link">
+                  <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text">Wdrożenia</span>
                 </a>
               </li>
               <li className="menu-item">
                 <a href="#" onClick={ goToUserPage } className="menu-link">
+                  <i className="bi bi-person mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text">Mój profil</span>
                 </a>
               </li>
               <li className="menu-item">
                 <a href="#" onClick={ goToQnA } className="menu-link">
+                  <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text">Q&A</span>
                 </a>
               </li>
               <li className="menu-item">
                 <a href="#" onClick={ goToCompanyInfoPage } className="menu-link">
+                  <i className="bi bi-building mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text">O firmie</span>
                 </a>
               </li>

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState, useEffect } from "react";
 import { getPath, getCookie, tryFetchJson } from "../utils.js";
-import PackagesRow from "../PackagesList/PackagesRow";
+import useFetch from "./useFetch.js";
 
 /**
  * Get packages from Onboarding API when Packages component is loaded;
  */
-function Packages(props) {
-  var [rows, setRows] = useState([]),
-    [loaded, isLoaded] = useState(false);
+function fetchPackages(count) {
+  const [packages, setPackages] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, showError] = useState(null);
-  const [newRowId, setNewRowId] = useState(null);
 
   let url = getPath(),
     fetchProps = {
@@ -23,54 +23,37 @@ function Packages(props) {
 
   useEffect(() => {
     fetch(url + "api/package/list_by_company_hr/", fetchProps)
+      .catch(error => {
+        showError(error.message);
+        console.error(error);
+      })
       .then((res) => res.json())
-      .then(
-        (result) => {
-          isLoaded(true);
-          setRows(result.sort((a, b) => b.id - a.id));
-          const ids = result.map((res) => res.id);
-          const maxId = Math.max(...ids);
-          setNewRowId(maxId);
-        },
-        (error) => {
-          showError(error);
-          console.log(error);
+      .then((result) => {
+          setPackages(result.sort((a, b) => b.id - a.id));
         }
-      );
-  }, [props.count]);
+      )
+      .finally(() => setIsLoading(false));
+  }, [count]);
 
-  if (error) {
-    return <PackagesRow key={0} row={{ name: error.message, last_edit: "" }} />;
-  } else if (!loaded)
-    return (
-      <PackagesRow key={0} row={{ name: "Ładowanie ...", last_edit: "" }} />
-    );
-  else {
-    var form_table = [],
-      i,
-      count = rows.length;
-    let loggedUser = {id:0, first_name: ""};
+  return { packages, isLoading, error };
+}
 
-    if(props.loggedUser)
-      loggedUser = props.loggedUser;
+/**
+ * Get all packages with theirs forms
+ */
+export const fetchPackagesAndForms = (count) => {
+  const url = getPath();
+  const fetchProps = {
+      method:"GET", 
+      headers: {
+          "Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""
+      }
+  };
 
-    for (i = 0; i < count; i++)
-      form_table.push(
-        <PackagesRow
-          key={ rows[i].id }
-          row={{
-            name: rows[i].title,
-            last_edit: rows[i].updated_on,
-            key: rows[i].id,
-            created: rows[i].created_on,
-          }}
-          handleRemoveAsk={ props.handleRemoveAsk }
-          lastRow={ newRowId === rows[i].id }
-          loggedUser={ loggedUser }
-        />
-      );
-    return <>{ form_table }</>;
-  }
+  const { data:packagesAndForms, isLoading, error } = useFetch(`${url}api/package_pages`, fetchProps, count);
+  if(packagesAndForms) packagesAndForms.sort((a, b) => b.id - a.id);
+
+  return { packagesAndForms, isLoading, error };
 }
 
 /**
@@ -86,7 +69,7 @@ export function singleCombo(packageId){
         fetchProps = {method: "GET", headers: {"Accept": "application/json", "Content-Type": "application/json", "X-CSRFToken": ""}};
 
     useEffect(() => {
-        fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
+      packageId && fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => res.json()).then(
             (result) => {
                 setCombo(result);
             },
@@ -95,8 +78,7 @@ export function singleCombo(packageId){
                 showError(error);
             }
         );
-    }, []);
-
+    }, [packageId]);
     return combo;
 }
 
@@ -255,5 +237,13 @@ export function usersWithPackages(props){
     return usersForPackages;
 }
 
-export default Packages;
+/**
+ * Get packages of user by user's id
+ */
+export function userWithPackages(id, count) {
+  const users = usersWithPackages(count);
+  return users.find(user => user.userId == id);
+}
+
+export default fetchPackages;
 

@@ -1,48 +1,65 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import FormTableAddNew from "./FormTableAddNew";
-import PackagePage, { OnePackageEdit, removePage } from "../hooks/PackagePage";
+import { fetchOnePackageAndForms, removeForm } from "../hooks/PackagePage";
 import ModalWarning from "../ModalWarning";
+import FormPackageEdit from "./FormPackageEdit";
+import FormTableRow from "./FormTableRow";
+import { useLocation, useParams } from "react-router-dom";
 
 
-function FormTable(props) {
-    const [countUpdate, update] = useState(0),
-    order = useRef(0);
+function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) {
+    const location = useLocation();
+    const [countUpdate, setCount] = useState(0);
     const [pageIdModal, setPageIdModal ] = useState({id: 0, modal: <></>});
+    // newRowId is used to style only the newest row
+    const [newRowId, setNewRowId] = useState(null);
+    const order = useRef(0);
+    const { package_id:packageId } = useParams();
+    const { packageAndForms, isLoading, error } = fetchOnePackageAndForms(packageId, countUpdate);
 
-    let loggedUser = {
-      id: 0,
-      email: "",
-      first_name: "",
-      last_name: "",
-      phone_number: "",
-      location: "",
-      team: "",
-      job_position: "",
-      last_login: "",
-      avatar: "",
+    let pages;
+    let packageData;
+    let loading = true;
+    let errorMessage;
+    
+    if(location.state) {
+      loading = false;
+      packageData = location.state.packageData;
+      pages = location.state.pages;
+    } 
+    if(!location.state || countUpdate > 0) {
+      if(packageAndForms) {
+        packageData = packageAndForms;
+        pages = packageAndForms?.page_set.sort((a,b) =>  b.id - a.id);
+        errorMessage = error;
+        loading = isLoading;
+      };
     };
-    if(props.loggedUser)
-        loggedUser = props.loggedUser;
-    //let packages = <Packages count = countUpdate />;
 
-    var updatePackages = function(){
-    	update(countUpdate + 1);
-        //packages = Packages(countUpdate);
-    }
+    useEffect(() => {
+      if(pages) {
+          const ids = pages.map((element) => element.id);
+          const maxId = Math.max(...ids);
+          setNewRowId(maxId);
+      }
+    }, [pages]);
 
-    const updateOrder = (nr) => {
-        if(nr > order.current)
-            order.current = nr;
-    }
+    useEffect(() => {
+      packageAndForms && setPackageTitleInAddressBar(packageAndForms.title);
+    }, [packageAndForms]);
+
+    const updatePackages = function(){
+    	setCount(countUpdate + 1);
+    };
 
     const getOrder = () => order.current;
 
     const hideModal = function(){
         setPageIdModal({id: 0, modal: <></>});
-    }
+    };
     const idle = () => {
         hideModal();
-        update(countUpdate + 1);
+        setCount(countUpdate + 1);
     };
     const popUpRemoveConfirmation = (message) => {
         setPageIdModal({
@@ -50,7 +67,7 @@ function FormTable(props) {
         modal: (
           <ModalWarning
             handleAccept={idle}
-            title={"Usunięcie strony"}
+            title={"Usunięcie formularza"}
             message={message}
             id={0}
             show={true}
@@ -61,8 +78,8 @@ function FormTable(props) {
     };
     const removePackage = function(id){
         hideModal();
-        removePage(popUpRemoveConfirmation, id);
-    }
+        removeForm(popUpRemoveConfirmation, id);
+    };
     const removeAsk = (e) => {
         setPageIdModal({
           id: e.target.value,
@@ -70,8 +87,8 @@ function FormTable(props) {
             <ModalWarning
               handleAccept={removePackage}
               handleCancel={hideModal}
-              title={"Usunięcie strony"}
-              message={"Czy na pewno chcesz usunąć stronę?"}
+              title={"Usunięcie formularza"}
+              message={"Czy na pewno chcesz usunąć formularz?"}
               show={true}
               id={e.target.value}
             />
@@ -81,52 +98,73 @@ function FormTable(props) {
 
     return (
       <div className="page-section">
-        <div className="card card-fluid">
-          <div className="card-header">Edytuj formularz</div>
-          <div className="card-body">
-            <OnePackageEdit
-              packageId={props.packageId}
-              loggedUser={loggedUser}
-            />
+        { loading && <p>Ładowanie...</p> }
+        { errorMessage && <p>{ errorMessage }</p> }
+        { packageData && (
+          <>
+          <div className="card card-fluid">
+            <div className="card-header">Edytuj katalog</div>
+            <div className="card-body">
+              <FormPackageEdit 
+                title={ packageData?.title }
+                description={ packageData?.description }
+                packageId={ packageId }
+                setPackageTitleInAddressBar={ setPackageTitleInAddressBar }
+                handleEditTitle={ handleEditTitle }
+              />
+            </div>
           </div>
-        </div>
-        <div className="card card-fluid">
-          <div className="card-header">Stwórz strone</div>
-          <div className="card-body">
-            <FormTableAddNew
-              id={props.packageId}
-              handleUpdate={updatePackages}
-              getOrder={getOrder}
-              loggedUser={loggedUser}
-            />
+          <div className="card card-fluid">
+            <div className="card-header">Stwórz formularz, który wyślesz do pracownika</div>
+            <div className="card-body">
+              <small style={{ paddingLeft: "12px" }}>Nazwa formularza</small>
+              <FormTableAddNew
+                id={ packageId }
+                handleUpdate={ updatePackages }
+                getOrder={ getOrder }
+                companyId={ companyId }
+              />
+            </div>
           </div>
-        </div>
-        <div className="card card-fluid">
-          <div className="card-header">Lista Stron</div>
-          <div className="card-body">
-            <table className="table table-striped">
-               <thead>
-                    <tr>
-                        <th scope="col" style={{width: "50%"}}>Nazwa strony</th>
-                        <th scope="col" style={{width: "10%"}}>Kolejność</th>
-                        <th scope="col" style={{width: "25%"}}>Edytowany</th>
-                        <th scope="col" style={{width: "15%"}}>Działanie</th>
-                    </tr>
-                </thead>
-              <tbody id="form_table_data_container">
-                <PackagePage
-                  id={props.packageId}
-                  count={countUpdate}
-                  handleUpdate={updatePackages}
-                  updateOrder={updateOrder}
-                  handleRemoveAsk={removeAsk}
-                  loggedUser={loggedUser}
-                />
-              </tbody>
-            </table>
+          <div className="card card-fluid">
+            <div className="card-header">Lista formularzy</div>
+            <div className="card-body">
+            { pages && 
+              <table className="table table-striped">
+                <thead>
+                      <tr>
+                          <th scope="col" style={{ width: "50%" }}>Nazwa formularza</th>
+                          <th scope="col" style={{ width: "25%" }}>Edytowany</th>
+                          <th scope="col" style={{ width: "15%" }}>Działanie</th>
+                      </tr>
+                  </thead>
+                <tbody id="form_table_data_container">
+                { pages.map(row => 
+                    <FormTableRow
+                        key={ row.id }
+                        packageId={ packageId }
+                        packageTitle={packageAndForms?.title}
+                        row={{
+                          name: row.title,
+                          last_edit: row.updated_on,
+                          description: row.description,
+                          link: row.link,
+                          id: row.id,
+                        }}
+                        handleRemoveAsk={ removeAsk }
+                        handleUpdate={ updatePackages }
+                        lastRow={ newRowId === row.id }
+                    />
+                  )
+                }
+                </tbody>
+              </table>
+            }
+            </div>
+            {pageIdModal.modal}
           </div>
-          {pageIdModal.modal}
-        </div>
+          </>
+        )}
       </div>
     );
 }

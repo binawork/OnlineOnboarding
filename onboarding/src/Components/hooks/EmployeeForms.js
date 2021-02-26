@@ -5,11 +5,11 @@ import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../uti
 /**
  * Get packages or pages when ProcessPreviewTables component is loaded;
  */
-function EmployeeForms(props, count){
-	var [rows , setRows] = useState([]),
+function EmployeeForms(props, setError, setLoading, count){
+	const [rows , setRows] = useState([]),
 		[loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
-	let url = getPath(),
+	const url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
@@ -18,11 +18,12 @@ function EmployeeForms(props, count){
 				isLoaded(true);
 				setRows(result);
 			},
-			(error) => {
-				console.log(error);
-				showError(error);
+			(err) => {
+				console.log(err);
+				setError(true);
+				showError(err);
 			}
-		);
+		).finally(() => setLoading(false));
 	}, [props.count, count]);
 
 	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []};
@@ -43,9 +44,6 @@ function EmployeeForms(props, count){
 		var form_table = [], count = rows.length;
 		let i, j, row;//, loggedUser = {id:0, first_name: ""};
 		const specificEmployee = (props.specificEmployee && props.specificEmployee > 0)?props.specificEmployee:-1;
-
-		/*if(props.loggedUser)
-			loggedUser = props.loggedUser;*/
 
 		for(i = 0; i < count; i++){
 			if(specificEmployee > 0 && rows[i].users && Array.isArray(rows[i].users)){
@@ -70,16 +68,16 @@ function EmployeeForms(props, count){
 					if(row.pages[j].hasOwnProperty('updated_on') )
 						row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
 				}
+				row.progress = "?/" + row.pagesCount;
 			}
 
 			form_table.push(row);
 		}
-		
+
 		return form_table;
 	}
 
 }
-
 
 /**
  * Get packages or pages when ProcessPreviewTables component is loaded;
@@ -147,7 +145,7 @@ export function SingleEmployeeForms(props){
 	}
 }
 
-export async function getEmployeesSection(pageId, errorMessageFunction){
+/*export async function getEmployeesSection(pageId, errorMessageFunction){
 	let url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
@@ -161,9 +159,9 @@ export async function getEmployeesSection(pageId, errorMessageFunction){
 
 	let sectionForms = await response.json();
 	return sectionForms.sort((a, b) => a.order - b.order);
-}
+}*/
 
-export async function getEmployeesAnswersForSections(sections){
+/*export async function getEmployeesAnswersForSections(sections){
 	let mainUrl = getPath(), url,
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 	var results = {answers: Array(sections.length).fill({data: []}), answers_cp: Array(sections.length).fill({data: []})};
@@ -188,9 +186,244 @@ export async function getEmployeesAnswersForSections(sections){
 	}
 
 	return results;
+}*/
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - Functions requesting progress - - - - - - - - - - - - - - - -
+
+/**
+ *
+ * @param progressAnswers
+ * [{
+    id: int,
+    section: {id: int, title: string, data: [], page: int, company_id: int, package_id: int, page_title: string, page_link: string, page_updated": date-string},
+    data: string or Object,
+    confirmed: boolean,
+    updated_on: date-string,
+    finished: boolean,
+    owner: int
+  }, ...]
+ * @returns {{}}
+ */
+function revertProgressAnswers(progressAnswers){
+	let progress = {};
+	if(progressAnswers.length < 1)
+		return progress;
+
+	let packageId, pageId, finishDate, data, empty = true;
+	progressAnswers.forEach(function(answer){
+		if(typeof answer.section.package_id === 'undefined' || answer.section.package_id === null || typeof answer.section.page === 'undefined')
+			return;
+
+		empty = false;
+
+		finishDate = new Date(0);// anything small; here '1970';
+		if( answer.hasOwnProperty('updated_on') ){
+			try {
+				finishDate = new Date(answer.updated_on);
+			} catch(e){}
+		}
+
+		packageId = answer.section.package_id;
+		if( !progress.hasOwnProperty(packageId) )
+			progress[packageId] = {packageId: packageId, date: finishDate, finished: 0, count: 0, pages: {}};
+		else if(finishDate > progress[packageId].date){
+			progress[packageId].date = finishDate;
+		}
+
+		pageId = answer.section.page;
+		if( !progress[packageId].pages.hasOwnProperty(pageId) )
+			progress[packageId].pages[pageId] = {finished: true, date: finishDate, title: "", answers: {}};
+		else if(finishDate > progress[packageId].pages[pageId].date){
+			progress[packageId].pages[pageId].date = finishDate;
+		}
+
+		if(answer.section.hasOwnProperty("page_title") )
+			progress[packageId].pages[pageId].title = answer.section.page_title;
+
+
+		data = {id: -1, owner: -1, finished: false, confirmed: false, data: {}};
+
+		if( answer.hasOwnProperty("id") )
+			data.id = parseInt(answer.id, 10);
+
+		if( answer.hasOwnProperty("owner") )
+			data.owner = parseInt(answer.owner, 10);
+
+		if( answer.hasOwnProperty("finished") ){
+			data.finished = answer.finished === 'true' || answer.finished === true;
+			progress[packageId].pages[pageId].finished &= data.finished;
+		}
+
+		if( answer.hasOwnProperty("confirmed") )
+			data.confirmed = answer.confirmed;
+		/*if( answer.hasOwnProperty("data") )
+			data.data = answer.data;*/
+
+		progress[packageId].pages[pageId].answers[data.id] = data;
+	});
+
+	if(empty)
+		return progress;
+
+	// counting finished forms and converting dates to string representation;
+	Object.keys(progress).forEach( (id) => {
+		progress[id].count = Object.keys(progress[id].pages).length;
+		let countFinished = 0;
+		Object.keys(progress[id].pages).forEach( (pId) => {
+			if(progress[id].pages[pId].finished)
+				countFinished += 1;
+					
+			progress[id].pages[pId].date = dateToString(progress[id].pages[pId].date);
+		});
+		progress[id].finished = countFinished;
+		progress[id].date = dateToString(progress[id].date);
+	});
+	return progress;
 }
 
+/**
+ * Requests server for the list of answers with corresponding section and page keys;
+ * @param employeeId: id (int) of employee it is requested for;
+ * @param progressCallback: callback function to make use of the result;
+ * @returns {abortFun}: function to abort by XMLHttpRequest.abort() property method;
+ */
+export function getProgress(employeeId, progressCallback){
+	let xhr = new XMLHttpRequest(), url = getPath();
 
+	url += "api/user_progress/" + employeeId;
+
+	xhr.onreadystatechange = function(){
+		if(this.readyState == 4 && this.status >= 200 && this.status < 300){
+			let progressAnswers, progress = {};
+			try {
+				progressAnswers = JSON.parse(this.responseText);
+			}catch(e){
+			    progressAnswers = [];}
+
+			progress = revertProgressAnswers(progressAnswers);
+			progressCallback(progress);
+
+		} else if(this.readyState == 4){
+			let message = this.responseText;
+			if(this.status >= 500 && this.status < 600)
+				message = "Napotkano błąd po stronie serwera.";
+			else if(this.status >= 400 && this.status < 500){
+				message = "Napotkano błędne zapytanie serwera.";
+			}
+
+			progressCallback(false, message);
+		}
+	}
+
+	xhr.open("GET", url, true);/* async: true (asynchronous) or false (synchronous); */
+
+	xhr.setRequestHeader("Accept", "application/json");
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.setRequestHeader("X-CSRFToken", "");
+	xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+	xhr.send();
+
+	let abortFun = function(){
+		xhr.abort();
+	}
+	return abortFun;
+}
+
+/*export function getProgress(employeeId, progressCallback){
+	let url = getPath();
+	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}},
+		abortCont = new AbortController();
+
+	fetchProps.signal = abortCont.signal;
+	url += "api/user_progress/" + employeeId;
+
+	fetch(url, fetchProps).then( (res) => {
+		if(!res.ok)
+			throw Error("Problem z pobraniem danych!");
+
+		return res.json();
+	}).then(function(result){
+		let progress = revertProgressAnswers(result);
+		progressCallback(progress);
+
+	}).catch((err) => {
+		progressCallback(false, err.message);// console.log(err);
+	});
+
+
+	let abortFun = function(){
+		abortCont.abort();
+	}
+	return abortFun;
+}*/
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - -Functions requesting dates when packages were sent - - - - - - - - - - -
+
+/**
+ * Converts list of key-value pairs like [{"package": int, "send_on": string}, ...]
+ * into indexed list like {package_1: send_on_1, package_2: send_on_2, ...};
+ * @param sendDates: list of objects like [{"package": int, "send_on": string}, ...] or another object to return {};
+ * @returns {{}} indexed list or empty object;
+ */
+function processDatesOfSending(sendDates){
+	let result = {};
+	if( !Array.isArray(sendDates) || sendDates.length < 1)
+		return result;
+
+	let i, count = sendDates.length, packageId;
+	for(i = 0; i < count; i++){
+		packageId = -1;
+
+		if( sendDates[i].hasOwnProperty("package") )
+			packageId = parseInt(sendDates[i]["package"], 10);
+
+		if( sendDates[i].hasOwnProperty("send_on") ){
+			result[packageId] = dateToString(sendDates[i].send_on);
+		}
+	}
+	return result;
+}
+
+/**
+ * Requests server for the list of date when package was sent for corresponding package id;
+ * @param employeeId: id (int) of employee it is requested for;
+ * @param sendDateCallback: callback function to make use of the result;
+ * @returns {abortFun}: function to abort by AbortController()
+ */
+export function datesOfSendingPackages(employeeId, sendDateCallback){
+	let url = getPath(), abortCont;
+	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+
+	abortCont = new AbortController();
+	fetchProps.signal = abortCont.signal;
+	url += "api/user/" + employeeId + "/when_package_send_to_user/";
+
+	fetch(url, fetchProps).then(function(res){
+		if(!res.ok)
+			throw Error("Problem z pobraniem danych!");
+
+		return res.json();
+	}).then( (result) => {
+		let sendDates = processDatesOfSending(result);
+		sendDateCallback(sendDates);
+	}).catch((err) => {
+		sendDateCallback(false, err.message);// console.log(err);
+	});
+
+
+	let abortFun = function(){
+		abortCont.abort();
+	}
+	return abortFun;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+/**
+ * Rescue request an id of the logged user when it is not set;
+ */
 function getUserId(pageId, errorMessageFunction, setSectionsAnswers){
 	let xhr = new XMLHttpRequest(), url = getPath();
 
@@ -228,6 +461,7 @@ function getUserId(pageId, errorMessageFunction, setSectionsAnswers){
 export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunction, setSectionsAnswers){
 	if( (typeof userId === 'undefined' || userId < 1) && userId !== false){
 		getUserId(pageId, errorMessageFunction, setSectionsAnswers);
+		return;
 	}
 
 	let xhr = new XMLHttpRequest(), url = getPath();
@@ -243,7 +477,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 				return ;
 			}
 
-			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false;
+			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true;
 			result.answers = sections.map(function(section){
 				let answer = {data: []};
 				if(typeof section.answers === 'undefined' || section.answers === null)
@@ -263,6 +497,8 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 						answer = section.answers[i];
 						areSaved = true;
 					}
+					if(typeof section.answers[i].finished !== 'undefined')
+						areFinished &= section.answers[i].finished;
 				}
 
 				try {
@@ -273,7 +509,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 			});
 
 			result.answers_cp = JSON.parse(JSON.stringify(result.answers));
-			setSectionsAnswers(result, areSaved);
+			setSectionsAnswers(result, areSaved, areFinished/*, todo: maybe use confirmed field later; */);
 		} else if(xhr.readyState==4){
 			errorMessageFunction("Nie udało się zdobyć danych!");
 		}
@@ -308,8 +544,8 @@ export function sendEmployeesAnswers(sectionsAnswers, responseFunction){
 		sectionId = sectionsAnswers[i].sectionId;
 		answerId = -1;
 		data = {section: sectionId, data: sectionsAnswers[i].data}
-		if( typeof data.data !== "string" && (typeof data.data !== "object" || data.data.constructor !== String) )
-			data.data = JSON.stringify(sectionsAnswers[i].data);
+		/*if( typeof data.data !== "string" && (typeof data.data !== "object" || data.data.constructor !== String) )
+			data.data = JSON.stringify(sectionsAnswers[i].data);*/
 		if( isNumber(sectionsAnswers[i].answerId) )
 			answerId = sectionsAnswers[i].answerId;
 
@@ -365,28 +601,44 @@ export async function finishEmployeesAnswers(pageId, handleMessage){
  * Employee assignment to package/combo;
  */
 export function assignEmployeeToPackage(handleMessage, employeeId, packageId, setUsersInPackage){
-	let data, token = getCookie("csrftoken"), fullPath = getPath(),
+	let data, token = getCookie("csrftoken"), path = getPath(),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
 
-	fullPath = fullPath + "api/add_users_to_package/" + packageId + "/add_user_to_package/";
 	data = {users: [employeeId]};
-	//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
-	//data.users.push(userPackageObject);
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})
+	if(typeof packageId === "string" || typeof packageId === "number") {
+		const fullPath = path + "api/add_users_to_package/" + packageId + "/add_user_to_package/";
+
+		//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
+		//data.users.push(userPackageObject);
+
+		fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})
 		.then(
 			(result) => {
 				let msg = "Formularz został wysłany do pracownika. ";
 				if(typeof result.detail === 'string')
-					msg += result.detail;
+				msg += result.detail;
 				handleMessage(msg);
-				setUsersInPackage(result.users)
+				if(setUsersInPackage) setUsersInPackage(result.users);
 			},
 			(error) => {
-				handleMessage(error.message);
+				console.log(error.message);
 			}
-		);
+			);
+		} else if(typeof packageId === "object") {
+			Promise.all(packageId.map(id => {// ESLint: Expected to return a value in arrow function.(array-callback-return);
+				const fullPath = path + "api/add_users_to_package/" + id + "/add_user_to_package/";
+				fetch(fullPath, fetchProps)
+			})).then(() => {
+						let msg = "Wybrane formularze zostały wysłane do pracownika.";
+						handleMessage(msg);
+					}, 
+					(error) => {
+						console.log(error.message);
+					}
+				);
+		}
 }
 
 /**

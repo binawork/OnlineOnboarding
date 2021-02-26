@@ -30,12 +30,12 @@ from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, UserProgressSerializer
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email, send_remove_acc_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm, CustomSetPasswordForm
 
@@ -151,7 +151,7 @@ def password_reset_request(request):
     return render(
         request=request,
         template_name='registration/password_reset_form.html',
-        context={'password_reset_form': password_reset_form}
+        context={'form': password_reset_form}  # {'password_reset_form': password_reset_form} didn't work;
     )
 
 
@@ -726,16 +726,44 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
 
     def get(self, request, *args, **kwargs):
         employe_id = kwargs.get('employe_id')
-        package_id = kwargs.get('package_id')
+        package_id = kwargs.get('package_id', None)
 
-        queryset = PackagesUsers.objects.filter(
-            package_id=package_id,
-            user_id=employe_id,
-            user__company=request.user.company
-        )
+        if package_id is not None:
+            queryset = PackagesUsers.objects.filter(
+                package_id=package_id,
+                user_id=employe_id,
+                user__company=request.user.company
+            )
+        else:
+            queryset = PackagesUsers.objects.filter(
+                user_id=employe_id,
+                user__company=request.user.company
+            )
+
         serializer = WhenPackageSendToEmployeeSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
+class UserProgressView(viewsets.ModelViewSet):
+    """
+    List answers of user/employee with corresponding sections with information
+        about page and package id;
+    """
+    serializer_class = UserProgressSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        employee = self.kwargs['user_id']
+
+        if self.request.user.is_hr:
+            # queryset = Page.objects.filter(section__answer__owner=employee, section__owner=user.company)
+            queryset = Answer.objects.select_related('section', 'section__page').filter(owner=employee, section__owner=user.company)
+        else:
+            queryset = Answer.objects.select_related('section', 'section__page').filter(owner=user, section__owner=user.company)
+
+        return queryset
+#
 
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):

@@ -13,7 +13,7 @@ const EmployeeSections = ({pageId, userId}) => {
     const [loadingSaved, isLoadingSaved] = useState({load: true, saved: false});
     const [errorMessage, setErrorMessage] = useState("");
     const [sectionsView, setView] = useState({view: [], init: false});
-    const [confirmationModal, setModal] = useState({msg: "", modal: <></>});
+    const [confirmationModal, setModal] = useState({msg: [""], modal: <></>});
 
 
     useEffect(() => {
@@ -74,6 +74,7 @@ const EmployeeSections = ({pageId, userId}) => {
             answersToSend.push(element);
         }
 
+        confirmationModal.msg[0] = "Zapisano odpowiedzi.";
         let sendingResponse = sendingSectionAnswerResponse;
         if(typeof anotherResponse !== 'undefined')
             sendingResponse = anotherResponse;
@@ -108,14 +109,14 @@ const EmployeeSections = ({pageId, userId}) => {
         else
             msgAppend += "nie powiodło się!";
 
-        popUpConfirmationModal(msgAppend, true);
+        popUpConfirmationModal(msgAppend, true, "Potwierdzenie zapisania");
 
         if(!loadingSaved.saved)
             isLoadingSaved({...loadingSaved, saved: true});
     };
     const sendAndFinishResponse = function(sectionId, isSuccess, answerIdResponse){
         let i = sectionsAnswers.sections.length - 1;
-        for(; i >= 0 && sectionId > 0; i--){
+        for(; i >= 0 && sectionId > 0; i--){// update info about answers 'id';
             if(sectionsAnswers.sections[i].id === sectionId){
                 if( !sectionsAnswers.answers[i].hasOwnProperty('id') )
                     sectionsAnswers.answers[i].id = answerIdResponse;
@@ -132,17 +133,21 @@ const EmployeeSections = ({pageId, userId}) => {
             });
     };
 
-    const popUpConfirmationModal = (message, append) => {
-        let newMessage = message;
+    const popUpConfirmationModal = (message, append, title) => {
         if(append)
-            newMessage = confirmationModal.msg + message;
+            confirmationModal.msg.push(message);
+        else
+            confirmationModal.msg = [message];
+
+        let newMessage = confirmationModal.msg[0], title2 = (title)? title : "Potwierdzenie wysłania";
+        // todos: join confirmationModal.msg into text with newlines;
 
         setModal({
-            msg: newMessage,
+            msg: confirmationModal.msg,
             modal: (
                 <ModalWarning
                     handleAccept={ hideModal }
-                    title="Potwierdzenie wysłania"
+                    title={ title2 }
                     message={ newMessage }
                     id={0}
                     show={true}
@@ -153,7 +158,7 @@ const EmployeeSections = ({pageId, userId}) => {
     };
 
     const hideModal = () => {
-        setModal({msg: "", modal: <></>});
+        setModal({msg: [""], modal: <></>});
     };
 
 
@@ -164,7 +169,6 @@ const EmployeeSections = ({pageId, userId}) => {
                 sections = sectionsAnswers.sections, answers = sectionsAnswers.answers_cp;
 
             for(i = 0; i < count; i++){
-                // to-fix: answers[i] does not give the same element which is listed in answers, console.log(answers, answers[i]);
                 sectionsView2.push(<section key={uuidv4()} className="card my-3">
                         <header className="card-header">
                             <div>{sections[i].title}</div>
