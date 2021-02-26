@@ -14,15 +14,21 @@ function FormsEdit(formId, update){
 	useEffect(() => {
     const abortCont = new AbortController();
 
-		FormSectionsAPI.getAllSections(formId)
+		FormSectionsAPI.getAllSections(formId, abortCont)
 			.then((response) => {
 				setSections((response.sort((a, b) => a.order - b.order)));
-				// for(let i = sections.length - 1; i >= 0; i--){
-				// 	if( !Array.isArray(sections[i].data) )
-				// 	sections[i].data = [];
-				// }
+				for(let i = sections?.length - 1; i >= 0; i--){
+					if( !Array.isArray(sections[i].data) )
+					sections[i].data = [];
+				}
 			})
-			.catch((error) => setErrorMessage(error.message))
+			.catch((error) => {
+				if(error.name === "AbortError") {
+          console.log('Fetch aborted');
+        } else {
+					setErrorMessage(error.message)
+				}
+			})
 			.finally(() => setLoading(false));
 
 		return () => abortCont.abort();

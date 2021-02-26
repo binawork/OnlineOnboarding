@@ -4,12 +4,15 @@ import "regenerator-runtime/runtime.js";
 const BASE_URL = getPath();
 
 const FormSectionsAPI = {
-  getAllSections: async function (pageID) {
+  getAllSections: async function (pageID, abortCont) {
     const sections = await makeRequest(
       `${BASE_URL}api/section/${pageID}/list_by_page_hr/`,
-      "GET"
+      "GET",
+      null,
+      abortCont
     );
     const response = await sections.json();
+
     return response;
   },
   getAllAnswers: async function () {
@@ -23,16 +26,6 @@ const FormSectionsAPI = {
     }
     if (typeof idToDelete === "number") {
       await makeRequest(`${BASE_URL}api/section/${idToDelete}`, "DELETE");
-      /*await Promise.all(
-        answers.map((answer) => {
-          if (
-            (typeof answer.id === "number" && answer.section === idToDelete) ||
-            answer.section === null
-          ) {
-            makeRequest(`${BASE_URL}api/answer/${answer.id}`, "DELETE");
-          }
-        })
-      );*/
     }
   },
   deleteAnswer: async function (idToDelete) {
@@ -52,30 +45,15 @@ const FormSectionsAPI = {
       })
     );
   },
-  saveAll: async function (sections/*, answers*/) {
+  saveAll: async function (sections, updateSectionsCallback) {
     //Save sections
     const sectionsSaveResult = await Promise.all(
       sections.map((section) =>
-        typeof section.id === "string"
+        typeof section.hasOwnProperty('isNew') && section.isNew === true
           ? makeRequest(`${BASE_URL}api/section/`, "POST", section)
               .then((res) => res.json())
               .then((result) => {
                 const savedSection = result;
-                //Save answers of section
-                /*Promise.all(
-                  answers.map((answer, index) => {
-                    if (answer.section === section.id) {
-                      makeRequest(`${BASE_URL}api/answer/`, "POST", {
-                        section: savedSection.id,
-                        data: answer.data,
-                      })
-                        .then((res) => res.json())
-                        .then((response) => {
-                          answers.splice(index, 1, response);
-                        });
-                    }
-                  })
-                );*/
                 return savedSection;
               })
           : makeRequest(
@@ -86,34 +64,19 @@ const FormSectionsAPI = {
               .then((res) => res.json())
               .then((result) => {
                 const savedSection = result;
-                //Save answers of section
-                /*Promise.all(
-                  answers.map((answer) => {
-                    if (answer.section === section.id) {
-                      typeof answer.id === "string"
-                        ? makeRequest(`${BASE_URL}api/answer/`, "POST", {
-                            section: savedSection.id,
-                            data: answer.data,
-                          })
-                        : makeRequest(
-                            `${BASE_URL}api/answer/${answer.id}/`,
-                            "PATCH",
-                            { data: answer.data }
-                          );
-                    }
-                  })
-                );*/
                 return savedSection;
               })
       )
     );
-    return [sectionsSaveResult/*, answers*/];
+
+    /*await*/ updateSectionsCallback(sectionsSaveResult);
+    return sectionsSaveResult;
   },
 };
 
 export default FormSectionsAPI;
 
-async function makeRequest(url, method, body) {
+async function makeRequest(url, method, body, abortCont) {
   const jsonBody = body ? JSON.stringify(body) : undefined;
   const response = await fetch(url, {
     method: method,
@@ -123,9 +86,12 @@ async function makeRequest(url, method, body) {
       "X-CSRFToken": getCookie("csrftoken"),
     },
     body: jsonBody,
+    signal: abortCont?.signal
   });
+  
   if (!response.ok) {
     throw new Error("Wystąpił błąd");
   }
-  return response;
+  
+  return  response;
 }

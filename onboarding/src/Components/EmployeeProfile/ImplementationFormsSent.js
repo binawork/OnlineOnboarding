@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormsSentTableRow from "./FormsSentTableRow";
-import EmployeeForms, { remindEmployeeOfPackage } from "../hooks/EmployeeForms";
+import { /*EmployeeFormsList, getProgress,*/ remindEmployeeOfPackage } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsSent(props) {
     const [numberChecked, checkedChange] = useState(0);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
-    let propsCp = {...props, specificEmployee: props.employeeId},
-        user_table = EmployeeForms(propsCp, setError, setLoading), forms = [];
+    let forms = [];//,
+        //propsCp = {...props, specificEmployee: props.employeeId};//, form_table = props.packages/*EmployeeFormsList(propsCp, setError, setLoading, props.count);
+
 
     const showHide = (isChecked) => {
         if(isChecked)
@@ -17,34 +16,37 @@ function ImplementationFormsSent(props) {
             checkedChange(numberChecked - 1);
     };
 
-	const sendRemind = function(packageId){
-		remindEmployeeOfPackage(props.showModal, props.employeeId, packageId);
-	};
+    const sendRemind = function(packageId){
+        remindEmployeeOfPackage(props.showModal, props.employeeId, packageId);
+    };
 
-    if(user_table.length !== 0) {
-        user_table.forEach(function (element, i) {
+
+    if(props.packages.length !== 0 /*|| formTable.length>0*/) {
+        //if(formTable.length > 0) form_table = formTable;
+        props.packages.forEach(function (element, i) {
             forms.push(<FormsSentTableRow key={ element.key } row={ element }
                 setAnswersPage={ props.setAnswersPage }
                                         employeeId={ props.employeeId }
                                         handleChecked={ showHide } handleRemind={ sendRemind } />)
         });
     } else {
-        forms.push(        
+        forms.push(
             <tr key={ 0 }>
-                <td colSpan="5">Brak wysłanych formularzy</td>
+                <td colSpan="5">Brak wysłanych katalogów</td>
             </tr>
         );
     }
 
+
     return(
         <div className="card card-fluid">
             <div className="card-header">
-                <i className="bi bi-cloud-check mr-2" style={{ fontSize: "18px" }}></i> Wysłane katalogi wdrożeniowe
+                <i className="bi bi-cloud-check mr-2" style={{fontSize: "18px"}}/> Wysłane katalogi wdrożeniowe
             </div>
             <div className="card-body">
-                { error && <p>Wystąpił błąd podczas ładowania</p> }
-                { loading && <p>Ładowanie...</p> }
-                { !loading && !error && (
+                { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
+                { props.isLoading && <p>Ładowanie...</p> }
+                { !props.isLoading && !props.isError && (
                     <table className="table table-striped">
                         <thead><tr>
                             <th scope="col">Katalog</th>

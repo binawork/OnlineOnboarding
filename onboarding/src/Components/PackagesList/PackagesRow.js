@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { dateToString } from "../utils";
 import "../../static/css/packages.css";
+import Tag from "../Tag";
 
 function PackagesRow({ row, removeAsk, lastRow }) {
     const [styleRow, setStyleRow] = useState(null);
@@ -73,38 +74,39 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                             className="link mr-4" 
                             title="Kliknij, aby przejść do edycji zawartości katalogu"
                         >{ row.name }</Link>
-                        <small className="info-tag">
-                            Liczba plików: { row.pages.length || 0 }
-                        </small>
+                        <Tag title={`Liczba plików: ${ row.pages.length || 0 }`} color={"amaranthine"} />
                     </div>
                     <small><i>{ row.description }</i></small>
                 </td>
 
                 <td className="table__data">{ dateToString(row.last_edit) }</td>
 
-                <td  className="table__data table__data--nowrap">
-                <Link to={{ 
-                            pathname: `/package/${row.id}`,
-                            state: {
-                                packageData: {
-                                    id: row.id,
-                                    title: row.name,
-                                    description: row.description
-                                },
-                                pages: row.pages
-                            }
-                        }}
-                        className="btn btn-secondary mr-1"
-                    >
-                        Edytuj
+                <td  className="table__data table__data--nowrap d-flex flex-column">
+                    <Link to={ `/send_package/${row.id}` } className="btn btn-secondary mb-1">
+                        Wyślij pracownikowi
                     </Link>
-                    <button 
-                        value={ row.id }
-                        className="btn btn-warning"
-                        onClick={ removeAsk }
-                    >
-                        Usuń
-                    </button>
+                    <div>
+                        <Link to={{ 
+                                pathname: `/package/${row.id}`,
+                                state: {
+                                    packageData: {
+                                        id: row.id,
+                                        title: row.name,
+                                        description: row.description
+                                    },
+                                    pages: row.pages
+                                }
+                            }}
+                            className="btn btn-secondary mr-1"
+                            style={{ width: "calc(50% - 2px)" }}
+                        >Edytuj</Link>
+                        <button 
+                            value={ row.id }
+                            className="btn btn-warning"
+                            onClick={ removeAsk }
+                            style={{ width: "calc(50% - 2px)" }}
+                        >Usuń</button>
+                    </div>
                 </td>
             </tr>
             { showPages && pagesRows }
