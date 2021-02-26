@@ -89,15 +89,17 @@ export function savePageDetails(handleSuccess, pageId, title, link, description)
 
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
-		(result) => {
-			handleSuccess(result);
-		},
-		(error) => {
-			handleSuccess(error);
+	fetch(url + "api/page/" + pageId + "/", fetchProps)
+		.then(res => {
+			if(!res.ok) throw Error("Błąd: Nie udało się zapisać danych formularza.");
+		})
+		.then(() => {
+			handleSuccess("Zapisano dane");
+		})
+		.catch((error) => {
+			handleSuccess(error.message);
 			console.log(error);
-		}
-	);
+		});
 	return true;
 }
 
