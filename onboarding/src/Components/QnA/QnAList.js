@@ -24,16 +24,28 @@ const QnAList = () => {
     if(accepted) setError(false);
   }, []);
   
+  const showAutosaveInfo = () => {
+    // Show info "Zapisano zmiany" for 3 sec. when the changes were saved
+    if(saveOnDemand !== true) {
+      setAutosave(true);
+      const timer = setTimeout(() => {
+          setAutosave(false);
+      }, 3000);
+      
+      return () => {
+          clearTimeout(timer);
+      }
+    };
+  }
+  
   useEffect(() => {
     if(editMode && saveOnDemand !== true) {
+      setSaveError(null);
       // Save changes after 3 sec. form last change
       const saveInterval = setTimeout(
         () => {
           if(saveOnDemand !== true) {
-            const accepted = saveAll(qaList, setSaveError);
-            if(accepted) {
-              setAutosave(true);
-            }
+            saveAll(qaList, setSaveError, showAutosaveInfo);
           }
         },
         3000
@@ -41,18 +53,6 @@ const QnAList = () => {
       return () => clearTimeout(saveInterval);
     } 
   }, [qaList]);
-
-  useEffect(() => {
-    // Show info "Zapisano zmiany" for 3 sec. when the changes were saved
-    if(autosave && saveOnDemand !== true) {
-      const timer = setTimeout(() => {
-          setAutosave(false);
-      }, 3000);
-      return () => {
-          clearTimeout(timer);
-      };
-    }
-  }, [autosave]);
 
   const handleAddQnA = (e) => {
     e.preventDefault();
@@ -71,15 +71,16 @@ const QnAList = () => {
     setSaveError(null);
     setSaveOnDemand(false);
   };
-
+  const showModal = () => {
+    setShowSaveModal(true);
+  };
   const handleSaveAll = (e) => {
     e.preventDefault();
     setAutosave(false);
-    const accepted = saveAll(qaList, setSaveError);
+    setSaveOnDemand(true);
+    const accepted = saveAll(qaList, setSaveError, showModal);
     if(accepted) {
-      setSaveOnDemand(true);
       setQaList(accepted);
-      setShowSaveModal(true);
     }
   };
 

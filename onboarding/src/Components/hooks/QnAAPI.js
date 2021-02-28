@@ -47,7 +47,7 @@ export function deleteQnA(id) {
   return true;
 }
 
-export function saveAll(qaList, setSaveError) {
+export function saveAll(qaList, setSaveError, showSaveInfo) {
   const fetchProps = {
     headers: {
       Accept: "application/json",
@@ -57,9 +57,10 @@ export function saveAll(qaList, setSaveError) {
   };
 
   const updatedQaList = qaList.map((qa) => {
+    fetchProps.body = JSON.stringify(qa);
+
     if (typeof qa.id === "number") {
       fetchProps.method = "PUT";
-      fetchProps.body = JSON.stringify(qa);
 
       fetch(url + "api/q_and_a/" + qa.id + "/", fetchProps)
         .then(res => {
@@ -70,13 +71,9 @@ export function saveAll(qaList, setSaveError) {
         .catch((error) => {
           setSaveError(error.message);
         })
+        .finally(() => showSaveInfo?.());
     } else if (typeof qa.id === "string") {
       fetchProps.method = "POST";
-      fetchProps.body = JSON.stringify({
-        question: qa.question,
-        answer: qa.answer,
-        order: qa.order,
-      });
 
       fetch(url + "api/q_and_a/", fetchProps)
         .then(res => {
@@ -90,9 +87,10 @@ export function saveAll(qaList, setSaveError) {
         })
         .then((addedQa) => {
           qa.id = addedQa.id;
-        });
-      }
-      return qa;
-    });
+        })
+        .finally(() => showSaveInfo?.());
+    }
+    return qa;
+  });
   return updatedQaList;
 }

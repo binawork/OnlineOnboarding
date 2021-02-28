@@ -108,14 +108,14 @@ function QnA({
         </div>
         <MarkdownArea
           id={"question" + id}
-          content={question}
+          content={q}
           contentChange={changeQuestion}
           simple={true}
           placeholder={"Wpisz pytanie"}
         />
         <MarkdownArea
           id={"answer" + id}
-          content={answer}
+          content={a}
           contentChange={changeAnswer}
           simple={true}
           placeholder={"Wpisz odpowiedź"}
