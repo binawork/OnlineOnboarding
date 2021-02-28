@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import parse from 'html-react-parser';
 import MarkdownArea from "../MarkdownArea";
 import { deleteQnA } from "../hooks/QnAAPI";
+import "../../static/css/QnA.css";
 
 function QnA({
   id,
@@ -106,6 +107,7 @@ function QnA({
             style={{ transform: "rotate(90deg)" }}
           ></span>
         </div>
+        <small className={`m-0 QnA__limit ${q.length > 2000 && "QnA__limit--error"}`}>{q.length}/2000</small>
         <MarkdownArea
           id={"question" + id}
           content={q}
@@ -113,6 +115,7 @@ function QnA({
           simple={true}
           placeholder={"Wpisz pytanie"}
         />
+        <small className={`m-0 QnA__limit ${a.length > 2000 && "QnA__limit--error"}`}>{a.length}/2000</small>
         <MarkdownArea
           id={"answer" + id}
           content={a}
