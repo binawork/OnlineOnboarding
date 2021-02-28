@@ -47,13 +47,29 @@ function FormsEditPage() {
     setShowSaveModal(false);
   };
 
+  const updateUnsetAsNew = function(newSections){
+    if(typeof newSections === 'undefined' || newSections === null)
+      return;
+
+    let newSections2 = newSections.map( (section) => {
+      if(section.hasOwnProperty('isNew') )
+        section.isNew = false;
+
+      return section;
+    });
+
+    //setSections(newSections2);
+    setSections( newSections2.sort((section1, section2) => section1.order - section2.order) );
+  }
+
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections)
+    FormSectionsAPI.saveAll(sections, updateUnsetAsNew)
       .catch((error) => setErrorMessage(error.message))
       .then(() => {
         setUpdate(true);
         setShowSaveModal(true);
+        // updateUnsetAsNew(result);
       });
   };
 

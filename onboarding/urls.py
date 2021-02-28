@@ -1,5 +1,4 @@
 from . import views
-from . import views as core_views
 from django.conf.urls import url
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
@@ -17,7 +16,7 @@ from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, Ans
 # base
 urlpatterns = [
     path('', views.index, name='index'),
-    url('signup', core_views.signup, name='signup'),
+    url('signup', views.signup, name='signup'),
     path('manage/', views.manager_view, name='manage'),
 ]
 
@@ -50,13 +49,14 @@ urlpatterns += [
 
 # API
 urlpatterns += [
-    path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/', UserProgressOnPageView.as_view(), name='progress_on_page'),
-    path(r'api/user/<int:employe_id>/progress_on_package/<int:package_id>/', UserProgressOnPackageView.as_view(), name='progress_on_package'),
-    path(r'api/user/<int:employe_id>/when_package_send_to_user/<int:package_id>/', WhenPackageSendToEmployeeView.as_view(),
-         name='when_package_send_to_user'),
-    path(r'api/user/<int:employe_id>/when_package_send_to_user/', WhenPackageSendToEmployeeView.as_view(),
-         name='when_package_send_to_user'),
-
+    path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/',
+        UserProgressOnPageView.as_view(), name='progress_on_page'),
+    path(r'api/user/<int:employe_id>/progress_on_package/<int:package_id>/',
+        UserProgressOnPackageView.as_view(), name='progress_on_package'),
+    path(r'api/user/<int:employe_id>/when_package_send_to_user/<int:package_id>/',
+        WhenPackageSendToEmployeeView.as_view(), name='when_package_send_to_user'),
+    path(r'api/user/<int:employe_id>/when_package_send_to_user/',
+         WhenPackageSendToEmployeeView.as_view(), name='when_package_send_to_user'),
 ]
 
 
@@ -68,13 +68,17 @@ router.register(r'api/page', PageViewSet, basename='Page')
 router.register(r'api/section', SectionViewSet, basename='Section')
 router.register(r'api/answer', AnswerViewSet, basename='Answer')
 router.register(r'api/contact_form', ContactFormViewSet, basename='contact_form')
-router.register(r'api/q_and_a', CompanyQuestionAndAnswerViewSet, basename='contact_form')
+router.register(r'api/q_and_a', CompanyQuestionAndAnswerViewSet,
+    basename='contact_form')
 router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePages')
 # router.register(r'api/package_pages/list_by_company_employee', PackagePagesViewSet, basename='PackagePages')
 # router.register(r'api/package_pages/<employee_id>/list_by_company_employee/', PackagePagesViewSet, basename='PackagePages')
-router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet, basename='SectionAnswers')
-router.register(r'api/user_progress/(?P<user_id>\d+)', UserProgressView, basename='UserProgress')
-router.register(r'api/add_users_to_package', AddUserToPackageViewSet, basename='Add user to package')
+router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet,
+    basename='SectionAnswers')
+router.register(r'api/user_progress/(?P<user_id>\d+)', UserProgressView,
+                basename='UserProgress')
+router.register(r'api/add_users_to_package', AddUserToPackageViewSet,
+    basename='Add user to package')
 
 
 # Wire up our API using automatic URL routing.
@@ -83,7 +87,9 @@ urlpatterns += [
     path(r'', include(router.urls)),
     path(r'api/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
-    path("api/user-avatar/", UserAvatarUpload.as_view(), name="rest_user_avatar_upload"),
-    path("api/company-logo/", CompanyLogoViewSet.as_view(), name="company logo upload"),
+    path("api/user-avatar/", UserAvatarUpload.as_view(),
+        name="rest_user_avatar_upload"),
+    path("api/company-logo/", CompanyLogoViewSet.as_view(),
+        name="company logo upload"),
 
 ]

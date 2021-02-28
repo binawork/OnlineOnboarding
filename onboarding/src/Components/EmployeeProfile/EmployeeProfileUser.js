@@ -1,7 +1,7 @@
 import React from "react";
 import { validateURL } from "../utils";
 
-function EmployeeProfileUser({ user, goBackToMainProfilePage }) {
+function EmployeeProfileUser({ user, goBackToMainProfilePage, sentAndFinished }) {
     let avatar = "/onboarding/static/images/unknown-profile.jpg";
     if(user.avatar && user.avatar.length > 1) {
         user.avatar = validateURL(user.avatar, "/onboarding/static/images/unknown-profile.jpg");
@@ -27,6 +27,11 @@ function EmployeeProfileUser({ user, goBackToMainProfilePage }) {
     //     nameLink = <a href="#">{ props.user.name }</a>;
     //     emailLink = <a href="#">{ props.user.email }</a>;
     // }
+    let sent = sentAndFinished.sent, finished = sentAndFinished.finished;
+    if(sent < 0)
+        sent = user.sent;
+    if(finished < 0)
+        finished = user.finished ? user.finished : "0";
 
 
     return(
@@ -77,14 +82,11 @@ function EmployeeProfileUser({ user, goBackToMainProfilePage }) {
 
                     <div className="col-auto">
                         <h3 className="card-title">
-                            <small className="text-muted">Wysłane katalogi:</small> { user.sent }
+                            <small className="text-muted">Wysłane katalogi:</small> { sent }
                         </h3>
                         <h3 className="card-title">
                             <small className="text-muted">Skończone katalogi: </small>
-                            { user.finished 
-                                ? user.department 
-                                : "0" 
-                            }
+                            { finished }
                         </h3>
                     </div>
                 </div>
