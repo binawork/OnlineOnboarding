@@ -336,8 +336,8 @@ class ContactFormViewSet(viewsets.ModelViewSet):
     queryset = ContactRequestDetail.objects.all()
     serializer_class = ContactFormTestSerializer
 
-class AddUserToPackageViewSet(viewsets.ModelViewSet):
 
+class PackagesUsersViewSet(viewsets.ModelViewSet):
     queryset = Package.objects.all()
     serializer_class = PackageAddUsersSerializer
     permission_classes = [IsAuthenticated]
