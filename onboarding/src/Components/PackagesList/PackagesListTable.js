@@ -101,6 +101,7 @@ function PackagesListTable({ setPackagesList }) {
                             <thead>
                             <tr>
                                 <th scope="col">Nazwa</th>{/* sortowanie po * */}
+                                <th scope="col"></th>
                                 <th scope="col" style={{width: "25%"}}>Edytowany</th>
                                 <th scope="col" style={{width: "15%"}}>Działanie</th>
                             </tr>

@@ -21,6 +21,10 @@
   background: #0CA789;
   color: #FFF;
 }
+.tag--grey {
+  background: #3E3E57;
+  color: #FFF;
+}
 
 .progress {
   height: 18px;
