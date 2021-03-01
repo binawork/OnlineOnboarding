@@ -338,9 +338,29 @@ class ContactFormViewSet(viewsets.ModelViewSet):
 
 
 class PackagesUsersViewSet(viewsets.ModelViewSet):
-    queryset = Package.objects.all()
-    serializer_class = PackageAddUsersSerializer
+    default_serializer_class = PackageAddUsersSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        if self.action is 'add_user_to_package':
+            return Package.objects.filter(owner=self.request.user.company)
+        return PackagesUsers.objects.filter(user__company=self.request.user.company)
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return PackageAddUsersSerializer
+        return PackageUsersSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk', None)
+        package_id = request.data.get('package', None)
+
+        if user_id is None or package_id is None:
+            return Response({"detail": "key-pair error!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        instance = PackagesUsers.objects.filter(user_id=user_id, package=package_id)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT) # status.HTTP_404_NOT_FOUND
 
     @action(detail=True, methods=['post'])
     def add_user_to_package(self, request, pk=None):
@@ -352,7 +372,7 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         pkg_company = package.owner
         hr_user = User.objects.get(id=request.user.id)
         users = User.objects.filter(id__in=request.data["users"])
-        serializer = PackageAddUsersSerializer
+        # serializer = PackageAddUsersSerializer
 
         for user in users:
 
@@ -384,6 +404,18 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
 
         serializer = PackageSerializer(package)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['get', 'delete'])
+    def rm_sent(self, request, pk, *args, **kwargs):
+        package_id = request.data.get('package', None)
+
+        if package_id is not None:
+            package_users = PackagesUsers.objects.filter(user=pk, package=package_id)
+        else:
+            package_users = PackagesUsers.objects.filter(user=pk)
+        serializer = PackageUsersSerializer(package_users, many=True)
+        return Response(serializer.data)
+#
 
 
 class PackageViewSet(viewsets.ModelViewSet):
