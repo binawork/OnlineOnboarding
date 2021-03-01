@@ -129,8 +129,15 @@ export function employeeAddEdit(handleMessage, employeeObject, updateData){
 	} else
 		path += "create_user/";// SMTPAuthenticationError * /
 
-	fetch(url + path, fetchProps).then(res => tryFetchJson(res, "nie udało się zapisać danych pracownika!") ).then(
-		(result) => {
+	fetch(url + path, fetchProps)
+		.then(res => {
+			//I had to replace tryFetchJson, because it didn't work with error for "PATCH" method
+			if(!res.ok) {
+				throw Error("nie udało się zapisać danych. Upewnij się, że pracownik o podanym adresie Email nie został już dodany.")
+			}
+			return res.json();
+		})
+		.then((result) => {
 			if(result.hasOwnProperty('detail') )
 				msg += "  " + String(result.detail);
 			handleMessage(msg, true);
