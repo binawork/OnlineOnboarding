@@ -17,14 +17,25 @@
   background: #DA0063;
   color: #FFF;
 }
-.tag--purple {
+.tag--green {
+  background: #0CA789;
+  color: #FFF;
+}
+
+.progress {
+  height: 18px;
+  border-radius: .25rem;
   width: 100%;
   padding: 0;
   border: 1px solid #169EA7;
   position: relative;
-  background-image: linear-gradient(to top, #9510AC, #ac27c4);
   background-repeat: no-repeat;
   background-clip: content-box;
   background-position: left center;
-  /* background-size: 50%; */
+}
+.progress--green {
+  background-image: linear-gradient(to top, #0CA789, #10c9a4);
+}
+.progress--yellow {
+  background-image: linear-gradient(to top, #ddb061, #F7C46C);
 }
