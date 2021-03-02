@@ -338,7 +338,7 @@ class ContactFormViewSet(viewsets.ModelViewSet):
 
 class PackagesUsersViewSet(viewsets.ModelViewSet):
     default_serializer_class = PackageAddUsersSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsHrUser]
 
     def get_queryset(self):
         if self.action is 'add_user_to_package':
@@ -493,7 +493,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         serializer = PackageUsersSerializer(package)
 
         return Response(serializer.data) """
-
+#
 
 
 class PageViewSet(viewsets.ModelViewSet):
@@ -521,7 +521,6 @@ class PageViewSet(viewsets.ModelViewSet):
                         headers=headers,
         )
 
-
     @action(detail=True)
     def list_by_package_hr(self, request, pk):
         """
@@ -530,12 +529,11 @@ class PageViewSet(viewsets.ModelViewSet):
         :return: pages list by package Pk, filter by package and pages owner
         """
         page = Page.objects.filter(
-            package__id=pk # add in the future,owner__page=request.user.company
+            package__id=pk  # add in the future,owner__page=request.user.company
         )
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
-
 
     @action(detail=True)
     def list_by_package_employee(self, request, pk):
@@ -616,7 +614,7 @@ class SectionViewSet(viewsets.ModelViewSet):
         section = Section.objects.filter(
                                             page__id=pk,
                                             owner=self.request.user.company
-        ) # add in the future
+        )  # add in the future
         # owner__page=request.user.company
         serializer = SectionSerializer(section, many=True)
 
@@ -707,7 +705,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
                                             owner=self.request.user)  # id__in=request.data['answers']
 
             if answers.count() < 1:
-                return Response(status=status.HTTP_404_NOT_FOUND) # Resource not found
+                return Response(status=status.HTTP_404_NOT_FOUND)  # Resource not found
 
             answers.update(finished=True)
         else:
