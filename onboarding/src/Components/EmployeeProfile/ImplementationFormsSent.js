@@ -56,7 +56,7 @@ function ImplementationFormsSent(props) {
                             <th scope="col">Postęp</th>
                             <th scope="col">Data wysłania</th>
                             <th scope="col">Data zakończenia</th>
-                            {/* <th scope="col">Działanie</th> */}
+                            <th scope="col">Działanie</th>
                         </tr></thead>
                         <tbody>
                             { forms }
