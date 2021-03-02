@@ -60,9 +60,9 @@ function ImplementationFormsSent(props) {
                         </tr></thead>
                         <tbody>
                             { forms }
-                            {/* <tr style={{display: numberChecked>0 ? "" : "none"}}>
+                            <tr style={{display: numberChecked>0 ? "" : "none"}}>
                                 <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary">Przypomnienie o zaznaczonych</button></td>
-                            </tr> */}
+                            </tr>
                         </tbody>
                     </table>
                 )}
