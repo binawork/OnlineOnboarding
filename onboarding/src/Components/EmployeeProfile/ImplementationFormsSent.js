@@ -5,9 +5,6 @@ import { /*EmployeeFormsList, getProgress,*/ remindEmployeeOfPackage } from "../
 
 function ImplementationFormsSent(props) {
     const [numberChecked, checkedChange] = useState(0);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [formTable, setSentPackages] = useState([]);
     let forms = [];//,
         //propsCp = {...props, specificEmployee: props.employeeId};//, form_table = props.packages/*EmployeeFormsList(propsCp, setError, setLoading, props.count);
 
