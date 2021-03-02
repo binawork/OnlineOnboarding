@@ -47,7 +47,7 @@ function FormsSentTableRow(props) {
 
     if(props.empty){
         checkBox = "";
-        // buttonObj = "";
+        buttonObj = "";
     }
 
     if(toggleObj.hasContent){
@@ -98,7 +98,7 @@ function FormsSentTableRow(props) {
                 </td>
                 <td className="table__data">{props.row.send_date}</td>
                 <td className="table__data">{props.row.finish_date}</td>
-                {/* <td className="table__data" style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td> */}
+                <td className="table__data" style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td>
             </tr>
             { pages }
         </>
