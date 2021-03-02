@@ -52,6 +52,13 @@ function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sect
   return (
     <>
       <table className="table table-hover">
+        <thead>
+          <tr className="FormsEdit__thr">
+            <th className="FormsEdit__th"></th>
+            <th className="FormsEdit__th" title="Zaznacz prawidłowe odpowiedzi">Szablon odpowiedzi</th>
+            <th className="FormsEdit__th"></th>
+          </tr>
+        </thead>
         <tbody>{answersList}</tbody>
       </table>
 

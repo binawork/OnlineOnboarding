@@ -9,6 +9,7 @@ import { useLocation, useParams } from "react-router-dom";
 import FormsEdit, { fetchFormData } from "../hooks/FormsEdit";
 import { singleCombo } from "../hooks/Packages";
 import ModalWarning from "../ModalWarning";
+import "../../static/css/FormsEdit.css";
 
 function FormsEditPage() {
   const location = useLocation();
