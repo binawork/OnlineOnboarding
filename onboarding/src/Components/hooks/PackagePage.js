@@ -62,7 +62,7 @@ export function savePackageDetails(handleSuccess, packageId, title, description)
 
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/packae/" + packageId + "/", fetchProps).then(res => tryFetchJson(res, "Nie udało się zapisać zmian!") ).then(
+	fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => tryFetchJson(res, "Nie udało się zapisać zmian!") ).then(
 		(result) => {
 			handleSuccess("Zapisano zmiany");
 		},
