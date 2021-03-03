@@ -5,9 +5,6 @@ import { /*EmployeeFormsList, getProgress,*/ remindEmployeeOfPackage } from "../
 
 function ImplementationFormsSent(props) {
     const [numberChecked, checkedChange] = useState(0);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [formTable, setSentPackages] = useState([]);
     let forms = [];//,
         //propsCp = {...props, specificEmployee: props.employeeId};//, form_table = props.packages/*EmployeeFormsList(propsCp, setError, setLoading, props.count);
 
@@ -56,13 +53,13 @@ function ImplementationFormsSent(props) {
                             <th scope="col">Postęp</th>
                             <th scope="col">Data wysłania</th>
                             <th scope="col">Data zakończenia</th>
-                            {/* <th scope="col">Działanie</th> */}
+                            <th scope="col">Działanie</th>
                         </tr></thead>
                         <tbody>
                             { forms }
-                            {/* <tr style={{display: numberChecked>0 ? "" : "none"}}>
+                            <tr style={{display: numberChecked>0 ? "" : "none"}}>
                                 <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary">Przypomnienie o zaznaczonych</button></td>
-                            </tr> */}
+                            </tr>
                         </tbody>
                     </table>
                 )}
