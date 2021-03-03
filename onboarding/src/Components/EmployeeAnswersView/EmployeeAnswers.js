@@ -36,6 +36,18 @@ function EmployeeAnswers({ pageId, employeeId }){
                         </header>
                         { sections[i].description && <div className="card-body">{ parse(sections[i].description) }</div> }
                         <div className="card-body">
+                            <p><i>
+                                <small>
+                                    {sections[i].type == "oa" 
+                                        ? "Pytanie otwarte" 
+                                        : sections[i].type == "osa"
+                                            ? "Jednokrotny wybór"
+                                            : sections[i].type == "msa"
+                                                ? "Wielokrotny wybór"
+                                                : ""
+                                    }
+                                </small>
+                            </i></p>
                             {sections[i].type == "oa" ? (
                                 <OpenAnswer data={ sectionsAnswersResult.answers[i].data } />
                             ) : (
@@ -75,9 +87,7 @@ function EmployeeAnswers({ pageId, employeeId }){
                 <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
             </div>
         }
-        <div className="card card-fluid">
-            { sectionsView.length > 0 && sectionsView }
-        </div>
+        { sectionsView.length > 0 && sectionsView }
       </>
     );
 }

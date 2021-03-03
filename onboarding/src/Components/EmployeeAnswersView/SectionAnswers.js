@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../../static/css/EmployeeAnswersView.css";
 
 /**
  * 
@@ -17,7 +17,7 @@ function SectionAnswers(props){
         return <div  className="row">Brak odpowiedzi do wyświetlenia</div>;
 
 
-    const answerType = props.sectionType === "osa" ? ["(", ")"] : ["[", "]"];
+    const answerType = props.sectionType === "osa" ? "radio" : "checkbox";
     let answers = [], i, j, isChecked, checkSign;
 
     for(i = 0; i < count; i++){
@@ -38,23 +38,32 @@ function SectionAnswers(props){
         else
             checkSign = answerType[0] + answerType[1];
 
-        if(isChecked)
-            answers.push(<div key={ i } className="row align-items-center" style={{ backgroundColor: "#4D4D6E" }}>
-                    <div className="col-auto">{ checkSign }</div>
-                    <div className="col">{ sectionData[i].title }</div>
-                </div>
-            );
-        else
-            answers.push(<div key={ i } className="row align-items-center">
-                    <div className="col-auto">{ checkSign }</div>
-                    <div className="col">{ sectionData[i].title }</div>
-                </div>
-            );
+        // if(isChecked)
+        answers.push(
+            <li className="EmployeeAnswersView__li" key={ i }>
+                <input 
+                    className="EmployeeAnswersView__input"
+                    type={ answerType }
+                    defaultChecked={ sectionData[i].is_checked }
+                    disabled />
+                <span className="EmployeeAnswersView__answer">{ sectionData[i].title }</span>
+            </li>
+            // <div key={ i } className="row align-items-center">
+            //     <div className="col-auto">{ checkSign }</div>
+            //     <div className="col">{ sectionData[i].title }</div>
+            // </div>
+        );
+        // else
+        //     answers.push(<div key={ i } className="row align-items-center">
+        //             <div className="col-auto">{ checkSign }</div>
+        //             <div className="col">{ sectionData[i].title }</div>
+        //         </div>
+        //     );
     }
 
 
     return(
-        <>{ answers }</>
+        <ul>{ answers }</ul>
     )
 }
 

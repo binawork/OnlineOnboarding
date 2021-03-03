@@ -24,7 +24,7 @@ tbody .FormsEdit__td--middle {
 }
 
 /* Change default switcher's styles */
-.FormsEdit__switcher-indicator::before {
+/* .FormsEdit__switcher-indicator::before {
   background: #38A8DD;
   background-image: url("../img/yes.png");
   background-size: 14px;
@@ -35,4 +35,4 @@ tbody .FormsEdit__td--middle {
 .switcher-control-success .switcher-input:checked+.FormsEdit__switcher-indicator {
   border-color: #42425D;
   background-color: #42425D;
-}
+} */
