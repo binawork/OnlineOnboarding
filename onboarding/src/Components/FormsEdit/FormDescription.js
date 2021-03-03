@@ -45,7 +45,6 @@ const FormDescription = ({ formId, formData }) => {
   const handleSave = (e) => {
     e.preventDefault();
     const isValid = isValidUrl(link);
-    console.log(isValid)
     if(isValid || !link) {
       const isSaved = savePageDetails(
         popUpSaveFormDetails,

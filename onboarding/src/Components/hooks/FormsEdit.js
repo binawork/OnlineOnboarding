@@ -67,17 +67,13 @@ export function savePageDetails(handleSuccess, pageId, title, link, description)
 			dontUpdate = false;
 		}
 	}
-	if(description){
-		if(typeof description === "string" && description.length > 0){
-			data.description = description;
-			dontUpdate = false;
-		}
+	if(typeof description === "string"){
+		data.description = description;
+		dontUpdate = false;
 	}
-	if(link){
-		if(typeof link === "string" && link.length > 0){
-			data.link = link;
-			dontUpdate = false;
-		}
+	if(typeof link === "string"){
+		data.link = link;
+		dontUpdate = false;
 	}
 
 
