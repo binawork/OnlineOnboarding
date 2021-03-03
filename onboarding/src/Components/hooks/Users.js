@@ -131,11 +131,10 @@ export function employeeAddEdit(handleMessage, employeeObject, updateData){
 
 	fetch(url + path, fetchProps)
 		.then(res => {
-			//I had to replace tryFetchJson, because it didn't work with error for "PATCH" method
 			if(!res.ok) {
-				throw Error("nie udało się zapisać danych. Upewnij się, że pracownik o podanym adresie Email nie został już dodany.")
+				throw Error("Nie udało się zapisać danych. Upewnij się, że pracownik o podanym adresie Email nie został już dodany.");
 			}
-			return res.json();
+			return tryFetchJson(res);
 		})
 		.then((result) => {
 			if(result.hasOwnProperty('detail') )

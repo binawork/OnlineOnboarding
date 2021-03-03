@@ -108,7 +108,12 @@ export function addCombo(handleSuccess, title, popUpAddPackageError) {
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/package/", fetchProps)
-    .then((res) => tryFetchJson(res, "Wystąpił błąd podczas dodawania katalogu!"))
+    .then((res) => {
+      if(!res.ok) {
+        throw Error("Wystąpił błąd podczas dodawania katalogu!");
+      }
+      return res.json();
+    })
     .then(
       (result) => {
         handleSuccess(result);
@@ -155,7 +160,12 @@ export function removeCombo(handleSuccess, packageId, title) {
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/package/" + packageId + "/", fetchProps)
-    .then((res) => tryFetchJson(res, "Nie udało się usunąć katalogu wdrożeniowego! Jeśli katalog został wysłany pracownikowi, nie może zostać usunięty.") )
+    .then((res) => {
+      if(!res.ok) {
+        throw Error("Nie udało się usunąć katalogu wdrożeniowego! Jeśli katalog został wysłany pracownikowi, nie może zostać usunięty.");
+      }
+      return tryFetchJson(res);
+    })
     .then(
       (result) => {
         handleSuccess("Katalog wdrożeniowy został usunięty.");
