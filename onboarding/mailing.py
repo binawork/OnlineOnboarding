@@ -103,3 +103,22 @@ def send_remove_acc_email(EMAIL_HOST_USER, user_email):
         html_message=html_message,
     )
 
+def answered_send_notification_email(EMAIL_HOST_USER, employee, hr, form):
+        subject = 'Użytkownik {} wysłał formularz.'.format(employee)
+
+        html_message = render_to_string(
+            'templated_email/remove_acc_email.html',
+            {
+                'username': user_email,
+            }
+        )
+        plain_message = strip_tags(html_message)
+        from_email = EMAIL_HOST_USER
+        to = user_email
+        mail.send_mail(
+            subject,
+            plain_message,
+            from_email,
+            [to],
+            html_message=html_message,
+        )
