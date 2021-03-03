@@ -227,7 +227,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action is "login_user":
+        if self.action == "login_user":
             self.permission_classes = [IsAuthenticated,]
         else:
             self.permission_classes = [IsHrUser, IsAuthenticated]
@@ -260,17 +260,15 @@ class UserViewSet(viewsets.ModelViewSet):
             user.company = self.request.user.company
             user_email = user.email
             user.save()
-
             current_site = get_current_site(request)
             associated_users = User.objects.filter(Q(email=user_email))
             if associated_users.exists():
                 for user in associated_users:
                     send_activation_email_for_user_created_by_hr(user=user,
                         current_site=current_site)
-
             return Response(status=201)
         else:
-            return Response(status=204)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -381,6 +379,7 @@ class AddUserToPackageViewSet(viewsets.ModelViewSet):
                     user,
                     package
                 )
+
 
         serializer = PackageSerializer(package)
         return Response(serializer.data)
@@ -576,7 +575,13 @@ class SectionViewSet(viewsets.ModelViewSet):
 
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user.company)
+        if serializer.is_valid():
+            serializer.save(owner=self.request.user.company)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST)
+
 
     @action(detail=True)
     def list_by_page_hr(self, request, pk):
@@ -619,7 +624,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
-        if self.action is 'finished':
+        if self.action == 'finished':
             return AnswersProgressStatusSerializer
         else:
             return AnswerSerializer
@@ -673,9 +678,11 @@ class AnswerViewSet(viewsets.ModelViewSet):
     def finished(self, request, pk):
         """
         :param request:
-        :param pk: this is section ID if method is GET or page ID of section it belongs to if the method is PATCH
+        :param pk: this is section ID if method is GET or page ID of section it
+        :belongs to if the method is PATCH
         :return: answers list by section id
         """
+
         if request.method == 'PATCH':
             answers = Answer.objects.filter(section__page__id=pk,
                 owner=self.request.user) # id__in=request.data['answers']
@@ -684,13 +691,13 @@ class AnswerViewSet(viewsets.ModelViewSet):
                 return Response(status=status.HTTP_404_NOT_FOUND) # Resource not found
 
             answers.update(finished = True)
-        else:
+        if request.method == "GET":
             answers = Answer.objects.filter(
                                 section__id=pk,
                                 owner=self.request.user,
                                 section__page__package__users=self.request.user
             )
-        #
+
         serializer = AnswersProgressStatusSerializer(answers, many=True)
 
         return Response(serializer.data)
