@@ -4,7 +4,7 @@ import React from "react";
 function Switcher({ id, isChecked, switcherChange, additionalClass }) {
     return(
         <label className="switcher-control switcher-control-success">
-          <input id={ id } type="checkbox" className="switcher-input" defaultChecked={ isChecked } onChange={ switcherChange } />
+          <input id={ id } type="checkbox" className="switcher-input" checked={ isChecked } onChange={ switcherChange } />
           <span className={`switcher-indicator ${additionalClass || ""}`}></span>
         </label>
     )

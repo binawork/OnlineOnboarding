@@ -47,7 +47,7 @@ function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sect
       } catch (error) {
         console.log(error.message);
       }
-    });
+  });
 
   return (
     <>

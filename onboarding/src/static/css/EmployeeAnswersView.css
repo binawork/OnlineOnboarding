@@ -1,9 +1,45 @@
-.EmployeeAnswersView__answer {
-  
-}
 .EmployeeAnswersView__input {
   margin-right: 8px;
 }
+.EmployeeAnswersView__label {
+  position: relative;
+}
+.EmployeeAnswersView__label > .EmployeeAnswersView__input {
+  cursor: none;
+  height: 14px;
+  width: 14px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  border: 1px solid #FFF;
+  border-radius: 4px;
+  outline: none;
+  background-color: #34495E;
+  cursor: pointer;
+}
+.EmployeeAnswersView__label > .EmployeeAnswersView__input--radio {
+  border-radius: 50%;
+}
+
+.EmployeeAnswersView__label > .EmployeeAnswersView__input:checked {
+  background-color: #41B883;
+}
+.EmployeeAnswersView__label--red > .EmployeeAnswersView__input:checked {
+  background-color: orangered;
+}
+
+.EmployeeAnswersView__label--dot > .EmployeeAnswersView__answer::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  background: #41B883;
+  border-radius: 50%;
+  left: -25px;
+  top: 2px;
+}
+
 .EmployeeAnswersView__li {
   list-style: none;
 }

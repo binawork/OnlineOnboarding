@@ -67,7 +67,6 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, set
     setUnsetChecked(sectionId, answerId);
   };
 
-
   return (
     <tr className="FormsEdit__tr">
       <td className="FormsEdit__td">
@@ -108,8 +107,7 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, set
         <Switcher 
           id={`switch-${domIdIndex}`}
           isChecked={ isChecked }
-          switcherChange={ checkAnswer }
-          additionalClass={ isChecked && `FormsEdit__switcher-indicator`} />
+          switcherChange={ checkAnswer } />
       </td>
       <td className="FormsEdit__td FormsEdit__td--middle">
         {editing === true ? (
