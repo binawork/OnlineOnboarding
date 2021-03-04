@@ -51,10 +51,10 @@ function EmployeeAnswers({ pageId, employeeId }){
                             </small>
                         </i></p>
                         {sections[i].type == "oa" ? (
-                            <OpenAnswer data={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id).data } />
+                            <OpenAnswer data={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id)?.data } />
                         ) : (
                             <SectionAnswers sectionData={ sections[i].data }
-                                            answerData={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id).data }
+                                            answerData={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id)?.data }
                                             sectionType={ sections[i].type }
                                             employeeDidAnswer={ areAnswered } />
                         )}
@@ -90,6 +90,17 @@ function EmployeeAnswers({ pageId, employeeId }){
                 <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
             </div>
         }
+        <div className="card card-fluid EmployeeAnswersView__key">
+            <div className="card-body">
+                <small>
+                    <p>Legenda odpowiedzi</p>
+                    <span className="EmployeeAnswersView__dot"></span><i>Odpowiedź prawidłowa</i><br />
+                    <span className="EmployeeAnswersView__bullet"></span>
+                    <span className="EmployeeAnswersView__bullet EmployeeAnswersView__bullet--red"></span>
+                    <i>Odpowiedź zaznaczona przez pracownika. Czerwony kolor oznacza błędną odpowiedź</i>
+                </small>
+            </div>
+        </div>
         { sectionsView.length > 0 && sectionsView }
       </>
     );

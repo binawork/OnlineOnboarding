@@ -21,14 +21,12 @@
 .EmployeeAnswersView__label > .EmployeeAnswersView__input--radio {
   border-radius: 50%;
 }
-
 .EmployeeAnswersView__label > .EmployeeAnswersView__input:checked {
   background-color: #41B883;
 }
 .EmployeeAnswersView__label--red > .EmployeeAnswersView__input:checked {
   background-color: orangered;
 }
-
 .EmployeeAnswersView__label--dot > .EmployeeAnswersView__answer::before {
   content: "";
   width: 12px;
@@ -38,6 +36,31 @@
   border-radius: 50%;
   left: -25px;
   top: 2px;
+}
+
+.EmployeeAnswersView__key {
+  background-color: darkslateblue;
+}
+.EmployeeAnswersView__dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #41B883;
+  border-radius: 50%;
+  margin: 0 21px 0 9px;
+}
+.EmployeeAnswersView__bullet {
+  display: inline-block;
+  margin-right: 2px;
+  width: 14px;
+  height: 14px;
+  background: #41B883;
+  border: 1px solid #FFF;
+  border-radius: 4px;
+}
+.EmployeeAnswersView__bullet--red {
+  margin-right: 12px;
+  background-color: orangered;
 }
 
 .EmployeeAnswersView__li {
