@@ -688,7 +688,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
                 owner=self.request.user) # id__in=request.data['answers']
 
             if answers.count() < 1:
-                return Response(status=status.HTTP_404_NOT_FOUND) # Resource not found
+                return Response(status=status.HTTP_404_NOT_FOUND)
 
             answers.update(finished = True)
         if request.method == "GET":
@@ -697,6 +697,9 @@ class AnswerViewSet(viewsets.ModelViewSet):
                                 owner=self.request.user,
                                 section__page__package__users=self.request.user
             )
+
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         serializer = AnswersProgressStatusSerializer(answers, many=True)
 
