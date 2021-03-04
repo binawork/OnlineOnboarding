@@ -404,6 +404,7 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         serializer = PackageSerializer(package)
         return Response(serializer.data)
 
+    """
     @action(detail=True, methods=['get', 'delete'])
     def rm_sent(self, request, pk, *args, **kwargs):
         package_id = request.data.get('package', None)
@@ -414,6 +415,7 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
             package_users = PackagesUsers.objects.filter(user=pk)
         serializer = PackageUsersSerializer(package_users, many=True)
         return Response(serializer.data)
+    """
 #
 
 
