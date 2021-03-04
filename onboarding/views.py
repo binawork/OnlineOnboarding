@@ -296,7 +296,6 @@ class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
 
-
     @action(detail=False)
     def user_job_data(self, request):
         queryset = User.objects.filter(company=self.request.user.company).aggregate(location=ArrayAgg('location', distinct=True))
@@ -336,11 +335,31 @@ class ContactFormViewSet(viewsets.ModelViewSet):
     queryset = ContactRequestDetail.objects.all()
     serializer_class = ContactFormTestSerializer
 
-class AddUserToPackageViewSet(viewsets.ModelViewSet):
 
-    queryset = Package.objects.all()
-    serializer_class = PackageAddUsersSerializer
-    permission_classes = [IsAuthenticated]
+class PackagesUsersViewSet(viewsets.ModelViewSet):
+    default_serializer_class = PackageAddUsersSerializer
+    permission_classes = [IsAuthenticated, IsHrUser]
+
+    def get_queryset(self):
+        if self.action is 'add_user_to_package':
+            return Package.objects.filter(owner=self.request.user.company)
+        return PackagesUsers.objects.filter(user__company=self.request.user.company)
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return PackageAddUsersSerializer
+        return PackageUsersSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk', None)
+        package_id = request.data.get('package', None)
+
+        if user_id is None or package_id is None:
+            return Response({"detail": "key-pair error!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        instance = PackagesUsers.objects.filter(user_id=user_id, package=package_id)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)  # status.HTTP_404_NOT_FOUND
 
     @action(detail=True, methods=['post'])
     def add_user_to_package(self, request, pk=None):
@@ -352,7 +371,7 @@ class AddUserToPackageViewSet(viewsets.ModelViewSet):
         pkg_company = package.owner
         hr_user = User.objects.get(id=request.user.id)
         users = User.objects.filter(id__in=request.data["users"])
-        serializer = PackageAddUsersSerializer
+        # serializer = PackageAddUsersSerializer
 
         for user in users:
 
@@ -385,6 +404,20 @@ class AddUserToPackageViewSet(viewsets.ModelViewSet):
         serializer = PackageSerializer(package)
         return Response(serializer.data)
 
+    """
+    @action(detail=True, methods=['get', 'delete'])
+    def rm_sent(self, request, pk, *args, **kwargs):
+        package_id = request.data.get('package', None)
+
+        if package_id is not None:
+            package_users = PackagesUsers.objects.filter(user=pk, package=package_id)
+        else:
+            package_users = PackagesUsers.objects.filter(user=pk)
+        serializer = PackageUsersSerializer(package_users, many=True)
+        return Response(serializer.data)
+    """
+#
+
 
 class PackageViewSet(viewsets.ModelViewSet):
     """
@@ -394,10 +427,8 @@ class PackageViewSet(viewsets.ModelViewSet):
     serializer_class = PackageSerializer
     permission_classes = [IsAuthenticated]
 
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
-
 
     @action(detail=False)
     def list_by_company_hr(self, request):
@@ -464,7 +495,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         serializer = PackageUsersSerializer(package)
 
         return Response(serializer.data) """
-
+#
 
 
 class PageViewSet(viewsets.ModelViewSet):
@@ -492,7 +523,6 @@ class PageViewSet(viewsets.ModelViewSet):
                         headers=headers,
         )
 
-
     @action(detail=True)
     def list_by_package_hr(self, request, pk):
         """
@@ -501,12 +531,11 @@ class PageViewSet(viewsets.ModelViewSet):
         :return: pages list by package Pk, filter by package and pages owner
         """
         page = Page.objects.filter(
-            package__id=pk # add in the future,owner__page=request.user.company
+            package__id=pk  # add in the future,owner__page=request.user.company
         )
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
-
 
     @action(detail=True)
     def list_by_package_employee(self, request, pk):
@@ -574,7 +603,6 @@ class SectionViewSet(viewsets.ModelViewSet):
     ordering_fields = ['release_date']
     permission_classes = [IsAuthenticated]
 
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
 
@@ -588,12 +616,11 @@ class SectionViewSet(viewsets.ModelViewSet):
         section = Section.objects.filter(
                                             page__id=pk,
                                             owner=self.request.user.company
-        ) # add in the future
+        )  # add in the future
         # owner__page=request.user.company
         serializer = SectionSerializer(section, many=True)
 
         return Response(serializer.data)
-
 
     @action(detail=True)
     def list_by_page_employee(self, request, pk):
@@ -637,7 +664,6 @@ class AnswerViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-
     @action(detail=True)
     def list_by_section_hr(self, request, pk):
         """
@@ -678,12 +704,12 @@ class AnswerViewSet(viewsets.ModelViewSet):
         """
         if request.method == 'PATCH':
             answers = Answer.objects.filter(section__page__id=pk,
-                owner=self.request.user) # id__in=request.data['answers']
+                                            owner=self.request.user)  # id__in=request.data['answers']
 
             if answers.count() < 1:
-                return Response(status=status.HTTP_404_NOT_FOUND) # Resource not found
+                return Response(status=status.HTTP_404_NOT_FOUND)  # Resource not found
 
-            answers.update(finished = True)
+            answers.update(finished=True)
         else:
             answers = Answer.objects.filter(
                                 section__id=pk,
@@ -699,12 +725,13 @@ class AnswerViewSet(viewsets.ModelViewSet):
 class UserProgressOnPageView(generics.ListAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswersProgressStatusSerializer
+
     def get(self, request, *args, **kwargs):
-        employe_id = kwargs.get('employe_id')
+        employee_id = kwargs.get('employe_id')
         page_id = kwargs.get('page_id')
 
         queryset = Answer.objects.filter(section__page_id=page_id,
-                                         owner_id=employe_id)
+                                         owner_id=employee_id)
         serializer = AnswersProgressStatusSerializer(queryset, many=True)
 
         return Response(serializer.data)
@@ -715,12 +742,12 @@ class UserProgressOnPackageView(generics.ListAPIView):
     serializer_class = AnswersProgressStatusSerializer
 
     def get(self, request, *args, **kwargs):
-        employe_id = kwargs.get('employe_id')
+        employee_id = kwargs.get('employe_id')
         package_id = kwargs.get('package_id')
 
         queryset = Answer.objects.filter(
             section__page__package_id=package_id,
-            owner_id=employe_id)
+            owner_id=employee_id)
         serializer = AnswersProgressStatusSerializer(queryset, many=True)
 
         return Response(serializer.data)
@@ -731,18 +758,18 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
     serializer_class = WhenPackageSendToEmployeeSerializer
 
     def get(self, request, *args, **kwargs):
-        employe_id = kwargs.get('employe_id')
+        employee_id = kwargs.get('employe_id')
         package_id = kwargs.get('package_id', None)
 
         if package_id is not None:
             queryset = PackagesUsers.objects.filter(
                 package_id=package_id,
-                user_id=employe_id,
+                user_id=employee_id,
                 user__company=request.user.company
             )
         else:
             queryset = PackagesUsers.objects.filter(
-                user_id=employe_id,
+                user_id=employee_id,
                 user__company=request.user.company
             )
 

@@ -31,7 +31,8 @@ function FormsSentTableRow(props) {
     }
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>;
+        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>;//,
+        //buttonRm = <></>;
     let pages, tag=<></>;
 
     if(props.row.hasOwnProperty("percentage") ){// "purple", "yellow", "amaranthine"
