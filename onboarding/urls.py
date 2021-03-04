@@ -78,7 +78,7 @@ router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet,
 router.register(r'api/user_progress/(?P<user_id>\d+)', UserProgressView,
                 basename='UserProgress')
 router.register(r'api/add_users_to_package', PackagesUsersViewSet,
-                basename='Add user to package')
+                basename='add_del_users_from_package')
 
 
 # Wire up our API using automatic URL routing.
