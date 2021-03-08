@@ -29,7 +29,7 @@ from onboarding.models import Package, ContactRequestDetail, Page, Section, Answ
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackagePagesForUsersSerializer, PackageAddUsersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, UserProgressSerializer, ContactFormTestSerializer
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
@@ -563,6 +563,16 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
             users=request.user)
         serializer = PackagePagesSerializer(packages, many=True)
 
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=PackagePagesForUsersSerializer)
+    def users(self, request):
+        """
+        :param request: user
+        :return: all packages with corresponding pages for company of the authenticated user having few fields
+        """
+        package_pages = Package.objects.filter(owner=request.user.company, users__isnull=False).distinct()
+        serializer = PackagePagesForUsersSerializer(package_pages, many=True)
         return Response(serializer.data)
 #
 

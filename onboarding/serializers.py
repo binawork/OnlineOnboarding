@@ -249,6 +249,21 @@ class PageSerializer(serializers.ModelSerializer):
         }
 
 
+class PageLimitedSerializer(serializers.ModelSerializer):
+    class Meta:
+        ordering = ['-order']
+        model = Page
+        fields = (
+            'id',
+            'order',
+            'owner',  # company
+            'package',
+        )
+        extra_kwargs = {
+            'package': {'required': False},
+        }
+
+
 # PACKAGE with PAGEs
 class PackagePagesSerializer(serializers.ModelSerializer):
     page_set = PageSerializer(many=True)
@@ -264,6 +279,19 @@ class PackagePagesSerializer(serializers.ModelSerializer):
             'updated_on',
             'users',
             'page_set'
+        )
+
+
+class PackagePagesForUsersSerializer(serializers.ModelSerializer):
+    pages = PageLimitedSerializer(source='page_set', many=True)
+
+    class Meta:
+        ordering = ['-updated_on']
+        model = Package
+        fields = (
+            'id',
+            'users',
+            'pages'
         )
 
 
