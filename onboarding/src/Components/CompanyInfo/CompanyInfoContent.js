@@ -94,7 +94,7 @@ function CompanyInfoContent({ company }) {
           {isEditMode ? "Podgląd" : "Edytuj"}
         </button>
         <i className="text-warning">
-          { storage && Object.keys(storage).length !== 0 && 'Masz niezapisane zmiany! Kliknij "Zapisz", aby zachować zmiany.' }
+          { storage && Object.keys(storage).length !== 0 && 'Masz niezapisane zmiany! Kliknij "Zapisz", aby je zachować.' }
         </i>
       </div>
       {showSaveModal ? (
