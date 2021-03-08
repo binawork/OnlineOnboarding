@@ -750,7 +750,7 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
         return Response(serializer.data)
 
 
-class UserProgressView(viewsets.ModelViewSet):
+class UserProgressView(viewsets.ReadOnlyModelViewSet):
     """
     List answers of user/employee with corresponding sections with information
         about page and package id;
@@ -760,15 +760,34 @@ class UserProgressView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        employee = self.kwargs['user_id']
+        employee = self.kwargs.get('user_id', None)
 
         if self.request.user.is_hr:
-            # queryset = Page.objects.filter(section__answer__owner=employee, section__owner=user.company)
-            queryset = Answer.objects.select_related('section', 'section__page').filter(owner=employee, section__owner=user.company)
+            if employee is not None:
+                # queryset = Page.objects.filter(section__answer__owner=employee, section__owner=user.company)
+                queryset = Answer.objects.select_related('section', 'section__page').filter(owner=employee, section__owner=user.company)
+            else:
+                # users = User.objects.filter(company=self.request.user.company)
+                # queryset = Answer.objects.select_related('section', 'section__page').filter(owner__in=users, section__owner=user.company)
+                queryset = Answer.objects.none()
+            #
         else:
             queryset = Answer.objects.select_related('section', 'section__page').filter(owner=user, section__owner=user.company)
 
         return queryset
+
+    @action(detail=False, permission_classes=[IsAuthenticated, IsHrUser], serializer_class=UserProgressSerializer, url_name="progress-of-all")
+    def list_all(self, request, pk=None):
+        # if not self.request.user.is_hr:
+        #     return Response(status.HTTP_403_FORBIDDEN)
+
+        user = self.request.user
+
+        users = User.objects.filter(company=user.company)
+        queryset = Answer.objects.select_related('section', 'section__page').filter(owner__in=users, section__owner=user.company)
+
+        serializer = UserProgressSerializer(queryset, many=True)
+        return Response(serializer.data)
 #
 
 
