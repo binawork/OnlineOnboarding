@@ -417,3 +417,40 @@ class UserProgressSerializer(serializers.ModelSerializer):
         # depth = 3
 #
 
+
+# Same as above but limited/less fields
+class SectionProgressLimitedSerializer(serializers.ModelSerializer):
+    # page = PageSerializer()
+    package_id = serializers.SerializerMethodField()
+    # company_id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Section
+        fields = (
+            'id',
+            'page',
+            # 'company_id',
+            'package_id'
+        )
+
+    def get_package_id(self, obj):
+        return obj.page.package_id
+    # def get_company_id(self, obj):
+    #     return obj.owner_id
+
+
+class UserProgressLimitedSerializer(serializers.ModelSerializer):
+    section = SectionProgressLimitedSerializer()
+
+    class Meta:
+        model = Answer
+        fields = (
+            'id',
+            'owner',
+            'section',
+            'confirmed',
+            'finished'
+        )
+        # depth = 3
+#
+
