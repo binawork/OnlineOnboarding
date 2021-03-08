@@ -93,6 +93,9 @@ function CompanyInfoContent({ company }) {
         <button className="btn btn-success mr-3" onClick={handleShow}>
           {isEditMode ? "Podgląd" : "Edytuj"}
         </button>
+        <i className="text-warning">
+          { storage && Object.keys(storage).length !== 0 && 'Masz niezapisane zmiany! Kliknij "Zapisz", aby zachować zmiany.' }
+        </i>
       </div>
       {showSaveModal ? (
         <ModalWarning
