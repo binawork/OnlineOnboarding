@@ -690,8 +690,11 @@ class AnswerViewSet(viewsets.ModelViewSet):
                                 owner=self.request.user,
                                 section__page__package__users=self.request.user
             )
-        #
+
         serializer = AnswersProgressStatusSerializer(answers, many=True)
+
+        answer_send_notification_email(EMAIL_HOST_USER, self.request.user.email,
+            self.request.user, "Nie_wiem_skąd_wziąć_nazwę_formularza_oO")
 
         return Response(serializer.data)
 
