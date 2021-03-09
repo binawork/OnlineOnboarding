@@ -693,8 +693,14 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         serializer = AnswersProgressStatusSerializer(answers, many=True)
 
-        answer_send_notification_email(EMAIL_HOST_USER, self.request.user.email,
-            self.request.user, "Nie_wiem_skąd_wziąć_nazwę_formularza_oO")
+        if request.method == 'PATCH':
+            hr_email = []
+            hr_users_list = User.objects.filter(company = self.request.user.company,
+                is_hr = True)
+            for hr_user in hr_users_list:
+                hr_email.append(hr_user.email)
+            answer_send_notification_email(EMAIL_HOST_USER, hr_email,
+                self.request.user.email, "Nie_wiem_skąd_wziąć_nazwę_formularza_oO")
 
         return Response(serializer.data)
 
