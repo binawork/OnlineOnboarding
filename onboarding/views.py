@@ -339,7 +339,7 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsHrUser]
 
     def get_queryset(self):
-        if self.action is 'add_user_to_package':
+        if self.action == 'add_user_to_package':
             return Package.objects.filter(owner=self.request.user.company)
         return PackagesUsers.objects.filter(user__company=self.request.user.company)
 
