@@ -76,9 +76,8 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ('id', 'section', 'owner', 'updated_on', 'confirmed')
     ordering = ('id',)
 
+
 admin.site.register(User, CustomUserAdmin)
-
-
 
 #original CustomAdmin that was not registered (and probably uncompleted)
 # class CustomUserAdmin(UserAdmin):
@@ -97,3 +96,4 @@ admin.site.register(User, CustomUserAdmin)
 #     )
 #     search_fields = ('email',)
 #     ordering = ('email',)
+
