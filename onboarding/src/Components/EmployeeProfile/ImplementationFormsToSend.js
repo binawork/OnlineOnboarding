@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import FormsToSendTableRow from "./FormsToSendTableRow";
-import EmployeeForms, { assignEmployeeToPackage } from "../hooks/EmployeeForms";
+import { assignEmployeeToPackage/*, EmployeeFormsList*/ } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsToSend(props) {
     const [idsChecked, setIdsChecked] = useState([]);
     const [numberChecked, checkedChange] = useState(0);
-    const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(true);
-    let form_table = EmployeeForms(props, setError, setLoading, props.count), forms = [];
+    let forms = [];//, form_table = props.packages/ /EmployeeFormsList(props, setError, setLoading, props.count);
 
     const showHide = (isChecked, packageId) => {
         if(isChecked) {
@@ -28,10 +26,11 @@ function ImplementationFormsToSend(props) {
     const sendCheckedPackages = (e) => {
         assignEmployeeToPackage(props.showModal, props.employeeId, idsChecked);
         setIdsChecked([]);
+        checkedChange(0);
         props.setCount(props.count + 1);
     }
 
-    const formsToSend = form_table.filter(form => !form.users.includes(props.employeeId));
+    const formsToSend = props.packages;//.filter(form => !form.users.includes(props.employeeId));
 
     if(formsToSend.length !== 0) {
         formsToSend.forEach(function (element, i){
@@ -40,21 +39,22 @@ function ImplementationFormsToSend(props) {
     } else {
         forms.push(        
             <tr key={ 0 }>
-                <td colSpan="5">Brak formularzy do wysłania</td>
+                <td colSpan="5">Brak katalogów do wysłania</td>
             </tr>
         );
     }
-    
+
+
     return(
         <div className="card card-fluid">
             <div className="card-header">
-                <i className="bi bi-cloud-upload mr-2" style={{ fontSize: "18px" }}></i>
+                <i className="bi bi-cloud-upload mr-2" style={{fontSize: "18px"}}/>
                 Wyślij katalog do pracownika
             </div>
             <div className="card-body">
-                { error && <p>Wystąpił błąd podczas ładowania</p> }
-                { loading && <p>Ładowanie...</p> }
-                { !loading && !error && (
+                { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
+                { props.isLoading && <p>Ładowanie...</p> }
+                { !props.isLoading && !props.isError && (
                     <table className="table table-striped">
                         <thead><tr>
                             <th scope="col">Katalog</th>

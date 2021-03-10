@@ -46,17 +46,19 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
         if(typeof response.avatar === "string")
             updateImageLink(response.avatar);
     }
+    const updateData = () => {
+        if(setEditLoggedUser) {
+            setEditLoggedUser(editLoggedUser + 1);
+        };
+    }
 
     const handleSaveEdit = user => {
         if(typeof fileNameRef.current.files !== 'undefined' && fileNameRef.current.files.length > 0){
             // console.log("EEF - av");
-            uploadAvatar(updateImage, fileNameRef.current.files[0], user);
+            uploadAvatar(updateImage, fileNameRef.current.files[0], user, showModal, updateData);
+        } else {
+            employeeAddEdit(showModal, user, updateData);
         }
-        
-        employeeAddEdit(showModal, user);
-        if(setEditLoggedUser) {
-            setEditLoggedUser(editLoggedUser + 1);
-        };
     }
 
 

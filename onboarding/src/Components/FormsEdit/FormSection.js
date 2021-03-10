@@ -116,13 +116,22 @@ function FormSection({
     const updatedSections = sections.map((section) => {
       if (section.id === sectionId){
         let i = section.data.length - 1;
-        for(; i >= 0; i--){
-          if(typeof section.data[i].id !== 'undefined' && section.data[i].id === answerId){// 'id' in section.data[i];
-            section.data[i].is_checked = !section.data[i].is_checked;
-            break;
-          }
-        }
 
+        if(section.type === 'osa'){
+          for(; i >= 0; i--){
+            if(typeof section.data[i].id !== 'undefined'){// 'id' in section.data[i];
+              section.data[i].is_checked = (section.data[i].id === answerId)? true : false;
+            }
+          }
+        } else {
+          for(; i >= 0; i--){
+            if(typeof section.data[i].id !== 'undefined' && section.data[i].id === answerId){// 'id' in section.data[i];
+              section.data[i].is_checked = !section.data[i].is_checked;
+              break;
+            }
+          }
+
+        }
       }
 
       return section;

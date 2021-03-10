@@ -62,13 +62,17 @@ export function savePackageDetails(handleSuccess, packageId, title, description)
 
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
+	fetch(url + "api/package/" + packageId + "/", fetchProps).then(res => {
+		if(!res.ok) {
+			throw Error("Nie udało się zapisać zmian!");
+		}
+		return tryFetchJson(res);
+	}).then(
 		(result) => {
-			handleSuccess(result);
+			handleSuccess("Zapisano zmiany");
 		},
 		(error) => {
-			handleSuccess(error);
-			console.log(error);
+			handleSuccess(error.message);
 		}
 	);
 	return true;
@@ -77,7 +81,7 @@ export function savePackageDetails(handleSuccess, packageId, title, description)
 /**
  * Add page into Pages for Package (todo: set owner as a logged HR manager?);
  */
-export function addPage(handleSuccess, title, packageId, order, owner){
+export function addPage(handleSuccess, title, packageId, order, owner, popUpAddPackageError){
 	if(typeof title !== "string" || (typeof title === "string" && title.length < 1) )
 		return false;
 	let url = getPath(), data, token = getCookie('csrftoken'),
@@ -92,14 +96,21 @@ export function addPage(handleSuccess, title, packageId, order, owner){
 
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/page/", fetchProps).then(res => res.json()).then(
-		(result) => {
-			handleSuccess(result);
-		},
-		(error) => {
-			console.log(error);
-		}
-	);
+	fetch(url + "api/page/", fetchProps)
+		.then(res => {
+			if(!res.ok) {
+				throw Error("Błąd: Nie udało się dodać nowego formularza!")
+			}
+			return res.json()
+		})
+		.then(
+			(result) => {
+				handleSuccess(result);
+			},
+			(error) => {
+				popUpAddPackageError(error.message);
+			}
+		);
 	return true;
 }
 

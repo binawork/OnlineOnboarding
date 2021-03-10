@@ -79,33 +79,33 @@ function UserProfileManage(props) {
         <form>
             <div className="form-group">
                 <label htmlFor="first-name" className="m-0">Imię</label>
-                <input id="first-name" type="text" className="form-control" placeholder="Imie" value={ user.first_name } onChange={ handleChangeName } />
+                <input id="first-name" type="text" className="form-control" placeholder="Imie" value={ user.first_name } onChange={ handleChangeName } maxLength="50" />
             </div>
             <div className="form-group">
                 <label htmlFor="last-name" className="m-0">Nazwisko</label>
-                <input id="last-name" type="text" className="form-control" placeholder="Nazwisko" value={ user.last_name } onChange={ handleChangeLName } />
+                <input id="last-name" type="text" className="form-control" placeholder="Nazwisko" value={ user.last_name } onChange={ handleChangeLName } maxLength="50" />
             </div>
             <hr />
             <div className="form-group">
                 <label htmlFor="email" className="m-0">E-mail</label>
-                <input id="email" type="email" className="form-control" placeholder="e-mail" value={ user.email } onChange={ handleEmail } />
+                <input id="email" type="email" className="form-control" placeholder="e-mail" value={ user.email } onChange={ handleEmail } maxLength="50" />
             </div>
             <div className="form-group">
                 <label htmlFor="telephone" className="m-0">Telefon</label>
-                <input id="telephone" type="tel" className="form-control" placeholder="telefon" value={ user.tel } onChange={ handleTel } />
+                <input id="telephone" type="tel" className="form-control" placeholder="telefon" value={ user.tel } onChange={ handleTel } maxLength="15" />
             </div>
             <div className="form-group">
                 <label htmlFor="department" className="m-0">Dział</label>
-                <input id="department" type="text" className="form-control" placeholder="dział" value={ user.department } onChange={ handleDepartment } />{/* może lista rozwijana/do wyboru */}
+                <input id="department" type="text" className="form-control" placeholder="dział" value={ user.department } onChange={ handleDepartment } maxLength="50" />{/* może lista rozwijana/do wyboru */}
             </div>
             <div className="form-group">
                 <label htmlFor="location" className="m-0">Lokalizacja</label>
-                <input id="location" type="text" className="form-control" placeholder="lokalizacja" value={ user.location } onChange={ handleLocation } list="location-list" />
+                <input id="location" type="text" className="form-control" placeholder="lokalizacja" value={ user.location } onChange={ handleLocation } list="location-list" maxLength="50" />
                 <datalist id="location-list">{ dataOptions }</datalist>
             </div>
             <div className="form-group">
                 <label htmlFor="position" className="m-0">Stanowisko</label>
-                <input id="position" type="text" className="form-control" placeholder="stanowisko" value={ user.position } onChange={ handlePosition } />
+                <input id="position" type="text" className="form-control" placeholder="stanowisko" value={ user.position } onChange={ handlePosition } maxLength="50" />
             </div>
             <div className="form-group">
 				<div className="input-group-append">

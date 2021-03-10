@@ -1,0 +1,7 @@
+.QnA__limit {
+  text-align: end;
+}
+
+.QnA__limit--error {
+  color: red;
+}

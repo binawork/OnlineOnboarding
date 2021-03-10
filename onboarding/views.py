@@ -30,7 +30,7 @@ from onboarding.models import User, Company, CompanyQuestionAndAnswer, SectionsU
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, SectionsUsersSerializer, PackageAddUsersSerializer
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, UserProgressSerializer
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, UserProgressSerializer, ContactFormTestSerializer
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
 
@@ -79,7 +79,7 @@ def signup(request):
             current_site = get_current_site(request)
             subject = 'Rejestracja w Online Onboarding '
             html_message = render_to_string(
-                'templated_email/acc_active_email.html', 
+                'templated_email/acc_active_email.html',
                 {
                     'user': user,
                     'domain': current_site.domain, # to fix: should it be in local_settings.py bec. it is another on a server?
@@ -104,8 +104,8 @@ def signup(request):
     else:
         signup_form = HrSignUpForm()
     return render(
-                    request, 
-                    'bootstrap/auth-signup.html', 
+                    request,
+                    'bootstrap/auth-signup.html',
                     {'form': signup_form},
     )
 
@@ -117,13 +117,14 @@ def password_reset_request(request):
             data = password_reset_form.cleaned_data['email']
             associated_users = User.objects.filter(Q(email=data))
             if associated_users.exists():
+                current_site = get_current_site(request)
                 for user in associated_users:
                     subject = 'Zmiana hasła' # eng. "password change"
                     html_message = render_to_string(
-                        'templated_email/password_reset_email.html', 
+                        'templated_email/password_reset_email.html',
                         {
                             'email': user.email,
-                            'domain': '127.0.0.1:8000', # to fix: should it be in local_settings.py bec. it is another on a server?
+                            'domain': current_site.domain, # to fix: should it be in local_settings.py bec. it is another on a server?
                             'site_name': 'Website',
                             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                             'user': user,
@@ -156,7 +157,7 @@ def password_reset_request(request):
 
 
 # should send information to front about send reminder or not?
-@login_required() 
+@login_required()
 def reminder(request, employee_id, package_id):
     current_site = get_current_site(request)
     subject = 'Przypomnienie'
@@ -196,12 +197,14 @@ class CompanyLogoViewSet(views.APIView):
 
     def post(self, request, format=None):
         if self.request.user.is_hr:
-            serializer = CompanyFileSerializer(data=request.data, instance=request.user.company)
+            serializer = CompanyFileSerializer(data=request.data,
+                instance=request.user.company)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.errors,
+                    status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -262,11 +265,12 @@ class UserViewSet(viewsets.ModelViewSet):
             associated_users = User.objects.filter(Q(email=user_email))
             if associated_users.exists():
                 for user in associated_users:
-                    send_activation_email_for_user_created_by_hr(user=user, current_site=current_site)
+                    send_activation_email_for_user_created_by_hr(user=user,
+                        current_site=current_site)
 
             return Response(status=201)
         else:
-            return Response(status=204)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -298,9 +302,9 @@ class CompanyViewSet(viewsets.ModelViewSet):
         queryset = User.objects.filter(company=self.request.user.company).aggregate(location=ArrayAgg('location', distinct=True))
         from django.db import connection
         connection.queries.aggregate(result=ArrayAgg('team')).aggregate(result=ArrayAgg('job_position')).distinct("location",'team','job_position')
-    
+
         serializer = UserJobDataSerializer(queryset, many=True)
-    
+
         return Response(serializer.data)
 
 
@@ -330,7 +334,7 @@ class ContactFormViewSet(viewsets.ModelViewSet):
     List all packages, update or create a new package.
     """
     queryset = ContactRequestDetail.objects.all()
-    serializer_class = ContactRequestDetail
+    serializer_class = ContactFormTestSerializer
 
 class AddUserToPackageViewSet(viewsets.ModelViewSet):
 
@@ -413,7 +417,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         :return: all packages with param request.user = owner
         """
         package = Package.objects.filter(
-                                        owner=request.user.company, 
+                                        owner=request.user.company,
                                         users=request.user
         )
         serializer = PackageSerializer(package, many=True)
@@ -431,7 +435,7 @@ class PackageViewSet(viewsets.ModelViewSet):
         hr_user = User.objects.get(id=request.user.id)
         user = User.objects.get(id=request.data['users'])
 
-        # check if the hr_user is from the same company as the package (form) 
+        # check if the hr_user is from the same company as the package (form)
         # to which he /she wants to add a new user
         if hr_user.company_id == pkg_company.id:
             pass
@@ -439,7 +443,7 @@ class PackageViewSet(viewsets.ModelViewSet):
             e = "Możesz dodawać tylko do formularzy firmy, do której należysz."
             raise ValueError(e)
 
-        # check if the hr_user is from the same company as the user 
+        # check if the hr_user is from the same company as the user
         # he /she wants to add to the package (form)
         if hr_user.company_id == user.company_id:
             pass
@@ -483,8 +487,8 @@ class PageViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
 
         return Response(
-                        serializer.data, 
-                        status=status.HTTP_201_CREATED, 
+                        serializer.data,
+                        status=status.HTTP_201_CREATED,
                         headers=headers,
         )
 
@@ -555,7 +559,8 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
         :param request: user
         :return: all packages with corresponding pages for ...
         """
-        packages = Package.objects.filter(owner=request.user.company, users=request.user)
+        packages = Package.objects.filter(owner=request.user.company,
+            users=request.user)
         serializer = PackagePagesSerializer(packages, many=True)
 
         return Response(serializer.data)
@@ -672,11 +677,12 @@ class AnswerViewSet(viewsets.ModelViewSet):
         :return: answers list by section id
         """
         if request.method == 'PATCH':
-            answers = Answer.objects.filter(section__page__id=pk, owner=self.request.user) # id__in=request.data['answers']
+            answers = Answer.objects.filter(section__page__id=pk,
+                owner=self.request.user) # id__in=request.data['answers']
 
             if answers.count() < 1:
                 return Response(status=status.HTTP_404_NOT_FOUND) # Resource not found
-            
+
             answers.update(finished = True)
         else:
             answers = Answer.objects.filter(
@@ -839,9 +845,7 @@ class UserProgressView(viewsets.ModelViewSet):
 
 
 class SectionAnswersViewSet(viewsets.ModelViewSet):
-    """
-    List all Sections with related answers.
-    """
+    """List all Sections with related answers."""
     serializer_class = SectionAnswersSerializer
     permission_classes = [IsAuthenticated]
 
@@ -860,4 +864,3 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
             # queryset = Section.objects.annotate(ans=FilteredRelation('answer', condition=q_owner)).filter(q1)
             queryset = Section.objects.filter(q1)
         return queryset
-
