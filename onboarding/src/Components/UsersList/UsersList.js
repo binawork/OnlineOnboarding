@@ -10,7 +10,6 @@ function UsersList({ loggedUserId }) {
 	const [loaded, isLoaded] = useState(false);
 	const [error, showError] = useState(null);
     const [countUpdate, update] = useState(0);
-    const [employeeIdModal, setIdModal] = useState({id: 0, modal: <></>});
     const [users, setUsers] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
   
@@ -33,34 +32,7 @@ function UsersList({ loggedUserId }) {
         }
     }, [loggedUserId, countUpdate]);
 
-    const removeAsk = (e) => {
-        setIdModal({id: e.target.value,
-            modal: <ModalWarning handleAccept={ removeUser } handleCancel={ hideModal }
-            					title={ "Usunięcie pracownika" }
-            					message={ "Czy na pewno chcesz usunąć pracownika" }
-            					show={ true }
-            					id={ e.target.value } />
-        });
-    }
-
-    const hideModal = function(){
-        setIdModal({id: 0, modal: <></>});
-    }
-
-    const removeUser = (id) => {
-        hideModal();
-        employeeRemove(popUpRemoveModal, id);
-    }
-
-    const popUpRemoveModal = (message) => {
-        setIdModal({id: 0,
-            modal: <ModalWarning handleAccept={ idle } title={ "Usunięcie pracownika" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />
-        });
-    }
-    const idle = () => {
-        hideModal();
-        update(countUpdate + 1);
-    };
+    
 
     return (
       <div className="page-section">
@@ -72,18 +44,18 @@ function UsersList({ loggedUserId }) {
         </div>
         { !loaded && <p>Ładowanie...</p> }
         { error && <p>Wystąpił błąd podczas ładowania danych</p> }
-        { loaded 
+        { loaded && users.length !== 0
             ? searchResult.length !== 0
                 ? searchResult.map((user) => (
                     <UserListRow
                         user={ user }
                         key={ user.id }
-                        handleRemove={ removeAsk }
+                        countUpdate={ countUpdate } 
+                        update={ update }
                     />
                 )) : <p>Brak wyników</p>
             : null
         }
-        {employeeIdModal.modal}
       </div>
     );
 }

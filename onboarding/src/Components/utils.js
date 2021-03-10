@@ -30,6 +30,21 @@ export function validateURL(url, defaultUrl) {
 	return url;
 }
 
+/**
+ * Checks if string is a valid url
+ * @param str: string af url
+ * @returns boolean
+ */
+export const isValidUrl = (str) => {
+	const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+	'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+	'((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+	'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+	'(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+	'(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+return !!pattern.test(str);
+};
+
 export function dateToString(str){
 	var date, formatted;
 	try {
@@ -88,3 +103,30 @@ export function clickButtonAfterPressingEnter(e, buttonId) {
 	}
 }
 
+export function onDragEnd(result, list, setList) {
+	// destination, source -> objects in which you can find the index of the destination and index of source item
+	const { destination, source, reason } = result;
+	// Not a thing to do...
+	if (!destination || reason === "CANCEL") {
+		return;
+	}
+	//If drop an element to the same place, it should do nothing
+	if (
+		destination.droppableId === source.droppableId &&
+		destination.index === source.index
+	)
+		return;
+
+	const droppedSection = list[source.index];
+	const pageSections = [...list];
+
+	pageSections.splice(source.index, 1);
+	pageSections.splice(destination.index, 0, droppedSection);
+
+	const updatedList = pageSections.map((qa, index) => {
+		qa.order = index + 1;
+		return qa;
+	});
+
+	setList(updatedList);
+};
