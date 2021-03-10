@@ -140,7 +140,7 @@ export function employeeAddEdit(handleMessage, employeeObject, updateData){
 			if(result.hasOwnProperty('detail') )
 				msg += "  " + String(result.detail);
 			handleMessage(msg, true);
-			updateData();
+			updateData?.();
 		},
 		(error) => {
 			// console.log("Users: eA");
