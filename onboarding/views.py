@@ -592,7 +592,6 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
         serializer = PackagePagesSerializer(packages, many=True)
 
         return Response(serializer.data)
-#
 
 
 class SectionViewSet(viewsets.ModelViewSet):
@@ -619,8 +618,8 @@ class SectionViewSet(viewsets.ModelViewSet):
         :return: sections list by page id
         """
         section = Section.objects.filter(
-                                            page__id=pk,
-                                            owner=self.request.user.company
+            page__id=pk,
+            owner=self.request.user.company
         )  # add in the future
         # owner__page=request.user.company
         serializer = SectionSerializer(section, many=True)
