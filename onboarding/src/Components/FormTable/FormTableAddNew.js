@@ -1,20 +1,39 @@
 import React, { useState } from "react";
 import { addPage } from "../hooks/PackagePage";
+import ModalWarning from "../ModalWarning";
 import { clickButtonAfterPressingEnter } from "../utils";
 
 function FormTableAddNew(props) {
     const [title, setTitle] = useState("");
+    const [packageModal, setPackageModal] = useState();
 
-    var handleClick = function(e){
+    const handleClick = function(e){
         let order = props.getOrder();
-        let accepted = addPage(props.handleUpdate, title, props.id, order+1, props.companyId);
+        let accepted = addPage(props.handleUpdate, title, props.id, order+1, props.companyId, popUpAddPackageError);
         setTitle("");
-    console.log(accepted)
+        console.log(accepted)
     }
     
-    var handleInputTitle = (e) => {
+    const handleInputTitle = (e) => {
         setTitle(e.target.value);
     }
+
+    const hidePopUp = () => {
+        setPackageModal(<></>);
+    };
+
+    const popUpAddPackageError = (message) => {
+        setPackageModal(
+            <ModalWarning
+                handleAccept={ hidePopUp }
+                title={ "Dodanie formularza" }
+                message={ message }
+                id={ 0 }
+                show={ true }
+                acceptText={ "Ok" } />
+        );
+    }
+
     return(
         <div className="row mb-4">
             <div className="col">
@@ -28,6 +47,7 @@ function FormTableAddNew(props) {
                     <button id="btn-add-page" className="btn btn-secondary" data-display="static" aria-haspopup="true" aria-expanded="false" onClick={ handleClick }>Dodaj</button>
                 </div>
             </div>
+            { packageModal }
         </div>
     )
 }

@@ -270,7 +270,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
             return Response(status=201)
         else:
-            return Response(status=204)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 

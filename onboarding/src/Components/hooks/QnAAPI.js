@@ -47,7 +47,7 @@ export function deleteQnA(id) {
   return true;
 }
 
-export function saveAll(qaList, setQaList, setSaved) {
+export function saveAll(qaList, setSaveError, showSaveInfo) {
   const fetchProps = {
     headers: {
       Accept: "application/json",
@@ -57,36 +57,40 @@ export function saveAll(qaList, setQaList, setSaved) {
   };
 
   const updatedQaList = qaList.map((qa) => {
+    fetchProps.body = JSON.stringify(qa);
+
     if (typeof qa.id === "number") {
       fetchProps.method = "PUT";
-      fetchProps.body = JSON.stringify(qa);
 
       fetch(url + "api/q_and_a/" + qa.id + "/", fetchProps)
-        .catch((error) => {
-          console.log(error);
+        .then(res => {
+          if(!res.ok) {
+            throw Error("Nie udało się zapisać zmian, może to być spowodowane wprowadzeniem zbyt długiej treści");
+          }
         })
-        .then(() => {
-          setSaved(true);
-        });
+        .catch((error) => {
+          setSaveError(error.message);
+        })
+        .finally(() => showSaveInfo?.());
     } else if (typeof qa.id === "string") {
       fetchProps.method = "POST";
-      fetchProps.body = JSON.stringify({
-        question: qa.question,
-        answer: qa.answer,
-        order: qa.order,
-      });
 
       fetch(url + "api/q_and_a/", fetchProps)
-        .catch((error) => {
-          console.log(error);
+        .then(res => {
+          if(!res.ok) {
+            throw Error("Nie udało się zapisać zmian, może to być spowodowane wprowadzeniem zbyt długiej treści");
+          }
+          return res.json();
         })
-        .then((res) => res.json())
+        .catch((error) => {
+          setSaveError(error.message);
+        })
         .then((addedQa) => {
-          setSaved(true);
           qa.id = addedQa.id;
-        });
+        })
+        .finally(() => showSaveInfo?.());
     }
     return qa;
   });
-  return true;
+  return updatedQaList;
 }

@@ -26,6 +26,7 @@ function ImplementationFormsToSend(props) {
     const sendCheckedPackages = (e) => {
         assignEmployeeToPackage(props.showModal, props.employeeId, idsChecked);
         setIdsChecked([]);
+        checkedChange(0);
         props.setCount(props.count + 1);
     }
 
