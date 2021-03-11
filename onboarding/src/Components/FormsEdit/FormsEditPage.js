@@ -10,6 +10,7 @@ import FormsEdit, { fetchFormData } from "../hooks/FormsEdit";
 import { singleCombo } from "../hooks/Packages";
 import { onDragEnd } from "../utils";
 import ModalWarning from "../ModalWarning";
+import SaveInfo from "../SaveInfo";
 
 function FormsEditPage() {
   const location = useLocation();
@@ -18,15 +19,16 @@ function FormsEditPage() {
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [update, setUpdate] = useState(true);
-  // const [saved, setSaved] = useState(false);
+  const [isAutosave, setIsAutosave] = useState(false);
+  const [saveOnDemand, setSaveOnDemand] = useState(false);
   const [packageTitle, setPackageTitle] = useState("");
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [editMode, setEditMode] = useState(true);
-
+  const [sectionsCopy, setSectionsCopy] = useState([]);
+console.log(sections)
   const { data:formData } = fetchFormData(formId);
-  const { sections:sortedSections, loading:isLoading, errorMessage:error } = FormsEdit(formId, update);
-  
+  const { sections:sortedSections, loading:isLoading, errorMessage:error } = FormsEdit(formId);
+
   // Set title of package in navigation bar
   let title = singleCombo(formData?.package)?.title;
   if(location.state?.packageTitle && !packageTitle) setPackageTitle(location.state.packageTitle);
@@ -38,38 +40,87 @@ function FormsEditPage() {
 
   useEffect(() => {
     setSections(sortedSections);
+    // Shallow copy an Array of Objects
+    setSectionsCopy(JSON.parse(JSON.stringify(sortedSections)));
     updateMaxOrder(sortedSections?.length);
     setLoading(isLoading);
     setErrorMessage(error);
   }, [sortedSections, isLoading, error]);
 
+  const showAutosaveInfo = () => {
+    // Show info "Zapisano zmiany" for 3 sec. when the changes were saved
+    if(saveOnDemand !== true) {
+      setIsAutosave(true);
+      const timer = setTimeout(() => {
+          setIsAutosave(false);
+      }, 3000);
+
+      return () => {
+          clearTimeout(timer);
+      }
+    };
+  }
+  useEffect(() => {
+    // Compare two Arrays of Objects
+    if(sections && sectionsCopy && JSON.stringify(Object.values(sections)) == JSON.stringify(Object.values(sectionsCopy))) return;
+    if(sections && !sections.some(section => section.title === "") && saveOnDemand !== true) {
+      setErrorMessage("");
+
+      // Save changes after 10 sec. form last change
+      const saveTimeout = setTimeout(
+        () => {
+          if(saveOnDemand !== true) {
+            FormSectionsAPI.saveAll(sections)
+            // FormSectionsAPI.saveAll(sections, updateUnsetAsNew)
+              .catch((error) => setErrorMessage(error.message))
+              .then((result) => {
+                // Shallow copy an Array of Objects
+                setSectionsCopy(JSON.parse(JSON.stringify(result)));
+                setSections(result);
+              })
+              .finally(() => {
+                showAutosaveInfo();
+              });
+            }
+          },
+          10000
+          );
+      return () => clearTimeout(saveTimeout);
+    } 
+  }, [sections]);
+
   const hideModal = () => {
     setShowSaveModal(false);
+    setSaveOnDemand(false);
   };
-
+  
   const updateUnsetAsNew = function(newSections){
     if(typeof newSections === 'undefined' || newSections === null)
-      return;
+    return;
+    
+    // Is newSections2 necessary?
+    // let newSections2 = newSections.map( (section) => {
+    //   if(section.hasOwnProperty('isNew') )
+    //   section.isNew = false;
+      
+    //   return section;
+    // });
 
-    let newSections2 = newSections.map( (section) => {
-      if(section.hasOwnProperty('isNew') )
-        section.isNew = false;
-
-      return section;
-    });
-
-    //setSections(newSections2);
-    setSections( newSections2.sort((section1, section2) => section1.order - section2.order) );
+    setSectionsCopy(JSON.parse(JSON.stringify(newSections)));
+    setSections(newSections);
+    // setSections( newSections2.sort((section1, section2) => section1.order - section2.order) );
   }
 
   const handleSave = (e) => {
     e.preventDefault();
-    FormSectionsAPI.saveAll(sections, updateUnsetAsNew)
+    setIsAutosave(false);
+    setSaveOnDemand(true);
+    // FormSectionsAPI.saveAll(sections, updateUnsetAsNew)
+    FormSectionsAPI.saveAll(sections)
       .catch((error) => setErrorMessage(error.message))
-      .then(() => {
-        setUpdate(true);
+      .then((result) => {
         setShowSaveModal(true);
-        // updateUnsetAsNew(result);
+        updateUnsetAsNew(result);
       });
   };
 
@@ -127,7 +178,10 @@ function FormsEditPage() {
           </div>
         </form>
       </section>
-      {showSaveModal && (
+      {isAutosave && (
+        <SaveInfo message={errorMessage ? "Nie udało się zapisać - któreś z pól może zawierać za dużo znaków." : "Zapisano zmiany"} />
+      )}
+      {showSaveModal && saveOnDemand && (
         <ModalWarning
           handleAccept={ hideModal }
           title={ "Zapisywanie sekcji formularza" }
@@ -141,27 +195,6 @@ function FormsEditPage() {
           id={ 0 }
         />
       )}
-      {/* {saved ? (
-        <div
-          className="fixed-bottom d-flex justify-content-center show-and-hide"
-          style={{ display: "fixed-bottom", left: "240px" }}
-        >
-          <div
-            className="m-2 p-2"
-            style={{
-              width: "150px",
-              backgroundColor: "rgba(226, 232, 238, 0.57)",
-              color: "black",
-              textAlign: "center",
-              borderRadius: "4px",
-            }}
-          >
-            Zapisano zmiany
-          </div>
-        </div>
-      ) : (
-        <></>
-      )} */}
     </div>
   );
 }

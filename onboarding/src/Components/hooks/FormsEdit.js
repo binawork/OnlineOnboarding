@@ -6,8 +6,8 @@ import useFetch from "./useFetch.js";
 /**
  * Get page sections;
  */
-function FormsEdit(formId, update){
-	const [sections, setSections] = useState(null);
+function FormsEdit(formId){
+	const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
 	const [errorMessage, setErrorMessage] = useState("");
 	
@@ -32,7 +32,7 @@ function FormsEdit(formId, update){
 			.finally(() => setLoading(false));
 
 		return () => abortCont.abort();
-	}, [update]);
+	}, []);
 
 	return { sections, loading, errorMessage };
 }
