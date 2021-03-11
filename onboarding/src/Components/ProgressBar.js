@@ -3,7 +3,7 @@ import "../static/css/tag.css";
 
 function ProgressBar({ color, backgroundSize }) {
   return (
-    <span className={`tag tag--${color}`} style={{ backgroundSize: backgroundSize }}></span>
+    <span className={`progress progress--${color}`} style={{ backgroundSize: backgroundSize }}></span>
   );
 }
 

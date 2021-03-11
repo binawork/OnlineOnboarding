@@ -11,10 +11,13 @@ function PackagesAddNew(props) {
     };*/
 
     const handleClick = function(e){
-        let accepted = addCombo(props.handleUpdate, title, props.popUpAddPackageError);
-        console.log('accepted:', accepted);
-        setTitle("");
-        e.target.value = "";
+        if(title) {
+            let accepted = addCombo(props.handleUpdate, title, props.popUpAddPackageError);
+            console.log('accepted:', accepted);
+            setTitle("");
+            e.target.value = "";
+            props.setShowAddCatalogueBox(false);
+        }
     };
 
     const handleInput = function(e){
