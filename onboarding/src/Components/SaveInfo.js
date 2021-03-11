@@ -1,6 +1,6 @@
 import React from "react";
 
-const SaveInfo = () => {
+const SaveInfo = ({ message }) => {
   return (
     <div
       className="fixed-bottom d-flex justify-content-center show-and-hide"
@@ -9,14 +9,14 @@ const SaveInfo = () => {
       <div
         className="m-2 p-2"
         style={{
-          width: "150px",
+          width: "max-content",
           backgroundColor: "rgba(226, 232, 238, 0.57)",
           color: "black",
           textAlign: "center",
           borderRadius: "4px",
         }}
       >
-        Zapisano zmiany
+        { message ? message : "Zapisano zmiany" }
       </div>
     </div>
   );

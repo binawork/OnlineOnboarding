@@ -10,9 +10,9 @@ function PackagesAddNew(props) {
         console.log(result);
     };*/
 
-    var handleClick = function(e){
+    const handleClick = function(e){
         if(title) {
-            let accepted = addCombo(props.handleUpdate, title);
+            let accepted = addCombo(props.handleUpdate, title, props.popUpAddPackageError);
             console.log('accepted:', accepted);
             setTitle("");
             e.target.value = "";
@@ -20,7 +20,7 @@ function PackagesAddNew(props) {
         }
     };
 
-    var handleInput = function(e){
+    const handleInput = function(e){
         setTitle(e.target.value);
     }
 

@@ -67,17 +67,13 @@ export function savePageDetails(handleSuccess, pageId, title, link, description)
 			dontUpdate = false;
 		}
 	}
-	if(description){
-		if(typeof description === "string" && description.length > 0){
-			data.description = description;
-			dontUpdate = false;
-		}
+	if(typeof description === "string"){
+		data.description = description;
+		dontUpdate = false;
 	}
-	if(link){
-		if(typeof link === "string" && link.length > 0){
-			data.link = link;
-			dontUpdate = false;
-		}
+	if(typeof link === "string"){
+		data.link = link;
+		dontUpdate = false;
 	}
 
 
@@ -89,15 +85,20 @@ export function savePageDetails(handleSuccess, pageId, title, link, description)
 
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/page/" + pageId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
-		(result) => {
-			handleSuccess(result);
-		},
-		(error) => {
-			handleSuccess(error);
+	fetch(url + "api/page/" + pageId + "/", fetchProps)
+		.then(res => {
+			if(!res.ok) {
+				throw Error("Błąd: Nie udało się zapisać danych formularza.");
+			}
+			return tryFetchJson(res);
+		})
+		.then(() => {
+			handleSuccess("Zapisano dane");
+		})
+		.catch((error) => {
+			handleSuccess(error.message);
 			console.log(error);
-		}
-	);
+		});
 	return true;
 }
 

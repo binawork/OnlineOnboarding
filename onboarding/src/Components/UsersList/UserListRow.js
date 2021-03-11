@@ -1,11 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { employeeRemove } from "../hooks/Users";
+import ModalWarning from "../ModalWarning";
 
 function UserListRow(props) {
+    const [loadingSave, setLoadingSave] = useState(false);
+    const [employeeIdModal, setIdModal] = useState({id: 0, modal: <></>});
+    
     let avatar = "/onboarding/static/images/unknown-profile.jpg";
 
     if(props.user.avatar && props.user.avatar.length > 1)
         avatar = props.user.avatar;
+
+        const removeAsk = (e) => {
+            setIdModal({id: e.target.value,
+                modal: <ModalWarning handleAccept={ removeUser } handleCancel={ hideModal }
+                                    title={ "Usunięcie pracownika" }
+                                    message={ "Czy na pewno chcesz usunąć pracownika" }
+                                    show={ true }
+                                    id={ e.target.value } />
+            });
+        }
+    
+        const hideModal = function(){
+            setIdModal({id: 0, modal: <></>});
+        }
+    
+        const removeUser = (id) => {
+            hideModal();
+            employeeRemove(popUpRemoveModal, id, setLoadingSave);
+        }
+    
+        const popUpRemoveModal = (message) => {
+            setIdModal({id: 0,
+                modal: <ModalWarning handleAccept={ idle } title={ "Usunięcie pracownika" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />
+            });
+        }
+        const idle = () => {
+            hideModal();
+            props.update(props.countUpdate + 1);
+        };
 
     return(
         <div className="card mb-2">
@@ -94,9 +128,10 @@ function UserListRow(props) {
                             <button
                                 type="button"
                                 value={ props.user.id }
-                                onClick={ props.handleRemove }
+                                onClick={ removeAsk }
                                 className="btn btn-warning"
                                 data-toggle="tooltip"
+                                disabled={ loadingSave ? true : false }
                             >
                                 Usuń
                             </button>
@@ -104,6 +139,7 @@ function UserListRow(props) {
                     </div>
                 </div>
             </div>
+            {employeeIdModal.modal}
         </div>
     )
 }

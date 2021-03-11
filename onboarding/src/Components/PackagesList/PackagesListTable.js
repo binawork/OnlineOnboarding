@@ -74,6 +74,11 @@ function PackagesListTable({ setPackagesList }) {
             modal: <ModalWarning handleAccept={ idle } title={ "Usunięcie wdrożenia" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />
         });
     }
+    const popUpAddPackageError = (message) => {
+        setPackageIdModal({id: 0,
+            modal: <ModalWarning handleAccept={ idle } title={ "Dodanie wdrożenia" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />
+        });
+    }
 
     const idle = () => {
         hideModal();
@@ -93,7 +98,7 @@ function PackagesListTable({ setPackagesList }) {
                                 Dodaj nowy katalog wdrożeń (np. BHP, Szkolenia produktowe, Osoby kluczowe etc.)
                             </div>
                             <div className="card-body">
-                                <PackagesAddNew handleUpdate={ updatePackages } setShowAddCatalogueBox={ setShowAddCatalogueBox } />
+                                <PackagesAddNew handleUpdate={ updatePackages } setShowAddCatalogueBox={ setShowAddCatalogueBox } popUpAddPackageError={ popUpAddPackageError } />
                             </div>
                         </div>
                     </div>

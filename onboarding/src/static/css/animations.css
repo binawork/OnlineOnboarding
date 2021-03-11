@@ -3,11 +3,11 @@
       background: none;
   }
   25% {
-      background: var(--yellow);
+      background: #f7c46c8c;
       color: #333;
   }
   75% {
-      background: var(--yellow);
+      background: #f7c46c8c;
       color: #333;
   }
   100% {

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import parse from 'html-react-parser';
 import MarkdownArea from "../MarkdownArea";
 import { deleteQnA } from "../hooks/QnAAPI";
+import "../../static/css/QnA.css";
 
 function QnA({
   id,
@@ -86,11 +87,9 @@ function QnA({
       <div className="card">
         <div className="card-body">
           <div className="form-group">
-            <p className="m-0">
               { parse(question) }
-            </p>
           </div>
-          <p className="m-0">{ parse(answer) }</p>
+          { parse(answer) }
         </div>
       </div>
     </div>
@@ -101,24 +100,25 @@ function QnA({
   ) : (
     <div className="task-issue" {...draggableProps} ref={innerRef}>
       { order === 1 ? <></> : <hr /> }
-      <div className="card d-flex p-2" {...dragHandleProps}>
-        <div className="p-1 d-flex justify-content-center">
+      <div className="card d-flex p-2">
+        <div className="p-1 d-flex justify-content-center" {...dragHandleProps}>
           <span
             className="drag-indicator"
             style={{ transform: "rotate(90deg)" }}
-            {...dragHandleProps}
           ></span>
         </div>
+        <small className={`m-0 QnA__limit ${q.length > 2000 && "QnA__limit--error"}`}>{q.length}/2000</small>
         <MarkdownArea
           id={"question" + id}
-          content={question}
+          content={q}
           contentChange={changeQuestion}
           simple={true}
           placeholder={"Wpisz pytanie"}
         />
+        <small className={`m-0 QnA__limit ${a.length > 2000 && "QnA__limit--error"}`}>{a.length}/2000</small>
         <MarkdownArea
           id={"answer" + id}
-          content={answer}
+          content={a}
           contentChange={changeAnswer}
           simple={true}
           placeholder={"Wpisz odpowiedź"}
