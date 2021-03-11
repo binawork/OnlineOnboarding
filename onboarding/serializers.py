@@ -7,20 +7,20 @@ from . import mock_password
 '''
 Core arguments in serializer fields
 
-read_only	    Set this to True to ensure that the field is used when serializing 
+read_only	    Set this to True to ensure that the field is used when serializing
                 a representation, but is not used when creating or updating an instance
                 during deserialization
 
-write_only  	Set this to True to ensure that the field may be used when updating or 
+write_only  	Set this to True to ensure that the field may be used when updating or
                 creating an instance, but is not included when serializing the representation.
 
-required    	Setting this to False also allows the object attribute or dictionary key to 
+required    	Setting this to False also allows the object attribute or dictionary key to
                 be omitted from output when serializing the instance.
 
-default	        If set, this gives the default value that will be used for the field if no 
+default	        If set, this gives the default value that will be used for the field if no
                 input value is supplied.
 
-allow_null  	Normally an error will be raised if None is passed to a serializer field. 
+allow_null  	Normally an error will be raised if None is passed to a serializer field.
                 Set this keyword argument to True if None should be considered a valid value.
 
 source	        The name of the attribute that will be used to populate the field.
@@ -283,8 +283,16 @@ class SectionSerializer(serializers.ModelSerializer):
             'page',
         )
 
+#    def validate(self, data):
+        '''
+        Prevents data in Section from duplicating from backend side (when data is
+        re-send manually; problem was previously solved in frontend for the user).
+        '''
+        # if data['start'] > data['finish']:
+        #     raise serializers.ValidationError("finish must occur after start")
+        # return data
 
-# ANSWER
+
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
@@ -317,7 +325,6 @@ class WhenPackageSendToEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PackagesUsers
         fields = (
-            'package',
             'send_on',
         )
 
@@ -340,7 +347,7 @@ class SectionAnswersSerializer(serializers.ModelSerializer):
             'page',
             'answers',
         )
-#
+
 
 
 class SectionProgressSerializer(serializers.ModelSerializer):
@@ -386,6 +393,3 @@ class UserProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = '__all__'
-        # depth = 3
-#
-
