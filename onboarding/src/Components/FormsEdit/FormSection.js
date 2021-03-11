@@ -120,7 +120,7 @@ function FormSection({
         if(section.type === 'osa'){
           for(; i >= 0; i--){
             if(typeof section.data[i].id !== 'undefined'){// 'id' in section.data[i];
-              section.data[i].is_checked = (section.data[i].id === answerId)? true : false;
+              section.data[i].is_checked = (!section.data[i].is_checked && section.data[i].id === answerId) ? true : false;
             }
           }
         } else {

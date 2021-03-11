@@ -41,9 +41,9 @@ function PageCard({ page }) {
                 </div>
                 { link.length > 0 &&
                     <div className="row align-items-center">
-                    <div className="col-auto">
-                        <a href={ link } target="_blank">{ link }</a>
-                    </div>
+                        <div className="col-auto">
+                            <a href={ link } target="_blank">{ link }</a>
+                        </div>
                     </div>
                 }
             </div>

@@ -22,6 +22,12 @@
   transition: transform .1s linear;
 }
 
+.close-icon {
+  position: absolute;
+  right: 0;
+  top: -24px;
+}
+
 .fa-folder {
   width: 24px!important;
   /* height: 16px!important; */
