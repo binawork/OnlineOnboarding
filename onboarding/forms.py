@@ -5,7 +5,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from .models import Company
 
-#required=True dodać wszędzie
+
 class HrSignUpFormEng(UserCreationForm):
     '''Custom login form displayed when user browser language is not polish'''
 
