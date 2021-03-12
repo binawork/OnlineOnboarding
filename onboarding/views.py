@@ -72,9 +72,9 @@ def signup(request):
     if request.method == 'POST':
         request_as_dict = request.__dict__
         if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
-            signup_form = HrSignUpForm()
+            signup_form = HrSignUpForm(request.POST)
         else:
-            signup_form = HrSignUpFormEng()
+            signup_form = HrSignUpFormEng(request.POST)
         if signup_form.is_valid():
             user = signup_form.save()
             current_site = get_current_site(request)
