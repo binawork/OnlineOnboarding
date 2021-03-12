@@ -9,17 +9,28 @@ from .models import Company
 
 
 class HrSignUpForm(UserCreationForm):
-    email = forms.EmailField(
-                    max_length=254,
-                    help_text='Pole wymagane - podaj adres email.',
-                    widget=forms.EmailInput(attrs={'class': 'form-control'})
-    )
-    first_name ="x"
+    email = forms.EmailField(max_length=254,
+        help_text='Pole wymagane - podaj adres email.',
+        widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+    first_name = forms.CharField(label='Podaj imię',
+        help_text='Pole wymagane - podaj swoje imię.',
+        widget=forms.TextInput)
+    last_name = forms.CharField(label='Podaj nazwisko',
+        help_text='Pole wymagane - podaj swoje nazwisko.',
+        widget=forms.TextInput)
+
     password1 = forms.CharField(label='Podaj hasło',
-                                widget=forms.PasswordInput)
+        help_text='''Hasło nie może być krósze niż 8 znaków, zbyt łatwe do
+        odgadnięcia, ani składać się wyłącznie z cyfr.''',
+        widget=forms.PasswordInput)
     password2 = forms.CharField(label='Powtórz hasło',
-                                widget=forms.PasswordInput)
-    company_name = forms.CharField(max_length=500, label='Nazwa firmy')
+        help_text='Hasła muszą być identyczne.',
+        widget=forms.PasswordInput)
+
+    company_name = forms.CharField(max_length=500, label='Nazwa firmy',
+        help_text='Pole wymagane - podaj nazwę firmy, w której pracujesz.',
+        widget=forms.PasswordInput)
 
     class Meta:
         model = get_user_model()
@@ -31,10 +42,7 @@ class HrSignUpForm(UserCreationForm):
                     'password2',
                     'company_name'
         )
-#         help_texts = {
-#     'password1': "xxx",'password2': "xxxx",
-#     'email': None,
-# }
+
 
 
     # def get_or_create_company(self, company_name):
