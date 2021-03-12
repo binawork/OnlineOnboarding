@@ -68,14 +68,11 @@ def activate(request, uidb64, token):
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     form_class = CustomSetPasswordForm
 
-
-
 def signup(request):
     if request.method == 'POST':
         signup_form = HrSignUpForm(request.POST)
         if signup_form.is_valid():
             user = signup_form.save()
-
             current_site = get_current_site(request)
             subject = 'Rejestracja w Online Onboarding '
             html_message = render_to_string(
@@ -102,6 +99,8 @@ def signup(request):
             )
 #return redirect('/<adress of post-reg form>') - add after html template is done
     else:
+        request_as_dictionary = request.__dict__
+        print(request_as_dictionary['environ']['HTTP_ACCEPT_LANGUAGE'])
         signup_form = HrSignUpForm()
     return render(
                     request,
