@@ -50,27 +50,28 @@
             </g>
           </svg> <span class="sr-only">Sign In</span>
         </h1>
-        <p> Don't have a account? <a href="{% url 'signup' %}?next={{ next }}">Create One</a>
+        <p>Nie masz konta? <a href="{% url 'signup' %}?next={{ next }}">Zarejestruj się</a>
+        <!-- <p> Don't have a account? <a href="{% url 'signup' %}?next={{ next }}">Create One</a> -->
         </p>
       </header><!-- form -->
       <form class="auth-form" method="POST" action="{% url 'login' %}">
         <!-- .form-group -->
         <div class="form-group">
           <div class="form-label-group">
-            <input type="text" id="{{ form.username.id_for_label }}" class="form-control" placeholder="Username" name="{{ form.username.html_name }}" autofocus="" />
-            <label for="{{ form.username.id_for_label }}">{{ form.username.label_tag }}</label>
+            <input type="text" id="{{ form.username.id_for_label }}" class="form-control" placeholder="Email:" name="{{ form.username.html_name }}" autofocus="" />
+            <label for="{{ form.username.id_for_label }}">Email:</label>
           </div>
         </div><!-- /.form-group -->
         <!-- .form-group -->
         <div class="form-group">
           <div class="form-label-group">
-            <input type="password" id="{{ form.password.id_for_label }}" class="form-control" name="{{ form.password.html_name }}" placeholder="Password" />
-            <label for="{{ form.password.id_for_label }}">{{ form.password.label_tag }}</label>
+            <input type="password" id="{{ form.password.id_for_label }}" class="form-control" name="{{ form.password.html_name }}" placeholder="Hasło:" />
+            <label for="{{ form.password.id_for_label }}">Hasło:</label>
           </div>
         </div><!-- /.form-group -->
         <!-- .form-group -->
         <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj</button>
         </div><!-- /.form-group -->
         <!-- .form-group - - >
         <div class="form-group text-center">
@@ -80,7 +81,8 @@
         </div>< ! - - /.form-group -->
         <!-- recovery links -->
         <div class="text-center pt-3">
-          <a href="auth-recovery-username.html" class="link">Forgot Username?</a> <span class="mx-2">·</span> <a href="{% url 'password_reset' %}" class="link">Forgot Password?</a>
+          <!-- <a href="auth-recovery-username.html" class="link">Forgot Username?</a> <span class="mx-2">·</span>  -->
+          <a href="{% url 'password_reset' %}" class="link">Zapomniałeś hasła?<!--Forgot Password?--></a>
         </div><!-- /recovery links -->
         {% csrf_token %}
         {% if next %}

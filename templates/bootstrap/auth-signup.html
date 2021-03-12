@@ -51,8 +51,10 @@
             </g>
           </svg> <span class="sr-only">Sign Up</span>
         </h1>
-        <p> Already have an account? please <a href="{% url 'login' %}?next=/manage/">Sign In</a>
+        <p> Masz już konto? <a href="{% url 'login' %}?next=/manage/">Zaloguj się</a>
         </p>
+        <!-- <p> Already have an account? please <a href="{% url 'login' %}?next=/manage/">Sign In</a> -->
+
       </header>
       <form class="auth-form" method="POST">
         {% for field in form %}
@@ -71,16 +73,19 @@
         {% endfor %}
         <!-- .form-group -->
         <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Zarejestruj</button>
         </div><!-- /.form-group -->
         <!-- .form-group -->
         <div class="form-group text-center">
           <div class="custom-control custom-control-inline custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="newsletter"> <label class="custom-control-label" for="newsletter">Sign me up for the newsletter</label>
+            <input type="checkbox" class="custom-control-input" id="newsletter"> <label class="custom-control-label" for="newsletter">Zapisz mnie na newsletter <!-- Sign me up for the newsletter --></label>
           </div>
         </div><!-- /.form-group -->
         <!-- recovery links -->
-        <p class="text-center text-muted mb-0"> By creating an account you agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. </p><!-- /recovery links -->
+        <p class="text-center text-muted mb-0"> 
+          Tworząc konto zgadzasz się na<a href="#">Warunki Korzystania</a> i <a href="#">Politykę Prywatności</a>. 
+          <!-- By creating an account you agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. -->
+        </p><!-- /recovery links -->
         {% csrf_token %}
       </form><!-- /.auth-form -->
       <!-- copyright -->
