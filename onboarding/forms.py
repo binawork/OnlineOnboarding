@@ -42,6 +42,21 @@ class HrSignUpFormEng(UserCreationForm):
                     'company_name'
         )
 
+    def save(self, commit=True):
+        user = super(HrSignUpForm, self).save(commit=False)
+        # user.company = self.get_or_create_company(
+        #                                     self.cleaned_data["company_name"]
+        # )
+        user.company = Company.objects.create(name=self.cleaned_data["company_name"])
+
+        user.is_hr = True
+        user.username = self.cleaned_data['email']
+        user.is_active = False
+        if commit:
+            user.save()
+        return user
+
+
 
 class HrSignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254,
