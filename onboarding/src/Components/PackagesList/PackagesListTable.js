@@ -8,6 +8,7 @@ function PackagesListTable({ setPackagesList }) {
     const [count, setCount] = useState(0);
     const [packageIdModal, setPackageIdModal] = useState({id: 0, modal: <></>});
     const [newRowId, setNewRowId] = useState(null);
+    const [showAddCatalogueInput, setShowAddCatalogueBox] = useState(false);
  
     const { packages, isLoading, error } = fetchPackages(count);
     const { packagesAndForms } = fetchPackagesAndForms(count);
@@ -86,14 +87,23 @@ function PackagesListTable({ setPackagesList }) {
 
     return (
         <div className="page-section">
-            <div className="card card-fluid">
-                <div className="card-header">
-                    Dodaj nowy katalog wdrożeń (np. BHP, Szkolenia produktowe, Osoby kluczowe etc.)
+        <hr />
+            <button className="btn btn-success mb-3" onClick={() => setShowAddCatalogueBox(true)}>+ Dodaj katalog</button>
+            { showAddCatalogueInput &&
+                <div className="modal modal-alert fade show d-flex flex-column justify-content-center" style={{ backdropFilter: "brightness(55%)"}} onClick={() => setShowAddCatalogueBox(false)}>
+                    <div className="modal-dialog w-100"  onClick={ e => e.stopPropagation() }>
+                        <div className="modal-content">
+                            <i className="bi bi-x-circle close-icon" onClick={() => setShowAddCatalogueBox(false)} style={{cursor: "pointer"}} />
+                            <div className="card-header">
+                                Dodaj nowy katalog wdrożeń (np. BHP, Szkolenia produktowe, Osoby kluczowe etc.)
+                            </div>
+                            <div className="card-body">
+                                <PackagesAddNew handleUpdate={ updatePackages } setShowAddCatalogueBox={ setShowAddCatalogueBox } popUpAddPackageError={ popUpAddPackageError } />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="card-body">
-                    <PackagesAddNew handleUpdate = { updatePackages } popUpAddPackageError={ popUpAddPackageError } />
-                </div>
-            </div>
+            }
             <div className="card card-fluid">
                 <div className="card-header">
                     Lista twoich katalogów
@@ -106,6 +116,7 @@ function PackagesListTable({ setPackagesList }) {
                             <thead>
                             <tr>
                                 <th scope="col">Nazwa</th>{/* sortowanie po * */}
+                                <th scope="col"></th>
                                 <th scope="col" style={{width: "25%"}}>Edytowany</th>
                                 <th scope="col" style={{width: "15%"}}>Działanie</th>
                             </tr>

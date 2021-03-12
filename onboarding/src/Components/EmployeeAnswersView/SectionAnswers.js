@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../../static/css/EmployeeAnswersView.css";
 
 /**
  * 
@@ -16,9 +16,9 @@ function SectionAnswers(props){
     } else
         return <div  className="row">Brak odpowiedzi do wyświetlenia</div>;
 
-
-    const answerType = props.sectionType === "osa" ? ["(", ")"] : ["[", "]"];
-    let answers = [], i, j, isChecked, checkSign;
+    const answerType = props.sectionType === "osa" ? "radio" : "checkbox";
+    let answers = [], i, j, isChecked;
+    const hasAnswerTemplate = props.sectionData.some(answ => answ.is_checked === true);
 
     for(i = 0; i < count; i++){
         isChecked = false;
@@ -33,28 +33,25 @@ function SectionAnswers(props){
             }
         }
 
-        if(sectionData[i].is_checked)
-            checkSign = answerType[0] + "x" + answerType[1];
-        else
-            checkSign = answerType[0] + answerType[1];
-
-        if(isChecked)
-            answers.push(<div key={ i } className="row align-items-center" style={{ backgroundColor: "#4D4D6E" }}>
-                    <div className="col-auto">{ checkSign }</div>
-                    <div className="col">{ sectionData[i].title }</div>
-                </div>
-            );
-        else
-            answers.push(<div key={ i } className="row align-items-center">
-                    <div className="col-auto">{ checkSign }</div>
-                    <div className="col">{ sectionData[i].title }</div>
-                </div>
-            );
+        answers.push(
+            <li className="EmployeeAnswersView__li" key={ i }>
+                <label className={`EmployeeAnswersView__label 
+                    ${sectionData[i].is_checked ? "EmployeeAnswersView__label--dot" : ""}
+                    ${hasAnswerTemplate && (isChecked && !sectionData[i].is_checked) ? "EmployeeAnswersView__label--red" : ""}`}>
+                    <input 
+                        className={`EmployeeAnswersView__input EmployeeAnswersView__input--${answerType}`}
+                        type={ answerType }
+                        defaultChecked={ isChecked }
+                        disabled />
+                    <span className="EmployeeAnswersView__answer">{ sectionData[i].title }</span>
+                </label>
+            </li>
+        );
     }
 
 
     return(
-        <>{ answers }</>
+        <ul>{ answers }</ul>
     )
 }
 

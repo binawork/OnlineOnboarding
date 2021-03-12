@@ -11,6 +11,7 @@ import { singleCombo } from "../hooks/Packages";
 import { onDragEnd } from "../utils";
 import ModalWarning from "../ModalWarning";
 import SaveInfo from "../SaveInfo";
+import "../../static/css/FormsEdit.css";
 
 function FormsEditPage() {
   const location = useLocation();
