@@ -289,13 +289,10 @@ class SectionSerializer(serializers.ModelSerializer):
         re-send manually; problem was previously solved in frontend for the user).
         '''
         if Section.objects.filter(title = data['title'],
-                description = data['description'], link = data['link'], owner = self.company).exists():
-            print(self)
+                description = data['description'], link = data['link'],
+                owner = self.context['request'].user.company).exists():
             raise serializers.ValidationError("Dane już istnieją w bazie - duplikat")
         return data
-#dodanie do 'data' pola?
-#owner = self.request.user.company
-#owner = self.company
 
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
