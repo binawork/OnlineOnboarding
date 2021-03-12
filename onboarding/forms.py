@@ -15,22 +15,22 @@ class HrSignUpForm(UserCreationForm):
 
     first_name = forms.CharField(label='Podaj imię',
         help_text='Pole wymagane - podaj swoje imię.',
-        widget=forms.TextInput)
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(label='Podaj nazwisko',
         help_text='Pole wymagane - podaj swoje nazwisko.',
-        widget=forms.TextInput)
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     password1 = forms.CharField(label='Podaj hasło',
         help_text='''Hasło nie może być krósze niż 8 znaków, zbyt łatwe do
         odgadnięcia, ani składać się wyłącznie z cyfr.''',
-        widget=forms.PasswordInput)
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password2 = forms.CharField(label='Powtórz hasło',
         help_text='Hasła muszą być identyczne.',
-        widget=forms.PasswordInput)
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     company_name = forms.CharField(max_length=500, label='Nazwa firmy',
         help_text='Pole wymagane - podaj nazwę firmy, w której pracujesz.',
-        widget=forms.PasswordInput)
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = get_user_model()
