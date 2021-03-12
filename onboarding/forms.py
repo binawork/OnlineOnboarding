@@ -11,10 +11,15 @@ from .models import Company
 class HrSignUpForm(UserCreationForm):
     email = forms.EmailField(
                     max_length=254,
-                    help_text='Required. Inform a valid email address.',
+                    help_text='Pole wymagane - podaj adres email.',
                     widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
-    company_name = forms.CharField(max_length=500)
+    first_name ="x"
+    password1 = forms.CharField(label='Podaj hasło',
+                                widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Powtórz hasło',
+                                widget=forms.PasswordInput)
+    company_name = forms.CharField(max_length=500, label='Nazwa firmy')
 
     class Meta:
         model = get_user_model()
@@ -22,10 +27,15 @@ class HrSignUpForm(UserCreationForm):
                     'email',
                     'first_name',
                     'last_name',
-                    'password1', 
-                    'password2', 
+                    'password1',
+                    'password2',
                     'company_name'
         )
+#         help_texts = {
+#     'password1': "xxx",'password2': "xxxx",
+#     'email': None,
+# }
+
 
     # def get_or_create_company(self, company_name):
     #     company = Company.objects.filter(name=company_name).first()
