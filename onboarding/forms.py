@@ -3,8 +3,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import SetPasswordForm
 from django import forms
 from django.core.exceptions import ValidationError
-
-
 from .models import Company
 
 
@@ -21,7 +19,7 @@ class HrSignUpForm(UserCreationForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     password1 = forms.CharField(label='Podaj hasło',
-        help_text='''Hasło nie może być krósze niż 8 znaków, zbyt łatwe do
+        help_text='''Hasło nie może być krótsze niż 8 znaków, zbyt łatwe do
         odgadnięcia, ani składać się wyłącznie z cyfr.''',
         widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password2 = forms.CharField(label='Powtórz hasło',

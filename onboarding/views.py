@@ -98,9 +98,9 @@ def signup(request):
                             html_message=html_message
             )
             return HttpResponse(
-                'Please confirm your email address to complete the ' +
-                'registration'
+                'Please confirm your email address to complete the registration'
             )
+#return redirect('/<adress of post-reg form>') - add after html template is done
     else:
         signup_form = HrSignUpForm()
     return render(
