@@ -283,15 +283,19 @@ class SectionSerializer(serializers.ModelSerializer):
             'page',
         )
 
-#    def validate(self, data):
+    def validate(self, data):
         '''
         Prevents data in Section from duplicating from backend side (when data is
         re-send manually; problem was previously solved in frontend for the user).
         '''
-        # if data['start'] > data['finish']:
-        #     raise serializers.ValidationError("finish must occur after start")
-        # return data
-
+        if Section.objects.filter(title = data['title'],
+                description = data['description'], link = data['link'], owner = self.company).exists():
+            print(self)
+            raise serializers.ValidationError("Dane już istnieją w bazie - duplikat")
+        return data
+#dodanie do 'data' pola?
+#owner = self.request.user.company
+#owner = self.company
 
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:

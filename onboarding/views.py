@@ -594,6 +594,22 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+# class UpdateName(generics.UpdateAPIView):
+#     queryset = Section.objects.all()
+#     serializer_class = SectionSerializer
+#     permission_classes = (permissions.IsAuthenticated,)
+#
+#     def update(self, request, *args, **kwargs):
+#         instance = self.get_object()
+#         instance.company = self.request.user.company
+#         instance.save()
+#
+#         serializer = self.get_serializer(instance)
+#         serializer.is_valid(raise_exception=True)
+#         self.perform_update(serializer)
+#
+#         return Response(serializer.data)
+
 class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
@@ -601,16 +617,23 @@ class SectionViewSet(viewsets.ModelViewSet):
     ordering_fields = ['release_date']
     permission_classes = [IsAuthenticated]
 
+    def company_name(self):
+        serializer.company = self.request.user.company
+        return serializer.company
+
     def perform_create(self, serializer):
+        print(serializer['context'])
+        serializer.company = self.request.user.company
         if serializer.is_valid():
             serializer.save(owner=self.request.user.company)
-            return Response(status=status.HTTP_200_OK)
+#            return Response(status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST)
+        #wersja pierwotna:
         # serializer.save(owner=self.request.user.company)
         # return Response(status=status.HTTP_200_OK)
-
+    #kod błędu - ten sam jest w bazie
 
     @action(detail=True)
     def list_by_page_hr(self, request, pk):
@@ -636,9 +659,9 @@ class SectionViewSet(viewsets.ModelViewSet):
         :return: sections list by page id
         """
         section = Section.objects.filter(
-                                        page__id=pk,
-                                        owner=self.request.user.company,
-                                        page__package__users=self.request.user,
+            page__id=pk,
+            owner=self.request.user.company,
+            page__package__users=self.request.user,
         )
         serializer = SectionSerializer(section, many=True)
 
