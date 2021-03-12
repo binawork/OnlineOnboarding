@@ -37,7 +37,7 @@ from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializ
 from .permissions import IsHrUser
 from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email, send_remove_acc_email
 from .tokens import account_activation_token
-from .forms import HrSignUpForm, CustomSetPasswordForm
+from .forms import HrSignUpForm, HrSignUpFormEng, CustomSetPasswordForm
 
 
 def index(request):
@@ -70,7 +70,11 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 def signup(request):
     if request.method == 'POST':
-        signup_form = HrSignUpForm(request.POST)
+        request_as_dict = request.__dict__
+        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+            signup_form = HrSignUpForm()
+        else:
+            signup_form = HrSignUpFormEng()
         if signup_form.is_valid():
             user = signup_form.save()
             current_site = get_current_site(request)
@@ -99,9 +103,11 @@ def signup(request):
             )
 #return redirect('/<adress of post-reg form>') - add after html template is done
     else:
-        request_as_dictionary = request.__dict__
-        print(request_as_dictionary['environ']['HTTP_ACCEPT_LANGUAGE'])
-        signup_form = HrSignUpForm()
+        request_as_dict = request.__dict__
+        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+            signup_form = HrSignUpForm()
+        else:
+            signup_form = HrSignUpFormEng()
     return render(
                     request,
                     'bootstrap/auth-signup.html',
