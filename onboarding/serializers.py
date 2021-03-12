@@ -39,6 +39,10 @@ help_text	    A text string that may be used as a description of the field in HT
 initial	        A value that should be used for pre-populating the value of HTML form fields.
 '''
 
+'''
+Some serializers have a hint-comment above what is this serializer for,
+meaning which DB model or what relation. E.g.: #ANSWER, #PACKAGE etc. 
+'''
 
 # Company
 class CompanySerializer(serializers.ModelSerializer):
@@ -294,6 +298,8 @@ class SectionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Dane już istnieją w bazie - duplikat")
         return data
 
+
+#ANSWER
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
@@ -326,7 +332,7 @@ class WhenPackageSendToEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PackagesUsers
         fields = (
-            'package'
+            'package',
             'send_on',
         )
 
@@ -395,3 +401,4 @@ class UserProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = '__all__'
+        # depth = 3

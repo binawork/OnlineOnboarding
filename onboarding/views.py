@@ -399,7 +399,6 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
                     package
                 )
 
-
         serializer = PackageSerializer(package)
         return Response(serializer.data)
 
@@ -702,7 +701,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         """
         :param request:
         :param pk: this is section ID if method is GET or page ID of section it
-        :belongs to if the method is PATCH
+        belongs to if the method is PATCH
         :return: answers list by section id
         """
 
