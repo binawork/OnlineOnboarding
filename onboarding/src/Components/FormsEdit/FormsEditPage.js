@@ -25,7 +25,7 @@ function FormsEditPage() {
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [editMode, setEditMode] = useState(true);
   const [sectionsCopy, setSectionsCopy] = useState([]);
-console.log(sections)
+
   const { data:formData } = fetchFormData(formId);
   const { sections:sortedSections, loading:isLoading, errorMessage:error } = FormsEdit(formId);
 
@@ -70,8 +70,7 @@ console.log(sections)
       const saveTimeout = setTimeout(
         () => {
           if(saveOnDemand !== true) {
-            FormSectionsAPI.saveAll(sections)
-            // FormSectionsAPI.saveAll(sections, updateUnsetAsNew)
+            FormSectionsAPI.saveAll(sections, updateUnsetAsNew)
               .catch((error) => setErrorMessage(error.message))
               .then((result) => {
                 // Shallow copy an Array of Objects
@@ -98,25 +97,22 @@ console.log(sections)
     if(typeof newSections === 'undefined' || newSections === null)
     return;
     
-    // Is newSections2 necessary?
-    // let newSections2 = newSections.map( (section) => {
-    //   if(section.hasOwnProperty('isNew') )
-    //   section.isNew = false;
+    let newSections2 = newSections.map( (section) => {
+      if(section.hasOwnProperty('isNew') )
+      section.isNew = false;
       
-    //   return section;
-    // });
+      return section;
+    });
 
     setSectionsCopy(JSON.parse(JSON.stringify(newSections)));
-    setSections(newSections);
-    // setSections( newSections2.sort((section1, section2) => section1.order - section2.order) );
+    setSections( newSections2.sort((section1, section2) => section1.order - section2.order) );
   }
 
   const handleSave = (e) => {
     e.preventDefault();
     setIsAutosave(false);
     setSaveOnDemand(true);
-    // FormSectionsAPI.saveAll(sections, updateUnsetAsNew)
-    FormSectionsAPI.saveAll(sections)
+    FormSectionsAPI.saveAll(sections, updateUnsetAsNew)
       .catch((error) => setErrorMessage(error.message))
       .then((result) => {
         setShowSaveModal(true);

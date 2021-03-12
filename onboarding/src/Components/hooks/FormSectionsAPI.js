@@ -69,7 +69,7 @@ const FormSectionsAPI = {
       )
     );
 
-    // /*await*/ updateSectionsCallback(sectionsSaveResult);
+    /*await*/ updateSectionsCallback(sectionsSaveResult);
     return sectionsSaveResult;
   },
 };
