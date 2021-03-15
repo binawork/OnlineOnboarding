@@ -31,7 +31,7 @@ class HrSignUpFormEng(UserCreationForm):
 
     company_name = forms.CharField(max_length=500, label='Company name',
         help_text='Please state Company name.',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = get_user_model()
@@ -88,7 +88,7 @@ class HrSignUpForm(UserCreationForm):
 
     company_name = forms.CharField(max_length=500, label='Nazwa firmy',
         help_text='Pole wymagane - podaj nazwę firmy, w której pracujesz.',
-        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = get_user_model()
