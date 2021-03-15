@@ -63,6 +63,10 @@ class HrSignUpFormEng(UserCreationForm):
 class HrSignUpForm(UserCreationForm):
     '''Custom login form displayed when user browser language is polish'''
 
+    error_messages = {
+        'password_mismatch': 'Podane hasła nie są identyczne.',
+    }
+
     email = forms.EmailField(max_length=254, required = True,
         help_text='Pole wymagane - podaj adres email.',
         widget=forms.EmailInput(attrs={'class': 'form-control'}))
