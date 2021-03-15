@@ -98,10 +98,7 @@ def signup(request):
                             [to],
                             html_message=html_message
             )
-            return HttpResponse(
-                'Please confirm your email address to complete the registration'
-            )
-#return redirect('/<adress of post-reg form>') - add after html template is done
+            return render(request, 'registration/register_done.html')
     else:
         request_as_dict = request.__dict__
         if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
