@@ -61,7 +61,7 @@
             <div class="form-label-group">
               {{ field }} {{ field.label_tag }}
 				{% if field.help_text %}
-				  <br /><small style="color: grey">{{ field.help_text }}</small>
+				  <small style="color: grey">{{ field.help_text }}</small>
 				{% endif %}
 				{% for error in field.errors %}
 				  <p style="color: red">{{ error }}</p>
