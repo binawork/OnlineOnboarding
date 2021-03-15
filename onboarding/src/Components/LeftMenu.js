@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import ModeButton from "./ModeButton";
+import "../static/css/LeftMenu.css"
 
 const LeftMenu = ({ packagesList }) => {
   const location = useLocation();
@@ -23,7 +24,7 @@ const LeftMenu = ({ packagesList }) => {
     <aside className="app-aside app-aside-expand-md app-aside-light">
       <div className="aside-content">
         <header className="aside-header d-block d-md-none"></header>
-        <div className="aside-menu overflow-hidden">
+        <div className="aside-menu overflow-auto LeftMenu__overflow">
           <nav id="stacked-menu" className="stacked-menu">
             <ul className="menu pl-3">
               <li className="menu-header px-0">
