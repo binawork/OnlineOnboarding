@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- End Required meta tags -->
+    <!-- Begin SEO tag -->
+    <title>Password reset | Onboarding</title>
+    <meta property="og:title" content="Password reset" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="description" content="Onboarding password reset page" />
+    <meta
+      property="og:description"
+      content="Password reset page - OnlineOnboarding"
+    />
+    <meta property="og:site_name" content="Onboarding: password reset" />
+    <!-- Favicons -->
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="assets/apple-touch-icon.png"
+    />
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+    <meta name="theme-color" content="#3063A0" />
+    <!-- Google font -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet">< ! - - End Google font -->
+    <!-- BEGIN PLUGINS STYLES -->
+    <link
+      rel="stylesheet"
+      href="{% static 'bootstrap/vendor/fontawesome/css/all.css' %}"
+    />
+    <!-- END PLUGINS STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <link
+      rel="stylesheet"
+      href="{% static 'bootstrap/stylesheets/theme.min.css' %}"
+      data-skin="default"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}"
+      data-skin="dark"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'bootstrap/stylesheets/custom.css' %}"
+    />
+    <script>
+      var skin = localStorage.getItem("skin") || "default";
+      var isCompact = JSON.parse(localStorage.getItem("hasCompactMenu"));
+      var disabledSkinStylesheet = document.querySelector(
+        'link[data-skin]:not([data-skin="' + skin + '"])'
+      );
+      // Disable unused skin immediately
+      disabledSkinStylesheet.setAttribute("rel", "");
+      disabledSkinStylesheet.setAttribute("disabled", true);
+      // add flag class to html immediately
+      if (isCompact == true)
+        document.querySelector("html").classList.add("preparing-compact-menu");
+    </script>
+    <!-- END THEME STYLES -->
+  </head>
+  <body>
+    <main class="w-100 h-100 d-flex justify-content-center align-items-center">
+      <div class="card w-auto text-center m-0 bg-white text-secondary container-sm">
+        <div class="card-body">
+          <p class="m-0">
+            Potwierdź swój adres e-mail, aby zakończyć rejestrację.
+          </p>
+          <!-- <p>Please confirm your email address to complete the registration.</p> -->
+        </div>
+      </div>
+    </main>
+    <script src="{% static 'bootstrap/javascript/theme.js' %}"></script>
+  </body>
+</html>
