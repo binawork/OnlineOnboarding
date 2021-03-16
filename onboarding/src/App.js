@@ -21,6 +21,7 @@ import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
 function App() {
   const [editLoggedUser, setEditLoggedUser] =useState(0);
   const loggedUser = LoggedUser(editLoggedUser);
+  const [showAside, setToggleAside] = useState(false);
   const [packagesList, setPackagesList] = useState([]); //[{id: number, title: string}]
 
   useEffect(() => {
@@ -45,9 +46,9 @@ function App() {
     <HashRouter>
       <div className="app">
         <header className="app-header app-header-dark">
-          <Navbar loggedUser={ loggedUser } />
+          <Navbar loggedUser={ loggedUser } showAside={ showAside } setToggleAside={ setToggleAside } />
         </header>
-        <LeftMenu packagesList={ packagesList } />
+        <LeftMenu packagesList={ packagesList } showAside={ showAside } setToggleAside={ setToggleAside } />
         <main className="app-main">
           <div className="wrapper">
             <div className="page container-xl">

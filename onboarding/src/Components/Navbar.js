@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 
-function Navbar({ loggedUser }) {
+function Navbar({ loggedUser, showAside, setToggleAside }) {
     const [dropDownList, setDropDownList] = useState("none");
     if(typeof loggedUser.avatar !== "string" ||
         (typeof loggedUser.avatar === "string" && loggedUser.avatar.length < 2) ){
@@ -25,10 +25,11 @@ function Navbar({ loggedUser }) {
             <div className="top-bar-brand pr-5" style={{height: "auto"}}>
                 <Link to="/" className="navbar-brand">Online Onboarding</Link>
             </div>
-
+            <div className="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
+                <button className={`hamburger hamburger-squeeze ${showAside ? "active" : ""}`} type="button" data-toggle="aside" aria-label="toggle menu" onClick={() => setToggleAside(!showAside)}><span className="hamburger-box"><span className="hamburger-inner"></span></span></button>
+            </div>
             <div className="pl-3 d-flex justify-content-center w-100">
             </div>
-            
             <div className="top-bar-item px-0">
                 <div className="dropdown d-flex">
                     <div className="form-inline my-2 my-lg-0">
@@ -46,7 +47,6 @@ function Navbar({ loggedUser }) {
                                 </span>
                             </span>
                         </button>
-
                         <div className="dropdown-menu" id="userDropDown" style={{ display: dropDownList }}>
                             <div className="dropdown-arrow ml-3"></div>
                             {/*<h6 className="dropdown-header d-none d-md-block d-lg-none">  user username</h6>
