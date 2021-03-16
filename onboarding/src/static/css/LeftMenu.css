@@ -13,5 +13,5 @@
 }
 .LeftMenu__overflow {
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary) none;
+  scrollbar-color: var(--secondary) var(--light);
 }
