@@ -36,7 +36,16 @@ function EmployeeAnswersViewPage(props){
                     onClick={ () => setKey(!key) }
                 >Legenda</button>
             </div>
-            { key && <AnswersKey /> }
+            { key && 
+                <section className="card card-fluid p-3 AnswersKey">
+                    <div className="card-body">
+                        <header>
+                            <p className="text-uppercase text-center">Legenda</p>
+                        </header>
+                        <AnswersKey />
+                    </div>
+                </section>
+            }
             <PageCard page={ props.page } />
             <EmployeeAnswers pageId={ props.page.id } employeeId={ employeeId }/>
         </div>

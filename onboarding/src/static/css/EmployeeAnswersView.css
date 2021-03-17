@@ -48,7 +48,9 @@
 }
 .AnswersKey--fixed {
   position: fixed;
+  /* Height of navbar: 56px */
   top: 56px;
+  /* Width of left menu: 239px */
   left: 239px;
   width: calc(100% - 239px);
   height: calc(100% - 56px);
@@ -94,7 +96,11 @@
   .AnswersKey--fixed {
     left: 0;
     width: 100%;
-
+  }
+}
+@media(max-height: 880px) {
+  .AnswersKey__example-form {
+    display: none;
   }
 }
 @media(max-width: 360px) {
