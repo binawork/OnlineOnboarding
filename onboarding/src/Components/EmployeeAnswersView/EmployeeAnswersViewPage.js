@@ -1,8 +1,6 @@
-import React from "react";
-// import { useLocation } from "react-router-dom";
-// import PageAddressBar from "../PageAddressBar";
+import React, { useState } from "react";
+import AnswersKey from "./AnswersKey";
 import EmployeeAnswers from "./EmployeeAnswers";
-// import EmployeeProfileUser from "../EmployeeProfile/EmployeeProfileUser";
 import PageCard from "./PageCard";
 // import "../../static/css/style.css";
 
@@ -20,34 +18,28 @@ const buttonBackStyle = {
  */
 function EmployeeAnswersViewPage(props){
     document.title = "Onboarding: odpowiedzi pracownika";
-    // const location = useLocation();
+    const [key, setKey] = useState(false);
     const employeeId = props.employeeId;
-    // let employeeComponent = <></>, pageComponent = <></>;
-
-    // if(location.state){
-        // if(location.state.employeeId){
-            // employeeComponent = <EmployeeProfileUser employeeId={ location.state.employeeId } />;
-            // employeeId = ;
-        // }
-        // if(location.state.page){
-            // pageComponent = <PageCard page={ props.page } />
-        // }
-    // };
 
     return(
-        // <div className="page-inner">
-            // <PageAddressBar page = { "Podgląd odpowiedzi pracownika" } />
-            <div>
-                <button className="btn btn-outline-warning button-back mb-3" style={ buttonBackStyle } onClick={ props.goBackToMainProfilePage }>
+        <div>
+            <div className="d-flex justify-content-between mb-3">
+                <button 
+                    className="btn btn-outline-warning button-back" 
+                    style={ buttonBackStyle } 
+                    onClick={ props.goBackToMainProfilePage }
+                >
                     <i className="bi bi-arrow-left-circle back-icon"></i>&nbsp;Wstecz
                 </button>
-            {/* <div className="page-section"> */}
-                {/* { employeeComponent } */}
-                {/* { pageComponent } */}
-                <PageCard page={ props.page } />
-                <EmployeeAnswers pageId={ props.page.id } employeeId={ employeeId }/>
+                <button 
+                    className="btn btn-outline-warning" 
+                    onClick={ () => setKey(!key) }
+                >Legenda</button>
             </div>
-        // </div>
+            { key && <AnswersKey /> }
+            <PageCard page={ props.page } />
+            <EmployeeAnswers pageId={ props.page.id } employeeId={ employeeId }/>
+        </div>
     )
 }
 
