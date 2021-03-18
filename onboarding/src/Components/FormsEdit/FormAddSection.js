@@ -106,12 +106,12 @@ function FormAddSection({
                 <p className="text-center">Przesuwając suwak w prawo w szablonie odpowiedzi zaznaczasz prawidłowe odpowiedzi. Dzięki temu szybciej ocenisz feedback.</p>
                 <div className="d-flex flex-column align-items-center mb-3">
                   <label className="switcher-control switcher-control-success mb-2">
-                    <span type="checkbox" className="switcher-input" checked="false" />
-                    <span className="switcher-indicator border border-white"></span>
+                    <span type="checkbox" className="switcher-input" />
+                    <span className="switcher-indicator border border-white" style={{ cursor: "auto" }}></span>
                   </label>
                   <label className="switcher-control switcher-control-success">
                     <input type="checkbox" className="switcher-input" checked />
-                    <span className="switcher-indicator"></span>
+                    <span className="switcher-indicator" style={{ cursor: "auto" }}></span>
                   </label>
                 </div>
               </header>
