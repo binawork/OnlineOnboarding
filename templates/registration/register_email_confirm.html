@@ -7,15 +7,15 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Password reset | Onboarding</title>
-    <meta property="og:title" content="Registration done" />
+    <title>Registration confirmed | Onboarding</title>
+    <meta property="og:title" content="Registration confirmed" />
     <meta property="og:locale" content="en_US" />
-    <meta name="description" content="Onboarding registration done page" />
+    <meta name="description" content="Onboarding registration confirmed page" />
     <meta
       property="og:description"
-      content="Registration done page - OnlineOnboarding"
+      content="Registration confirmed page - OnlineOnboarding"
     />
-    <meta property="og:site_name" content="Onboarding: registration done" />
+    <meta property="og:site_name" content="Onboarding: registration confirmed" />
     <meta name="theme-color" content="#3063A0" />
     <!-- Google font -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet">< ! - - End Google font -->
@@ -59,13 +59,20 @@
     <main class="w-100 h-100 d-flex justify-content-center align-items-center">
       <div class="card w-auto text-center m-0 bg-white text-secondary container-sm">
         <div class="card-body h6 font-weight-normal">
+          {% if validlink %}
           <p>
-            Dziękujemy, że do nas dołączyłeś.
+            Dziękujemy za potwierdzenie e-maila.
+            <!-- Thank you for your email confirmation. Now you can login your account. -->
           </p>
           <p class="m-0">
-            Potwierdź swój adres e-mail, aby zakończyć rejestrację.
+            Teraz możesz <a href="{% url 'login' %}?next=/manage/">zalogować się</a> na swoje konto.
           </p>
-          <!-- <p>Please confirm your email address to complete the registration.</p> -->
+          {% else %}
+          <p>
+            Link aktywacyjny jest nieprawidłowy!
+            <!-- Activation link is invalid! -->
+          </p>
+          {% endif %}
         </div>
       </div>
     </main>
