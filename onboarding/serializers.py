@@ -41,7 +41,7 @@ initial	        A value that should be used for pre-populating the value of HTML
 
 '''
 Some serializers have a hint-comment above what is this serializer for,
-meaning which DB model or what relation. E.g.: #ANSWER, #PACKAGE etc. 
+meaning which DB model or what relation. E.g.: #ANSWER, #PACKAGE etc.
 '''
 
 # Company
@@ -293,7 +293,7 @@ class SectionSerializer(serializers.ModelSerializer):
         re-send manually; problem was previously solved in frontend for the user).
         '''
         if Section.objects.filter(title = data['title'],
-                description = data['description'], link = data['link'],
+                description = data['description'],
                 owner = self.context['request'].user.company).exists():
             raise serializers.ValidationError("Dane już istnieją w bazie - duplikat")
         return data
