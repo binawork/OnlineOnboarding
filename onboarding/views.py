@@ -694,16 +694,36 @@ class AnswerViewSet(viewsets.ModelViewSet):
         serializer = AnswersProgressStatusSerializer(answers, many=True)
 
         if request.method == 'PATCH':
-            page_name = Page.objects.get(id=pk)
-            hr_email = []
-            hr_users_list = User.objects.filter(company = self.request.user.company,
-                is_hr = True)
-            for hr_user in hr_users_list:
-                hr_email.append(hr_user.email)
-            answer_send_notification_email(EMAIL_HOST_USER, hr_email,
-                self.request.user.email, page_name.title)
+            '''
+            Mail notification - sends an email to hr user after the employee
+            completes an assigment.
+            '''
+            page_id = Page.objects.get(id=pk)
+            package_id = Package.objects.get(id=page_id.package_id)
+            packageusers = PackagesUsers.objects.extra(where=[
+            "id='{}'".format(package_id.owner_id)])
+            print(packageusers.query)
+            for p in packageusers:
+                print(p.user_id)
+#            packagesusers_id = PackagesUsers.objects.get(id=package_id.owner_id)
 
-        return Response(serializer.data)
+            # hr_user=User.objects.get(id=packagesusers_id.user_id, is_hr=True)
+            # hr_email = hr_user.email
+            # print(hr_email)
+
+#Version which is sending an email to all HR users in the company;
+#Beware! It need tuning (ValueError: Invalid address - email adress is a list,
+#at least for a single user).
+            # page_name = Page.objects.get(id=pk)
+            # hr_email = []
+            # hr_users_list = User.objects.filter(company = self.request.user.company,
+            #     is_hr = True)
+            # for hr_user in hr_users_list:
+            #     hr_email.append(hr_user.email)
+            # answer_send_notification_email(EMAIL_HOST_USER, hr_email,
+            #     self.request.user.email, page_name.title)
+
+            return Response(serializer.data)
 
 
 class UserProgressOnPageView(generics.ListAPIView):
