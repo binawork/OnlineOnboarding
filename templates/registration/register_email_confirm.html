@@ -59,7 +59,6 @@
     <main class="w-100 h-100 d-flex justify-content-center align-items-center">
       <div class="card w-auto text-center m-0 bg-white text-secondary container-sm">
         <div class="card-body h6 font-weight-normal">
-          {% if validlink %}
           <p>
             Dziękujemy za potwierdzenie e-maila.
             <!-- Thank you for your email confirmation. Now you can login your account. -->
@@ -67,12 +66,6 @@
           <p class="m-0">
             Teraz możesz <a href="{% url 'login' %}?next=/manage/">zalogować się</a> na swoje konto.
           </p>
-          {% else %}
-          <p>
-            Link aktywacyjny jest nieprawidłowy!
-            <!-- Activation link is invalid! -->
-          </p>
-          {% endif %}
         </div>
       </div>
     </main>
