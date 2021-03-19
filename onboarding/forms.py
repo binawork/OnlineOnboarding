@@ -10,13 +10,13 @@ class HrSignUpFormEng(UserCreationForm):
     '''Custom login form displayed when user browser language is not polish'''
 
     email = forms.EmailField(max_length=254, required = True,
-        help_text='Required. Inform a valid email address.',
+        help_text='Required. Please enter a valid email address.',
         widget=forms.EmailInput(attrs={'class': 'form-control'}))
 
     first_name = forms.CharField(max_length=50, required = True,
-        help_text='Please enter first name.',
+        help_text='Please enter your first name.',
         widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(help_text='Please enter last name.',
+    last_name = forms.CharField(help_text='Please enter your last name.',
         widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     password1 = forms.CharField(max_length=50,  label='Password',
@@ -68,14 +68,14 @@ class HrSignUpForm(UserCreationForm):
     }
 
     email = forms.EmailField(max_length=254, required = True,
-        help_text='Pole wymagane - podaj adres email.',
+        help_text='Pole wymagane.',
         widget=forms.EmailInput(attrs={'class': 'form-control'}))
 
     first_name = forms.CharField(max_length=50, required = True,
-        label='Podaj imię', help_text='Pole wymagane - podaj swoje imię.',
+        label='Podaj imię', help_text='Pole wymagane.',
         widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(max_length=50, label='Podaj nazwisko',
-        help_text='Pole wymagane - podaj swoje nazwisko.',
+        help_text='Pole wymagane.',
         widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     password1 = forms.CharField(max_length=50, required = True,
@@ -87,7 +87,7 @@ class HrSignUpForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     company_name = forms.CharField(max_length=500, label='Nazwa firmy',
-        help_text='Pole wymagane - podaj nazwę firmy, w której pracujesz.',
+        help_text='Pole wymagane.',
         widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
