@@ -586,11 +586,14 @@ class SectionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        if serializer.is_valid():
-            serializer.save(owner=self.request.user.company)
-        else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+        serializer.save(owner=self.request.user.company)
+#TBD: double check if 'sections' are not duplicating (see: serializers.py,
+#SectionSerializer, validate())
+        # if serializer.is_valid():
+        #     serializer.save(owner=self.request.user.company)
+        # else:
+        #     return Response(serializer.errors,
+        #                     status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True)
     def list_by_page_hr(self, request, pk):
