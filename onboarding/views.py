@@ -374,7 +374,6 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         # serializer = PackageAddUsersSerializer
 
         for user in users:
-
             # check if the hr_user is from the same company as the package (form)
             # to which he /she wants to add a new user
             if hr_user.company_id == pkg_company.id:
@@ -393,6 +392,8 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
                 e4 = e2 + e3
                 raise ValueError(e4)
 
+        users |= User.objects.filter(id=hr_user.id)
+        for user in users:
             if user not in package.users.all():
                 package.users.add(user)
                 send_add_user_to_package_email(
