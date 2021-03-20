@@ -374,15 +374,24 @@ class AddUserToPackageViewSet(viewsets.ModelViewSet):
                 e4 = e2 + e3
                 raise ValueError(e4)
 
+        hr_user_qs = User.objects.filter(id=hr_user.id)
+        users |= hr_user_qs
+        # for p in package.users.all():
+        #     print(p.email)
+        for user in users:
+            print(user.email)
+#        print(hr_user.id)
+        for user in users:
             if user not in package.users.all():
                 package.users.add(user)
-                send_add_user_to_package_email(
-                    EMAIL_HOST_USER,
-                    user,
-                    package
-                )
+                # send_add_user_to_package_email(
+                #     EMAIL_HOST_USER,
+                #     user,
+                #     package
+                # )
 
         serializer = PackageSerializer(package)
+        print(serializer.data['users'])
         return Response(serializer.data)
 
 
@@ -700,17 +709,18 @@ class AnswerViewSet(viewsets.ModelViewSet):
             '''
             page_id = Page.objects.get(id=pk)
             package_id = Package.objects.get(id=page_id.package_id)
-            packageusers = PackagesUsers.objects.extra(where=[
-            "id='{}'".format(package_id.owner_id)])
-            print(packageusers.query)
-            for p in packageusers:
-                print(p.user_id)
+            packagesusers = PackagesUsers.objects.extra(where=[
+            "package_id='{}'".format(package_id.id)])
+            for p in packagesusers:
+#                print(p.user.email)
+                if p.user.is_hr is True:
+                    hr_user = p.user
 #            packagesusers_id = PackagesUsers.objects.get(id=package_id.owner_id)
-
-            # hr_user=User.objects.get(id=packagesusers_id.user_id, is_hr=True)
+            #
+#            hr_user=User.objects.get(id=packagesusers.user_id, is_hr=True)
             # hr_email = hr_user.email
-            # print(hr_email)
-
+            print(hr_user.email)
+            print(self.request.user.email)
 #Version which is sending an email to all HR users in the company;
 #Beware! It need tuning (ValueError: Invalid address - email adress is a list,
 #at least for a single user).
