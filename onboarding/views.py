@@ -711,7 +711,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
                     hr_user = p.user
             page_name = Page.objects.get(id=pk)
             answer_send_notification_email(EMAIL_HOST_USER, hr_user.email,
-                self.request.user.email, page_name.title)
+                self.request.user.email, page_name.title, hr_user)
 
 
 #Version which is sending an email to all HR users in the company;
