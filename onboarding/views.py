@@ -392,15 +392,18 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
                 e4 = e2 + e3
                 raise ValueError(e4)
 
+#mail notification has to be rewrited: it's bugged in here and in 'dev' branch
+        # for user in users:
+        #     send_add_user_to_package_email(
+        #         EMAIL_HOST_USER,
+        #         user,
+        #         package
+        #     )
+
         users |= User.objects.filter(id=hr_user.id)
         for user in users:
             if user not in package.users.all():
                 package.users.add(user)
-                send_add_user_to_package_email(
-                    EMAIL_HOST_USER,
-                    user,
-                    package
-                )
 
         serializer = PackageSerializer(package)
         return Response(serializer.data)
