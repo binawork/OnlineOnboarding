@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 
 function PageAddressBar({ page, previousPages=[] }) {
     return(
-        <header className="page-title-bar">
+        <header className="page-title-bar p-0">
             <div className="card card-fluid">
                 <div className="card-body">
-                    <h4 className="card-title">  </h4>
-                    <hr />
-                    <ol className="breadcrumb">
+                    <ol className="breadcrumb m-0">
                         <li className="breadcrumb-item">
                             <Link exact="true" to="/">DASHBOARD</Link>
                         </li>
