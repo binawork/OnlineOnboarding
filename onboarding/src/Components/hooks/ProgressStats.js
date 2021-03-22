@@ -140,7 +140,7 @@ function revertProgressOfUsers(progressAnswersListAll, usersWithPackagesObject){
 		count = count/usersWithPackagesObject[userId].pagesCount;
 		if(count > 1.0)
 			count = 1.0;
-		usersWithPackagesObject[userId].percentage = Number((count*100.0).toFixed(3));
+		usersWithPackagesObject[userId].percentage = Number((count*100.0).toFixed(2));
 	});
 	//console.log(usersWithPackagesObject);
 	return usersWithPackagesObject;
