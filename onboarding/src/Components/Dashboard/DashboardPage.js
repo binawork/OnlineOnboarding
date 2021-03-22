@@ -4,7 +4,7 @@ import { getPath, validateURL } from "../utils.js";
 import { v4 as uuidv4 } from "uuid";
 import PageAddressBar from "../PageAddressBar";
 import Employee from "./Employee";
-import { usersWithPackages } from "../hooks/Packages";
+import { usersWithPackages } from "../hooks/ProgressStats";
 
 function DashboardPage({ loggedUserId }) {
   const usersForPackages = usersWithPackages({count: 0});

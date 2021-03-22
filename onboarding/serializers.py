@@ -249,6 +249,21 @@ class PageSerializer(serializers.ModelSerializer):
         }
 
 
+class PageLimitedSerializer(serializers.ModelSerializer):
+    class Meta:
+        ordering = ['-order']
+        model = Page
+        fields = (
+            'id',
+            'order',
+            'owner',  # company
+            'package',
+        )
+        extra_kwargs = {
+            'package': {'required': False},
+        }
+
+
 # PACKAGE with PAGEs
 class PackagePagesSerializer(serializers.ModelSerializer):
     page_set = PageSerializer(many=True)
@@ -264,6 +279,19 @@ class PackagePagesSerializer(serializers.ModelSerializer):
             'updated_on',
             'users',
             'page_set'
+        )
+
+
+class PackagePagesForUsersSerializer(serializers.ModelSerializer):
+    pages = PageLimitedSerializer(source='page_set', many=True)
+
+    class Meta:
+        ordering = ['-updated_on']
+        model = Package
+        fields = (
+            'id',
+            'users',
+            'pages'
         )
 
 
@@ -386,6 +414,43 @@ class UserProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = '__all__'
+        # depth = 3
+#
+
+
+# Same as above but limited/less fields
+class SectionProgressLimitedSerializer(serializers.ModelSerializer):
+    # page = PageSerializer()
+    package_id = serializers.SerializerMethodField()
+    # company_id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Section
+        fields = (
+            'id',
+            'page',
+            # 'company_id',
+            'package_id'
+        )
+
+    def get_package_id(self, obj):
+        return obj.page.package_id
+    # def get_company_id(self, obj):
+    #     return obj.owner_id
+
+
+class UserProgressLimitedSerializer(serializers.ModelSerializer):
+    section = SectionProgressLimitedSerializer()
+
+    class Meta:
+        model = Answer
+        fields = (
+            'id',
+            'owner',
+            'section',
+            'confirmed',
+            'finished'
+        )
         # depth = 3
 #
 
