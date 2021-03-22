@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AnswersKey from "./AnswersKey";
+import AnswersLegend from "./AnswersLegend";
 import EmployeeAnswers from "./EmployeeAnswers";
 import PageCard from "./PageCard";
 // import "../../static/css/style.css";
@@ -18,7 +18,7 @@ const buttonBackStyle = {
  */
 function EmployeeAnswersViewPage(props){
     document.title = "Onboarding: odpowiedzi pracownika";
-    const [key, setKey] = useState(false);
+    const [showLegend, setShowLegend] = useState(false);
     const employeeId = props.employeeId;
 
     return(
@@ -33,16 +33,16 @@ function EmployeeAnswersViewPage(props){
                 </button>
                 <button 
                     className="btn btn-outline-warning" 
-                    onClick={ () => setKey(!key) }
+                    onClick={ () => setShowLegend(!showLegend) }
                 >Legenda</button>
             </div>
-            { key && 
-                <section className="card card-fluid p-3 AnswersKey">
+            { showLegend && 
+                <section className="card card-fluid p-3 AnswersLegend">
                     <div className="card-body">
                         <header>
                             <p className="text-uppercase text-center">Legenda</p>
                         </header>
-                        <AnswersKey />
+                        <AnswersLegend />
                     </div>
                 </section>
             }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import uuid from "uuid";
-import AnswersKey from "../EmployeeAnswersView/AnswersKey";
+import AnswersLegend from "../EmployeeAnswersView/AnswersLegend";
 
 function FormAddSection({
   setSections,
@@ -11,7 +11,7 @@ function FormAddSection({
   setEditMode,
   editMode
 }) {
-  const [key, setKey] = useState(false);
+  const [showLegend, setShowLegend] = useState(false);
 
   const handleAddSection = (e, sectionType) => {
     e.preventDefault();
@@ -93,13 +93,13 @@ function FormAddSection({
             }
           </button>
         </div>
-        <button type="button" className="btn btn-success" onClick={() => setKey(!key)}>
+        <button type="button" className="btn btn-success" onClick={() => setShowLegend(!showLegend)}>
           Legenda
         </button>
       </div>
-      { key && 
-        <div className="AnswersKey--fixed d-flex justify-content-center align-items-center" onClick={() => setKey(!key)}>
-          <section className="card card-fluid p-3 AnswersKey">
+      { showLegend && 
+        <div className="AnswersLegend--fixed d-flex justify-content-center align-items-center" onClick={() => setShowLegend(!showLegend)}>
+          <section className="card card-fluid p-3 AnswersLegend">
             <div className="card-body">
               <header>
                 <p className="text-uppercase text-center">Legenda</p>
@@ -115,10 +115,10 @@ function FormAddSection({
                   </label>
                 </div>
               </header>
-              <div className="AnswersKey__example-form">
+              <div className="AnswersLegend__example-form">
                 <p className="mb-1">Przykładowy formularz odpowiedzi:</p>
                 <div className="border border-white p-3">
-                  <AnswersKey />
+                  <AnswersLegend />
                 </div>
               </div>
             </div>
