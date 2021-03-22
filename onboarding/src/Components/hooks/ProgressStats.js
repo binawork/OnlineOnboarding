@@ -172,7 +172,7 @@ function ProgressStats({ count }){
 				(error) => {
 					console.log(error);
 					isFullyFinished(true);
-					setUsersPackages({err0: err.message});
+					setUsersPackages({err0: error.message});
 				}
 			).catch(err => {
 				isFullyFinished(true);
@@ -272,7 +272,7 @@ export function joinProgressToUsers(users, usersWithPackagesObject){
  * @param usersPackages - [{id: 1, users: [...ids], pages: [{id: 1, order: 1, owner: 2, package: 2}, ...] }, ...];
  *  where id is a package id;
  * @returns {{usersPackages: {}, packages: {}}}
- */
+ * /
 function revertUsersWithPackages(usersPackages){
 	let users = {}, packagesCount = {};
 	if(!Array.isArray(usersPackages) || usersPackages.length < 1)
@@ -321,7 +321,7 @@ export function usersWithPackagesCount(){
 	});
 
 	return abortCont.abort;
-}
+}*/
 
 
 /*
