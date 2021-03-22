@@ -164,7 +164,8 @@ class Section(models.Model):
     owner = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
     order = models.IntegerField()
     title = models.CharField(max_length=200)
-    description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)
+    description = models.TextField(max_length=1500, help_text='Enter a brief description',
+        null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     TYPES = [
         ('msa', 'Multi select answer'),
