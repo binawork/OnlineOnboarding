@@ -18,7 +18,7 @@ const CompanyInfoLogo = ({ logo, companyName, setLogo, setImageFile }) => {
 
   return (
     <div className="media mb-4 d-flex align-items-center">
-      <div className="user-avatar user-avatar-xl fileinput-button mr-5">
+      <div className="CompanyInfo__logo user-avatar user-avatar-xl fileinput-button">
         <div className="fileinput-button-label"> Zmień logo </div>
         {logo ? <img alt="logo" src={logo} /> : <></>}
         <div
