@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import parse from 'html-react-parser';
 import MarkdownArea from "../MarkdownArea";
 import { deleteQnA } from "../hooks/QnAAPI";
-import "../../static/css/QnA.css";
 
 function QnA({
   id,
@@ -98,9 +97,8 @@ function QnA({
   return !editMode ? (
     preview
   ) : (
-    <div className="task-issue" {...draggableProps} ref={innerRef}>
-      { order === 1 ? <></> : <hr /> }
-      <div className="card d-flex p-2">
+    <div className="task-issue mb-3" {...draggableProps} ref={innerRef}>
+      <div className="card card-fluid d-flex p-2">
         <div className="p-1 d-flex justify-content-center" {...dragHandleProps}>
           <span
             className="drag-indicator"
@@ -126,13 +124,14 @@ function QnA({
         <div className="d-flex justify-content-end">
           <div className="p-1">
             <button className="btn" onClick={handleCopyQA}>
-              <i className="fa fa-files-o fa-md">&#61637;</i> Duplikuj
+              <i className="QnA__card-icon fa fa-files-o fa-md">&#61637;</i>
+              <span className="QnA__card-action">Duplikuj</span>
             </button>
           </div>
           <div className="p-1">
-            <button className="btn text-danger mr-1" onClick={handleDeleteQnA}>
-              <i className="fa fa-trash-o fa-md mr-1">&#61944;</i>
-              Usuń
+            <button className="btn text-danger" onClick={handleDeleteQnA}>
+              <i className="QnA__card-icon fa fa-trash-o fa-md">&#61944;</i>
+              <span className="QnA__card-action">Usuń</span>
             </button>
           </div>
         </div>

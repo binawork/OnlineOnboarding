@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import ModeButton from "./ModeButton";
-import "../static/css/LeftMenu.css"
+import "../static/css/LeftMenu.scss"
 
 const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   const location = useLocation();

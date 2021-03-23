@@ -10,16 +10,16 @@
   color: inherit;
   background: none;
   border: none;
-}
-.caret-icon:focus {
-  outline: none;
-}
-.caret-icon > svg {
-  transition: all .1s linear;
-}
-.caret-rotate > svg {
-  transform: rotate(90deg);
-  transition: transform .1s linear;
+  &:focus {
+    outline: none;
+  }
+  & > svg {
+    transition: all .1s linear;
+  }
+  &--rotate > svg {
+    transform: rotate(90deg);
+    transition: transform .1s linear;
+  }
 }
 
 .close-icon {

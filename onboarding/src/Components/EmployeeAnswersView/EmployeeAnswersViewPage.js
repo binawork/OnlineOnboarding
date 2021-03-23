@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AnswersLegend from "./AnswersLegend";
 import EmployeeAnswers from "./EmployeeAnswers";
 import PageCard from "./PageCard";
-// import "../../static/css/style.css";
+import "../../static/css/EmployeeAnswersView.scss";
 
 const buttonBackStyle = {
     display: "flex",

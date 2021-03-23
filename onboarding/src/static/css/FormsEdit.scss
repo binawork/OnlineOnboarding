@@ -7,21 +7,25 @@ thead .FormsEdit__th {
   padding-bottom: 2px;
   text-align: center;
 }
-tbody .FormsEdit__tr {
-  vertical-align: middle;
-}
-tbody .FormsEdit__tr--middle {
-  vertical-align: middle;
-  text-align: center;
-}
-tbody .FormsEdit__td {
-  vertical-align: middle;
-}
-tbody .FormsEdit__td--middle {
-  vertical-align: middle;
-  text-align: center;
-  width: 104px;
-}
+tbody {
+  & .FormsEdit {
+    &__tr {
+      vertical-align: middle;
+      &--middle {
+        vertical-align: middle;
+        text-align: center;
+      }
+    }
+    &__td {
+      vertical-align: middle;
+      &--middle {
+        vertical-align: middle;
+        text-align: center;
+        width: 104px;
+      }
+    }
+  }
+} 
 
 /* Change default switcher's styles */
 /* .FormsEdit__switcher-indicator::before {
