@@ -23,6 +23,20 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
+        test: /\.s[ac]ss$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              // Prefer `dart-sass`
+              implementation: require("sass"),
+            },
+          },
+        ],
+      },
+      {
         test: /\.(woff(2)?|ttf|eot|svg|png)(\?v=\d+\.\d+\.\d+)?$/,
         use: {
           loader: 'url-loader',
