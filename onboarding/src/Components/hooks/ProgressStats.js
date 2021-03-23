@@ -25,9 +25,11 @@ function packageUsersPagesToUsersListObject(packagesWithUsersAndPages){
 			return;
 
 		count = packageUsersAndPages.users.length;
-		let i, userId, hasPages = false;
+		let i, userId, hasPages = false, packageId;
 		if( packageUsersAndPages.hasOwnProperty("pages") && Array.isArray(packageUsersAndPages.pages) )
 			hasPages = true;
+
+		packageId = parseInt(packageUsersAndPages.id, 10);
 
 		for(i = count - 1; i >= 0; i--){
 			userId = parseInt(packageUsersAndPages.users[i], 10);
@@ -36,12 +38,12 @@ function packageUsersPagesToUsersListObject(packagesWithUsersAndPages){
 				usersObject[userId] = {packageIds: [], progress: 0, pagesStarted: 0, pagesFinished: 0, pagesCount: 0, percentage: 0, pages: {}};
 				usersObject[userId].packageIds = new Set();
 			}
-			usersObject[userId].packageIds.add(packageUsersAndPages.id);
+			usersObject[userId].packageIds.add(packageId);
 
 			// if the element in result has a set of pages -
-			//  - add it to pages with packgeId as key and include flags: started and finished;
+			//  - add it to pages with packageId as key and include flags: started and finished;
 			if(hasPages)
-				usersObject[userId].pages[packageUsersAndPages.id] = packageUsersAndPages.pages.map(function(page){
+				usersObject[userId].pages[packageId] = packageUsersAndPages.pages.map(function(page){
 					let newPage = {...page, started: false, finished: false};
 					//page.started = page.finished = false;
 					return newPage;
@@ -123,8 +125,9 @@ function revertProgressOfUsers(progressAnswersListAll, usersWithPackagesObject){
 					totalFinished++;
 			});
 
+			count = pages[packageId].length;
 			// if all pages for packageId has finished = true -> usersWithPackagesObject[userId].progress++;
-			if(pages[packageId].length <= totalFinished - prevFinished){// pages[packageId].length < totalFinished-prevFinished  should never happen, but just in case;
+			if(count <= totalFinished - prevFinished && count > 0){// pages[packageId].length < totalFinished-prevFinished  should never happen, but just in case;
 				usersWithPackagesObject[userId].progress = usersWithPackagesObject[userId].progress + 1;
 			}
 		});

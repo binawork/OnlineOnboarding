@@ -15,7 +15,7 @@ const Employee = ({ employee }) => {
     progress = "0 / 0";
 
   if(employee.hasOwnProperty("percentage") )// using  employee.percentage  would be false when employee.percentage = 0;
-    percentage = "(" + employee.percentage + "%)";
+    percentage = "(" + employee.percentage + "%  formularzy)";
 
     return (
     <div className="card mb-2">
