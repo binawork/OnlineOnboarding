@@ -299,6 +299,8 @@ function assignPackageToUsers(usersPackages, packageObject){
 
 /**
  * Get list of users and their packages;
+ *  usersForPackages[.].packageIds.length  is the number of packages
+ * which were  sent  to employee usersForPackages[.].userId;
  */
 export function usersWithPackages(props){
 	const [usersForPackages, setUsersForPackages] = useState([]);
