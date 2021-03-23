@@ -270,63 +270,6 @@ export function joinProgressToUsers(users, usersWithPackagesObject){
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-/**
- *
- * @param usersPackages - [{id: 1, users: [...ids], pages: [{id: 1, order: 1, owner: 2, package: 2}, ...] }, ...];
- *  where id is a package id;
- * @returns {{usersPackages: {}, packages: {}}}
- * /
-function revertUsersWithPackages(usersPackages){
-	let users = {}, packagesCount = {};
-	if(!Array.isArray(usersPackages) || usersPackages.length < 1)
-		return {usersPackages: users, packages: packagesCount};
-
-	usersPackages.forEach(function(userPackage){
-		let packageId = parseInt(userPackage.id, 10), i, userId;
-
-		for(i = userPackage.users.length - 1; i >= 0; i--){
-			userId = parseInt(userPackage.users[i], 10);
-			if( !users.hasOwnProperty(userId) ){
-				users[userId] = [];
-			}
-			users[userId].push(packageId);
-		}
-
-		packagesCount[packageId] = 0;
-		if(userPackage.pages)
-			packagesCount[packageId] = userPackage.pages.length;
-	});
-
-	return {usersPackages: users, packages: packagesCount};
-}
-
-export function usersWithPackagesCount(){
-	let url = getPath(),
-		fetchProps = {
-			method: "GET", headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-				"X-CSRFToken": "",
-			}
-		};
-
-	let abortCont = new AbortController();
-	fetchProps.signal = abortCont.signal;
-
-	fetch(url + "api/package_pages/users/", fetchProps).then(function(res){
-		if(!res.ok)
-			throw Error("Problem z pobraniem progresu!");
-		return res.json();
-	}).then((result) => {
-		let userPackages = revertUsersWithPackages(result);
-	}).catch((err) => {
-		console.log(err);
-	});
-
-	return abortCont.abort;
-}*/
-
-
 /*
  * Helper to input new packageId into object of relation employees - packages;
  * assumption: {userId: , packageIds: new Set() }.
