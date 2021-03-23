@@ -90,17 +90,6 @@ function EmployeeAnswers({ pageId, employeeId }){
                 <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
             </div>
         }
-        <div className="card card-fluid EmployeeAnswersView__key">
-            <div className="card-body">
-                <small>
-                    <p>Legenda odpowiedzi</p>
-                    <span className="EmployeeAnswersView__dot"></span><i>Odpowiedź prawidłowa</i><br />
-                    <span className="EmployeeAnswersView__bullet"></span>
-                    <span className="EmployeeAnswersView__bullet EmployeeAnswersView__bullet--red"></span>
-                    <i>Odpowiedź zaznaczona przez pracownika. Czerwony kolor oznacza błędną odpowiedź</i>
-                </small>
-            </div>
-        </div>
         { sectionsView.length > 0 && sectionsView }
       </>
     );

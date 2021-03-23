@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import ModeButton from "./ModeButton";
+import "../static/css/LeftMenu.css"
 
-const LeftMenu = ({ packagesList }) => {
+const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   const location = useLocation();
   const [showFolders, setShowFolders] = useState(false);
   useEffect(() => {
@@ -19,11 +20,15 @@ const LeftMenu = ({ packagesList }) => {
         : setShowFolders(false);
   }, [location.pathname]);
 
+  const handleHideAside = () => {
+    setToggleAside(false);
+  }
+
   return (
-    <aside className="app-aside app-aside-expand-md app-aside-light">
-      <div className="aside-content">
+    <aside className={`app-aside app-aside-expand-md app-aside-light ${showAside ? "show" : ""}`} style={{zIndex: "9"}}>
+      <div className={`aside-content ${showAside ? "my-5" : ""}`}>
         <header className="aside-header d-block d-md-none"></header>
-        <div className="aside-menu overflow-hidden">
+        <div className="aside-menu overflow-auto LeftMenu__overflow">
           <nav id="stacked-menu" className="stacked-menu">
             <ul className="menu pl-3">
               <li className="menu-header px-0">
@@ -31,6 +36,7 @@ const LeftMenu = ({ packagesList }) => {
                   exact to="/"
                   className="menu-link p-0"
                   activeStyle={{color: "#346CB0"}}
+                  onClick={ handleHideAside }
                 >
                     <span className="menu-icon fas fa-home"></span>{" "}
                     <span className="menu-text">Dashboard</span>
@@ -42,6 +48,7 @@ const LeftMenu = ({ packagesList }) => {
                   to="/packages" 
                   className="menu-link"
                   activeStyle={{color: "#346CB0"}}
+                  onClick={ handleHideAside }
                 >
                   <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text"> Wdrożenia</span>
@@ -55,6 +62,7 @@ const LeftMenu = ({ packagesList }) => {
                           className="menu-link"
                           activeStyle={{color: "#346CB0"}}
                           style={{ whiteSpace: "normal"}}
+                          onClick={ handleHideAside }
                         >
                           Katalog { element.title }
                         </NavLink>
@@ -62,23 +70,13 @@ const LeftMenu = ({ packagesList }) => {
                     ))}
                   </ul>
                 )}
-                {/* { packageId > 0 && (
-                    <li className="menu-item">
-                      <NavLink to="/user_forms"
-                        className="menu-link"
-                        activeStyle={{color: "#346CB0"}}
-                      >
-                        - Wyślij pracownikowi
-                      </NavLink>
-                    </li>
-                
-                )} */}
               </li>
               <li className="menu-item">
                 <NavLink
                   to="/add_user"
                   className="menu-link"
                   activeStyle={{color: "#346CB0"}}
+                  onClick={ handleHideAside }
                 >
                   <i className="bi bi-plus-circle mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text"> Dodaj pracownika</span>
@@ -89,6 +87,7 @@ const LeftMenu = ({ packagesList }) => {
                   to="/user_list"
                   className="menu-link"
                   activeStyle={{color: "#346CB0"}}
+                  onClick={ handleHideAside }
                 >
                   <i className="bi bi-people mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text"> Lista pracowników</span>
@@ -99,6 +98,7 @@ const LeftMenu = ({ packagesList }) => {
                   to="/company"
                   className="menu-link"
                   activeStyle={{color: "#346CB0"}}
+                  onClick={ handleHideAside }
                 >
                   <i className="bi bi-building mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text"> O firmie</span>
@@ -109,6 +109,7 @@ const LeftMenu = ({ packagesList }) => {
                   to="/q_and_a"
                   className="menu-link"
                   activeStyle={{color: "#346CB0"}}
+                  onClick={ handleHideAside }
                 >
                   <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i>
                   <span className="menu-text"> Q&A</span>
