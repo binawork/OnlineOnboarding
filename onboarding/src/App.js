@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
-
+import "./static/css/style.scss";
 import Navbar from "./Components/Navbar";
 import LeftMenu from "./Components/LeftMenu";
 import LoggedUser from "./Components/hooks/LoggedUser.js";

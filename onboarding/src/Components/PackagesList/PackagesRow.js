@@ -53,7 +53,7 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                 <td className="table__data" style={{ paddingLeft: row.pages.length === 0 ? "38px" : "" }}>
                     <div>
                         <button 
-                            className={`caret-icon ${rotate ? "caret-rotate" : ""}`}
+                            className={`caret-icon ${rotate ? "caret-icon--rotate" : ""}`}
                             onClick={ toggleShowPages }
                             style={{ display: row.pages.length > 0 ? "inline-block" : "none" }}
                         >
