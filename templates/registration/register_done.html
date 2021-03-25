@@ -1,74 +1,90 @@
 <!DOCTYPE html>
-<html lang="pl">
-  {% load static %}
+<html>
+{% load static %}
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>Registration done | Onboarding</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
+    <!-- Begin SEO tag -->
+    <title> Reset hasła | Onboarding </title>
     <meta property="og:title" content="Registration done" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content="en_US">
     <meta name="description" content="Onboarding registration done page" />
     <meta
       property="og:description"
       content="Registration done page - OnlineOnboarding"
     />
+    <meta property="og:url" content="https://onlineonboarding.net">
     <meta property="og:site_name" content="Onboarding: registration done" />
-    <meta name="theme-color" content="#3063A0" />
-    <!-- Google font -->
-    <!-- <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet">< ! - - End Google font -->
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/apple-touch-icon.png">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+    <meta name="theme-color" content="#3063A0"><!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End Google font -->
     <!-- BEGIN PLUGINS STYLES -->
-    <link
-      rel="stylesheet"
-      href="{% static 'bootstrap/vendor/fontawesome/css/all.css' %}"
-    />
-    <!-- END PLUGINS STYLES -->
+    <link rel="stylesheet" href="{% static 'bootstrap/vendor/fontawesome/css/all.css' %}"><!-- END PLUGINS STYLES -->
     <!-- BEGIN THEME STYLES -->
-    <link
-      rel="stylesheet"
-      href="{% static 'bootstrap/stylesheets/theme.min.css' %}"
-      data-skin="default"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}"
-      data-skin="dark"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'bootstrap/stylesheets/custom.css' %}"
-    />
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme.min.css' %}" data-skin="default">
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/theme-dark.min.css' %}" data-skin="dark">
+    <link rel="stylesheet" href="{% static 'bootstrap/stylesheets/custom.css' %}">
     <script>
-      var skin = localStorage.getItem("skin") || "default";
-      var isCompact = JSON.parse(localStorage.getItem("hasCompactMenu"));
-      var disabledSkinStylesheet = document.querySelector(
-        'link[data-skin]:not([data-skin="' + skin + '"])'
-      );
+      var skin = localStorage.getItem('skin') || 'default';
+      var isCompact = JSON.parse(localStorage.getItem('hasCompactMenu'));
+      var disabledSkinStylesheet = document.querySelector('link[data-skin]:not([data-skin="' + skin + '"])');
       // Disable unused skin immediately
-      disabledSkinStylesheet.setAttribute("rel", "");
-      disabledSkinStylesheet.setAttribute("disabled", true);
+      disabledSkinStylesheet.setAttribute('rel', '');
+      disabledSkinStylesheet.setAttribute('disabled', true);
       // add flag class to html immediately
-      if (isCompact == true)
-        document.querySelector("html").classList.add("preparing-compact-menu");
-    </script>
-    <!-- END THEME STYLES -->
+      if (isCompact == true) document.querySelector('html').classList.add('preparing-compact-menu');
+    </script><!-- END THEME STYLES -->
   </head>
   <body>
-    <main class="w-100 h-100 d-flex justify-content-center align-items-center">
-      <div class="card w-auto text-center m-0 bg-white text-secondary container-sm">
-        <div class="card-body h6 font-weight-normal">
-          <p>
-            Dziękujemy, że do nas dołączyłeś.
-          </p>
-          <p class="m-0">
+    <!--[if lt IE 10]>
+    <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
+    <![endif]-->
+    <!-- .auth -->
+    <main class="auth">
+      <header id="auth-header" class="auth-header" style="background-image: url({% static 'bootstrap/images/illustration/img-1.png' %});">
+        <h1>
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="64" viewbox="0 0 351 100">
+            <defs>
+            </defs>
+            <g fill="none" fill-rule="evenodd">
+              <use class="fill-warning" xlink:href="#a"></use>
+            </g>
+          </svg> <span class="sr-only">Rejestracja </span>
+        </h1>
+        <p>
+        </p>
+      </header>
+      <div class="auth-form">
+        <p class="text-center">Dziękujemy, że do nas dołączyłeś.</p>
+        <p class="m-0">
             Potwierdź swój adres e-mail, aby zakończyć rejestrację.
-          </p>
-          <!-- <p>Please confirm your email address to complete the registration.</p> -->
-        </div>
+        </p>{# <p>Please confirm your email address to complete the registration.</p> #}
       </div>
-    </main>
-    <script src="{% static 'bootstrap/javascript/theme.js' %}"></script>
+      <!-- copyright -->
+      <footer class="auth-footer"> &copy; {% now "Y" %} All Rights Reserved. <a href="#">Privacy</a> and <a href="#">Terms</a>
+      </footer>
+    </main><!-- /.auth -->
+    <!-- BEGIN BASE JS -->
+    <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script> <!-- END BASE JS -->
+    <!-- BEGIN PLUGINS JS -->
+    <script src="{% static 'bootstrap/vendor/particles.js/particles.min.js' %}"></script>
+    <script>
+      /**
+       * Keep in mind that your scripts may not always be executed after the theme is completely ready,
+       * you might need to observe the `theme:load` event to make sure your scripts are executed after the theme is ready.
+       */
+      $(document).on('theme:init', () =>
+      {
+        /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+        particlesJS.load('auth-header', '{% static 'bootstrap/javascript/pages/particles.json' %}');
+      })
+    </script> <!-- END PLUGINS JS -->
+    <!-- BEGIN THEME JS -->
+    <script src="{% static 'bootstrap/javascript/theme.js' %}"></script> <!-- END THEME JS -->
   </body>
 </html>
