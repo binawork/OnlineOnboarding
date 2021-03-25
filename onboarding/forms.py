@@ -45,7 +45,7 @@ class HrSignUpFormEng(UserCreationForm):
         )
 
     def save(self, commit=True):
-        user = super(HrSignUpForm, self).save(commit=False)
+        user = super().save(commit=False)
         # user.company = self.get_or_create_company(
         #                                     self.cleaned_data["company_name"]
         # )
@@ -57,7 +57,6 @@ class HrSignUpFormEng(UserCreationForm):
         if commit:
             user.save()
         return user
-
 
 
 class HrSignUpForm(UserCreationForm):
@@ -101,8 +100,6 @@ class HrSignUpForm(UserCreationForm):
                     'company_name'
         )
 
-
-
     # def get_or_create_company(self, company_name):
     #     company = Company.objects.filter(name=company_name).first()
     #     if not company:
@@ -135,3 +132,4 @@ class CustomSetPasswordForm(SetPasswordForm):
         user.is_active = True
         user.save()
         return user
+
