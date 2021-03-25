@@ -53,7 +53,7 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                 <td className="table__data" style={{ paddingLeft: row.pages.length === 0 ? "38px" : "" }}>
                     <div>
                         <button 
-                            className={`caret-icon ${rotate ? "caret-rotate" : ""}`}
+                            className={`caret-icon ${rotate ? "caret-icon--rotate" : ""}`}
                             onClick={ toggleShowPages }
                             style={{ display: row.pages.length > 0 ? "inline-block" : "none" }}
                         >
@@ -74,13 +74,13 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                             className="link mr-4" 
                             title="Kliknij, aby przejść do edycji zawartości katalogu"
                         >{ row.name }</Link>
-                        <Tag title={`Liczba plików: ${ row.pages.length || 0 }`} color={"amaranthine"} />
                     </div>
                     <small><i>{ row.description }</i></small>
                 </td>
-
+                <td className="table__data">
+                    <Tag title={`Liczba plików: ${ row.pages.length || 0 }`} color={"grey"} />
+                </td>
                 <td className="table__data">{ dateToString(row.last_edit) }</td>
-
                 <td  className="table__data table__data--nowrap d-flex flex-column">
                     <Link to={ `/send_package/${row.id}` } className="btn btn-secondary mb-1">
                         Wyślij pracownikowi

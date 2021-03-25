@@ -689,31 +689,38 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 		//let userPackageObject = {user: parseInt(employeeId), 'package': packageId};
 		//data.users.push(userPackageObject);
 
-		fetch(fullPath, fetchProps).then(res => {return tryFetchJson(res, "Wystąpił błąd")})
-		.then(
-			(result) => {
-				let msg = "Formularz został wysłany do pracownika. ";
-				if(typeof result.detail === 'string')
-				msg += result.detail;
-				handleMessage(msg);
-				if(setUsersInPackage) setUsersInPackage(result.users);
-			},
-			(error) => {
-				console.log(error.message);
-			}
+		fetch(fullPath, fetchProps)
+			.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd: nie udało się wysłać katalogu wdrożeniowego do pracownika!");
+				}
+				return tryFetchJson(res, "Wystąpił błąd");
+			})
+			.then(
+				(result) => {
+					let msg = "Katalog został wysłany do pracownika. ";
+					if(typeof result.detail === 'string')
+					msg += result.detail;
+					handleMessage(msg);
+					if(setUsersInPackage) setUsersInPackage(result.users);
+				},
+				(error) => {
+					handleMessage(error.message);
+				}
 			);
 		} else if(typeof packageId === "object") {
 			Promise.all(packageId.map(id => {// ESLint: Expected to return a value in arrow function.(array-callback-return);
 				const fullPath = path + "api/add_users_to_package/" + id + "/add_user_to_package/";
 				fetch(fullPath, fetchProps)
-			})).then(() => {
-						let msg = "Wybrane formularze zostały wysłane do pracownika.";
-						handleMessage(msg);
-					}, 
-					(error) => {
-						console.log(error.message);
-					}
-				);
+					.then(res => {
+						if(!res.ok)	throw new Error("Wystąpił błąd: nie udało się wysłać wybranych katalogów do pracownika!");
+					})
+					.catch(error => handleMessage(error.message))
+			}))
+				.then(() => {
+					let msg = "Wybrane katalogi zostały wysłane do pracownika.";
+					handleMessage(msg);
+				});
 		}
 }
 

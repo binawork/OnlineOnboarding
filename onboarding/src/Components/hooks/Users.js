@@ -86,7 +86,11 @@ export function getUserById(id) {
  * 
  * employeeObject = {name: "", last_name: "", email: "", tel: "", department: "", location: "", position: ""};
  */
-export function employeeAddEdit(handleMessage, employeeObject){
+export function employeeAddEdit(handleMessage, employeeObject, updateData){
+	// if(avatarSaveError) {
+	// 	handleMessage("Nie udało się zapisać avatara!", false);
+	// 	return false;
+	// }
 	if(typeof employeeObject.first_name !== "string" || typeof employeeObject.last_name !== "string"
 		|| typeof employeeObject.email !== "string" || typeof employeeObject.email.length < 2){
 		handleMessage("Błędny format danych lub brak e-maila!", false);
@@ -125,21 +129,28 @@ export function employeeAddEdit(handleMessage, employeeObject){
 	} else
 		path += "create_user/";// SMTPAuthenticationError * /
 
-	fetch(url + path, fetchProps).then(res => tryFetchJson(res) ).then(
-		(result) => {
+	fetch(url + path, fetchProps)
+		.then(res => {
+			if(!res.ok) {
+				throw Error("Nie udało się zapisać danych. Upewnij się, że pracownik o podanym adresie Email nie został już dodany.");
+			}
+			return tryFetchJson(res);
+		})
+		.then((result) => {
 			if(result.hasOwnProperty('detail') )
 				msg += "  " + String(result.detail);
 			handleMessage(msg, true);
+			updateData?.();
 		},
 		(error) => {
 			// console.log("Users: eA");
-			handleMessage("Błąd. " + error, false);
+			handleMessage("Wystąpił błąd: " + error.message, false);
 		}
 	);
 	return true;
 }
 
-export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
+export function uploadAvatar(handleSuccess, avatarFile, employeeObject, showModal, updateData){
 // export function uploadAvatar(avatarFile, employeeObject){
 	let data = new FormData();
 	let url = getPath(), 
@@ -158,18 +169,27 @@ export function uploadAvatar(handleSuccess, avatarFile, employeeObject){
 	// data.append('id', employeeObject.id);
 	data.append('avatar', avatarFile);
 	fetchProps.body = data;
-	fetch(url + 'api/user-avatar/', fetchProps).then(response => response.json()).then(
-		data => {
-			handleSuccess(data);
-			return data;
-		},
-		(error) => {
+	fetch(url + 'api/user-avatar/', fetchProps)
+		.then(response => {
+			if(!response.ok) {
+				throw Error("Wystąpił błąd podczas zapisywania avatara!")
+			}
+			return response.json();
+		})
+		.then(data => {
+				handleSuccess(data);
+				employeeAddEdit(showModal, employeeObject);
+				updateData();
+				return data;
+		})
+		.catch(error => {
+			showModal(error.message);
 			console.error('Error:', error);
-		}
-	);
+		});
 }
 
-export function employeeRemove(handleSuccess, userId){
+export function employeeRemove(handleSuccess, userId, setLoadingSave){
+	setLoadingSave(true);
 	if(userId < 2)
 		return false;
 	let url = getPath(), data, token = getCookie('csrftoken'),
@@ -178,17 +198,25 @@ export function employeeRemove(handleSuccess, userId){
 	data = {"id": userId};
 	fetchProps.body = JSON.stringify(data);
 
-	fetch(url + "api/users/" + userId + "/", fetchProps).then(res => tryFetchJson(res) ).then(
-		(result) => {
-			let msg = "Pracownik usunięty";
+	fetch(url + "api/users/" + userId + "/", fetchProps)
+		.then(res => {
+			if(!res.ok) {
+				throw Error("Nie udało się usunąć pracownika!");
+			}
+			return tryFetchJson(res);
+		})
+		.then((result) => {
+			let msg = "Pracownik został usunięty";
 			if(result.hasOwnProperty('detail') )
 				msg += "  " + result.detail;
 			handleSuccess(msg);
 		},
 		(error) => {
-			handleSuccess("Kłopoty z usunięciem pracownika!");
-		}
-	);
+			handleSuccess(error.message);
+		})
+		.finally(() => {
+			setLoadingSave(false);
+		});
 	return true;
 }
 

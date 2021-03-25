@@ -1,5 +1,5 @@
 import React from "react";
-import "../static/css/tag.css";
+import "../static/css/Tag.scss";
 
 /**
  *  Prints bar with background color and text on it.
@@ -10,7 +10,7 @@ import "../static/css/tag.css";
  */
 function Tag({ title, color }) {
   return (
-    <span className={`tag tag--${color}`}>
+    <span className={`Tag Tag--${color}`}>
         { title }
     </span>
   )

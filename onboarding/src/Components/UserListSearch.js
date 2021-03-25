@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../static/css/UsersList.scss";
 
 function UserListSearch({ users, setSearchResult }) {
     const [searchName, setSearchName] = useState("");
@@ -55,41 +56,56 @@ function UserListSearch({ users, setSearchResult }) {
     return (
       <>
         <div className="mb-3">
-          <div className="col-sm-4 col-10">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Szukaj pracownika"
-              onChange={ filterByName }
-            />
-          </div>
-        </div>
-        <p style={{ marginBottom: ".5rem" }}>Filtry</p>
-        <div className="d-flex flex-sm-row flex-column mb-4">
-          <div className="col-sm-4 col-10 mb-1">
-            <div className="has-clearable">
-              <input type="text" className="form-control" placeholder="Dział" onChange={ filterByDepartment }/>
+          <p>Szukaj pracownika</p>
+          <div className="UsersListSearch__label-box col-sm-4 pl-0">
+            <div className="form-label-group">
+              <input
+                id="search-name"
+                type="text"
+                className="form-control"
+                placeholder="Imię Nazwisko"
+                onChange={ filterByName }
+              />
+              <label htmlFor="search-name">Imię Nazwisko</label>
             </div>
           </div>
-          <div className="col-sm-4 col-10 mb-1">
-            <div className="has-clearable">
+        </div>
+        <div className="d-flex flex-sm-row flex-column mb-4">
+          <div className="UsersListSearch__label-box col-sm-4 mb-1 pl-0">
+            <div className="form-label-group">
               <input
+                id="search-department"
+                type="text"
+                className="form-control"
+                placeholder="Dział"
+                onChange={ filterByDepartment }
+              />
+              <label htmlFor="search-department">Dział</label>
+            </div>
+          </div>
+          <div className="UsersListSearch__label-box col-sm-4 mb-1">
+            <div className="form-label-group">
+              <input
+                id="search-position"
                 type="text"
                 className="form-control"
                 placeholder="Stanowisko"
                 onChange={ filterByPosition }
               />
+              <label htmlFor="search-position">Stanowisko</label>
             </div>
           </div>
-          <div className="col-sm-4 col-10">
-            <div className="has-clearable">
+          <div className="UsersListSearch__label-box col-sm-4 pr-0">
+            <div className="form-label-group">
               <input
+                id="search-location"
                 type="text"
                 className="form-control"
                 placeholder="Lokalizacja"
                 list="location"
                 onChange={ filterByLocation }
               />
+              <label htmlFor="search-location">Lokalizacja</label>
               <datalist id="location">{ dataOptions }</datalist>
             </div>
           </div>

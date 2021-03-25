@@ -29,8 +29,9 @@ from onboarding.models import Package, ContactRequestDetail, Page, Section, Answ
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, UserProgressSerializer, ContactFormTestSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackageAddUsersSerializer
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, ContactFormTestSerializer
+from .serializers import PackagePagesSerializer, PackagePagesForUsersSerializer, UserProgressSerializer, UserProgressLimitedSerializer
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
 
@@ -577,6 +578,17 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=PackagePagesForUsersSerializer)
+    def users(self, request):
+        """
+        :param request: user
+        :return: all packages with corresponding pages for company of the authenticated user having few fields
+        """
+        package_pages = Package.objects.filter(owner=request.user.company, users__isnull=False).distinct()
+        serializer = PackagePagesForUsersSerializer(package_pages, many=True)
+        return Response(serializer.data)
+#
+
 
 class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all()
@@ -769,7 +781,7 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
         return Response(serializer.data)
 
 
-class UserProgressView(viewsets.ModelViewSet):
+class UserProgressView(viewsets.ReadOnlyModelViewSet):
     """
     List answers of user/employee with corresponding sections with information
         about page and package id;
@@ -779,15 +791,34 @@ class UserProgressView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        employee = self.kwargs['user_id']
+        employee = self.kwargs.get('user_id', None)
 
         if self.request.user.is_hr:
-            # queryset = Page.objects.filter(section__answer__owner=employee, section__owner=user.company)
-            queryset = Answer.objects.select_related('section', 'section__page').filter(owner=employee, section__owner=user.company)
+            if employee is not None:
+                # queryset = Page.objects.filter(section__answer__owner=employee, section__owner=user.company)
+                queryset = Answer.objects.select_related('section', 'section__page').filter(owner=employee, section__owner=user.company)
+            else:
+                # users = User.objects.filter(company=self.request.user.company)
+                # queryset = Answer.objects.select_related('section', 'section__page').filter(owner__in=users, section__owner=user.company)
+                queryset = Answer.objects.none()
+            #
         else:
             queryset = Answer.objects.select_related('section', 'section__page').filter(owner=user, section__owner=user.company)
 
         return queryset
+
+    @action(detail=False, permission_classes=[IsAuthenticated, IsHrUser], serializer_class=UserProgressLimitedSerializer, url_name="progress-of-all")
+    def list_all(self, request, pk=None):
+        # if not self.request.user.is_hr:
+        #     return Response(status.HTTP_403_FORBIDDEN)
+
+        user = self.request.user
+
+        users = User.objects.filter(company=user.company)
+        queryset = Answer.objects.select_related('section', 'section__page').filter(owner__in=users, section__owner=user.company)
+
+        serializer = UserProgressLimitedSerializer(queryset, many=True)
+        return Response(serializer.data)
 #
 
 
@@ -811,3 +842,4 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
             # queryset = Section.objects.annotate(ans=FilteredRelation('answer', condition=q_owner)).filter(q1)
             queryset = Section.objects.filter(q1)
         return queryset
+
