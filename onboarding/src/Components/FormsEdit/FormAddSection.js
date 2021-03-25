@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import uuid from "uuid";
+import AnswersLegend from "../EmployeeAnswersView/AnswersLegend";
 
 function FormAddSection({
   setSections,
@@ -10,6 +11,8 @@ function FormAddSection({
   setEditMode,
   editMode
 }) {
+  const [showLegend, setShowLegend] = useState(false);
+
   const handleAddSection = (e, sectionType) => {
     e.preventDefault();
     const sectionToAdd = {
@@ -79,7 +82,7 @@ function FormAddSection({
         </div>
       </div>
       <div className="form-group">
-        <div className="input-group-append">
+        <div className="input-group-append mb-1">
           <button type="submit" className="btn btn-success mr-1">
             Zapisz pytania
           </button>
@@ -90,7 +93,38 @@ function FormAddSection({
             }
           </button>
         </div>
+        <button type="button" className="btn btn-success" onClick={() => setShowLegend(!showLegend)}>
+          Legenda
+        </button>
       </div>
+      { showLegend && 
+        <div className="AnswersLegend--fixed d-flex justify-content-center align-items-center" onClick={() => setShowLegend(!showLegend)}>
+          <section className="card card-fluid p-3 AnswersLegend">
+            <div className="card-body">
+              <header>
+                <p className="text-uppercase text-center">Legenda</p>
+                <p className="text-center">Przesuwając suwak w prawo w szablonie odpowiedzi zaznaczasz prawidłowe odpowiedzi. Dzięki temu szybciej ocenisz feedback.</p>
+                <div className="d-flex flex-column align-items-center mb-3">
+                  <label className="switcher-control switcher-control-success mb-2">
+                    <span className="switcher-input" />
+                    <span className="switcher-indicator border border-white" style={{ cursor: "auto" }}></span>
+                  </label>
+                  <label className="switcher-control switcher-control-success">
+                    <input type="checkbox" className="switcher-input" defaultChecked />
+                    <span className="switcher-indicator" style={{ cursor: "auto" }}></span>
+                  </label>
+                </div>
+              </header>
+              <div className="AnswersLegend__example-form">
+                <p className="mb-1">Przykładowy formularz odpowiedzi:</p>
+                <div className="border border-white p-3">
+                  <AnswersLegend />
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      }
     </div>
   );
 }

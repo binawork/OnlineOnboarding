@@ -175,6 +175,18 @@ const EmployeeSections = ({pageId, userId}) => {
                         </header>
                         <div className="card-body">
                             {sections[i].description ? parse(sections[i].description): <></>}
+                            <p className="mt-2"><i>
+                                <small>
+                                    {sections[i].type == "oa"
+                                        ? "Pytanie otwarte"
+                                        : sections[i].type == "osa"
+                                            ? "Jednokrotny wybór"
+                                            : sections[i].type == "msa"
+                                                ? "Wielokrotny wybór"
+                                                : ""
+                                    }
+                                </small>
+                            </i></p>
                             {sections[i].type == "oa" ? (
                                 <OpenAnswer id={ sections[i].id } index={ i } data={ answers[i].data } changeOpenAnswerText={ changeOpenAnswerText } />
                             ) : (

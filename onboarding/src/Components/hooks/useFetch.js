@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useFetch = (url, fetchProps, count) => {
+const useFetch = (url, fetchProps, count, message) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ const useFetch = (url, fetchProps, count) => {
     fetch(url, { ...fetchProps, signal: abortCont.signal })
       .then(res => {
         if(!res.ok) {
-          throw Error("Wystąpił błąd podczas ładowania danych.");
+          throw Error(message || "Wystąpił błąd podczas ładowania danych.");
         }
         return res.json();
       })

@@ -7,20 +7,20 @@ from . import mock_password
 '''
 Core arguments in serializer fields
 
-read_only	    Set this to True to ensure that the field is used when serializing 
+read_only	    Set this to True to ensure that the field is used when serializing
                 a representation, but is not used when creating or updating an instance
                 during deserialization
 
-write_only  	Set this to True to ensure that the field may be used when updating or 
+write_only  	Set this to True to ensure that the field may be used when updating or
                 creating an instance, but is not included when serializing the representation.
 
-required    	Setting this to False also allows the object attribute or dictionary key to 
+required    	Setting this to False also allows the object attribute or dictionary key to
                 be omitted from output when serializing the instance.
 
-default	        If set, this gives the default value that will be used for the field if no 
+default	        If set, this gives the default value that will be used for the field if no
                 input value is supplied.
 
-allow_null  	Normally an error will be raised if None is passed to a serializer field. 
+allow_null  	Normally an error will be raised if None is passed to a serializer field.
                 Set this keyword argument to True if None should be considered a valid value.
 
 source	        The name of the attribute that will be used to populate the field.
@@ -39,6 +39,10 @@ help_text	    A text string that may be used as a description of the field in HT
 initial	        A value that should be used for pre-populating the value of HTML form fields.
 '''
 
+'''
+Some serializers have a hint-comment above what is this serializer for,
+meaning which DB model or what relation. E.g.: #ANSWER, #PACKAGE etc.
+'''
 
 # Company
 class CompanySerializer(serializers.ModelSerializer):
@@ -249,6 +253,21 @@ class PageSerializer(serializers.ModelSerializer):
         }
 
 
+class PageLimitedSerializer(serializers.ModelSerializer):
+    class Meta:
+        ordering = ['-order']
+        model = Page
+        fields = (
+            'id',
+            'order',
+            'owner',  # company
+            'package',
+        )
+        extra_kwargs = {
+            'package': {'required': False},
+        }
+
+
 # PACKAGE with PAGEs
 class PackagePagesSerializer(serializers.ModelSerializer):
     page_set = PageSerializer(many=True)
@@ -264,6 +283,19 @@ class PackagePagesSerializer(serializers.ModelSerializer):
             'updated_on',
             'users',
             'page_set'
+        )
+
+
+class PackagePagesForUsersSerializer(serializers.ModelSerializer):
+    pages = PageLimitedSerializer(source='page_set', many=True)
+
+    class Meta:
+        ordering = ['-updated_on']
+        model = Package
+        fields = (
+            'id',
+            'users',
+            'pages'
         )
 
 
@@ -283,8 +315,21 @@ class SectionSerializer(serializers.ModelSerializer):
             'page',
         )
 
+#TBD: double check if 'sections' are not duplicating (see: views.py,
+#SectionViewSet, perform_create())
+    # def validate(self, data):
+    #     '''
+    #     Prevents data in Section from duplicating from backend side (when data is
+    #     re-send manually; problem was previously solved in frontend for the user).
+    #     '''
+    #     if Section.objects.filter(title = data['title'],
+    #             description = data['description'],
+    #             owner = self.context['request'].user.company).exists():
+    #         raise serializers.ValidationError("Dane już istnieją w bazie - duplikat")
+    #     return data
 
-# ANSWER
+
+#ANSWER
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
@@ -340,7 +385,6 @@ class SectionAnswersSerializer(serializers.ModelSerializer):
             'page',
             'answers',
         )
-#
 
 
 class SectionProgressSerializer(serializers.ModelSerializer):
@@ -386,6 +430,43 @@ class UserProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = '__all__'
+        # depth = 3
+#
+
+
+# Same as above but limited/less fields
+class SectionProgressLimitedSerializer(serializers.ModelSerializer):
+    # page = PageSerializer()
+    package_id = serializers.SerializerMethodField()
+    # company_id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Section
+        fields = (
+            'id',
+            'page',
+            # 'company_id',
+            'package_id'
+        )
+
+    def get_package_id(self, obj):
+        return obj.page.package_id
+    # def get_company_id(self, obj):
+    #     return obj.owner_id
+
+
+class UserProgressLimitedSerializer(serializers.ModelSerializer):
+    section = SectionProgressLimitedSerializer()
+
+    class Meta:
+        model = Answer
+        fields = (
+            'id',
+            'owner',
+            'section',
+            'confirmed',
+            'finished'
+        )
         # depth = 3
 #
 

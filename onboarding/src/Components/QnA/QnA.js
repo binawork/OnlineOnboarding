@@ -86,11 +86,9 @@ function QnA({
       <div className="card">
         <div className="card-body">
           <div className="form-group">
-            <p className="m-0">
               { parse(question) }
-            </p>
           </div>
-          <p className="m-0">{ parse(answer) }</p>
+          { parse(answer) }
         </div>
       </div>
     </div>
@@ -99,26 +97,26 @@ function QnA({
   return !editMode ? (
     preview
   ) : (
-    <div className="task-issue" {...draggableProps} ref={innerRef}>
-      { order === 1 ? <></> : <hr /> }
-      <div className="card d-flex p-2" {...dragHandleProps}>
-        <div className="p-1 d-flex justify-content-center">
+    <div className="task-issue mb-3" {...draggableProps} ref={innerRef}>
+      <div className="card card-fluid d-flex p-2">
+        <div className="p-1 d-flex justify-content-center" {...dragHandleProps}>
           <span
             className="drag-indicator"
             style={{ transform: "rotate(90deg)" }}
-            {...dragHandleProps}
           ></span>
         </div>
+        <small className={`m-0 QnA__limit ${q.length > 2000 && "QnA__limit--error"}`}>{q.length}/2000</small>
         <MarkdownArea
           id={"question" + id}
-          content={question}
+          content={q}
           contentChange={changeQuestion}
           simple={true}
           placeholder={"Wpisz pytanie"}
         />
+        <small className={`m-0 QnA__limit ${a.length > 2000 && "QnA__limit--error"}`}>{a.length}/2000</small>
         <MarkdownArea
           id={"answer" + id}
-          content={answer}
+          content={a}
           contentChange={changeAnswer}
           simple={true}
           placeholder={"Wpisz odpowiedź"}
@@ -126,13 +124,14 @@ function QnA({
         <div className="d-flex justify-content-end">
           <div className="p-1">
             <button className="btn" onClick={handleCopyQA}>
-              <i className="fa fa-files-o fa-md">&#61637;</i> Duplikuj
+              <i className="QnA__card-icon fa fa-files-o fa-md">&#61637;</i>
+              <span className="QnA__card-action">Duplikuj</span>
             </button>
           </div>
           <div className="p-1">
-            <button className="btn text-danger mr-1" onClick={handleDeleteQnA}>
-              <i className="fa fa-trash-o fa-md mr-1">&#61944;</i>
-              Usuń
+            <button className="btn text-danger" onClick={handleDeleteQnA}>
+              <i className="QnA__card-icon fa fa-trash-o fa-md">&#61944;</i>
+              <span className="QnA__card-action">Usuń</span>
             </button>
           </div>
         </div>
