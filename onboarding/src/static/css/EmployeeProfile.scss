@@ -1,0 +1,91 @@
+@mixin center-vertically {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.EmployeeProfileUser {
+  padding: 1rem 2rem;
+  justify-content: space-between;
+  &__data {
+    width: 50%;
+    justify-content: space-between;
+    row-gap: 1rem;
+    &--fit {
+      max-width: fit-content;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    &-avatar {
+      padding-right: 1rem;
+      @include center-vertically;
+    }
+    &-labour {
+      padding-right: 1rem;
+      @include center-vertically;
+      & h3 {
+        margin-bottom: .5rem;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    &-personal {
+      padding-right: 1rem;
+      @include center-vertically;
+    }
+    &-progress {
+      @include center-vertically;
+    }
+  }
+}
+
+@media(max-width: 1024px) {
+  .EmployeeProfileUser {
+    flex-direction: column;
+    padding: 1rem;
+    &__data {
+      width: 100%;
+      &:first-of-type {
+        margin-bottom: 1rem;
+      }
+      &:last-of-type {
+        justify-content: space-around;
+        row-gap: 0;
+      }
+      &--fit {
+        max-width: inherit;
+      }
+      &-labour & h3 {
+        margin-bottom: .5rem;
+      }
+      &-personal {
+        padding: 0;
+      }
+    }
+  }
+}
+
+@media(max-width: 425px) {
+  .EmployeeProfileUser {
+    &__data {
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      &-labour {
+        padding: 0;
+        & h3 {
+          margin-bottom: .5rem;
+          &:last-child {
+            margin-bottom: .5rem;
+          }
+        }
+      }
+      &-progress {
+        & h3 {
+          margin-bottom: .5rem;
+        }
+      }
+    }
+  }
+}
