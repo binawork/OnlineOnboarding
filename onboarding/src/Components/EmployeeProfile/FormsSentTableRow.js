@@ -60,7 +60,7 @@ function FormsSentTableRow(props) {
 
             return (
                 <tr key={ i } style={ toggleObj.style }>
-                    <td className="table__data">
+                    <td className="table__data text-nowrap">
                         <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}/>
                         <a href="" title="Kliknij, aby przejść do odpowiedzi pracownika" onClick={ (e) => handleShowAnswers(e, page) }>
                             { page.title }
@@ -83,14 +83,22 @@ function FormsSentTableRow(props) {
         <>
             <tr>
                 <td className="table__data" style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
-                    { toggleObj.hasContent && <button className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`} onClick={ showPages } type="button"><i className="fas fa-caret-right"/></button> }
-                    { checkBox }
-                    <i className="fa fa-folder" style={{width: "24px", color: "#F7C46C", marginRight: "2px"}}/>
-                    {props.row.form}
+                    <span className="text-nowrap">
+                        { toggleObj.hasContent && (
+                            <button 
+                                className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`}
+                                onClick={ showPages }
+                                type="button">
+                                <i className="fas fa-caret-right"/>
+                            </button> 
+                        )}
+                        { checkBox }
+                        <i className="fa fa-folder" style={{width: "24px", color: "#F7C46C", marginRight: "2px"}}/>
+                    </span>
+                    <span>{props.row.form}</span>
                 </td>
                 <td className="table__data">
                     <div className="package-progress">
-                        {/* Add below line if progress is implemented, add condition when it has to appear (when all of the forms in the package are finished) */}
                         { props.row.progress } { tag }
                     </div>
                 </td>
