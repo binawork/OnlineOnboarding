@@ -1,0 +1,78 @@
+.UsersList {
+  &__avatar-box {
+    margin-right: 1rem;
+  }
+  &__column {
+    min-width: 200px;
+  }
+  &__element--margin-bottom {
+    margin-bottom: 0;
+  }
+}
+
+@media(max-width: 1200px) {
+  .UsersList__element--margin-bottom {
+    margin-bottom: .5rem;
+  }
+  
+}
+
+@media(max-width: 1064px) {
+  .UsersList {
+    &__avatar-box {
+      margin-right: 0;
+      margin-bottom: .5rem;
+    }
+    &__column {
+      margin-bottom: 1rem;
+      flex-direction: column;
+    }
+    &__row {
+      flex-direction: column;
+      width: 100%;
+      margin: 0;
+      &-buttons {
+        width: 55%;
+        &--bottom {
+          width: 100%;
+        }
+      }
+    }
+  }
+  
+}
+
+@media(max-width: 850px) {
+  .UsersList {
+    &__row-data {
+      flex-direction: column;
+    }
+    &__column {
+      text-align: center;
+      justify-content: center;
+    }
+  }
+}
+
+@media(max-width: 575px) {
+  .UsersList__row-buttons {
+    width: 80%;
+  }
+  .UsersListSearch {
+    &__label-box {
+      padding: 0!important;
+      margin-bottom: 1rem!important;
+    }
+  }
+}
+
+@media(max-width: 416px) {
+  .UsersList__row {
+    &-buttons {
+      width: 100%;
+      &--bottom:last-child {
+        width: 75%;
+      }
+    }
+  }
+}

@@ -78,8 +78,8 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     };
 
     return (
-    	<div className="row">
-    		<div className="col">
+    	<div className="row flex-column flex-md-row justify-content-center p-3">
+    		<div className="col col-md-4">
     			<div className="card-body align-items-center text-center">
                     <div className="user-avatar user-avatar-xxl fileinput-button">
                         { imageBox }
@@ -87,7 +87,7 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     			</div>
     		</div>
 
-    		<div className="col">
+    		<div className="col container-sm">
     			<UserProfileManage user={ user } handleSaveEdit={ handleSaveEdit } showMessage={ showModal } buttonTitle={ buttonTitle } />
     		</div>
     		{ employeeModal }
