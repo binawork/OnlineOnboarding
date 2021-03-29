@@ -38,7 +38,7 @@ from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializ
 from .permissions import IsHrUser
 from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email, send_remove_acc_email
 from .tokens import account_activation_token
-from .forms import HrSignUpForm, CustomSetPasswordForm
+from .forms import HrSignUpForm, HrSignUpFormEng, CustomSetPasswordForm
 
 
 def index(request):
@@ -53,12 +53,11 @@ def activate(request, uidb64, token):
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
+        # user.is_active = True
         user.save()
-        login(request, user)
+        # login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now ' +
-                            'you can login your account.')
+        return render(request, 'registration/register_email_confirm.html')
     else:
         return HttpResponse('Activation link is invalid!')
 
@@ -69,10 +68,13 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 def signup(request):
     if request.method == 'POST':
-        signup_form = HrSignUpForm(request.POST)
+        request_as_dict = request.__dict__
+        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+            signup_form = HrSignUpForm(request.POST)
+        else:
+            signup_form = HrSignUpFormEng(request.POST)
         if signup_form.is_valid():
             user = signup_form.save()
-
             current_site = get_current_site(request)
             subject = 'Rejestracja w Online Onboarding '
             html_message = render_to_string(
@@ -94,11 +96,13 @@ def signup(request):
                             [to],
                             html_message=html_message
             )
-            return HttpResponse(
-                'Please confirm your email address to complete the registration'
-            )
+            return render(request, 'registration/register_done.html')
     else:
-        signup_form = HrSignUpForm()
+        request_as_dict = request.__dict__
+        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+            signup_form = HrSignUpForm()
+        else:
+            signup_form = HrSignUpFormEng()
     return render(
                     request,
                     'bootstrap/auth-signup.html',
@@ -282,6 +286,7 @@ class UserViewSet(viewsets.ModelViewSet):
             user_email
         )
         return Response(status=204)
+
 
 class CompanyViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
