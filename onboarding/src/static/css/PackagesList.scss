@@ -1,0 +1,18 @@
+@media(max-width: 1036px) {
+  .PackagesList {
+    &__data {
+      &--date {
+        min-width: 162px;
+      }
+      &--name {
+        min-width: 300px;
+      }
+    }
+    &__table-header--hide {
+      display: none;
+    }
+    &__tag--hide {
+      display: none;
+    }
+  }
+}

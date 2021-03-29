@@ -1,7 +1,7 @@
 import React from "react";
 import PageAddressBar from "../PageAddressBar";
 import PackagesListTable from "./PackagesListTable";
-
+import "../../static/css/PackagesList.scss";
 
 function PackagesListPage({ setPackagesList }) {
     document.title = "Onboarding: wdrożenia";
