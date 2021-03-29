@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
-import "./static/css/style.css";
+import "./static/css/style.scss";
 
 import EmployeeSingleFormPage from "./Components/Employee/EmployeeSingleFormPage";
 import EmployeeMainPage from "./Components/Employee/EmployeeMainPage";

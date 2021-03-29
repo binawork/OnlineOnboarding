@@ -34,15 +34,15 @@ function FormsSentTableRow(props) {
         buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>;
     let pages, tag=<></>;
 
-    if(props.row.hasOwnProperty("percentage") ){// "purple", "yellow", "amaranthine"
+    if(props.row.hasOwnProperty("percentage") ){// "green", "yellow", "amaranthine"
         let prc = parseFloat(props.row.percentage);
 
         if(prc > 0.99)
-            tag = <Tag title="Skończone" color="purple" />;
+            tag = <Tag title="Skończone" color="green" />;
         else if(prc > 0.0)
             tag = <Tag title={ props.row.finish_date } color="yellow" />;
-        else
-            tag = <Tag title={ props.row.finish_date } color="amaranthine" />;
+        // else
+        //     tag = <Tag title={ props.row.finish_date } color="amaranthine" />;
     }
 
     if(props.empty){
@@ -67,9 +67,7 @@ function FormsSentTableRow(props) {
                         </a>
                     </td>
                     <td className="table__data form-progress">
-                        {/* Add below lines if progress is implemented, add condition when it has to appear */}
-                        {/* Change 'backgroundSize' to a value which is equal to the percentage of finished forms */}
-                        <ProgressBar color="purple" backgroundSize={ percentage } />
+                        <ProgressBar color={ finishMsg === "Skończone" ? "green" : "yellow" } backgroundSize={ percentage } />
                         <small className="ml-1">{ finishMsg }</small>
                     </td>
                     <td/>

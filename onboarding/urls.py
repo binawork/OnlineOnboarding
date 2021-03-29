@@ -77,6 +77,8 @@ router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet,
     basename='SectionAnswers')
 router.register(r'api/user_progress/(?P<user_id>\d+)', UserProgressView,
                 basename='UserProgress')
+router.register(r'api/user_progress', UserProgressView,
+                basename='UserProgress')  # didn't work when reversed;
 router.register(r'api/add_users_to_package', AddUserToPackageViewSet,
     basename='Add user to package')
 

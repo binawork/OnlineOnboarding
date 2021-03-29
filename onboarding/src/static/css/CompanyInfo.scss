@@ -1,0 +1,34 @@
+.CompanyInfo {
+  &__buttons {
+    margin-right: 1rem;
+  }
+  &__logo {
+    margin-right: 3rem;
+  }
+}
+
+@media(max-width: 575px) {
+  .CompanyInfo {
+    &__warning {
+      font-size: smaller;
+    }
+  }
+}
+
+@media(max-width: 453px) {
+  .CompanyInfo {
+    &__footer {
+      flex-direction: column;
+    }
+    &__buttons {
+      margin-right: 0;
+    }
+    &__warning {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    &__logo {
+      margin-right: 1rem;
+    }
+  }
+}
