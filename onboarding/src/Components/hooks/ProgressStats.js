@@ -246,7 +246,7 @@ export function joinProgressToUsers(users, usersWithPackagesObject){
 		users[i].sent = usersWithPackagesObject[uId].packageIds.length;
 		users[i].finished = usersWithPackagesObject[uId].progress;
 		users[i].percentage = usersWithPackagesObject[uId].percentage;
-		users[i].progress = '' + users[i].finished + '/' + users[i].sent;
+		users[i].progress = '' + users[i].finished + ' / ' + users[i].sent;
 	}
 
 	/*usersCp = users.map(function(user){/ / "Uncaught Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.";
