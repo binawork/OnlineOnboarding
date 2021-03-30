@@ -116,6 +116,8 @@ onboarding/static/js/main.js.map
 onboarding/static/js/employee.js.map
 switch_main_js.sh
 
-
 # Ignore uploaded media files during local testing
 onboarding/media/
+
+# Ignore Apple macOS file with custom attributes
+.DS_Store
