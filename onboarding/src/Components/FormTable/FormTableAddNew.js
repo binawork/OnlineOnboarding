@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addPage } from "../hooks/PackagePage";
 import ModalWarning from "../ModalWarning";
 import { clickButtonAfterPressingEnter } from "../utils";
@@ -6,6 +6,22 @@ import { clickButtonAfterPressingEnter } from "../utils";
 function FormTableAddNew(props) {
     const [title, setTitle] = useState("");
     const [packageModal, setPackageModal] = useState();
+    const [button, setButton] = useState(
+        window.innerWidth > 460
+            ? "Dodaj"
+            : <i className="bi bi-plus-circle"></i>
+    );
+
+    useEffect(() => {
+        window.addEventListener("resize", handleResize);
+    }, []);
+
+    const handleResize = () => {
+        setButton(window.innerWidth > 460
+            ? "Dodaj"
+            : <i className="bi bi-plus-circle"></i>
+        )
+    };
 
     const handleClick = function(e){
         let order = props.getOrder();
@@ -36,15 +52,35 @@ function FormTableAddNew(props) {
 
     return(
         <div className="row mb-4">
-            <div className="col">
+            <div className="col pr-0">
                 <div className="has-clearable">
-                    <button type="button" className="close" aria-label="Close"><span aria-hidden="true"/></button>
-                    <input type="text" value={ title } onChange = { handleInputTitle } onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-add-page") } className="form-control" placeholder="Nowa nazwa formularza" />
+                    <button
+                        type="button"
+                        className="close"
+                        aria-label="Close">
+                        <span aria-hidden="true"/>
+                    </button>
+                    <input
+                        type="text"
+                        value={ title }
+                        onChange={ handleInputTitle }
+                        onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-add-page") }
+                        className="form-control"
+                        placeholder="Nowa nazwa formularza" />
                 </div>
             </div>
             <div className="col-auto">
                 <div className="dropdown">
-                    <button id="btn-add-page" className="btn btn-secondary" data-display="static" aria-haspopup="true" aria-expanded="false" onClick={ handleClick }>Dodaj</button>
+                    <button
+                        id="btn-add-page"
+                        className="btn btn-secondary"
+                        data-display="static"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        onClick={ handleClick }
+                    >
+                        { button }
+                    </button>
                 </div>
             </div>
             { packageModal }

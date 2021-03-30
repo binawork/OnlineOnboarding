@@ -16,7 +16,7 @@ function FormTableRow(props) {
 
     return (
       <tr className={ `table__row ${styleRow || ""}` }>
-        <td className="table__data">
+        <td className="FormTable__data-name table__data">
           <Link
             to={{
               pathname: `/form/${props.row.id}`,
@@ -33,7 +33,7 @@ function FormTableRow(props) {
             {props.row.name}
           </Link>
         </td>
-        <td className="table__data">{dateToString(props.row.last_edit)}</td>
+        <td className="FormTable__data-date table__data">{dateToString(props.row.last_edit)}</td>
         <td className="table__data table__data--nowrap">
           <Link
             to={{
