@@ -370,7 +370,6 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         # serializer = PackageAddUsersSerializer
 
         for user in users:
-
             # check if the hr_user is from the same company as the package (form)
             # to which he /she wants to add a new user
             if hr_user.company_id == pkg_company.id:
@@ -387,12 +386,23 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
                 raise ValueError("""Możesz dodawać do formularzy tylko tych
                     użytowników, którzy są z tej samej firmy.""")
 
+#mail notification has to be rewrited: it's bugged in here and in 'dev' branch
+        # for user in users:
+        #     send_add_user_to_package_email(
+        #         EMAIL_HOST_USER,
+        #         user,
+        #         package
+        #     )
+
+        users |= User.objects.filter(id=hr_user.id)
+        for user in users:
             if user not in package.users.all():
                 package.users.add(user)
-                send_add_user_to_package_email(
-                    EMAIL_HOST_USER,
-                    user,
-                    package)
+                if user.is_hr != True:
+                    send_add_user_to_package_email(
+                        EMAIL_HOST_USER,
+                        user,
+                        package)
 
         serializer = PackageSerializer(package)
         return Response(serializer.data)
@@ -847,4 +857,3 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
             # queryset = Section.objects.annotate(ans=FilteredRelation('answer', condition=q_owner)).filter(q1)
             queryset = Section.objects.filter(q1)
         return queryset
-
