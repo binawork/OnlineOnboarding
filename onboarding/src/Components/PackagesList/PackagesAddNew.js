@@ -4,14 +4,11 @@ import { clickButtonAfterPressingEnter } from "../utils";
 
 function PackagesAddNew(props) {
     const [title, setTitle] = useState("");
-    const [button, setButton] = useState(
-        window.innerWidth > 420
-            ? "Dodaj"
-            : <i className="bi bi-plus-circle"></i>
-    );
+    const [button, setButton] = useState();
 
     useEffect(() => {
-        window.addEventListener("resize", handleResize);
+        handleWindowResize();
+        window.addEventListener("resize", handleWindowResize);
     }, []);
 
     /*var addSuccess = (result) => {
@@ -19,7 +16,7 @@ function PackagesAddNew(props) {
         console.log(result);
     };*/
 
-    const handleResize = () => {
+    const handleWindowResize = () => {
         setButton(window.innerWidth > 420
             ? "Dodaj"
             : <i className="bi bi-plus-circle"></i>

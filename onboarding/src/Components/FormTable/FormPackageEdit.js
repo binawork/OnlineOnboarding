@@ -9,27 +9,20 @@ function FormPackageEdit({ title, description, packageId, setPackageTitleInAddre
     const [packageTitle, setPackageTitle] = useState("");
     const [packageDescription, setPackageDescription] = useState("");
     const [editTitle, setEditTitle] = useState(false);
-    const [buttonEdit, setButtonEdit] = useState(
-        window.innerWidth > 460
-            ? "Edytuj"
-            : <i className="bi bi-pencil-square"></i>
-    );
-    const [buttonSave, setButtonSave] = useState(
-        window.innerWidth > 460
-            ? "Zapisz"
-            : <SaveIcon />
-    );
+    const [buttonEdit, setButtonEdit] = useState();
+    const [buttonSave, setButtonSave] = useState();
 
     useEffect(() => {
-        window.addEventListener("resize", handleResize);
+        handleWindowResize();
+        window.addEventListener("resize", handleWindowResize);
     }, []);
     
     useEffect(() => {
         title && setPackageTitle(title);
         description ? setPackageDescription(description) : setPackageDescription("");
-    }, [title, description])
-    
-    const handleResize = () => {
+    }, [title, description]);
+
+    const handleWindowResize = () => {
         setButtonEdit(window.innerWidth > 460
             ? "Edytuj"
             : <i className="bi bi-pencil-square"></i>
@@ -38,7 +31,7 @@ function FormPackageEdit({ title, description, packageId, setPackageTitleInAddre
             ? "Zapisz"
             : <SaveIcon />
         );
-    };
+      }
     
     const handleInputTitle = function(e){
         setPackageTitle(e.target.value);

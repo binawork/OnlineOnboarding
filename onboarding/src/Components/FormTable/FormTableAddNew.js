@@ -6,17 +6,14 @@ import { clickButtonAfterPressingEnter } from "../utils";
 function FormTableAddNew(props) {
     const [title, setTitle] = useState("");
     const [packageModal, setPackageModal] = useState();
-    const [button, setButton] = useState(
-        window.innerWidth > 460
-            ? "Dodaj"
-            : <i className="bi bi-plus-circle"></i>
-    );
+    const [button, setButton] = useState();
 
     useEffect(() => {
-        window.addEventListener("resize", handleResize);
+        handleWindowResize();
+        window.addEventListener("resize", handleWindowResize);
     }, []);
 
-    const handleResize = () => {
+    const handleWindowResize = () => {
         setButton(window.innerWidth > 460
             ? "Dodaj"
             : <i className="bi bi-plus-circle"></i>
@@ -77,6 +74,7 @@ function FormTableAddNew(props) {
                         data-display="static"
                         aria-haspopup="true"
                         aria-expanded="false"
+                        title="Dodaj"
                         onClick={ handleClick }
                     >
                         { button }
