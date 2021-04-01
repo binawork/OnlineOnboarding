@@ -35,6 +35,9 @@
 .FormAddSection {
   position: sticky;
   top: 100px;
+  &__button--save {
+    margin-right: .25rem;
+  }
   &__button-add {
     width: 100%;
     margin-bottom: .5rem;
@@ -98,15 +101,15 @@
     left: 0;
     &__body {
       display: flex;
-      padding: 0;
+      padding: 0!important;
     }
     &__button {
       width: 45px;
-      height: 45px;
+      height: 45px!important;
       content-visibility: hidden;
       background-repeat: no-repeat;
       background-position: center;
-      border-radius: 50%;
+      border-radius: 50%!important;
       margin: 0 .8rem 0 0!important;
       &--preview {
         background-image: url('../icons/eye.svg');
@@ -121,8 +124,8 @@
     &__button-add {
       margin-bottom: 0;
       width: 40px;
-      height: 40px;
-      border-radius: 50%;
+      height: 40px!important;
+      border-radius: 50%!important;
       display: flex;
       opacity: 1;
       justify-content: center;
@@ -137,17 +140,17 @@
       align-items: center;
     }
     &__buttons-wrapper {
-      margin: 0 .5rem;
+      margin: 0 .5rem!important;
       justify-content: center;
     }
     &__col {
-      padding: 0 4px;
+      padding: 0 4px!important;
     }
     &__header {
       display: none;
     }
     &__plus {
-      margin: 0 0 0 auto;
+      margin: 0 0 0 auto!important;
       display: block;
       color: var(--light);
       padding: 0;
@@ -157,20 +160,20 @@
         outline: none!important;
       }
       &-wrapper {
-        padding: 0;
+        padding: 0!important;
       }
     } 
     &__wrapper {
-      position: absolute;
+      position: absolute!important;
       z-index: 12;
-      right: 0;
+      right: 0!important;
       width: 52px;
       height: 52px;
       padding: .5rem;
-      margin: 0 .5rem;
-      bottom: .5rem;
-      border-radius: 50px;
-      background: var(--yellow);
+      margin: 0 .5rem!important;
+      bottom: 4.5px;
+      border-radius: 50px!important;
+      background: var(--yellow)!important;
       transition: width .3s linear;
       &--resize {
         width: 196px;

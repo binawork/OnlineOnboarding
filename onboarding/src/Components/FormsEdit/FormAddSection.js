@@ -134,7 +134,7 @@ function FormAddSection({
         <div className="FormAddSection__buttons-box input-group-append">
           <button
             type="submit"
-            className="FormAddSection__button FormAddSection__button--save btn btn-success mr-1"
+            className="FormAddSection__button FormAddSection__button--save btn btn-success"
             title="Zapisz pytania"
           >
             Zapisz pytania
