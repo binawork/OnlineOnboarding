@@ -1,0 +1,24 @@
+.Navbar {
+  &__dropdown {
+    position: absolute!important;
+    top: 56px!important;
+    left: -84px!important;
+    &-arrow {
+      left: auto;
+      right: .5rem;
+    }
+  }
+}
+
+@media(max-width: 420px) {
+  .Navbar {
+    flex-direction: row-reverse;
+    &__dropdown {
+      left: 5px!important;
+      &-arrow {
+        left: .5rem;
+        right: auto;
+      }
+    }
+  }
+}
