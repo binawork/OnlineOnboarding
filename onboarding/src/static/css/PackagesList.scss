@@ -1,3 +1,9 @@
+.PackagesList__data {
+  &--nowrap {
+      white-space: nowrap;
+  }
+}
+
 @media(max-width: 1036px) {
   .PackagesList {
     &__data {

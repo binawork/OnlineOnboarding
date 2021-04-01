@@ -11,7 +11,7 @@ function PackagesRow({ row, removeAsk, lastRow }) {
     const [showStyle, setShowStyle] = useState("none");
 
     const pagesRows = row.pages.map((page) => 
-        <tr className="table__row" key={ page.id } style={{ display: showStyle }}>
+        <tr key={ page.id } style={{ display: showStyle }}>
             <td colSpan="3">
                 <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
                 <Link
@@ -49,8 +49,8 @@ function PackagesRow({ row, removeAsk, lastRow }) {
 
     return(
         <>
-            <tr className={ `table__row ${styleRow || ""}` }>
-                <td className="PackagesList__data--name table__data" style={{ paddingLeft: row.pages.length === 0 ? "38px" : "" }}>
+            <tr className={ styleRow || "" }>
+                <td className="PackagesList__data--name" style={{ paddingLeft: row.pages.length === 0 ? "38px" : "" }}>
                     <div>
                         <button 
                             className={`caret-icon ${rotate ? "caret-icon--rotate" : ""}`}
@@ -77,11 +77,11 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                     </div>
                     <small><i>{ row.description }</i></small>
                 </td>
-                <td className="PackagesList__tag--hide table__data">
+                <td className="PackagesList__tag--hide">
                     <Tag title={`Liczba plików: ${ row.pages.length || 0 }`} color={"grey"} />
                 </td>
-                <td className="PackagesList__data--date table__data">{ dateToString(row.last_edit) }</td>
-                <td  className="table__data table__data--nowrap d-flex flex-column">
+                <td className="PackagesList__data--date">{ dateToString(row.last_edit) }</td>
+                <td  className="PackagesList__data--nowrap d-flex flex-column">
                     <Link to={ `/send_package/${row.id}` } className="btn btn-secondary mb-1">
                         Wyślij pracownikowi
                     </Link>

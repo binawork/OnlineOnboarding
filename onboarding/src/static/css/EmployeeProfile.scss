@@ -40,6 +40,12 @@
   }
 }
 
+.FormsSent__data {
+  &--nowrap {
+      white-space: nowrap;
+  }
+}
+
 @media(max-width: 1024px) {
   .EmployeeProfileUser {
     flex-direction: column;
