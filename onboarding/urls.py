@@ -74,9 +74,11 @@ router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePage
 # router.register(r'api/package_pages/list_by_company_employee', PackagePagesViewSet, basename='PackagePages')
 # router.register(r'api/package_pages/<employee_id>/list_by_company_employee/', PackagePagesViewSet, basename='PackagePages')
 router.register(r'api/section_answers/(?P<page>\d+)', SectionAnswersViewSet,
-    basename='SectionAnswers')
+                basename='SectionAnswers')
 router.register(r'api/user_progress/(?P<user_id>\d+)', UserProgressView,
                 basename='UserProgress')
+router.register(r'api/user_progress', UserProgressView,
+                basename='UserProgress')  # didn't work when reversed;
 router.register(r'api/add_users_to_package', PackagesUsersViewSet,
                 basename='add_del_users_from_package')
 

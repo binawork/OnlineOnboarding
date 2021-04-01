@@ -28,10 +28,10 @@ function AddUserTable(props) {
 
 
     useEffect(() => {
-      const usersWithoutPackage = users.filter(singleUser => 
+      const usersWithoutPackage = users.filter(singleUser =>
         singleUser.id && usersInPackage.indexOf(singleUser.id) < 0
-      )
-      setUserTable(usersWithoutPackage)
+      );
+      setUserTable(usersWithoutPackage);
     }, [usersInPackage, users]);
 
     const sendToEmployee = (e) => {

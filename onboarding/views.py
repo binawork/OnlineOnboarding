@@ -29,15 +29,16 @@ from onboarding.models import Package, ContactRequestDetail, Page, Section, Answ
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackagePagesSerializer, PackageAddUsersSerializer
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, UserProgressSerializer, ContactFormTestSerializer
+from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackageAddUsersSerializer
+from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, ContactFormTestSerializer
+from .serializers import PackagePagesSerializer, PackagePagesForUsersSerializer, UserProgressSerializer, UserProgressLimitedSerializer
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
 
 from .permissions import IsHrUser
 from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email, send_remove_acc_email
 from .tokens import account_activation_token
-from .forms import HrSignUpForm, CustomSetPasswordForm
+from .forms import HrSignUpForm, HrSignUpFormEng, CustomSetPasswordForm
 
 
 def index(request):
@@ -52,30 +53,28 @@ def activate(request, uidb64, token):
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
+        # user.is_active = True
         user.save()
-        login(request, user)
+        # login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now ' +
-                            'you can login your account.')
+        return render(request, 'registration/register_email_confirm.html')
     else:
         return HttpResponse('Activation link is invalid!')
-
-
-
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     form_class = CustomSetPasswordForm
 
 
-
 def signup(request):
     if request.method == 'POST':
-        signup_form = HrSignUpForm(request.POST)
+        request_as_dict = request.__dict__
+        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+            signup_form = HrSignUpForm(request.POST)
+        else:
+            signup_form = HrSignUpFormEng(request.POST)
         if signup_form.is_valid():
             user = signup_form.save()
-
             current_site = get_current_site(request)
             subject = 'Rejestracja w Online Onboarding '
             html_message = render_to_string(
@@ -97,12 +96,13 @@ def signup(request):
                             [to],
                             html_message=html_message
             )
-            return HttpResponse(
-                'Please confirm your email address to complete the ' +
-                'registration'
-            )
+            return render(request, 'registration/register_done.html')
     else:
-        signup_form = HrSignUpForm()
+        request_as_dict = request.__dict__
+        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+            signup_form = HrSignUpForm()
+        else:
+            signup_form = HrSignUpFormEng()
     return render(
                     request,
                     'bootstrap/auth-signup.html',
@@ -152,8 +152,8 @@ def password_reset_request(request):
     return render(
         request=request,
         template_name='registration/password_reset_form.html',
-        context={'form': password_reset_form}  # {'password_reset_form': password_reset_form} didn't work;
-    )
+        context={'form': password_reset_form})
+# {'password_reset_form': password_reset_form} didn't work;
 
 
 # should send information to front about send reminder or not?
@@ -169,8 +169,7 @@ def reminder(request, employee_id, package_id):
             EMAIL_HOST_USER,
             employee,
             package,
-            current_site
-        )
+            current_site)
     return HttpResponse(current_site)
 
 
@@ -198,14 +197,13 @@ class CompanyLogoViewSet(views.APIView):
     def post(self, request, format=None):
         if self.request.user.is_hr:
             serializer = CompanyFileSerializer(data=request.data,
-                instance=request.user.company)
+                                               instance=request.user.company)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors,
-                    status=status.HTTP_400_BAD_REQUEST)
-
+                                status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserAvatarUpload(views.APIView):
@@ -227,7 +225,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action is "login_user":
+        if self.action == "login_user":
             self.permission_classes = [IsAuthenticated,]
         else:
             self.permission_classes = [IsHrUser, IsAuthenticated]
@@ -241,7 +239,7 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = User.objects.filter(pk=self.request.user.id)
         serializer = LogInUserSerializer(queryset, many=True)
         response = Response(serializer.data)
-        queryset.update(welcome_board = False)
+        queryset.update(welcome_board=False)
 
         return response
 
@@ -260,17 +258,15 @@ class UserViewSet(viewsets.ModelViewSet):
             user.company = self.request.user.company
             user_email = user.email
             user.save()
-
             current_site = get_current_site(request)
             associated_users = User.objects.filter(Q(email=user_email))
             if associated_users.exists():
                 for user in associated_users:
                     send_activation_email_for_user_created_by_hr(user=user,
                         current_site=current_site)
-
             return Response(status=201)
         else:
-            return Response(status=204)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -290,6 +286,7 @@ class UserViewSet(viewsets.ModelViewSet):
             user_email
         )
         return Response(status=204)
+
 
 class CompanyViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -311,7 +308,6 @@ class CompanyQuestionAndAnswerViewSet(viewsets.ModelViewSet):
     queryset = CompanyQuestionAndAnswer.objects.all()
     serializer_class = CompanyQuestionAndAnswerSerializer
     permission_classes = [IsAuthenticated]
-
 
     def perform_create(self, serializer):
         serializer.save(company=self.request.user.company)
@@ -341,7 +337,7 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsHrUser]
 
     def get_queryset(self):
-        if self.action is 'add_user_to_package':
+        if self.action == 'add_user_to_package':
             return Package.objects.filter(owner=self.request.user.company)
         return PackagesUsers.objects.filter(user__company=self.request.user.company)
 
@@ -379,18 +375,16 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
             if hr_user.company_id == pkg_company.id:
                 pass
             else:
-                e = "Możesz dodawać tylko do formularzy firmy, do której należysz."
-                raise ValueError(e)
+                raise ValueError("""Możesz dodawać tylko do formularzy firmy, do
+                    której należysz.""")
 
             # check if the hr_user is from the same company as the user
             # he /she wants to add to the package (form)
             if hr_user.company_id == user.company_id:
                 pass
             else:
-                e2 = "Możesz dodawać do formularzy tylko tych użytowników, którzy"
-                e3 = " są z tej samej firmy."
-                e4 = e2 + e3
-                raise ValueError(e4)
+                raise ValueError("""Możesz dodawać do formularzy tylko tych
+                    użytowników, którzy są z tej samej firmy.""")
 
 #mail notification has to be rewrited: it's bugged in here and in 'dev' branch
         # for user in users:
@@ -404,6 +398,11 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         for user in users:
             if user not in package.users.all():
                 package.users.add(user)
+                if user.is_hr != True:
+                    send_add_user_to_package_email(
+                        EMAIL_HOST_USER,
+                        user,
+                        package)
 
         serializer = PackageSerializer(package)
         return Response(serializer.data)
@@ -420,7 +419,6 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         serializer = PackageUsersSerializer(package_users, many=True)
         return Response(serializer.data)
     """
-#
 
 
 class PackageViewSet(viewsets.ModelViewSet):
@@ -499,7 +497,6 @@ class PackageViewSet(viewsets.ModelViewSet):
         serializer = PackageUsersSerializer(package)
 
         return Response(serializer.data) """
-#
 
 
 class PageViewSet(viewsets.ModelViewSet):
@@ -524,8 +521,7 @@ class PageViewSet(viewsets.ModelViewSet):
         return Response(
                         serializer.data,
                         status=status.HTTP_201_CREATED,
-                        headers=headers,
-        )
+                        headers=headers)
 
     @action(detail=True)
     def list_by_package_hr(self, request, pk):
@@ -551,8 +547,7 @@ class PageViewSet(viewsets.ModelViewSet):
         page = Page.objects.filter(
                                     package__id=pk,
                                     owner=self.request.user.company,
-                                    package__users=self.request.user,
-        )
+                                    package__users=self.request.user)
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
@@ -593,9 +588,19 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
         :return: all packages with corresponding pages for ...
         """
         packages = Package.objects.filter(owner=request.user.company,
-            users=request.user)
+                                          users=request.user)
         serializer = PackagePagesSerializer(packages, many=True)
 
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=PackagePagesForUsersSerializer)
+    def users(self, request):
+        """
+        :param request: user
+        :return: all packages with corresponding pages for company of the authenticated user having few fields
+        """
+        package_pages = Package.objects.filter(owner=request.user.company, users__isnull=False).distinct()
+        serializer = PackagePagesForUsersSerializer(package_pages, many=True)
         return Response(serializer.data)
 #
 
@@ -609,6 +614,13 @@ class SectionViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
+#TBD: double check if 'sections' are not duplicating (see: serializers.py,
+#SectionSerializer, validate())
+        # if serializer.is_valid():
+        #     serializer.save(owner=self.request.user.company)
+        # else:
+        #     return Response(serializer.errors,
+        #                     status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True)
     def list_by_page_hr(self, request, pk):
@@ -618,8 +630,8 @@ class SectionViewSet(viewsets.ModelViewSet):
         :return: sections list by page id
         """
         section = Section.objects.filter(
-                                            page__id=pk,
-                                            owner=self.request.user.company
+            page__id=pk,
+            owner=self.request.user.company
         )  # add in the future
         # owner__page=request.user.company
         serializer = SectionSerializer(section, many=True)
@@ -634,9 +646,9 @@ class SectionViewSet(viewsets.ModelViewSet):
         :return: sections list by page id
         """
         section = Section.objects.filter(
-                                        page__id=pk,
-                                        owner=self.request.user.company,
-                                        page__package__users=self.request.user,
+            page__id=pk,
+            owner=self.request.user.company,
+            page__package__users=self.request.user,
         )
         serializer = SectionSerializer(section, many=True)
 
@@ -650,7 +662,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
-        if self.action is 'finished':
+        if self.action == 'finished':
             return AnswersProgressStatusSerializer
         else:
             return AnswerSerializer
@@ -677,8 +689,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
         """
         answer = Answer.objects.filter(
                         section__id=pk,
-                        section__page__package__owner=self.request.user.company,
-        )
+                        section__page__package__owner=self.request.user.company)
         serializer = AnswerSerializer(answer, many=True)
 
         return Response(serializer.data)
@@ -703,24 +714,28 @@ class AnswerViewSet(viewsets.ModelViewSet):
     def finished(self, request, pk):
         """
         :param request:
-        :param pk: this is section ID if method is GET or page ID of section it belongs to if the method is PATCH
+        :param pk: this is section ID if method is GET or page ID of section it
+        belongs to if the method is PATCH
         :return: answers list by section id
         """
+
         if request.method == 'PATCH':
             answers = Answer.objects.filter(section__page__id=pk,
                                             owner=self.request.user)  # id__in=request.data['answers']
-
             if answers.count() < 1:
-                return Response(status=status.HTTP_404_NOT_FOUND)  # Resource not found
-
+                return Response(status=status.HTTP_404_NOT_FOUND)
             answers.update(finished=True)
-        else:
+
+        elif request.method == "GET":
             answers = Answer.objects.filter(
                                 section__id=pk,
                                 owner=self.request.user,
                                 section__page__package__users=self.request.user
             )
-        #
+
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         serializer = AnswersProgressStatusSerializer(answers, many=True)
 
         return Response(serializer.data)
@@ -781,7 +796,7 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
         return Response(serializer.data)
 
 
-class UserProgressView(viewsets.ModelViewSet):
+class UserProgressView(viewsets.ReadOnlyModelViewSet):
     """
     List answers of user/employee with corresponding sections with information
         about page and package id;
@@ -791,15 +806,34 @@ class UserProgressView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        employee = self.kwargs['user_id']
+        employee = self.kwargs.get('user_id', None)
 
         if self.request.user.is_hr:
-            # queryset = Page.objects.filter(section__answer__owner=employee, section__owner=user.company)
-            queryset = Answer.objects.select_related('section', 'section__page').filter(owner=employee, section__owner=user.company)
+            if employee is not None:
+                # queryset = Page.objects.filter(section__answer__owner=employee, section__owner=user.company)
+                queryset = Answer.objects.select_related('section', 'section__page').filter(owner=employee, section__owner=user.company)
+            else:
+                # users = User.objects.filter(company=self.request.user.company)
+                # queryset = Answer.objects.select_related('section', 'section__page').filter(owner__in=users, section__owner=user.company)
+                queryset = Answer.objects.none()
+            #
         else:
             queryset = Answer.objects.select_related('section', 'section__page').filter(owner=user, section__owner=user.company)
 
         return queryset
+
+    @action(detail=False, permission_classes=[IsAuthenticated, IsHrUser], serializer_class=UserProgressLimitedSerializer, url_name="progress-of-all")
+    def list_all(self, request, pk=None):
+        # if not self.request.user.is_hr:
+        #     return Response(status.HTTP_403_FORBIDDEN)
+
+        user = self.request.user
+
+        users = User.objects.filter(company=user.company)
+        queryset = Answer.objects.select_related('section', 'section__page').filter(owner__in=users, section__owner=user.company)
+
+        serializer = UserProgressLimitedSerializer(queryset, many=True)
+        return Response(serializer.data)
 #
 
 

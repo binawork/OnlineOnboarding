@@ -1,0 +1,19 @@
+@import "animations.css";
+
+.SaveInfo {
+  animation: showAndHide 3s linear forwards;
+  display: fixed-bottom;
+  left: 240px;
+  &__content {
+    width: max-content;
+    background-color: #e2e8ee91;
+    color: black;
+    border-radius: 4px;
+  }
+}
+
+@media(max-width: 767px) {
+  .SaveInfo {
+    left: 0;
+  }
+}

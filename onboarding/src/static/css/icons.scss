@@ -10,16 +10,22 @@
   color: inherit;
   background: none;
   border: none;
+  &:focus {
+    outline: none;
+  }
+  & > svg {
+    transition: all .1s linear;
+  }
+  &--rotate > svg {
+    transform: rotate(90deg);
+    transition: transform .1s linear;
+  }
 }
-.caret-icon:focus {
-  outline: none;
-}
-.caret-icon > svg {
-  transition: all .1s linear;
-}
-.caret-rotate > svg {
-  transform: rotate(90deg);
-  transition: transform .1s linear;
+
+.close-icon {
+  position: absolute;
+  right: 0;
+  top: -24px;
 }
 
 .fa-folder {

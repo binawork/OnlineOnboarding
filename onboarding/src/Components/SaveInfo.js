@@ -1,22 +1,11 @@
 import React from "react";
+import "../static/css/SaveInfo.scss";
 
-const SaveInfo = () => {
+const SaveInfo = ({ message }) => {
   return (
-    <div
-      className="fixed-bottom d-flex justify-content-center show-and-hide"
-      style={{ display: "fixed-bottom", left: "240px" }}
-    >
-      <div
-        className="m-2 p-2"
-        style={{
-          width: "150px",
-          backgroundColor: "rgba(226, 232, 238, 0.57)",
-          color: "black",
-          textAlign: "center",
-          borderRadius: "4px",
-        }}
-      >
-        Zapisano zmiany
+    <div className="SaveInfo fixed-bottom d-flex justify-content-center show-and-hide">
+      <div className="SaveInfo__content m-2 p-2 text-center">
+        { message ? message : "Zapisano zmiany" }
       </div>
     </div>
   );
