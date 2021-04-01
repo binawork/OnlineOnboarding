@@ -6,6 +6,17 @@ const Employee = ({ employee }) => {
   if(employee.avatar && employee.avatar.length > 1)
     avatar = employee.avatar;
 
+  let /*percentage = "",*/ progress;
+  if(employee.progress)
+    progress = employee.progress;
+  else if(employee.sent)
+    progress = "0 / " + employee.sent;
+  else
+    progress = "0 / 0";
+
+  //if(employee.hasOwnProperty("percentage") )/ / using  employee.percentage  would be false when employee.percentage = 0;
+  //  percentage = "(" + employee.percentage + "%  formularzy)";
+
     return (
     <div className="card mb-2">
       <div className="card-body">
@@ -45,7 +56,7 @@ const Employee = ({ employee }) => {
           </div>
           <div className="col">
             <p className="m-0">
-            <span className="text-muted">Postęp wdrożenia:</span> 0 / {employee.sent || "0"}
+            <span className="text-muted">Postęp wdrożenia:</span> { progress } {/* percentage */}
             </p>
           </div>
         </div>

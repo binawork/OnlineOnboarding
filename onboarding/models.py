@@ -41,8 +41,8 @@ class CompanyQuestionAndAnswer(models.Model):
 
     """
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
-    question = models.TextField(max_length=500, null=True, blank=True)
-    answer = models.TextField(max_length=500, null=True, blank=True)
+    question = models.TextField(max_length=2000, null=True, blank=True)
+    answer = models.TextField(max_length=2000, null=True, blank=True)
     order = models.IntegerField(name="order", null=True)
 
 
@@ -135,7 +135,7 @@ class Package(models.Model):
 
 class PackagesUsers(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    package = models.ForeignKey(Package, on_delete=models.PROTECT) # CASCADE - when package removed, remove fields from this model where package = removed_package also;
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)  # CASCADE - when package removed, remove fields from this model where package = removed_package also;
     send_on = models.DateTimeField(auto_now_add=True)
 
 
@@ -164,7 +164,8 @@ class Section(models.Model):
     owner = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
     order = models.IntegerField()
     title = models.CharField(max_length=200)
-    description = models.TextField(max_length=1500, help_text='Enter a brief description', null=True, blank=True)
+    description = models.TextField(max_length=1500, help_text='Enter a brief description',
+        null=True, blank=True)
     link = models.URLField(null=True, blank=True)
     TYPES = [
         ('msa', 'Multi select answer'),

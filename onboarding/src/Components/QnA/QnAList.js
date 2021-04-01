@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import QnA from "./QnA";
 import { getQnA, saveAll } from "../hooks/QnAAPI";
 import ModalWarning from "../ModalWarning";
+import SaveInfo from "../SaveInfo";
+import { onDragEnd } from "../utils";
 
 const QnAList = () => {
   const [maxOrder, setMaxOrder] = useState(0);
@@ -12,34 +14,45 @@ const QnAList = () => {
   const [editMode, changeEditMode] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState(null);
+  const [autosave, setAutosave] = useState(false);
+  const [saveOnDemand, setSaveOnDemand] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
 
   useEffect(() => {
     const accepted = getQnA(setQaList, setMaxOrder, setLoading, setError);
     if(accepted) setError(false);
   }, []);
-
+  
+  const showAutosaveInfo = () => {
+    // Show info "Zapisano zmiany" for 3 sec. when the changes were saved
+    if(saveOnDemand !== true) {
+      setAutosave(true);
+      const timer = setTimeout(() => {
+          setAutosave(false);
+      }, 3000);
+      
+      return () => {
+          clearTimeout(timer);
+      }
+    };
+  }
+  
   useEffect(() => {
-    if (editMode) {
+    if(editMode && saveOnDemand !== true) {
+      setSaveError(null);
       // Save changes after 3 sec. form last change
       const saveInterval = setTimeout(
-        () => saveAll(qaList, setQaList, setSaved),
+        () => {
+          if(saveOnDemand !== true) {
+            saveAll(qaList, setSaveError, showAutosaveInfo);
+          }
+        },
         3000
       );
       return () => clearTimeout(saveInterval);
     } 
   }, [qaList]);
-
-  useEffect(() => {
-    // Show info "Zapisano zmiany" for 3 sec. when the changes were saved
-    if (saved) {
-      const timer = setTimeout(setSaved, 3000, false);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [saved]);
 
   const handleAddQnA = (e) => {
     e.preventDefault();
@@ -55,45 +68,25 @@ const QnAList = () => {
   
   const hideModal = () => {
     setShowSaveModal(false);
+    setSaveError(null);
+    setSaveOnDemand(false);
   };
-
+  const showModal = () => {
+    setShowSaveModal(true);
+  };
   const handleSaveAll = (e) => {
     e.preventDefault();
-    saveAll(qaList, setQaList);
-    setShowSaveModal(true);
+    setAutosave(false);
+    setSaveOnDemand(true);
+    const accepted = saveAll(qaList, setSaveError, showModal);
+    if(accepted) {
+      setQaList(accepted);
+    }
   };
 
   const handleShowPreview = (e) => {
     e.preventDefault();
     changeEditMode(!editMode);
-  };
-
-  const onDragEnd = (result) => {
-    // destination, source -> objects in which you can find the index of the destination and index of source item
-    const { destination, source, reason } = result;
-    // Not a thing to do...
-    if (!destination || reason === "CANCEL") {
-      return;
-    }
-    //If drop an element to the same place, it should do nothing
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
-      return;
-
-    const droppedSection = qaList[source.index];
-    const pageSections = [...qaList];
-
-    pageSections.splice(source.index, 1);
-    pageSections.splice(destination.index, 0, droppedSection);
-
-    const updatedList = pageSections.map((qa, index) => {
-      qa.order = index + 1;
-      return qa;
-    });
-
-    setQaList(updatedList);
   };
 
   const questionsAndAnswers = qaList
@@ -145,7 +138,7 @@ const QnAList = () => {
             Wciśnij przycisk "Edytuj", aby móc dodawać pytania i odpowiedzi
           </div>
         ) : editMode ? (
-          <DragDropContext onDragEnd={onDragEnd}>
+          <DragDropContext onDragEnd={(result) => onDragEnd(result, qaList, setQaList)}>
             <Droppable droppableId="dp1">
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -156,21 +149,23 @@ const QnAList = () => {
             </Droppable>
           </DragDropContext>
         ) : (
-          questionsAndAnswers
+          <div className="mb-3">
+            { questionsAndAnswers }
+          </div>
         )}
       </section>
 
       {editMode ? (
-        <footer className="card-footer">
+        <div className="card-footer">
           <a href="#" className="card-footer-item" onClick={handleAddQnA}>
             <i className="fa fa-plus-circle mr-1"></i>
             Dodaj Q&A
           </a>
-        </footer>
+        </div>
       ) : (
         <></>
       )}
-      <div className="card-body rounded-bottom border-top">
+      <footer className="QnA__footer card-body rounded-bottom border-top">
         <button
           className="btn btn-success mr-3"
           onClick={handleSaveAll}
@@ -181,43 +176,25 @@ const QnAList = () => {
         <button className="btn btn-success mr-3" onClick={handleShowPreview}>
           {editMode ? "Podgląd" : "Edytuj"}
         </button>
-      </div>
+      </footer>
 
-      {saved ? (
-        <div
-          className="fixed-bottom d-flex justify-content-center show-and-hide"
-          style={{ display: "fixed-bottom", left: "240px" }}
-        >
-          <div
-            className="m-2 p-2"
-            style={{
-              width: "150px",
-              backgroundColor: "rgba(226, 232, 238, 0.57)",
-              color: "black",
-              textAlign: "center",
-              borderRadius: "4px",
-            }}
-          >
-            Zapisano zmiany
-          </div>
-        </div>
-      ) : (
-        <></>
+      {autosave && (
+        <SaveInfo message={saveError ? "Nie udało się zapisać - któreś z pól może zawierać za dużo znaków." : "Zapisano zmiany"} />
       )}
-      {showSaveModal ? (
+      {showSaveModal && saveOnDemand && (
         <ModalWarning
           handleAccept={hideModal}
           title={"Zapisywanie Q&A"}
           message={
-            error
-              ? "Nie udało się zapisać"
+            saveError
+              ? saveError
               : "Zmiany zostały pomyślnie zapisane"
           }
           show={true}
           acceptText={"Ok"}
           id={0}
         />
-      ) : null}
+      )}
     </div>
   );
 };

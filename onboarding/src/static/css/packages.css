@@ -1,5 +1,5 @@
 @import "animations.css";
-@import "icons.css";
+@import "icons.scss";
 
 .style-package-row {
   animation: newRowColor 3s ease-in-out;
