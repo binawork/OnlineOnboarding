@@ -1,5 +1,8 @@
 .FormTable {
   &__data {
+    &--nowrap {
+      white-space: nowrap;
+    }
     &-name {
       min-width: 200px;
     }
