@@ -370,7 +370,6 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         # serializer = PackageAddUsersSerializer
 
         for user in users:
-
             # check if the hr_user is from the same company as the package (form)
             # to which he /she wants to add a new user
             if hr_user.company_id == pkg_company.id:
@@ -387,17 +386,28 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
                 raise ValueError("""Możesz dodawać do formularzy tylko tych
                     użytowników, którzy są z tej samej firmy.""")
 
+<<<<<<< HEAD
         for user in users:
             send_add_user_to_package_email(
                 EMAIL_HOST_USER,
                 user,
                 package
             )
+=======
+#mail notification has to be rewrited: it's bugged in here and in 'dev' branch
+        # for user in users:
+        #     send_add_user_to_package_email(
+        #         EMAIL_HOST_USER,
+        #         user,
+        #         package
+        #     )
+>>>>>>> dcb841079997048780595b49e139e52e82d1302d
 
         users |= User.objects.filter(id=hr_user.id)
         for user in users:
             if user not in package.users.all():
                 package.users.add(user)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
                 send_add_user_to_package_email(
@@ -405,6 +415,13 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
                     user,
                     package)
 >>>>>>> a8f4c2257520bcc3e471f4015df5f54ca442b4e1
+=======
+                if user.is_hr != True:
+                    send_add_user_to_package_email(
+                        EMAIL_HOST_USER,
+                        user,
+                        package)
+>>>>>>> dcb841079997048780595b49e139e52e82d1302d
 
         serializer = PackageSerializer(package)
         return Response(serializer.data)
@@ -891,4 +908,3 @@ class SectionAnswersViewSet(viewsets.ModelViewSet):
             # queryset = Section.objects.annotate(ans=FilteredRelation('answer', condition=q_owner)).filter(q1)
             queryset = Section.objects.filter(q1)
         return queryset
-

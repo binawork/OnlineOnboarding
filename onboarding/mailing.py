@@ -64,7 +64,7 @@ def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
 
     subject = f'Dodano użytkownika {user} do {package}'
     html_message = render_to_string(
-        'templated_email/add_user_to_form.html',
+        'templated_email/form_notification.html',
         {
             "user": user,
             "package": package
@@ -102,6 +102,7 @@ def send_remove_acc_email(EMAIL_HOST_USER, user_email):
         [to],
         html_message=html_message,
     )
+<<<<<<< HEAD
 
 def answer_send_notification_email(EMAIL_HOST_USER, user_email, employee, form,
     hr_user):
@@ -123,3 +124,5 @@ def answer_send_notification_email(EMAIL_HOST_USER, user_email, employee, form,
             [to],
             html_message=html_message,
         )
+=======
+>>>>>>> dcb841079997048780595b49e139e52e82d1302d
