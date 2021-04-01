@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import "./static/css/style.scss";
+import "./static/css/App.scss";
 import Navbar from "./Components/Navbar";
 import LeftMenu from "./Components/LeftMenu";
 import LoggedUser from "./Components/hooks/LoggedUser.js";
@@ -49,7 +50,7 @@ function App() {
           <Navbar loggedUser={ loggedUser } showAside={ showAside } setToggleAside={ setToggleAside } />
         </header>
         <LeftMenu packagesList={ packagesList } showAside={ showAside } setToggleAside={ setToggleAside } />
-        <main className="app-main">
+        <main className="App__main app-main">
           <div className="wrapper">
             <div className="page container-xl">
             {/* <div className="page has-sidebar-expand-xl"> */}
