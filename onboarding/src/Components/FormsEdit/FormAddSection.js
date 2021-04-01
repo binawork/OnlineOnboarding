@@ -23,7 +23,7 @@ function FormAddSection({
   }, []);
 
   const handleWindowResize = () => {
-    setShowButtons(window.innerWidth > 540
+    setShowButtons(window.innerWidth > 810
       ? true
       : false
     )

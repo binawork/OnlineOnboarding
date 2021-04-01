@@ -23,7 +23,7 @@ function Navbar({ loggedUser, showAside, setToggleAside }) {
 
     return(
        <nav className="Navbar top-bar navbar p-0 flex-nowrap">
-            <div className="top-bar-brand pr-5" style={{height: "auto"}}>
+            <div className="Navbar__brand top-bar-brand pr-5" style={{height: "auto"}}>
                 <Link to="/" className="navbar-brand">Online Onboarding</Link>
             </div>
             <div className="top-bar-item px-2 d-md-none d-lg-none d-xl-none">

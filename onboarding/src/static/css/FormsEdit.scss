@@ -81,13 +81,14 @@
   }
 }
 
-@media(max-width: 540px) {
+@media(max-width: 810px) {
   .FormsEdit {
     &__sections {
       padding-bottom: 50px;
     }
   }
   .FormAddSection {
+    padding-left: 280px!important;
     display: flex;
     padding: .5rem;
     width: 100%;
@@ -177,6 +178,12 @@
 
       }
     }
+  }
+}
+
+@media(max-width: 767px) {
+  .FormAddSection {
+    padding-left: 0!important;
   }
 }
 
