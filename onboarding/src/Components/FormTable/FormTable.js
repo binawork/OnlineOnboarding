@@ -131,7 +131,7 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
             <div className="card-body">
             { pages && 
               <div className="table-responsive">
-                <table className="table">
+                <table className="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th scope="col" style={{ width: "50%" }}>Nazwa formularza</th>

@@ -24,7 +24,7 @@ const EmployeeFormPages = ({ switchPage, actualPackageId }) => {
           <div className="card card-fluid">
             <div className="card-header">Lista formularzy</div>
             <div className="card-body">
-              <table className="table table-striped">
+              <table className="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th scope="col" style={{ width: "50%" }}>

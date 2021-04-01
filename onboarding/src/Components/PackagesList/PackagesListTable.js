@@ -113,7 +113,7 @@ function PackagesListTable({ setPackagesList }) {
                     { isLoading && <p>Ładowanie...</p> }
                     { packages && (
                         <div className="table-responsive">
-                            <table className="table">
+                            <table className="table table-striped table-hover">
                                 <thead>
                                 <tr>
                                     <th scope="col">Nazwa</th>{/* sortowanie po * */}

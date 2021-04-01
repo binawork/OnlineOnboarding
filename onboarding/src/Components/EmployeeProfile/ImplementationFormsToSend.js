@@ -56,7 +56,7 @@ function ImplementationFormsToSend(props) {
                 { props.isLoading && <p>Ładowanie...</p> }
                 { !props.isLoading && !props.isError && (
                     <div className="table-responsive">
-                        <table className="table">
+                        <table className="table table-striped table-hover">
                             <thead><tr>
                                 <th scope="col">Katalog</th>
                                 <th scope="col">Liczba zadań</th>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Tag from "../Tag";
 import ProgressBar from "../ProgressBar";
-import "../../static/css/packages.css"
 
 function FormsSentTableRow(props) {
     const [toggleObj, switchVisibility] = useState({style:{ display: "none" },
@@ -60,13 +59,13 @@ function FormsSentTableRow(props) {
 
             return (
                 <tr key={ i } style={ toggleObj.style }>
-                    <td className="table__data text-nowrap">
+                    <td className="text-nowrap">
                         <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}/>
                         <a href="" title="Kliknij, aby przejść do odpowiedzi pracownika" onClick={ (e) => handleShowAnswers(e, page) }>
                             { page.title }
                         </a>
                     </td>
-                    <td className="table__data form-progress">
+                    <td className="form-progress">
                         <ProgressBar color={ finishMsg === "Skończone" ? "green" : "yellow" } backgroundSize={ percentage } />
                         <small className="ml-1">{ finishMsg }</small>
                     </td>
@@ -82,7 +81,7 @@ function FormsSentTableRow(props) {
     return(
         <>
             <tr>
-                <td className="table__data" style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
+                <td style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
                     <span className="text-nowrap">
                         { toggleObj.hasContent && (
                             <button 
@@ -97,14 +96,14 @@ function FormsSentTableRow(props) {
                     </span>
                     <span>{props.row.form}</span>
                 </td>
-                <td className="table__data">
+                <td>
                     <div className="package-progress">
                         { props.row.progress } { tag }
                     </div>
                 </td>
-                <td className="table__data">{props.row.send_date}</td>
-                <td className="table__data">{props.row.finish_date}</td>
-                <td className="table__data" style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td>
+                <td>{props.row.send_date}</td>
+                <td>{props.row.finish_date}</td>
+                <td style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td>
             </tr>
             { pages }
         </>
