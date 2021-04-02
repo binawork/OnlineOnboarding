@@ -391,10 +391,11 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         for user in users:
             if user not in package.users.all():
                 package.users.add(user)
-                send_add_user_to_package_email(
-                    EMAIL_HOST_USER,
-                    user,
-                    package)
+                if user.is_hr != True:
+                    send_add_user_to_package_email(
+                        EMAIL_HOST_USER,
+                        user,
+                        package)
 
         serializer = PackageSerializer(package)
         return Response(serializer.data)
