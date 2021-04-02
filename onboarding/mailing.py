@@ -102,7 +102,6 @@ def send_remove_acc_email(EMAIL_HOST_USER, user_email):
         [to],
         html_message=html_message,
     )
-<<<<<<< HEAD
 
 def answer_send_notification_email(EMAIL_HOST_USER, user_email, employee, form,
     hr_user):
@@ -124,5 +123,3 @@ def answer_send_notification_email(EMAIL_HOST_USER, user_email, employee, form,
             [to],
             html_message=html_message,
         )
-=======
->>>>>>> dcb841079997048780595b49e139e52e82d1302d
