@@ -266,8 +266,9 @@ class UserViewSet(viewsets.ModelViewSet):
                         current_site=current_site)
             return Response(status=201)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
+            if User.objects.filter(email = user_serializer.data['email']).exists():
+                return Response(status = status.HTTP_403_FORBIDDEN)
+            return Response(status = status.HTTP_400_BAD_REQUEST)
 
 
     @action(detail=False)
