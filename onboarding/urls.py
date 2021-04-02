@@ -18,6 +18,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     url('signup', views.signup, name='signup'),
     path('manage/', views.manager_view, name='manage'),
+    path('login/', views.manager_view, name='login'),
 ]
 
 # password reset
