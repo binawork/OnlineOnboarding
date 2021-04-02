@@ -387,13 +387,6 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
                 raise ValueError("""Możesz dodawać do formularzy tylko tych
                     użytowników, którzy są z tej samej firmy.""")
 
-        for user in users:
-            send_add_user_to_package_email(
-                EMAIL_HOST_USER,
-                user,
-                package
-            )
-
         users |= User.objects.filter(id=hr_user.id)
         for user in users:
             if user not in package.users.all():
