@@ -1,4 +1,5 @@
 .LeftMenu {
+  top: 56px!important;
   max-width: 280px!important;
   width: 100%!important;
   &__link {
@@ -9,7 +10,6 @@
     }
   }
   &__list {
-    padding-left: 2rem;
     list-style: none;
   }
   &__overflow {
@@ -29,16 +29,26 @@
       }
     }
   }
-  &--pseudo {
+  &__pseudo-wrapper {
+    width: 100%;
     z-index: 1;
     background: var(--light);
     &::before {
       content: '';
       position:absolute;
       z-index: -1;
-      width: 100vw;
+      width: 200vw;
       height: 100vh;
       background: rgba(0,0,0,.55);
     }
+  }
+  &__sublist {
+    padding-left: 2rem!important;
+  }
+  &__wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }

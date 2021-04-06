@@ -42,10 +42,9 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
         app-aside-expand-md app-aside-light 
         ${showAside ? "show" : ""}`}
       style={{zIndex: "9"}}>
-      <div className={`${showAside ? "LeftMenu--pseudo" : ""} w-100 h-100`}>
-        <div className={`aside-content ${ showAside ? "my-5" : ""}`}>
-          <header className="aside-header d-block d-md-none"></header>
-          <div className="aside-menu overflow-auto LeftMenu__overflow">
+      <div className={`${showAside ? "LeftMenu__pseudo-wrapper" : ""} w-100 h-100`} onClick={ handleHideAside }>
+        <div className="LeftMenu__wrapper">
+          <div className="LeftMenu__overflow aside-menu overflow-auto">
             <nav id="stacked-menu" className="stacked-menu">
               <ul className="LeftMenu__list">
                 <li className="menu-header px-0">
@@ -60,7 +59,9 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                   </NavLink>
                 </li>
 
-                <li className="menu-item has-child">
+                <li className={`${
+                  showFolders ? "has-active" : ""
+                } menu-item has-child`}>
                   <NavLink 
                     to="/packages" 
                     className="LeftMenu__link menu-link"
@@ -71,7 +72,7 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                     <span className="menu-text"> Wdrożenia</span>
                   </NavLink>
                   { showFolders && packagesList &&  (
-                    <ul className="menu">
+                    <ul className="LeftMenu__sublist menu">
                       { packagesList.map(element => (
                         <li key={`package-${element.id}`} className="menu-item">
                           <NavLink
