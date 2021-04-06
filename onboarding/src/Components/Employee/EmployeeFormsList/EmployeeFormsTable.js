@@ -5,7 +5,7 @@ import { SingleEmployeeForms } from "../../hooks/EmployeeForms";
 
 
 function EmployeeFormsTable(props) {
-    let employeePageCopylist= [], employeeForms = SingleEmployeeForms(0);
+    let employeePageCopyList= [], employeeForms = SingleEmployeeForms(0, function(){}, function(){});
 
     //console.log(employeeForms);
     /*if (employePageCopy) {
@@ -15,7 +15,7 @@ function EmployeeFormsTable(props) {
     }*/
 
     employeeForms.forEach(function(element, i){
-        employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages }
+        employeePageCopyList.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages }
                                                     setPageTitle={props.setPageTitle} loggedUser={ props.loggedUser } />);
     });
 
@@ -35,7 +35,7 @@ function EmployeeFormsTable(props) {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                        { employeePageCopylist }
+                        { employeePageCopyList }
                         </tbody>
                     </table>
                 </div>

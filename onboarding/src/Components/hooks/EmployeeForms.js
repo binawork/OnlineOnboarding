@@ -71,8 +71,10 @@ function EmployeeForms(employeeId, count, setError, setLoading){
 
 
 /**
- * Get packages or pages when for logged-in employee (pages for employees);
- * @param count - {count: int}
+ * Get packages with associated pages for logged-in employee;
+ * @param count
+ * @param setError
+ * @param setLoading
  * @returns {[]} - list of packages;
  * @constructor
  */
@@ -82,7 +84,7 @@ export function SingleEmployeeForms(count, setError, setLoading){
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
-		fetch(url + "api/package_pages/list_by_section_employee", fetchProps).then(
+		fetch(url + "api/package_pages/list_by_company_employee/", fetchProps).then(
 			(res) => {
 				if(!res.ok){
 					throw Error("Wystąpił błąd w pobieraniu katalogów!");
