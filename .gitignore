@@ -106,7 +106,7 @@ OnlineOnboarding/dont_touch_it_Wiktor.py
 .notes
 pgdump_schema.sql
 notes.txt
-main.js
+
 
 # React/node.js etc.
 node_modules/
@@ -118,4 +118,6 @@ switch_main_js.sh
 
 # Ignore uploaded media files during local testing
 onboarding/media/
-package-lock.json
+
+# Ignore Apple macOS file with custom attributes
+.DS_Store
