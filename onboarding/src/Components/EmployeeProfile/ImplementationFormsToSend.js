@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import FormsToSendTableRow from "./FormsToSendTableRow";
-import { assignEmployeeToPackage/*, EmployeeFormsList*/ } from "../hooks/EmployeeForms";
+import { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsToSend(props) {
     const [idsChecked, setIdsChecked] = useState([]);
     const [numberChecked, checkedChange] = useState(0);
-    let forms = [];//, form_table = props.packages/ /EmployeeFormsList(props, setError, setLoading, props.count);
+    let forms = [];//, form_table = props.packages;
 
     const showHide = (isChecked, packageId) => {
         if(isChecked) {
