@@ -1,23 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 //import { employePageCopy } from "./EmployePageFillData";
 import EmployeeFormsRow from "./EmployeeFormsRow";
-import { SingleEmployeeForms } from "../../hooks/EmployeeForms";
+import { getProgress, SingleEmployeeForms } from "../../hooks/EmployeeForms";
 
 
 function EmployeeFormsTable(props) {
-    let employeePageCopyList= [], employeeForms = SingleEmployeeForms(0, function(){}, function(){});
+    const [employeeForms, setEmployeeForms] = useState([]);
+    let employeePageCopyList= [], employeeForms2 = SingleEmployeeForms(0, function(){}, function(){});
 
-    //console.log(employeeForms);
-    /*if (employePageCopy) {
-        employePageCopy.forEach(function (element, i) {
-            employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToForm={ props.switchToForm } />)
+
+    const progressCallback = (result, message) => {
+
+    };
+
+    if(employeeForms.length > 0){
+        employeeForms.forEach(function(element, i){
+            employeePageCopyList.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages }
+                                                        setPageTitle={props.setPageTitle} loggedUser={ props.loggedUser } />);
         });
-    }*/
+    } else {
+        employeeForms2.forEach(function(element, i){
+            employeePageCopyList.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages }
+                                                        setPageTitle={props.setPageTitle} loggedUser={ props.loggedUser } />);
+        });
+    }
 
-    employeeForms.forEach(function(element, i){
-        employeePageCopyList.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages }
-                                                    setPageTitle={props.setPageTitle} loggedUser={ props.loggedUser } />);
-    });
+    useEffect(() => {
+        if(employeeForms2.length > 0 && props.loggedUser.id > 0){
+            setEmployeeForms(employeeForms2);
+            return getProgress(props.loggedUser.id, progressCallback);
+        }
+    }, [props.loggedUser, employeeForms2]);
 
 
     return(
