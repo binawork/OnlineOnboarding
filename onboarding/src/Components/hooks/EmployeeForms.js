@@ -72,71 +72,39 @@ function EmployeeForms(employeeId, count, setError, setLoading){
 
 /**
  * Get packages or pages when for logged-in employee (pages for employees);
- * @param props - {count: int}
+ * @param count - {count: int}
  * @returns {[]} - list of packages;
  * @constructor
  */
-export function SingleEmployeeForms(props){
-	var [rows , setRows] = useState([]),
-		[loaded, isLoaded] = useState(false);
-	const [error, showError] = useState(null);
-	let url = getPath(),
+export function SingleEmployeeForms(count, setError, setLoading){
+	const [groupedPackages, setPackages] = useState({packages: [], msg: "Ładowanie ..."});
+	const url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
-		fetch(url + "api/package_pages/list_by_company_employee/", fetchProps).then(res => res.json()).then(
-			(result) => {
-				isLoaded(true);
-				setRows(result);
-			},
-			(error) => {
-				console.log(error);
-				showError(error);
-			}
-		);
-	}, [props.count]);
-
-	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", form: "", progress: "", send_date: "", finish_date: "", pages: []};
-
-	if(error){
-		rowModel.name = error.message;
-		rowModel.empty = true;
-		let form_table = [];
-		form_table.push(rowModel);
-		return form_table;
-	} else if(!loaded){
-		rowModel.name = "Ładowanie ...";
-		rowModel.empty = true;
-		let form_table = [];
-		form_table.push(rowModel);
-		return form_table;
-	} else {
-		var form_table = [], count = rows.length;
-		let i, j, row;
-
-		for(i = 0; i < count; i++){
-			row = {...rowModel};
-			row.key = rows[i].id;
-			row.name = row.form = rows[i].title;
-			row.progress = "?/?";
-			row.send_date = row.finish_date = "?";
-			row.pagesCount = 0;
-			row.created = dateToString(rows[i].created_on);
-			if( Object.prototype.toString.call(rows[i].page_set)==='[object Array]' ){ // Array.isArray(object)
-				row.pages = rows[i].page_set.slice();
-				row.pagesCount = row.pages.length;
-
-				for(j = row.pagesCount - 1; j >= 0; j--){
-					if(row.pages[j].hasOwnProperty('updated_on') )
-						row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
+		fetch(url + "api/package_pages/list_by_section_employee", fetchProps).then(
+			(res) => {
+				if(!res.ok){
+					throw Error("Wystąpił błąd w pobieraniu katalogów!");
 				}
+				return res.json()
+			}).then(
+			(result) => {
+				let processedResult = groupFormsResult(result);
+				setPackages({...groupedPackages, packages: processedResult.available, msg: ""});
+			},
+			(err) => {
+				console.log(err);
+				setError(true);
 			}
+		).catch(err => {
+				setError(true);
+				setPackages({...groupedPackages, msg: err.message});
+			}
+		).finally(() => {setLoading(false);} );
+	}, [count]);
 
-			form_table.push(row);
-		}
-
-		return form_table;
-	}
+	return groupedPackages.packages;
 }
 
 /*export async function getEmployeesSection(pageId, errorMessageFunction){

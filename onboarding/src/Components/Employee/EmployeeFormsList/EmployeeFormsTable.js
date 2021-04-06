@@ -5,7 +5,7 @@ import { SingleEmployeeForms } from "../../hooks/EmployeeForms";
 
 
 function EmployeeFormsTable(props) {
-    let employeePageCopylist= [], employeeForms = SingleEmployeeForms({count: 0});
+    let employeePageCopylist= [], employeeForms = SingleEmployeeForms(0);
 
     //console.log(employeeForms);
     /*if (employePageCopy) {
