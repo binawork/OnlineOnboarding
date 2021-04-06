@@ -10,7 +10,16 @@ function EmployeeFormsTable(props) {
 
 
     const progressCallback = (result, message) => {
+        if(typeof message === 'string' && message.length > 0)
+    		return;// todo: maybe inform about error;
 
+        let employeeFormsCp, i;
+        employeeFormsCp = employeeForms.length > 0 ? employeeForms : employeeForms2;
+
+        for(i = employeeFormsCp.length - 1; i >= 0; i--){
+            // todo
+        }
+        // todo
     };
 
     if(employeeForms.length > 0){
@@ -26,9 +35,9 @@ function EmployeeFormsTable(props) {
     }
 
     useEffect(() => {
-        if(employeeForms2.length > 0 && props.loggedUser.id > 0){
+        if(employeeForms2.length > 0){
             setEmployeeForms(employeeForms2);
-            return getProgress(props.loggedUser.id, progressCallback);
+            return getProgress(0, progressCallback);
         }
     }, [props.loggedUser, employeeForms2]);
 
