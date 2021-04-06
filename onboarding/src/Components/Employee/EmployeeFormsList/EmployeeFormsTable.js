@@ -13,13 +13,22 @@ function EmployeeFormsTable(props) {
         if(typeof message === 'string' && message.length > 0)
     		return;// todo: maybe inform about error;
 
-        let employeeFormsCp, i;
+        let employeeFormsCp, i, packageId;
         employeeFormsCp = employeeForms.length > 0 ? employeeForms : employeeForms2;
 
         for(i = employeeFormsCp.length - 1; i >= 0; i--){
-            // todo
+            packageId = parseInt(employeeFormsCp[i].key, 10);
+
+            if( !result.hasOwnProperty(packageId) ){
+                employeeFormsCp[i].progress = "0" + employeeFormsCp[i].progress.substring(1);// "0/" + employeeFormsCp[i].pagesCount;
+                continue;
+            }
+
+            employeeFormsCp[i].progress = result[packageId].finished + "/" + employeeFormsCp[i].progress.substring(2);
         }
-        // todo
+
+        employeeForms2 = employeeFormsCp;
+        setEmployeeForms(employeeFormsCp);
     };
 
     if(employeeForms.length > 0){
