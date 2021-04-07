@@ -211,15 +211,15 @@ const EmployeeSections = ({pageId, userId}) => {
                 <div className="p-3">Ładowanie...</div>
             ): errorMessage !== "" ? (
                 <div className="p-3">{errorMessage}</div>
-            ): (
-                sectionsView.view
-            )}
-            <button type="submit" className="btn btn-success mr-3">
-                Zapisz odpowiedzi
-            </button>
-            <button type="button" className="btn btn-success mr-3" onClick={ finishAnswers }>
-                Wyślij odpowiedzi
-            </button>
+            ): sectionsView.view.length > 0 ? (
+                <>
+                    { sectionsView.view }
+                    <button type="submit" className="btn btn-success mr-3">Zapisz odpowiedzi</button>
+                    <button type="button" className="btn btn-success mr-3" onClick={ finishAnswers }>
+                        Wyślij odpowiedzi
+                    </button>
+                </>
+            ): <></>}
             {confirmationModal.modal}
         </form>
     );
