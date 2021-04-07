@@ -5,8 +5,11 @@ import { getProgress } from "../../hooks/EmployeeForms";
 
 
 /**
- *
- * @param props
+ *  Prints header and table with listed packages for employee;
+ * @param props - {loggedUser: Object of logged user,
+ *                  employeeForms: Object := {packages: Array, msg: String},
+ *                  switchToFormPages: function,
+ *                  setPageTitle: function}
  * @returns {JSX.Element}
  * @constructor
  */
