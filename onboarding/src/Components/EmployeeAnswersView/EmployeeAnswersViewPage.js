@@ -25,7 +25,7 @@ function EmployeeAnswersViewPage(props){
         <div>
             <div className="d-flex justify-content-between mb-3">
                 <button 
-                    className="btn btn-outline-warning button-back" 
+                    className="btn btn-outline-warning button-back mr-1" 
                     style={ buttonBackStyle } 
                     onClick={ props.goBackToMainProfilePage }
                 >

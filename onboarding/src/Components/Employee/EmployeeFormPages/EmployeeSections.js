@@ -190,7 +190,7 @@ const EmployeeSections = ({pageId, userId}) => {
                             {sections[i].type == "oa" ? (
                                 <OpenAnswer id={ sections[i].id } index={ i } data={ answers[i].data } changeOpenAnswerText={ changeOpenAnswerText } />
                             ) : (
-                                <table className="table table-hover"><tbody>
+                                <table className="table table-striped table-hover"><tbody>
                                     <SectionForm section={ sections[i] }
                                             answerId={ i }
                                             answerData={ answers[i].data } setAnswer={ setAnswer } />

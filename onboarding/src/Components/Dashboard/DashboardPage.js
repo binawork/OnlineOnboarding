@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import PageAddressBar from "../PageAddressBar";
 import Employee from "./Employee";
 import ProgressStats, { joinProgressToUsers } from "../hooks/ProgressStats";
+import "../../static/css/Dashboard.scss";
 
 function DashboardPage({ loggedUserId }) {
   const [isEmployee, setIsEmployee] = useState(false);

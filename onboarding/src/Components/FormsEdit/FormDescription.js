@@ -108,7 +108,7 @@ const FormDescription = ({ formId, formData }) => {
             <div className="form-group">
               <div className="input-group-append">
                 <button className="btn btn-success" type="submit" style={{ zIndex: "0" }}>
-                  Zapisz opis formularza
+                  Zapisz opis
                 </button>
               </div>
             </div>

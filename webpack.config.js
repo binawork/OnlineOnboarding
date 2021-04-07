@@ -37,14 +37,24 @@ module.exports = {
         ],
       },
       {
-        test: /\.(woff(2)?|ttf|eot|svg|png)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
         use: {
           loader: 'url-loader',
           options: {
             name: '[name].[ext]',
             outputPath: 'fonts/'
           }
-      }
+        }
+      },
+      {
+        test: /\.(svg|png)(\?v=\d+\.\d+\.\d+)?$/,
+        use: {
+          loader: require.resolve('url-loader'),
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'icons/'
+          }
+        }
       }
     ],
   },
