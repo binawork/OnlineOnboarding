@@ -9,6 +9,7 @@ function PackagesAddNew(props) {
     useEffect(() => {
         handleWindowResize();
         window.addEventListener("resize", handleWindowResize);
+        return () => window.removeEventListener("resize", handleWindowResize)
     }, []);
 
     /*var addSuccess = (result) => {
@@ -19,7 +20,7 @@ function PackagesAddNew(props) {
     const handleWindowResize = () => {
         setButton(window.innerWidth > 420
             ? "Dodaj"
-            : <i className="bi bi-plus-circle"></i>
+            : <i className="bi bi-plus-circle" />
         )
     };
 

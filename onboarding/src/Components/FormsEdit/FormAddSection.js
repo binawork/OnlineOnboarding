@@ -20,6 +20,7 @@ function FormAddSection({
   useEffect(() => {
     handleWindowResize();
     window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
   }, []);
 
   const handleWindowResize = () => {
@@ -29,7 +30,7 @@ function FormAddSection({
     )
     setButtonOpen(window.innerWidth > 1024
       ? <><i className="bi bi-list mr-2"/>Pytanie otwarte</>
-      : <i className="bi bi-list"></i>
+      : <i className="bi bi-list" />
       
     );
     setButtonSingleAnsw(window.innerWidth > 1024
@@ -137,17 +138,19 @@ function FormAddSection({
             className="FormAddSection__button FormAddSection__button--save btn btn-success"
             title="Zapisz pytania"
           >
-            Zapisz pytania
+            <span className={`${showButtons ? "" : "FormAddSection__button-content"}`}>Zapisz pytania</span>
           </button>
           <button
             className="FormAddSection__button FormAddSection__button--preview btn btn-success"
             onClick={ handleChangeMode }
             title="Podgląd"
           >
-            { editMode
-              ? "Podgląd"
-              : "Edytuj"
-            }
+            <span className={`${showButtons ? "" : "FormAddSection__button-content"}`}>
+              { editMode
+                ? "Podgląd"
+                : "Edytuj"
+              }
+            </span>
           </button>
         </div>
         <button
@@ -156,7 +159,9 @@ function FormAddSection({
           title="Legenda"
           onClick={() => setShowLegend(!showLegend)}
         >
-          Legenda
+            <span className={`${showButtons ? "" : "FormAddSection__button-content"}`}>
+              Legenda
+            </span>
         </button>
       </div>
       { showLegend && 

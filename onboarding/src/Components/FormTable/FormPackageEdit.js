@@ -15,8 +15,9 @@ function FormPackageEdit({ title, description, packageId, setPackageTitleInAddre
     useEffect(() => {
         handleWindowResize();
         window.addEventListener("resize", handleWindowResize);
+        return () => window.removeEventListener("resize", handleWindowResize);
     }, []);
-    
+
     useEffect(() => {
         title && setPackageTitle(title);
         description ? setPackageDescription(description) : setPackageDescription("");
@@ -25,21 +26,21 @@ function FormPackageEdit({ title, description, packageId, setPackageTitleInAddre
     const handleWindowResize = () => {
         setButtonEdit(window.innerWidth > 460
             ? "Edytuj"
-            : <i className="bi bi-pencil-square"></i>
+            : <i className="bi bi-pencil-square" />
         );
         setButtonSave(window.innerWidth > 460
             ? "Zapisz"
             : <SaveIcon />
         );
       }
-    
+
     const handleInputTitle = function(e){
         setPackageTitle(e.target.value);
     }
     const handleInputDesc = function(e){
         setPackageDescription(e.target.value);
     }
-    
+
     const hideModal = () => {
         setSaveModal(<></>);
     }
