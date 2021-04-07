@@ -36,7 +36,7 @@ function EmployeeAnswers({ pageId, employeeId }){
                     <header className="card-header">
                         <div>{sections[i].title}</div>
                     </header>
-                    { sections[i].description && <div className="card-body">{ parse(sections[i].description) }</div> }
+                    { sections[i].description && <div className="EmployeeAnswersView__section-desc card-body">{ parse(sections[i].description) }</div> }
                     <div className="card-body">
                         <p><i>
                             <small>

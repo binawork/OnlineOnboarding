@@ -16,7 +16,7 @@ function UserListRow(props) {
             setIdModal({id: e.target.value,
                 modal: <ModalWarning handleAccept={ removeUser } handleCancel={ hideModal }
                                     title={ "Usunięcie pracownika" }
-                                    message={ "Czy na pewno chcesz usunąć pracownika" }
+                                    message={ "Czy na pewno chcesz usunąć pracownika?" }
                                     show={ true }
                                     id={ e.target.value } />
             });

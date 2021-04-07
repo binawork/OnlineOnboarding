@@ -47,21 +47,23 @@ function ImplementationFormsSent(props) {
                 { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
                 { props.isLoading && <p>Ładowanie...</p> }
                 { !props.isLoading && !props.isError && (
-                    <table className="table table-striped">
-                        <thead><tr>
-                            <th scope="col">Katalog</th>
-                            <th scope="col">Postęp</th>
-                            <th scope="col">Data wysłania</th>
-                            <th scope="col">Data zakończenia</th>
-                            <th scope="col">Działanie</th>
-                        </tr></thead>
-                        <tbody>
-                            { forms }
-                            <tr style={{display: numberChecked>0 ? "" : "none"}}>
-                                <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary">Przypomnienie o zaznaczonych</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div className="table-responsive">
+                        <table className="table table-striped table-hover">
+                            <thead><tr>
+                                <th scope="col">Katalog</th>
+                                <th scope="col">Postęp</th>
+                                <th scope="col">Data wysłania</th>
+                                <th scope="col">Data zakończenia</th>
+                                <th scope="col">Działanie</th>
+                            </tr></thead>
+                            <tbody>
+                                { forms }
+                                <tr style={{display: numberChecked>0 ? "" : "none"}}>
+                                    <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary">Przypomnienie o zaznaczonych</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 )}
 
             </div>

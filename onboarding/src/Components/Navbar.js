@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import "../static/css/Navbar.scss";
 
 function Navbar({ loggedUser, showAside, setToggleAside }) {
     const [dropDownList, setDropDownList] = useState("none");
@@ -21,8 +22,8 @@ function Navbar({ loggedUser, showAside, setToggleAside }) {
     }
 
     return(
-       <nav className="top-bar navbar p-0 flex-nowrap">
-            <div className="top-bar-brand pr-5" style={{height: "auto"}}>
+       <nav className="Navbar top-bar navbar p-0 flex-nowrap">
+            <div className="Navbar__brand top-bar-brand pr-5" style={{height: "auto"}}>
                 <Link to="/" className="navbar-brand">Online Onboarding</Link>
             </div>
             <div className="top-bar-item px-2 d-md-none d-lg-none d-xl-none">
@@ -46,8 +47,8 @@ function Navbar({ loggedUser, showAside, setToggleAside }) {
                             </span>
                         </span>
                     </button>
-                    <div className="dropdown-menu" id="userDropDown" style={{ display: dropDownList, position: "absolute", top: "56px", left: "-84px" }}>
-                        <div className="dropdown-arrow dropdown-arrow-right"></div>
+                    <div className="Navbar__dropdown dropdown-menu" id="userDropDown" style={{ display: dropDownList }}>
+                        <div className="Navbar__dropdown-arrow dropdown-arrow dropdown-arrow-right"></div>
                         <Link
                             to="/profile/manager"
                             className="dropdown-item"

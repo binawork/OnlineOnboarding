@@ -86,8 +86,8 @@ function FormsEditPage() {
         ]} 
       />
       <FormDescription formId={ formId } formData={ formData } />
-      <section className="page-section">
-        <header className="card-header">Sekcje formularza</header>
+      <section className="FormsEdit__sections page-section">
+        <header className="FormsEdit__header card-header">Sekcje formularza</header>
         <form onSubmit={ handleSave }>
           <div className="row">
             <DragDropContext onDragEnd={(result) => onDragEnd(result, sections, setSections)}>
@@ -114,7 +114,7 @@ function FormsEditPage() {
                 )}
               </Droppable>
             </DragDropContext>
-            <div className="col-auto">
+            <div className="col-auto pl-0">
               <FormAddSection
                 setSections={ setSections }
                 sections={ sections }

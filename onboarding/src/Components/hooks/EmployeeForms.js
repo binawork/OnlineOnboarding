@@ -18,7 +18,7 @@ function groupFormsResult(result, employeeId){
 		row = {...rowModel};
 		row.key = result[i].id;
 		row.name = row.form = result[i].title;
-		row.progress = "?/?";
+		row.progress = "? / ?";
 		row.send_date = row.finish_date = "?";
 		row.pagesCount = 0;
 		row.created = dateToString(result[i].created_on);
@@ -32,7 +32,7 @@ function groupFormsResult(result, employeeId){
 				if(row.pages[j].hasOwnProperty('updated_on') )
 					row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
 			}
-			row.progress = "?/" + row.pagesCount;
+			row.progress = "? / " + row.pagesCount;
 		}
 
 		if(appendToAvailable)
