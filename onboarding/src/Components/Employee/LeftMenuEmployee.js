@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ModeButton from "../ModeButton";
 import "../../static/css/LeftMenu.scss";
 
 function LeftMenuEmployee(props) {
+  useEffect(() => {
+    handleWindowResize();
+    window.addEventListener("resize", handleWindowResize);
+  }, []);
+
+  const handleWindowResize = () => {
+    if(window.innerWidth >= 768) {
+      props.setToggleAside(false);
+    }
+  }
 
   const goToDashboard = function(e){
     e.preventDefault();
@@ -40,8 +50,8 @@ function LeftMenuEmployee(props) {
         onClick={ () => props.setToggleAside(false) }
       >
         <div className="LeftMenu__wrapper">
-          <div className="LeftMenu__overflow aside-menu overflow-hidden">
-            <nav id="stacked-menu" className="stacked-menu">
+          <div className="LeftMenu__overflow aside-menu overflow-auto">
+            <nav id="stacked-menu" className="stacked-menu pt-5">
               <ul className="LeftMenu__list">
                 <li className="menu-item has-child">
                   <a
