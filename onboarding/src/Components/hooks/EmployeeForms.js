@@ -106,7 +106,7 @@ export function SingleEmployeeForms(count, setError, setLoading){
 		).finally(() => {setLoading(false);} );
 	}, [count]);
 
-	return groupedPackages.packages;
+	return groupedPackages;
 }
 
 /*export async function getEmployeesSection(pageId, errorMessageFunction){
