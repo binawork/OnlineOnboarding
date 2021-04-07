@@ -11,6 +11,7 @@ function FormTableAddNew(props) {
     useEffect(() => {
         handleWindowResize();
         window.addEventListener("resize", handleWindowResize);
+        return () => window.removeEventListener("resize", handleWindowResize)
     }, []);
 
     const handleWindowResize = () => {
