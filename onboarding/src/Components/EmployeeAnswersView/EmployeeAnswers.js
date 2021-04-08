@@ -90,7 +90,16 @@ function EmployeeAnswers({ pageId, employeeId }){
                 <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
             </div>
         }
-        { sectionsView.length > 0 && sectionsView }
+        { sectionsView.length > 0 && <>
+            { sectionsView }
+            <div className="w-100 d-flex justify-content-end flex-wrap">
+                <button type="button" className="btn btn-success mb-2 text-nowrap">Zaakceptuj</button>
+                <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap">
+                    Wyślij ponownie
+                 </button>
+             </div>
+           </>
+         }
       </>
     );
 }
