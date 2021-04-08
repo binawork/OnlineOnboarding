@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 const EmployeeSinglePage = ({ page, userId }) => {
   let pageLink = <></>, isVideo = false;
+
   if(page.link?.match(/^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i)) {
     pageLink = page.link ? page.link.replace(/watch\?v=/g, "embed/") : "";
     isVideo = true;
@@ -24,19 +25,16 @@ const EmployeeSinglePage = ({ page, userId }) => {
             <div className="card-body">{page.description}</div>
 
             <div className="card-body">
-              {
-                isVideo
-                  ? (
-                    <div className="embed-responsive embed-responsive-21by9">
-                      <iframe
-                        className="embed-responsive-item"
-                        src={pageLink}
-                        allow="autoplay; encrypted-media"
-                        allowFullScreen
-                        title="video"
-                      />
-                    </div>
-                  ): (<>{ pageLink }</>)
+              { isVideo ? (
+                  <div className="embed-responsive embed-responsive-21by9">
+                    <iframe className="embed-responsive-item"
+                            src={pageLink}
+                            allow="autoplay; encrypted-media"
+                            allowFullScreen
+                            title="video"
+                    />
+                  </div>
+                ): (<>{ pageLink }</>)
               }
             </div>
           </div>
