@@ -27,7 +27,7 @@ function EmployeeFormsTable(props) {
                     Do zrobienia
                 </div>
                 <div className="card-body">
-                    <table className="table table-striped">
+                    <table className="table table-striped table-hover">
                         <thead>
                         <tr>
                             <th scope="col" style={{width: "80%"}}>Lista zadań</th>

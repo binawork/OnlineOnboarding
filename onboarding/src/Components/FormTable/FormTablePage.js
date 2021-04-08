@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PageAddressBar from "../PageAddressBar";
 import FormTable from "./FormTable";
+import "../../static/css/FormTable.scss";
 
 function FormTablePage({ companyId, handleEditTitle }) {
     const [packageTitle, setPackageTitleInAddressBar] = useState("");

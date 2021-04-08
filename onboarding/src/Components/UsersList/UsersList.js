@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserListSearch from "../UserListSearch";
 import Users, { employeeRemove } from "../hooks/Users";
-import { usersWithPackages } from "../hooks/Packages";
+import { usersWithPackages } from "../hooks/ProgressStats";
 import ModalWarning from "../ModalWarning";
 import UserListRow from "./UserListRow";
 

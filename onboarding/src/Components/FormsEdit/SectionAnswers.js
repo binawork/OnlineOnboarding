@@ -51,20 +51,22 @@ function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sect
 
   return (
     <>
-      <table className="table table-hover">
-        <thead>
-          <tr className="FormsEdit__thr">
-            <th className="FormsEdit__th"></th>
-            <th className="FormsEdit__th" title="Zaznacz prawidłowe odpowiedzi">Szablon odpowiedzi</th>
-            <th className="FormsEdit__th"></th>
-          </tr>
-        </thead>
-        <tbody>{answersList}</tbody>
-      </table>
+      <div className="table-responsive">
+        <table className="table table-striped table-hover">
+          <thead>
+            <tr className="FormsEdit__thr">
+              <th className="FormsEdit__th"></th>
+              <th className="FormsEdit__th" title="Zaznacz prawidłowe odpowiedzi">Szablon odpowiedzi</th>
+              <th className="FormsEdit__th"></th>
+            </tr>
+          </thead>
+          <tbody>{ answersList }</tbody>
+        </table>
+      </div>
 
       <hr />
       <div className="input-group-append">
-        <button className="btn btn-secondary" onClick={addAnswer}>
+        <button className="btn btn-secondary" onClick={ addAnswer } style={{ zIndex: "0" }}>
           Dodaj odpowiedź
         </button>
       </div>

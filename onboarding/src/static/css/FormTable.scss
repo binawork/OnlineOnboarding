@@ -1,0 +1,24 @@
+.FormTable {
+  &__data {
+    &--nowrap {
+      white-space: nowrap;
+    }
+    &-name {
+      min-width: 200px;
+    }
+    &-date {
+      min-width: 162px;
+    }
+  }
+  &__package-description {
+    display: block;
+  }
+}
+
+@media(max-width: 460px) {
+  .FormTable {
+    &__package-description {
+      display: none;
+    }
+  }
+}

@@ -149,21 +149,23 @@ const QnAList = () => {
             </Droppable>
           </DragDropContext>
         ) : (
-          questionsAndAnswers
+          <div className="mb-3">
+            { questionsAndAnswers }
+          </div>
         )}
       </section>
 
       {editMode ? (
-        <footer className="card-footer">
+        <div className="card-footer">
           <a href="#" className="card-footer-item" onClick={handleAddQnA}>
             <i className="fa fa-plus-circle mr-1"></i>
             Dodaj Q&A
           </a>
-        </footer>
+        </div>
       ) : (
         <></>
       )}
-      <div className="card-body rounded-bottom border-top">
+      <footer className="QnA__footer card-body rounded-bottom border-top">
         <button
           className="btn btn-success mr-3"
           onClick={handleSaveAll}
@@ -174,7 +176,7 @@ const QnAList = () => {
         <button className="btn btn-success mr-3" onClick={handleShowPreview}>
           {editMode ? "Podgląd" : "Edytuj"}
         </button>
-      </div>
+      </footer>
 
       {autosave && (
         <SaveInfo message={saveError ? "Nie udało się zapisać - któreś z pól może zawierać za dużo znaków." : "Zapisano zmiany"} />

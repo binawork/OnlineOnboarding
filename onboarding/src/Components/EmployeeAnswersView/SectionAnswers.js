@@ -1,5 +1,4 @@
 import React from "react";
-import "../../static/css/EmployeeAnswersView.css";
 
 /**
  * 
@@ -14,7 +13,7 @@ function SectionAnswers(props){
         count = props.sectionData.length;
         sectionData = props.sectionData;
     } else
-        return <div  className="row">Brak odpowiedzi do wyświetlenia</div>;
+        return <div  className="">Brak odpowiedzi do wyświetlenia</div>;
 
     const answerType = props.sectionType === "osa" ? "radio" : "checkbox";
     let answers = [], i, j, isChecked;
@@ -51,7 +50,7 @@ function SectionAnswers(props){
 
 
     return(
-        <ul>{ answers }</ul>
+        <ul className={`${!sectionData.find(el => el.is_checked) ? "p-0" : ""}`}>{ answers }</ul>
     )
 }
 

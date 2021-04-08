@@ -130,35 +130,37 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
             <div className="card-header">Lista formularzy</div>
             <div className="card-body">
             { pages && 
-              <table className="table table-striped">
-                <thead>
-                      <tr>
-                          <th scope="col" style={{ width: "50%" }}>Nazwa formularza</th>
-                          <th scope="col" style={{ width: "25%" }}>Edytowany</th>
-                          <th scope="col" style={{ width: "15%" }}>Działanie</th>
-                      </tr>
-                  </thead>
-                <tbody id="form_table_data_container">
-                { pages.map(row => 
-                    <FormTableRow
-                        key={ row.id }
-                        packageId={ packageId }
-                        packageTitle={packageAndForms?.title}
-                        row={{
-                          name: row.title,
-                          last_edit: row.updated_on,
-                          description: row.description,
-                          link: row.link,
-                          id: row.id,
-                        }}
-                        handleRemoveAsk={ removeAsk }
-                        handleUpdate={ updatePackages }
-                        lastRow={ newRowId === row.id }
-                    />
-                  )
-                }
-                </tbody>
-              </table>
+              <div className="table-responsive">
+                <table className="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" style={{ width: "50%" }}>Nazwa formularza</th>
+                            <th scope="col" style={{ width: "25%" }}>Edytowany</th>
+                            <th scope="col" style={{ width: "15%" }}>Działanie</th>
+                        </tr>
+                    </thead>
+                  <tbody id="form_table_data_container">
+                  { pages.map(row => 
+                      <FormTableRow
+                          key={ row.id }
+                          packageId={ packageId }
+                          packageTitle={packageAndForms?.title}
+                          row={{
+                            name: row.title,
+                            last_edit: row.updated_on,
+                            description: row.description,
+                            link: row.link,
+                            id: row.id,
+                          }}
+                          handleRemoveAsk={ removeAsk }
+                          handleUpdate={ updatePackages }
+                          lastRow={ newRowId === row.id }
+                      />
+                    )
+                  }
+                  </tbody>
+                </table>
+              </div>
             }
             </div>
             {pageIdModal.modal}

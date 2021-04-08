@@ -48,45 +48,47 @@ function AddUserTable(props) {
         <div className="card card-fluid">
           <div className="card-header">{ `Wyślij katalog ${props.packageCurrent ? `"${props.packageCurrent.title}"` : ""} do pracownika:` }</div>
           <div className="card-body">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col" style={{ width: "20%" }}>
-                    Imie Nazwisko
-                  </th>
-                  <th scope="col" style={{ width: "20%" }}>
-                    Lokalizacja
-                  </th>
-                  <th scope="col" style={{ width: "8%" }}>
-                    Dział
-                  </th>
-                  <th scope="col" style={{ width: "20%" }}>
-                    Stanowisko
-                  </th>
-                  <th scope="col" style={{ width: "20%" }}>
-                    email
-                  </th>
-                  <th scope="col" style={{ width: "12%" }}>
-                    Działanie
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="add_user_table_data_container">
-                {error
-                  ? <tr><td><div className="p-3">Wystąpił błąd podczas ładowania danych</div></td></tr>
-                  : loaded
-                    ? searchResult.length !== 0
-                        ? searchResult.map((singleUser) => (
-                          <AddUserTableRow
-                            key={ singleUser.id }
-                            row={ singleUser }
-                            handleSendPackage={ sendToEmployee }
-                          />
-                        )) : <tr><td><div className="p-3">Brak wyników</div></td></tr>
-                    : <tr><td><div className="p-3">Ładowanie...</div></td></tr>
-                }
-              </tbody>
-            </table>
+            <div className="table-responsive">
+              <table className="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col" style={{ width: "20%" }}>
+                      Imie Nazwisko
+                    </th>
+                    <th scope="col" style={{ width: "20%" }}>
+                      Lokalizacja
+                    </th>
+                    <th scope="col" style={{ width: "8%" }}>
+                      Dział
+                    </th>
+                    <th scope="col" style={{ width: "20%" }}>
+                      Stanowisko
+                    </th>
+                    <th scope="col" style={{ width: "20%" }}>
+                      email
+                    </th>
+                    <th scope="col" style={{ width: "12%" }}>
+                      Działanie
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="add_user_table_data_container">
+                  {error
+                    ? <tr><td><div className="p-3">Wystąpił błąd podczas ładowania danych</div></td></tr>
+                    : loaded
+                      ? searchResult.length !== 0
+                          ? searchResult.map((singleUser) => (
+                            <AddUserTableRow
+                              key={ singleUser.id }
+                              row={ singleUser }
+                              handleSendPackage={ sendToEmployee }
+                            />
+                          )) : <tr><td><div className="p-3">Brak wyników</div></td></tr>
+                      : <tr><td><div className="p-3">Ładowanie...</div></td></tr>
+                  }
+                </tbody>
+              </table>
+            </div>
             { error ? <div className="p-3">Wystąpił błąd podczas ładowania pracowników</div> : null }
           </div>
         </div>

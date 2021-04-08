@@ -1,0 +1,13 @@
+.App {
+  &__main {
+    padding-left: 280px!important;
+  }
+}
+
+@media(max-width: 767px) {
+  .App {
+    &__main {
+      padding-left: 0!important;
+    }
+  }
+}

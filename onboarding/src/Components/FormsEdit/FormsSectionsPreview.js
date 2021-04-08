@@ -50,7 +50,7 @@ function FormsSectionsPreview({ section }) {
               ></textarea>
             </div>
           ) : (
-            <table className="table table-hover">
+            <table className="table table-striped table-hover">
               <tbody>{ answersList }</tbody>
             </table>
           )}

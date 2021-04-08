@@ -36,7 +36,7 @@ function EmployeeAnswers({ pageId, employeeId }){
                     <header className="card-header">
                         <div>{sections[i].title}</div>
                     </header>
-                    { sections[i].description && <div className="card-body">{ parse(sections[i].description) }</div> }
+                    { sections[i].description && <div className="EmployeeAnswersView__section-desc card-body">{ parse(sections[i].description) }</div> }
                     <div className="card-body">
                         <p><i>
                             <small>
@@ -90,17 +90,6 @@ function EmployeeAnswers({ pageId, employeeId }){
                 <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
             </div>
         }
-        <div className="card card-fluid EmployeeAnswersView__key">
-            <div className="card-body">
-                <small>
-                    <p>Legenda odpowiedzi</p>
-                    <span className="EmployeeAnswersView__dot"></span><i>Odpowiedź prawidłowa</i><br />
-                    <span className="EmployeeAnswersView__bullet"></span>
-                    <span className="EmployeeAnswersView__bullet EmployeeAnswersView__bullet--red"></span>
-                    <i>Odpowiedź zaznaczona przez pracownika. Czerwony kolor oznacza błędną odpowiedź</i>
-                </small>
-            </div>
-        </div>
         { sectionsView.length > 0 && sectionsView }
       </>
     );

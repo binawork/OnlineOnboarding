@@ -87,14 +87,16 @@ function CompanyInfoContent({ company }) {
           aboutCompany={aboutCompany}
         />
       )}
-      <div className="card-body rounded-bottom border-top">
-        <button className="btn btn-success mr-3" onClick={handleSave}>
-          Zapisz
-        </button>
-        <button className="btn btn-success mr-3" onClick={handleShow}>
-          {isEditMode ? "Podgląd" : "Edytuj"}
-        </button>
-        <i className="text-warning">
+      <div className="CompanyInfo__footer card-body rounded-bottom border-top d-flex align-items-center">
+        <div className="CompanyInfo__buttons d-flex flex-nowrap">
+          <button className="btn btn-success mr-3" onClick={handleSave}>
+            Zapisz
+          </button>
+          <button className="btn btn-success" onClick={handleShow}>
+            {isEditMode ? "Podgląd" : "Edytuj"}
+          </button>
+        </div>
+        <i className="CompanyInfo__warning text-warning">
           { storage && Object.keys(storage).length !== 0 && 'Masz niezapisane zmiany! Kliknij "Zapisz", aby je zachować.' }
         </i>
       </div>

@@ -51,9 +51,18 @@ function FormsToSendTableRow(props){
         <>
             <tr>
                 <td style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
-                    { toggleObj.hasContent && <button className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`} onClick={ showPages } type="button"><i className="fas fa-caret-right"></i></button> }
-                    { checkBox }
-                    <i className="fa fa-folder" style={{ width: "24px", color: "#F7C46C", marginRight: "2px" }}></i>
+                    <span className="text-nowrap">
+                        { toggleObj.hasContent && (
+                            <button 
+                                className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`}
+                                onClick={ showPages }
+                                type="button">
+                                <i className="fas fa-caret-right"></i>
+                            </button> 
+                        )}
+                        { checkBox }
+                        <i className="fa fa-folder" style={{ width: "24px", color: "#F7C46C", marginRight: "2px" }}></i>
+                    </span>
                     {props.row.name}
                 </td>
                 <td style={{ verticalAlign: "middle" }}>{props.row.pagesCount}</td>

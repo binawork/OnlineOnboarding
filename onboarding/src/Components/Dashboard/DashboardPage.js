@@ -4,23 +4,19 @@ import { getPath, validateURL } from "../utils.js";
 import { v4 as uuidv4 } from "uuid";
 import PageAddressBar from "../PageAddressBar";
 import Employee from "./Employee";
-import { usersWithPackages } from "../hooks/Packages";
+import ProgressStats, { joinProgressToUsers } from "../hooks/ProgressStats";
+import "../../static/css/Dashboard.scss";
 
 function DashboardPage({ loggedUserId }) {
-  const usersForPackages = usersWithPackages({count: 0});
-
   const [isEmployee, setIsEmployee] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [employees, setEmployees] = useState([]);
+  const progressStats = ProgressStats({count: employees.length});
 
-  if(usersForPackages.length !== 0) {
-    for(let i = employees.length - 1; i >= 0; i--){
-      for(let j = usersForPackages.length - 1; j >= 0; j--){
-        if(usersForPackages[j].userId === employees[i].id) {
-          employees[i].sent = usersForPackages[j].packageIds.length;
-        }
-      }
-    }
+
+  if(employees.length > 0 && Object.keys(progressStats).length > 0){
+    // setEmployees( joinProgressToUsers(employees, progressStats) );/ / "Uncaught Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.";
+    joinProgressToUsers(employees, progressStats);
   }
 
   const url = getPath();
@@ -63,7 +59,7 @@ function DashboardPage({ loggedUserId }) {
           (error) => {
             console.error(error);
           }
-    )};
+    )}
   }, [loggedUserId]);
 
   document.title= "Onboarding: pulpit";
