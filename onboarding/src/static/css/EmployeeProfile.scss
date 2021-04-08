@@ -95,3 +95,14 @@
     }
   }
 }
+
+@media(max-width: 320px) {
+  .Employee-Profile {
+    &__button--save {
+      margin: 0 0 .5rem 0!important;
+    }
+    &__buttons {
+      flex-direction: column;
+    }
+  }
+}

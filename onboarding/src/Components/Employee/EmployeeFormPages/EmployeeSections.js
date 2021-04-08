@@ -214,10 +214,12 @@ const EmployeeSections = ({pageId, userId}) => {
             ): sectionsView.view.length > 0 ? (
                 <>
                     { sectionsView.view }
-                    <button type="submit" className="btn btn-success mr-3">Zapisz odpowiedzi</button>
-                    <button type="button" className="btn btn-success mr-3" onClick={ finishAnswers }>
-                        Wyślij odpowiedzi
-                    </button>
+                    <div className="w-100 d-flex justify-content-end flex-wrap">
+                        <button type="submit" className="btn btn-success mb-2 text-nowrap">Zapisz odpowiedzi</button>
+                        <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap" onClick={ finishAnswers }>
+                            Wyślij odpowiedzi
+                        </button>
+                    </div>
                 </>
             ): <></>}
             {confirmationModal.modal}
