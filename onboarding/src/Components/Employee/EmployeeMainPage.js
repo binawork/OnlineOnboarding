@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import NavbarEmployee from "./NavbarEmployee.js";
-import ModeButton from "../ModeButton";
 import LeftMenuEmployee from "./LeftMenuEmployee";
 import LoggedUser from "../hooks/LoggedUser.js";
 import EmployeeAccount from "./EmployeeAccount/EmployeeAccount.js";
@@ -11,6 +10,7 @@ import EmployeeSingleFormPage from "./EmployeeFormPages/EmployeeSingleFormPage";
 import QnAList from "./QnA/QnAList";
 import CompanyInfoPage from "./CompanyInfoPage";
 import WelcomePage from "./WelcomePage";
+import "../../static/css/App.scss";
 
 function EmployeeMainPage() {
     const [welcomeView, setWelcomeView] = useState(null);
@@ -83,12 +83,23 @@ function EmployeeMainPage() {
 
     return(
         <>
-            {welcomeView !== null && welcomeView === true && <WelcomePage setWelcomeView={setWelcomeView} />
+            { welcomeView !== null
+                && welcomeView === true
+                && <WelcomePage setWelcomeView={setWelcomeView} />
             }
-            { welcomeView !== null && welcomeView === false && (
+            { welcomeView !== null
+                && welcomeView === false
+                && (
                 <>
                     <header className="app-header app-header-dark">
-                        <NavbarEmployee loggedUser={ loggedUser } switchPage={ loadFormList } showAside={ showAside } setToggleAside={ setToggleAside } pageTitle={ pageTitle } formTitle={ formTitle } actualPackage={ actualPackage } loadFormPages={ loadFormPages }/>{/* placeholder; */}
+                        <NavbarEmployee
+                            loggedUser={ loggedUser }
+                            switchPage={ loadFormList }
+                            showAside={ showAside } setToggleAside={ setToggleAside }
+                            pageTitle={ pageTitle }
+                            formTitle={ formTitle }
+                            actualPackage={ actualPackage }
+                            loadFormPages={ loadFormPages }/>{/* placeholder; */}
                     </header>
                     <LeftMenuEmployee
                         mainPage={ loadFormList }
@@ -99,14 +110,13 @@ function EmployeeMainPage() {
                         setToggleAside={ setToggleAside }
                     />
 
-                    <main className="app-main">
+                    <main className="App__main app-main">
                         <div className="wrapper">
-                            { component }
+                            <div className="page container-xl">
+                                { component }
+                            </div>
                         </div>
                     </main>
-                    <div style={{ position: "fixed", bottom: "0px", left: "0px" }}>
-                        {/* <ModeButton /> */}
-                    </div>
                 </>
             )}
         </>
