@@ -55,21 +55,23 @@ function ImplementationFormsToSend(props) {
                 { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
                 { props.isLoading && <p>Ładowanie...</p> }
                 { !props.isLoading && !props.isError && (
-                    <table className="table table-striped">
-                        <thead><tr>
-                            <th scope="col">Katalog</th>
-                            <th scope="col">Liczba zadań</th>
-                            <th scope="col">Utworzony</th>
-                            <th scope="col">Ostatnia edycja</th>
-                            <th scope="col">Działanie</th>
-                        </tr></thead>
-                        <tbody id="form_table_data_container">
-                            { forms }
-                            <tr style={{display: numberChecked>0 ? "" : "none"}}>
-                                <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary" onClick={ sendCheckedPackages }>Wyślij zaznaczone</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div className="table-responsive">
+                        <table className="table table-striped table-hover">
+                            <thead><tr>
+                                <th scope="col">Katalog</th>
+                                <th scope="col">Liczba zadań</th>
+                                <th scope="col">Utworzony</th>
+                                <th scope="col">Ostatnia edycja</th>
+                                <th scope="col">Działanie</th>
+                            </tr></thead>
+                            <tbody id="form_table_data_container">
+                                { forms }
+                                <tr style={{display: numberChecked>0 ? "" : "none"}}>
+                                    <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary" onClick={ sendCheckedPackages }>Wyślij zaznaczone</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
         </div>

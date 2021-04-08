@@ -18,7 +18,7 @@ function groupFormsResult(result, employeeId){
 		row = {...rowModel};
 		row.key = result[i].id;
 		row.name = row.form = result[i].title;
-		row.progress = "?/?";
+		row.progress = "? / ?";
 		row.send_date = row.finish_date = "?";
 		row.pagesCount = 0;
 		row.created = dateToString(result[i].created_on);
@@ -32,7 +32,7 @@ function groupFormsResult(result, employeeId){
 				if(row.pages[j].hasOwnProperty('updated_on') )
 					row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
 			}
-			row.progress = "?/" + row.pagesCount;
+			row.progress = "? / " + row.pagesCount;
 		}
 
 		if(appendToAvailable)
@@ -127,7 +127,7 @@ export function EmployeeFormsList(props, setError, setLoading, count){
 			row = {...rowModel};
 			row.key = rows[i].id;
 			row.name = row.form = rows[i].title;
-			row.progress = "?/?";
+			row.progress = "? / ?";
 			row.send_date = row.finish_date = "?";
 			row.pagesCount = 0;
 			row.created = dateToString(rows[i].created_on);
@@ -141,7 +141,7 @@ export function EmployeeFormsList(props, setError, setLoading, count){
 					if(row.pages[j].hasOwnProperty('updated_on') )
 						row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
 				}
-				row.progress = "?/" + row.pagesCount;
+				row.progress = "? / " + row.pagesCount;
 			}
 
 			form_table.push(row);
@@ -200,7 +200,7 @@ export function SingleEmployeeForms(props){
 			row = {...rowModel};
 			row.key = rows[i].id;
 			row.name = row.form = rows[i].title;
-			row.progress = "?/?";
+			row.progress = "? / ?";
 			row.send_date = row.finish_date = "?";
 			row.pagesCount = 0;
 			row.created = dateToString(rows[i].created_on);

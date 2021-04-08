@@ -6,7 +6,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { getUserById } from "../hooks/Users";
 // import { userWithPackages } from "../hooks/Packages";
 import EmployeeForms/*, { getProgress }*/ from "../hooks/EmployeeForms";
-
+import "../../static/css/EmployeeProfile.scss";
 
 function EmployeeProfilePage() {
     document.title = "Onboarding: podgląd procesu pracownika";

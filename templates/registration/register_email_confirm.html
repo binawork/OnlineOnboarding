@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 {% load static %}
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
     <!-- Begin SEO tag -->
-    <title> Onboarding Admin Theme </title>
-    <meta property="og:title" content="Sign Up">
-    <meta name="author" content="Beni Arisandi">
+    <title> Reset hasła | Onboarding </title>
+    <meta property="og:title" content="Registration confirmed" />
     <meta property="og:locale" content="en_US">
-    <meta name="description" content="Register page into OnlineOnboarding">
-    <meta property="og:description" content="Register page into OnlineOnboarding">
-    <meta property="og:site_name" content="Onboarding Admin Theme">
+    <meta name="description" content="Onboarding registration confirmed page" />
+    <meta
+      property="og:description"
+      content="Registration confirmed page - OnlineOnboarding"
+    />
+    <meta property="og:url" content="https://onlineonboarding.net">
+    <meta property="og:site_name" content="Onboarding: registration confirmed" />
     <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="144x144" href="bootstrap/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/apple-touch-icon.png">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <meta name="theme-color" content="#3063A0"><!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600" rel="stylesheet"><!-- End Google font -->
@@ -49,47 +52,23 @@
             <g fill="none" fill-rule="evenodd">
               <use class="fill-warning" xlink:href="#a"></use>
             </g>
-          </svg> <span class="sr-only">Sign Up</span>
+          </svg> <span class="sr-only">Potwierdzenie</span>
         </h1>
-        <p> Masz już konto? <a href="{% url 'login' %}?next=/manage/">Zaloguj się</a>
+        <p>
         </p>
-        <!-- <p> Already have an account? please <a href="{% url 'login' %}?next=/manage/">Sign In</a> -->
-
       </header>
-      <form class="auth-form" method="POST">
-        {% for field in form %}
-          <!-- form -->
-          <div class="form-group">
-            <div class="form-label-group">
-              {{ field }} {{ field.label_tag }}
-				{% if field.help_text %}
-				  <small style="color: grey">{{ field.help_text }}</small>
-				{% endif %}
-				{% for error in field.errors %}
-				  <p style="color: red">{{ error }}</p>
-				{% endfor %}
-            </div>
-          </div><!-- /.form-group -->
-        {% endfor %}
-        <!-- .form-group -->
-        <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Zarejestruj</button>
-        </div><!-- /.form-group -->
-        <!-- .form-group -->
-        <div class="form-group text-center">
-          <div class="custom-control custom-control-inline custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="newsletter"> <label class="custom-control-label" for="newsletter">Zapisz mnie na newsletter <!-- Sign me up for the newsletter --></label>
-          </div>
-        </div><!-- /.form-group -->
-        <!-- recovery links -->
-        <p class="text-center text-muted mb-0"> 
-          Tworząc konto zgadzasz się na<a href="#">Warunki Korzystania</a> i <a href="#">Politykę Prywatności</a>. 
-          <!-- By creating an account you agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. -->
-        </p><!-- /recovery links -->
-        {% csrf_token %}
-      </form><!-- /.auth-form -->
+      <div class="auth-form p-4 text-center">
+        <p>
+          Dziękujemy za potwierdzenie e-maila.
+          {# Thank you for your email confirmation. Now you can login your account.#}
+        </p>
+        <p class="m-0">
+          Teraz możesz <a href="{% url 'login' %}?next=/manage/">zalogować się</a> na swoje konto.
+        </p>
+      </div>
       <!-- copyright -->
-      <footer class="auth-footer">&copy; {% now "Y" %} All Rights Reserved. </footer>
+      <footer class="auth-footer"> &copy; {% now "Y" %} All Rights Reserved. <a href="#">Privacy</a> and <a href="#">Terms</a>
+      </footer>
     </main><!-- /.auth -->
     <!-- BEGIN BASE JS -->
     <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
@@ -109,6 +88,6 @@
       })
     </script> <!-- END PLUGINS JS -->
     <!-- BEGIN THEME JS -->
-    <script src="{% static 'bootstrap/javascript/theme.min.js' %}"></script> <!-- END THEME JS -->
+    <script src="{% static 'bootstrap/javascript/theme.js' %}"></script> <!-- END THEME JS -->
   </body>
 </html>

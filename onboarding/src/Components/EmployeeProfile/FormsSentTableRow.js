@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Tag from "../Tag";
 import ProgressBar from "../ProgressBar";
-import "../../static/css/packages.css"
 
 function FormsSentTableRow(props) {
     const [toggleObj, switchVisibility] = useState({style:{ display: "none" },
@@ -31,7 +30,8 @@ function FormsSentTableRow(props) {
     }
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>;
+        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>;//,
+        //buttonRm = <></>;
     let pages, tag=<></>;
 
     if(props.row.hasOwnProperty("percentage") ){// "green", "yellow", "amaranthine"
@@ -60,13 +60,13 @@ function FormsSentTableRow(props) {
 
             return (
                 <tr key={ i } style={ toggleObj.style }>
-                    <td className="table__data">
+                    <td className="text-nowrap">
                         <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}/>
                         <a href="" title="Kliknij, aby przejść do odpowiedzi pracownika" onClick={ (e) => handleShowAnswers(e, page) }>
                             { page.title }
                         </a>
                     </td>
-                    <td className="table__data form-progress">
+                    <td className="form-progress">
                         <ProgressBar color={ finishMsg === "Skończone" ? "green" : "yellow" } backgroundSize={ percentage } />
                         <small className="ml-1">{ finishMsg }</small>
                     </td>
@@ -82,21 +82,29 @@ function FormsSentTableRow(props) {
     return(
         <>
             <tr>
-                <td className="table__data" style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
-                    { toggleObj.hasContent && <button className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`} onClick={ showPages } type="button"><i className="fas fa-caret-right"/></button> }
-                    { checkBox }
-                    <i className="fa fa-folder" style={{width: "24px", color: "#F7C46C", marginRight: "2px"}}/>
-                    {props.row.form}
+                <td style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
+                    <span className="text-nowrap">
+                        { toggleObj.hasContent && (
+                            <button 
+                                className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`}
+                                onClick={ showPages }
+                                type="button">
+                                <i className="fas fa-caret-right"/>
+                            </button> 
+                        )}
+                        { checkBox }
+                        <i className="fa fa-folder" style={{width: "24px", color: "#F7C46C", marginRight: "2px"}}/>
+                    </span>
+                    <span>{props.row.form}</span>
                 </td>
-                <td className="table__data">
+                <td>
                     <div className="package-progress">
-                        {/* Add below line if progress is implemented, add condition when it has to appear (when all of the forms in the package are finished) */}
                         { props.row.progress } { tag }
                     </div>
                 </td>
-                <td className="table__data">{props.row.send_date}</td>
-                <td className="table__data">{props.row.finish_date}</td>
-                <td className="table__data" style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td>
+                <td>{props.row.send_date}</td>
+                <td>{props.row.finish_date}</td>
+                <td style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td>
             </tr>
             { pages }
         </>
