@@ -63,18 +63,25 @@ function EmployeeAccount(props){
     return (
     	<div className="page">
     		<div className="page-inner">
-    			<div className="page-section">
-    				<div className="card card-fluid">
-    					<div className="card-header">Pracownik</div>
-    					<div className="row">
-    						<EmployeeAvatar loggedUser={ editedUser } setFile={ changeImage } image={ imageFile } />
-    						<div className="col">
-    							<EmployeeProfile loggedUser={ editedUser } handleEdit={ handleEdit } showMessage={ showModal } loadFormList={ props.loadFormList } />
-    						</div>
-    						{ employeeModal }
-    					</div>
-    				</div>
-    			</div>
+                <div className="card card-fluid">
+                    <div className="card-header">Pracownik</div>
+                    <div className="row flex-column flex-md-row justify-content-center p-3">
+                        <EmployeeAvatar
+                            loggedUser={ editedUser }
+                            setFile={ changeImage }
+                            image={ imageFile }
+                        />
+                        <div className="col">
+                            <EmployeeProfile
+                                loggedUser={ editedUser }
+                                handleEdit={ handleEdit }
+                                showMessage={ showModal }
+                                loadFormList={ props.loadFormList } 
+                            />
+                        </div>
+                        { employeeModal }
+                    </div>
+                </div>
     		</div>
     	</div>
     );

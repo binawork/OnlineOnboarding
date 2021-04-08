@@ -78,7 +78,7 @@ function UserProfileManage(props) {
       <div className="card-body">
         <form>
             <div className="form-label-group mb-2">
-                <input id="first-name" type="text" className="form-control" placeholder="Imie" value={ user.first_name } onChange={ handleChangeName } maxLength="50" />
+                <input id="first-name" type="text" className="form-control" placeholder="Imię" value={ user.first_name } onChange={ handleChangeName } maxLength="50" />
                 <label htmlFor="first-name">Imię</label>
             </div>
             <div className="form-label-group mb-2">

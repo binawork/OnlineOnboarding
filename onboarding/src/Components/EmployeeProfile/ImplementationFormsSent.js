@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import FormsSentTableRow from "./FormsSentTableRow";
-import { /*EmployeeFormsList, getProgress,*/ remindEmployeeOfPackage } from "../hooks/EmployeeForms";
+import { /* getProgress,*/ remindEmployeeOfPackage } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsSent(props) {
     const [numberChecked, checkedChange] = useState(0);
     let forms = [];//,
-        //propsCp = {...props, specificEmployee: props.employeeId};//, form_table = props.packages/*EmployeeFormsList(propsCp, setError, setLoading, props.count);
+        //propsCp = {...props, specificEmployee: props.employeeId};//, form_table = props.packages;
 
 
     const showHide = (isChecked) => {
