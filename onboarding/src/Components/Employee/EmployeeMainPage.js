@@ -43,7 +43,7 @@ function EmployeeMainPage() {
             <EmployeeFormPages
                 switchPage={ loadSinglePage }
                 actualPackageId={ packageId }
-                userId={ userId }
+                userId={ loggedUser.id }
             />
         );
     };
