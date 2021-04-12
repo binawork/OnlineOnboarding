@@ -190,6 +190,19 @@ class PackageSerializer(serializers.ModelSerializer):
             'description',
             'created_on',
             'updated_on',
+        )
+
+
+class PackageForHrSerializer(serializers.ModelSerializer):
+    class Meta:
+        ordering = ['-id']
+        model = Package
+        fields = (
+            'id',
+            'title',
+            'description',
+            'created_on',
+            'updated_on',
             'users',
         )
 
@@ -246,7 +259,7 @@ class PageSerializer(serializers.ModelSerializer):
             'description',
             'link',
             'updated_on',
-            'package',
+            'package',  # to POST a page for respective package;
         )
         extra_kwargs = {
             'package': {'required': False},
@@ -297,7 +310,7 @@ class PackagePagesForHrSerializer(serializers.ModelSerializer):
             'description',
             'created_on',
             'updated_on',
-            'users', # for hr
+            'users',  # for hr
             'page_set'
         )
 
