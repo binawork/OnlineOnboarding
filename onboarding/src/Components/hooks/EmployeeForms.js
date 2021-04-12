@@ -84,7 +84,7 @@ export function SingleEmployeeForms(count, setError, setLoading){
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
-		fetch(url + "api/package_pages/list_by_company_employee/", fetchProps).then(
+		fetch(url + "api/package_pages/", fetchProps).then(
 			(res) => {
 				if(!res.ok){
 					throw Error("Wystąpił błąd w pobieraniu katalogów!");

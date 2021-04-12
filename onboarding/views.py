@@ -554,34 +554,14 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
         user = self.request.user
 
         if user is not None:
-            queryset = Package.objects.filter(owner=user.company)
+            if user.is_hr:
+                queryset = Package.objects.filter(owner=user.company)
+            else:
+                queryset = Package.objects.filter(owner=user.company, users=user)
         else:
-            queryset = Package.objects.all()
+            queryset = Package.objects.none()
 
         return queryset
-
-    @action(detail=False)
-    def list_by_company_hr(self, request):
-        """
-        :param request: user
-        :return: all packages with corresponding pages for request.user = owner from params
-        """
-        package = Package.objects.filter(owner=request.user.company)
-        serializer = PackagePagesSerializer(queryset, many=True)
-
-        return Response(serializer.data)
-
-    @action(detail=False, methods=['get'])
-    def list_by_company_employee(self, request):
-        """
-        :param request: user
-        :return: all packages with corresponding pages for ...
-        """
-        packages = Package.objects.filter(owner=request.user.company,
-                                          users=request.user)
-        serializer = PackagePagesSerializer(packages, many=True)
-
-        return Response(serializer.data)
 
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=PackagePagesForUsersSerializer)
     def users(self, request):
