@@ -6,7 +6,6 @@ import "../static/css/LeftMenu.scss"
 const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   const location = useLocation();
   const [showFolders, setShowFolders] = useState(false);
-  const [windowWidth, setWindowWidth] = useState();
 
   useEffect(() => {
     handleWindowResize();
@@ -32,8 +31,9 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   }
 
   const handleWindowResize = () => {
-    setWindowWidth(window.innerWidth);
-    setToggleAside(showAside && windowWidth < 768 ? true : false);
+    if(window.innerWidth >= 768) {
+      setToggleAside(false);
+    }
   }
 
   return (

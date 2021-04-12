@@ -88,7 +88,11 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     		</div>
 
     		<div className="col container-sm">
-    			<UserProfileManage user={ user } handleSaveEdit={ handleSaveEdit } showMessage={ showModal } buttonTitle={ buttonTitle } />
+    			<UserProfileManage
+                    user={ user }
+                    handleSaveEdit={ handleSaveEdit }
+                    showMessage={ showModal }
+                    buttonTitle={ buttonTitle } />
     		</div>
     		{ employeeModal }
     	</div>

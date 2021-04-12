@@ -1,23 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 //import { employePageCopy } from "./EmployePageFillData";
 import EmployeeFormsRow from "./EmployeeFormsRow";
-import { SingleEmployeeForms } from "../../hooks/EmployeeForms";
+import { getProgress } from "../../hooks/EmployeeForms";
 
 
+/**
+ *  Prints header and table with listed packages for employee;
+ * @param props - {loggedUser: Object of logged user,
+ *                  employeeForms: Object := {packages: Array, msg: String},
+ *                  switchToFormPages: function,
+ *                  setPageTitle: function}
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function EmployeeFormsTable(props) {
-    let employeePageCopylist= [], employeeForms = SingleEmployeeForms({count: 0});
+    const [employeeForms, setEmployeeForms] = useState([]);
+    const [message, setMessage] = useState("Ładowanie...");
 
-    //console.log(employeeForms);
-    /*if (employePageCopy) {
-        employePageCopy.forEach(function (element, i) {
-            employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToForm={ props.switchToForm } />)
+
+    const progressCallback = (result, msg) => {
+        if( !props.employeeForms.hasOwnProperty("packages") )
+            return;
+        if(typeof msg === 'string' && msg.length > 0){
+            setMessage(msg);
+    		return;
+        }
+
+        let employeeFormsCp, i, packageId;
+        employeeFormsCp = props.employeeForms.packages;
+
+        for(i = employeeFormsCp.length - 1; i >= 0; i--){
+            packageId = parseInt(employeeFormsCp[i].key, 10);
+
+            if( !result.hasOwnProperty(packageId) ){
+                employeeFormsCp[i].progress = "0" + employeeFormsCp[i].progress.substring(1);// "0/" + employeeFormsCp[i].pagesCount;
+                continue;
+            }
+
+            employeeFormsCp[i].progress = result[packageId].finished + " " + employeeFormsCp[i].progress.substring(2);
+        }
+
+        //setEmployeeForms(employeeFormsCp);
+        let employeePageCopyList = [];
+        employeeFormsCp.forEach(function(element, i){
+            employeePageCopyList.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages }
+                                                        setPageTitle={props.setPageTitle} loggedUser={ props.loggedUser } />);
         });
-    }*/
+        setEmployeeForms(employeePageCopyList);
+    };
 
-    employeeForms.forEach(function(element, i){
-        employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages }
-                                                    setPageTitle={props.setPageTitle} loggedUser={ props.loggedUser } />);
-    });
+
+    useEffect(() => {
+        if(props.employeeForms.hasOwnProperty("packages") && props.employeeForms.packages.length > 0){
+            return getProgress(0, progressCallback);
+        }
+    }, [props.employeeForms]);
 
 
     return(
@@ -35,7 +72,9 @@ function EmployeeFormsTable(props) {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                        { employeePageCopylist }
+                        { employeeForms.length > 0 ? (
+                            employeeForms
+                        ) : <tr><td>{ message }</td><td /></tr> }
                         </tbody>
                     </table>
                 </div>
