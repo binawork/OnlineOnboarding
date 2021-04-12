@@ -281,7 +281,23 @@ class PackagePagesSerializer(serializers.ModelSerializer):
             'description',
             'created_on',
             'updated_on',
-            'users',
+            'page_set'
+        )
+
+
+class PackagePagesForHrSerializer(serializers.ModelSerializer):
+    page_set = PageSerializer(many=True)
+
+    class Meta:
+        ordering = ['-updated_on']
+        model = Package
+        fields = (
+            'id',
+            'title',
+            'description',
+            'created_on',
+            'updated_on',
+            'users', # for hr
             'page_set'
         )
 

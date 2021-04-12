@@ -31,7 +31,7 @@ from onboarding.models import User, Company, CompanyQuestionAndAnswer
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackageAddUsersSerializer
 from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, ContactFormTestSerializer
-from .serializers import PackagePagesSerializer, PackagePagesForUsersSerializer, UserProgressSerializer, UserProgressLimitedSerializer
+from .serializers import PackagePagesSerializer, PackagePagesForHrSerializer, PackagePagesForUsersSerializer, UserProgressSerializer, UserProgressLimitedSerializer
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
 
 
@@ -547,7 +547,7 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
     """
     List all Packages with related pages.
     """
-    serializer_class = PackagePagesSerializer
+    default_serializer_class = PackagePagesSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -562,6 +562,11 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
             queryset = Package.objects.none()
 
         return queryset
+
+    def get_serializer_class(self):
+        if self.request.user.is_hr:
+            return PackagePagesForHrSerializer
+        return PackagePagesSerializer
 
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=PackagePagesForUsersSerializer)
     def users(self, request):
