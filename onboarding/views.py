@@ -415,37 +415,29 @@ class PackageViewSet(viewsets.ModelViewSet):
     """
     List all package, or create a new package.
     """
-    queryset = Package.objects.all()
-    serializer_class = PackageSerializer
+    default_serializer_class = PackageSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user is not None:
+            if user.is_hr:
+                queryset = Package.objects.filter(owner=user.company)
+            else:
+                queryset = Package.objects.filter(owner=user.company, users=user)
+        else:
+            queryset = Package.objects.none()
+
+        return queryset
+
+    def get_serializer_class(self):
+        if self.request.user.is_hr:
+            return PackageForHrSerializer
+        return PackageSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
-
-    @action(detail=False)
-    def list_by_company_hr(self, request):
-        """
-        :param request: user
-        :return: all packages with param request.user = owner
-        """
-        package = Package.objects.filter(owner=request.user.company)
-        serializer = PackageSerializer(package, many=True)
-
-        return Response(serializer.data)
-
-    @action(detail=False)
-    def list_by_company_employee(self, request):
-        """
-        :param request: user
-        :return: all packages with param request.user = owner
-        """
-        package = Package.objects.filter(
-                                        owner=request.user.company,
-                                        users=request.user
-        )
-        serializer = PackageSerializer(package, many=True)
-
-        return Response(serializer.data)
 
     """@action(detail=True, methods=['post'])
     def add_user_to_package(self, request, pk=None):
