@@ -28,11 +28,13 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
+from .serializers import UserSerializer, UserAvatarSerializer, LogInUserSerializer, UserJobDataSerializer,\
+    UserUpdateSerializer, UsersListSerializer, UserProgressSerializer, UserProgressLimitedSerializer
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
 from .serializers import PackageSerializer, PackageForHrSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackageAddUsersSerializer
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, ContactFormTestSerializer
-from .serializers import PackagePagesSerializer, PackagePagesForHrSerializer, PackagePagesForUsersSerializer, UserProgressSerializer, UserProgressLimitedSerializer
-from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
+from .serializers import CompanyQuestionAndAnswerSerializer, PackagesUsers, ContactFormTestSerializer
+from .serializers import PackagePagesSerializer, PackagePagesForHrSerializer, PackagePagesForUsersSerializer
+from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, WhenPackageSendToEmployeeSerializer
 
 
 from .permissions import IsHrUser
@@ -220,7 +222,6 @@ class UserAvatarUpload(views.APIView):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
     # permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
 
@@ -230,6 +231,9 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             self.permission_classes = [IsHrUser, IsAuthenticated]
         return super(self.__class__, self).get_permissions()
+
+    def get_queryset(self):
+        return User.objects.filter(company=self.request.user.company)
 
     def perform_create(self, serializer):
         serializer.save(company=self.request.user.company)
