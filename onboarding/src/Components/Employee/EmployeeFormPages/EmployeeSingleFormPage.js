@@ -1,52 +1,84 @@
-import React from "react";
-import EmployeeSections from "./EmployeeSections";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useParams } from "react-router";
+import { fetchFormData } from "../../hooks/FormsEdit";
+import { singleCombo } from "../../hooks/Packages";
+import EmployeeSections from "./EmployeeSections";
+import PageAddressBar from "../../PageAddressBar";
 
 const EmployeeSinglePage = ({ page, userId }) => {
-  let pageLink = <></>, isVideo = false;
+  const [form, setForm] = useState(page);
+  const [isVideo, setIsVideo] = useState(false);
+  const [pageLink, setPageLink] = useState(<></>);
+  const { form_id:formId } = useParams();
+  const { data:formData } = fetchFormData(formId);
+  const packageTitle = singleCombo(formData?.package)?.title;
 
-  if(page.link?.match(/^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i)) {
-    pageLink = page.link ? page.link.replace(/watch\?v=/g, "embed/") : "";
-    isVideo = true;
-  } else if(page.link?.match(/^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i)) {
-    pageLink = page.link ? page.link.replace(/vimeo\.com/g, "player.vimeo.com/video") : "";
-    isVideo = true;
-  } else if(page.link){
-    pageLink = <a href={ page.link } target="_blank" rel="noopener noreferrer">{ page.link }</a>;
-  }
+  useEffect(() => {
+    if(!page) {
+      setForm(formData);
+    }
+  }, [formData]);
 
+  useEffect(() => {
+    if(form?.link?.match(
+        /^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i
+    )) {
+      setPageLink(form.link 
+        ? form.link.replace(/watch\?v=/g, "embed/").replace(/&ab_channel=\w*/g, "")
+        : "");
+        setIsVideo(true);
+    } else if(form?.link?.match(
+      /^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i
+    )) {
+      setPageLink(form.link
+      ? form.link.replace(/vimeo\.com/g, "player.vimeo.com/video")
+      : ""
+      );
+      setIsVideo(true);
+    } else if(form?.link){
+      setPageLink(<a href={ form.link } target="_blank" rel="noopener noreferrer">{ form.link }</a>);
+    }
+  }, [form]);
 
   return (
-    <div className="page">
-      <div className="page-inner">
-        <div className="page-section">
-          <div className="card card-fluid">
-            <div className="card-header">{page.title}</div>
-            <div className="card-body">{page.description}</div>
+    <div className="page-inner">
+      <PageAddressBar 
+        page={ `Formularz: ${formData?.title || ""}` } 
+        previousPages={[ 
+          {title: `Katalog: ${packageTitle || ""}`, 
+            url: `/package/${formData?.package}`
+          } 
+        ]} 
+      />
+      <div className="page-section">
+        <div className="card card-fluid">
+          <div className="card-header">{form?.title}</div>
+          <div className="card-body">{form?.description}</div>
 
-            <div className="card-body">
-              { isVideo ? (
-                  <div className="embed-responsive embed-responsive-21by9">
-                    <iframe className="embed-responsive-item"
-                            src={pageLink}
-                            allow="autoplay; encrypted-media"
-                            allowFullScreen
-                            title="video"
-                    />
-                  </div>
-                ): (<>{ pageLink }</>)
-              }
-            </div>
+          <div className="card-body">
+            { isVideo ? (
+                <div className="embed-responsive embed-responsive-21by9">
+                  <iframe className="embed-responsive-item"
+                          src={ pageLink }
+                          allow="autoplay; encrypted-media"
+                          allowFullScreen
+                          title="video"
+                  />
+                </div>
+              ): (<>{ pageLink }</>)
+            }
           </div>
-          <EmployeeSections pageId={page.id} userId={ userId } />
         </div>
+        <EmployeeSections pageId={ parseInt(formId) } userId={ userId } />
       </div>
     </div>
   );
 };
 
 EmployeeSinglePage.propTypes = {
-  page: PropTypes.object.isRequired,
+  page: PropTypes.object,
+  userId: PropTypes.number,
 };
 
 export default EmployeeSinglePage;
