@@ -183,8 +183,14 @@ export function employeeSelfEdit(handleMessage, employeeObject){
 		}
 	).then((result) => {
 			let msg = "Zaktualizowano dane.";
-			if(result.hasOwnProperty("detail"))
-				msg += " " + result.detail;
+			if(Object.keys(result).length < 1){
+				msg = "Aktualizacja danych nie nastąpiła: brak właściwych pól.";
+			} else {
+				msg = "Zaktualizowano dane.";
+				if(result.hasOwnProperty("detail"))
+					msg += " " + result.detail;
+			}
+
 			handleMessage(msg, true);
 		},
 		(error) => {
