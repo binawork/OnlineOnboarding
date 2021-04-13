@@ -256,8 +256,22 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get', 'patch'])
     def update_user(self, request):
-        queryset = User.objects.get(pk=self.request.user.id)
-        serializer = UserUpdateSerializer(queryset, many=False)
+        """
+        List (GET) or updates (PATCH) some fields which employees are free to manage
+        return: free to manage fields or "bad request"
+        """
+        if request.method == 'PATCH':
+            serializer = UserUpdateSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                queryset = User.objects.get(pk=self.request.user.id)  # user can change only his own data;
+                serializer.update(instance=queryset, validated_data=serializer.validated_data)
+                return Response(serializer.validated_data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            queryset = User.objects.get(pk=self.request.user.id)
+            serializer = UserUpdateSerializer(queryset, many=False)
+
         return Response(serializer.data)
 
     def list(self, request):
