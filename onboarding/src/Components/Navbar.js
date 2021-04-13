@@ -50,7 +50,7 @@ function Navbar({ loggedUser, showAside, setToggleAside }) {
                     <div className="Navbar__dropdown dropdown-menu" id="userDropDown" style={{ display: dropDownList }}>
                         <div className="Navbar__dropdown-arrow dropdown-arrow dropdown-arrow-right"></div>
                         <Link
-                            to="/profile/manager"
+                            to="/my_profile"
                             className="dropdown-item"
                             data-toggle="tooltip"
                             onClick={ dropDownSwitch }
