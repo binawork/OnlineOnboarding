@@ -150,6 +150,48 @@ export function employeeAddEdit(handleMessage, employeeObject, updateData){
 	return true;
 }
 
+/**
+ * Updates user (mainly employee) on endpoint for some (not most) data.
+ * @param handleMessage - function to call on response;
+ * @param employeeObject - object with same fields like those listed in serializer,
+ *   {first_name": String,
+    "last_name": String,
+    "phone_number": String};
+ */
+export function employeeSelfEdit(handleMessage, employeeObject){
+	let url = getPath(), userData, token = getCookie('csrftoken'),
+		fetchProps = {method: "PATCH", headers: {}, body: null};
+
+	fetchProps.headers = {"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token};
+
+	userData = {...employeeObject};
+	if(userData.avatar)
+		delete userData.avatar;
+
+	if(typeof userData.id)
+		delete userData.id;
+
+	fetchProps.body = JSON.stringify(userData);
+
+	fetch(url + "api/users/update_user/", fetchProps).then(res => {
+			if(!res.ok)
+				throw Error("Nie udpało się zapisać zmian.");
+			return res.json();
+		}
+	).then((result) => {
+			let msg = "Zaktualizowano dane.";
+			if(result.hasOwnProperty("detail"))
+				msg += " " + result.detail;
+			handleMessage(msg, true);
+		},
+		(error) => {
+			handleMessage("Wystąpił błąd: " + error.message, false);
+		}
+	).catch(err => {
+		handleMessage(err.message, false);
+	});
+}
+
 export function uploadAvatar(handleSuccess, avatarFile, employeeObject, showModal, updateData){
 // export function uploadAvatar(avatarFile, employeeObject){
 	let data = new FormData();
