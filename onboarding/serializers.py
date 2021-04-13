@@ -129,6 +129,16 @@ class UsersListSerializer(serializers.ModelSerializer):
         )
 
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = (
+            'first_name',
+            'last_name',
+            'phone_number'
+        )
+
+
 class UserSerializer(serializers.ModelSerializer):
     # password = serializers.CharField(write_only=True)
 
