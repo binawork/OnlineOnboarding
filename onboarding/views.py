@@ -226,7 +226,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action == "login_user":
+        if self.action == "login_user" or self.action == "update_user":
             self.permission_classes = [IsAuthenticated,]
         else:
             self.permission_classes = [IsHrUser, IsAuthenticated]
@@ -234,6 +234,13 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return User.objects.filter(company=self.request.user.company)
+
+    def get_serializer_class(self):
+        if self.action == "login_user":
+            return LogInUserSerializer
+        elif self.action == "update_user":
+            return UserUpdateSerializer
+        return UserSerializer
 
     def perform_create(self, serializer):
         serializer.save(company=self.request.user.company)
@@ -246,6 +253,12 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset.update(welcome_board=False)
 
         return response
+
+    @action(detail=False, methods=['get', 'patch'])
+    def update_user(self, request):
+        queryset = User.objects.get(pk=self.request.user.id)
+        serializer = UserUpdateSerializer(queryset, many=False)
+        return Response(serializer.data)
 
     def list(self, request):
 
