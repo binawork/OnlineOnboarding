@@ -1,21 +1,12 @@
 import React, { useState } from "react";
-
 import EmployeeAvatar from "./EmployeeAvatar";
 import EmployeeProfile from "./EmployeeProfile";
-import LoggedUser from "../../hooks/LoggedUser.js";
-import { uploadAvatar, employeeAddEdit } from "../../hooks/Users";
 import ModalWarning from "../../ModalWarning";
+import PageAddressBar from "../../PageAddressBar";
+import { uploadAvatar, employeeAddEdit } from "../../hooks/Users";
 
-
-function EmployeeAccount(props){
+function EmployeeAccount({ loggedUser }){
     const [employeeModal, setModal ] = useState(<></>);
-
-    let loggedUser;
-    if(props.loggedUser){
-        loggedUser = props.loggedUser;
-    } else
-        loggedUser = LoggedUser();
-
     let editedUser = {...loggedUser};
 
     if(typeof editedUser.phone_number !== "string" || editedUser.phone_number.length < 1)
@@ -30,7 +21,6 @@ function EmployeeAccount(props){
         editedUser.avatar = "/onboarding/static/images/unknown-profile.jpg";
 
     const [imageFile, setImageFile] = useState({localChanged: false, img: editedUser.avatar});
-
 
     const handleEdit = function(user){
         if(imageFile.localChanged){
@@ -51,39 +41,43 @@ function EmployeeAccount(props){
             setImageFile({localChanged: false, img: response.avatar});
     };
 
-
     const showModal = (message) => {
-        setModal(<ModalWarning handleAccept={ hideModal } title={ "Twój profil" } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
+        setModal(
+            <ModalWarning
+                handleAccept={ hideModal }
+                title={ "Twój profil" }
+                message={ message }
+                id={ 0 }
+                show={ true }
+                acceptText={ "Ok" } />
+        );
     };
     const hideModal = function(){
         setModal(<></>);
     };
 
-
     return (
-    	<div className="page">
-    		<div className="page-inner">
-                <div className="card card-fluid">
-                    <div className="card-header">Pracownik</div>
-                    <div className="row flex-column flex-md-row justify-content-center p-3">
-                        <EmployeeAvatar
+        <div className="page-inner">
+            <PageAddressBar page="Twój profil" />
+            <div className="card card-fluid">
+                <div className="card-header">Pracownik</div>
+                <div className="row flex-column flex-md-row justify-content-center p-3">
+                    <EmployeeAvatar
+                        loggedUser={ editedUser }
+                        setFile={ changeImage }
+                        image={ imageFile }
+                    />
+                    <div className="col">
+                        <EmployeeProfile
                             loggedUser={ editedUser }
-                            setFile={ changeImage }
-                            image={ imageFile }
+                            handleEdit={ handleEdit }
+                            showMessage={ showModal }
                         />
-                        <div className="col">
-                            <EmployeeProfile
-                                loggedUser={ editedUser }
-                                handleEdit={ handleEdit }
-                                showMessage={ showModal }
-                                loadFormList={ props.loadFormList } 
-                            />
-                        </div>
-                        { employeeModal }
                     </div>
+                    { employeeModal }
                 </div>
-    		</div>
-    	</div>
+            </div>
+        </div>
     );
 }
 
