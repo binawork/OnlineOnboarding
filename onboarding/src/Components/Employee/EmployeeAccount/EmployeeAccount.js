@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import EmployeeAvatar from "./EmployeeAvatar";
 import EmployeeProfile from "./EmployeeProfile";
 import LoggedUser from "../../hooks/LoggedUser.js";
-import { uploadAvatar, employeeAddEdit } from "../../hooks/Users";
+import { uploadAvatar, employeeSelfEdit } from "../../hooks/Users";
 import ModalWarning from "../../ModalWarning";
 
 
@@ -39,7 +39,7 @@ function EmployeeAccount(props){
         }
 
         user.name = user.first_name;
-        employeeAddEdit(showModal, user);
+        employeeSelfEdit(showModal, user);
     };
 
     const changeImage = (file) => {

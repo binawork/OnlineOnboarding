@@ -171,6 +171,9 @@ export function employeeSelfEdit(handleMessage, employeeObject){
 	if(typeof userData.id)
 		delete userData.id;
 
+	if(userData.name)
+		userData.first_name = userData.name;
+
 	fetchProps.body = JSON.stringify(userData);
 
 	fetch(url + "api/users/update_user/", fetchProps).then(res => {
