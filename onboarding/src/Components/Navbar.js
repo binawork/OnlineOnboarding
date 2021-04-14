@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import PropTypes from "prop-types";
 import "../static/css/Navbar.scss";
 
 function Navbar({ loggedUser, showAside, setToggleAside }) {
@@ -72,5 +73,12 @@ function Navbar({ loggedUser, showAside, setToggleAside }) {
         </nav>
     )
 }
+
+Navbar.propTypes = {
+    loggedUser: PropTypes.object.isRequired,
+    showAside: PropTypes.bool.isRequired,
+    setToggleAside: PropTypes.func.isRequired,
+};
+
 export default Navbar;
 

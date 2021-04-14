@@ -17,8 +17,8 @@ const EmployeeFormPagesList = ({ pagesList, setPage }) => {
 };
 
 EmployeeFormPagesList.propTypes = {
-  pagesList: PropTypes.array,
-  setPage: PropTypes.func,
+  pagesList: PropTypes.array.isRequired,
+  setPage: PropTypes.func.isRequired,
 };
 
 export default EmployeeFormPagesList;

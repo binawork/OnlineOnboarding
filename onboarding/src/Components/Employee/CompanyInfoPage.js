@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import parse from "html-react-parser";
 import CompanyInfoAPI from "../hooks/CompanyInfoAPI";
 import PageAddressBar from "../PageAddressBar";
@@ -113,6 +114,10 @@ const CompanyInfoPage = ({ loggedUser }) => {
       </div>
     </div>
   );
+};
+
+CompanyInfoPage.propTypes = {
+  loggedUser: PropTypes.object.isRequired,
 };
 
 export default CompanyInfoPage;

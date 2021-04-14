@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import PropTypes from "prop-types";
 
 function PageAddressBar({ page, previousPages=[] }) {
     return(
@@ -24,6 +25,11 @@ function PageAddressBar({ page, previousPages=[] }) {
         </header>
     )
 }
+
+PageAddressBar.propTypes = {
+    page: PropTypes.string.isRequired,
+    previousPages: PropTypes.array,
+};
 
 export default PageAddressBar;
 

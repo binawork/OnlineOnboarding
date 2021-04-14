@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { validEmail } from "../../utils";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import "../../../static/css/EmployeeProfile.scss";
 
 function EmployeeProfile(props) {
@@ -116,6 +117,12 @@ function EmployeeProfile(props) {
       </div>
     );
 }
+
+EmployeeProfile.propTypes = {
+    loggedUser: PropTypes.object.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    showMessage: PropTypes.func,
+};
 
 export default EmployeeProfile;
 

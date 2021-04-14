@@ -19,7 +19,6 @@ const OpenAnswer = ({ id, index, data, changeOpenAnswerText }) => {
     changeOpenAnswerText(index, e.target.value);
   };
 
-
   return (
     <div key={id} className="form-group">
       <textarea
@@ -39,7 +38,7 @@ const OpenAnswer = ({ id, index, data, changeOpenAnswerText }) => {
 OpenAnswer.propTypes = {
   id: PropTypes.number,
   index: PropTypes.number,
-  //data: PropTypes.object.isRequired,
+  data: PropTypes.string.isRequired,
   changeOpenAnswerText: PropTypes.func,
 };
 

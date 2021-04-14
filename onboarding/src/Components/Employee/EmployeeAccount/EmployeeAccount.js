@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import EmployeeAvatar from "./EmployeeAvatar";
 import EmployeeProfile from "./EmployeeProfile";
 import ModalWarning from "../../ModalWarning";
@@ -80,6 +81,10 @@ function EmployeeAccount({ loggedUser }){
         </div>
     );
 }
+
+EmployeeAccount.propTypes = {
+    loggedUser: PropTypes.object.isRequired,
+};
 
 export default EmployeeAccount;
 

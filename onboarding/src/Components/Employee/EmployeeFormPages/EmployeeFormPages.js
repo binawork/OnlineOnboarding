@@ -62,7 +62,7 @@ const EmployeeFormPages = ({ setPage }) => {
 };
 
 EmployeeFormPages.propTypes = {
-  
+  setPage: PropTypes.func.isRequired,
 };
 
 export default EmployeeFormPages;

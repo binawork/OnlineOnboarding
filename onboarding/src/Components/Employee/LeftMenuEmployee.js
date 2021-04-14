@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import ModeButton from "../ModeButton";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
+import ModeButton from "../ModeButton";
 import "../../static/css/LeftMenu.scss";
 
-function LeftMenuEmployee({ showAside, setToggleAside}) {
+function LeftMenuEmployee({ showAside, setToggleAside }) {
   useEffect(() => {
     handleWindowResize();
     window.addEventListener("resize", handleWindowResize);
@@ -78,5 +79,10 @@ function LeftMenuEmployee({ showAside, setToggleAside}) {
     </aside>
   );
 }
-export default LeftMenuEmployee;
 
+LeftMenuEmployee.propTypes = {
+  showAside: PropTypes.bool.isRequired,
+  setToggleAside: PropTypes.func.isRequired,
+};
+
+export default LeftMenuEmployee;
