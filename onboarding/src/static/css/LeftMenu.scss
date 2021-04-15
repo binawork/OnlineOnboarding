@@ -1,16 +1,43 @@
 .LeftMenu {
-  top: 56px!important;
+  top: 0!important;
   max-width: 280px!important;
   width: 100%!important;
+  background: rgba(15,15,40,0.3);
+  &__header {
+    // 
+    width: 259px;
+    height: 53px;
+    background: rgba(0, 0, 0, 0.541);
+    // 
+    margin-bottom: 72px;
+  }
+  &__item {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
   &__link {
-    padding: 8px 1rem!important;
+    padding: 10px;
     font-size: 1rem!important;
-    &--main {
-      padding-left: 0!important;
+    color: #fff;
+    // &--main {
+      //   padding-left: 0!important;
+    // }
+    &--active {
+      font-weight: 500;
+      color: hsl(188, 100%, 50%);
+    }
+    &:hover {
+      font-weight: 500;
+      color: #fff;
+      text-decoration: none;
     }
   }
   &__list {
+    padding: 0;
     list-style: none;
+  }
+  &__nav {
+    padding: 56px 6px 56px 52px;
   }
   &__overflow {
     scrollbar-width: thin;
@@ -46,6 +73,7 @@
   }
   &__sublist {
     padding-left: 2rem!important;
+    list-style: none;
   }
   &__wrapper {
     height: 100%;
