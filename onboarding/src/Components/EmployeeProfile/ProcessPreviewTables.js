@@ -20,7 +20,7 @@ function ProcessPreviewTables(props) {
         const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
 
         for(i = props.groupedPackages.sent.length - 1; i >= 0; i--){
-            packageId = parseInt(props.groupedPackages.sent[i].key, 10);
+            packageId = parseInt(props.groupedPackages.sent[i].id, 10);
             props.groupedPackages.sent[i].finish_date = notStartedMsg;
 
             if( !result.hasOwnProperty(packageId) ){
@@ -85,7 +85,7 @@ function ProcessPreviewTables(props) {
         else if(typeof result === 'object'){
             let packageId;
             newFormTable = props.groupedPackages.sent.map(function(element){
-                    packageId = parseInt(element.key, 10);
+                    packageId = parseInt(element.id, 10);
                     if( result.hasOwnProperty(packageId) )
                         element.send_date = result[packageId];
 

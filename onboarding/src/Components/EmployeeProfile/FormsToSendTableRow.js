@@ -24,7 +24,7 @@ function FormsToSendTableRow(props){
 
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ sendPackage }>Wyślij</button>,
+        buttonObj = <button value={ props.row.id } className="btn btn-secondary" onClick={ sendPackage }>Wyślij</button>,
         pages;
 
     if(props.empty){
