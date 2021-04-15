@@ -50,7 +50,7 @@ const SectionForm = ({ section, answerId, answerData, setAnswer }) => {
 
   useEffect(() => {
       let inputs2 = [], name = 'section-'+section.id,
-          i, count = section.data.length, isChecked;
+          i, count = section.data?.length, isChecked;
 
       for(i = 0; i < count; i++){
           isChecked = false;

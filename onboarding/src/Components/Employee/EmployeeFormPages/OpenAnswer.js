@@ -38,7 +38,10 @@ const OpenAnswer = ({ id, index, data, changeOpenAnswerText }) => {
 OpenAnswer.propTypes = {
   id: PropTypes.number,
   index: PropTypes.number,
-  data: PropTypes.string.isRequired,
+  data: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.string,
+  ]),
   changeOpenAnswerText: PropTypes.func,
 };
 
