@@ -6,7 +6,7 @@ import { singleCombo } from "../../hooks/Packages";
 import EmployeeSections from "./EmployeeSections";
 import PageAddressBar from "../../PageAddressBar";
 
-const EmployeeSinglePage = ({ page, userId }) => {
+const EmployeeSingleFormPage = ({ page, userId }) => {
   const [form, setForm] = useState(page);
   const [isVideo, setIsVideo] = useState(false);
   const [pageLink, setPageLink] = useState(<></>);
@@ -76,9 +76,9 @@ const EmployeeSinglePage = ({ page, userId }) => {
   );
 };
 
-EmployeeSinglePage.propTypes = {
+EmployeeSingleFormPage.propTypes = {
   page: PropTypes.object,
   userId: PropTypes.number,
 };
 
-export default EmployeeSinglePage;
+export default EmployeeSingleFormPage;
