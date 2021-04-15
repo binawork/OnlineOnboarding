@@ -7,7 +7,7 @@ function FormsToSendTableRow(props){
     									rotate: false});
 
     const countChecked = function(e){
-        props.handleChecked(e.target.checked, props.row.key);
+        props.handleChecked(e.target.checked, props.row.id);
     };
 
     const showPages = function(){
