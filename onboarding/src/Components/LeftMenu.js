@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import ModeButton from "./ModeButton";
 import "../static/css/LeftMenu.scss";
 import logo from "../static/images/logo_onboarding_single.svg";
@@ -48,7 +48,9 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
           <div className="LeftMenu__overflow aside-menu overflow-auto">
             <nav id="stacked-menu" className="LeftMenu__nav">
               <header className="LeftMenu__header">
-                <img className="LeftMenu__logo" src={ logo } alt="Logo OnlineOnboarding"/>
+                <Link exact to="/">
+                  <img className="LeftMenu__logo" src={ logo } alt="Logo OnlineOnboarding"/>
+                </Link>
               </header>
               <ul className="LeftMenu__list">
                 <li className="LeftMenu__item menu-item">
