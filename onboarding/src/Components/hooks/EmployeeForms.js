@@ -4,7 +4,7 @@ import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../uti
 
 function groupFormsResult(result, employeeId){
 	let available = [], sent = [], i, j, row, appendToAvailable;
-	const rowModel = {key: 0, name: "", pagesCount: "", percentage: 0,  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []},
+	const rowModel = {id: 0, name: "", pagesCount: "", percentage: 0,  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []},
 		count = result.length;
 	const specificEmployee = (employeeId && employeeId > 0)?employeeId:-1;
 
@@ -16,7 +16,7 @@ function groupFormsResult(result, employeeId){
 		}
 
 		row = {...rowModel};
-		row.key = result[i].id;
+		row.id = result[i].id;
 		row.name = row.form = result[i].title;
 		row.progress = "? / ?";
 		row.send_date = row.finish_date = "?";

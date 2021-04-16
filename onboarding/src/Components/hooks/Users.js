@@ -144,7 +144,7 @@ export function employeeAddEdit(handleMessage, employeeObject, updateData){
 		},
 		(error) => {
 			// console.log("Users: eA");
-			handleMessage("Wystąpił błąd: " + error.message, false);
+			handleMessage?.("Wystąpił błąd: " + error.message, false);
 		}
 	);
 	return true;
@@ -230,11 +230,11 @@ export function uploadAvatar(handleSuccess, avatarFile, employeeObject, showModa
 		.then(data => {
 				handleSuccess(data);
 				employeeAddEdit(showModal, employeeObject);
-				updateData();
+				updateData?.();
 				return data;
 		})
 		.catch(error => {
-			showModal(error.message);
+			showModal?.(error.message);
 			console.error('Error:', error);
 		});
 }

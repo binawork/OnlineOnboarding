@@ -24,7 +24,7 @@ function ImplementationFormsSent(props) {
     if(props.packages.length !== 0 /*|| formTable.length>0*/) {
         //if(formTable.length > 0) form_table = formTable;
         props.packages.forEach(function (element, i) {
-            forms.push(<FormsSentTableRow key={ element.key } row={ element }
+            forms.push(<FormsSentTableRow key={ element.id } row={ element }
                 setAnswersPage={ props.setAnswersPage }
                                         employeeId={ props.employeeId }
                                         handleChecked={ showHide } handleRemind={ sendRemind } />)

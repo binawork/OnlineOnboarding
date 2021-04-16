@@ -1,35 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 {% load static %}
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Begin SEO tag -->
-    <title> Online onboarding </title>
+    <title> Online Onboarding </title>
     <meta property="og:title" content="Landing page test - Onboarding">
-    <meta name="author" content="Beni Arisandi">
-    <meta property="og:locale" content="en_US">
-    <meta name="description" content="Onboarding landing page for dev-test">
-    <meta property="og:description" content="Onboarding landing page for dev-test">
+    <meta property="og:locale" content="">
+    <meta name="description" content="Onboarding landing page">
+    <meta property="og:description" content="Onboarding landing page">
     <link rel="canonical" href="https://uselooper.com">
-    <meta property="og:url" content="https://uselooper.com">
+    <meta property="og:url" content="">
     <meta property="og:site_name" content="Onboarding: landing page test">
-    <script type="application/ld+json">
-      {
-        "name": "Looper - Bootstrap 4 Admin Theme",
-        "description": "Responsive admin theme build on top of Bootstrap 4",
-        "author":
-        {
-          "@type": "Person",
-          "name": "Beni Arisandi"
-        },
-        "@type": "WebSite",
-        "url": "",
-        "headline": "Simple & Beautiful Admin Theme",
-        "@context": "http://schema.org"
-      }
-    </script><!-- End SEO tag -->
     <!-- FAVICONS -->
     <link rel="apple-touch-icon" sizes="144x144" href="bootstrap/apple-touch-icon.png">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
@@ -64,31 +47,26 @@
     </script><!-- END THEME STYLES -->
   </head>
   <body>
-    <!-- .app -->
     <main class="app app-site">
       <!--[if lt IE 10]>
       <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
       <![endif]-->
-      <!-- site header -->
-      <!-- .navbar -->
       <nav class="navbar navbar-expand-lg navbar-light py-4" data-aos="fade-in">
-        <!-- .container -->
         <div class="container">
-          <!-- .hamburger -->
-          <button class="hamburger hamburger-squeeze hamburger-light d-flex d-lg-none" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button> <!-- /.hamburger -->
-          <!-- .navbar-brand -->
-          <a class="navbar-brand ml-auto mr-0" href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
-              <defs>
-              </defs>
+          <!--
+          <button class="hamburger hamburger-squeeze hamburger-light d-flex d-lg-none" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button>
+          -->
+          <!-- <a class="navbar-brand ml-auto mr-0" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28" viewbox="0 0 351 100">
               <g fill="none" fill-rule="evenodd">
                 <use class="fill-primary" xlink:href="#a"></use>
               </g>
-            </svg></a> <!-- /.navbar-brand -->
-            <!-- acc. -->
-           <!-- .navbar-collapse -->
-          <div class="navbar-collapse collapse" id="navbarTogglerDemo01">
-            <ul class="navbar-nav mx-auto">
-{#            <li class="nav-item mr-lg-3 active">#}
+            </svg>
+          </a>  -->
+          <!-- <div class="navbar-collapse collapse" id="navbarTogglerDemo01"> -->
+          <div class="navbar w-100">
+            <ul class="navbar-nav justify-content-end w-100">
+{#              <li class="nav-item mr-lg-3 active">#}
 {#                <a class="nav-link py-2" href="#">tu powinno być logo</a>#}
 {#              </li> #}
 {#              <li class="nav-item mr-lg-3">#}
@@ -100,11 +78,13 @@
 {#              <li class="nav-item mr-lg-3">#}
 {#                <a class="nav-link py-2" href="#">Oferta</a>#}
 {#              </li>#}
+                <li class="nav-item">
+                  <a class="nav-link" href="/accounts/login/?next=/manage/#/">Zaloguj</a>
+                </li>
             </ul>
-          </div><!-- /.navbar-collapse -->
-        </div><!-- /.container -->
-      </nav><!-- /.navbar -->
-      <!-- /site header -->
+          </div>
+        </div>
+      </nav>
       <!-- hero -->
       <section class="py-5">
         <!-- .container -->
@@ -538,8 +518,7 @@
 {#          </div><!-- /.card -->#}
 {#        </div><!-- /.container -->#}
       </section><!-- /call to action -->
-      <!-- footer -->
-      <section class="py-5 bg-black text-white">
+      <footer class="py-5 bg-black text-white">
         <!-- .container -->
         <div class="container">
           <!-- .row -->
@@ -651,8 +630,8 @@
           </div><!-- /.row -->
           <p class="text-muted text-center mt-5"> &copy; {% now 'Y' %} Onboarding, Inc. All rights reserved. </p>
         </div><!-- /.container -->
-      </section><!-- /footer -->
-    </main><!-- /.app -->
+      </footer>
+    </main>
     <!-- BEGIN BASE JS -->
     <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/bootstrap/js/popper.min.js' %}"></script>
