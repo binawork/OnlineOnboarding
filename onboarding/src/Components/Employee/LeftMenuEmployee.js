@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 import ModeButton from "../ModeButton";
 import "../../static/css/LeftMenu.scss";
 
-function LeftMenuEmployee(props) {
+function LeftMenuEmployee({ showAside, setToggleAside }) {
   useEffect(() => {
     handleWindowResize();
     window.addEventListener("resize", handleWindowResize);
@@ -10,88 +12,63 @@ function LeftMenuEmployee(props) {
 
   const handleWindowResize = () => {
     if(window.innerWidth >= 768) {
-      props.setToggleAside(false);
+      setToggleAside(false);
     }
   }
-
-  const goToDashboard = function(e){
-    e.preventDefault();
-    props.setToggleAside(false);
-    props.mainPage();
-  };
-
-  const goToUserPage = (e) => {
-    e.preventDefault();
-    props.setToggleAside(false);
-    props.employeePage();
-  };
-
-  const goToQnA = function(e){
-    e.preventDefault();
-    props.setToggleAside(false);
-    props.q_n_aPage();
-  };
-
-  const goToCompanyInfoPage = (e) => {
-    e.preventDefault();
-    props.setToggleAside(false);
-    props.aboutCompanyPage();
-  }
-
 
   return (
     <aside
       className={`LeftMenu app-aside app-aside-expand-md
-      app-aside-light ${props.showAside ? "show" : ""}`}
+      app-aside-light ${showAside ? "show" : ""}`}
       style={{zIndex: "9"}}
     >
       <div
-        className={`${props.showAside ? "LeftMenu__pseudo-wrapper" : ""} w-100 h-100`}
-        onClick={ () => props.setToggleAside(false) }
+        className={`${showAside ? "LeftMenu__pseudo-wrapper" : ""} w-100 h-100`}
+        onClick={ () => setToggleAside(false) }
       >
         <div className="LeftMenu__wrapper">
           <div className="LeftMenu__overflow aside-menu overflow-auto">
             <nav id="stacked-menu" className="stacked-menu pt-5">
               <ul className="LeftMenu__list">
                 <li className="menu-item has-child">
-                  <a
-                    href="#"
-                    onClick={ goToDashboard }
+                  <NavLink
+                    exact to="/"
                     className="LeftMenu__link menu-link"
+                    activeStyle={{color: "#346CB0"}}
                   >
                     <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
                     <span className="menu-text">Wdrożenia</span>
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="menu-item">
-                  <a
-                    href="#"
-                    onClick={ goToUserPage }
+                  <NavLink
+                    to="/my_profile"
                     className="LeftMenu__link menu-link"
+                    activeStyle={{color: "#346CB0"}}
                   >
                     <i className="bi bi-person mr-2" style={{ fontSize: "18px"}}></i>
                     <span className="menu-text">Mój profil</span>
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="menu-item">
-                  <a
-                    href="#"
-                    onClick={ goToQnA }
+                  <NavLink
+                    to="/q_and_a"
                     className="LeftMenu__link menu-link"
+                    activeStyle={{color: "#346CB0"}}
                   >
                     <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i>
                     <span className="menu-text">Q&A</span>
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="menu-item">
-                  <a
-                    href="#"
-                    onClick={ goToCompanyInfoPage }
+                  <NavLink 
+                    to="/company"
                     className="LeftMenu__link menu-link"
+                    activeStyle={{color: "#346CB0"}}
                   >
                     <i className="bi bi-building mr-2" style={{ fontSize: "18px"}}></i>
                     <span className="menu-text">O firmie</span>
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </nav>
@@ -102,5 +79,10 @@ function LeftMenuEmployee(props) {
     </aside>
   );
 }
-export default LeftMenuEmployee;
 
+LeftMenuEmployee.propTypes = {
+  showAside: PropTypes.bool.isRequired,
+  setToggleAside: PropTypes.func.isRequired,
+};
+
+export default LeftMenuEmployee;

@@ -8,7 +8,7 @@ import { sendEmployeesAnswers, getEmployeesSectionsAndAnswers, finishEmployeesAn
 import ModalWarning from "../../ModalWarning";
 
 
-const EmployeeSections = ({pageId, userId}) => {
+const EmployeeSections = ({ pageId, userId }) => {
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [loadingSaved, isLoadingSaved] = useState({load: true, saved: false});
     const [errorMessage, setErrorMessage] = useState("");
@@ -229,6 +229,7 @@ const EmployeeSections = ({pageId, userId}) => {
 
 EmployeeSections.propTypes = {
     pageId: PropTypes.number.isRequired,
+    userId: PropTypes.number,
 };
 
 export default EmployeeSections;

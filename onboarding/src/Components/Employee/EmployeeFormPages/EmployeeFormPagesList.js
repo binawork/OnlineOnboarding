@@ -1,18 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import ProgressBar from "../../ProgressBar";
 
 
-const EmployeeFormPagesList = ({ pagesList, switchPage, progress }) => {
-  const moveToForm = (page) => {
-    let pageProgress = {}, pageId = parseInt(page.id, 10);
-    if(progress.hasOwnProperty("pages") && progress.pages.hasOwnProperty(pageId) ){
-      pageProgress = progress.pages[pageId];
-    }
-
-
-    switchPage(page, pageProgress);
-  };
+const EmployeeFormPagesList = ({ pagesList, setPage, progress }) => {
   const notStartedMsg = "Nie rozpoczęte", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
 
   const pages = pagesList.map((page) => {
@@ -45,9 +37,9 @@ const EmployeeFormPagesList = ({ pagesList, switchPage, progress }) => {
     return (
       <tr key={page.id}>
         <td>
-          <a href="#" onClick={(e) => moveToForm(page)}>
-            {page.title}
-          </a>
+          <Link to={`/form/${page.id}`} onClick={() => setPage(page)}>
+            { page.title }
+          </Link>
         </td>
         <td className="form-progress">
           { progressForPage }{ progressMsg }
@@ -61,8 +53,9 @@ const EmployeeFormPagesList = ({ pagesList, switchPage, progress }) => {
 };
 
 EmployeeFormPagesList.propTypes = {
-  switchPage: PropTypes.func.isRequired,
-  pagesList: PropTypes.array,
+  pagesList: PropTypes.array.isRequired,
+  setPage: PropTypes.func.isRequired,
 };
 
 export default EmployeeFormPagesList;
+
