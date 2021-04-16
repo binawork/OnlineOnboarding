@@ -15,7 +15,6 @@ import QnAPage from "./Components/QnA/QnAPage";
 import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
 import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
 // import FormsManagerCheckPage from "./Components/FormsManagerCheckPage"; // where manager checks how form was filled;
-import "./static/css/style.scss";
 import "./static/css/App.scss";
 
 function App() {

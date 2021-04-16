@@ -1,22 +1,21 @@
+@import "./utilities/variables.scss";
+
 .LeftMenu {
   top: 0!important;
-  max-width: 280px!important;
+  max-width: 363px!important;
   width: 100%!important;
-  background: rgba(15,15,40,0.3);
+  background: $dark-transparent;
   &__header {
-    // 
     width: 259px;
     height: 53px;
-    background: rgba(0, 0, 0, 0.541);
-    // 
     margin-bottom: 72px;
   }
   &__item {
     padding: 10px;
+    padding-left: 52px;
     margin-bottom: 10px;
   }
   &__link {
-    padding: 10px;
     font-size: 1rem!important;
     color: #fff;
     // &--main {
@@ -24,7 +23,7 @@
     // }
     &--active {
       font-weight: 500;
-      color: hsl(188, 100%, 50%);
+      color: $light-blue;
     }
     &:hover {
       font-weight: 500;
@@ -36,8 +35,12 @@
     padding: 0;
     list-style: none;
   }
+  &__logo {
+    width: 100%;
+    height: 100%;
+  }
   &__nav {
-    padding: 56px 6px 56px 52px;
+    padding: 56px 0 56px 52px;
   }
   &__overflow {
     scrollbar-width: thin;
