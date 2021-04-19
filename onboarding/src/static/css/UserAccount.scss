@@ -1,0 +1,70 @@
+@import "./utilities/mixins.scss";
+
+.UserAccount {
+  &__avatar {
+    &-border {
+    box-sizing: border-box;
+    width: 200px;
+    height: 200px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    }
+  }
+  &__button {
+    @include button;
+    &-background {
+    position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        @include button-background;
+      }
+    }
+    &-wrapper {
+      padding: 24px;
+    }
+  }
+  &__card {
+    @include card;
+    max-width: 400px;
+    width: 100%;
+  }
+  &__download-icon {
+    font-size: 34px;
+    position: relative;
+    &::after {
+      width: max-content;
+      content: "Załaduj zdjęcie";
+      font-style: italic;
+      font-size: 10px;
+      position: absolute;
+      top: 48px;
+      right: -16px;
+    }
+  }
+  &__form {
+    width: 100%;
+  }
+  &__icon-wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $dark-transparent;
+  }
+  &__input {
+    @include input;
+  }
+  &__line {
+    border-top: 1px dashed #fff;
+  }
+}
+
+input[type="file" i]::-webkit-file-upload-button {
+  cursor: pointer;
+}

@@ -75,45 +75,93 @@ function UserProfileManage(props) {
     );
 
     return (
-      <div className="card-body">
-        <form>
+        <form className="UserAccount__form">
             <div className="form-label-group mb-2">
-                <input id="first-name" type="text" className="form-control" placeholder="Imię" value={ user.first_name } onChange={ handleChangeName } maxLength="50" />
+                <input
+                    id="first-name"
+                    type="text" 
+                    className="UserAccount__input form-control"               placeholder="Imię"
+                    value={ user.first_name }
+                    onChange={ handleChangeName }
+                    maxLength="50" />
                 <label htmlFor="first-name">Imię</label>
             </div>
             <div className="form-label-group mb-2">
-                <input id="last-name" type="text" className="form-control" placeholder="Nazwisko" value={ user.last_name } onChange={ handleChangeLName } maxLength="50" />
+                <input
+                    id="last-name"
+                    type="text"
+                    className="UserAccount__input form-control"
+                    placeholder="Nazwisko"
+                    value={ user.last_name }
+                    onChange={ handleChangeLName }
+                    maxLength="50" />
                 <label htmlFor="last-name">Nazwisko</label>
             </div>
-            <hr />
+            <hr className="UserAccount__line"/>
             <div className="form-label-group mb-2">
-                <input id="email" type="email" className="form-control" placeholder="e-mail" value={ user.email } onChange={ handleEmail } maxLength="50" />
+                <input
+                    id="email"
+                    type="email"
+                    className="UserAccount__input form-control"
+                    placeholder="e-mail"
+                    value={ user.email }
+                    onChange={ handleEmail }
+                    maxLength="50" />
                 <label htmlFor="email">E-mail</label>
             </div>
             <div className="form-label-group mb-2">
-                <input id="telephone" type="tel" className="form-control" placeholder="telefon" value={ user.tel } onChange={ handleTel } maxLength="15" />
+                <input
+                    id="telephone"
+                    type="tel"
+                    className="UserAccount__input form-control"
+                    placeholder="telefon"
+                    value={ user.tel }
+                    onChange={ handleTel }
+                    maxLength="15" />
                 <label htmlFor="telephone">Telefon</label>
             </div>
             <div className="form-label-group mb-2">
-                <input id="department" type="text" className="form-control" placeholder="dział" value={ user.department } onChange={ handleDepartment } maxLength="50" />{/* może lista rozwijana/do wyboru */}
+                <input
+                    id="department"
+                    type="text"
+                    className="UserAccount__input form-control"
+                    placeholder="dział"
+                    value={ user.department }
+                    onChange={ handleDepartment }
+                    maxLength="50" />{/* może lista rozwijana/do wyboru */}
                 <label htmlFor="department">Dział</label>
             </div>
             <div className="form-label-group mb-2">
-                <input id="location" type="text" className="form-control" placeholder="lokalizacja" value={ user.location } onChange={ handleLocation } list="location-list" maxLength="50" />
+                <input
+                    id="location"
+                    type="text"
+                    className="UserAccount__input form-control" placeholder="lokalizacja"
+                    value={ user.location }
+                    onChange={ handleLocation }
+                    list="location-list"
+                    maxLength="50" />
                 <label htmlFor="location">Lokalizacja</label>
                 <datalist id="location-list">{ dataOptions }</datalist>
             </div>
             <div className="form-label-group mb-2">
-                <input id="position" type="text" className="form-control" placeholder="stanowisko" value={ user.position } onChange={ handlePosition } maxLength="50" />
+                <input
+                    id="position"
+                    type="text"
+                    className="UserAccount__input form-control"
+                    placeholder="stanowisko"
+                    value={ user.position }
+                    onChange={ handlePosition }
+                    maxLength="50" />
                 <label htmlFor="position">Stanowisko</label>
             </div>
-            <div className="form-group">
-				<div className="input-group-append justify-content-end">
-					<button className="btn btn-success" onClick={ handleSave }>{ props.buttonTitle }</button>
+            <div className="UserAccount__button-wrapper input-group-append justify-content-center">
+				<div className="UserAccount__button-background">
+					<button className="UserAccount__button btn" onClick={ handleSave }>
+                        { props.buttonTitle }
+                    </button>
 				</div>
 			</div>
         </form>
-      </div>
     );
 }
 
