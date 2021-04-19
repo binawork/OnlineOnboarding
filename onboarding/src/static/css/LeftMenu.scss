@@ -1,4 +1,5 @@
 @import "./utilities/variables.scss";
+@import "./utilities/mixins.scss";
 
 .LeftMenu {
   top: 0!important;
@@ -18,17 +19,11 @@
   &__link {
     font-size: 1rem!important;
     color: #fff;
-    // &--main {
-      //   padding-left: 0!important;
-    // }
-    &--active {
-      font-weight: 500;
-      color: $light-blue;
-    }
     &:hover {
-      font-weight: 500;
-      color: #fff;
-      text-decoration: none;
+      @include text-hover;
+    }
+    &--active {
+      @include text-active;
     }
   }
   &__list {
@@ -75,7 +70,7 @@
     }
   }
   &__sublist {
-    padding-left: 2rem!important;
+    padding-left: 0!important;
     list-style: none;
   }
   &__wrapper {

@@ -48,7 +48,7 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
           <div className="LeftMenu__overflow aside-menu overflow-auto">
             <nav id="stacked-menu" className="LeftMenu__nav">
               <header className="LeftMenu__header">
-                <Link exact to="/">
+                <Link to="/">
                   <img className="LeftMenu__logo" src={ logo } alt="Logo OnlineOnboarding"/>
                 </Link>
               </header>
