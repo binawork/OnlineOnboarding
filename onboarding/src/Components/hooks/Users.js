@@ -150,57 +150,6 @@ export function employeeAddEdit(handleMessage, employeeObject, updateData){
 	return true;
 }
 
-/**
- * Updates user (mainly employee) on endpoint for some (not most) data.
- * @param handleMessage - function to call on response;
- * @param employeeObject - object with same fields like those listed in serializer,
- *   {first_name": String,
-    "last_name": String,
-    "phone_number": String};
- */
-export function employeeSelfEdit(handleMessage, employeeObject){
-	let url = getPath(), userData, token = getCookie('csrftoken'),
-		fetchProps = {method: "PATCH", headers: {}, body: null};
-
-	fetchProps.headers = {"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token};
-
-	userData = {...employeeObject};
-	if(userData.avatar)
-		delete userData.avatar;
-
-	if(typeof userData.id)
-		delete userData.id;
-
-	if(userData.name)
-		userData.first_name = userData.name;
-
-	fetchProps.body = JSON.stringify(userData);
-
-	fetch(url + "api/users/update_user/", fetchProps).then(res => {
-			if(!res.ok)
-				throw Error("Nie udpało się zapisać zmian.");
-			return res.json();
-		}
-	).then((result) => {
-			let msg = "Zaktualizowano dane.";
-			if(Object.keys(result).length < 1){
-				msg = "Aktualizacja danych nie nastąpiła: brak właściwych pól.";
-			} else {
-				msg = "Zaktualizowano dane.";
-				if(result.hasOwnProperty("detail"))
-					msg += " " + result.detail;
-			}
-
-			handleMessage(msg, true);
-		},
-		(error) => {
-			handleMessage("Wystąpił błąd: " + error.message, false);
-		}
-	).catch(err => {
-		handleMessage(err.message, false);
-	});
-}
-
 export function uploadAvatar(handleSuccess, avatarFile, employeeObject, showModal, updateData){
 // export function uploadAvatar(avatarFile, employeeObject){
 	let data = new FormData();
@@ -236,6 +185,100 @@ export function uploadAvatar(handleSuccess, avatarFile, employeeObject, showModa
 		.catch(error => {
 			showModal?.(error.message);
 			console.error('Error:', error);
+		});
+}
+
+/**
+ * Updates user (mainly employee) on endpoint for some (not most) data.
+ * @param handleMessage - function to call on response;
+ * @param employeeObject - object with same fields like those listed in serializer,
+ *   {first_name": String,
+    "last_name": String,
+    "phone_number": String};
+ */
+export function employeeSelfEdit(handleMessage, employeeObject){
+	let url = getPath(), userData, token = getCookie('csrftoken'),
+		fetchProps = {method: "PATCH", headers: {}, body: null};
+
+	fetchProps.headers = {"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":token};
+
+	userData = {...employeeObject};
+	if(userData.avatar)
+		delete userData.avatar;
+
+	if(typeof userData.id)
+		delete userData.id;
+
+	let avatarMessage = "";
+	if(userData.avatarMsg){
+		avatarMessage = userData.avatarMsg;
+		delete userData.avatarMsg;
+	}
+
+	if(userData.name)
+		userData.first_name = userData.name;
+
+	fetchProps.body = JSON.stringify(userData);
+
+	fetch(url + "api/users/update_user/", fetchProps).then(res => {
+			if(!res.ok)
+				throw Error("Nie udpało się zapisać zmian.");
+			return res.json();
+		}
+	).then((result) => {
+			let msg = avatarMessage + " Zaktualizowano dane.";
+			if(Object.keys(result).length < 1){
+				msg = avatarMessage + " Aktualizacja danych nie nastąpiła: brak właściwych pól.";
+			} else {
+				msg = avatarMessage + " Zaktualizowano dane.";
+				if(result.hasOwnProperty("detail"))
+					msg += " " + result.detail;
+			}
+
+			handleMessage(msg, true);
+		},
+		(error) => {
+			handleMessage(avatarMessage + " Wystąpił błąd: " + error.message, false);
+		}
+	).catch(err => {
+		handleMessage(avatarMessage + " " + err.message, false);
+	});
+}
+
+export function uploadAvatarSync(avatarObject, employeeObject){
+	if( !avatarObject.hasOwnProperty("localChanged") || avatarObject.localChanged === false){
+		let defaultResponse = {...employeeObject, avatarData: null, avatarMsg: ""};
+		return new Promise((resolve) => resolve(defaultResponse) );
+	}
+
+	let data = new FormData();
+	let url = getPath(), 
+		token = getCookie('csrftoken'),
+		fetchProps = {
+			method:"POST", 
+			headers:{"Accept":"application/json", "X-CSRFToken":token, "Authorization": "Token " + token}, 
+			body:null
+		};
+
+	data.append('avatar', avatarObject.img);
+	fetchProps.body = data;
+
+	return fetch(url + 'api/user-avatar/', fetchProps)
+		.then(response => {
+			if(!response.ok) {
+				throw Error("Wystąpił błąd podczas zapisywania avatara!")
+			}
+			return response.json();
+		})
+		.then(data => {
+				let response = {...employeeObject, avatarData: null, avatarMsg: "Pomyślnie zaktualizowano avatara. "};
+				if(data.avatar)
+					response.avatarData = data.avatar;
+				return response;
+		})
+		.catch(error => {
+			let response = {...employeeObject, avatarData: avatarObject.img, avatarMsg: error.message};
+			return response;
 		});
 }
 
