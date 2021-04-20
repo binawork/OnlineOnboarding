@@ -12,7 +12,7 @@ const EmployeeFormPages = ({ setPage, userId }) => {
   const [pagesList, setPagesList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [progress, setProgress] = useState({});
+  const [progress, setProgress] = useState(false);
   const { package_id:packageId } = useParams();
   let packageObj = singleCombo(packageId);
 
@@ -34,11 +34,14 @@ const EmployeeFormPages = ({ setPage, userId }) => {
       .catch((error) => setErrorMessage(error.message))
       .then((pages) => {
         setPagesList(pages);
-        if(userId)
-          getProgress(userId, progressCallback);
       })
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if(userId)
+      getProgress(userId, progressCallback);
+  }, [userId]);
 
 
   return (

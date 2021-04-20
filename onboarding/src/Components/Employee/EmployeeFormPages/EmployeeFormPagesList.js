@@ -8,22 +8,28 @@ const EmployeeFormPagesList = ({ pagesList, setPage, progress }) => {
   const notStartedMsg = "Nie rozpoczęte", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
 
   const pages = pagesList.map((page) => {
-    let progressForPage = <ProgressBar backgroundSize={ "0%" } />, progressMsg = <small className="ml-1">{ notStartedMsg }</small>,
+    let progressForPage = <ProgressBar backgroundSize={ "0%" } />, progressMsg = "Nie pobrano",
         pageId = parseInt(page.id, 10);
+
+    page = {...page, saved: false, wasSend: false, isChecked: progress !== false};
+    if(page.isChecked)
+        progressMsg = <small className="ml-1">{ notStartedMsg }</small>
 
     if(progress.hasOwnProperty("pages") ){
       progressForPage = <ProgressBar backgroundSize={ "0%" } />
       progressMsg = <small className="ml-1">{ notStartedMsg }</small>
 
-      let page, percentage;//, finishMsg = notStartedMsg;
+      let localPage, percentage;//, finishMsg = notStartedMsg;
       if(progress.pages.hasOwnProperty(pageId) ){
-        page = progress.pages[pageId];
+        localPage = progress.pages[pageId];
+        page.saved = true;
 
-        if(page.finished){
+        if(localPage.finished){
           percentage = "100%";
           // finishMsg = finishedMsg;
           progressForPage = <ProgressBar color={ "green" } backgroundSize={ percentage } />
           progressMsg = <small className="ml-1">{ finishedMsg }</small>
+          page.wasSend = true;
         } else {
           percentage = "50%";
           // finishMsg = inProgressMsg;
