@@ -8,7 +8,8 @@ const EmployeeFormPagesList = ({ pagesList, setPage, progress }) => {
   const notStartedMsg = "Nie rozpoczęte", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
 
   const pages = pagesList.map((page) => {
-    let progressForPage = <ProgressBar backgroundSize={ "0%" } />, progressMsg = "", pageId = parseInt(page.id, 10);
+    let progressForPage = <ProgressBar backgroundSize={ "0%" } />, progressMsg = <small className="ml-1">{ notStartedMsg }</small>,
+        pageId = parseInt(page.id, 10);
 
     if(progress.hasOwnProperty("pages") ){
       progressForPage = <ProgressBar backgroundSize={ "0%" } />
