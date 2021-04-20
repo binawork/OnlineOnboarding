@@ -245,6 +245,18 @@ export function employeeSelfEdit(handleMessage, employeeObject){
 	});
 }
 
+/**
+ * Enables the user to change his avatar. It returns Promise object which returns employeeObject
+ * joined with the result from server or empty avatar properties if it not expected to be updated.
+ * @param avatarObject := {localChanged: Boolean, img: image or string-path, msg: String}
+ *     localChanged - if true then avatar is to be uploaded, otherwise return an 'empty' Promise;
+ *     img - an image to be uploaded;
+ * @param employeeObject - object with same fields like those listed in serializer for "api/users/update_user/" endpoint,
+ *     {first_name: String,
+ *      last_name: String,
+ *      phone_number: String, ...};
+ * @returns {Promise<unknown>|Promise<{avatarData: null, avatarMsg: string} | {avatarData: *, avatarMsg: *}>}
+ */
 export function uploadAvatarSync(avatarObject, employeeObject){
 	if( !avatarObject.hasOwnProperty("localChanged") || avatarObject.localChanged === false){
 		let defaultResponse = {...employeeObject, avatarData: null, avatarMsg: ""};
