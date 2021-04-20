@@ -28,11 +28,13 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
+from .serializers import UserSerializer, UserAvatarSerializer, LogInUserSerializer, UserJobDataSerializer,\
+    UserUpdateSerializer, UsersListSerializer, UserProgressSerializer, UserProgressLimitedSerializer
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackageAddUsersSerializer
-from .serializers import UserSerializer, CompanyQuestionAndAnswerSerializer, UserAvatarSerializer, PackagesUsers, ContactFormTestSerializer
-from .serializers import PackagePagesSerializer, PackagePagesForUsersSerializer, UserProgressSerializer, UserProgressLimitedSerializer
-from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, UsersListSerializer, UserJobDataSerializer, LogInUserSerializer, WhenPackageSendToEmployeeSerializer
+from .serializers import PackageSerializer, PackageForHrSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackageAddUsersSerializer
+from .serializers import CompanyQuestionAndAnswerSerializer, PackagesUsers, ContactFormTestSerializer
+from .serializers import PackagePagesSerializer, PackagePagesForHrSerializer, PackagePagesForUsersSerializer
+from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, WhenPackageSendToEmployeeSerializer
 
 
 from .permissions import IsHrUser
@@ -220,16 +222,25 @@ class UserAvatarUpload(views.APIView):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
     # permission_classes = (IsHrUser, IsAuthenticated)
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action == "login_user":
+        if self.action == "login_user" or self.action == "update_user":
             self.permission_classes = [IsAuthenticated,]
         else:
             self.permission_classes = [IsHrUser, IsAuthenticated]
         return super(self.__class__, self).get_permissions()
+
+    def get_queryset(self):
+        return User.objects.filter(company=self.request.user.company)
+
+    def get_serializer_class(self):
+        if self.action == "login_user":
+            return LogInUserSerializer
+        elif self.action == "update_user":
+            return UserUpdateSerializer
+        return UserSerializer
 
     def perform_create(self, serializer):
         serializer.save(company=self.request.user.company)
@@ -242,6 +253,26 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset.update(welcome_board=False)
 
         return response
+
+    @action(detail=False, methods=['get', 'patch'])
+    def update_user(self, request):
+        """
+        List (GET) or updates (PATCH) some fields which employees are free to manage
+        return: free to manage fields or "bad request"
+        """
+        if request.method == 'PATCH':
+            serializer = UserUpdateSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                queryset = User.objects.get(pk=self.request.user.id)  # user can change only his own data;
+                serializer.update(instance=queryset, validated_data=serializer.validated_data)
+                return Response(serializer.validated_data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            queryset = User.objects.get(pk=self.request.user.id)
+            serializer = UserUpdateSerializer(queryset, many=False)
+
+        return Response(serializer.data)
 
     def list(self, request):
 
@@ -415,37 +446,29 @@ class PackageViewSet(viewsets.ModelViewSet):
     """
     List all package, or create a new package.
     """
-    queryset = Package.objects.all()
-    serializer_class = PackageSerializer
+    default_serializer_class = PackageSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user is not None:
+            if user.is_hr:
+                queryset = Package.objects.filter(owner=user.company)
+            else:
+                queryset = Package.objects.filter(owner=user.company, users=user)
+        else:
+            queryset = Package.objects.none()
+
+        return queryset
+
+    def get_serializer_class(self):
+        if self.request.user.is_hr:
+            return PackageForHrSerializer
+        return PackageSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user.company)
-
-    @action(detail=False)
-    def list_by_company_hr(self, request):
-        """
-        :param request: user
-        :return: all packages with param request.user = owner
-        """
-        package = Package.objects.filter(owner=request.user.company)
-        serializer = PackageSerializer(package, many=True)
-
-        return Response(serializer.data)
-
-    @action(detail=False)
-    def list_by_company_employee(self, request):
-        """
-        :param request: user
-        :return: all packages with param request.user = owner
-        """
-        package = Package.objects.filter(
-                                        owner=request.user.company,
-                                        users=request.user
-        )
-        serializer = PackageSerializer(package, many=True)
-
-        return Response(serializer.data)
 
     """@action(detail=True, methods=['post'])
     def add_user_to_package(self, request, pk=None):
@@ -547,41 +570,26 @@ class PackagePagesViewSet(viewsets.ModelViewSet):
     """
     List all Packages with related pages.
     """
-    serializer_class = PackagePagesSerializer
+    default_serializer_class = PackagePagesSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
 
         if user is not None:
-            queryset = Package.objects.filter(owner=user.company)
+            if user.is_hr:
+                queryset = Package.objects.filter(owner=user.company)
+            else:
+                queryset = Package.objects.filter(owner=user.company, users=user)
         else:
-            queryset = Package.objects.all()
+            queryset = Package.objects.none()
 
         return queryset
 
-    @action(detail=False)
-    def list_by_company_hr(self, request):
-        """
-        :param request: user
-        :return: all packages with corresponding pages for request.user = owner from params
-        """
-        package = Package.objects.filter(owner=request.user.company)
-        serializer = PackagePagesSerializer(queryset, many=True)
-
-        return Response(serializer.data)
-
-    @action(detail=False, methods=['get'])
-    def list_by_company_employee(self, request):
-        """
-        :param request: user
-        :return: all packages with corresponding pages for ...
-        """
-        packages = Package.objects.filter(owner=request.user.company,
-                                          users=request.user)
-        serializer = PackagePagesSerializer(packages, many=True)
-
-        return Response(serializer.data)
+    def get_serializer_class(self):
+        if self.request.user.is_hr:
+            return PackagePagesForHrSerializer
+        return PackagePagesSerializer
 
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=PackagePagesForUsersSerializer)
     def users(self, request):
