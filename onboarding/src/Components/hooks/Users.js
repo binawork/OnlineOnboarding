@@ -172,7 +172,7 @@ export function uploadAvatar(handleSuccess, avatarFile, employeeObject, showModa
 	fetch(url + 'api/user-avatar/', fetchProps)
 		.then(response => {
 			if(!response.ok) {
-				throw Error("Wystąpił błąd podczas zapisywania avatara!")
+				throw Error("Wystąpił błąd podczas zapisywania zdjęcia!")
 			}
 			return response.json();
 		})
@@ -278,12 +278,12 @@ export function uploadAvatarSync(avatarObject, employeeObject){
 	return fetch(url + 'api/user-avatar/', fetchProps)
 		.then(response => {
 			if(!response.ok) {
-				throw Error("Wystąpił błąd podczas zapisywania avatara!")
+				throw Error("Wystąpił błąd podczas zapisywania zdjęcia!")
 			}
 			return response.json();
 		})
 		.then(data => {
-				let response = {...employeeObject, avatarData: null, avatarMsg: "Pomyślnie zaktualizowano avatara. "};
+				let response = {...employeeObject, avatarData: null, avatarMsg: "Pomyślnie zaktualizowano zdjęcie. "};
 				if(data.avatar)
 					response.avatarData = data.avatar;
 				return response;
