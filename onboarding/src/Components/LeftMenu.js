@@ -37,6 +37,10 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
     }
   }
 
+  const handleLogout = () => {
+    sessionStorage.clear();
+  }
+
   return (
     <aside 
       className={`LeftMenu app-aside
@@ -137,8 +141,25 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                     onClick={ handleHideAside }
                   >
                     {/* <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i> */}
-                    <span className="menu-text"> Q&A</span>
+                    <span className="menu-text">Q&A</span>
                   </NavLink>
+                </li>
+                <li className="LeftMenu__item menu-item">
+                  <NavLink 
+                    to="/my_profile"
+                    className="LeftMenu__link menu-link"
+                    activeClassName="LeftMenu__link--active"
+                    onClick={ handleHideAside }
+                  >
+                    <span className="menu-text">Mój profil</span>
+                  </NavLink>
+                </li>
+                <li className="LeftMenu__item menu-item">
+                  <a
+                      className="LeftMenu__link menu-link"
+                      href="/accounts/logout/"
+                      onClick={ handleLogout }
+                  >Wyloguj</a>
                 </li>
               </ul>
             </nav>
