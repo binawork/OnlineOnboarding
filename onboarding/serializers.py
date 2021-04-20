@@ -129,6 +129,16 @@ class UsersListSerializer(serializers.ModelSerializer):
         )
 
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = (
+            'first_name',
+            'last_name',
+            'phone_number'
+        )
+
+
 class UserSerializer(serializers.ModelSerializer):
     # password = serializers.CharField(write_only=True)
 
@@ -181,6 +191,19 @@ class ContactFormTestSerializer(serializers.ModelSerializer):
 
 # PACKAGE
 class PackageSerializer(serializers.ModelSerializer):
+    class Meta:
+        ordering = ['-id']
+        model = Package
+        fields = (
+            'id',
+            'title',
+            'description',
+            'created_on',
+            'updated_on',
+        )
+
+
+class PackageForHrSerializer(serializers.ModelSerializer):
     class Meta:
         ordering = ['-id']
         model = Package
@@ -246,7 +269,7 @@ class PageSerializer(serializers.ModelSerializer):
             'description',
             'link',
             'updated_on',
-            'package',
+            'package',  # to POST a page for respective package;
         )
         extra_kwargs = {
             'package': {'required': False},
@@ -281,7 +304,23 @@ class PackagePagesSerializer(serializers.ModelSerializer):
             'description',
             'created_on',
             'updated_on',
-            'users',
+            'page_set'
+        )
+
+
+class PackagePagesForHrSerializer(serializers.ModelSerializer):
+    page_set = PageSerializer(many=True)
+
+    class Meta:
+        ordering = ['-updated_on']
+        model = Package
+        fields = (
+            'id',
+            'title',
+            'description',
+            'created_on',
+            'updated_on',
+            'users',  # for hr
             'page_set'
         )
 
