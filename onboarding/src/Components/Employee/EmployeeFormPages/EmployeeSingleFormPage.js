@@ -5,7 +5,7 @@ import { fetchFormData } from "../../hooks/FormsEdit";
 import { singleCombo } from "../../hooks/Packages";
 import EmployeeSections from "./EmployeeSections";
 import PageAddressBar from "../../PageAddressBar";
-import { linkToVideo } from "../utils.js";
+import { linkToVideo } from "../../utils.js";
 
 
 const EmployeeSingleFormPage = ({ page, userId }) => {
@@ -23,7 +23,7 @@ const EmployeeSingleFormPage = ({ page, userId }) => {
 
   useEffect(() => {
     let videoLink
-    if(form?.link?){
+    if(form?.link){
       videoLink = linkToVideo(form.link);
       if(videoLink.isVideo){
         setPageLink(videoLink);
