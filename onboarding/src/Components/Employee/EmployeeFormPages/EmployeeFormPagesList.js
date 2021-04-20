@@ -1,17 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
-const EmployeeFormPagesList = ({ pagesList, switchPage }) => {
-  const moveToForm = (page) => {
-    switchPage(page);
-  };
-
+const EmployeeFormPagesList = ({ pagesList, setPage }) => {
   const pages = pagesList.map((page) => (
-    <tr key={page.id}>
+    <tr key={ page.id }>
       <td>
-        <a href="#" onClick={(e) => moveToForm(page)}>
-          {page.title}
-        </a>
+        <Link to={`/form/${page.id}`} onClick={() => setPage(page)}>
+          { page.title }
+        </Link>
       </td>
     </tr>
   ));
@@ -20,8 +17,8 @@ const EmployeeFormPagesList = ({ pagesList, switchPage }) => {
 };
 
 EmployeeFormPagesList.propTypes = {
-  switchPage: PropTypes.func.isRequired,
-  pagesList: PropTypes.array,
+  pagesList: PropTypes.array.isRequired,
+  setPage: PropTypes.func.isRequired,
 };
 
 export default EmployeeFormPagesList;

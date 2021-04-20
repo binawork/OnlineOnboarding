@@ -1,25 +1,24 @@
-import React, { useState, useRef } from "react";
-
+import React, { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 
 function EmployeeAvatar(props) {
     const fileNameRef = useRef("");
+    const [avatar, setAvatar] = useState(props.image.img);
+		
+		useEffect(() => {
+				setAvatar(props.loggedUser.avatar);
+		}, [props.loggedUser]);
 
-    let userCp = props.loggedUser, avatar = "";
-    if(userCp.avatar)
-        avatar = userCp.avatar;
-
-
-    if(props.image){
-        if(typeof props.image === "string")
-            avatar = props.image;
-        else if(typeof props.image.name === "string" && props.image.name.length > 0 && props.image instanceof File)
-            avatar = props.image.name
-
-    }
-
-
-    const [imgSrc, setImage] = useState(avatar);
-
+		useEffect(() => {
+			if(typeof props.image === "string")
+					setAvatar(props.image);
+			else if(
+					typeof props.image.img.name === "string" 
+					&& props.image.img.name.length > 0 
+					&& props.image.img instanceof File
+			)
+					setAvatar(props.image.img.name);
+		}, [props.image]);
 
     const changeAvatar = function(e){
     	if(fileNameRef.current.files.length > 0){
@@ -27,7 +26,7 @@ function EmployeeAvatar(props) {
     	        let fr = new FileReader(),
     	            url = fr.readAsDataURL(fileNameRef.current.files[0]);
     	        fr.onload = function(e){
-    	            setImage(fr.result);/* uploads binary data in src of image <img /> */
+									setAvatar(fr.result);/* uploads binary data in src of image <img /> */
     	        }
     	    }
 
@@ -36,7 +35,6 @@ function EmployeeAvatar(props) {
     	}
     };
 
-
     return (
     	<div className="col col-md-4">
     		<div className="card-body align-items-center text-center">
@@ -44,7 +42,7 @@ function EmployeeAvatar(props) {
     				<div className="fileinput-button-label">
 							Dodaj/zmień zdjęcie
 						</div>
-						<img src={ imgSrc } alt="avatar" />
+						<img src={ avatar } alt="avatar" />
     				<input
 							id="fileupload-avatar"
 							type="file"
@@ -57,6 +55,12 @@ function EmployeeAvatar(props) {
     	</div>
     );
 }
+
+EmployeeAvatar.propTypes = {
+  loggedUser: PropTypes.object.isRequired,
+	setFile: PropTypes.func.isRequired,
+	image: PropTypes.object.isRequired,
+};
 
 export default EmployeeAvatar;
 

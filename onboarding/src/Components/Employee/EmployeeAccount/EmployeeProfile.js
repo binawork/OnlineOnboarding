@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { validEmail } from "../../utils";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import "../../../static/css/EmployeeProfile.scss";
 
 function EmployeeProfile(props) {
-    let userCp = {id: 0, first_name: "", last_name: "", email: "", phone_number: "", team: "-", location: "-", job_position: "-"};
-    if(props.loggedUser)
-        userCp = {...props.loggedUser};
-    const [user, setUser] = useState(userCp);
+    const [user, setUser] = useState({
+        id: 0,
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_number: "",
+        team: "-",
+        location: "-",
+        job_position: "-"
+    });
+
+    useEffect(() => {
+        setUser(props.loggedUser);
+    },[props.loggedUser]);
 
     const handleChangeName = e => {
         setUser({...user, first_name: e.target.value});
@@ -29,11 +41,6 @@ function EmployeeProfile(props) {
         else
             props.showMessage("Format e-mail'a jest nieprawidłowy");
     };
-
-    const handleGoToPackages = (e) => {
-        e.preventDefault();
-        props.loadFormList();
-    }
 
     return (
       <div className="card-body">
@@ -101,17 +108,21 @@ function EmployeeProfile(props) {
                         onClick={ handleSave }>
                         Zapisz zmiany
                     </button>
-                    <button
-                        className="Employee-Profile__button--forms btn btn-success"
-                        onClick={ handleGoToPackages }>
+                    <Link to="/" className="Employee-Profile__button--forms btn btn-success d-flex align0items-center">
                         Wdrożenia
-                    </button>
+                    </Link>
                 </div>
             </div>
         </form>
       </div>
     );
 }
+
+EmployeeProfile.propTypes = {
+    loggedUser: PropTypes.object.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    showMessage: PropTypes.func,
+};
 
 export default EmployeeProfile;
 

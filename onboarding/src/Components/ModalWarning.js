@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 // Alert Warning Modal
 function ModalWarning(props) {
@@ -66,6 +67,15 @@ function ModalWarning(props) {
             </div>
         </div>
     )
+}
+
+ModalWarning.propTypes = {
+    handleAccept: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+    id: PropTypes.number,
+    show: PropTypes.bool,
+    acceptText: PropTypes.string, 
 }
 
 export default ModalWarning;

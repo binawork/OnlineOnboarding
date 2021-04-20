@@ -52,7 +52,7 @@ function App() {
                   <Route path="/user_list">
                       <UserListPage loggedUserId={ loggedUser.id } />
                   </Route>
-                  <Route path="/profile/manager">
+                  <Route path="/my_profile">
                       <ManagerEditPage user={ loggedUser } editLoggedUser={ editLoggedUser } setEditLoggedUser={ setEditLoggedUser } />
                   </Route>
                   <Route path="/add_user/">

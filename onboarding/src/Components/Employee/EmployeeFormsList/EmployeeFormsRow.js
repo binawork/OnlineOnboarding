@@ -1,17 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-
-function EmployeeFormsRow(props) {
-    const moveToFormPages = (e) => {
-        e.preventDefault();
-        props.setPageTitle(props.row.name);
-        props.switchToFormPages(props.row.key);
-    };
-
+function EmployeeFormsRow({ row }) {
     return(
         <tr>
-            <td><a href="#" onClick={ moveToFormPages }>{props.row.name}</a></td>
-            <td>{props.row.progress}</td>
+            <td>
+                <Link to={`package/${row.id}`}>
+                    {row.name}
+                </Link>
+            </td>
+            <td>{row.progress}</td>
         </tr>
     )
 }

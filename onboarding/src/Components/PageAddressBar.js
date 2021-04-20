@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 import "../static/css/PageAddressBar.scss";
 
 function PageAddressBar({ page, previousPages=[] }) {
@@ -24,6 +25,11 @@ function PageAddressBar({ page, previousPages=[] }) {
         </header>
     )
 }
+
+PageAddressBar.propTypes = {
+    page: PropTypes.string.isRequired,
+    previousPages: PropTypes.array,
+};
 
 export default PageAddressBar;
 
