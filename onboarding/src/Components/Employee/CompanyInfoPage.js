@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import parse from "html-react-parser";
 import CompanyInfoAPI from "../hooks/CompanyInfoAPI";
 import PageAddressBar from "../PageAddressBar";
+import { linkToVideo } from "../utils.js";
+
 
 const CompanyInfoPage = ({ loggedUser }) => {
   const [loading, setLoading] = useState(true);
@@ -33,18 +35,13 @@ const CompanyInfoPage = ({ loggedUser }) => {
 
   let videoLink;
   if (link) {
-    if (link.match(
-        /^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i
-    )) {
-      videoLink = link
-        .replace(/watch\?v=/g, "embed/")
-        .replace(/&[\w]+=[\w]+/g, "");
-    } else if (link?.match(
-      /^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i
-    )) {
-      videoLink = link.replace(/vimeo\.com/g, "player.vimeo.com/video");
-    }
+    videoLink = linkToVideo(link);
+    if(videoLink?.isVideo){
+        videoLink = videoLink.link;
+    } else
+        videoLink = false;
   }
+
 
   return (
     <div className="page-inner">
