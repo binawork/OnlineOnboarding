@@ -20,15 +20,12 @@ function AddEmployeePage() {
     return (
         <div className="page-inner">
             <PageAddressBar page="Dodaj pracownika" />
-            <div className="card card-fluid">
-                <div className="card-header">Dodaj pracownika</div>
-                <UserEditForm
-                    user={ singleUser }
-                    enableUploadAvatar={ false }
-                    buttonTitle={ "Dodaj" }
-                    modalTitle={"Dodanie pracownika"}
-                />
-            </div>
+            <UserEditForm
+                user={ singleUser }
+                enableUploadAvatar={ false }
+                buttonTitle={ "+ Dodaj do listy pracowników" }
+                modalTitle={"Dodanie pracownika"}
+            />
         </div>
     );
 }
