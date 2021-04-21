@@ -63,7 +63,7 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                   title="Wdrożenia"
                   setToggleAside={ setToggleAside }
                   itemClassName={`LeftMenu__item${
-                    showFolders && " has-active m-0 pb-0"
+                    showFolders ? " has-active m-0 pb-0" : ""
                   } menu-item has-child`}
                   sublist={ showFolders && packagesList &&  (
                     <ul className="LeftMenu__sublist menu">

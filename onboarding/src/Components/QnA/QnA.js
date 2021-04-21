@@ -97,43 +97,41 @@ function QnA({
   return !editMode ? (
     preview
   ) : (
-    <div className="task-issue mb-3" {...draggableProps} ref={innerRef}>
-      <div className="card card-fluid d-flex p-2">
-        <div className="p-1 d-flex justify-content-center" {...dragHandleProps}>
-          <span
-            className="drag-indicator"
-            style={{ transform: "rotate(90deg)" }}
-          ></span>
+    <div className="QnA__card card" {...draggableProps} ref={innerRef}>
+      <div className="p-1 d-flex justify-content-center" {...dragHandleProps}>
+        <span
+          className="drag-indicator"
+          style={{ transform: "rotate(90deg)" }}
+        ></span>
+      </div>
+      <small className={`m-0 QnA__limit ${q.length > 2000 && "QnA__limit--error"}`}>{q.length}/2000</small>
+      <MarkdownArea
+        id={"question" + id}
+        content={q}
+        contentChange={changeQuestion}
+        simple={true}
+        placeholder={"Napisz pytanie... (np. Gdzie znajduje się siedziba firmy?)"}
+      />
+      <small className={`m-0 QnA__limit ${a.length > 2000 && "QnA__limit--error"}`}>{a.length}/2000</small>
+      <MarkdownArea
+        id={"answer" + id}
+        content={a}
+        contentChange={changeAnswer}
+        simple={true}
+        placeholder={"Napisz odpowiedź... (np. Nasza siedziba mieści się w Łodzi przy ulicy Piotrkowskiej 56)"}
+      />
+      <div className="d-flex justify-content-end">
+        <div className="p-1">
+          <button className="QnA__card-button btn" onClick={handleCopyQA}>
+            <i className="QnA__card-icon fa fa-files-o fa-md">&#61637;</i>
+            <span className="QnA__card-action">Duplikuj</span>
+          </button>
         </div>
-        <small className={`m-0 QnA__limit ${q.length > 2000 && "QnA__limit--error"}`}>{q.length}/2000</small>
-        <MarkdownArea
-          id={"question" + id}
-          content={q}
-          contentChange={changeQuestion}
-          simple={true}
-          placeholder={"Wpisz pytanie"}
-        />
-        <small className={`m-0 QnA__limit ${a.length > 2000 && "QnA__limit--error"}`}>{a.length}/2000</small>
-        <MarkdownArea
-          id={"answer" + id}
-          content={a}
-          contentChange={changeAnswer}
-          simple={true}
-          placeholder={"Wpisz odpowiedź"}
-        />
-        <div className="d-flex justify-content-end">
-          <div className="p-1">
-            <button className="btn" onClick={handleCopyQA}>
-              <i className="QnA__card-icon fa fa-files-o fa-md">&#61637;</i>
-              <span className="QnA__card-action">Duplikuj</span>
-            </button>
-          </div>
-          <div className="p-1">
-            <button className="btn text-danger" onClick={handleDeleteQnA}>
-              <i className="QnA__card-icon fa fa-trash-o fa-md">&#61944;</i>
-              <span className="QnA__card-action">Usuń</span>
-            </button>
-          </div>
+        <div className="p-1">
+          <button className="QnA__card-button btn" onClick={handleDeleteQnA}>
+            <i className="QnA__card-icon fa fa-trash-o fa-md">&#61944;</i>
+            <span className="QnA__card-action">Usuń</span>
+          </button>
         </div>
       </div>
     </div>

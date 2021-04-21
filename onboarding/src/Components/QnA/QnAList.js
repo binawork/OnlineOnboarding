@@ -128,9 +128,12 @@ const QnAList = () => {
 
   if (error) return <div>{error}</div>;
   return (
-    <div className="card card-fluid">
-      <div className="card-header">Najczęstsze pytania i odpowiedzi (Q&A)</div>
-      <section className="card-body">
+    <div className="QnA">
+      <header className="QnA__header">
+        <h1 className="QnA__header-text QnA__header-text--main">Q&A</h1>
+        <p className="QnA__header-text">Najczęstsze pytania i odpowiedzi</p>
+      </header>
+      <section>
         {loading ? (
           <div>Ładowanie...</div>
         ) : qaList.length === 0 && !editMode ? (
@@ -166,16 +169,20 @@ const QnAList = () => {
         <></>
       )}
       <footer className="QnA__footer card-body rounded-bottom border-top">
-        <button
-          className="btn btn-success mr-3"
-          onClick={handleSaveAll}
-          title="Zapisane Q&A pojawi się automatycznie u pracowników"
-        >
-          Zapisz
-        </button>
-        <button className="btn btn-success mr-3" onClick={handleShowPreview}>
-          {editMode ? "Podgląd" : "Edytuj"}
-        </button>
+				<div className="QnA__button-background mr-3">
+          <button
+            className="QnA__button btn"
+            onClick={handleSaveAll}
+            title="Zapisane Q&A pojawi się automatycznie u pracowników"
+          >
+            Zapisz
+          </button>
+				</div>
+				<div className="QnA__button-background">
+          <button className="QnA__button btn" onClick={handleShowPreview}>
+            {editMode ? "Podgląd" : "Edytuj"}
+          </button>
+				</div>
       </footer>
 
       {autosave && (
