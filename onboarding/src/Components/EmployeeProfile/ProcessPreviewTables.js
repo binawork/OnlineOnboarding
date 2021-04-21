@@ -3,7 +3,7 @@ import ImplementationFormsSent from "./ImplementationFormsSent";
 import ImplementationFormsToSend from "./ImplementationFormsToSend";
 import ModalWarning from "../ModalWarning";
 import EmployeeAnswersViewPage from "../EmployeeAnswersView/EmployeeAnswersViewPage";
-import { getProgress, datesOfSendingPackages } from "../hooks/EmployeeForms";
+import { getProgress, datesOfSendingPackages, withholdPackageFromEmployee } from "../hooks/EmployeeForms";
 
 
 function ProcessPreviewTables(props) {
@@ -105,11 +105,31 @@ function ProcessPreviewTables(props) {
         props.addSent();
     };*/
 
+    const withholdPackage = (idObject) => {
+        console.log("todo: send delete request", idObject);
+        hideModal(idObject.id);
+        withholdPackageFromEmployee(popUpConfirmationForWithhold, parseInt(props.employeeId), idObject.packageId);
+    };
+
     const popUpConfirmationModal = (message) => {
         let count = confirmationModal.id;
         setIdModal({id: count,
             modal: <ModalWarning handleAccept={ hideModal } title={ "Potwierdzenie wysłania" } message={ message } id={ count } show={ true } acceptText={ "Ok" } />
         });
+    };
+
+    const popUpAskForWithholdPackage = (packageId) => {
+        let idObject = {id: confirmationModal.id, packageId: packageId};
+        setIdModal({id: confirmationModal.id,
+            modal: <ModalWarning handleAccept={ withholdPackage } title={ "Usuwanie katalogu" }
+                                 message={ "Ten katalog zostanie usunięty u pracownika. Czy chcesz to zrobic?" }
+                                 id={ idObject } show={ true } acceptText={ "Ok" } />
+        });
+    };
+
+    const popUpConfirmationForWithhold = function(message, isError){
+        console.log(message);
+        console.log(isError === true);
     };
 
     const hideModal = function(id){
@@ -119,7 +139,7 @@ function ProcessPreviewTables(props) {
     const errorCallback = (isError) => {
         if(isError){
             let count = confirmationModal.id, msg = "";
-            setIdModal({id: count,
+            setIdModal({id: count, idRm: 0,
                 modal: <ModalWarning handleAccept={ hideModal } title={ "Nastąpił błąd!" } message={ msg } id={ count } show={ true } acceptText={ "Ok" } />
             });
         }
@@ -154,6 +174,7 @@ function ProcessPreviewTables(props) {
                             isLoading={ loading }
                             isError={ props.isError }
                             showModal={ popUpConfirmationModal }
+                            askForWithholdPackage={ popUpAskForWithholdPackage }
                             count={ confirmationModal.id }
                         />
                         <ImplementationFormsToSend 
