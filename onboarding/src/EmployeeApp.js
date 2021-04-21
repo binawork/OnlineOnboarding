@@ -49,7 +49,7 @@ function EmployeeApp() {
                   <EmployeeSingleFormPage page={ page } userId={ loggedUser.id } />
                 </Route>
                 <Route path="/package/:package_id">
-                  <EmployeeFormPages setPage={ setPage } />
+                  <EmployeeFormPages setPage={ setPage } userId={ loggedUser.id } />
                 </Route>
                 <Route path="/" exact>
                   <EmployeeFormsList />
