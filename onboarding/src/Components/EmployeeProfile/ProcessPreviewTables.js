@@ -106,7 +106,6 @@ function ProcessPreviewTables(props) {
     };*/
 
     const withholdPackage = (idObject) => {
-        console.log("todo: send delete request", idObject);
         hideModal(idObject.id);
         withholdPackageFromEmployee(popUpConfirmationForWithhold, parseInt(props.employeeId), idObject.packageId);
     };
@@ -121,15 +120,21 @@ function ProcessPreviewTables(props) {
     const popUpAskForWithholdPackage = (packageId) => {
         let idObject = {id: confirmationModal.id, packageId: packageId};
         setIdModal({id: confirmationModal.id,
-            modal: <ModalWarning handleAccept={ withholdPackage } title={ "Usuwanie katalogu" }
+            modal: <ModalWarning id={ idObject } title={ "Usuwanie katalogu" }
+                                 handleAccept={ withholdPackage } handleCancel={ hideModal }
                                  message={ "Ten katalog zostanie usunięty u pracownika. Czy chcesz to zrobic?" }
-                                 id={ idObject } show={ true } acceptText={ "Ok" } />
+                                 show={ true } acceptText={ "Ok" } />
         });
     };
 
     const popUpConfirmationForWithhold = function(message, isError){
-        console.log(message);
-        console.log(isError === true);
+        let title = "Usuwanie katalogu", count = confirmationModal.id;
+        if(isError === true) // include 'undefined' case;
+            title = "Wystąpił błąd!";
+
+        setIdModal({id: count,
+            modal: <ModalWarning handleAccept={ hideModal } title={ title } message={ message } id={ count } show={ true } acceptText={ "Ok" } />
+        });
     };
 
     const hideModal = function(id){
@@ -139,7 +144,7 @@ function ProcessPreviewTables(props) {
     const errorCallback = (isError) => {
         if(isError){
             let count = confirmationModal.id, msg = "";
-            setIdModal({id: count, idRm: 0,
+            setIdModal({id: count,
                 modal: <ModalWarning handleAccept={ hideModal } title={ "Nastąpił błąd!" } message={ msg } id={ count } show={ true } acceptText={ "Ok" } />
             });
         }
