@@ -10,7 +10,7 @@ import { getProgress } from "../../hooks/EmployeeForms";
  * @returns {JSX.Element}
  * @constructor
  */
-function EmployeeFormsTable({ employeeForms }) {
+function EmployeeFormsTable({ employeeForms, setPackagesList }) {
     const [employeeFormsList, setEmployeeForms] = useState([]);
     const [message, setMessage] = useState("Ładowanie...");
 
@@ -48,7 +48,11 @@ function EmployeeFormsTable({ employeeForms }) {
                 />
             );
         });
+
         setEmployeeForms(employeePageCopyList);
+        setPackagesList(employeeForms.packages.map(element => {
+            return { id: element.id, title: element.name };
+        }));
     };
 
     useEffect(() => {

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import LeftMenuItem from "./LeftMenuItem";
 import ModeButton from "./ModeButton";
 import "../static/css/LeftMenu.scss";
 import logo from "../static/images/logo_onboarding_single.svg";
-import LeftMenuItem from "./LeftMenuItem";
 
 const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   const location = useLocation();

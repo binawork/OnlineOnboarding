@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
-import "./static/css/style.scss";
 import "./static/css/App.scss";
 import EmployeeSingleFormPage from "./Components/Employee/EmployeeFormPages/EmployeeSingleFormPage";
 import LoggedUser from "./Components/hooks/LoggedUser";
 import LeftMenuEmployee from "./Components/Employee/LeftMenuEmployee";
-import Navbar from "./Components/Navbar";
 import EmployeeFormsList from "./Components/Employee/EmployeeFormsList/EmployeeFormsList";
 import EmployeeFormPages from "./Components/Employee/EmployeeFormPages/EmployeeFormPages";
 import CompanyInfoPage from "./Components/Employee/CompanyInfoPage";
@@ -16,20 +14,21 @@ function EmployeeApp() {
   const loggedUser = LoggedUser();
   const [showAside, setToggleAside] = useState(false);
   const [page, setPage] = useState(null);
+  const [packagesList, setPackagesList] = useState([]);
 
+  useEffect(() => {
+    if(packagesList?.length > 0)
+      sessionStorage.setItem("packages_list", JSON.stringify(packagesList))
+    else setPackagesList(JSON.parse(sessionStorage.getItem("packages_list")));
+  }, [packagesList]);
+  
   return (
     <HashRouter>
-      <div className="app">
-        <header className="app-header app-header-dark">
-          <Navbar
-            loggedUser={ loggedUser }
-            showAside={ showAside }
-            setToggleAside={ setToggleAside }
-          />
-        </header>
+      <div className="App">
         <LeftMenuEmployee
-            showAside={ showAside }
-            setToggleAside={ setToggleAside }
+          packagesList={ packagesList }
+          showAside={ showAside }
+          setToggleAside={ setToggleAside }
         />
         <main className="App__main app-main">
           <div className="wrapper">
@@ -51,7 +50,7 @@ function EmployeeApp() {
                   <EmployeeFormPages setPage={ setPage } />
                 </Route>
                 <Route path="/" exact>
-                  <EmployeeFormsList />
+                  <EmployeeFormsList setPackagesList={ setPackagesList } />
                 </Route>
               </Switch>
             </div>
