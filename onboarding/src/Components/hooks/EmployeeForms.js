@@ -630,7 +630,7 @@ export function remindEmployeeOfPackage(handleMessage, employeeId, packageId){
 		);
 }
 
-export function withholdPackageFromEmployee(handleMessage, employeeId, packageId, setUsersInPackage){
+export function withholdPackageFromEmployee(handleMessage, employeeId, packageId){
 	let data, token = getCookie("csrftoken"), path = getPath(),
 		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
 
@@ -640,18 +640,18 @@ export function withholdPackageFromEmployee(handleMessage, employeeId, packageId
 	fetch(path + "api/add_users_to_package/" + employeeId + "/", fetchProps)
 		.then(res => {
 				if(!res.ok) {
-					throw Error("Wystąpił błąd: nie udało się wysłać katalogu wdrożeniowego do pracownika!");
+					throw Error("Wystąpił błąd: nie udało się usunąć katalogu!");
 				}
 				return res.json();
 		}).then(
 			(result) => {
-				console.log(result);
+				handleMessage("Katalog u pracownika zostal usunięty.");
 			},
 			(error) => {
-				console.log(error);
+				handleMessage("Wystąpił błąd: nie udało się usunąć katalogu!", true);
 			}
 		).catch(function(err){
-			console.log(err.message);
+			handleMessage(err.message, true);
 		});
 }
 
