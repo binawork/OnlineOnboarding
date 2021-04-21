@@ -44,12 +44,16 @@ function App() {
   return (
     <HashRouter>
       <div className="App">
-        <LeftMenu packagesList={ packagesList } showAside={ showAside } setToggleAside={ setToggleAside } />
+        <LeftMenu
+          packagesList={ packagesList }
+          showAside={ showAside }
+          setToggleAside={ setToggleAside }
+        />
         <main className="App__main app-main">
           <div className="wrapper">
             <div className="page container-xl">
               <Switch>
-                  <Route path="/user_list">
+                  <Route path="/users_list">
                       <UserListPage loggedUserId={ loggedUser.id } />
                   </Route>
                   <Route path="/my_profile">

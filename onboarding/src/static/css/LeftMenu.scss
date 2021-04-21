@@ -14,7 +14,9 @@
   &__item {
     padding: 10px;
     padding-left: 52px;
-    margin-bottom: 10px;
+    &:not(:last-of-type) {
+      margin: 10px 0;
+    }
   }
   &__link {
     font-size: 1rem!important;
