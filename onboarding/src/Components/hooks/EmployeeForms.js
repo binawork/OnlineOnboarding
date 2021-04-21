@@ -630,5 +630,30 @@ export function remindEmployeeOfPackage(handleMessage, employeeId, packageId){
 		);
 }
 
+export function withholdPackageFromEmployee(handleMessage, employeeId, packageId, setUsersInPackage){
+	let data, token = getCookie("csrftoken"), path = getPath(),
+		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	//data = {package: packageId};
+	//fetchProps.body = JSON.stringify(data);
+
+	fetch(path + "api/add_users_to_package/" + employeeId + "/", fetchProps)
+		.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd: nie udało się wysłać katalogu wdrożeniowego do pracownika!");
+				}
+				return res.json();
+		}).then(
+			(result) => {
+				console.log(result);
+			},
+			(error) => {
+				console.log(error);
+			}
+		).catch(function(err){
+			console.log(err.message);
+		});
+}
+
 export default EmployeeForms;
 

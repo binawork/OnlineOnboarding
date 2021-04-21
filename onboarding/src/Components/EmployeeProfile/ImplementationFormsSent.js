@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FormsSentTableRow from "./FormsSentTableRow";
-import { /* getProgress,*/ remindEmployeeOfPackage } from "../hooks/EmployeeForms";
+import { remindEmployeeOfPackage, withholdPackageFromEmployee } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsSent(props) {
@@ -20,6 +20,10 @@ function ImplementationFormsSent(props) {
         remindEmployeeOfPackage(props.showModal, props.employeeId, packageId);
     };
 
+    const withholdPackage = (packageId) => {
+        console.log("todo: send delete request", packageId);
+        withholdPackageFromEmployee(props.showModal, props.employeeId, packageId);
+    };
 
     if(props.packages.length !== 0 /*|| formTable.length>0*/) {
         //if(formTable.length > 0) form_table = formTable;
@@ -27,7 +31,7 @@ function ImplementationFormsSent(props) {
             forms.push(<FormsSentTableRow key={ element.id } row={ element }
                 setAnswersPage={ props.setAnswersPage }
                                         employeeId={ props.employeeId }
-                                        handleChecked={ showHide } handleRemind={ sendRemind } />)
+                                        handleChecked={ showHide } handleRemind={ sendRemind } withholdPackage={ withholdPackage } />)
         });
     } else {
         forms.push(
