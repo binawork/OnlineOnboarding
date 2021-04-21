@@ -5,9 +5,9 @@ import ProgressBar from "../ProgressBar";
 /**
  * Prints row of sent package progress and dates.
  * It also includes drop-down list of pages if they exist.
- * @param props - {row: Object, empty: boolean, handleChecked: function, handleRemind: function, setAnswersPage: function}
+ * @param props - {row: Object, empty: boolean, handleChecked: function, handleRemind: function, setAnswersPage: function, withholdPackage: function}
  *      Where row has:
- *      {key: package id;
+ *      {id: package id;
  *      percentage: relation finished to the number of pages in scale [0, 100];
  *      send_date: the date when package was sent, or error message or '?' as default;
  *      finish_date: the date when employee finished all pages or message;
@@ -40,8 +40,7 @@ function FormsSentTableRow(props) {
     };
 
     const handleSentCancel = (e) => {
-        console.log("todo: send delete request", e);
-        console.log(e.target, e.target.value);
+        props.withholdPackage(e.target.value);
     };
 
     const handleShowAnswers = (e, page) => {
@@ -50,8 +49,8 @@ function FormsSentTableRow(props) {
     }
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>,
-        buttonRm = <button value={ props.row.key } className="btn btn-warning" onClick={ handleSentCancel }>Usuń wysłany</button>;
+        buttonObj = <button value={ props.row.id } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>,
+        buttonRm = <button value={ props.row.id } className="btn btn-warning" onClick={ handleSentCancel }>Usuń wysłany</button>;
     let pages, tag=<></>;
 
     if(props.row.hasOwnProperty("percentage") ){// "green", "yellow", "amaranthine"
