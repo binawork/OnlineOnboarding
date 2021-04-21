@@ -39,9 +39,9 @@ const EmployeeFormPages = ({ setPage, userId }) => {
   }, []);
 
   useEffect(() => {
-    if(userId)
+    //if(userId)
       getProgress(userId, progressCallback);
-  }, [userId]);
+  }, []);
 
 
   return (
