@@ -64,9 +64,6 @@ function EmployeeFormsTable({ employeeForms, setPackagesList }) {
     return(
         <div className="page-section">
             <div className="card card-fluid">
-                <div className="card-header">
-                    Do zrobienia
-                </div>
                 <div className="card-body">
                     <table className="table table-striped table-hover">
                         <thead>

@@ -36,8 +36,19 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
                 <div className={`UserAccount__icon-wrapper ${imageLink ? "fileinput-button-label" : ""}`}>
                     <i className="UserAccount__download-icon bi bi-download"></i>
                 </div>
-                { imageLink && <img className="UserAccount__avatar" src={ imageLink } alt="avatar" /> }
-                <input className="UserAccount__avatar-input" id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } onChange={ changeAvatar } />
+                { imageLink && (
+                    <img
+                        className="UserAccount__avatar"
+                        src={ imageLink }
+                        alt="avatar" /> 
+                )}
+                <input
+                    className="UserAccount__avatar-input"
+                    id="fileupload-avatar"
+                    type="file"
+                    name="avatar"
+                    ref={ fileNameRef }
+                    onChange={ changeAvatar } />
             </>
         );
     }

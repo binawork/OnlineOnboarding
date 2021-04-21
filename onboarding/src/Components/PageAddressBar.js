@@ -11,7 +11,7 @@ function PageAddressBar({ page, previousPages=[] }) {
                     <NavLink
                         className="PageAddressBar__link"
                         activeClassName="PageAddressBar__link--active" 
-                        exact to="/">DASHBOARD</NavLink>
+                        exact to="/">Dashboard</NavLink>
                 </li>
                 {
                     previousPages && previousPages.map((element, i) => (
