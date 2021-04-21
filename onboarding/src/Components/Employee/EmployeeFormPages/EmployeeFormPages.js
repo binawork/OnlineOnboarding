@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import PropTypes from "prop-types";
-import EmployeeFormPagesAPI from "../../hooks/EmployeeFormPagesAPI";
 import EmployeeFormPagesList from "./EmployeeFormPagesList";
 import PageAddressBar from "../../PageAddressBar";
+import EmployeeFormPagesAPI from "../../hooks/EmployeeFormPagesAPI";
+import { getProgress } from "../../hooks/EmployeeForms";
 import { singleCombo } from "../../hooks/Packages";
 
-const EmployeeFormPages = ({ setPage }) => {
+
+const EmployeeFormPages = ({ setPage, userId }) => {
   const [pagesList, setPagesList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [progress, setProgress] = useState(false);
   const { package_id:packageId } = useParams();
   let packageObj = singleCombo(packageId);
+
+
+  const progressCallback = function(result, message){
+    if(typeof message === 'string' && message.length > 0){
+      setProgress(false);
+      return;
+    }
+
+    let progressForActualPackage = {};
+    if(result.hasOwnProperty(packageId) )
+      progressForActualPackage = result[packageId];
+    setProgress(progressForActualPackage);
+  };
 
   useEffect(() => {
     EmployeeFormPagesAPI.getPages(packageId)
@@ -21,6 +37,12 @@ const EmployeeFormPages = ({ setPage }) => {
       })
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    //if(userId)
+      getProgress(userId, progressCallback);
+  }, []);
+
 
   return (
     <div className="page-inner">
@@ -50,6 +72,7 @@ const EmployeeFormPages = ({ setPage }) => {
                   <EmployeeFormPagesList
                     pagesList={ pagesList }
                     setPage={ setPage }
+                    progress={ progress }
                   />
                 )}
               </tbody>

@@ -8,7 +8,7 @@ function NavbarEmployee(props) {
         props.switchPage();
     };
 
-    let loggedUser = {first_name: "employee-name #login"};
+    let loggedUser = {id: -1, first_name: "employee-name #login"};
     if(props.loggedUser){
         loggedUser = {...props.loggedUser};
 
@@ -51,7 +51,7 @@ function NavbarEmployee(props) {
                 { props.pageTitle 
                     ? <li className={`breadcrumb-item ${props.formTitle ? "" : "active"}`}>
                         { props.formTitle 
-                            ? <a href="#" onClick={ () => props.loadFormPages(props.actualPackage) }>{ props.pageTitle }</a> 
+                            ? <a href="#" onClick={ () => props.loadFormPages(props.actualPackage, loggedUser.id) }>{ props.pageTitle }</a> 
                             : props.pageTitle 
                         }
                     </li> 
