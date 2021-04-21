@@ -23,7 +23,8 @@ const CompanyInfoAPI = {
     const company = await makeRequest(
       `${BASE_URL}api/company/${companyId}/`,
       "PATCH",
-      { mission: mission, link: link, info: aboutCompany }
+      { mission: mission, link: link, info: aboutCompany },
+      "Nie udało się zapisać danych firmy! Może to być spowodowane wprowadzeniem zbyt długiej treści w jednym z pól"
     );
 
     const response = await company.json();
@@ -33,7 +34,7 @@ const CompanyInfoAPI = {
 
 export default CompanyInfoAPI;
 
-async function makeRequest(url, method, body) {
+async function makeRequest(url, method, body, errorMessage) {
   const jsonBody = body ? JSON.stringify(body) : undefined;
   const response = await fetch(url, {
     method: method,
@@ -45,7 +46,7 @@ async function makeRequest(url, method, body) {
     body: jsonBody,
   });
   if (!response.ok) {
-    throw new Error("Wystąpił błąd");
+    throw new Error(errorMessage ? errorMessage : "Wystąpił błąd");
   }
   return response;
 }
@@ -61,7 +62,7 @@ async function makeImageRequest(url, method, body) {
     body: body,
   });
   if (!response.ok) {
-    throw new Error("Wystąpił błąd podczas zapisywania obrazka");
+    throw new Error("Nie udało się zapisać loga firmy!");
   }
   return response;
 }

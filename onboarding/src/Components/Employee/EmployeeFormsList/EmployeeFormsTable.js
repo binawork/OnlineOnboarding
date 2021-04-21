@@ -1,24 +1,61 @@
-import React from "react";
-//import { employePageCopy } from "./EmployePageFillData";
+import React, { useState, useEffect } from "react";
 import EmployeeFormsRow from "./EmployeeFormsRow";
-import { SingleEmployeeForms } from "../../hooks/EmployeeForms";
+import { getProgress } from "../../hooks/EmployeeForms";
 
+/**
+ *  Prints header and table with listed packages for employee;
+ * @param props - {employeeForms: Object := {packages: Array, msg: String},
+ *                  switchToFormPages: function,
+ *                  setPageTitle: function}
+ * @returns {JSX.Element}
+ * @constructor
+ */
+function EmployeeFormsTable({ employeeForms }) {
+    const [employeeFormsList, setEmployeeForms] = useState([]);
+    const [message, setMessage] = useState("Ładowanie...");
 
-function EmployeeFormsTable(props) {
-    let employeePageCopylist= [], employeeForms = SingleEmployeeForms({count: 0});
+    const progressCallback = (result, msg) => {
+        if( !employeeForms.hasOwnProperty("packages") )
+            return;
+        if(typeof msg === 'string' && msg.length > 0){
+            setMessage(msg);
+    		return;
+        }
 
-    //console.log(employeeForms);
-    /*if (employePageCopy) {
-        employePageCopy.forEach(function (element, i) {
-            employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToForm={ props.switchToForm } />)
+        let employeeFormsCp, i, packageId;
+        employeeFormsCp = employeeForms.packages;
+
+        for(i = employeeFormsCp.length - 1; i >= 0; i--){
+            packageId = parseInt(employeeFormsCp[i].id, 10);
+
+            if( !result.hasOwnProperty(packageId) ){
+                employeeFormsCp[i].progress = "0" + employeeFormsCp[i].progress.substring(1);// "0/" + employeeFormsCp[i].pagesCount;
+                continue;
+            }
+
+            employeeFormsCp[i].progress = result[packageId].finished + " " + employeeFormsCp[i].progress.substring(2);
+        }
+
+        //setEmployeeForms(employeeFormsCp);
+        let employeePageCopyList = [];
+        employeeFormsCp.forEach(function(element, i){
+            employeePageCopyList.push(
+                <EmployeeFormsRow
+                    key={ i }
+                    row={element}
+                    // switchToFormPages={ props.switchToFormPages }
+                    // setPageTitle={props.setPageTitle} 
+                />
+            );
         });
-    }*/
+        setEmployeeForms(employeePageCopyList);
+    };
 
-    employeeForms.forEach(function(element, i){
-        employeePageCopylist.push(<EmployeeFormsRow key={ i } row={element} switchToFormPages={ props.switchToFormPages }
-                                                    setPageTitle={props.setPageTitle} loggedUser={ props.loggedUser } />);
-    });
-
+    useEffect(() => {
+        if(employeeForms.hasOwnProperty("packages") && employeeForms.packages.length > 0){
+            return getProgress(0, progressCallback);
+        }
+    }, [employeeForms]);
 
     return(
         <div className="page-section">
@@ -27,7 +64,7 @@ function EmployeeFormsTable(props) {
                     Do zrobienia
                 </div>
                 <div className="card-body">
-                    <table className="table table-striped">
+                    <table className="table table-striped table-hover">
                         <thead>
                         <tr>
                             <th scope="col" style={{width: "80%"}}>Lista zadań</th>
@@ -35,7 +72,9 @@ function EmployeeFormsTable(props) {
                         </tr>
                         </thead>
                         <tbody id="form_table_data_container">
-                        { employeePageCopylist }
+                        { employeeFormsList.length > 0 ? (
+                            employeeFormsList
+                        ) : <tr><td>{ message }</td><td /></tr> }
                         </tbody>
                     </table>
                 </div>

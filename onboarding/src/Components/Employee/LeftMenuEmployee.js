@@ -1,72 +1,88 @@
-import React, { useRef } from "react";
+import React, { useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
+import ModeButton from "../ModeButton";
+import "../../static/css/LeftMenu.scss";
 
+function LeftMenuEmployee({ showAside, setToggleAside }) {
+  useEffect(() => {
+    handleWindowResize();
+    window.addEventListener("resize", handleWindowResize);
+  }, []);
 
-function LeftMenuEmployee(props) {
-
-  const goToDashboard = function(e){
-    e.preventDefault();
-    props.setToggleAside(false);
-    props.mainPage();
-  };
-
-  const goToUserPage = (e) => {
-    e.preventDefault();
-    props.setToggleAside(false);
-    props.employeePage();
-  };
-
-  const goToQnA = function(e){
-    e.preventDefault();
-    props.setToggleAside(false);
-    props.q_n_aPage();
-  };
-
-  const goToCompanyInfoPage = (e) => {
-    e.preventDefault();
-    props.setToggleAside(false);
-    props.aboutCompanyPage();
+  const handleWindowResize = () => {
+    if(window.innerWidth >= 768) {
+      setToggleAside(false);
+    }
   }
 
-
   return (
-    <aside className={`app-aside app-aside-expand-md app-aside-light ${props.showAside ? "show" : ""}`} style={{zIndex: "9"}}>
-      <div className="aside-content mx-3 my-5 mx-sm-5">
-        <header className="aside-header d-block d-md-none"></header>
-        <div className="aside-menu overflow-hidden">
-          <nav id="stacked-menu" className="stacked-menu">
-            <ul className="menu">
-              <li className="menu-item">
-                <a href="#" onClick={ goToDashboard } className="menu-link">
-                  <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
-                  <span className="menu-text">Wdrożenia</span>
-                </a>
-              </li>
-              <li className="menu-item">
-                <a href="#" onClick={ goToUserPage } className="menu-link">
-                  <i className="bi bi-person mr-2" style={{ fontSize: "18px"}}></i>
-                  <span className="menu-text">Mój profil</span>
-                </a>
-              </li>
-              <li className="menu-item">
-                <a href="#" onClick={ goToQnA } className="menu-link">
-                  <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i>
-                  <span className="menu-text">Q&A</span>
-                </a>
-              </li>
-              <li className="menu-item">
-                <a href="#" onClick={ goToCompanyInfoPage } className="menu-link">
-                  <i className="bi bi-building mr-2" style={{ fontSize: "18px"}}></i>
-                  <span className="menu-text">O firmie</span>
-                </a>
-              </li>
-              <li className="menu-item">
-              </li>
-            </ul>
-          </nav>
+    <aside
+      className={`LeftMenu app-aside app-aside-expand-md
+      app-aside-light ${showAside ? "show" : ""}`}
+      style={{zIndex: "9"}}
+    >
+      <div
+        className={`${showAside ? "LeftMenu__pseudo-wrapper" : ""} w-100 h-100`}
+        onClick={ () => setToggleAside(false) }
+      >
+        <div className="LeftMenu__wrapper">
+          <div className="LeftMenu__overflow aside-menu overflow-auto">
+            <nav id="stacked-menu" className="stacked-menu pt-5">
+              <ul className="LeftMenu__list">
+                <li className="menu-item has-child">
+                  <NavLink
+                    exact to="/"
+                    className="LeftMenu__link menu-link"
+                    activeStyle={{color: "#346CB0"}}
+                  >
+                    <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
+                    <span className="menu-text">Wdrożenia</span>
+                  </NavLink>
+                </li>
+                <li className="menu-item">
+                  <NavLink
+                    to="/my_profile"
+                    className="LeftMenu__link menu-link"
+                    activeStyle={{color: "#346CB0"}}
+                  >
+                    <i className="bi bi-person mr-2" style={{ fontSize: "18px"}}></i>
+                    <span className="menu-text">Mój profil</span>
+                  </NavLink>
+                </li>
+                <li className="menu-item">
+                  <NavLink
+                    to="/q_and_a"
+                    className="LeftMenu__link menu-link"
+                    activeStyle={{color: "#346CB0"}}
+                  >
+                    <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i>
+                    <span className="menu-text">Q&A</span>
+                  </NavLink>
+                </li>
+                <li className="menu-item">
+                  <NavLink 
+                    to="/company"
+                    className="LeftMenu__link menu-link"
+                    activeStyle={{color: "#346CB0"}}
+                  >
+                    <i className="bi bi-building mr-2" style={{ fontSize: "18px"}}></i>
+                    <span className="menu-text">O firmie</span>
+                  </NavLink>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <ModeButton />
         </div>
       </div>
     </aside>
   );
 }
-export default LeftMenuEmployee;
 
+LeftMenuEmployee.propTypes = {
+  showAside: PropTypes.bool.isRequired,
+  setToggleAside: PropTypes.func.isRequired,
+};
+
+export default LeftMenuEmployee;

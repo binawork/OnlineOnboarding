@@ -18,34 +18,49 @@ function EmployeeAnswers({ pageId, employeeId }){
     const showSectionsAnswers = (sectionsAnswersResult, areSaved, employeeDidAnswer) => {
         if(typeof sectionsAnswersResult.sections === 'undefined' || sectionsAnswersResult.sections === null ||
            typeof sectionsAnswersResult.answers === 'undefined' || sectionsAnswersResult.answers === null){
-             setMessage("Miał miejsce błąd w pobieraniu formularza!");
-             setView([]);
-             return;
-         }
-
+            setMessage("Miał miejsce błąd w pobieraniu formularza!");
+            setView([]);
+            return;
+        }
 
         setSectionsAnswers(sectionsAnswersResult);
 
         const areAnswered = areSaved & employeeDidAnswer;
-        let newSectionsView = [], sections = sectionsAnswersResult.sections,
+        let newSectionsView = [],
+            sections = sectionsAnswersResult.sections.sort((a,b) => a.order - b.order),
             i, count = Math.min(sectionsAnswersResult.sections.length, sectionsAnswersResult.answers.length);
+
         for(i = 0; i < count; i++){
-            newSectionsView.push(<section key={ i } className="card my-3">
-                        <header className="card-header">
-                            <div>{sections[i].title}</div>
-                        </header>
-                        { sections[i].description && <div className="card-body">{ parse(sections[i].description) }</div> }
-                        <div className="card-body">
-                            {sections[i].type == "oa" ? (
-                                <OpenAnswer data={ sectionsAnswersResult.answers[i].data } />
-                            ) : (
-                                <SectionAnswers sectionData={ sections[i].data }
-                                                answerData={ sectionsAnswersResult.answers[i].data }
-                                                sectionType={ sections[i].type }
-                                                employeeDidAnswer={ areAnswered } />
-                            )}
-                        </div>
-            </section>);
+            newSectionsView.push(
+                <section key={ i } className="card my-3">
+                    <header className="card-header">
+                        <div>{sections[i].title}</div>
+                    </header>
+                    { sections[i].description && <div className="EmployeeAnswersView__section-desc card-body">{ parse(sections[i].description) }</div> }
+                    <div className="card-body">
+                        <p><i>
+                            <small>
+                                {sections[i].type == "oa"
+                                    ? "Pytanie otwarte"
+                                    : sections[i].type == "osa"
+                                        ? "Jednokrotny wybór"
+                                        : sections[i].type == "msa"
+                                            ? "Wielokrotny wybór"
+                                            : ""
+                                }
+                            </small>
+                        </i></p>
+                        {sections[i].type == "oa" ? (
+                            <OpenAnswer data={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id)?.data } />
+                        ) : (
+                            <SectionAnswers sectionData={ sections[i].data }
+                                            answerData={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id)?.data }
+                                            sectionType={ sections[i].type }
+                                            employeeDidAnswer={ areAnswered } />
+                        )}
+                    </div>
+                </section>
+            );
         }
 
         setView(newSectionsView);
@@ -75,9 +90,7 @@ function EmployeeAnswers({ pageId, employeeId }){
                 <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
             </div>
         }
-        <div className="card card-fluid">
-            { sectionsView.length > 0 && sectionsView }
-        </div>
+        { sectionsView.length > 0 && sectionsView }
       </>
     );
 }

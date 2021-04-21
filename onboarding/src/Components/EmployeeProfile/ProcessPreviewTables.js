@@ -20,7 +20,7 @@ function ProcessPreviewTables(props) {
         const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
 
         for(i = props.groupedPackages.sent.length - 1; i >= 0; i--){
-            packageId = parseInt(props.groupedPackages.sent[i].key, 10);
+            packageId = parseInt(props.groupedPackages.sent[i].id, 10);
             props.groupedPackages.sent[i].finish_date = notStartedMsg;
 
             if( !result.hasOwnProperty(packageId) ){
@@ -28,7 +28,7 @@ function ProcessPreviewTables(props) {
                 continue;
             }
 
-            props.groupedPackages.sent[i].progress = result[packageId].finished + "/" + props.groupedPackages.sent[i].progress.substring(2);
+            props.groupedPackages.sent[i].progress = result[packageId].finished + " / " + props.groupedPackages.sent[i].progress.substring(2);
 
             props.groupedPackages.sent[i].percentage = result[packageId].finished / props.groupedPackages.sent[i].pagesCount;
             if(result[packageId].finished == 0)
@@ -85,7 +85,7 @@ function ProcessPreviewTables(props) {
         else if(typeof result === 'object'){
             let packageId;
             newFormTable = props.groupedPackages.sent.map(function(element){
-                    packageId = parseInt(element.key, 10);
+                    packageId = parseInt(element.id, 10);
                     if( result.hasOwnProperty(packageId) )
                         element.send_date = result[packageId];
 
@@ -169,12 +169,6 @@ function ProcessPreviewTables(props) {
                         </>
                     )
             }
-
-            {/* <ImplementationFormsSent packageId={ props.packageId } 
-                                     employee={ props.employee }
-                                     showModal={ popUpConfirmationModal }
-                                     count={ confirmationModal.id } /> */}
-            {/* <ImplementationFormsToSend showModal={ popUpConfirmationModal } userId={ props.employee.id }  count={ props.count } setCount={ props.setCount } /> */}
         </>
     )
 }

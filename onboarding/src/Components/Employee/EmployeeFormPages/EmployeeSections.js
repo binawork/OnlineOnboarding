@@ -8,7 +8,7 @@ import { sendEmployeesAnswers, getEmployeesSectionsAndAnswers, finishEmployeesAn
 import ModalWarning from "../../ModalWarning";
 
 
-const EmployeeSections = ({pageId, userId}) => {
+const EmployeeSections = ({ pageId, userId }) => {
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [loadingSaved, isLoadingSaved] = useState({load: true, saved: false});
     const [errorMessage, setErrorMessage] = useState("");
@@ -175,10 +175,22 @@ const EmployeeSections = ({pageId, userId}) => {
                         </header>
                         <div className="card-body">
                             {sections[i].description ? parse(sections[i].description): <></>}
+                            <p className="mt-2"><i>
+                                <small>
+                                    {sections[i].type == "oa"
+                                        ? "Pytanie otwarte"
+                                        : sections[i].type == "osa"
+                                            ? "Jednokrotny wybór"
+                                            : sections[i].type == "msa"
+                                                ? "Wielokrotny wybór"
+                                                : ""
+                                    }
+                                </small>
+                            </i></p>
                             {sections[i].type == "oa" ? (
                                 <OpenAnswer id={ sections[i].id } index={ i } data={ answers[i].data } changeOpenAnswerText={ changeOpenAnswerText } />
                             ) : (
-                                <table className="table table-hover"><tbody>
+                                <table className="table table-striped table-hover"><tbody>
                                     <SectionForm section={ sections[i] }
                                             answerId={ i }
                                             answerData={ answers[i].data } setAnswer={ setAnswer } />
@@ -199,15 +211,17 @@ const EmployeeSections = ({pageId, userId}) => {
                 <div className="p-3">Ładowanie...</div>
             ): errorMessage !== "" ? (
                 <div className="p-3">{errorMessage}</div>
-            ): (
-                sectionsView.view
-            )}
-            <button type="submit" className="btn btn-success mr-3">
-                Zapisz odpowiedzi
-            </button>
-            <button type="button" className="btn btn-success mr-3" onClick={ finishAnswers }>
-                Wyślij odpowiedzi
-            </button>
+            ): sectionsView.view.length > 0 ? (
+                <>
+                    { sectionsView.view }
+                    <div className="w-100 d-flex justify-content-end flex-wrap">
+                        <button type="submit" className="btn btn-success mb-2 text-nowrap">Zapisz odpowiedzi</button>
+                        <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap" onClick={ finishAnswers }>
+                            Wyślij odpowiedzi
+                        </button>
+                    </div>
+                </>
+            ): <></>}
             {confirmationModal.modal}
         </form>
     );
@@ -215,6 +229,7 @@ const EmployeeSections = ({pageId, userId}) => {
 
 EmployeeSections.propTypes = {
     pageId: PropTypes.number.isRequired,
+    userId: PropTypes.number,
 };
 
 export default EmployeeSections;

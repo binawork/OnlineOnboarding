@@ -10,44 +10,12 @@
     src: url("../fonts/summernote.woff2") format("woff2");
 }
 
-.table__data {
+td {
     vertical-align: middle!important;
-}
-.table__data--nowrap {
-    white-space: nowrap;
-}
-.table__row {
-    transition: all .2s ease-in-out;
-}
-.table__row:hover {
-    background: #1c1c27!important;
-    transition: background .2s ease-in-out;
-}
-
-.navbar1{
-    background: aqua;
-    color: Black;
-    background: #BADA55;
-}
-.app {
-    overflow: visible;
-}
-.app-main {
-    overflow: visible;
 }
 
 .button-back {
     display: flex;
     align-items: center;
     border-radius: 2rem;
-}
-
-.show-and-hide {
-    animation: showAndHide 3s linear forwards;
-}
-
-.sidebar-nav {
-    margin-top: 100px;
-    padding: 0;
-    list-style: none;
 }

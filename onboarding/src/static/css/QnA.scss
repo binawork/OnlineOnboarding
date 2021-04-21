@@ -1,0 +1,36 @@
+
+.QnA {
+  &__limit {
+    text-align: end;
+  }
+  &__limit--error {
+    color: red;
+  }
+  &__card-icon {
+    margin-right: .5rem;
+  }
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media(max-width: 414px) {
+  .QnA {
+    &__footer {
+      justify-content: center;
+    }
+  }
+}
+
+@media(max-width: 260px) {
+  .QnA {
+    &__card-icon.svg-inline--fa.fa-w-14 {
+      width: 20px;
+      height: 20px;
+    }
+    &__card-action {
+      display: none;
+    }
+  }
+}

@@ -1,31 +1,18 @@
-import React/*, { useState, useEffect }*/ from "react";
+import React, { useState } from "react";
 import EmployeeFormsTable from "./EmployeeFormsTable";
-import LoggedUser from "../../hooks/LoggedUser";
+import { SingleEmployeeForms } from "../../hooks/EmployeeForms";
+import PageAddressBar from "../../PageAddressBar";
 
-
-function EmployeeFormsList(props) {
-    /*const [loggedUser, setLoggedUser] = useState({id: 0, email: "", first_name: "", last_name: "",
-    							phone_number: "", location: "", team: "",
-    							job_position: "",last_login: "", avatar: ""});*/
-    let loggedUser;
-    if(props.loggedUser){
-        loggedUser = props.loggedUser;
-    } else
-        loggedUser = LoggedUser();
-
-
-    const switchToFormPages = (packageId) => {
-        props.switchPage(packageId, loggedUser.id);
-    };
+function EmployeeFormsList() {
+    const [isError, setError] = useState(false);
+    const employeeForms = SingleEmployeeForms(0, setError, function(){});
 
     return(
-        <div className="page">
-            <div className="page-inner">
-                <EmployeeFormsTable loggedUser={ loggedUser } switchToFormPages={ switchToFormPages } setPageTitle={props.setPageTitle} />
-            </div>
+        <div className="page-inner">
+            <PageAddressBar page="" />
+            <EmployeeFormsTable employeeForms={ employeeForms } />
         </div>
     )
 }
 
 export default EmployeeFormsList;
-

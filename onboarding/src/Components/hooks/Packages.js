@@ -22,7 +22,7 @@ function fetchPackages(count) {
     };
 
   useEffect(() => {
-    fetch(url + "api/package/list_by_company_hr/", fetchProps)
+    fetch(url + "api/package/", fetchProps)
       .catch(error => {
         showError(error.message);
         console.error(error);
@@ -85,7 +85,7 @@ export function singleCombo(packageId){
 /**
  * Add package/combo into Packages (todo: set owner as a logged HR manager?);
  */
-export function addCombo(handleSuccess, title, owner) {
+export function addCombo(handleSuccess, title, popUpAddPackageError) {
   if (
     typeof title !== "string" ||
     (typeof title === "string" && title.length < 1)
@@ -108,13 +108,18 @@ export function addCombo(handleSuccess, title, owner) {
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/package/", fetchProps)
-    .then((res) => res.json())
+    .then((res) => {
+      if(!res.ok) {
+        throw Error("Wystąpił błąd podczas dodawania katalogu!");
+      }
+      return res.json();
+    })
     .then(
       (result) => {
         handleSuccess(result);
       },
       (error) => {
-        console.log(error);
+        popUpAddPackageError(error.message);
       }
     );
   return true;
@@ -155,95 +160,23 @@ export function removeCombo(handleSuccess, packageId, title) {
   fetchProps.body = JSON.stringify(data);
 
   fetch(url + "api/package/" + packageId + "/", fetchProps)
-    .then((res) => tryFetchJson(res) )
+    .then((res) => {
+      if(!res.ok) {
+        throw Error("Nie udało się usunąć katalogu wdrożeniowego! Jeśli katalog został wysłany pracownikowi, nie może zostać usunięty.");
+      }
+      return tryFetchJson(res);
+    })
     .then(
       (result) => {
-        handleSuccess("Wdrożenie zostało usunięte.");
+        handleSuccess("Katalog wdrożeniowy został usunięty.");
       },
       (error) => {
-        handleSuccess(error);
+        handleSuccess(error.message);
       }
     );
   return true;
 }
 
-
-/*
- * Helper to input new packageId into object of relation employees - packages;
- * assumption: {userId: , packageIds: new Set() }.
- * ToFix: computational complexity O(n^2);
- */
-function assignPackageToUsers(usersPackages, packageObject){
-    if( !packageObject.hasOwnProperty("users") )
-        return;
-
-    let i, j, users = packageObject.users, count = packageObject.users.length;
-    var newElement;
-
-    for(i = 0; i < count; i++){
-
-        for(j = usersPackages.length - 1; j >= 0; j--)
-            if(usersPackages[j].userId === users[i])
-                break;
-        if(j >= 0)
-            usersPackages[j].packageIds.add(packageObject.id);
-        else {
-            newElement = {userId: users[i], packageIds: new Set()};
-            newElement.packageIds.add(packageObject.id);
-            usersPackages.push(newElement);
-        }
-    }
-}
-
-/**
- * Get list of users and their packages;
- */
-export function usersWithPackages(props){
-    const [usersForPackages, setUsersForPackages] = useState([]);
-    let url = getPath(),
-        fetchProps = {method: "GET", headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "X-CSRFToken": "",
-        }
-    };
-
-    useEffect(() => {
-        fetch(url + "api/package/list_by_company_hr/", fetchProps).then((res) => res.json()).then(
-            (result) => {
-                if( Array.isArray(result) ){
-                    let users4Packages = [], packageIds;
-                    let i, count = result.length;
-
-                    for(i = 0; i < count; i++){
-                        assignPackageToUsers(users4Packages, result[i]);
-                    }
-
-                    for(i = users4Packages.length - 1; i >= 0; i--){
-                        packageIds = [];
-                        users4Packages[i].packageIds.forEach( v => packageIds.push(v) );// convert set to array;
-                        users4Packages[i].packageIds = packageIds;
-                    }
-
-                    setUsersForPackages(users4Packages);
-                }
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
-    }, [props.count]);
-
-    return usersForPackages;
-}
-
-/**
- * Get packages of user by user's id
- */
-export function userWithPackages(id, count) {
-  const users = usersWithPackages(count);
-  return users.find(user => user.userId == id);
-}
 
 export default fetchPackages;
 

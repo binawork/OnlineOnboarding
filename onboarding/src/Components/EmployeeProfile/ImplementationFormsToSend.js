@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import FormsToSendTableRow from "./FormsToSendTableRow";
-import { assignEmployeeToPackage/*, EmployeeFormsList*/ } from "../hooks/EmployeeForms";
+import { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 
 
 function ImplementationFormsToSend(props) {
     const [idsChecked, setIdsChecked] = useState([]);
     const [numberChecked, checkedChange] = useState(0);
-    let forms = [];//, form_table = props.packages/ /EmployeeFormsList(props, setError, setLoading, props.count);
+    let forms = [];//, form_table = props.packages;
 
     const showHide = (isChecked, packageId) => {
         if(isChecked) {
@@ -26,6 +26,7 @@ function ImplementationFormsToSend(props) {
     const sendCheckedPackages = (e) => {
         assignEmployeeToPackage(props.showModal, props.employeeId, idsChecked);
         setIdsChecked([]);
+        checkedChange(0);
         props.setCount(props.count + 1);
     }
 
@@ -33,7 +34,7 @@ function ImplementationFormsToSend(props) {
 
     if(formsToSend.length !== 0) {
         formsToSend.forEach(function (element, i){
-            forms.push(<FormsToSendTableRow key={ element.key } row={ element } handleChecked={ showHide } handleSendPackage={ sendPackage } />);
+            forms.push(<FormsToSendTableRow key={ element.id } row={ element } handleChecked={ showHide } handleSendPackage={ sendPackage } />);
         });
     } else {
         forms.push(        
@@ -54,21 +55,23 @@ function ImplementationFormsToSend(props) {
                 { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
                 { props.isLoading && <p>Ładowanie...</p> }
                 { !props.isLoading && !props.isError && (
-                    <table className="table table-striped">
-                        <thead><tr>
-                            <th scope="col">Katalog</th>
-                            <th scope="col">Liczba zadań</th>
-                            <th scope="col">Utworzony</th>
-                            <th scope="col">Ostatnia edycja</th>
-                            <th scope="col">Działanie</th>
-                        </tr></thead>
-                        <tbody id="form_table_data_container">
-                            { forms }
-                            <tr style={{display: numberChecked>0 ? "" : "none"}}>
-                                <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary" onClick={ sendCheckedPackages }>Wyślij zaznaczone</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div className="table-responsive">
+                        <table className="table table-striped table-hover">
+                            <thead><tr>
+                                <th scope="col">Katalog</th>
+                                <th scope="col">Liczba zadań</th>
+                                <th scope="col">Utworzony</th>
+                                <th scope="col">Ostatnia edycja</th>
+                                <th scope="col">Działanie</th>
+                            </tr></thead>
+                            <tbody id="form_table_data_container">
+                                { forms }
+                                <tr style={{display: numberChecked>0 ? "" : "none"}}>
+                                    <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary" onClick={ sendCheckedPackages }>Wyślij zaznaczone</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
         </div>

@@ -1,9 +1,9 @@
 import React from "react";
-import "../static/css/tag.css";
+import "../static/css/ProgressBar.scss";
 
 function ProgressBar({ color, backgroundSize }) {
   return (
-    <span className={`tag tag--${color}`} style={{ backgroundSize: backgroundSize }}></span>
+    <span className={`ProgressBar ProgressBar--${color}`} style={{ backgroundSize: backgroundSize }}></span>
   );
 }
 

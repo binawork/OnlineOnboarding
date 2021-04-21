@@ -1,0 +1,119 @@
+.EmployeeAnswersView {
+  &__input {
+    margin-right: 8px;
+  }
+  &__label {
+    position: relative;
+    & > .EmployeeAnswersView__input {
+      cursor: none;
+      height: 14px;
+      width: 14px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -o-appearance: none;
+      appearance: none;
+      border: 1px solid var(--dark);
+      border-radius: 4px;
+      outline: none;
+      background-color: var(--light);
+      cursor: pointer;
+    }
+    & > .EmployeeAnswersView__input--radio {
+      border-radius: 50%;
+    }
+    & > .EmployeeAnswersView__input:checked {
+      background-color: #41B883;
+    }
+    &--red > .EmployeeAnswersView__input:checked {
+      background-color: orangered;
+    }
+    &--dot > .EmployeeAnswersView__answer::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      background: #41B883;
+      border-radius: 50%;
+      left: -25px;
+      top: 2px;
+    }
+  }
+  &__li {
+    list-style: none;
+  }
+  &__section-desc a {
+    background-color: var(--light)!important;
+  }
+}
+
+/* AnswersLegend */
+.AnswersLegend {
+  background-color: #3E3E57;
+  &--fixed {
+    position: fixed;
+    /* Height of navbar: 56px */
+    top: 56px;
+    /* Width of left menu: 279px */
+    left: 279px;
+    width: calc(100% - 239px);
+    height: calc(100% - 56px);
+    z-index: 5;
+    backdrop-filter: brightness(60%);
+    overflow-y: auto;
+  }
+  &__dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: #41B883;
+    border-radius: 50%;
+    margin: 0 21px 0 9px;
+  }
+  &__bullet {
+    display: inline-block;
+    margin-right: 12px;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--dark);
+    border-radius: 50%;
+    &--red {
+      background-color: orangered;
+    }
+    &--green {
+      background-color: #41B883;
+    }
+    &--square {
+      border-radius: 4px;
+    }
+  }
+}
+
+@media(max-width: 914px) {
+  .AnswersLegend__box {
+    flex-direction: column;
+  }
+}
+@media(max-height: 880px) {
+  .AnswersLegend__example-form {
+    display: none;
+  }
+}
+@media(max-width: 767px) {
+  .AnswersLegend {
+    &__example-form {
+      display: none;
+    }
+    &--fixed {
+      left: 0;
+      width: 100%;
+    }
+  }
+}
+@media(max-width: 360px) {
+  .AnswersLegend {
+    font-size: small;
+    &__example {
+      flex-direction: column-reverse;
+    }
+  }
+}

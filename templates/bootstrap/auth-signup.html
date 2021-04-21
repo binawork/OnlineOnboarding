@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
     <!-- Begin SEO tag -->
-    <title> Onboarding Admin Theme </title>
+    <title>Rejestracja | Onboarding</title>
     <meta property="og:title" content="Sign Up">
     <meta name="author" content="Beni Arisandi">
     <meta property="og:locale" content="en_US">
@@ -39,7 +39,6 @@
     <!--[if lt IE 10]>
     <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
     <![endif]-->
-    <!-- .auth -->
     <main class="auth">
       <header id="auth-header" class="auth-header" style="background-image: url({% static 'bootstrap/images/illustration/img-1.png' %});">
         <h1>
@@ -51,46 +50,45 @@
             </g>
           </svg> <span class="sr-only">Sign Up</span>
         </h1>
-        <p> Already have an account? please <a href="{% url 'login' %}?next=/manage/">Sign In</a>
+        <p> Masz już konto? <a href="{% url 'login' %}?next=/manage/">Zaloguj się</a>
         </p>
+        <!-- <p> Already have an account? please <a href="{% url 'login' %}?next=/manage/">Sign In</a> -->
+
       </header>
       <form class="auth-form" method="POST">
         {% for field in form %}
-          <!-- form -->
           <div class="form-group">
             <div class="form-label-group">
               {{ field }} {{ field.label_tag }}
 				{% if field.help_text %}
-				  <br /><small style="color: grey">{{ field.help_text }}</small>
+				  <small style="color: grey">{{ field.help_text }}</small>
 				{% endif %}
 				{% for error in field.errors %}
 				  <p style="color: red">{{ error }}</p>
 				{% endfor %}
             </div>
-          </div><!-- /.form-group -->
-        {% endfor %}
-        <!-- .form-group -->
-        <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
-        </div><!-- /.form-group -->
-        <!-- .form-group -->
-        <div class="form-group text-center">
-          <div class="custom-control custom-control-inline custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="newsletter"> <label class="custom-control-label" for="newsletter">Sign me up for the newsletter</label>
           </div>
-        </div><!-- /.form-group -->
-        <!-- recovery links -->
-        <p class="text-center text-muted mb-0"> By creating an account you agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. </p><!-- /recovery links -->
+        {% endfor %}
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Zarejestruj</button>
+        </div>
+        <!-- <div class="form-group text-center">
+          <div class="custom-control custom-control-inline custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="newsletter"> <label class="custom-control-label" for="newsletter">Zapisz mnie na newsletter <!-- Sign me up for the newsletter --</label>
+          </div>
+        </div> -->
+        <!-- <p class="text-center text-muted mb-0"> 
+          Tworząc konto zgadzasz się na<a href="#">Warunki Korzystania</a> i <a href="#">Politykę Prywatności</a>. 
+          <!-- By creating an account you agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. --
+        </p> -->
         {% csrf_token %}
-      </form><!-- /.auth-form -->
+      </form>
       <!-- copyright -->
       <footer class="auth-footer">&copy; {% now "Y" %} All Rights Reserved. </footer>
-    </main><!-- /.auth -->
-    <!-- BEGIN BASE JS -->
+    </main>
     <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/bootstrap/js/popper.min.js' %}"></script>
-    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script> <!-- END BASE JS -->
-    <!-- BEGIN PLUGINS JS -->
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/particles.js/particles.min.js' %}"></script>
     <script>
       /**

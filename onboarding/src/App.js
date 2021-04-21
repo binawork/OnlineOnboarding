@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
-
+import "./static/css/style.scss";
+import "./static/css/App.scss";
 import Navbar from "./Components/Navbar";
 import LeftMenu from "./Components/LeftMenu";
 import LoggedUser from "./Components/hooks/LoggedUser.js";
@@ -21,6 +22,7 @@ import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
 function App() {
   const [editLoggedUser, setEditLoggedUser] =useState(0);
   const loggedUser = LoggedUser(editLoggedUser);
+  const [showAside, setToggleAside] = useState(false);
   const [packagesList, setPackagesList] = useState([]); //[{id: number, title: string}]
 
   useEffect(() => {
@@ -45,10 +47,10 @@ function App() {
     <HashRouter>
       <div className="app">
         <header className="app-header app-header-dark">
-          <Navbar loggedUser={ loggedUser } />
+          <Navbar loggedUser={ loggedUser } showAside={ showAside } setToggleAside={ setToggleAside } />
         </header>
-        <LeftMenu packagesList={ packagesList } />
-        <main className="app-main">
+        <LeftMenu packagesList={ packagesList } showAside={ showAside } setToggleAside={ setToggleAside } />
+        <main className="App__main app-main">
           <div className="wrapper">
             <div className="page container-xl">
             {/* <div className="page has-sidebar-expand-xl"> */}
@@ -56,7 +58,7 @@ function App() {
                     <Route path="/user_list">
                         <UserListPage loggedUserId={ loggedUser.id } />
                     </Route>
-                    <Route path="/profile/manager">
+                    <Route path="/my_profile">
                         <ManagerEditPage user={ loggedUser } editLoggedUser={ editLoggedUser } setEditLoggedUser={ setEditLoggedUser } />
                     </Route>
                     <Route path="/add_user/">

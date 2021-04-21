@@ -23,14 +23,38 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.s[ac]ss$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              // Prefer `dart-sass`
+              implementation: require("sass"),
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
         use: {
           loader: 'url-loader',
           options: {
             name: '[name].[ext]',
             outputPath: 'fonts/'
           }
-      }
+        }
+      },
+      {
+        test: /\.(svg|png)(\?v=\d+\.\d+\.\d+)?$/,
+        use: {
+          loader: require.resolve('url-loader'),
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'icons/'
+          }
+        }
       }
     ],
   },
