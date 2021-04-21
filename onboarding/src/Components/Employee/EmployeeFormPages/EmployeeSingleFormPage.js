@@ -5,11 +5,12 @@ import { fetchFormData } from "../../hooks/FormsEdit";
 import { singleCombo } from "../../hooks/Packages";
 import EmployeeSections from "./EmployeeSections";
 import PageAddressBar from "../../PageAddressBar";
+import { linkToVideo } from "../../utils.js";
+
 
 const EmployeeSingleFormPage = ({ page, userId }) => {
   const [form, setForm] = useState(page);
-  const [isVideo, setIsVideo] = useState(false);
-  const [pageLink, setPageLink] = useState(<></>);
+  const [pageLinkVideo, setPageLink] = useState({link: "", isVideo: false});
   const { form_id:formId } = useParams();
   const { data:formData } = fetchFormData(formId);
   const packageTitle = singleCombo(formData?.package)?.title;
@@ -21,23 +22,15 @@ const EmployeeSingleFormPage = ({ page, userId }) => {
   }, [formData]);
 
   useEffect(() => {
-    if(form?.link?.match(
-        /^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i
-    )) {
-      setPageLink(form.link 
-        ? form.link.replace(/watch\?v=/g, "embed/").replace(/&ab_channel=\w*/g, "")
-        : "");
-        setIsVideo(true);
-    } else if(form?.link?.match(
-      /^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i
-    )) {
-      setPageLink(form.link
-      ? form.link.replace(/vimeo\.com/g, "player.vimeo.com/video")
-      : ""
-      );
-      setIsVideo(true);
-    } else if(form?.link){
-      setPageLink(<a href={ form.link } target="_blank" rel="noopener noreferrer">{ form.link }</a>);
+    let videoLink
+    if(form?.link){
+      videoLink = linkToVideo(form.link);
+      if(videoLink.isVideo){
+        setPageLink(videoLink);
+      } else {
+        videoLink.link = <a href={ form.link } target="_blank" rel="noopener noreferrer">{ form.link }</a>
+        setPageLink(videoLink);
+      }
     }
   }, [form]);
 
@@ -57,16 +50,16 @@ const EmployeeSingleFormPage = ({ page, userId }) => {
           <div className="card-body">{form?.description}</div>
 
           <div className="card-body">
-            { isVideo ? (
+            { pageLinkVideo.isVideo ? (
                 <div className="embed-responsive embed-responsive-21by9">
                   <iframe className="embed-responsive-item"
-                          src={ pageLink }
+                          src={ pageLinkVideo.link }
                           allow="autoplay; encrypted-media"
                           allowFullScreen
                           title="video"
                   />
                 </div>
-              ): (<>{ pageLink }</>)
+              ): (<>{ pageLinkVideo.link }</>)
             }
           </div>
         </div>

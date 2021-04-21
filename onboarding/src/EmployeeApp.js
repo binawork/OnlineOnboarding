@@ -11,7 +11,8 @@ import QnAList from "./Components/Employee/QnA/QnAList";
 import EmployeeAccount from "./Components/Employee/EmployeeAccount/EmployeeAccount";
 
 function EmployeeApp() {
-  const loggedUser = LoggedUser();
+  const [countUpdate, updateUser] = useState(0);
+  const loggedUser = LoggedUser(countUpdate);
   const [showAside, setToggleAside] = useState(false);
   const [page, setPage] = useState(null);
   const [packagesList, setPackagesList] = useState([]);
@@ -35,7 +36,7 @@ function EmployeeApp() {
             <div className="page container-xl">
               <Switch>
                 <Route path="/my_profile">
-                  <EmployeeAccount loggedUser={ loggedUser } />
+                  <EmployeeAccount loggedUser={ loggedUser } countUpdate={ countUpdate } updateUser={ updateUser } />
                 </Route>
                 <Route path="/q_and_a">
                   <QnAList />
@@ -47,7 +48,7 @@ function EmployeeApp() {
                   <EmployeeSingleFormPage page={ page } userId={ loggedUser.id } />
                 </Route>
                 <Route path="/package/:package_id">
-                  <EmployeeFormPages setPage={ setPage } />
+                  <EmployeeFormPages setPage={ setPage } userId={ loggedUser.id } />
                 </Route>
                 <Route path="/" exact>
                   <EmployeeFormsList setPackagesList={ setPackagesList } />
