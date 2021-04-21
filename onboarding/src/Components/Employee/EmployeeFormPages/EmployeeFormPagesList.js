@@ -48,7 +48,7 @@ const EmployeeFormPagesList = ({ pagesList, setPage, progress }) => {
             { page.title }
           </Link>
         </td>
-        <td className="form-progress">
+        <td className="form-progress d-flex flex-wrap align-items-center text-nowrap">
           { progressForPage }{ progressMsg }
         </td>
       </tr>
