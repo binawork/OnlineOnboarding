@@ -8,7 +8,7 @@ import { sendEmployeesAnswers, getEmployeesSectionsAndAnswers, finishEmployeesAn
 import ModalWarning from "../../ModalWarning";
 
 
-const EmployeeSections = ({ pageId, userId, status }) => {
+const EmployeeSections = ({ pageId, userId, status, makeReadOnly }) => {
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [loadingSaved, isLoadingSaved] = useState({load: true, saved: false});
     const [errorMessage, setErrorMessage] = useState("");
@@ -99,6 +99,7 @@ const EmployeeSections = ({ pageId, userId, status }) => {
         e.preventDefault();
         finishEmployeesAnswers(pageId, function(msg){
                 popUpConfirmationModal(msg, false);
+                makeReadOnly();
             });
     };
 

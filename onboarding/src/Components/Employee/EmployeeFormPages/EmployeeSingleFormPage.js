@@ -62,6 +62,10 @@ const EmployeeSingleFormPage = ({ page, userId }) => {
     }
   };
 
+  const makeReadOnly = function(){
+    setStatus({...status, readOnly: true, isFinished: true});
+  };
+
   useEffect(() => {
     let abortCont = new AbortController();
     if(!page) {
