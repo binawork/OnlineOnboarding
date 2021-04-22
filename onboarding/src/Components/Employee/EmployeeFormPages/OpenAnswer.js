@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 
-const OpenAnswer = ({ id, index, data, changeOpenAnswerText }) => {
+const OpenAnswer = ({ id, index, data, changeOpenAnswerText, readOnly }) => {
   let text = "";
   if(typeof data === 'string' || data instanceof String)
     text = data;
@@ -29,6 +29,7 @@ const OpenAnswer = ({ id, index, data, changeOpenAnswerText }) => {
         value={answerText}
         onChange={changeAnswerText}
         onBlur={ updateAnswerText }
+        disabled={ readOnly !== null && typeof readOnly !== 'undefined' ? readOnly : true }
         required
       ></textarea>
     </div>
