@@ -39,7 +39,7 @@ const useFetch = (url, fetchProps, count, message) => {
 
 
 export function useFetchGetSync(apiEndpoint, elementId, errorMsg, abortCont){
-  let url = getPath(), errorMessage,
+  let url = getPath(), errorMessage = "Miał miejsce błąd!",
     fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
   if(abortCont && abortCont.hasOwnProperty('signal') )
