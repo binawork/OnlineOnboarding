@@ -660,7 +660,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
-        if self.action == 'finished':
+        if self.action == 'finished' or self.action == 'page_progress':
             return AnswersProgressStatusSerializer
         else:
             return AnswerSerializer
@@ -735,6 +735,26 @@ class AnswerViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         serializer = AnswersProgressStatusSerializer(answers, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def page_progress(self, request, pk):
+        """
+        :param request:
+        :param pk:
+        :return: answers list by page id and for specified user
+        """
+        #if pk is None:
+        #    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        user_id = self.request.user
+        if request.user.is_hr:
+            user_id = self.kwargs.get('user_id', None)
+
+        queryset = Answer.objects.filter(section__page_id=pk,
+                                         owner_id=user_id)
+        serializer = AnswersProgressStatusSerializer(queryset, many=True)
 
         return Response(serializer.data)
 

@@ -316,7 +316,7 @@ export function getProgressForPage(userId, pageId, resultCallback){
 
 	//abortCont = new AbortController();
 	//fetchProps.signal = abortCont.signal;
-	url += "api/user/" + userId + "/progress_on_page/" + pageId + "/";
+	url += "api/answer/" + pageId + "/page_progress/";
 
 	fetch(url, fetchProps).then(function(res){
 		if(!res.ok)
