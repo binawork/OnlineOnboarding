@@ -91,6 +91,8 @@ const EmployeeSections = ({ pageId, userId, status, makeReadOnly }) => {
             return;
         }
 
+        makeReadOnly();
+
         if(!loadingSaved.saved){
             saveAnswers(e, sendAndFinishResponse);
             return;
@@ -99,7 +101,6 @@ const EmployeeSections = ({ pageId, userId, status, makeReadOnly }) => {
         e.preventDefault();
         finishEmployeesAnswers(pageId, function(msg){
                 popUpConfirmationModal(msg, false);
-                makeReadOnly();
             });
     };
 

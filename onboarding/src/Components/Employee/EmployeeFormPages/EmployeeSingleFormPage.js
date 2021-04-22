@@ -137,7 +137,7 @@ const EmployeeSingleFormPage = ({ page, userId }) => {
             }
           </div>
         </div>
-        <EmployeeSections pageId={ parseInt(formId) } userId={ userId } status={ status } />
+        <EmployeeSections pageId={ parseInt(formId) } userId={ userId } status={ status } makeReadOnly={ makeReadOnly } />
       </div>
     </div>
   );
