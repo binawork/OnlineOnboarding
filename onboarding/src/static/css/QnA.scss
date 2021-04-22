@@ -8,17 +8,31 @@
     &-background {
       @include button-background;
     }
+    &--add {
+      color: #fff;
+      &:hover {
+        @include text-hover;
+      }
+    }
+    &:disabled {
+      cursor: default;
+    }
   }
   &__card {
     @include card;
     margin: 0 0 3rem;
+    &-button {
+      &:hover {
+        @include text-hover;
+      }
+    }
     &-icon {
       margin-right: .5rem;
     }
   }
   &__footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
   }
   &__header {
     &-text {

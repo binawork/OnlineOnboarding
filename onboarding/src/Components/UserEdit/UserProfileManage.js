@@ -156,7 +156,11 @@ function UserProfileManage(props) {
             </div>
             <div className="UserAccount__button-wrapper input-group-append justify-content-center">
 				<div className="UserAccount__button-background">
-					<button className="UserAccount__button btn" onClick={ handleSave }>
+					<button
+                        className="UserAccount__button btn"
+                        onClick={ handleSave }
+                        disabled={ validEmail(user.email) ? false : true }
+                    >
                         { props.buttonTitle }
                     </button>
 				</div>

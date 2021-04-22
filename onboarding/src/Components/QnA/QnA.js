@@ -81,15 +81,12 @@ function QnA({
   };
 
   const preview = (
-    <div className="task-issue">
-      { order === 1 ? <></> : <hr /> }
-      <div className="card">
-        <div className="card-body">
-          <div className="form-group">
-              { parse(question) }
-          </div>
-          { parse(answer) }
+    <div className="QnA__card card">
+      <div className="card-body">
+        <div className="form-group mb-4">
+            { parse(question) }
         </div>
+        { parse(answer) }
       </div>
     </div>
   );

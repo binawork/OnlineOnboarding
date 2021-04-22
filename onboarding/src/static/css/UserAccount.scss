@@ -19,6 +19,9 @@
     &-wrapper {
       padding: 24px;
     }
+    &:disabled {
+      cursor: default;
+    }
   }
   &__card {
     @include card;

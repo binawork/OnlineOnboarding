@@ -159,8 +159,12 @@ const QnAList = () => {
       </section>
 
       {editMode ? (
-        <div className="card-footer">
-          <a href="#" className="card-footer-item" onClick={handleAddQnA}>
+        <div className="d-flex justify-content-center">
+          <a
+            href="#"
+            className="QnA__button--add card-footer-item"
+            onClick={handleAddQnA}
+          >
             <i className="fa fa-plus-circle mr-1"></i>
             Dodaj Q&A
           </a>
@@ -168,18 +172,23 @@ const QnAList = () => {
       ) : (
         <></>
       )}
-      <footer className="QnA__footer card-body rounded-bottom border-top">
+      <footer className="QnA__footer card-body">
 				<div className="QnA__button-background mr-3">
           <button
             className="QnA__button btn"
             onClick={handleSaveAll}
             title="Zapisane Q&A pojawi się automatycznie u pracowników"
+            disabled={qaList.length ? false : true}
           >
             Zapisz
           </button>
 				</div>
 				<div className="QnA__button-background">
-          <button className="QnA__button btn" onClick={handleShowPreview}>
+          <button
+            className="QnA__button btn"
+            onClick={handleShowPreview}
+            disabled={qaList.length ? false : true}
+          >
             {editMode ? "Podgląd" : "Edytuj"}
           </button>
 				</div>

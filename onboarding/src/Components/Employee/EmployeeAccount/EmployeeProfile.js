@@ -109,7 +109,9 @@ function EmployeeProfile(props) {
                     <div className="UserAccount__button-background d-flex justify-content-center">
                         <button
                             className="UserAccount__button Employee-Profile__button--save btn mr-2 text-nowrap"
-                            onClick={ handleSave }>
+                            onClick={ handleSave }
+                            disabled={ validEmail(user.email) ? false : true }
+                        >
                             Zapisz zmiany
                         </button>
                     </div>
