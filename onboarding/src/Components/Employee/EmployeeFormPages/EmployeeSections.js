@@ -8,7 +8,7 @@ import { sendEmployeesAnswers, getEmployeesSectionsAndAnswers, finishEmployeesAn
 import ModalWarning from "../../ModalWarning";
 
 
-const EmployeeSections = ({ pageId, userId }) => {
+const EmployeeSections = ({ pageId, userId, status }) => {
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [loadingSaved, isLoadingSaved] = useState({load: true, saved: false});
     const [errorMessage, setErrorMessage] = useState("");
@@ -61,6 +61,11 @@ const EmployeeSections = ({ pageId, userId }) => {
 
     const saveAnswers = (e, anotherResponse) => {
         e.preventDefault();
+        if(status.readOnly){
+            popUpConfirmationModal("Nie możesz zapisać odpowiedzi.", false, "Zapis odpowiedzi");
+            return;
+        }
+
         let i, count = Math.min(sectionsAnswers.sections.length, sectionsAnswers.answers.length);
         let answersToSend = [], element;
 
@@ -82,6 +87,10 @@ const EmployeeSections = ({ pageId, userId }) => {
         sendEmployeesAnswers(answersToSend, sendingResponse);
     };
     const finishAnswers = function(e){
+        if(status.readOnly){// ask HR to check your answers;
+            return;
+        }
+
         if(!loadingSaved.saved){
             saveAnswers(e, sendAndFinishResponse);
             return;
@@ -188,12 +197,12 @@ const EmployeeSections = ({ pageId, userId }) => {
                                 </small>
                             </i></p>
                             {sections[i].type == "oa" ? (
-                                <OpenAnswer id={ sections[i].id } index={ i } data={ answers[i].data } changeOpenAnswerText={ changeOpenAnswerText } />
+                                <OpenAnswer id={ sections[i].id } index={ i } data={ answers[i].data } changeOpenAnswerText={ changeOpenAnswerText } readOnly={ status.readOnly } />
                             ) : (
                                 <table className="table table-striped table-hover"><tbody>
                                     <SectionForm section={ sections[i] }
                                             answerId={ i }
-                                            answerData={ answers[i].data } setAnswer={ setAnswer } />
+                                            answerData={ answers[i].data } setAnswer={ setAnswer } readOnly={ status.readOnly } />
                                 </tbody></table>
                             )}
                         </div>
@@ -201,7 +210,7 @@ const EmployeeSections = ({ pageId, userId }) => {
             }
             setView({view: sectionsView2, init: true});
         }
-    }, [pageId, loadingSaved.load, sectionsAnswers]);
+    }, [pageId, loadingSaved.load, sectionsAnswers, status]);
 
 
 
@@ -215,9 +224,12 @@ const EmployeeSections = ({ pageId, userId }) => {
                 <>
                     { sectionsView.view }
                     <div className="w-100 d-flex justify-content-end flex-wrap">
-                        <button type="submit" className="btn btn-success mb-2 text-nowrap">Zapisz odpowiedzi</button>
+                        <button type="submit" className="btn btn-success mb-2 text-nowrap"
+                                disabled={ status.readOnly !== null && typeof status.readOnly !== 'undefined' ? status.readOnly : true }>
+                            Zapisz odpowiedzi
+                        </button>
                         <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap" onClick={ finishAnswers }>
-                            Wyślij odpowiedzi
+                            Wyślij { status.readOnly ? "przypomnienie" : "odpowiedzi" }
                         </button>
                     </div>
                 </>
@@ -230,6 +242,7 @@ const EmployeeSections = ({ pageId, userId }) => {
 EmployeeSections.propTypes = {
     pageId: PropTypes.number.isRequired,
     userId: PropTypes.number,
+    status: PropTypes.object.isRequired
 };
 
 export default EmployeeSections;
