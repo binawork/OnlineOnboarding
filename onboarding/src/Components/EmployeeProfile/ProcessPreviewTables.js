@@ -129,12 +129,15 @@ function ProcessPreviewTables(props) {
 
     const popUpConfirmationForWithhold = function(message, isError){
         let title = "Usuwanie katalogu", count = confirmationModal.id;
-        if(isError === true) // include 'undefined' case;
+        if(isError === true) // it excludes 'undefined' case;
             title = "Wystąpił błąd!";
 
         setIdModal({id: count,
             modal: <ModalWarning handleAccept={ hideModal } title={ title } message={ message } id={ count } show={ true } acceptText={ "Ok" } />
         });
+
+        if(!isError)
+            props.setCount(props.count + 1);
     };
 
     const hideModal = function(id){
