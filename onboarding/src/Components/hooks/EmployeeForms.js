@@ -453,7 +453,8 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 						idInt = parseInt(section.answers[i].owner, 10);
 						if(idInt !== userId)
 							continue;
-					}
+					} else if(section.answers[i].owner === null)
+						continue;
 
 					idInt = section.answers[i].id ? parseInt(section.answers[i].id, 10) : -1;
 					if(idInt > id){// include only the answer with highest 'id' and set flag if it was saved on DB;

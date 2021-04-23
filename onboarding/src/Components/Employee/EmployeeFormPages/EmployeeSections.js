@@ -230,9 +230,11 @@ const EmployeeSections = ({ pageId, userId, status, makeReadOnly }) => {
                                 disabled={ status.readOnly !== null && typeof status.readOnly !== 'undefined' ? status.readOnly : true }>
                             Zapisz odpowiedzi
                         </button>
-                        <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap" onClick={ finishAnswers }>
-                            Wyślij { status.readOnly ? "przypomnienie" : "odpowiedzi" }
-                        </button>
+                        { !status.readOnly && (
+                            <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap" onClick={ finishAnswers }>
+                                Wyślij odpowiedzi
+                            </button>
+                        )}
                     </div>
                 </>
             ): <></>}
