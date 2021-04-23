@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import image from "../../static/looper/images/illustration/img-5.png";
 
 const WelcomePage = ({ setWelcomeView }) => {
@@ -40,6 +41,10 @@ const WelcomePage = ({ setWelcomeView }) => {
       </div>
     </main>
   );
+};
+
+WelcomePage.propTypes = {
+  setWelcomeView: PropTypes.func,
 };
 
 export default WelcomePage;

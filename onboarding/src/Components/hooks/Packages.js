@@ -22,7 +22,7 @@ function fetchPackages(count) {
     };
 
   useEffect(() => {
-    fetch(url + "api/package/list_by_company_hr/", fetchProps)
+    fetch(url + "api/package/", fetchProps)
       .catch(error => {
         showError(error.message);
         console.error(error);

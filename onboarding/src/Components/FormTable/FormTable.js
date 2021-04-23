@@ -26,15 +26,15 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
       loading = false;
       packageData = location.state.packageData;
       pages = location.state.pages;
-    } 
+    }
     if(!location.state || countUpdate > 0) {
       if(packageAndForms) {
         packageData = packageAndForms;
         pages = packageAndForms?.page_set.sort((a,b) =>  b.id - a.id);
         errorMessage = error;
         loading = isLoading;
-      };
-    };
+      }
+    }
 
     useEffect(() => {
       if(pages) {

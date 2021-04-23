@@ -1,52 +1,77 @@
-import React from "react";
-import EmployeeSections from "./EmployeeSections";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useParams } from "react-router";
+import { fetchFormData } from "../../hooks/FormsEdit";
+import { singleCombo } from "../../hooks/Packages";
+import EmployeeSections from "./EmployeeSections";
+import PageAddressBar from "../../PageAddressBar";
+import { linkToVideo } from "../../utils.js";
 
-const EmployeeSinglePage = ({ page, userId }) => {
-  let pageLink = <></>, isVideo = false;
 
-  if(page.link?.match(/^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i)) {
-    pageLink = page.link ? page.link.replace(/watch\?v=/g, "embed/") : "";
-    isVideo = true;
-  } else if(page.link?.match(/^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i)) {
-    pageLink = page.link ? page.link.replace(/vimeo\.com/g, "player.vimeo.com/video") : "";
-    isVideo = true;
-  } else if(page.link){
-    pageLink = <a href={ page.link } target="_blank" rel="noopener noreferrer">{ page.link }</a>;
-  }
+const EmployeeSingleFormPage = ({ page, userId }) => {
+  const [form, setForm] = useState(page);
+  const [pageLinkVideo, setPageLink] = useState({link: "", isVideo: false});
+  const { form_id:formId } = useParams();
+  const { data:formData } = fetchFormData(formId);
+  const packageTitle = singleCombo(formData?.package)?.title;
 
+  useEffect(() => {
+    if(!page) {
+      setForm(formData);
+    }
+  }, [formData]);
+
+  useEffect(() => {
+    let videoLink
+    if(form?.link){
+      videoLink = linkToVideo(form.link);
+      if(videoLink.isVideo){
+        setPageLink(videoLink);
+      } else {
+        videoLink.link = <a href={ form.link } target="_blank" rel="noopener noreferrer">{ form.link }</a>
+        setPageLink(videoLink);
+      }
+    }
+  }, [form]);
 
   return (
-    <div className="page">
-      <div className="page-inner">
-        <div className="page-section">
-          <div className="card card-fluid">
-            <div className="card-header">{page.title}</div>
-            <div className="card-body">{page.description}</div>
+    <div className="page-inner">
+      <PageAddressBar 
+        page={ `Formularz: ${formData?.title || ""}` } 
+        previousPages={[ 
+          {title: `Katalog: ${packageTitle || ""}`, 
+            url: `/package/${formData?.package}`
+          } 
+        ]} 
+      />
+      <div className="page-section">
+        <div className="card card-fluid">
+          <div className="card-header">{form?.title}</div>
+          <div className="card-body">{form?.description}</div>
 
-            <div className="card-body">
-              { isVideo ? (
-                  <div className="embed-responsive embed-responsive-21by9">
-                    <iframe className="embed-responsive-item"
-                            src={pageLink}
-                            allow="autoplay; encrypted-media"
-                            allowFullScreen
-                            title="video"
-                    />
-                  </div>
-                ): (<>{ pageLink }</>)
-              }
-            </div>
+          <div className="card-body">
+            { pageLinkVideo.isVideo ? (
+                <div className="embed-responsive embed-responsive-21by9">
+                  <iframe className="embed-responsive-item"
+                          src={ pageLinkVideo.link }
+                          allow="autoplay; encrypted-media"
+                          allowFullScreen
+                          title="video"
+                  />
+                </div>
+              ): (<>{ pageLinkVideo.link }</>)
+            }
           </div>
-          <EmployeeSections pageId={page.id} userId={ userId } />
         </div>
+        <EmployeeSections pageId={ parseInt(formId) } userId={ userId } />
       </div>
     </div>
   );
 };
 
-EmployeeSinglePage.propTypes = {
-  page: PropTypes.object.isRequired,
+EmployeeSingleFormPage.propTypes = {
+  page: PropTypes.object,
+  userId: PropTypes.number,
 };
 
-export default EmployeeSinglePage;
+export default EmployeeSingleFormPage;

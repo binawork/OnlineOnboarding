@@ -1,19 +1,11 @@
 import React from "react";
 import parse from "html-react-parser";
+import { linkToVideo } from "../utils.js";
+
 
 function CompanyInfoPreview({ logo, link, companyName, mission, aboutCompany }) {
-  let videoLink;
-  if (
-    link.match(
-      /^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i
-    )
-  ) {
-    videoLink = link.replace(/watch\?v=/g, "embed/").replace(/&[\w]+=[\w]+/g, "");
-  } else if (
-    link?.match(/^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i)
-  ) {
-    videoLink = link.replace(/vimeo\.com/g, "player.vimeo.com/video");
-  }
+  let videoLink = linkToVideo(link);
+
 
   return (
           <div className="card-body">
@@ -34,7 +26,7 @@ function CompanyInfoPreview({ logo, link, companyName, mission, aboutCompany }) 
             <div className="mb-5 w-100 col-xl-6 col-lg-8 col-12">
               <section className="mb-3">{parse(mission)}</section>
               {link !== "" ? (
-                videoLink ? (
+                videoLink.isVideo ? (
                   <div
                     className="position-relative"
                     style={{
@@ -52,7 +44,7 @@ function CompanyInfoPreview({ logo, link, companyName, mission, aboutCompany }) 
                     <iframe
                       className="w-100 h-100 position-absolute"
                       style={{ top: "0", left: "0" }}
-                      src={videoLink}
+                      src={ videoLink.link }
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       title="video"
@@ -60,9 +52,7 @@ function CompanyInfoPreview({ logo, link, companyName, mission, aboutCompany }) 
                     ></iframe>
                   </div>
                 ) : (
-                  <a href={link} target="_blank">
-                    LINK
-                  </a>
+                  <a href={ link } target="_blank" rel="noopener noreferrer">{ link }</a>
                 )
               ) : (
                 <></>

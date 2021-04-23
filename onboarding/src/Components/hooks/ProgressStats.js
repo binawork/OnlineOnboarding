@@ -314,7 +314,7 @@ export function usersWithPackages(props){
 		};
 
 	useEffect(() => {
-		fetch(url + "api/package/list_by_company_hr/", fetchProps).then((res) => res.json()).then(
+		fetch(url + "api/package/", fetchProps).then((res) => res.json()).then(
 			(result) => {
 				if(Array.isArray(result)){
 					let users4Packages = [], packageIds;

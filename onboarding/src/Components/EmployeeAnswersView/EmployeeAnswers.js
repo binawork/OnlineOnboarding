@@ -10,6 +10,7 @@ function EmployeeAnswers({ pageId, employeeId }){
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [sectionsView, setView] = useState([]);
+    const [buttonsOptions, setButtons] = useState({display: false, answered: false, msg: "Wyślij przypomnienie"});
 
     /*const setErrorMessage = function(message){
         setMessage({message: message, print: true});
@@ -65,10 +66,13 @@ function EmployeeAnswers({ pageId, employeeId }){
 
         setView(newSectionsView);
 
-        if(!areAnswered)
+        if(!areAnswered){
             setMessage("Pracownik jeszcze nie odpowiedział na pytania");
-        else
+            setButtons({display: newSectionsView.length > 0, answered: false, msg: "Wyślij przypomnienie"});
+        } else {
             setMessage("");
+            setButtons({display: newSectionsView.length > 0, answered: true, msg: "Wyślij ponownie"});
+        }
     };
 
 
@@ -91,6 +95,16 @@ function EmployeeAnswers({ pageId, employeeId }){
             </div>
         }
         { sectionsView.length > 0 && sectionsView }
+        { buttonsOptions.display &&
+            <div className="w-100 d-flex justify-content-end flex-wrap">
+                { buttonsOptions.answered &&
+                    <button type="button" className="btn btn-success mb-2 text-nowrap">Zaakceptuj</button>
+                }
+                <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap">
+                    { buttonsOptions.msg }
+                </button>
+            </div>
+        }
       </>
     );
 }
