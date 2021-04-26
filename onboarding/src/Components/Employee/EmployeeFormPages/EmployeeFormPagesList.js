@@ -11,7 +11,7 @@ const EmployeeFormPagesList = ({ pagesList, setPage, progress }) => {
     let progressForPage = <ProgressBar backgroundSize={ "0%" } />, progressMsg = "Nie pobrano",
         pageId = parseInt(page.id, 10);
 
-    page = {...page, saved: false, wasSend: false, isChecked: progress !== false};
+    page = {...page, saved: false, isFinished: false, isChecked: progress !== false, readOnly: true};
     if(page.isChecked)
         progressMsg = <small className="ml-1">{ notStartedMsg }</small>
 
@@ -29,12 +29,13 @@ const EmployeeFormPagesList = ({ pagesList, setPage, progress }) => {
           // finishMsg = finishedMsg;
           progressForPage = <ProgressBar color={ "green" } backgroundSize={ percentage } />
           progressMsg = <small className="ml-1">{ finishedMsg }</small>
-          page.wasSend = true;
+          page.isFinished = true;
         } else {
           percentage = "50%";
           // finishMsg = inProgressMsg;
           progressForPage = <ProgressBar color={ "yellow" } backgroundSize={ percentage } />
           progressMsg = <small className="ml-1">{ inProgressMsg }</small>
+          page.readOnly = false;
         }
 
       }

@@ -142,7 +142,7 @@ class PackagesUsers(models.Model):
 class Page(models.Model):
     """
     Model representing a through for Page and Section.
-    Owner - Company that owns this package
+    Owner - Company that owns this page
     """
     package = models.ForeignKey(Package, on_delete=models.SET_NULL, null=True, blank=True)
     order = models.IntegerField()
@@ -158,7 +158,7 @@ class Page(models.Model):
 
 class Section(models.Model):
     """
-    Owner - Company that owns this package
+    Owner - company where the HR/user who created the section is employed
     """
     page = models.ForeignKey(Page, on_delete=models.SET_NULL, null=True, blank=True)
     owner = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
@@ -188,7 +188,7 @@ class Section(models.Model):
 
 class Answer(models.Model):
     """
-    Owner - Company that owns this package
+    Owner - user who answered the question in related section
     """
     section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True, blank=True)
     data = JSONField(null=True, blank=True)

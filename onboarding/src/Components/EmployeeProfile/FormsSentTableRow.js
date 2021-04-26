@@ -2,6 +2,21 @@ import React, { useState } from "react";
 import Tag from "../Tag";
 import ProgressBar from "../ProgressBar";
 
+/**
+ * Prints row of sent package progress and dates.
+ * It also includes drop-down list of pages if they exist.
+ * @param props - {row: Object, empty: boolean, handleChecked: function, handleRemind: function, setAnswersPage: function, withholdPackage: function}
+ *      Where row has:
+ *      {id: package id;
+ *      percentage: relation finished to the number of pages in scale [0, 100];
+ *      send_date: the date when package was sent, or error message or '?' as default;
+ *      finish_date: the date when employee finished all pages or message;
+ *      pagesCount: number of pages for the package which applies this row;
+ *      pages: list of pages for this package
+ *      }
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function FormsSentTableRow(props) {
     const [toggleObj, switchVisibility] = useState({style:{ display: "none" },
                                                     display: false,
@@ -24,14 +39,18 @@ function FormsSentTableRow(props) {
         props.handleRemind(e.target.value);
     };
 
+    const handleSentCancel = (e) => {
+        props.withholdPackage(e.target.value);
+    };
+
     const handleShowAnswers = (e, page) => {
         e.preventDefault();
         props.setAnswersPage(page);
     }
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.id } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>;//,
-        //buttonRm = <></>;
+        buttonObj = <button value={ props.row.id } className="btn btn-secondary mb-2 w-100" onClick={ remind }>Przypomnienie</button>,
+        buttonRm = <button value={ props.row.id } className="btn btn-warning w-100 text-nowrap" onClick={ handleSentCancel }>Usuń z wysłanych</button>;
     let pages, tag=<></>;
 
     if(props.row.hasOwnProperty("percentage") ){// "green", "yellow", "amaranthine"
@@ -48,6 +67,7 @@ function FormsSentTableRow(props) {
     if(props.empty){
         checkBox = "";
         buttonObj = "";
+        buttonRm = ""
     }
 
     if(toggleObj.hasContent){
@@ -102,9 +122,12 @@ function FormsSentTableRow(props) {
                         { props.row.progress } { tag }
                     </div>
                 </td>
-                <td>{props.row.send_date}</td>
-                <td>{props.row.finish_date}</td>
-                <td style={{ textAlign: "end", width: "120px" }}>{ buttonObj }</td>
+                <td className="table__data">{props.row.send_date}</td>
+                <td className="table__data">{props.row.finish_date}</td>
+                <td className="table__data" style={{ textAlign: "end", width: "120px" }}>
+                    { buttonObj }
+                    { buttonRm }
+                </td>
             </tr>
             { pages }
         </>
