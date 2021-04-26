@@ -3,7 +3,7 @@ import ImplementationFormsSent from "./ImplementationFormsSent";
 import ImplementationFormsToSend from "./ImplementationFormsToSend";
 import ModalWarning from "../ModalWarning";
 import EmployeeAnswersViewPage from "../EmployeeAnswersView/EmployeeAnswersViewPage";
-import { getProgress, datesOfSendingPackages } from "../hooks/EmployeeForms";
+import { getProgress, datesOfSendingPackages, withholdPackageFromEmployee } from "../hooks/EmployeeForms";
 
 
 function ProcessPreviewTables(props) {
@@ -28,7 +28,7 @@ function ProcessPreviewTables(props) {
                 continue;
             }
 
-            props.groupedPackages.sent[i].progress = result[packageId].finished + " / " + props.groupedPackages.sent[i].progress.substring(2);
+            props.groupedPackages.sent[i].progress = result[packageId].finished + " " + props.groupedPackages.sent[i].progress.substring(2);
 
             props.groupedPackages.sent[i].percentage = result[packageId].finished / props.groupedPackages.sent[i].pagesCount;
             if(result[packageId].finished == 0)
@@ -105,11 +105,39 @@ function ProcessPreviewTables(props) {
         props.addSent();
     };*/
 
+    const withholdPackage = (idObject) => {
+        hideModal(idObject.id);
+        withholdPackageFromEmployee(popUpConfirmationForWithhold, parseInt(props.employeeId), idObject.packageId);
+    };
+
     const popUpConfirmationModal = (message) => {
         let count = confirmationModal.id;
         setIdModal({id: count,
             modal: <ModalWarning handleAccept={ hideModal } title={ "Potwierdzenie wysłania" } message={ message } id={ count } show={ true } acceptText={ "Ok" } />
         });
+    };
+
+    const popUpAskForWithholdPackage = (packageId) => {
+        let idObject = {id: confirmationModal.id, packageId: packageId};
+        setIdModal({id: confirmationModal.id,
+            modal: <ModalWarning id={ idObject } title={ "Usuwanie katalogu" }
+                                 handleAccept={ withholdPackage } handleCancel={ hideModal }
+                                 message={ "Ten katalog zostanie usunięty u pracownika. Czy chcesz to zrobic?" }
+                                 show={ true } acceptText={ "Ok" } />
+        });
+    };
+
+    const popUpConfirmationForWithhold = function(message, isError){
+        let title = "Usuwanie katalogu", count = confirmationModal.id;
+        if(isError === true) // it excludes 'undefined' case;
+            title = "Wystąpił błąd!";
+
+        setIdModal({id: count,
+            modal: <ModalWarning handleAccept={ hideModal } title={ title } message={ message } id={ count } show={ true } acceptText={ "Ok" } />
+        });
+
+        if(!isError)
+            props.setCount(props.count + 1);
     };
 
     const hideModal = function(id){
@@ -154,6 +182,7 @@ function ProcessPreviewTables(props) {
                             isLoading={ loading }
                             isError={ props.isError }
                             showModal={ popUpConfirmationModal }
+                            askForWithholdPackage={ popUpAskForWithholdPackage }
                             count={ confirmationModal.id }
                         />
                         <ImplementationFormsToSend 

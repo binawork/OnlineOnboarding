@@ -385,7 +385,13 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
             return Response({"detail": "key-pair error!"}, status=status.HTTP_400_BAD_REQUEST)
 
         instance = PackagesUsers.objects.filter(user_id=user_id, package=package_id)
-        self.perform_destroy(instance)
+        exists = instance.count()
+        if exists:
+            self.perform_destroy(instance)
+
+            queryset = Answer.objects.filter(section__page__package_id=package_id, owner_id=user_id)
+            queryset.update(owner=None)
+
         return Response(status=status.HTTP_204_NO_CONTENT)  # status.HTTP_404_NOT_FOUND
 
     @action(detail=True, methods=['post'])
