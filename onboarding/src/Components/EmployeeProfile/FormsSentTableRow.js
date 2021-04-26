@@ -49,8 +49,8 @@ function FormsSentTableRow(props) {
     }
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.id } className="btn btn-secondary" onClick={ remind }>Przypomnienie</button>,
-        buttonRm = <button value={ props.row.id } className="btn btn-warning" onClick={ handleSentCancel }>Usuń wysłany</button>;
+        buttonObj = <button value={ props.row.id } className="btn btn-secondary mb-2 w-100" onClick={ remind }>Przypomnienie</button>,
+        buttonRm = <button value={ props.row.id } className="btn btn-warning w-100 text-nowrap" onClick={ handleSentCancel }>Usuń z wysłanych</button>;
     let pages, tag=<></>;
 
     if(props.row.hasOwnProperty("percentage") ){// "green", "yellow", "amaranthine"
@@ -124,7 +124,10 @@ function FormsSentTableRow(props) {
                 </td>
                 <td className="table__data">{props.row.send_date}</td>
                 <td className="table__data">{props.row.finish_date}</td>
-                <td className="table__data" style={{ textAlign: "end", width: "120px" }}>{ buttonObj }{ buttonRm }</td>
+                <td className="table__data" style={{ textAlign: "end", width: "120px" }}>
+                    { buttonObj }
+                    { buttonRm }
+                </td>
             </tr>
             { pages }
         </>
