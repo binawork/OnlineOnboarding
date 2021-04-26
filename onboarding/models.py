@@ -158,7 +158,7 @@ class Page(models.Model):
 
 class Section(models.Model):
     """
-    Owner - company where the HR/user who created tha section is employed
+    Owner - company where the HR/user who created the section is employed
     """
     page = models.ForeignKey(Page, on_delete=models.SET_NULL, null=True, blank=True)
     owner = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
