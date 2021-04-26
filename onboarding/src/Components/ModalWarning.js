@@ -73,7 +73,10 @@ ModalWarning.propTypes = {
     handleAccept: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
-    // id: PropTypes.number,
+    id: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.object
+    ]),
     show: PropTypes.bool,
     acceptText: PropTypes.string, 
 }
