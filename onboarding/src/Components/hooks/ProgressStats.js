@@ -268,6 +268,75 @@ export function joinProgressToUsers(users, usersWithPackagesObject){
 	return usersCp;
 }
 
+// - - - - - - - - - - - - - - - - - Progress of single page - - - - - - - - - - - - - - - - - -
+
+function revertProgressAnswersOfPage(answers){
+	let pageProgress = {answers: [], isFinished: false, isConfirmed: false, readOnly: true, msg: ""};
+
+	if(Object.prototype.toString.call(answers) !== '[object Array]'){ // Array.isArray(object);)
+		pageProgress.msg = answers;
+		return pageProgress;
+	} else if(answers.length < 1){
+		pageProgress.readOnly = false;
+		return pageProgress;
+	}
+
+	pageProgress.answers = answers;
+	pageProgress.readOnly = false;
+
+	let allFinished, allConfirmed = false, logic;
+
+	if(answers[0].finished === 'true' || answers[0].finished === true)
+		allFinished = true;
+	if(answers[0].confirmed === 'true' || answers[0].confirmed === true)
+		allConfirmed = true;
+
+	for(let i = answers.length - 1; i > 0; i--){
+		logic = false;
+		if(answers[i].finished === 'true' || answers[i].finished === true)
+			logic = true;
+		allFinished &= logic;// if any is not finished (false) then allFinished is false;
+
+		logic = false;
+		if(answers[i].confirmed === 'true' || answers[i].confirmed === true)
+			logic = true;
+		allConfirmed &= logic;// if any is not confirmed (false) then allConfirmed is false;
+	}
+
+	pageProgress.isFinished = allFinished;
+	pageProgress.isConfirmed = allConfirmed;
+	pageProgress.readOnly = allFinished || allConfirmed;// form can be edited <=> any of answers is not finished or not all answers are confirmed;
+
+	return pageProgress;
+}
+
+export function getProgressForPage(userId, pageId, resultCallback){
+	let url = getPath(), abortCont;
+	const fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
+
+	//abortCont = new AbortController();
+	//fetchProps.signal = abortCont.signal;
+	url += "api/answer/" + pageId + "/page_progress/";
+
+	fetch(url, fetchProps).then(function(res){
+		if(!res.ok)
+			throw Error("Problem z pobraniem danych!");
+
+		return res.json();
+	}).then( (result) => {
+			let pageProgress = revertProgressAnswersOfPage(result);
+			resultCallback(pageProgress, true);
+		}, (error) => {
+			let pageProgress = revertProgressAnswersOfPage(error);
+			resultCallback(pageProgress, false);// console.log(err);
+	}).catch((err) => {
+		let pageProgress = revertProgressAnswersOfPage(err);
+		resultCallback(err.message, false);// console.log(err);
+	});
+
+	//return abortCont.abort();
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 /*
