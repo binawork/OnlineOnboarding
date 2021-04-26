@@ -453,7 +453,8 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 						idInt = parseInt(section.answers[i].owner, 10);
 						if(idInt !== userId)
 							continue;
-					}
+					} else if(section.answers[i].owner === null)
+						continue;
 
 					idInt = section.answers[i].id ? parseInt(section.answers[i].id, 10) : -1;
 					if(idInt > id){// include only the answer with highest 'id' and set flag if it was saved on DB;
@@ -628,6 +629,37 @@ export function remindEmployeeOfPackage(handleMessage, employeeId, packageId){
 				handleMessage(error.message);
 			}
 		);
+}
+
+/**
+ * Removes package from the list of packages sent to employee;
+ * @param handleMessage: callback function with arguments - string of answer and boolean if error occurred;
+ * @param employeeId: id of the user (employee) from whom the package has to be removed;
+ * @param packageId: the id of package which has to be removed;
+ */
+export function withholdPackageFromEmployee(handleMessage, employeeId, packageId){
+	let data, token = getCookie("csrftoken"), path = getPath(),
+		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	data = {package: packageId};
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(path + "api/add_users_to_package/" + employeeId + "/", fetchProps)
+		.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd: nie udało się usunąć katalogu!");
+				}
+				return (res.status !== 204) ? res.json() : res;// 204: HTTP_204_NO_CONTENT;
+		}).then(
+			(result) => {
+				handleMessage("Katalog u pracownika zostal usunięty.");
+			},
+			(error) => {
+				handleMessage("Wystąpił błąd: nie udało się usunąć katalogu!", true);
+			}
+		).catch(function(err){
+			handleMessage(err.message, true);
+		});
 }
 
 export default EmployeeForms;
