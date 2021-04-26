@@ -28,7 +28,7 @@ function ProcessPreviewTables(props) {
                 continue;
             }
 
-            props.groupedPackages.sent[i].progress = result[packageId].finished + " / " + props.groupedPackages.sent[i].progress.substring(2);
+            props.groupedPackages.sent[i].progress = result[packageId].finished + " " + props.groupedPackages.sent[i].progress.substring(2);
 
             props.groupedPackages.sent[i].percentage = result[packageId].finished / props.groupedPackages.sent[i].pagesCount;
             if(result[packageId].finished == 0)
