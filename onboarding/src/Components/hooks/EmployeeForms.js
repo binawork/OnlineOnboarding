@@ -617,8 +617,29 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 }
 
 export function sendAcceptance(employeeId, pageId, acceptCallback, button){
-	//acceptCallback("Pracownik skończył to wdrożenie.", false);
-	//acceptCallback("Wystąpił błąd podczas akceptacji.", true, button);
+	let data, token = getCookie("csrftoken"), path = getPath(),
+		fetchProps = {method:"PATCH", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	data = {user: employeeId};
+	fetchProps.body = JSON.stringify(data);
+
+	path += "api/answer/" + pageId + "/confirm/";
+	fetch(path, fetchProps)
+		.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd podczas akceptacji!");
+				}
+				return (res.status !== 204) ? res.json() : res;// 204: HTTP_204_NO_CONTENT;
+		}).then(
+			(result) => {
+				acceptCallback("Pracownik skończył to wdrożenie.", false);
+			},
+			(error) => {
+				acceptCallback("Wystąpił błąd podczas akceptacji!", true, button);
+			}
+		).catch(function(err){
+			acceptCallback(err.message, true, button);
+		});
 }
 
 /**

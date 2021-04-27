@@ -764,7 +764,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    @action(detail=False, methods=['patch'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=AnswersProgressStatusSerializer)
+    @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=AnswersProgressStatusSerializer)
     def confirm(self, request, pk):
         """
         :param request:
