@@ -764,6 +764,30 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=False, methods=['patch'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=AnswersProgressStatusSerializer)
+    def confirm(self, request, pk):
+        """
+        :param request:
+        :param pk: id of page for answers which have to be confirmed
+        :return:
+        """
+        # if not request.user.is_hr:
+        #     return Response(status=status.HTTP_403_FORBIDDEN)
+
+        user_id = request.data.get('user', None)
+        if user_id is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        answers = Answer.objects.filter(section__page_id=pk,
+                                         owner_id=user_id)
+        if answers.count() < 1:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        answers.update(confirmed=True)
+
+        serializer = AnswersProgressStatusSerializer(answers, many=True)
+        return Response(serializer.data)
+
 
 class UserProgressOnPageView(generics.ListAPIView):
     queryset = Answer.objects.all()
