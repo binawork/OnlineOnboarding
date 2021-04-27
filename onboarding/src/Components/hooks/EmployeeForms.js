@@ -616,6 +616,16 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 		}
 }
 
+/**
+ * Requests server to accept all answers send by employee with id = employeeId for questions of form/page with id = pageId;
+ * @param employeeId: an id of employee whose answers are to be accepted;
+ * @param pageId: id of the form/page the answers belongs to;
+ * @param acceptCallback: callback function with arguments
+ *        message - string of message to be displayed,
+ *        isError - boolean if error occurred or not,
+ *        elementTarget - DOM of button to be unblock and all its button siblings when error occurred (optional);
+ * @param button: DOM object of button to be unblock when the answer is not ok (optional);
+ */
 export function sendAcceptance(employeeId, pageId, acceptCallback, button){
 	let data, token = getCookie("csrftoken"), path = getPath(),
 		fetchProps = {method:"PATCH", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};

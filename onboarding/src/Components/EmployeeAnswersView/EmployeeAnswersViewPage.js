@@ -12,8 +12,11 @@ const buttonBackStyle = {
 }
 
 /**
- * Loads page with answers for a page answered by employee
- * @param props - location.state: { page: Object, employeeId: number, setAnswersPage: function }
+ * Loads page with answers for a page answered by employee.
+ * @param props: React argument of component with properties like
+ *        employeeId - an id of employee whose answers will be displayed by this component;
+ *        page - object of page get from list of pages which was received from "api/package_pages/";
+ *        goBackToMainProfilePage - callback function to set page in a state to null and to go back to employee's profile;
  * @returns {JSX.Element}
  * @constructor
  */
