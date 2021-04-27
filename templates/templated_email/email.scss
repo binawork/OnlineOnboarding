@@ -1,0 +1,19 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  width: 600px;
+  padding: 3rem;
+  box-sizing: border-box;
+  background: #ddd;
+  font-family: 'Fira Sans', sans-serif;
+}
