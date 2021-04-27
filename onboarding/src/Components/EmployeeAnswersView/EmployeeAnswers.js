@@ -131,9 +131,9 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
                 { buttonsOptions.answered &&
                     <button type="button" className="btn btn-success mb-2 text-nowrap" onClick={ acceptAnswers }>Zaakceptuj</button>
                 }
-                <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap">
+                {/*<button type="button" className="btn btn-success ml-3 mb-2 text-nowrap">
                     { buttonsOptions.msg }
-                </button>
+                </button>*/}
             </div>
         }
       </>

@@ -794,7 +794,7 @@ class UserProgressOnPageView(generics.ListAPIView):
     serializer_class = AnswersProgressStatusSerializer
 
     def get(self, request, *args, **kwargs):
-        employee_id = kwargs.get('employe_id')
+        employee_id = kwargs.get('employee_id')
         page_id = kwargs.get('page_id')
 
         queryset = Answer.objects.filter(section__page_id=page_id,
@@ -809,7 +809,7 @@ class UserProgressOnPackageView(generics.ListAPIView):
     serializer_class = AnswersProgressStatusSerializer
 
     def get(self, request, *args, **kwargs):
-        employee_id = kwargs.get('employe_id')
+        employee_id = kwargs.get('employee_id')
         package_id = kwargs.get('package_id')
 
         queryset = Answer.objects.filter(
@@ -825,7 +825,7 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
     serializer_class = WhenPackageSendToEmployeeSerializer
 
     def get(self, request, *args, **kwargs):
-        employee_id = kwargs.get('employe_id')
+        employee_id = kwargs.get('employee_id')
         package_id = kwargs.get('package_id', None)
 
         if package_id is not None:
