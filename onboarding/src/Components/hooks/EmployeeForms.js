@@ -441,7 +441,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 				return ;
 			}
 
-			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true;
+			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true, areConfirmed = true;
 			result.answers = sections.map(function(section){
 				let answer = {data: []};
 				if(typeof section.answers === 'undefined' || section.answers === null)
@@ -464,6 +464,9 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 					}
 					if(typeof section.answers[i].finished !== 'undefined')
 						areFinished &= section.answers[i].finished;
+
+					if(typeof section.answers[i].confirmed !== 'undefined')
+						areConfirmed &= section.answers[i].confirmed;
 				}
 
 				try {
@@ -474,7 +477,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 			});
 
 			result.answers_cp = JSON.parse(JSON.stringify(result.answers));
-			setSectionsAnswers(result, areSaved, areFinished/*, todo: maybe use confirmed field later; */);
+			setSectionsAnswers(result, areSaved, areFinished, areConfirmed);
 		} else if(xhr.readyState==4){
 			errorMessageFunction("Nie udało się zdobyć danych!");
 		}
@@ -611,6 +614,11 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 					handleMessage(msg);
 				});
 		}
+}
+
+export function sendAcceptance(employeeId, pageId, acceptCallback, button){
+	//acceptCallback("Pracownik skończył to wdrożenie.", false);
+	//acceptCallback("Wystąpił błąd podczas akceptacji.", true, button);
 }
 
 /**

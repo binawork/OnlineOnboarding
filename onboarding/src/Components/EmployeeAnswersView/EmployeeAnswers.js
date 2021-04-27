@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import parse from "html-react-parser";
-import { getEmployeesSectionsAndAnswers } from "../hooks/EmployeeForms";
+import { getEmployeesSectionsAndAnswers, sendAcceptance } from "../hooks/EmployeeForms";
 import OpenAnswer from "./OpenAnswer";
 import SectionAnswers from "./SectionAnswers";
 //import PropTypes from "prop-types";
 
 
-function EmployeeAnswers({ pageId, employeeId }){
+function EmployeeAnswers({ pageId, employeeId, showMessage }){
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [sectionsView, setView] = useState([]);
-    const [buttonsOptions, setButtons] = useState({display: false, answered: false, msg: "Wyślij przypomnienie"});
+    const [buttonsOptions, setButtons] = useState({display: false, answered: false, confirmed: false, msg: "Wyślij przypomnienie"});
 
     /*const setErrorMessage = function(message){
         setMessage({message: message, print: true});
     };*/
 
-    const showSectionsAnswers = (sectionsAnswersResult, areSaved, employeeDidAnswer) => {
+    const showSectionsAnswers = (sectionsAnswersResult, areSaved, employeeDidAnswer, hrConfirmed) => {
         if(typeof sectionsAnswersResult.sections === 'undefined' || sectionsAnswersResult.sections === null ||
            typeof sectionsAnswersResult.answers === 'undefined' || sectionsAnswersResult.answers === null){
             setMessage("Miał miejsce błąd w pobieraniu formularza!");
@@ -68,10 +68,10 @@ function EmployeeAnswers({ pageId, employeeId }){
 
         if(!areAnswered){
             setMessage("Pracownik jeszcze nie odpowiedział na pytania");
-            setButtons({display: newSectionsView.length > 0, answered: false, msg: "Wyślij przypomnienie"});
+            setButtons({display: newSectionsView.length > 0 && !hrConfirmed, answered: false, confirmed: hrConfirmed, msg: "Wyślij przypomnienie"});
         } else {
             setMessage("");
-            setButtons({display: newSectionsView.length > 0, answered: true, msg: "Wyślij ponownie"});
+            setButtons({display: newSectionsView.length > 0 && !hrConfirmed, answered: true, confirmed: hrConfirmed, msg: "Wyślij ponownie"});
         }
     };
 
@@ -87,6 +87,37 @@ function EmployeeAnswers({ pageId, employeeId }){
     }, [pageId]);
 
 
+    const enableDisableButtons = (parentElement, doDisable) => {
+        let i, buttons = parentElement.getElementsByTagName("button");
+        for(i = buttons.length - 1; i >= 0; i--)
+            buttons[i].disabled = doDisable;
+    };
+
+    const acceptCallback = (message, isError, elementTarget) => {
+        if(isError){
+            if(elementTarget){
+                elementTarget.disabled = false;
+                enableDisableButtons(elementTarget.parentNode, false);
+            }
+            showMessage(message);
+            return;
+        }
+
+        setButtons({display: false, answered: true, confirmed: true, msg: ""});
+        showMessage(message);
+    };
+
+    const acceptAnswers = function(e){
+        if(buttonsOptions.confirmed || !buttonsOptions.answered)
+            return;
+        // e.preventDefault();
+        e.target.disabled = true;
+        enableDisableButtons(e.target.parentNode, true);
+
+        sendAcceptance(employeeId, pageId, acceptCallback, e.target);
+    };
+
+
     return (
       <>
         { loadingMessage.length > 0 &&
@@ -98,7 +129,7 @@ function EmployeeAnswers({ pageId, employeeId }){
         { buttonsOptions.display &&
             <div className="w-100 d-flex justify-content-end flex-wrap">
                 { buttonsOptions.answered &&
-                    <button type="button" className="btn btn-success mb-2 text-nowrap">Zaakceptuj</button>
+                    <button type="button" className="btn btn-success mb-2 text-nowrap" onClick={ acceptAnswers }>Zaakceptuj</button>
                 }
                 <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap">
                     { buttonsOptions.msg }
