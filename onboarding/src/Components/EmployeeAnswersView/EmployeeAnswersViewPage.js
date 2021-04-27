@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AnswersLegend from "./AnswersLegend";
 import EmployeeAnswers from "./EmployeeAnswers";
 import PageCard from "./PageCard";
+import ModalWarning from "../ModalWarning";
 import "../../static/css/EmployeeAnswersView.scss";
 
 const buttonBackStyle = {
@@ -19,7 +20,20 @@ const buttonBackStyle = {
 function EmployeeAnswersViewPage(props){
     document.title = "Onboarding: odpowiedzi pracownika";
     const [showLegend, setShowLegend] = useState(false);
+    const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
     const employeeId = props.employeeId;
+
+    const popUpConfirmationModal = (message) => {
+        let count = confirmationModal.id;
+        setIdModal({id: count,
+            modal: <ModalWarning handleAccept={ hideModal } title={ "Odpowiedzi pracownika" } message={ message } id={ count } show={ true } acceptText={ "Ok" } />
+        });
+    };
+
+    const hideModal = function(id){
+        setIdModal({id: id + 1, modal: <></>});
+    };
+
 
     return(
         <div>
@@ -47,7 +61,8 @@ function EmployeeAnswersViewPage(props){
                 </section>
             }
             <PageCard page={ props.page } />
-            <EmployeeAnswers pageId={ props.page.id } employeeId={ employeeId }/>
+            <EmployeeAnswers pageId={ props.page.id } employeeId={ employeeId } showMessage={ popUpConfirmationModal } />
+            { confirmationModal.modal }
         </div>
     )
 }
