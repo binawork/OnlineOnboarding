@@ -1,0 +1,78 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  width: 600px;
+  padding: 2.5rem 3.5rem;
+  box-sizing: border-box;
+  background: #ddd;
+}
+
+/* MAIN MESSAGE CONTENT */
+.main__company {
+  font-size: 1.5rem;
+}
+
+.main__footer {
+  text-align: center;
+}
+.main__footer .main__paragraph {
+  margin: 1rem 0;
+}
+.main__footer .main__paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.main__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.main__header > .main__paragraph {
+  margin-top: 0;
+}
+
+.main__message {
+  margin-bottom: 2rem;
+}
+
+.main__paragraph {
+  margin-bottom: 1.4rem;
+}
+
+.main__paragraph--bigger {
+  font-size: 1.5rem;
+}
+/* END MAIN MESSAGE CONTENT */
+
+.footer {
+  width: 600px;
+  /* height: 180px; */
+  padding: 2.5rem;
+  box-sizing: border-box;
+  background: url('./img/stopka.jpg') no-repeat;
+  color: #fff;
+  font-size: .8rem;
+  font-weight: 300;
+}
+
+.footer__link {
+  color: inherit;
+}
+
+.footer .footer__paragraph:first-child {
+  margin-top: 0;
+}
+.footer .footer__paragraph:last-child {
+  margin-bottom: 0;
+}
