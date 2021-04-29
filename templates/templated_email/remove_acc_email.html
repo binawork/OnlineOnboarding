@@ -1,44 +1,26 @@
-<html lang="pl-PL">
-<head>
-   <meta charset="UTF-8">
-
-    <body style=" size: A5;">
-        <div style="background-color: #0d5bdd; text-align: center; padding-top: 20px;
-        padding-bottom: 20px; border-top-left-radius: 10px; border-top-right-radius: 10px">
-            <h1 style="color: #343a40">
-                Kasacja konta w Online Onboarding
-            </h1>
-        </div>
-
-
-        <div style="background-color: #1aa3e8; padding-top: 10px; padding-bottom: 10px">
-            <div style="margin-left: 20px">
-                <h2>Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ username }}{% endif %},</h2>
-            </div>
-            <div style="margin-left: 20px; margin-right: 20px">
-
-                <p>
-                    Otrzymujesz tą wiadomośc ponieważ na twoim koncie została wykorzystana opcja kasacji konta,
-                    skasowaliśmy więc z naszej bazy danych twoje dane.
-                </p>
-
-            </div>
-        </div>
-
-        <div style="background-color: #0d5bdd; color: #161b1c; border-bottom-right-radius: 10px;
-        border-bottom-left-radius: 10px">
-            <div style="margin-left: 20px; padding-top: 15px">
-                Kontakt:
-            </div>
-            <div style="margin-left: 20px">
-                Email: kontakt<span>@onlineonboarding</span>.net
-            </div>
-            <div style="margin-left: 20px; padding-bottom: 15px">
-                Tel: +48 123-456-789
-            </div>
-
-        </div>
-
-    </body>
-
-</html>
+<header class="main__header">
+    <p class="main__paragraph">Kasacja konta w Online Onboarding</p>
+</header>
+<div class="main__message">
+    <p class="main__paragraph">
+        Witaj
+        {% if user.first_name and user.first_name|length %}
+            {{ user.first_name }}
+        {% else %}
+            {{ username }}
+        {% endif %},
+    </p>
+    <p class="main__paragraph">
+        Otrzymujesz tą wiadomość, ponieważ na twoim koncie została użyta opcja kasacji konta.
+        Twoje dane zostały usunięte z naszej bazy.
+    </p>
+</div>
+<footer class="main__footer">
+    <p class="main__paragraph main__paragraph--bigger">
+        <strong>
+            {% autoescape off %}
+                <a class="main__link" href="{{ protocol }}://{{ domain }}{% url 'account_activation_for_users_created_by_hr' uidb64=uid token=token %}">{{ domain }}{% url 'account_activation_for_users_created_by_hr' uidb64=uid token=token %}</a>
+            {% endautoescape %}
+        </strong>
+    </p>
+</footer>

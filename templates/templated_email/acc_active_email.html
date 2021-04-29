@@ -1,56 +1,37 @@
-<html lang="pl-PL">
-<head>
-   <meta charset="UTF-8">
-
-    <body style=" size: A5;">
-        <div style="background-color: #0d5bdd; text-align: center; padding-top: 20px;
-        padding-bottom: 20px; border-top-left-radius: 10px; border-top-right-radius: 10px">
-            <h1 style="color: #343a40">
-                Rejestracja w Online Onboarding
-            </h1>
-        </div>
-
-
-        <div style="background-color: #1aa3e8; padding-top: 10px; padding-bottom: 10px">
-            <div style="margin-left: 20px">
-                <h2>Witaj {% if user.first_name is defined and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},</h2>
-            </div>
-            <div style="margin-left: 20px; margin-right: 20px">
-
-                <p>
-                    Wysłaliśmy ten e-mail ponieważ został on użyty do zarejestrowania użytkownika
-                    {% if user.first_name and user.first_name|length %} {{ user.first_name }} ({{ user.email }}) {% else %}{{ user.email }}{% endif %}
-                    w aplikacji Online Onboarding, jeżeli mail został wykorzystany bez twojej
-                    wiedzy proszę go zignorować.
-
-                </p>
-                <h3>Aktywacja konta</h3>
-
-                <p>
-                    Żeby aktywować konto wystarczy kliknąć link aktywacyjny znajdujący się ponizej.
-                </p>
-                <p>
-                    {% autoescape off %}
-                        <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">{{ domain }}{% url 'activate' uidb64=uid token=token %}</a>
-                    {% endautoescape %}
-                </p>
-            </div>
-        </div>
-
-        <div style="background-color: #0d5bdd; color: #161b1c; border-bottom-right-radius: 10px;
-        border-bottom-left-radius: 10px">
-            <div style="margin-left: 20px; padding-top: 15px">
-                Kontakt:
-            </div>
-            <div style="margin-left: 20px">
-                Email: kontakt<span>@onlineonboarding</span>.net
-            </div>
-            <div style="margin-left: 20px; padding-bottom: 15px">
-                Tel: +48 123-456-789
-            </div>
-
-        </div>
-
-    </body>
-
-</html>
+<header class="main__header">
+    <p class="main__paragraph">Rejestracja w Online Onboarding</p>
+</header>
+<div class="main__message">
+    <p class="main__paragraph">
+      Witaj 
+        {% if user.first_name is defined and user.first_name|length %}
+            {{ user.first_name }}{% else %}{{ user.username }}
+        {% endif %},
+    </p>
+    <p class="main__paragraph">
+        Otrzymujesz tę wiadomość, ponieważ Twój e-mail został użyty do zarejestrowania użytkownika
+        {% if user.first_name and user.first_name|length %}
+            {{ user.first_name }} ({{ user.email }})
+        {% else %}
+            {{ user.email }}
+        {% endif %}
+        w aplikacji Online Onboarding.
+        Jeżeli e-mail został wykorzystany bez twojej wiedzy, proszę go zignorować.
+    </p>
+    <p class="main__paragraph"><b>Aktywacja konta</b></p>
+    <p class="main__paragraph">
+        Żeby aktywować konto wystarczy kliknąć link aktywacyjny znajdujący się ponizej.
+    </p>
+</div>
+<footer class="main__footer">
+    <p class="main__paragraph">Link:</p>
+    <p class="main__paragraph main__paragraph--bigger">
+      <strong>
+        {% autoescape off %}
+            <a class="main__link" href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">
+                {{ domain }}{% url 'activate' uidb64=uid token=token %}
+            </a>
+        {% endautoescape %}
+      </strong>
+    </p>
+</footer>
