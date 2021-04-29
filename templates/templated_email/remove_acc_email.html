@@ -15,12 +15,3 @@
         Twoje dane zostały usunięte z naszej bazy.
     </p>
 </div>
-<footer class="main__footer">
-    <p class="main__paragraph main__paragraph--bigger">
-        <strong>
-            {% autoescape off %}
-                <a class="main__link" href="{{ protocol }}://{{ domain }}{% url 'account_activation_for_users_created_by_hr' uidb64=uid token=token %}">{{ domain }}{% url 'account_activation_for_users_created_by_hr' uidb64=uid token=token %}</a>
-            {% endautoescape %}
-        </strong>
-    </p>
-</footer>
