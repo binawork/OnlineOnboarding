@@ -42,6 +42,10 @@ body {
   margin-top: 0;
 }
 
+.main__link {
+  color: inherit;
+}
+
 .main__message {
   margin-bottom: 2rem;
 }

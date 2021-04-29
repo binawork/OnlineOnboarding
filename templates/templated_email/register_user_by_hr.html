@@ -1,0 +1,20 @@
+<header class="main__header">
+  <p class="main__paragraph">Aktywacja konta w OnboardingOnline</p>
+</header>
+<div class="main__message">
+  <p class="main__paragraph">
+    Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
+  </p>
+  <p class="main__paragraph">
+    Aby aktywować konto skorzystaj z podanego poniżej linku.
+  </p>
+</div>
+<footer class="main__footer">
+  <p class="main__paragraph main__paragraph--bigger">
+    <strong>
+      {% autoescape off %}
+        <a class="main__link" href="{{ protocol }}://{{ domain }}{% url 'account_activation_for_users_created_by_hr' uidb64=uid token=token %}">{{ domain }}{% url 'account_activation_for_users_created_by_hr' uidb64=uid token=token %}</a>
+      {% endautoescape %}
+    </strong>
+  </p>
+</footer>
