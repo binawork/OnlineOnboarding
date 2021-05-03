@@ -1,3 +1,5 @@
+{% extends "templated_email/main_email_template.html" %}
+{% block content %}
 <header class="main__header">
   <p class="main__paragraph">Dodano Cię do onboardingu firmy:</p>
   <h1 class="main__company">{{ company }}</h1>
@@ -28,3 +30,4 @@
     </strong>
   </p>
 </footer>
+{% endblock %}
