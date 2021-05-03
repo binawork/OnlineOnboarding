@@ -1,3 +1,5 @@
+{% extends "templated_email/main_email_template.html" %}
+{% block content %}
 <header class="main__header">
     <p class="main__paragraph">Dodanie nowego użytkownika</p>
 </header>
@@ -6,6 +8,7 @@
         Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
     </p>
     <p class="main__paragraph">
-        Dodanie nowego użytkownika do formularza {{ package }} przebiegło pomyślnie.
+        Dodanie nowego użytkownika do formularza "{{ package }}" przebiegło pomyślnie.
     </p>
 </div>
+{% endblock %}
