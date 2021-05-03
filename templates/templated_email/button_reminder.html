@@ -3,12 +3,7 @@
 </header>
 <div class="main__message">
   <p class="main__paragraph">
-    Witaj
-    {% if user.first_name and user.first_name|length %}
-      {{ user.first_name }}
-    {% else %}
-      {{ user.username }}
-    {% endif %},
+    Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
   </p>
   <p class="main__paragraph">
     Otrzymujesz tę wiadomość, ponieważ najwyraźniej ociągasz się z zapoznawaniem się z {{ package.title }}.
@@ -19,7 +14,7 @@
   <p class="main__paragraph main__paragraph--bigger">
     <strong>
       {% autoescape off %}
-        <a class="main__link" href="http://{{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}">
+        <a href="http://{{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}">
           {{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}
         </a>
       {% endautoescape %}

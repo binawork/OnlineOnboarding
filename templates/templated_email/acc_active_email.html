@@ -3,10 +3,7 @@
 </header>
 <div class="main__message">
     <p class="main__paragraph">
-      Witaj 
-        {% if user.first_name is defined and user.first_name|length %}
-            {{ user.first_name }}{% else %}{{ user.username }}
-        {% endif %},
+      Witaj {% if user.first_name is defined and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
     </p>
     <p class="main__paragraph">
         Otrzymujesz tę wiadomość, ponieważ Twój e-mail został użyty do zarejestrowania użytkownika
@@ -28,7 +25,7 @@
     <p class="main__paragraph main__paragraph--bigger">
       <strong>
         {% autoescape off %}
-            <a class="main__link" href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">
+            <a href="https://{{ domain }}{% url 'activate' uidb64=uid token=token %}">
                 {{ domain }}{% url 'activate' uidb64=uid token=token %}
             </a>
         {% endautoescape %}

@@ -3,12 +3,7 @@
 </header>
 <div class="main__message">
     <p class="main__paragraph">
-        Witaj
-        {% if user.first_name and user.first_name|length %}
-            {{ user.first_name }}
-        {% else %}
-            {{ username }}
-        {% endif %},
+        Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ username }}{% endif %},
     </p>
     <p class="main__paragraph">
         Otrzymujesz tą wiadomość, ponieważ na twoim koncie została użyta opcja kasacji konta.
