@@ -22,7 +22,9 @@
   <p class="main__paragraph">Link:</p>
   <p class="main__paragraph main__paragraph--bigger">
     <strong>
-      {{ domain }}
+      {% autoescape off %}
+        <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">{{ domain }}{% url 'activate' uidb64=uid token=token %}</a>
+      {% endautoescape %}
     </strong>
   </p>
 </footer>
