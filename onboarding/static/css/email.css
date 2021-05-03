@@ -64,7 +64,7 @@ body {
   /* height: 180px; */
   padding: 2.5rem;
   box-sizing: border-box;
-  background: url('./img/stopka.jpg') no-repeat;
+  background: url('../images/stopka.jpg') no-repeat;
   color: #fff;
   font-size: .8rem;
   font-weight: 300;
