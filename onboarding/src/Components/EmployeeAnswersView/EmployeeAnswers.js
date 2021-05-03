@@ -88,7 +88,7 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
 
 
     const enableDisableButtons = (parentElement, doDisable) => {
-        let i, buttons = parentElement.getElementsByTagName("button");
+        let i, buttons = parentElement.getElementsByClassName("js-hide-button");
         for(i = buttons.length - 1; i >= 0; i--)
             buttons[i].disabled = doDisable;
     };
@@ -129,9 +129,9 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
         { buttonsOptions.display &&
             <div className="w-100 d-flex justify-content-end flex-wrap">
                 { buttonsOptions.answered &&
-                    <button type="button" className="btn btn-success mb-2 text-nowrap" onClick={ acceptAnswers }>Zaakceptuj</button>
+                    <button type="button" className="btn btn-success mb-2 text-nowrap js-hide-button" onClick={ acceptAnswers }>Zaakceptuj</button>
                 }
-                {/*<button type="button" className="btn btn-success ml-3 mb-2 text-nowrap">
+                {/*<button type="button" className="btn btn-success ml-3 mb-2 text-nowrap js-hide-button">
                     { buttonsOptions.msg }
                 </button>*/}
             </div>
