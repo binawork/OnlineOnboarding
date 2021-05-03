@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300;1,400;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="email.css">
+  <link rel="stylesheet" href="{% static 'css/email.css' %}">
 </head>
 <body>
   <header class="header">
-    <img class="header__bar" src="./img/belka_top_logo.jpg" alt="">
-    <img class="header__image" src="./img/kadr_600_230_rece.jpg" alt="Logo OnlineOnboarding">
+    <img class="header__bar" src="{% static 'images/belka_top_logo.jpg' %}" alt="">
+    <img class="header__image" src="{% static 'images/kadr_600_230_rece.jpg' %}" alt="Logo OnlineOnboarding">
   </header>
   <main class="main">
     {% block content %}{% endblock %}
