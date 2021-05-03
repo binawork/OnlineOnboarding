@@ -16,9 +16,13 @@
   </p>
 </div>
 <footer class="main__footer">
-    <p class="main__paragraph">Twoje aktualne hasło to:</p>
-    <p class="main__paragraph main__paragraph--bigger"><strong>{{ password }}</strong></p>
     <p class="main__paragraph"><i>Zmień je zaraz po pierwszym logowaniu</i></p>
     <p class="main__paragraph">Link:</p>
-    <p class="main__paragraph main__paragraph--bigger"><strong>{{ domain }}</strong></p>
+    <p class="main__paragraph main__paragraph--bigger">
+      <strong>{% autoescape off %}
+        <a href="https://{{ domain }}{% url 'activate' uidb64=uid token=token %}">
+            {{ domain }}{% url 'activate' uidb64=uid token=token %}
+        </a>
+      {% endautoescape %}</strong>
+    </p>
 </footer>
