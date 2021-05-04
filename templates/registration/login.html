@@ -83,9 +83,7 @@
         </div>
         -->
         <div class="text-center pt-3">
-          {% if form.errors %}
-            W celu przypomnienia hasła kliknij:<br />
-          {% endif %}
+          {% if form.errors %} W celu przypomnienia hasła kliknij:<br /> {% endif %}
           <!-- <a href="auth-recovery-username.html" class="link">Forgot Username?</a> <span class="mx-2">·</span>  -->
           <a href="{% url 'password_reset' %}" class="link">Zapomniałeś hasła?<!--Forgot Password?--></a>
         </div>
