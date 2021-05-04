@@ -54,8 +54,8 @@
       <form class="auth-form" method="POST" action="{% url 'login' %}">
         <div class="form-group">
           <div class="form-label-group">
-            <input type="text" id="{{ form.username.id_for_label }}" class="form-control"
-                   placeholder="Email:" name="{{ form.username.html_name }}" autofocus="" {% if form.username.value %}value="{{ form.username.value }}"{% endif %} />
+            <input type="text" id="{{ form.username.id_for_label }}" class="form-control" placeholder="Email:"
+                   name="{{ form.username.html_name }}" autofocus="" {% if form.username.value %}value="{{ form.username.value }}"{% endif %} />
             <label for="{{ form.username.id_for_label }}">Email:</label>
           </div>
         </div>
