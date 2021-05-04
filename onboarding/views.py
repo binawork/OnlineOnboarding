@@ -182,10 +182,12 @@ def manager_view(request):
     :param request: need information this user is hr?
     :return: template for hr and for employee
     """
-    if request.user.is_hr:  # for hr
-        return render(request, 'react/hr.html')
-    if not request.user.is_hr:  # for employee
-        return render(request, 'react/employee.html')
+    context = {'is_hr': request.user.is_hr}
+    return render(request, 'react/manage.html', context)
+    # if request.user.is_hr:  # for hr
+    #     return render(request, 'react/hr.html')
+    # if not request.user.is_hr:  # for employee
+    #     return render(request, 'react/employee.html')
 
 
 # REST
