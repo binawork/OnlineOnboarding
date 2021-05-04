@@ -1,0 +1,28 @@
+<header class="main__header">
+    <p class="main__paragraph">Dodano Cię do onboardingu firmy:</p>
+    <h1 class="main__company">{{ company }}</h1>
+</header>
+<div class="main__message">
+  <p class="main__paragraph">Witaj {{ full_name }}</p>
+  <p class="main__paragraph">
+    Otrzymujesz tę wiadomość, ponieważ zostało utworzone Twoje konto
+    w domenie firmy {{ company }} i jesteś zaproszony(a) do procesu
+    onboardingu.
+  </p>
+  <p class="main__paragraph"><b>Aktywacja konta</b></p>
+  <p class="main__paragraph">
+    Aby kontynuować i aktywować konto wystarczy kliknąć w link aktywacyjny
+    znajdujący się poniżej.
+  </p>
+</div>
+<footer class="main__footer">
+    <!-- <p class="main__paragraph"><i>Zmień je zaraz po pierwszym logowaniu</i></p> -->
+    <p class="main__paragraph">Link:</p>
+    <p class="main__paragraph main__paragraph--bigger">
+      <strong>{% autoescape off %}
+        <a href="https://{{ domain }}{% url 'activate' uidb64=uid token=token %}">
+            {{ domain }}{% url 'activate' uidb64=uid token=token %}
+        </a>
+      {% endautoescape %}</strong>
+    </p>
+</footer>
