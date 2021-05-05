@@ -441,7 +441,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 				return ;
 			}
 
-			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true;
+			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true, areConfirmed = true;
 			result.answers = sections.map(function(section){
 				let answer = {data: []};
 				if(typeof section.answers === 'undefined' || section.answers === null)
@@ -464,6 +464,9 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 					}
 					if(typeof section.answers[i].finished !== 'undefined')
 						areFinished &= section.answers[i].finished;
+
+					if(typeof section.answers[i].confirmed !== 'undefined')
+						areConfirmed &= section.answers[i].confirmed;
 				}
 
 				try {
@@ -474,7 +477,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 			});
 
 			result.answers_cp = JSON.parse(JSON.stringify(result.answers));
-			setSectionsAnswers(result, areSaved, areFinished/*, todo: maybe use confirmed field later; */);
+			setSectionsAnswers(result, areSaved, areFinished, areConfirmed);
 		} else if(xhr.readyState==4){
 			errorMessageFunction("Nie udało się zdobyć danych!");
 		}
@@ -611,6 +614,42 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 					handleMessage(msg);
 				});
 		}
+}
+
+/**
+ * Requests server to accept all answers send by employee with id = employeeId for questions of form/page with id = pageId;
+ * @param employeeId: an id of employee whose answers are to be accepted;
+ * @param pageId: id of the form/page the answers belongs to;
+ * @param acceptCallback: callback function with arguments
+ *        message - string of message to be displayed,
+ *        isError - boolean if error occurred or not,
+ *        elementTarget - DOM of button to be unblock and all its button siblings when error occurred (optional);
+ * @param button: DOM object of button to be unblock when the answer is not ok (optional);
+ */
+export function sendAcceptance(employeeId, pageId, acceptCallback, button){
+	let data, token = getCookie("csrftoken"), path = getPath(),
+		fetchProps = {method:"PATCH", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	data = {user: employeeId};
+	fetchProps.body = JSON.stringify(data);
+
+	path += "api/answer/" + pageId + "/confirm/";
+	fetch(path, fetchProps)
+		.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd podczas akceptacji!");
+				}
+				return (res.status !== 204) ? res.json() : res;// 204: HTTP_204_NO_CONTENT;
+		}).then(
+			(result) => {
+				acceptCallback("Pracownik skończył to wdrożenie.", false);
+			},
+			(error) => {
+				acceptCallback("Wystąpił błąd podczas akceptacji!", true, button);
+			}
+		).catch(function(err){
+			acceptCallback(err.message, true, button);
+		});
 }
 
 /**
