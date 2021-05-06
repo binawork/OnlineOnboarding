@@ -55,7 +55,7 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                     onClick={ handleHideAside }
                   >
                       <span className="menu-icon fas fa-home"></span>{" "}
-                      <span className="menu-text">Dashboard</span>
+                      <span className="menu-text">Wdrożenia</span>
                   </NavLink>
                 </li>
 
@@ -69,7 +69,7 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                     onClick={ handleHideAside }
                   >
                     <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text"> Wdrożenia</span>
+                    <span className="menu-text">Utwórz wdrożenie</span>
                   </NavLink>
                   { showFolders && packagesList &&  (
                     <ul className="LeftMenu__sublist menu">
