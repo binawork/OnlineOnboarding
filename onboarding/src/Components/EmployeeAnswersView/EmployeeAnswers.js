@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import parse from "html-react-parser";
-import { getEmployeesSectionsAndAnswers, sendAcceptance } from "../hooks/EmployeeForms";
+import { getEmployeesSectionsAndAnswers, sendAcceptance, sendRetry } from "../hooks/EmployeeForms";
 import OpenAnswer from "./OpenAnswer";
 import SectionAnswers from "./SectionAnswers";
 //import PropTypes from "prop-types";
@@ -66,12 +66,13 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
 
         setView(newSectionsView);
 
+        count = (hrConfirmed && areSaved);
         if(!areAnswered){
             setMessage("Pracownik jeszcze nie odpowiedział na pytania");
-            setButtons({display: newSectionsView.length > 0 && !hrConfirmed, answered: false, confirmed: hrConfirmed, msg: "Wyślij przypomnienie"});
+            setButtons({display: newSectionsView.length > 0 && !count, answered: false, confirmed: count, msg: "Wyślij przypomnienie"});
         } else {
             setMessage("");
-            setButtons({display: newSectionsView.length > 0 && !hrConfirmed, answered: true, confirmed: hrConfirmed, msg: "Wyślij ponownie"});
+            setButtons({display: newSectionsView.length > 0 && !count, answered: true, confirmed: count, msg: "Wyślij ponownie"});
         }
     };
 
@@ -117,6 +118,27 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
         sendAcceptance(employeeId, pageId, acceptCallback, e.target);
     };
 
+    const retryCallback = (message, isError, elementTarget) => {
+
+        if(isError){
+            if(elementTarget) elementTarget.disabled = false;// setTimeout()?
+        }/* else {
+
+        }*/
+
+        showMessage(message);
+    };
+
+    const resendAnswers = (e) => {
+        e.preventDefault();
+        if(buttonsOptions.confirmed)
+            return;
+        e.target.disabled = true;
+        enableDisableButtons(e.target.parentNode, true);
+
+        sendRetry(employeeId, pageId, retryCallback, e.target);
+    };
+
 
     return (
       <>
@@ -131,9 +153,11 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
                 { buttonsOptions.answered &&
                     <button type="button" className="btn btn-success mb-2 text-nowrap js-hide-button" onClick={ acceptAnswers }>Zaakceptuj</button>
                 }
-                {/*<button type="button" className="btn btn-success ml-3 mb-2 text-nowrap js-hide-button">
-                    { buttonsOptions.msg }
-                </button>*/}
+                { !buttonsOptions.confirmed &&
+                    <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap js-hide-button" onClick={ resendAnswers }>
+                        { buttonsOptions.msg }
+                    </button>
+                }
             </div>
         }
       </>
