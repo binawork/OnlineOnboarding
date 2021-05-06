@@ -197,7 +197,7 @@ function revertProgressAnswers(progressAnswers){
 
 		pageId = answer.section.page;
 		if( !progress[packageId].pages.hasOwnProperty(pageId) )
-			progress[packageId].pages[pageId] = {finished: true, date: finishDate, title: "", answers: {}};
+			progress[packageId].pages[pageId] = {finished: true, confirmed: true, date: finishDate, title: "", answers: {}};
 		else if(finishDate > progress[packageId].pages[pageId].date){
 			progress[packageId].pages[pageId].date = finishDate;
 		}
@@ -219,8 +219,10 @@ function revertProgressAnswers(progressAnswers){
 			progress[packageId].pages[pageId].finished &= data.finished;
 		}
 
-		if( answer.hasOwnProperty("confirmed") )
-			data.confirmed = answer.confirmed;
+		if( answer.hasOwnProperty("confirmed") ){
+			data.confirmed = answer.confirmed === 'true' || answer.confirmed === true;
+			progress[packageId].pages[pageId].confirmed &= data.confirmed;
+		}
 		/*if( answer.hasOwnProperty("data") )
 			data.data = answer.data;*/
 
