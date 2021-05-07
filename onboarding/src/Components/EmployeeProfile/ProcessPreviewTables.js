@@ -6,6 +6,22 @@ import EmployeeAnswersViewPage from "../EmployeeAnswersView/EmployeeAnswersViewP
 import { getProgress, datesOfSendingPackages, withholdPackageFromEmployee } from "../hooks/EmployeeForms";
 
 
+/**
+ * Shows tables of packages sent and available to send to employee.
+ * @param props: React argument of component with properties like
+ *        employeeId - an id of employee;
+ *        groupedPackages - object with tables of packages sent and available to be send, this object was received as answer from "api/package_pages/";
+ *        isLoading - boolean to make the component of packages enabled to be send to display loading message;
+ *        isError - boolean to make child components to display error message;
+ *        count - number to update the state of component;
+ *        setCount - setter to update component;
+ *        answersPage - setter to set a page in a state of main component. When it is set then answers of page are displayed;
+ *        setAnswersPage - setter to change the page;
+ *        updateSentAndFinished - callback function to update numbers of sent and finished packages in an object of user/employee;
+ *        goBackToMainProfilePage - callback function to set page in a state to null and to go back to see all tables;
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function ProcessPreviewTables(props) {
     const [loading, setLoading] = useState(true);
     const [sentPackages, setSentPackages] = useState([]);

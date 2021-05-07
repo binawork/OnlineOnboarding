@@ -182,10 +182,12 @@ def manager_view(request):
     :param request: need information this user is hr?
     :return: template for hr and for employee
     """
-    if request.user.is_hr:  # for hr
-        return render(request, 'react/hr.html')
-    if not request.user.is_hr:  # for employee
-        return render(request, 'react/employee.html')
+    context = {'is_hr': request.user.is_hr}
+    return render(request, 'react/manage.html', context)
+    # if request.user.is_hr:  # for hr
+    #     return render(request, 'react/hr.html')
+    # if not request.user.is_hr:  # for employee
+    #     return render(request, 'react/employee.html')
 
 
 # REST
@@ -774,13 +776,37 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=AnswersProgressStatusSerializer)
+    def confirm(self, request, pk):
+        """
+        :param request:
+        :param pk: id of page for answers which have to be confirmed
+        :return:
+        """
+        # if not request.user.is_hr:
+        #     return Response(status=status.HTTP_403_FORBIDDEN)
+
+        user_id = request.data.get('user', None)
+        if user_id is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        answers = Answer.objects.filter(section__page_id=pk,
+                                         owner_id=user_id)
+        if answers.count() < 1:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        answers.update(confirmed=True)
+
+        serializer = AnswersProgressStatusSerializer(answers, many=True)
+        return Response(serializer.data)
+
 
 class UserProgressOnPageView(generics.ListAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswersProgressStatusSerializer
 
     def get(self, request, *args, **kwargs):
-        employee_id = kwargs.get('employe_id')
+        employee_id = kwargs.get('employee_id')
         page_id = kwargs.get('page_id')
 
         queryset = Answer.objects.filter(section__page_id=page_id,
@@ -795,7 +821,7 @@ class UserProgressOnPackageView(generics.ListAPIView):
     serializer_class = AnswersProgressStatusSerializer
 
     def get(self, request, *args, **kwargs):
-        employee_id = kwargs.get('employe_id')
+        employee_id = kwargs.get('employee_id')
         package_id = kwargs.get('package_id')
 
         queryset = Answer.objects.filter(
@@ -811,7 +837,7 @@ class WhenPackageSendToEmployeeView(generics.ListAPIView):
     serializer_class = WhenPackageSendToEmployeeSerializer
 
     def get(self, request, *args, **kwargs):
-        employee_id = kwargs.get('employe_id')
+        employee_id = kwargs.get('employee_id')
         package_id = kwargs.get('package_id', None)
 
         if package_id is not None:
