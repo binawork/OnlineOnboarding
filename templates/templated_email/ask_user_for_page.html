@@ -1,14 +1,14 @@
 {% extends "templated_email/main_email_template.html" %}
 {% block content %}
 <header class="main__header">
-    <p class="main__paragraph">Prośba o ponowne wypełnienie</p>
+    <p class="main__paragraph">Prośba o ponowne wypełnienie{% if title and title|length %} "{{ title }}"{% endif %}</p>
 </header>
 <div class="main__message">
   <p class="main__paragraph">
     Drogi/-a {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
   </p>
   <p class="main__paragraph">
-    Otrzymała/em Twoje odpowiedzi{% if title and title|length %}na "{{ title }}"{% endif %}.
+    Otrzymałem/-am Twoje odpowiedzi{% if title and title|length %} na "{{ title }}"{% endif %}.
     Jednakże niektóre z nich są nieprawidłowe. Proszę Ciebie o zajrzenie do materiałów jeszcze raz
     i ponowne wypełnienie formularza{% if title and title|length %} "{{ title }}"{% endif %}.
 
