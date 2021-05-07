@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { validEmail } from "../../utils";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import "../../../static/css/EmployeeProfile.scss";
 
 function EmployeeProfile(props) {
-    let userCp = {id: 0, first_name: "", last_name: "", email: "", phone_number: "", team: "-", location: "-", job_position: "-"};
-    if(props.loggedUser)
-        userCp = {...props.loggedUser};
-    const [user, setUser] = useState(userCp);
+    const [user, setUser] = useState({
+        id: 0,
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_number: "",
+        team: "-",
+        location: "-",
+        job_position: "-"
+    });
+
+    useEffect(() => {
+        setUser(props.loggedUser);
+    },[props.loggedUser]);
 
     const handleChangeName = e => {
         setUser({...user, first_name: e.target.value});
@@ -29,36 +42,51 @@ function EmployeeProfile(props) {
             props.showMessage("Format e-mail'a jest nieprawidłowy");
     };
 
-    const handleGoToPackages = (e) => {
-        e.preventDefault();
-        props.loadFormList();
-    }
-
     return (
       <div className="card-body">
         <form>
-            <div className="form-group">
-                <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Imie" value={ user.first_name } onChange={ handleChangeName } />
-                </div>
+            <div className="form-label-group mb-2">
+                <input
+                    id="first-name"
+                    type="text"
+                    className="form-control"
+                    placeholder="Imię"
+                    value={ user.first_name }
+                    onChange={ handleChangeName } />
+                <label htmlFor="first-name">Imię</label>
             </div>
-            <div className="form-group">
-                <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Nazwisko" value={ user.last_name } onChange={ handleChangeLName } />
-                </div>
+            <div className="form-label-group mb-2">
+                <input
+                    id="last-name"
+                    type="text"
+                    className="form-control"
+                    placeholder="Nazwisko"
+                    value={ user.last_name }
+                    onChange={ handleChangeLName } />
+                <label htmlFor="last-name">Nazwisko</label>
             </div>
             <hr />
-            <div className="form-group">
-                <div className="input-group">
-                    <input type="email" className="form-control" placeholder="e-mail" value={ user.email } onChange={ handleEmail } />
-                </div>
+            <div className="form-label-group mb-2">
+                <input
+                    id="email"
+                    type="email"
+                    className="form-control"
+                    placeholder="e-mail"
+                    value={ user.email }
+                    onChange={ handleEmail } />
+                <label htmlFor="email">E-mail</label>
             </div>
-            <div className="form-group">
-                <div className="input-group">
-                    <input type="tel" className="form-control" placeholder="telefon" value={ user.phone_number } onChange={ handleTel } />
-                </div>
+            <div className="form-label-group mb-2">
+                <input
+                    id="telephone"
+                    type="tel"
+                    className="form-control"
+                    placeholder="telefon"
+                    value={ user.phone_number }
+                    onChange={ handleTel } />
+                <label htmlFor="telephone">Telefon</label>
             </div>
-            <div className="form-group">
+            <div className="form-group mt-3">
                 <div>
                     Dział: { user.team /*department*/}
                 </div>
@@ -74,15 +102,27 @@ function EmployeeProfile(props) {
                 </div>
             </div>
             <div className="form-group">
-                <div className="input-group-append">
-                    <button className="btn btn-secondary mr-2" onClick={ handleSave }>Zapisz zmiany</button>
-                    <button className="btn btn-success" onClick={ handleGoToPackages }>Wdrożenia</button>
+                <div className="Employee-Profile__buttons input-group-append justify-content-end">
+                    <button
+                        className="Employee-Profile__button--save btn btn-secondary mr-2 text-nowrap"
+                        onClick={ handleSave }>
+                        Zapisz zmiany
+                    </button>
+                    <Link to="/" className="Employee-Profile__button--forms btn btn-success d-flex align0items-center">
+                        Wdrożenia
+                    </Link>
                 </div>
             </div>
         </form>
       </div>
     );
 }
+
+EmployeeProfile.propTypes = {
+    loggedUser: PropTypes.object.isRequired,
+    handleEdit: PropTypes.func.isRequired,
+    showMessage: PropTypes.func,
+};
 
 export default EmployeeProfile;
 

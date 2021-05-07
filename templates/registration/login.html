@@ -2,11 +2,9 @@
 <html lang="en">
 {% load static %}
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
-    <!-- Begin SEO tag -->
-    <title> Sign In | Onboarding </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Logowanie | Onboarding</title>
     <meta property="og:title" content="Sign In">
     <meta property="og:locale" content="en_US">
     <meta name="description" content="Onboarding sign-in page">
@@ -38,7 +36,6 @@
     <!--[if lt IE 10]>
     <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
     <![endif]-->
-    <!-- .auth -->
     <main class="auth">
       <header id="auth-header" class="auth-header" style="background-image: url({% static 'bootstrap/images/illustration/img-1.png' %});">
         <h1>
@@ -48,54 +45,60 @@
             <g fill="none" fill-rule="evenodd">
               <use class="fill-warning" xlink:href="#a"></use>
             </g>
-          </svg> <span class="sr-only">Sign In</span>
+          </svg> <span class="sr-only">Zaloguj się</span>
         </h1>
-        <p> Don't have a account? <a href="{% url 'signup' %}?next={{ next }}">Create One</a>
+        <p>Nie masz konta? <a href="{% url 'signup' %}?next={{ next }}">Zarejestruj się</a>
+        <!-- <p> Don't have a account? <a href="{% url 'signup' %}?next={{ next }}">Create One</a> -->
         </p>
-      </header><!-- form -->
+      </header>
       <form class="auth-form" method="POST" action="{% url 'login' %}">
-        <!-- .form-group -->
         <div class="form-group">
           <div class="form-label-group">
-            <input type="text" id="{{ form.username.id_for_label }}" class="form-control" placeholder="Username" name="{{ form.username.html_name }}" autofocus="" />
-            <label for="{{ form.username.id_for_label }}">{{ form.username.label_tag }}</label>
+            <input type="text" id="{{ form.username.id_for_label }}" class="form-control" placeholder="Email:"
+                   name="{{ form.username.html_name }}" autofocus="" {% if form.username.value %}value="{{ form.username.value }}"{% endif %} />
+            <label for="{{ form.username.id_for_label }}">Email:</label>
           </div>
-        </div><!-- /.form-group -->
-        <!-- .form-group -->
+        </div>
         <div class="form-group">
           <div class="form-label-group">
-            <input type="password" id="{{ form.password.id_for_label }}" class="form-control" name="{{ form.password.html_name }}" placeholder="Password" />
-            <label for="{{ form.password.id_for_label }}">{{ form.password.label_tag }}</label>
+            <input type="password" id="{{ form.password.id_for_label }}" class="form-control" name="{{ form.password.html_name }}" placeholder="Hasło:" />
+            <label for="{{ form.password.id_for_label }}">Hasło:</label>
           </div>
-        </div><!-- /.form-group -->
-        <!-- .form-group -->
+        </div>
+        {% if form.errors %}
         <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
-        </div><!-- /.form-group -->
-        <!-- .form-group - - >
+          <div class="form-label-group">
+            Hasło lub login są nieprawidłowe.{# {{ form.errors }} #}
+          </div>
+        </div>
+        {% endif %}
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj</button>
+        </div>
+        <!-- 
         <div class="form-group text-center">
           <div class="custom-control custom-control-inline custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="remember-me"> <label class="custom-control-label" for="remember-me">Keep me sign in</label>
           </div>
-        </div>< ! - - /.form-group -->
-        <!-- recovery links -->
+        </div>
+        -->
         <div class="text-center pt-3">
-          <a href="auth-recovery-username.html" class="link">Forgot Username?</a> <span class="mx-2">·</span> <a href="{% url 'password_reset' %}" class="link">Forgot Password?</a>
-        </div><!-- /recovery links -->
+          {% if form.errors %} W celu przypomnienia hasła kliknij:<br /> {% endif %}
+          <!-- <a href="auth-recovery-username.html" class="link">Forgot Username?</a> <span class="mx-2">·</span>  -->
+          <a href="{% url 'password_reset' %}" class="link">Zapomniałeś hasła?<!--Forgot Password?--></a>
+        </div>
         {% csrf_token %}
         {% if next %}
 			<input type="hidden" name="next" value="{{ next }}" />
         {% endif %}
-      </form><!-- /.auth-form -->
+      </form>
       <!-- copyright -->
-      <footer class="auth-footer"> &copy; {% now "Y" %} All Rights Reserved. <a href="#">Privacy</a> and <a href="#">Terms</a>
+      <footer class="auth-footer"> &copy; {% now "Y" %} All Rights Reserved. <!-- <a href="#">Privacy</a> and <a href="#">Terms</a> -->
       </footer>
-    </main><!-- /.auth -->
-    <!-- BEGIN BASE JS -->
+    </main>
     <script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/bootstrap/js/popper.min.js' %}"></script>
-    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script> <!-- END BASE JS -->
-    <!-- BEGIN PLUGINS JS -->
+    <script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'bootstrap/vendor/particles.js/particles.min.js' %}"></script>
     <script>
       /**
@@ -105,10 +108,9 @@
       $(document).on('theme:init', () =>
       {
         /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
-        particlesJS.load('auth-header', '{% static 'bootstrap/javascript/pages/particles.json' %}');
+        particlesJS.load('auth-header', "{% static 'bootstrap/javascript/pages/particles.json' %}");
       })
-    </script> <!-- END PLUGINS JS -->
-    <!-- BEGIN THEME JS -->
-    <script src="{% static 'bootstrap/javascript/theme.js' %}"></script> <!-- END THEME JS -->
+    </script>
+    <script src="{% static 'bootstrap/javascript/theme.js' %}"></script>
   </body>
 </html>

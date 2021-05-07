@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import PageAddressBar from "../PageAddressBar";
 import Employee from "./Employee";
 import ProgressStats, { joinProgressToUsers } from "../hooks/ProgressStats";
+import "../../static/css/Dashboard.scss";
 
 function DashboardPage({ loggedUserId }) {
   const [isEmployee, setIsEmployee] = useState(false);
@@ -28,37 +29,25 @@ function DashboardPage({ loggedUserId }) {
     },
   };
 
-  const sessionEmployees = JSON.parse(sessionStorage.getItem('employees'));
-
   useEffect(() => {
-    if(sessionEmployees) {
-      sessionEmployees.map(employee => {
-        employee.avatar = validateURL(employee.avatar, "/onboarding/static/images/unknown-profile.jpg");
-      })
-      setEmployees(sessionEmployees);
-      setIsLoaded(true);
-      sessionEmployees?.length > 0 
-        ? setIsEmployee(true)
-        : setIsEmployee(false);
-    } else {
-      loggedUserId !== 0 && fetch(url + "api/users/", fetchProps)
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            if (result === []) {
-              setIsEmployee(false);
-            } else {
-              setIsEmployee(true);
-              setEmployees(result.filter(user => user.id !== loggedUserId).sort((a,b) => a.id - b.id));
-              sessionStorage.setItem('employees', JSON.stringify(result.filter(user => user.id !== loggedUserId)));
-            }
-
-            setIsLoaded(true);
-          },
-          (error) => {
-            console.error(error);
+    loggedUserId !== 0 && fetch(url + "api/users/", fetchProps)
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          if (result === []) {
+            setIsEmployee(false);
+          } else {
+            setIsEmployee(true);
+            setEmployees(result.filter(user => user.id !== loggedUserId).sort((a,b) => a.id - b.id));
+            sessionStorage.setItem('employees', JSON.stringify(result.filter(user => user.id !== loggedUserId)));
           }
-    )}
+
+          setIsLoaded(true);
+        },
+        (error) => {
+          console.error(error);
+        }
+      )
   }, [loggedUserId]);
 
   document.title= "Onboarding: pulpit";

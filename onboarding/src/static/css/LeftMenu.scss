@@ -1,4 +1,17 @@
 .LeftMenu {
+  top: 56px!important;
+  max-width: 280px!important;
+  width: 100%!important;
+  &__link {
+    padding: 8px 1rem!important;
+    font-size: 1rem!important;
+    &--main {
+      padding-left: 0!important;
+    }
+  }
+  &__list {
+    list-style: none;
+  }
   &__overflow {
     scrollbar-width: thin;
     scrollbar-color: var(--secondary) var(--light);
@@ -6,14 +19,38 @@
       width: 10px;
       &-track {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         border-radius: 10px;
         background-color: none;
       }
       &-thumb {
         border-radius: 10px;
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        box-shadow: inset 0 0 6px rgba(0,0,0,.3);
         background-color: var(--secondary);
       }
     }
+  }
+  &__pseudo-wrapper {
+    width: 100%;
+    z-index: 1;
+    background: var(--light);
+    &::before {
+      content: '';
+      position:absolute;
+      z-index: -1;
+      width: 200vw;
+      height: 100vh;
+      background: rgba(0,0,0,.55);
+    }
+  }
+  &__sublist {
+    padding-left: 2rem!important;
+  }
+  &__wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }

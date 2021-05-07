@@ -12,10 +12,10 @@
       -moz-appearance: none;
       -o-appearance: none;
       appearance: none;
-      border: 1px solid #FFF;
+      border: 1px solid var(--dark);
       border-radius: 4px;
       outline: none;
-      background-color: #34495E;
+      background-color: var(--light);
       cursor: pointer;
     }
     & > .EmployeeAnswersView__input--radio {
@@ -41,6 +41,9 @@
   &__li {
     list-style: none;
   }
+  &__section-desc a {
+    background-color: var(--light)!important;
+  }
 }
 
 /* AnswersLegend */
@@ -50,8 +53,8 @@
     position: fixed;
     /* Height of navbar: 56px */
     top: 56px;
-    /* Width of left menu: 239px */
-    left: 239px;
+    /* Width of left menu: 279px */
+    left: 279px;
     width: calc(100% - 239px);
     height: calc(100% - 56px);
     z-index: 5;
@@ -71,7 +74,7 @@
     margin-right: 12px;
     width: 14px;
     height: 14px;
-    border: 1px solid #FFF;
+    border: 1px solid var(--dark);
     border-radius: 50%;
     &--red {
       background-color: orangered;

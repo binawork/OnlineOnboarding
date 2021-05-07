@@ -4,7 +4,7 @@ import { getPath, getCookie, dateToString, tryFetchJson, isNumber } from "../uti
 
 function groupFormsResult(result, employeeId){
 	let available = [], sent = [], i, j, row, appendToAvailable;
-	const rowModel = {key: 0, name: "", pagesCount: "", percentage: 0,  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []},
+	const rowModel = {id: 0, name: "", pagesCount: "", percentage: 0,  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []},
 		count = result.length;
 	const specificEmployee = (employeeId && employeeId > 0)?employeeId:-1;
 
@@ -16,9 +16,9 @@ function groupFormsResult(result, employeeId){
 		}
 
 		row = {...rowModel};
-		row.key = result[i].id;
+		row.id = result[i].id;
 		row.name = row.form = result[i].title;
-		row.progress = "?/?";
+		row.progress = "? / ?";
 		row.send_date = row.finish_date = "?";
 		row.pagesCount = 0;
 		row.created = dateToString(result[i].created_on);
@@ -32,7 +32,7 @@ function groupFormsResult(result, employeeId){
 				if(row.pages[j].hasOwnProperty('updated_on') )
 					row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
 			}
-			row.progress = "?/" + row.pagesCount;
+			row.progress = "? / " + row.pagesCount;
 		}
 
 		if(appendToAvailable)
@@ -69,156 +69,44 @@ function EmployeeForms(employeeId, count, setError, setLoading){
 	return groupedPackages;
 }
 
+
 /**
- * Get result of requesting server for packages and pages;
- * @param props - {count: int, specificEmployee: int};
- * @param setError - callback function to set if error occurred;
- * @param setLoading - callback function to signalize that loading has finished
+ * Get packages with associated pages for logged-in employee;
  * @param count
- * @returns {[]} - array/list of packages and pages for every package;
+ * @param setError
+ * @param setLoading
+ * @returns {[]} - list of packages;
  * @constructor
  */
-export function EmployeeFormsList(props, setError, setLoading, count){
-	const [rows , setRows] = useState([]),
-		[loaded, isLoaded] = useState(false);
-	const [error, showError] = useState(null);
+export function SingleEmployeeForms(count, setError, setLoading){
+	const [groupedPackages, setPackages] = useState({packages: [], msg: "Ładowanie ..."});
 	const url = getPath(),
 		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
 
 	useEffect(() => {
-		fetch(url + "api/package_pages", fetchProps).then(res => res.json()).then(
+		fetch(url + "api/package_pages/", fetchProps).then(
+			(res) => {
+				if(!res.ok){
+					throw Error("Wystąpił błąd w pobieraniu katalogów!");
+				}
+				return res.json()
+			}).then(
 			(result) => {
-				isLoaded(true);
-				setRows(result);
+				let processedResult = groupFormsResult(result);
+				setPackages({...groupedPackages, packages: processedResult.available, msg: ""});
 			},
 			(err) => {
 				console.log(err);
 				setError(true);
-				showError(err);
 			}
-		).finally(() => setLoading(false));
-	}, [props.count, count]);
-
-	const rowModel = {key: 0, name: "", pagesCount: "", percentage: 0,  created: "", last_edit: "", form: "", progress: "", send_date: "", finish_date: "", pages: [], users: []};
-
-	if(error){
-		rowModel.name = error.message;
-		rowModel.empty = true;
-		let form_table = [];
-		form_table.push(rowModel);
-		return form_table;
-	} else if(!loaded){
-		rowModel.name = "Ładowanie ...";
-		rowModel.empty = true;
-		let form_table = [];
-		form_table.push(rowModel);
-		return form_table;
-	} else {
-		var form_table = [], count = rows.length;
-		let i, j, row;//, loggedUser = {id:0, first_name: ""};
-		const specificEmployee = (props.specificEmployee && props.specificEmployee > 0)?props.specificEmployee:-1;
-
-		for(i = 0; i < count; i++){
-			if(specificEmployee > 0 && rows[i].users && Array.isArray(rows[i].users)){
-				if(rows[i].users.indexOf(specificEmployee) < 0)
-					continue;
+		).catch(err => {
+				setError(true);
+				setPackages({...groupedPackages, msg: err.message});
 			}
+		).finally(() => {setLoading(false);} );
+	}, [count]);
 
-			row = {...rowModel};
-			row.key = rows[i].id;
-			row.name = row.form = rows[i].title;
-			row.progress = "?/?";
-			row.send_date = row.finish_date = "?";
-			row.pagesCount = 0;
-			row.created = dateToString(rows[i].created_on);
-			row.last_edit = dateToString(rows[i].updated_on);
-			row.users = rows[i].users;
-			if( Object.prototype.toString.call(rows[i].page_set)==='[object Array]' ){ // Array.isArray(object)
-				row.pages = rows[i].page_set.slice();
-				row.pagesCount = row.pages.length;
-
-				for(j = row.pagesCount - 1; j >= 0; j--){
-					if(row.pages[j].hasOwnProperty('updated_on') )
-						row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
-				}
-				row.progress = "?/" + row.pagesCount;
-			}
-
-			form_table.push(row);
-		}
-
-		return form_table;
-	}
-
-}
-
-/**
- * Get packages or pages when for logged-in employee (pages for employees);
- * @param props - {count: int}
- * @returns {[]} - list of packages;
- * @constructor
- */
-export function SingleEmployeeForms(props){
-	var [rows , setRows] = useState([]),
-		[loaded, isLoaded] = useState(false);
-	const [error, showError] = useState(null);
-	let url = getPath(),
-		fetchProps = {method:"GET", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken":""}};
-
-	useEffect(() => {
-		fetch(url + "api/package_pages/list_by_company_employee/", fetchProps).then(res => res.json()).then(
-			(result) => {
-				isLoaded(true);
-				setRows(result);
-			},
-			(error) => {
-				console.log(error);
-				showError(error);
-			}
-		);
-	}, [props.count]);
-
-	const rowModel = {key: 0, name: "", pagesCount: "",  created: "", form: "", progress: "", send_date: "", finish_date: "", pages: []};
-
-	if(error){
-		rowModel.name = error.message;
-		rowModel.empty = true;
-		let form_table = [];
-		form_table.push(rowModel);
-		return form_table;
-	} else if(!loaded){
-		rowModel.name = "Ładowanie ...";
-		rowModel.empty = true;
-		let form_table = [];
-		form_table.push(rowModel);
-		return form_table;
-	} else {
-		var form_table = [], count = rows.length;
-		let i, j, row;
-
-		for(i = 0; i < count; i++){
-			row = {...rowModel};
-			row.key = rows[i].id;
-			row.name = row.form = rows[i].title;
-			row.progress = "?/?";
-			row.send_date = row.finish_date = "?";
-			row.pagesCount = 0;
-			row.created = dateToString(rows[i].created_on);
-			if( Object.prototype.toString.call(rows[i].page_set)==='[object Array]' ){ // Array.isArray(object)
-				row.pages = rows[i].page_set.slice();
-				row.pagesCount = row.pages.length;
-
-				for(j = row.pagesCount - 1; j >= 0; j--){
-					if(row.pages[j].hasOwnProperty('updated_on') )
-						row.pages[j].updated_on = dateToString(row.pages[j].updated_on);
-				}
-			}
-
-			form_table.push(row);
-		}
-
-		return form_table;
-	}
+	return groupedPackages;
 }
 
 /*export async function getEmployeesSection(pageId, errorMessageFunction){
@@ -553,7 +441,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 				return ;
 			}
 
-			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true;
+			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true, areConfirmed = true;
 			result.answers = sections.map(function(section){
 				let answer = {data: []};
 				if(typeof section.answers === 'undefined' || section.answers === null)
@@ -565,7 +453,8 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 						idInt = parseInt(section.answers[i].owner, 10);
 						if(idInt !== userId)
 							continue;
-					}
+					} else if(section.answers[i].owner === null)
+						continue;
 
 					idInt = section.answers[i].id ? parseInt(section.answers[i].id, 10) : -1;
 					if(idInt > id){// include only the answer with highest 'id' and set flag if it was saved on DB;
@@ -575,6 +464,9 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 					}
 					if(typeof section.answers[i].finished !== 'undefined')
 						areFinished &= section.answers[i].finished;
+
+					if(typeof section.answers[i].confirmed !== 'undefined')
+						areConfirmed &= section.answers[i].confirmed;
 				}
 
 				try {
@@ -585,7 +477,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 			});
 
 			result.answers_cp = JSON.parse(JSON.stringify(result.answers));
-			setSectionsAnswers(result, areSaved, areFinished/*, todo: maybe use confirmed field later; */);
+			setSectionsAnswers(result, areSaved, areFinished, areConfirmed);
 		} else if(xhr.readyState==4){
 			errorMessageFunction("Nie udało się zdobyć danych!");
 		}
@@ -725,6 +617,42 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 }
 
 /**
+ * Requests server to accept all answers send by employee with id = employeeId for questions of form/page with id = pageId;
+ * @param employeeId: an id of employee whose answers are to be accepted;
+ * @param pageId: id of the form/page the answers belongs to;
+ * @param acceptCallback: callback function with arguments
+ *        message - string of message to be displayed,
+ *        isError - boolean if error occurred or not,
+ *        elementTarget - DOM of button to be unblock and all its button siblings when error occurred (optional);
+ * @param button: DOM object of button to be unblock when the answer is not ok (optional);
+ */
+export function sendAcceptance(employeeId, pageId, acceptCallback, button){
+	let data, token = getCookie("csrftoken"), path = getPath(),
+		fetchProps = {method:"PATCH", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	data = {user: employeeId};
+	fetchProps.body = JSON.stringify(data);
+
+	path += "api/answer/" + pageId + "/confirm/";
+	fetch(path, fetchProps)
+		.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd podczas akceptacji!");
+				}
+				return (res.status !== 204) ? res.json() : res;// 204: HTTP_204_NO_CONTENT;
+		}).then(
+			(result) => {
+				acceptCallback("Pracownik skończył to wdrożenie.", false);
+			},
+			(error) => {
+				acceptCallback("Wystąpił błąd podczas akceptacji!", true, button);
+			}
+		).catch(function(err){
+			acceptCallback(err.message, true, button);
+		});
+}
+
+/**
  * Send reminder to employee to finish forms;
  */
 export function remindEmployeeOfPackage(handleMessage, employeeId, packageId){
@@ -740,6 +668,37 @@ export function remindEmployeeOfPackage(handleMessage, employeeId, packageId){
 				handleMessage(error.message);
 			}
 		);
+}
+
+/**
+ * Removes package from the list of packages sent to employee;
+ * @param handleMessage: callback function with arguments - string of answer and boolean if error occurred;
+ * @param employeeId: id of the user (employee) from whom the package has to be removed;
+ * @param packageId: the id of package which has to be removed;
+ */
+export function withholdPackageFromEmployee(handleMessage, employeeId, packageId){
+	let data, token = getCookie("csrftoken"), path = getPath(),
+		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	data = {package: packageId};
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(path + "api/add_users_to_package/" + employeeId + "/", fetchProps)
+		.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd: nie udało się usunąć katalogu!");
+				}
+				return (res.status !== 204) ? res.json() : res;// 204: HTTP_204_NO_CONTENT;
+		}).then(
+			(result) => {
+				handleMessage("Katalog u pracownika zostal usunięty.");
+			},
+			(error) => {
+				handleMessage("Wystąpił błąd: nie udało się usunąć katalogu!", true);
+			}
+		).catch(function(err){
+			handleMessage(err.message, true);
+		});
 }
 
 export default EmployeeForms;

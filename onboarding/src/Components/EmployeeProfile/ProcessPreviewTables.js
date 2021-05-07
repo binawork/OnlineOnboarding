@@ -3,9 +3,25 @@ import ImplementationFormsSent from "./ImplementationFormsSent";
 import ImplementationFormsToSend from "./ImplementationFormsToSend";
 import ModalWarning from "../ModalWarning";
 import EmployeeAnswersViewPage from "../EmployeeAnswersView/EmployeeAnswersViewPage";
-import { getProgress, datesOfSendingPackages } from "../hooks/EmployeeForms";
+import { getProgress, datesOfSendingPackages, withholdPackageFromEmployee } from "../hooks/EmployeeForms";
 
 
+/**
+ * Shows tables of packages sent and available to send to employee.
+ * @param props: React argument of component with properties like
+ *        employeeId - an id of employee;
+ *        groupedPackages - object with tables of packages sent and available to be send, this object was received as answer from "api/package_pages/";
+ *        isLoading - boolean to make the component of packages enabled to be send to display loading message;
+ *        isError - boolean to make child components to display error message;
+ *        count - number to update the state of component;
+ *        setCount - setter to update component;
+ *        answersPage - setter to set a page in a state of main component. When it is set then answers of page are displayed;
+ *        setAnswersPage - setter to change the page;
+ *        updateSentAndFinished - callback function to update numbers of sent and finished packages in an object of user/employee;
+ *        goBackToMainProfilePage - callback function to set page in a state to null and to go back to see all tables;
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function ProcessPreviewTables(props) {
     const [loading, setLoading] = useState(true);
     const [sentPackages, setSentPackages] = useState([]);
@@ -20,7 +36,7 @@ function ProcessPreviewTables(props) {
         const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
 
         for(i = props.groupedPackages.sent.length - 1; i >= 0; i--){
-            packageId = parseInt(props.groupedPackages.sent[i].key, 10);
+            packageId = parseInt(props.groupedPackages.sent[i].id, 10);
             props.groupedPackages.sent[i].finish_date = notStartedMsg;
 
             if( !result.hasOwnProperty(packageId) ){
@@ -28,7 +44,7 @@ function ProcessPreviewTables(props) {
                 continue;
             }
 
-            props.groupedPackages.sent[i].progress = result[packageId].finished + "/" + props.groupedPackages.sent[i].progress.substring(2);
+            props.groupedPackages.sent[i].progress = result[packageId].finished + " " + props.groupedPackages.sent[i].progress.substring(2);
 
             props.groupedPackages.sent[i].percentage = result[packageId].finished / props.groupedPackages.sent[i].pagesCount;
             if(result[packageId].finished == 0)
@@ -85,7 +101,7 @@ function ProcessPreviewTables(props) {
         else if(typeof result === 'object'){
             let packageId;
             newFormTable = props.groupedPackages.sent.map(function(element){
-                    packageId = parseInt(element.key, 10);
+                    packageId = parseInt(element.id, 10);
                     if( result.hasOwnProperty(packageId) )
                         element.send_date = result[packageId];
 
@@ -105,11 +121,39 @@ function ProcessPreviewTables(props) {
         props.addSent();
     };*/
 
+    const withholdPackage = (idObject) => {
+        hideModal(idObject.id);
+        withholdPackageFromEmployee(popUpConfirmationForWithhold, parseInt(props.employeeId), idObject.packageId);
+    };
+
     const popUpConfirmationModal = (message) => {
         let count = confirmationModal.id;
         setIdModal({id: count,
             modal: <ModalWarning handleAccept={ hideModal } title={ "Potwierdzenie wysłania" } message={ message } id={ count } show={ true } acceptText={ "Ok" } />
         });
+    };
+
+    const popUpAskForWithholdPackage = (packageId) => {
+        let idObject = {id: confirmationModal.id, packageId: packageId};
+        setIdModal({id: confirmationModal.id,
+            modal: <ModalWarning id={ idObject } title={ "Usuwanie katalogu" }
+                                 handleAccept={ withholdPackage } handleCancel={ hideModal }
+                                 message={ "Ten katalog zostanie usunięty u pracownika. Czy chcesz to zrobic?" }
+                                 show={ true } acceptText={ "Ok" } />
+        });
+    };
+
+    const popUpConfirmationForWithhold = function(message, isError){
+        let title = "Usuwanie katalogu", count = confirmationModal.id;
+        if(isError === true) // it excludes 'undefined' case;
+            title = "Wystąpił błąd!";
+
+        setIdModal({id: count,
+            modal: <ModalWarning handleAccept={ hideModal } title={ title } message={ message } id={ count } show={ true } acceptText={ "Ok" } />
+        });
+
+        if(!isError)
+            props.setCount(props.count + 1);
     };
 
     const hideModal = function(id){
@@ -154,6 +198,7 @@ function ProcessPreviewTables(props) {
                             isLoading={ loading }
                             isError={ props.isError }
                             showModal={ popUpConfirmationModal }
+                            askForWithholdPackage={ popUpAskForWithholdPackage }
                             count={ confirmationModal.id }
                         />
                         <ImplementationFormsToSend 

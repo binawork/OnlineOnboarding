@@ -7,7 +7,7 @@ function FormsToSendTableRow(props){
     									rotate: false});
 
     const countChecked = function(e){
-        props.handleChecked(e.target.checked, props.row.key);
+        props.handleChecked(e.target.checked, props.row.id);
     };
 
     const showPages = function(){
@@ -24,7 +24,7 @@ function FormsToSendTableRow(props){
 
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.key } className="btn btn-secondary" onClick={ sendPackage }>Wyślij</button>,
+        buttonObj = <button value={ props.row.id } className="btn btn-secondary" onClick={ sendPackage }>Wyślij</button>,
         pages;
 
     if(props.empty){
@@ -51,9 +51,18 @@ function FormsToSendTableRow(props){
         <>
             <tr>
                 <td style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
-                    { toggleObj.hasContent && <button className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`} onClick={ showPages } type="button"><i className="fas fa-caret-right"></i></button> }
-                    { checkBox }
-                    <i className="fa fa-folder" style={{ width: "24px", color: "#F7C46C", marginRight: "2px" }}></i>
+                    <span className="text-nowrap">
+                        { toggleObj.hasContent && (
+                            <button 
+                                className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`}
+                                onClick={ showPages }
+                                type="button">
+                                <i className="fas fa-caret-right"></i>
+                            </button> 
+                        )}
+                        { checkBox }
+                        <i className="fa fa-folder" style={{ width: "24px", color: "#F7C46C", marginRight: "2px" }}></i>
+                    </span>
                     {props.row.name}
                 </td>
                 <td style={{ verticalAlign: "middle" }}>{props.row.pagesCount}</td>

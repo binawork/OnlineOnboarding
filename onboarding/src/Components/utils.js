@@ -32,7 +32,7 @@ export function validateURL(url, defaultUrl) {
 
 /**
  * Checks if string is a valid url
- * @param str: string af url
+ * @param str: string of url
  * @returns boolean
  */
 export const isValidUrl = (str) => {
@@ -42,8 +42,31 @@ export const isValidUrl = (str) => {
 	'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
 	'(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
 	'(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-return !!pattern.test(str);
+	return !!pattern.test(str);
 };
+
+/**
+ * Converts url string into youtube or vimeo link if it matches requirements for them
+ * otherwise returns ordinary link,
+ * @param str: string of url
+ * @returns Object like {link: String, isVideo: boolean} or  false  if url is wrong;
+ */
+export function linkToVideo(url){
+	if(!url || typeof url === 'undefined')
+		return false;
+
+	let result = {link: url, isVideo: false};
+
+	if(url.match(/^(?:(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu(?:be\.com|\.be))\/(?:watch\?v\=|v\/|embed\/)?([\w\-]+))/i) ){
+		result.isVideo = true;
+		result.link = url.replace(/watch\?v=/g, "embed/").replace(/&[\w]+=[\w]+/g, "");
+	} else if(url.match(/^(?:(?:https?:\/\/)?(?:www\.)?vimeo\.com.*\/([\w\-]+))/i) ){
+		result.isVideo = true;
+		result.link = url.replace(/vimeo\.com/g, "player.vimeo.com/video");
+	}
+
+	return result;
+}
 
 export function dateToString(str){
 	var date, formatted;
