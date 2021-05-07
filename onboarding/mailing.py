@@ -85,18 +85,16 @@ def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
 
 def send_reask_user_for_page_email(EMAIL_HOST_USER, user, page, do_remind=False, is_Polish=True):
     subject = "Prośba o wypełnienie \"{page}\""
-    print(user)
-    print(page.title)
-    print(do_remind)
-    #html_message = render_to_string(
-    #    'templated_email/???',
-    #    {
-    #        "user": user,
-    #        "title": page.title
-    #    }
-    #)
-    #plain_message = strip_tags(html_message)
-    #mail.send_mail(subject, plain_message, EMAIL_HOST_USER, [user.email], html_message=html_message)
+    html_message = render_to_string(
+        'templated_email/ask_user_for_page.html',
+        {
+            "user": user,
+            "title": page.title
+        }
+    )
+    plain_message = strip_tags(html_message)
+
+    mail.send_mail(subject, plain_message, EMAIL_HOST_USER, [user.email], html_message=html_message)
 
 
 def send_remove_acc_email(EMAIL_HOST_USER, user_email):
