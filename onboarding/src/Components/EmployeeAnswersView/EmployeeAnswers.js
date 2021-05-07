@@ -122,9 +122,10 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
 
         if(isError){
             if(elementTarget) elementTarget.disabled = false;// setTimeout()?
-        }/* else {
-
-        }*/
+        } else {
+            setMessage("Pracownik jeszcze nie odpowiedział na pytania");
+            setButtons({display: sectionsView.length > 0, answered: false, confirmed: false, msg: "Wyślij przypomnienie"});
+        }
 
         showMessage(message);
     };
