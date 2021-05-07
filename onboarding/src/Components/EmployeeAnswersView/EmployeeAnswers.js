@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import parse from "html-react-parser";
-import { getEmployeesSectionsAndAnswers, sendAcceptance, sendRetry } from "../hooks/EmployeeForms";
+import { getEmployeesSectionsAndAnswers, sendAcceptance } from "../hooks/EmployeeForms";
 import OpenAnswer from "./OpenAnswer";
 import SectionAnswers from "./SectionAnswers";
 //import PropTypes from "prop-types";
 
 
-function EmployeeAnswers({ pageId, employeeId, showMessage }){
+function EmployeeAnswers({ pageId, employeeId, showMessage, buttonsOptions, setButtons, resendAnswersAsk }){
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [sectionsView, setView] = useState([]);
-    const [buttonsOptions, setButtons] = useState({display: false, answered: false, confirmed: false, msg: "Wyślij przypomnienie"});
+
 
     /*const setErrorMessage = function(message){
         setMessage({message: message, print: true});
@@ -69,10 +69,10 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
         count = (hrConfirmed && areSaved);
         if(!areAnswered){
             setMessage("Pracownik jeszcze nie odpowiedział na pytania");
-            setButtons({display: newSectionsView.length > 0 && !count, answered: false, confirmed: count, msg: "Wyślij przypomnienie"});
+            setButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: false, confirmed: count, msg: "Wyślij przypomnienie"});
         } else {
             setMessage("");
-            setButtons({display: newSectionsView.length > 0 && !count, answered: true, confirmed: count, msg: "Wyślij ponownie"});
+            setButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: true, confirmed: count, msg: "Wyślij ponownie"});
         }
     };
 
@@ -118,7 +118,7 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
         sendAcceptance(employeeId, pageId, acceptCallback, e.target);
     };
 
-    const retryCallback = (message, isError, elementTarget) => {
+    /*const retryCallback = (message, isError, elementTarget) => {
 
         if(isError){
             if(elementTarget) elementTarget.disabled = false;// setTimeout()?
@@ -128,7 +128,7 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
         }
 
         showMessage(message);
-    };
+    };*/
 
     const resendAnswers = (e) => {
         e.preventDefault();
@@ -137,7 +137,7 @@ function EmployeeAnswers({ pageId, employeeId, showMessage }){
         e.target.disabled = true;
         enableDisableButtons(e.target.parentNode, true);
 
-        sendRetry(employeeId, pageId, retryCallback, e.target);
+        resendAnswersAsk(e);
     };
 
 

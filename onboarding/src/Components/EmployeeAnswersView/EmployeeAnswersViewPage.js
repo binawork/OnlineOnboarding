@@ -3,6 +3,7 @@ import AnswersLegend from "./AnswersLegend";
 import EmployeeAnswers from "./EmployeeAnswers";
 import PageCard from "./PageCard";
 import ModalWarning from "../ModalWarning";
+import { sendRetry } from "../hooks/EmployeeForms";
 import "../../static/css/EmployeeAnswersView.scss";
 
 const buttonBackStyle = {
@@ -24,7 +25,38 @@ function EmployeeAnswersViewPage(props){
     document.title = "Onboarding: odpowiedzi pracownika";
     const [showLegend, setShowLegend] = useState(false);
     const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
+    const [buttonsOptions, setButtons] = useState({display: false, answered: false, confirmed: false, msg: "Wyślij przypomnienie", target: null});
     const employeeId = props.employeeId;
+
+    const resendAnswersConfirm = (idObject) => {
+        hideModal(idObject.id);
+        //buttonsOptions.target = idObject.node;
+        sendRetry(employeeId, props.page.id, retryCallback, idObject.node);
+    };
+    const resendAnswersReject = () => {
+        hideModal();
+        if(buttonsOptions.target)
+            buttonsOptions.target.disabled = false;
+    };
+
+    const resendAnswersAsk = (e) => {
+        e.target.disabled = true;
+        buttonsOptions.target = e.target;
+
+        let msg, idObject = {id: confirmationModal.id, node: e.target};
+        msg = "Potwierdź czy chcesz przypomnieć pracownikowi o formularzu.";
+        if(buttonsOptions.answered)
+            msg = "Czy jesteś pewien/pewna że chcesz odesłać formularz do pracownika?";
+
+        setIdModal({id: idObject.id,
+            modal: <ModalWarning handleAccept={ resendAnswersConfirm } handleCancel={ resendAnswersReject }
+                                 title={ "Przypomnienie" }
+                                 message={ msg }
+                                 id={ idObject }
+                                 show={ true }
+                                 acceptText={ "Ok" } />
+        });
+    };
 
     const popUpConfirmationModal = (message) => {
         let count = confirmationModal.id;
@@ -33,8 +65,21 @@ function EmployeeAnswersViewPage(props){
         });
     };
 
+    const retryCallback = (message, isError, elementTarget) => {
+
+        if(isError){
+            if(elementTarget) elementTarget.disabled = false;// setTimeout()?
+        } else {
+            //setMessage("Pracownik jeszcze nie odpowiedział na pytania");??????
+            setButtons({display: true/*sectionsView.length > 0????*/, answered: false, confirmed: false, msg: "Wyślij przypomnienie", target: null});
+        }
+
+        popUpConfirmationModal(message);
+    };
+
     const hideModal = function(id){
-        setIdModal({id: id + 1, modal: <></>});
+        let newId = (id)?id + 1 : 0;
+        setIdModal({id: newId, modal: <></>});
     };
 
 
@@ -64,7 +109,11 @@ function EmployeeAnswersViewPage(props){
                 </section>
             }
             <PageCard page={ props.page } />
-            <EmployeeAnswers pageId={ props.page.id } employeeId={ employeeId } showMessage={ popUpConfirmationModal } />
+            <EmployeeAnswers pageId={ props.page.id }
+                             employeeId={ employeeId }
+                             showMessage={ popUpConfirmationModal }
+                             buttonsOptions={ buttonsOptions } setButtons={ setButtons }
+                             resendAnswersAsk={ resendAnswersAsk } />
             { confirmationModal.modal }
         </div>
     )
