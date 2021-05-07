@@ -39,13 +39,12 @@ def send_activation_email_for_user_created_by_hr(user, current_site):
     return redirect('/password_reset/done/')
 
 
-def send_reminder_email(subject, EMAIL_HOST_USER, employee, package, current_site):
+def send_reminder_email(subject, EMAIL_HOST_USER, employee, package):
     html_message = render_to_string(
         'templated_email/button_reminder.html',
         {
             'user': employee,
             'package': package,
-            'domain': current_site.domain,
         }
     )
     plain_message = strip_tags(html_message)
