@@ -6,9 +6,9 @@ import SectionAnswers from "./SectionAnswers";
 //import PropTypes from "prop-types";
 
 
-function EmployeeAnswers({ pageId, employeeId, showMessage, buttonsOptions, setButtons, resendAnswersAsk }){
+function EmployeeAnswers({ pageId, employeeId, showModal, setMessage, buttonsOptions, setButtons, acceptAnswersAsk, resendAnswersAsk }){
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
-    const [loadingMessage, setMessage] = useState("Ładowanie...");
+    //const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [sectionsView, setView] = useState([]);
 
 
@@ -19,8 +19,8 @@ function EmployeeAnswers({ pageId, employeeId, showMessage, buttonsOptions, setB
     const showSectionsAnswers = (sectionsAnswersResult, areSaved, employeeDidAnswer, hrConfirmed) => {
         if(typeof sectionsAnswersResult.sections === 'undefined' || sectionsAnswersResult.sections === null ||
            typeof sectionsAnswersResult.answers === 'undefined' || sectionsAnswersResult.answers === null){
-            setMessage("Miał miejsce błąd w pobieraniu formularza!");
             setView([]);
+            setMessage("Miał miejsce błąd w pobieraniu formularza!");
             return;
         }
 
@@ -68,11 +68,11 @@ function EmployeeAnswers({ pageId, employeeId, showMessage, buttonsOptions, setB
 
         count = (hrConfirmed && areSaved);
         if(!areAnswered){
-            setMessage("Pracownik jeszcze nie odpowiedział na pytania");
             setButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: false, confirmed: count, msg: "Wyślij przypomnienie"});
+            setMessage("Pracownik jeszcze nie odpowiedział na pytania");
         } else {
-            setMessage("");
             setButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: true, confirmed: count, msg: "Wyślij ponownie"});
+            setMessage("");
         }
     };
 
@@ -88,34 +88,35 @@ function EmployeeAnswers({ pageId, employeeId, showMessage, buttonsOptions, setB
     }, [pageId]);
 
 
-    const enableDisableButtons = (parentElement, doDisable) => {
+    /*const enableDisableButtons = (parentElement, doDisable) => {
         let i, buttons = parentElement.getElementsByClassName("js-hide-button");
         for(i = buttons.length - 1; i >= 0; i--)
             buttons[i].disabled = doDisable;
-    };
+    };*/
 
-    const acceptCallback = (message, isError, elementTarget) => {
+    /*const acceptCallback = (message, isError, elementTarget) => {
         if(isError){
             if(elementTarget){
                 elementTarget.disabled = false;
                 enableDisableButtons(elementTarget.parentNode, false);
             }
-            showMessage(message);
+            showModal(message);
             return;
         }
 
         setButtons({display: false, answered: true, confirmed: true, msg: ""});
-        showMessage(message);
-    };
+        showModal(message);
+    };*/
 
     const acceptAnswers = function(e){
         if(buttonsOptions.confirmed || !buttonsOptions.answered)
             return;
         // e.preventDefault();
         e.target.disabled = true;
-        enableDisableButtons(e.target.parentNode, true);
+        //enableDisableButtons(e.target.parentNode, true);
 
-        sendAcceptance(employeeId, pageId, acceptCallback, e.target);
+        //sendAcceptance(employeeId, pageId, acceptCallback, e.target);
+        acceptAnswersAsk(e);
     };
 
     /*const retryCallback = (message, isError, elementTarget) => {
@@ -127,7 +128,7 @@ function EmployeeAnswers({ pageId, employeeId, showMessage, buttonsOptions, setB
             setButtons({display: sectionsView.length > 0, answered: false, confirmed: false, msg: "Wyślij przypomnienie"});
         }
 
-        showMessage(message);
+        showModal(message);
     };*/
 
     const resendAnswers = (e) => {
@@ -135,7 +136,7 @@ function EmployeeAnswers({ pageId, employeeId, showMessage, buttonsOptions, setB
         if(buttonsOptions.confirmed)
             return;
         e.target.disabled = true;
-        enableDisableButtons(e.target.parentNode, true);
+        //enableDisableButtons(e.target.parentNode, true);
 
         resendAnswersAsk(e);
     };
@@ -143,11 +144,11 @@ function EmployeeAnswers({ pageId, employeeId, showMessage, buttonsOptions, setB
 
     return (
       <>
-        { loadingMessage.length > 0 &&
+        {/* loadingMessage.length > 0 &&
             <div className="card card-fluid text-black bg-warning">
                 <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
             </div>
-        }
+        */}
         { sectionsView.length > 0 && sectionsView }
         { buttonsOptions.display &&
             <div className="w-100 d-flex justify-content-end flex-wrap">

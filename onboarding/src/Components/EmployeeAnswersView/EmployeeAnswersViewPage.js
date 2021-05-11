@@ -3,7 +3,7 @@ import AnswersLegend from "./AnswersLegend";
 import EmployeeAnswers from "./EmployeeAnswers";
 import PageCard from "./PageCard";
 import ModalWarning from "../ModalWarning";
-import { sendRetry } from "../hooks/EmployeeForms";
+import { sendRetry, sendAcceptance } from "../hooks/EmployeeForms";
 import "../../static/css/EmployeeAnswersView.scss";
 
 const buttonBackStyle = {
@@ -24,9 +24,46 @@ const buttonBackStyle = {
 function EmployeeAnswersViewPage(props){
     document.title = "Onboarding: odpowiedzi pracownika";
     const [showLegend, setShowLegend] = useState(false);
+    const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
     const [buttonsOptions, setButtons] = useState({display: false, answered: false, confirmed: false, msg: "Wyślij przypomnienie", target: null});
     const employeeId = props.employeeId;
+
+
+    const enableDisableButtons = (parentElement, doDisable) => {
+        let i, buttons = parentElement.getElementsByClassName("js-hide-button");
+        for(i = buttons.length - 1; i >= 0; i--)
+            buttons[i].disabled = doDisable;
+    };
+
+    const acceptAnswersAsk = (e) => {
+        if(buttonsOptions.answered === false)
+            return;
+
+        enableDisableButtons(e.target.parentNode, true);
+        buttonsOptions.target = e.target;
+
+        let idObject = {id: confirmationModal.id, node: e.target};
+        setIdModal({id: idObject.id,
+            modal: <ModalWarning handleAccept={ acceptAnswersConfirm } handleCancel={ acceptAnswersReject }
+                                 title={ "Akceptacja" }
+                                 message={ "Czy chcesz zaakceptować odpowiedzi pracownika?" }
+                                 id={ idObject }
+                                 show={ true }
+                                 acceptText={ "Ok" } />
+        });
+    };
+    const acceptAnswersConfirm = function(idObject){
+        hideModal(idObject.id);
+        //buttonsOptions.target = idObject.node;
+        //sendAcceptance(employeeId, props.page.id, acceptCallback, idObject.node);
+        acceptCallback("cos tessst", false, idObject.node);
+    };
+    const acceptAnswersReject = function(idObject){
+        hideModal(idObject.id);
+        if(buttonsOptions.target)
+            enableDisableButtons(buttonsOptions.target.parentNode, false);
+    };
 
     const resendAnswersConfirm = (idObject) => {
         hideModal(idObject.id);
@@ -35,11 +72,15 @@ function EmployeeAnswersViewPage(props){
     };
     const resendAnswersReject = () => {
         hideModal();
-        if(buttonsOptions.target)
+        if(buttonsOptions.target){
             buttonsOptions.target.disabled = false;
+            if(buttonsOptions.answered)
+                enableDisableButtons(buttonsOptions.target.parentNode, false);
+        }
     };
 
     const resendAnswersAsk = (e) => {
+        enableDisableButtons(e.target.parentNode, true);
         e.target.disabled = true;
         buttonsOptions.target = e.target;
 
@@ -65,12 +106,26 @@ function EmployeeAnswersViewPage(props){
         });
     };
 
+    const acceptCallback = (message, isError, elementTarget) => {
+        if(isError){
+            if(elementTarget){
+                elementTarget.disabled = false;
+                enableDisableButtons(elementTarget.parentNode, false);
+            }
+            popUpConfirmationModal(message);
+            return;
+        }
+
+        setButtons({display: false, answered: true, confirmed: true, msg: "", target: null});
+        popUpConfirmationModal(message);
+    };
+
     const retryCallback = (message, isError, elementTarget) => {
 
         if(isError){
             if(elementTarget) elementTarget.disabled = false;// setTimeout()?
         } else {
-            //setMessage("Pracownik jeszcze nie odpowiedział na pytania");??????
+            setMessage("Pracownik jeszcze nie odpowiedział na pytania");
             setButtons({display: true/*sectionsView.length > 0????*/, answered: false, confirmed: false, msg: "Wyślij przypomnienie", target: null});
         }
 
@@ -109,10 +164,17 @@ function EmployeeAnswersViewPage(props){
                 </section>
             }
             <PageCard page={ props.page } />
+            { loadingMessage.length > 0 &&
+                <div className="card card-fluid text-black bg-warning">
+                  <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
+                </div>
+            }
             <EmployeeAnswers pageId={ props.page.id }
                              employeeId={ employeeId }
-                             showMessage={ popUpConfirmationModal }
+                             showModal={ popUpConfirmationModal }
+                             setMessage={ setMessage }
                              buttonsOptions={ buttonsOptions } setButtons={ setButtons }
+                             acceptAnswersAsk={ acceptAnswersAsk }
                              resendAnswersAsk={ resendAnswersAsk } />
             { confirmationModal.modal }
         </div>
