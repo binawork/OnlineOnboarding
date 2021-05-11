@@ -27,6 +27,7 @@ function EmployeeAnswersViewPage(props){
     const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [confirmationModal, setIdModal] = useState({id: 0, modal: <></>});
     const [buttonsOptions, setButtons] = useState({display: false, answered: false, confirmed: false, msg: "Wyślij przypomnienie", target: null});
+    const [performUpdate, updateForms] = useState(false);
     const employeeId = props.employeeId;
 
 
@@ -118,6 +119,7 @@ function EmployeeAnswersViewPage(props){
 
         setButtons({display: false, answered: true, confirmed: true, msg: "", target: null});
         popUpConfirmationModal(message);
+        updateForms(true);
     };
 
     const retryCallback = (message, isError, elementTarget) => {
@@ -130,6 +132,8 @@ function EmployeeAnswersViewPage(props){
         }
 
         popUpConfirmationModal(message);
+        if(buttonsOptions.answered)
+            updateForms(true);
     };
 
     const hideModal = function(id){
@@ -144,7 +148,7 @@ function EmployeeAnswersViewPage(props){
                 <button 
                     className="btn btn-outline-warning button-back mr-1" 
                     style={ buttonBackStyle } 
-                    onClick={ props.goBackToMainProfilePage }
+                    onClick={(e) => props.goBackToMainProfilePage(e, performUpdate) }
                 >
                     <i className="bi bi-arrow-left-circle back-icon"></i>&nbsp;Wstecz
                 </button>

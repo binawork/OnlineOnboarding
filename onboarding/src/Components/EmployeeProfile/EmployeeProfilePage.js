@@ -74,9 +74,11 @@ function EmployeeProfilePage() {
         }
     }, [groupedPackages]);*/
 
-    const goBackToMainProfilePage = (e) => {
+    const goBackToMainProfilePage = (e, performUpdate) => {
         e.preventDefault();
         setAnswersPage(null);
+        if(performUpdate)
+            setCount(count + 1);
     };
 
 
