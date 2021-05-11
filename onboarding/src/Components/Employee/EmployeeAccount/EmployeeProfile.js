@@ -110,7 +110,7 @@ function EmployeeProfile(props) {
                         <button
                             className="UserAccount__button Employee-Profile__button--save btn mr-2 text-nowrap"
                             onClick={ handleSave }
-                            disabled={ validEmail(user.email) ? false : true }
+                            // disabled={ validEmail(user.email) ? false : true }
                         >
                             Zapisz zmiany
                         </button>

@@ -159,7 +159,7 @@ function UserProfileManage(props) {
 					<button
                         className="UserAccount__button btn"
                         onClick={ handleSave }
-                        disabled={ validEmail(user.email) ? false : true }
+                        // disabled={ validEmail(user.email) ? false : true }
                     >
                         { props.buttonTitle }
                     </button>
