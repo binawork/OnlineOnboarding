@@ -57,8 +57,7 @@ function EmployeeAnswersViewPage(props){
     const acceptAnswersConfirm = function(idObject){
         hideModal(idObject.id);
         //buttonsOptions.target = idObject.node;
-        //sendAcceptance(employeeId, props.page.id, acceptCallback, idObject.node);
-        acceptCallback("cos tessst", false, idObject.node);
+        sendAcceptance(props.employeeId, props.page.id, acceptCallback, idObject.node);
     };
     const acceptAnswersReject = function(idObject){
         hideModal(idObject.id);

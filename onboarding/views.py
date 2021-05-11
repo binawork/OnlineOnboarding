@@ -165,7 +165,6 @@ def reminder(request, employee_id, package_id):
     package = Package.objects.get(id=package_id)
     if request.user.company == employee.company:
         send_reminder_email(
-            subject,
             EMAIL_HOST_USER,
             employee,
             package)
@@ -818,7 +817,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        #answers.update(confirmed=False, finished=False)
+        answers.update(confirmed=False, finished=False)
 
         # sending e-mail:
         send_reask_user_for_page_email(EMAIL_HOST_USER, user, page)
