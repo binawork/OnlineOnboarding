@@ -174,7 +174,6 @@ function EmployeeAnswersViewPage(props){
             }
             <EmployeeAnswers pageId={ props.page.id }
                              employeeId={ employeeId }
-                             showModal={ popUpConfirmationModal }
                              setMessage={ setMessage }
                              buttonsOptions={ buttonsOptions } setButtons={ setButtons }
                              acceptAnswersAsk={ acceptAnswersAsk }

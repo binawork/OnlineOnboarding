@@ -679,7 +679,7 @@ export function sendRetry(employeeId, pageId, retryCallback, button){
 				}
 				return (res.status !== 204) ? res.json() : res;// 204: HTTP_204_NO_CONTENT;
 		}).then(
-			(result) => {console.log(result);
+			(result) => {
 				retryCallback("Dokumenty/ Formularze zostały wysłane do pracownika.", false);
 			},
 			(error) => {

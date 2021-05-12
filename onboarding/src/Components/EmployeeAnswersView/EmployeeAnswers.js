@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import parse from "html-react-parser";
-import { getEmployeesSectionsAndAnswers, sendAcceptance } from "../hooks/EmployeeForms";
+import { getEmployeesSectionsAndAnswers } from "../hooks/EmployeeForms";
 import OpenAnswer from "./OpenAnswer";
 import SectionAnswers from "./SectionAnswers";
 //import PropTypes from "prop-types";
 
 
-function EmployeeAnswers({ pageId, employeeId, showModal, setMessage, buttonsOptions, setButtons, acceptAnswersAsk, resendAnswersAsk }){
+function EmployeeAnswers({ pageId, employeeId, setMessage, buttonsOptions, setButtons, acceptAnswersAsk, resendAnswersAsk }){
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     //const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [sectionsView, setView] = useState([]);
@@ -144,11 +144,6 @@ function EmployeeAnswers({ pageId, employeeId, showModal, setMessage, buttonsOpt
 
     return (
       <>
-        {/* loadingMessage.length > 0 &&
-            <div className="card card-fluid text-black bg-warning">
-                <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
-            </div>
-        */}
         { sectionsView.length > 0 && sectionsView }
         { buttonsOptions.display &&
             <div className="w-100 d-flex justify-content-end flex-wrap">
