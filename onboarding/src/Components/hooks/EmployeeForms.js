@@ -441,7 +441,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 				return ;
 			}
 
-			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true;
+			let result = {sections: sections, answers: [], answers_cp: []}, areSaved = false, areFinished = true, areConfirmed = true;
 			result.answers = sections.map(function(section){
 				let answer = {data: []};
 				if(typeof section.answers === 'undefined' || section.answers === null)
@@ -453,7 +453,8 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 						idInt = parseInt(section.answers[i].owner, 10);
 						if(idInt !== userId)
 							continue;
-					}
+					} else if(section.answers[i].owner === null)
+						continue;
 
 					idInt = section.answers[i].id ? parseInt(section.answers[i].id, 10) : -1;
 					if(idInt > id){// include only the answer with highest 'id' and set flag if it was saved on DB;
@@ -463,6 +464,9 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 					}
 					if(typeof section.answers[i].finished !== 'undefined')
 						areFinished &= section.answers[i].finished;
+
+					if(typeof section.answers[i].confirmed !== 'undefined')
+						areConfirmed &= section.answers[i].confirmed;
 				}
 
 				try {
@@ -473,7 +477,7 @@ export function getEmployeesSectionsAndAnswers(pageId, userId, errorMessageFunct
 			});
 
 			result.answers_cp = JSON.parse(JSON.stringify(result.answers));
-			setSectionsAnswers(result, areSaved, areFinished/*, todo: maybe use confirmed field later; */);
+			setSectionsAnswers(result, areSaved, areFinished, areConfirmed);
 		} else if(xhr.readyState==4){
 			errorMessageFunction("Nie udało się zdobyć danych!");
 		}
@@ -613,6 +617,42 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 }
 
 /**
+ * Requests server to accept all answers send by employee with id = employeeId for questions of form/page with id = pageId;
+ * @param employeeId: an id of employee whose answers are to be accepted;
+ * @param pageId: id of the form/page the answers belongs to;
+ * @param acceptCallback: callback function with arguments
+ *        message - string of message to be displayed,
+ *        isError - boolean if error occurred or not,
+ *        elementTarget - DOM of button to be unblock and all its button siblings when error occurred (optional);
+ * @param button: DOM object of button to be unblock when the answer is not ok (optional);
+ */
+export function sendAcceptance(employeeId, pageId, acceptCallback, button){
+	let data, token = getCookie("csrftoken"), path = getPath(),
+		fetchProps = {method:"PATCH", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	data = {user: employeeId};
+	fetchProps.body = JSON.stringify(data);
+
+	path += "api/answer/" + pageId + "/confirm/";
+	fetch(path, fetchProps)
+		.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd podczas akceptacji!");
+				}
+				return (res.status !== 204) ? res.json() : res;// 204: HTTP_204_NO_CONTENT;
+		}).then(
+			(result) => {
+				acceptCallback("Pracownik skończył to wdrożenie.", false);
+			},
+			(error) => {
+				acceptCallback("Wystąpił błąd podczas akceptacji!", true, button);
+			}
+		).catch(function(err){
+			acceptCallback(err.message, true, button);
+		});
+}
+
+/**
  * Send reminder to employee to finish forms;
  */
 export function remindEmployeeOfPackage(handleMessage, employeeId, packageId){
@@ -628,6 +668,37 @@ export function remindEmployeeOfPackage(handleMessage, employeeId, packageId){
 				handleMessage(error.message);
 			}
 		);
+}
+
+/**
+ * Removes package from the list of packages sent to employee;
+ * @param handleMessage: callback function with arguments - string of answer and boolean if error occurred;
+ * @param employeeId: id of the user (employee) from whom the package has to be removed;
+ * @param packageId: the id of package which has to be removed;
+ */
+export function withholdPackageFromEmployee(handleMessage, employeeId, packageId){
+	let data, token = getCookie("csrftoken"), path = getPath(),
+		fetchProps = {method:"DELETE", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	data = {package: packageId};
+	fetchProps.body = JSON.stringify(data);
+
+	fetch(path + "api/add_users_to_package/" + employeeId + "/", fetchProps)
+		.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd: nie udało się usunąć katalogu!");
+				}
+				return (res.status !== 204) ? res.json() : res;// 204: HTTP_204_NO_CONTENT;
+		}).then(
+			(result) => {
+				handleMessage("Katalog u pracownika zostal usunięty.");
+			},
+			(error) => {
+				handleMessage("Wystąpił błąd: nie udało się usunąć katalogu!", true);
+			}
+		).catch(function(err){
+			handleMessage(err.message, true);
+		});
 }
 
 export default EmployeeForms;

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 //import PropTypes from "prop-types";
 
 
-const SectionForm = ({ section, answerId, answerData, setAnswer }) => {
+const SectionForm = ({ section, answerId, answerData, setAnswer, readOnly }) => {
   const [inputs, setInputs] = useState([]);
   const [selection, setPrevious] = useState({prev: null, isRadio: section.type === "osa"});
 
@@ -70,6 +70,7 @@ const SectionForm = ({ section, answerId, answerData, setAnswer }) => {
                     onChange={ toggleChecked }
                     required={ selection.isRadio }
                     defaultChecked={ isChecked }
+                    disabled={ readOnly !== null && typeof readOnly !== 'undefined' ? readOnly : true }
                 />
                 <label className="custom-control-label w-100" style={{cursor: "pointer"}} htmlFor={section.id + "-" + i}>
                    {section.data[i].title}

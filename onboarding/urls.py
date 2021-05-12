@@ -49,13 +49,13 @@ urlpatterns += [
 
 # API
 urlpatterns += [
-    path(r'api/user/<int:employe_id>/progress_on_page/<int:page_id>/',
-        UserProgressOnPageView.as_view(), name='progress_on_page'),
-    path(r'api/user/<int:employe_id>/progress_on_package/<int:package_id>/',
-        UserProgressOnPackageView.as_view(), name='progress_on_package'),
-    path(r'api/user/<int:employe_id>/when_package_send_to_user/<int:package_id>/',
-        WhenPackageSendToEmployeeView.as_view(), name='when_package_send_to_user'),
-    path(r'api/user/<int:employe_id>/when_package_send_to_user/',
+    path(r'api/user/<int:employee_id>/progress_on_page/<int:page_id>/',
+         UserProgressOnPageView.as_view(), name='progress_on_page'),
+    path(r'api/user/<int:employee_id>/progress_on_package/<int:package_id>/',
+         UserProgressOnPackageView.as_view(), name='progress_on_package'),
+    path(r'api/user/<int:employee_id>/when_package_send_to_user/<int:package_id>/',
+         WhenPackageSendToEmployeeView.as_view(), name='when_package_send_to_user'),
+    path(r'api/user/<int:employee_id>/when_package_send_to_user/',
          WhenPackageSendToEmployeeView.as_view(), name='when_package_send_to_user'),
 ]
 

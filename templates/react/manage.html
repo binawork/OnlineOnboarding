@@ -3,7 +3,7 @@
 <head>
 {% load static %}
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Employee dashboard</title>
+    <title>{% if is_hr %}HR{% else %}Employee{% endif %} dashboard</title>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <meta property="og:title" content="Accounts page - Onboarding">
@@ -29,10 +29,10 @@
     </script>-->
 </head>
     <body>
-        <div id="root">
+        <div id="root" class="app">
         </div>
 	<script src="{% static 'bootstrap/vendor/jquery/jquery.min.js' %}"></script>
 	<script src="{% static 'bootstrap/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/employee.js' %}"></script>
+	<script src="{% if is_hr %}{% static 'js/main.js' %}{% else %}{% static 'js/employee.js' %}{% endif %}"></script>
     </body>
 </html>
