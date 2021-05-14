@@ -22,6 +22,14 @@ td {
     vertical-align: middle!important;
 }
 
+a {
+    color: inherit;
+    &:hover {
+        color: inherit;
+        text-decoration: none;
+    }
+}
+
 .button-back {
     display: flex;
     align-items: center;

@@ -9,6 +9,7 @@ import EmployeeFormPages from "./Components/Employee/EmployeeFormPages/EmployeeF
 import CompanyInfoPage from "./Components/Employee/CompanyInfoPage";
 import QnAList from "./Components/Employee/QnA/QnAList";
 import EmployeeAccount from "./Components/Employee/EmployeeAccount/EmployeeAccount";
+import WelcomePage from "./Components/Employee/WelcomePage";
 
 function EmployeeApp() {
   const [countUpdate, updateUser] = useState(0);
@@ -25,39 +26,42 @@ function EmployeeApp() {
   
   return (
     <HashRouter>
-      <div className="App">
-        <LeftMenuEmployee
-          packagesList={ packagesList }
-          showAside={ showAside }
-          setToggleAside={ setToggleAside }
-        />
-        <main className="App__main app-main">
-          <div className="wrapper">
-            <div className="page container-xl">
-              <Switch>
-                <Route path="/my_profile">
-                  <EmployeeAccount loggedUser={ loggedUser } countUpdate={ countUpdate } updateUser={ updateUser } />
-                </Route>
-                <Route path="/q_and_a">
-                  <QnAList />
-                </Route>
-                <Route path="/company">
-                  <CompanyInfoPage loggedUser={ loggedUser } />
-                </Route>
-                <Route path="/form/:form_id">
-                  <EmployeeSingleFormPage page={ page } userId={ loggedUser.id } />
-                </Route>
-                <Route path="/package/:package_id">
-                  <EmployeeFormPages setPage={ setPage } userId={ loggedUser.id } />
-                </Route>
-                <Route path="/" exact>
-                  <EmployeeFormsList setPackagesList={ setPackagesList } />
-                </Route>
-              </Switch>
+      { loggedUser.id !== 0 && loggedUser.welcome_board && <WelcomePage /> }
+      { loggedUser.id !== 0 && (
+        <div className="App">
+          <LeftMenuEmployee
+            packagesList={ packagesList }
+            showAside={ showAside }
+            setToggleAside={ setToggleAside }
+          />
+          <main className="App__main app-main">
+            <div className="wrapper">
+              <div className="page container-xl">
+                <Switch>
+                  <Route path="/my_profile">
+                    <EmployeeAccount loggedUser={ loggedUser } countUpdate={ countUpdate } updateUser={ updateUser } />
+                  </Route>
+                  <Route path="/q_and_a">
+                    <QnAList />
+                  </Route>
+                  <Route path="/company">
+                    <CompanyInfoPage loggedUser={ loggedUser } />
+                  </Route>
+                  <Route path="/form/:form_id">
+                    <EmployeeSingleFormPage page={ page } userId={ loggedUser.id } />
+                  </Route>
+                  <Route path="/package/:package_id">
+                    <EmployeeFormPages setPage={ setPage } userId={ loggedUser.id } />
+                  </Route>
+                  <Route path="/" exact>
+                    <EmployeeFormsList setPackagesList={ setPackagesList } />
+                  </Route>
+                </Switch>
+              </div>
             </div>
-          </div>
-        </main>
-      </div>
+          </main>
+        </div>
+      )}
     </HashRouter>
   );
 }
