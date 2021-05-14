@@ -44,6 +44,18 @@ function App() {
   return (
     <HashRouter>
       <div className="App">
+        <div className="hamburger-wrapper d-md-none d-lg-none d-xl-none">
+          <button 
+            className={`hamburger hamburger-squeeze ${showAside ? "active" : ""}`}
+            type="button"
+            data-toggle="aside"
+            aria-label="toggle menu"
+            onClick={() => setToggleAside(!showAside)}>
+            <span className="hamburger-box">
+              <span className="hamburger-inner"></span>
+            </span>
+          </button>
+        </div>
         <LeftMenu
           packagesList={ packagesList }
           showAside={ showAside }

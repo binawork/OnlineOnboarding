@@ -61,10 +61,10 @@
   &__pseudo-wrapper {
     width: 100%;
     z-index: 1;
-    background: var(--light);
+    background: center bottom url('../images/background.jpg');
     &::before {
       content: '';
-      position:absolute;
+      position: absolute;
       z-index: -1;
       width: 200vw;
       height: 100vh;
