@@ -78,7 +78,7 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
             let linkObj;
             location.pathname === "/profile/manager"
                 ? linkObj = {to: "/"}
-                : linkObj = {to: "/user_list"}
+                : linkObj = {to: "/users_list"}
             setModal(<ModalWarning handleAccept={ function(){} } title={ modalTitle } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } link={ linkObj } />);
         } else
             setModal(<ModalWarning handleAccept={ hideModal } title={ modalTitle } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
