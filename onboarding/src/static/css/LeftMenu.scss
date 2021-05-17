@@ -61,7 +61,7 @@
   &__pseudo-wrapper {
     width: 100%;
     z-index: 1;
-    background: center bottom url('../images/background.jpg');
+    background: center bottom url("/onboarding/static/images/background.jpg");
     &::before {
       content: '';
       position: absolute;

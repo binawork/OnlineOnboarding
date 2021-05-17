@@ -7,7 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: center no-repeat url("../images/background.jpg") fixed;
+  background: center no-repeat url("/onboarding/static/images/background.jpg") fixed;
   z-index: 99999;
   &__button {
     @include button-background;
