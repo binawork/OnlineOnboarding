@@ -116,14 +116,9 @@ function EmployeeProfile(props) {
                         </button>
                     </div>
                     <div className="UserAccount__button-background d-flex justify-content-center">
-                        <button
-                            className="UserAccount__button Employee-Profile__button--save btn mr-2 text-nowrap"
-                            onClick={ handleSave }
-                        >
-                            <Link to="/">
-                                Wdrożenia
-                            </Link>
-                        </button>
+                        <Link to="/" className="UserAccount__button btn">
+                            Wdrożenia
+                        </Link>
                     </div>
                 </div>
             </div>

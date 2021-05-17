@@ -24,6 +24,8 @@
   font-weight: bold;
   font-size: 14px;
   position: relative;
+  display: flex;
+  align-items: center;
   &:hover {
     background: rgba(15, 15, 39, 0.749);
     border: 2px solid #fff;

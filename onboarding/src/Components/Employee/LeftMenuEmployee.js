@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import LeftMenuItem from "../LeftMenuItem";
 import ModeButton from "../ModeButton";
 import "../../static/css/LeftMenu.scss";
-import logo from "../../static/images/logo_onboarding_single.svg";
+import logo from "/onboarding/static/images/logo_onboarding_single.svg";
 
 function LeftMenuEmployee({ packagesList, showAside, setToggleAside }) {
   const location = useLocation();
