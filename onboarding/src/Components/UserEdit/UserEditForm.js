@@ -75,9 +75,9 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
 
 
     const showModal = (message, out) => {
-        if(out){
+        if(out && setEditLoggedUser == null){
             let linkObj;
-            location.pathname === "/profile/manager"
+            location.pathname === "/my_profile"
                 ? linkObj = {to: "/"}
                 : linkObj = {to: "/user_list"}
             setModal(<ModalWarning handleAccept={ function(){} } title={ modalTitle } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } link={ linkObj } />);
@@ -101,7 +101,7 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     		</div>
 
     		<div className="col container-sm">
-    			<UserProfileManage
+    		    <UserProfileManage
                     user={ user }
                     handleSaveEdit={ handleSaveEdit }
                     showMessage={ showModal }
