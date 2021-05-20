@@ -8,6 +8,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import BadHeaderError
 from OnlineOnboarding.settings import EMAIL_HOST_USER
+from random import choice
 
 
 def send_activation_email_for_user_created_by_hr(user, current_site):
@@ -40,12 +41,15 @@ def send_activation_email_for_user_created_by_hr(user, current_site):
 
 
 def send_reminder_email(subject, EMAIL_HOST_USER, employee, package, current_site):
+    image_frame = choice(["napis_do_someting_600_x_230.jpg", "napis_go_up_600_x_230.jpg", "napis_work_harder_600_x_230.jpg"])
+
     html_message = render_to_string(
         'templated_email/button_reminder.html',
         {
             'user': employee,
             'package': package,
             'domain': current_site.domain,
+            'image_frame': image_frame,
         }
     )
     plain_message = strip_tags(html_message)
