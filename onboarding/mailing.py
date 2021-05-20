@@ -65,13 +65,15 @@ def send_reminder_email(subject, EMAIL_HOST_USER, employee, package, current_sit
 
 
 def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
+    image_frame = choice(["budzik_reka_600_x_230.jpg", "budzik_tlo_600_x_230.jpg", "zegarek_reka_600_x_230.jpg"])
 
     subject = f'Dodano użytkownika {user} do {package}'
     html_message = render_to_string(
         'templated_email/add_user_to_form.html',
         {
             "user": user,
-            "package": package
+            "package": package,
+            'image_frame': image_frame
         }
     )
     plain_message = strip_tags(html_message)
