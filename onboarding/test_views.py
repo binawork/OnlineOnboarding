@@ -9,7 +9,7 @@ class RegisterTests(TestCase):
     def test_1(self):
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'OnlineOnboarding.settings')
 
-        client = Client()
+        client = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
         response = client.post('http://127.0.0.1:8000/signup', data={
             'email': 'eejdzent@gmail.com',
             'first_name': "Adam",
@@ -25,7 +25,7 @@ class RegisterTests(TestCase):
     def test_2(self):
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'OnlineOnboarding.settings')
 
-        client = Client()
+        client = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
         response = client.post('http://127.0.0.1:8000/signup', data={
             'email': 'eaejdzent@gmail.com',
             'first_name': "Adam",
