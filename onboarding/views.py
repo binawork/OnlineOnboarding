@@ -393,6 +393,8 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
 
             queryset = Answer.objects.filter(section__page__package_id=package_id, owner_id=user_id)
             queryset.update(owner=None)
+            
+            # send_remove_user_from_package_email(EMAIL_HOST_USER, user, package)
 
         return Response(status=status.HTTP_204_NO_CONTENT)  # status.HTTP_404_NOT_FOUND
 

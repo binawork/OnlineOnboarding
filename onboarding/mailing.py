@@ -89,6 +89,10 @@ def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
     )
 
 
+def send_remove_user_from_package_email(EMAIL_HOST_USER, user, package):
+    pass
+
+
 def send_remove_acc_email(EMAIL_HOST_USER, user_email):
     subject = 'Usunięcie konta'  # eng. "deletion of the account"
 
