@@ -3,7 +3,7 @@ from unittest import TestCase
 from django.test import Client, TestCase
 import os
 
-from onboarding.models import User
+from onboarding.models import User, Company
 
 
 class RegisterTests(TestCase):
@@ -65,19 +65,34 @@ class PackageViewTests(TestCase):
         super().setUpClass()
         os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'OnlineOnboarding.settings')
 
-        user = User.objects.create(username='john@example.com');
-        user.set_password('secret')
+        email = 'john@example.com'
+        cls.client = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        response = cls.client.post('/signup', data={
+            'email': email,
+            'first_name': "John",
+            'last_name': "Doe",
+            'password1': 'secret_0',
+            'password2': 'secret_0',
+            'company_name': "Company Inc.",
+        })
+
+        user = User.objects.get(username=email)
+        user.is_active = True
         user.save()
-
         cls.user = user
+        cls.company = Company.objects.all().first()
 
-        cls.client = Client()
-        # cls.client.login(username='john@example.com', password='secret')
+        user_1 = User.objects.create(username='james@example.com')
+        user_1.set_password('secret_1')
+        user_1.save()
+        #cls.user = user
+
+        # cls.client.login(username='john@example.com', password='secret_0')
 
     """@classmethod
     def setUpTestData(cls):
         user = User.objects.create(username='john@example.com');
-        user.set_password('secret')
+        user.set_password('secret_0')
         user.save()
 
         cls.user = user"""
@@ -88,7 +103,8 @@ class PackageViewTests(TestCase):
         super().tearDownClass()"""
 
     def test_access_get(self):
-        logged_user = self.client.login(username=self.user.username, password='secret')
+        logged_user = self.client.login(username=self.user.username, password='secret_0')
+        # logged_user = self.client.force_login(self.user)  didn't work;
         self.assertTrue(logged_user)
 
         response = self.client.get('/api/package/')
