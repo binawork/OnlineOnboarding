@@ -127,7 +127,7 @@ def password_reset_request(request):
                         {
                             'email': user.email,
                             'domain': current_site.domain, # to fix: should it be in local_settings.py bec. it is another on a server?
-                            'site_name': 'Website',
+                            # 'site_name': 'Website',
                             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                             'user': user,
                             'token': default_token_generator.make_token(user),

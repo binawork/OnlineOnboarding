@@ -41,7 +41,7 @@ def send_activation_email_for_user_created_by_hr(user, current_site):
 
 
 def send_reminder_email(subject, EMAIL_HOST_USER, employee, package, current_site):
-    image_frame = choice(["napis_do_someting_600_x_230.jpg", "napis_go_up_600_x_230.jpg", "napis_work_harder_600_x_230.jpg"])
+    image_frame = choice(["napis_do_something_600_x_230.jpg", "napis_go_up_600_x_230.jpg", "napis_work_harder_600_x_230.jpg"])
 
     html_message = render_to_string(
         'templated_email/button_reminder.html',
