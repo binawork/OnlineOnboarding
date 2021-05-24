@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
-import "./static/css/style.scss";
-import "./static/css/App.scss";
-import Navbar from "./Components/Navbar";
 import LeftMenu from "./Components/LeftMenu";
 import LoggedUser from "./Components/hooks/LoggedUser.js";
 import DashboardPage from "./Components/Dashboard/DashboardPage";
@@ -18,6 +15,7 @@ import QnAPage from "./Components/QnA/QnAPage";
 import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePage";
 import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
 // import FormsManagerCheckPage from "./Components/FormsManagerCheckPage"; // where manager checks how form was filled;
+import "./static/css/App.scss";
 
 function App() {
   const [editLoggedUser, setEditLoggedUser] =useState(0);
@@ -45,53 +43,65 @@ function App() {
 
   return (
     <HashRouter>
-      <div className="app">
-        <header className="app-header app-header-dark">
-          <Navbar loggedUser={ loggedUser } showAside={ showAside } setToggleAside={ setToggleAside } />
-        </header>
-        <LeftMenu packagesList={ packagesList } showAside={ showAside } setToggleAside={ setToggleAside } />
+      <div className="App">
+        <div className="hamburger-wrapper d-md-none d-lg-none d-xl-none">
+          <button 
+            className={`hamburger hamburger-squeeze ${showAside ? "active" : ""}`}
+            type="button"
+            data-toggle="aside"
+            aria-label="toggle menu"
+            onClick={() => setToggleAside(!showAside)}>
+            <span className="hamburger-box">
+              <span className="hamburger-inner"></span>
+            </span>
+          </button>
+        </div>
+        <LeftMenu
+          packagesList={ packagesList }
+          showAside={ showAside }
+          setToggleAside={ setToggleAside }
+        />
         <main className="App__main app-main">
           <div className="wrapper">
             <div className="page container-xl">
-            {/* <div className="page has-sidebar-expand-xl"> */}
-                <Switch>
-                    <Route path="/user_list">
-                        <UserListPage loggedUserId={ loggedUser.id } />
-                    </Route>
-                    <Route path="/my_profile">
-                        <ManagerEditPage user={ loggedUser } editLoggedUser={ editLoggedUser } setEditLoggedUser={ setEditLoggedUser } />
-                    </Route>
-                    <Route path="/add_user/">
-                        <AddEmployeePage />
-                    </Route>
-                    <Route path="/edit_employee/:employee_id">
-                        <EmployeeEditPage />
-                    </Route>
-                    <Route path="/employee/:employee_id">
-                        <EmployeeProfilePage />
-                    </Route>
-                    <Route path="/packages">
-                        <PackagesListPage setPackagesList={ setPackagesList } />
-                    </Route>
-                    <Route path="/package/:package_id">
-                        <FormTablePage companyId={ loggedUser.company_id } handleEditTitle={ handleEditTitle } />
-                    </Route>
-                    <Route path="/form/:form_id">
-                        <FormsEditPage />
-                    </Route>
-                    <Route path="/send_package/:package_id">
-                        <AddUserTablePage loggedUserId={ loggedUser.id } />
-                    </Route>
-                    <Route path="/company">
-                        <CompanyInfoPage loggedUser={ loggedUser } />
-                    </Route>
-                    <Route path="/q_and_a">
-                        <QnAPage />
-                    </Route>
-                    <Route exact path="/">
-                        <DashboardPage loggedUserId={ loggedUser.id } />
-                    </Route>
-                </Switch>
+              <Switch>
+                  <Route path="/users_list">
+                      <UserListPage loggedUserId={ loggedUser.id } />
+                  </Route>
+                  <Route path="/my_profile">
+                      <ManagerEditPage user={ loggedUser } editLoggedUser={ editLoggedUser } setEditLoggedUser={ setEditLoggedUser } />
+                  </Route>
+                  <Route path="/add_user/">
+                      <AddEmployeePage />
+                  </Route>
+                  <Route path="/edit_employee/:employee_id">
+                      <EmployeeEditPage />
+                  </Route>
+                  <Route path="/employee/:employee_id">
+                      <EmployeeProfilePage />
+                  </Route>
+                  <Route path="/packages">
+                      <PackagesListPage setPackagesList={ setPackagesList } />
+                  </Route>
+                  <Route path="/package/:package_id">
+                      <FormTablePage companyId={ loggedUser.company_id } handleEditTitle={ handleEditTitle } />
+                  </Route>
+                  <Route path="/form/:form_id">
+                      <FormsEditPage />
+                  </Route>
+                  <Route path="/send_package/:package_id">
+                      <AddUserTablePage loggedUserId={ loggedUser.id } />
+                  </Route>
+                  <Route path="/company">
+                      <CompanyInfoPage loggedUser={ loggedUser } />
+                  </Route>
+                  <Route path="/q_and_a">
+                      <QnAPage />
+                  </Route>
+                  <Route exact path="/">
+                      <DashboardPage loggedUserId={ loggedUser.id } />
+                  </Route>
+              </Switch>
             </div>
           </div>
         </main>

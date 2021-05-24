@@ -1,0 +1,93 @@
+@import "./variables.scss";
+
+@mixin button-background {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, #29017e 9.17%, #4d0070 100%);
+    border: 0.5px solid #fff;
+    filter: blur(10px);
+    border-radius: 10px;
+    z-index: -1;
+  }
+}
+@mixin button {
+  background: rgb(15, 15, 39);
+  border: 0.5px solid #fff;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  &:hover {
+    background: rgba(15, 15, 39, 0.749);
+    border: 2px solid #fff;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-weight: 900
+  }
+}
+@mixin card {
+  --border: 2px;   /* thickness of the border */
+  --width: 18px;  /* width of border */
+  background-color: $dark-transparent;
+  padding: 18px!important;
+  position: relative;
+  box-sizing: border-box;
+  // margin: 5px;
+  display: flex;
+  justify-content: center;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    padding: var(--border);
+    border-radius: 10px;
+    -webkit-mask:
+    linear-gradient(#fff,#fff) top /calc(100% - 2*var(--width)) var(--border),
+      linear-gradient(#fff,#fff) bottom /calc(100% - 2*var(--width)) var(--border),
+      linear-gradient(#fff,#fff) left /var(--border) calc(100% - 2*var(--width)),
+      linear-gradient(#fff,#fff) right /var(--border) calc(100% - 2*var(--width)),
+      linear-gradient(#fff,#fff) content-box,
+      linear-gradient(#fff,#fff);
+      -webkit-mask-composite:destination-out;
+    -webkit-mask-repeat:no-repeat;
+    mask:
+    linear-gradient(#fff,#fff) top /calc(100% - 2*var(--width)) var(--border),
+      linear-gradient(#fff,#fff) bottom /calc(100% - 2*var(--width)) var(--border),
+      linear-gradient(#fff,#fff) left /var(--border) calc(100% - 2*var(--width)),
+      linear-gradient(#fff,#fff) right /var(--border) calc(100% - 2*var(--width)),
+      linear-gradient(#fff,#fff) content-box,
+      linear-gradient(#fff,#fff);
+      mask-composite: exclude;
+      mask-repeat: no-repeat;
+      z-index: -1;
+    }
+  }
+@mixin input {
+  background: none;
+  border: 0.5px solid rgba(255, 255, 255, 0.87);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+@mixin text-active {
+  font-weight: 500;
+  color: $light-blue!important;
+  cursor: default;
+}
+@mixin text-hover {
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+}

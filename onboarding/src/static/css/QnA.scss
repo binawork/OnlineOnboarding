@@ -1,17 +1,55 @@
+@import "./utilities/mixins.scss";
 
 .QnA {
-  &__limit {
-    text-align: end;
+  display: flex;
+  flex-direction: column;
+  &__button {
+    @include button;
+    &-background {
+      @include button-background;
+    }
+    &--add {
+      color: #fff;
+      &:hover {
+        @include text-hover;
+      }
+    }
+    &:disabled {
+      cursor: default;
+    }
   }
-  &__limit--error {
-    color: red;
-  }
-  &__card-icon {
-    margin-right: .5rem;
+  &__card {
+    @include card;
+    margin: 0 0 3rem;
+    &-button {
+      &:hover {
+        @include text-hover;
+      }
+    }
+    &-icon {
+      margin-right: .5rem;
+    }
   }
   &__footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+  }
+  &__header {
+    &-text {
+      font-size: .8rem;
+      &--main {
+        font-size: 28px;
+        font-weight: 600;
+        color: $light-blue;
+        margin-bottom: 0;
+      }
+    }
+  }
+  &__limit {
+    text-align: end;
+    &--error {
+      color: red;
+    }
   }
 }
 
@@ -25,12 +63,12 @@
 
 @media(max-width: 260px) {
   .QnA {
+    &__card-action {
+      display: none;
+    }
     &__card-icon.svg-inline--fa.fa-w-14 {
       width: 20px;
       height: 20px;
-    }
-    &__card-action {
-      display: none;
     }
   }
 }

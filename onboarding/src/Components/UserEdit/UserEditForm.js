@@ -22,11 +22,11 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     const fileNameRef = useRef("");
     const location = useLocation();
     const [employeeModal, setModal] = useState(<></>);
-    const [imageLink, updateImageLink] = useState("/onboarding/static/images/unknown-profile.jpg");
+    const [imageLink, updateImageLink] = useState("");
 
     useEffect(() => {
         user.avatar = validateURL(user.avatar, "/onboarding/static/images/unknown-profile.jpg");
-        updateImageLink(user.avatar || "/onboarding/static/images/unknown-profile.jpg");
+        updateImageLink(user.avatar || "");
     },[user.avatar]);
 
     const changeAvatar = function(e){
@@ -45,11 +45,22 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     if(enableUploadAvatar){
         imageBox = (
             <>
-                <div className="fileinput-button-label">
-                    Dodaj/zmień zdjęcie 
+                <div className={`UserAccount__icon-wrapper ${imageLink ? "fileinput-button-label" : ""}`}>
+                    <i className="UserAccount__download-icon bi bi-download"></i>
                 </div>
-                <img src={ imageLink } alt="avatar" />
-                <input id="fileupload-avatar" type="file" name="avatar" ref={ fileNameRef } onChange={ changeAvatar } />
+                { imageLink && (
+                    <img
+                        className="UserAccount__avatar"
+                        src={ imageLink }
+                        alt="avatar" /> 
+                )}
+                <input
+                    className="UserAccount__avatar-input"
+                    id="fileupload-avatar"
+                    type="file"
+                    name="avatar"
+                    ref={ fileNameRef }
+                    onChange={ changeAvatar } />
             </>
         );
     }
@@ -61,7 +72,7 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     const updateData = () => {
         if(setEditLoggedUser) {
             setEditLoggedUser(editLoggedUser + 1);
-        };
+        }
     }
 
     const handleSaveEdit = user => {
@@ -79,7 +90,7 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
             let linkObj;
             location.pathname === "/my_profile"
                 ? linkObj = {to: "/"}
-                : linkObj = {to: "/user_list"}
+                : linkObj = {to: "/users_list"}
             setModal(<ModalWarning handleAccept={ function(){} } title={ modalTitle } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } link={ linkObj } />);
         } else
             setModal(<ModalWarning handleAccept={ hideModal } title={ modalTitle } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
@@ -91,17 +102,12 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
 
 
     return (
-    	<div className="row flex-column flex-md-row justify-content-center p-3">
-    		<div className="col col-md-4">
-    			<div className="card-body align-items-center text-center">
-                    <div className="user-avatar user-avatar-xxl fileinput-button">
-                        { imageBox }
-        			</div>
-    			</div>
-    		</div>
-
-    		<div className="col container-sm">
-    		    <UserProfileManage
+    	<div className="row flex-column align-items-center">
+            <div className="UserAccount__avatar-border user-avatar user-avatar-xxl fileinput-button">
+                { imageBox }
+            </div>
+    		<div className="UserAccount__card">
+    			<UserProfileManage
                     user={ user }
                     handleSaveEdit={ handleSaveEdit }
                     showMessage={ showModal }

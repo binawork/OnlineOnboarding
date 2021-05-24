@@ -2,11 +2,10 @@ import React from "react";
 
 function QnARow(props){
     return (
-        <div className="task-issue">
-            { props.order === 1 ? <></> : <hr /> }
-            <div className="card">
+        <div className="mb-3">
+            <div className="QnA__card card">
                 <div className="card-body">
-                    <div className="form-group">
+                    <div className="form-group mb-4">
                         { props.question }
                     </div>
                     { props.answer }
