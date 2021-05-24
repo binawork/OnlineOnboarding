@@ -34,17 +34,14 @@ function ManagerEditPage({ user, editLoggedUser, setEditLoggedUser }) {
     return (
         <div className="page-inner">
             <PageAddressBar page="Twój profil" />
-            <div className="card card-fluid">
-                <div className="card-header">Twój profil</div>
-                <UserEditForm
-                    user={ singleUser }
-                    enableUploadAvatar={ true }
-                    buttonTitle={ "Zapisz" }
-                    modalTitle={"Edycja danych"}
-                    editLoggedUser={ editLoggedUser }
-                    setEditLoggedUser={ setEditLoggedUser }
-                />
-            </div>
+            <UserEditForm
+                user={ singleUser }
+                enableUploadAvatar={ true }
+                buttonTitle={ "Zapisz" }
+                modalTitle={"Edycja danych"}
+                editLoggedUser={ editLoggedUser }
+                setEditLoggedUser={ setEditLoggedUser }
+            />
         </div>
     );
 }

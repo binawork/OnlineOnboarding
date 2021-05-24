@@ -3,6 +3,7 @@ import UserEditForm from "./UserEditForm";
 import PageAddressBar from "../PageAddressBar"
 import { useLocation, useParams } from "react-router-dom";
 import { getUserById } from "../hooks/Users";
+import "../../static/css/UserAccount.scss";
 
 function EmployeeEditPage() {
     document.title = "Onboarding: profil pracownika";
@@ -33,15 +34,12 @@ function EmployeeEditPage() {
     return (
         <div className="page-inner">
             <PageAddressBar page="Edytuj pracownika" />
-            <div className="card card-fluid">
-                <div className="card-header">Edytuj pracownika</div>
-                <UserEditForm
-                    user={ singleUser }
-                    enableUploadAvatar={ false }
-                    buttonTitle={ "Zapisz" }
-                    modalTitle={"Edycja danych pracownika"}
-                />
-            </div>
+            <UserEditForm
+                user={ singleUser }
+                enableUploadAvatar={ false }
+                buttonTitle={ "Zapisz" }
+                modalTitle={"Edycja danych pracownika"}
+            />
         </div>
     );
 }
