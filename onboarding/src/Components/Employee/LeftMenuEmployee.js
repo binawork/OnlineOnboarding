@@ -1,19 +1,42 @@
-import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+import LeftMenuItem from "../LeftMenuItem";
 import ModeButton from "../ModeButton";
 import "../../static/css/LeftMenu.scss";
+import logo from "/onboarding/static/images/logo_onboarding_single.svg";
 
-function LeftMenuEmployee({ showAside, setToggleAside }) {
+function LeftMenuEmployee({ packagesList, showAside, setToggleAside }) {
+  const location = useLocation();
+  const [showFolders, setShowFolders] = useState(false);
+
   useEffect(() => {
     handleWindowResize();
     window.addEventListener("resize", handleWindowResize);
   }, []);
 
+  useEffect(() => {
+    if(showFolders && packagesList === 0) {
+      packagesList = JSON.parse(sessionStorage.getItem("packages_list"));
+    }
+  }, [showFolders]);
+
+  useEffect(() => {
+    location 
+      && (/\/package\/\d+/g).test(location.pathname)
+        || (/\/form\/\d+/g).test(location.pathname)
+        ? setShowFolders(true)
+        : setShowFolders(false);
+  }, [location.pathname]);
+
   const handleWindowResize = () => {
     if(window.innerWidth >= 768) {
       setToggleAside(false);
     }
+  }
+
+  const handleLogout = () => {
+    sessionStorage.clear();
   }
 
   return (
@@ -28,52 +51,54 @@ function LeftMenuEmployee({ showAside, setToggleAside }) {
       >
         <div className="LeftMenu__wrapper">
           <div className="LeftMenu__overflow aside-menu overflow-auto">
-            <nav id="stacked-menu" className="stacked-menu pt-5">
+            <nav id="stacked-menu" className="LeftMenu__nav">
+              <header className="LeftMenu__header">
+                <Link to="/">
+                  <img className="LeftMenu__logo" src={ logo } alt="Logo OnlineOnboarding"/>
+                </Link>
+              </header>
               <ul className="LeftMenu__list">
-                <li className="menu-item has-child">
-                  <NavLink
-                    exact to="/"
-                    className="LeftMenu__link menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                  >
-                    <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text">Wdrożenia</span>
-                  </NavLink>
-                </li>
-                <li className="menu-item">
-                  <NavLink
-                    to="/my_profile"
-                    className="LeftMenu__link menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                  >
-                    <i className="bi bi-person mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text">Mój profil</span>
-                  </NavLink>
-                </li>
-                <li className="menu-item">
-                  <NavLink
-                    to="/q_and_a"
-                    className="LeftMenu__link menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                  >
-                    <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text">Q&A</span>
-                  </NavLink>
-                </li>
-                <li className="menu-item">
-                  <NavLink 
-                    to="/company"
-                    className="LeftMenu__link menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                  >
-                    <i className="bi bi-building mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text">O firmie</span>
-                  </NavLink>
+                <LeftMenuItem
+                    path="/"
+                    title="Wdrożenia"
+                    setToggleAside={ setToggleAside }
+                    itemClassName={`LeftMenu__item${
+                      showFolders ? " has-active m-0 pb-0" : ""
+                    } menu-item has-child`}
+                    sublist={ showFolders && packagesList &&  (
+                      <ul className="LeftMenu__sublist menu">
+                        { packagesList.map(element => (
+                          <LeftMenuItem
+                            key={`package-${element.id}`}
+                            path={`/package/${element.id}`}
+                            title={`Katalog ${ element.title }`}
+                            setToggleAside={ setToggleAside } />
+                        ))}
+                      </ul>
+                    )} />
+                <LeftMenuItem
+                    path="/my_profile"
+                    title="Mój profil"
+                    setToggleAside={ setToggleAside } />
+                <LeftMenuItem
+                  path="/q_and_a"
+                  title="Q&A"
+                  setToggleAside={ setToggleAside } />
+                <LeftMenuItem
+                  path="/company"
+                  title="O firmie"
+                  setToggleAside={ setToggleAside } />
+                <li className="LeftMenu__item menu-item">
+                  <a
+                      className="LeftMenu__link menu-link"
+                      href="/accounts/logout/"
+                      onClick={ handleLogout }
+                  >Wyloguj</a>
                 </li>
               </ul>
             </nav>
           </div>
-          <ModeButton />
+          {/* <ModeButton /> */}
         </div>
       </div>
     </aside>
@@ -81,6 +106,7 @@ function LeftMenuEmployee({ showAside, setToggleAside }) {
 }
 
 LeftMenuEmployee.propTypes = {
+  packagesList: PropTypes.array,
   showAside: PropTypes.bool.isRequired,
   setToggleAside: PropTypes.func.isRequired,
 };

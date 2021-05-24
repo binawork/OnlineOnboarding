@@ -36,23 +36,23 @@ function EmployeeAvatar(props) {
     };
 
     return (
-    	<div className="col col-md-4">
-    		<div className="card-body align-items-center text-center">
-    			<div className="user-avatar user-avatar-xxl fileinput-button" role="button">
-    				<div className="fileinput-button-label">
-							Dodaj/zmień zdjęcie
-						</div>
-						<img src={ avatar } alt="avatar" />
-    				<input
-							id="fileupload-avatar"
-							type="file"
-							name="avatar"
-							ref={ fileNameRef }
-							onChange={ changeAvatar }
-						/>
-    			</div>
-    		</div>
-    	</div>
+			<div className="UserAccount__avatar-border user-avatar user-avatar-xxl fileinput-button" role="button">
+				<div className={`UserAccount__icon-wrapper ${avatar ? "fileinput-button-label" : ""}`}>
+					<i className="UserAccount__download-icon bi bi-download"></i>
+				</div>
+				<img
+					className="UserAccount__avatar"
+					src={ avatar }
+					alt="avatar" />
+				<input
+					className="UserAccount__avatar-input"
+					id="fileupload-avatar"
+					type="file"
+					name="avatar"
+					ref={ fileNameRef }
+					onChange={ changeAvatar }
+				/>
+			</div>
     );
 }
 

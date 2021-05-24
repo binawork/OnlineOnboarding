@@ -47,7 +47,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(svg|png)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(svg|png|jp(e)?g)(\?v=\d+\.\d+\.\d+)?$/,
         use: {
           loader: require.resolve('url-loader'),
           options: {

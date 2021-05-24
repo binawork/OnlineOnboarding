@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import LeftMenuItem from "./LeftMenuItem";
 import ModeButton from "./ModeButton";
-import "../static/css/LeftMenu.scss"
+import "../static/css/LeftMenu.scss";
+import logo from "/onboarding/static/images/logo_onboarding_single.svg";
 
 const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   const location = useLocation();
@@ -26,14 +28,14 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
         : setShowFolders(false);
   }, [location.pathname]);
 
-  const handleHideAside = () => {
-    setToggleAside(false);
-  }
-
   const handleWindowResize = () => {
     if(window.innerWidth >= 768) {
       setToggleAside(false);
     }
+  }
+
+  const handleLogout = () => {
+    sessionStorage.clear();
   }
 
   return (
@@ -42,145 +44,70 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
         app-aside-expand-md app-aside-light 
         ${showAside ? "show" : ""}`}
       style={{zIndex: "9"}}>
-      <div className={`${showAside ? "LeftMenu__pseudo-wrapper" : ""} w-100 h-100`} onClick={ handleHideAside }>
+      <div className={`${showAside ? "LeftMenu__pseudo-wrapper " : ""}w-100 h-100`} onClick={() => setToggleAside(false)}>
         <div className="LeftMenu__wrapper">
           <div className="LeftMenu__overflow aside-menu overflow-auto">
-            <nav id="stacked-menu" className="stacked-menu">
+            <nav id="stacked-menu" className="LeftMenu__nav">
+              <header className="LeftMenu__header">
+                <Link to="/">
+                  <img className="LeftMenu__logo" src={ logo } alt="Logo OnlineOnboarding"/>
+                </Link>
+              </header>
               <ul className="LeftMenu__list">
-                <li className="menu-header px-0">
-                  <NavLink 
-                    exact to="/"
-                    className="LeftMenu__link LeftMenu__link--main menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                    onClick={ handleHideAside }
-                  >
-                      <span className="menu-icon fas fa-home"></span>{" "}
-                      <span className="menu-text">Wdrożenia</span>
-                  </NavLink>
-                </li>
-
-                <li className={`${
-                  showFolders ? "has-active" : ""
-                } menu-item has-child`}>
-                  <NavLink 
-                    to="/packages" 
-                    className="LeftMenu__link menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                    onClick={ handleHideAside }
-                  >
-                    <i className="bi bi-diagram-2 mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text">Utwórz wdrożenie</span>
-                  </NavLink>
-                  { showFolders && packagesList &&  (
+                <LeftMenuItem
+                  path="/"
+                  title="Dashboard"
+                  setToggleAside={ setToggleAside } />
+                <LeftMenuItem
+                  path="/packages"
+                  title="Wdrożenia"
+                  setToggleAside={ setToggleAside }
+                  itemClassName={`LeftMenu__item${
+                    showFolders ? " has-active m-0 pb-0" : ""
+                  } menu-item has-child`}
+                  sublist={ showFolders && packagesList &&  (
                     <ul className="LeftMenu__sublist menu">
                       { packagesList.map(element => (
-                        <li key={`package-${element.id}`} className="menu-item">
-                          <NavLink
-                            to={ "/package/" + element.id }
-                            className="LeftMenu__link menu-link"
-                            activeStyle={{color: "#346CB0"}}
-                            style={{ whiteSpace: "normal"}}
-                            onClick={ handleHideAside }
-                          >
-                            Katalog { element.title }
-                          </NavLink>
-                        </li>
+                        <LeftMenuItem
+                          key={`package-${element.id}`}
+                          path={`/package/${element.id}`}
+                          title={`Katalog ${ element.title }`}
+                          setToggleAside={ setToggleAside } />
                       ))}
                     </ul>
                   )}
-                </li>
-                <li className="menu-item">
-                  <NavLink
-                    to="/add_user"
-                    className="LeftMenu__link menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                    onClick={ handleHideAside }
-                  >
-                    <i className="bi bi-plus-circle mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text"> Dodaj pracownika</span>
-                  </NavLink>
-                </li>
-                <li className="menu-item">
-                  <NavLink
-                    to="/user_list"
-                    className="LeftMenu__link menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                    onClick={ handleHideAside }
-                  >
-                    <i className="bi bi-people mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text"> Lista pracowników</span>
-                  </NavLink>
-                </li>
-                <li className="menu-item">
-                  <NavLink 
-                    to="/company"
-                    className="LeftMenu__link menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                    onClick={ handleHideAside }
-                  >
-                    <i className="bi bi-building mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text"> O firmie</span>
-                  </NavLink>
-                </li>
-                <li className="menu-item">
-                  <NavLink 
-                    to="/q_and_a"
-                    className="LeftMenu__link menu-link"
-                    activeStyle={{color: "#346CB0"}}
-                    onClick={ handleHideAside }
-                  >
-                    <i className="bi bi-question-circle mr-2" style={{ fontSize: "18px"}}></i>
-                    <span className="menu-text"> Q&A</span>
-                  </NavLink>
+                />
+                <LeftMenuItem
+                  path="/add_user"
+                  title="Dodaj pracownika"
+                  setToggleAside={ setToggleAside } />
+                <LeftMenuItem
+                  path="/users_list"
+                  title="Lista pracowników"
+                  setToggleAside={ setToggleAside } />
+                <LeftMenuItem
+                  path="/company"
+                  title="O firmie"
+                  setToggleAside={ setToggleAside } />
+                <LeftMenuItem
+                  path="/q_and_a"
+                  title="Q&A"
+                  setToggleAside={ setToggleAside } />
+                <LeftMenuItem
+                  path="/my_profile"
+                  title="Mój profil"
+                  setToggleAside={ setToggleAside } />
+                <li className="LeftMenu__item menu-item">
+                  <a
+                      className="LeftMenu__link menu-link"
+                      href="/accounts/logout/"
+                      onClick={ handleLogout }
+                  >Wyloguj</a>
                 </li>
               </ul>
-
-              {/*<ul className="menu">
-                          <li className="menu-header">
-                              <span className="menu-icon fas fa-home"></span> <span className="menu-text">Components</span>
-                          </li>
-
-                          <li className="menu-item">
-                              <Link to='/add_user' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Add new user</span></Link>
-                          </li>
-                          <li className="menu-item">
-                              <Link to='/user_list' className="menu-link"><span className="menu-icon fas fa-file"></span> <span className="menu-text">Lista pracowników</span></Link>
-                          </li>
-                          <li className="menu-item">
-                              <Link to="/profile/manager" className="menu-link"> UserManagerProfile</Link>
-                          </li>
-                          <li className="menu-item">
-                              <Link to="/employee/:employee_id" className="menu-link"> EmployeeProfile</Link>
-                          </li>
-                          <li className="menu-item">
-                              <Link to="/add_user" className="menu-link"> UserManagerProfile</Link>
-                          </li>
-                          <li className="menu-item">
-                              <Link to="/form_edit" className="menu-link"> FormsEdit</Link>
-                          </li>
-                          <li className="menu-item">
-                              <Link to="/package_page" className="menu-link"> FormTable</Link>
-                          </li>
-                          <li className="menu-item">
-                              <Link to="/user_list" className="menu-link"> UserList</Link>
-                          </li>
-                          <li className="menu-item">
-                              <Link to="/packages" className="menu-link"> PackagesList </Link>
-                          </li>
-                          <li className="menu-item">
-                            <Link to="/users_pages" className="menu-link"> AddUserTable </Link>
-                          </li>
-
-                          <li className="menu-item">
-                              <Link to="/employe_forms_list" className="menu-link"> EmployeeFormsList</Link>
-                          </li>
-                          <li className="menu-item">
-                              <Link to="/employe_page_fill" className="menu-link"> FormsEmployee</Link>
-                          </li>
-                        </ul>*/}
             </nav>
           </div>
-          <ModeButton />
+          {/* <ModeButton /> */}
         </div>
       </div>
     </aside>

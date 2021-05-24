@@ -43,26 +43,27 @@ function EmployeeProfile(props) {
     };
 
     return (
-      <div className="card-body">
-        <form>
+        <form className="UserAccount__form">
             <div className="form-label-group mb-2">
                 <input
                     id="first-name"
                     type="text"
-                    className="form-control"
+                    className="UserAccount__input form-control"
                     placeholder="Imię"
                     value={ user.first_name }
-                    onChange={ handleChangeName } />
+                    onChange={ handleChangeName }
+                    maxLength="50" />
                 <label htmlFor="first-name">Imię</label>
             </div>
             <div className="form-label-group mb-2">
                 <input
                     id="last-name"
                     type="text"
-                    className="form-control"
+                    className="UserAccount__input form-control"
                     placeholder="Nazwisko"
                     value={ user.last_name }
-                    onChange={ handleChangeLName } />
+                    onChange={ handleChangeLName }
+                    maxLength="50" />
                 <label htmlFor="last-name">Nazwisko</label>
             </div>
             <hr />
@@ -70,20 +71,22 @@ function EmployeeProfile(props) {
                 <input
                     id="email"
                     type="email"
-                    className="form-control"
+                    className="UserAccount__input form-control"
                     placeholder="e-mail"
                     value={ user.email }
-                    onChange={ handleEmail } />
+                    onChange={ handleEmail }
+                    maxLength="50" />
                 <label htmlFor="email">E-mail</label>
             </div>
             <div className="form-label-group mb-2">
                 <input
                     id="telephone"
                     type="tel"
-                    className="form-control"
+                    className="UserAccount__input form-control"
                     placeholder="telefon"
                     value={ user.phone_number }
-                    onChange={ handleTel } />
+                    onChange={ handleTel }
+                    maxLength="15" />
                 <label htmlFor="telephone">Telefon</label>
             </div>
             <div className="form-group mt-3">
@@ -101,20 +104,25 @@ function EmployeeProfile(props) {
                     Stanowisko: { user.job_position }
                 </div>
             </div>
-            <div className="form-group">
+            <div className="UserAccount__button-wrapper input-group-append justify-content-center">
                 <div className="Employee-Profile__buttons input-group-append justify-content-end">
-                    <button
-                        className="Employee-Profile__button--save btn btn-secondary mr-2 text-nowrap"
-                        onClick={ handleSave }>
-                        Zapisz zmiany
-                    </button>
-                    <Link to="/" className="Employee-Profile__button--forms btn btn-success d-flex align0items-center">
-                        Wdrożenia
-                    </Link>
+                    <div className="UserAccount__button-background d-flex justify-content-center">
+                        <button
+                            className="UserAccount__button Employee-Profile__button--save btn mr-2 text-nowrap"
+                            onClick={ handleSave }
+                            // disabled={ validEmail(user.email) ? false : true }
+                        >
+                            Zapisz zmiany
+                        </button>
+                    </div>
+                    <div className="UserAccount__button-background d-flex justify-content-center">
+                        <Link to="/" className="UserAccount__button btn">
+                            Wdrożenia
+                        </Link>
+                    </div>
                 </div>
             </div>
         </form>
-      </div>
     );
 }
 

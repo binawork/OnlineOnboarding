@@ -84,7 +84,7 @@ function EmployeeProfilePage() {
 
     return(
         <div className="page-inner">
-            <PageAddressBar page={ `Proces wdrażania pracownika ${singleUser.name} ${singleUser.last_name}` } previousPages={[ {title: "Lista pracowników", url: "/user_list"} ]} />
+            <PageAddressBar page={ `Proces wdrażania pracownika ${singleUser.name} ${singleUser.last_name}` } previousPages={[ {title: "Lista pracowników", url: "/users_list"} ]} />
             <div className="page-section">
                 <EmployeeProfileUser user={ singleUser } goBackToMainProfilePage={ goBackToMainProfilePage } sentAndFinished={ sentAndFinished } />
                 <ProcessPreviewTables 

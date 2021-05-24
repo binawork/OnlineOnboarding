@@ -1,0 +1,29 @@
+@import './utilities/mixins.scss';
+
+.WelcomePage {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: center no-repeat url("/onboarding/static/images/background.jpg") fixed;
+  z-index: 99999;
+  &__button {
+    @include button-background;
+    @include button;
+  }
+  &__card {
+    @include card;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    z-index: 1;
+  }
+  &__hidden {
+    opacity: 0;
+    z-index: -10;
+    transition: all .5s ease-in-out;
+  }
+}
