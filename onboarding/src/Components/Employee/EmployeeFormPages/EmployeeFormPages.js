@@ -36,12 +36,12 @@ const EmployeeFormPages = ({ setPage, userId }) => {
         setPagesList(pages);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [packageId]);
 
   useEffect(() => {
     //if(userId)
       getProgress(userId, progressCallback);
-  }, []);
+  }, [packageId]);
 
 
   return (
