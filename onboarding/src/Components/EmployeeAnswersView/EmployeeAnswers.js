@@ -68,10 +68,14 @@ function EmployeeAnswers({ pageId, employeeId, setMessage, buttonsOptions, updat
 
         count = (hrConfirmed && areSaved);
         if(!areAnswered){
-            updateButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: false, confirmed: count, msg: "Wyślij przypomnienie"}, areSaved);
+            updateButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: false, confirmed: count, msg: "Wyślij przypomnienie"},
+                          areSaved);
+
             setMessage("Pracownik jeszcze nie odpowiedział na pytania");
         } else {
-            updateButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: true, confirmed: count, msg: "Wyślij ponownie"}, areSaved);
+            updateButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: true, confirmed: count, msg: "Wyślij ponownie"},
+                          areSaved);
+
             setMessage("");
         }
     };

@@ -36,7 +36,7 @@ function EmployeeAnswersViewPage(props){
 
         let saved = newButtonsOptions.answered || areSaved;
         if( (props.page.notStarted && saved) || (props.page.inProgress && newButtonsOptions.answered) )
-            updateForms(true);// update when employee saved or sent answers during watching them on this page;
+            updateForms(true);// update progress when employee saved or sent answers during watching them on this page;
     };
 
     const enableDisableButtons = (parentElement, doDisable) => {
