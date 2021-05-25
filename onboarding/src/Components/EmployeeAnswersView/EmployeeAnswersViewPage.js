@@ -31,6 +31,14 @@ function EmployeeAnswersViewPage(props){
     const employeeId = props.employeeId;
 
 
+    const updateButtonsOptions = function(newButtonsOptions, areSaved){
+        setButtons(newButtonsOptions);
+
+        let saved = newButtonsOptions.answered || areSaved;
+        if( (props.page.notStarted && saved) || (props.page.inProgress && newButtonsOptions.answered) )
+            updateForms(true);// update when employee saved or sent answers during watching them on this page;
+    };
+
     const enableDisableButtons = (parentElement, doDisable) => {
         let i, buttons = parentElement.getElementsByClassName("js-hide-button");
         for(i = buttons.length - 1; i >= 0; i--)
@@ -122,7 +130,6 @@ function EmployeeAnswersViewPage(props){
     };
 
     const retryCallback = (message, isError, elementTarget) => {
-
         if(isError){
             if(elementTarget) elementTarget.disabled = false;// setTimeout()?
         } else {
@@ -175,7 +182,7 @@ function EmployeeAnswersViewPage(props){
             <EmployeeAnswers pageId={ props.page.id }
                              employeeId={ employeeId }
                              setMessage={ setMessage }
-                             buttonsOptions={ buttonsOptions } setButtons={ setButtons }
+                             buttonsOptions={ buttonsOptions } updateButtons={ updateButtonsOptions }
                              acceptAnswersAsk={ acceptAnswersAsk }
                              resendAnswersAsk={ resendAnswersAsk } />
             { confirmationModal.modal }

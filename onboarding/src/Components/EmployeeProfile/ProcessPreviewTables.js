@@ -41,6 +41,10 @@ function ProcessPreviewTables(props) {
 
             if( !result.hasOwnProperty(packageId) ){
                 props.groupedPackages.sent[i].progress = "0" + props.groupedPackages.sent[i].progress.substring(1);// "0/" + groupedPackages.sent[i].pagesCount;
+                j = props.groupedPackages.sent[i].pages.length - 1;
+                for(; j >= 0; j--)
+                    props.groupedPackages.sent[i].pages[j].notStarted = true;
+
                 continue;
             }
 
@@ -74,8 +78,10 @@ function ProcessPreviewTables(props) {
                         props.groupedPackages.sent[i].pages[j].finished = props.groupedPackages.sent[i].pages[j].finishMsg = inProgressMsg;
                         props.groupedPackages.sent[i].pages[j].percentage = 50;
                         isFinished = false;
+                        props.groupedPackages.sent[i].pages[j].inProgress = true;
                     }
-                }
+                } else
+                    props.groupedPackages.sent[i].pages[j].notStarted = true;
             }
 
             if(isFinished && countPages == props.groupedPackages.sent[i].pagesCount){

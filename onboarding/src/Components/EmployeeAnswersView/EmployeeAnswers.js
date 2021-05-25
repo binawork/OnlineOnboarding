@@ -6,7 +6,7 @@ import SectionAnswers from "./SectionAnswers";
 //import PropTypes from "prop-types";
 
 
-function EmployeeAnswers({ pageId, employeeId, setMessage, buttonsOptions, setButtons, acceptAnswersAsk, resendAnswersAsk }){
+function EmployeeAnswers({ pageId, employeeId, setMessage, buttonsOptions, updateButtons, acceptAnswersAsk, resendAnswersAsk }){
     const [sectionsAnswers, setSectionsAnswers] = useState({sections: [], answers: [], answers_cp: []});
     //const [loadingMessage, setMessage] = useState("Ładowanie...");
     const [sectionsView, setView] = useState([]);
@@ -68,10 +68,10 @@ function EmployeeAnswers({ pageId, employeeId, setMessage, buttonsOptions, setBu
 
         count = (hrConfirmed && areSaved);
         if(!areAnswered){
-            setButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: false, confirmed: count, msg: "Wyślij przypomnienie"});
+            updateButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: false, confirmed: count, msg: "Wyślij przypomnienie"}, areSaved);
             setMessage("Pracownik jeszcze nie odpowiedział na pytania");
         } else {
-            setButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: true, confirmed: count, msg: "Wyślij ponownie"});
+            updateButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: true, confirmed: count, msg: "Wyślij ponownie"}, areSaved);
             setMessage("");
         }
     };
