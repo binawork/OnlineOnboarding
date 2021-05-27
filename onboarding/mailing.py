@@ -11,6 +11,34 @@ from OnlineOnboarding.settings import EMAIL_HOST_USER
 from random import choice
 
 
+def send_password_reset_email(user, current_site):
+    subject = 'Zmiana hasła' # eng. "password change"
+    html_message = render_to_string(
+        'templated_email/password_reset_email.html',
+        {
+            'email': user.email,
+            'domain': current_site.domain, # to fix: should it be in local_settings.py bec. it is another on a server?
+            # 'site_name': 'Website',
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'user': user,
+            'token': default_token_generator.make_token(user),
+            'protocol': 'http',
+        }
+    )
+
+    plain_message = strip_tags(html_message)
+    from_email = EMAIL_HOST_USER
+
+    mail.send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [user.email],
+        html_message=html_message,
+        fail_silently=False
+    )
+
+
 def send_activation_email_for_user_created_by_hr(user, current_site):
     subject = 'Rejestracja'  # eng. "password change"
     html_message = render_to_string(
