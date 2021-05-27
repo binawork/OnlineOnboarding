@@ -5,7 +5,7 @@ import EmployeeProfile from "./EmployeeProfile";
 import ModalWarning from "../../ModalWarning";
 import PageAddressBar from "../../PageAddressBar";
 import { uploadAvatarSync, employeeSelfEdit } from "../../hooks/Users";
-
+import "../../../static/css/UserAccount.scss";
 
 function EmployeeAccount({ loggedUser, countUpdate, updateUser }){
     const [employeeModal, setModal ] = useState(<></>);
@@ -67,23 +67,20 @@ function EmployeeAccount({ loggedUser, countUpdate, updateUser }){
     return (
         <div className="page-inner">
             <PageAddressBar page="Twój profil" />
-            <div className="card card-fluid">
-                <div className="card-header">Pracownik</div>
-                <div className="row flex-column flex-md-row justify-content-center p-3">
-                    <EmployeeAvatar
+            <div className="row flex-column align-items-center">
+                <EmployeeAvatar
+                    loggedUser={ editedUser }
+                    setFile={ changeImage }
+                    image={ imageFile }
+                />
+                <div className="UserAccount__card">
+                    <EmployeeProfile
                         loggedUser={ editedUser }
-                        setFile={ changeImage }
-                        image={ imageFile }
+                        handleEdit={ handleEdit }
+                        showMessage={ showModal }
                     />
-                    <div className="col">
-                        <EmployeeProfile
-                            loggedUser={ editedUser }
-                            handleEdit={ handleEdit }
-                            showMessage={ showModal }
-                        />
-                    </div>
-                    { employeeModal }
                 </div>
+                { employeeModal }
             </div>
         </div>
     );

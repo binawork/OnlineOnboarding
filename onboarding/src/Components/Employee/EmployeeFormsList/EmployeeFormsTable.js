@@ -10,7 +10,7 @@ import { getProgress } from "../../hooks/EmployeeForms";
  * @returns {JSX.Element}
  * @constructor
  */
-function EmployeeFormsTable({ employeeForms }) {
+function EmployeeFormsTable({ employeeForms, setPackagesList }) {
     const [employeeFormsList, setEmployeeForms] = useState([]);
     const [message, setMessage] = useState("Ładowanie...");
 
@@ -48,7 +48,11 @@ function EmployeeFormsTable({ employeeForms }) {
                 />
             );
         });
+
         setEmployeeForms(employeePageCopyList);
+        setPackagesList(employeeForms.packages.map(element => {
+            return { id: element.id, title: element.name };
+        }));
     };
 
     useEffect(() => {
@@ -60,9 +64,6 @@ function EmployeeFormsTable({ employeeForms }) {
     return(
         <div className="page-section">
             <div className="card card-fluid">
-                <div className="card-header">
-                    Do zrobienia
-                </div>
                 <div className="card-body">
                     <table className="table table-striped table-hover">
                         <thead>

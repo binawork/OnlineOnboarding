@@ -1,27 +1,27 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
+import "../static/css/PageAddressBar.scss";
 
 function PageAddressBar({ page, previousPages=[] }) {
     return(
-        <header className="page-title-bar p-0">
-            <div className="card card-fluid">
-                <div className="card-body">
-                    <ol className="breadcrumb m-0">
-                        <li className="breadcrumb-item">
-                            <Link exact="true" to="/">DASHBOARD</Link>
+        <header className="PageAddressBar page-title-bar p-0">
+            <ol className="breadcrumb m-0">
+                <li className="breadcrumb-item">
+                    <NavLink
+                        className="PageAddressBar__link"
+                        activeClassName="PageAddressBar__link--active" 
+                        exact to="/">Dashboard</NavLink>
+                </li>
+                {
+                    previousPages && previousPages.map((element, i) => (
+                        <li key={ `${element.title + i}` } className="breadcrumb-item">
+                            <Link to={ element.url } className="PageAddressBar__link">{ element.title }</Link>
                         </li>
-                        {
-                            previousPages && previousPages.map((element, i) => (
-                                <li key={ `${element.title + i}` } className="breadcrumb-item">
-                                    <Link to={ element.url }>{ element.title }</Link>
-                                </li>
-                            ))
-                        }
-                        { page && <li className="breadcrumb-item active">{ page }</li> }
-                    </ol>
-                </div>
-            </div>
+                    ))
+                }
+                { page && <li className="PageAddressBar__item--active breadcrumb-item">{ page }</li> }
+            </ol>
         </header>
     )
 }
