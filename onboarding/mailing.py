@@ -12,6 +12,8 @@ from random import choice
 
 
 def send_password_reset_email(user, current_site):
+    image_frame = choice(["korytarz_600_x_230.jpg", "linie_600_x_230.jpg", "swiatlo_600_x_230.jpg", "woda_krople_600_x_230.jpg"])
+
     subject = 'Zmiana hasła' # eng. "password change"
     html_message = render_to_string(
         'templated_email/password_reset_email.html',
@@ -23,6 +25,7 @@ def send_password_reset_email(user, current_site):
             'user': user,
             'token': default_token_generator.make_token(user),
             'protocol': 'http',
+            'image_frame': image_frame,
         }
     )
 
