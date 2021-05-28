@@ -5,11 +5,11 @@
 </header>
 <div class="main__message">
   <p class="main__paragraph">
-    Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
+    Dzień dobry {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
   </p>
   <p class="main__paragraph">
-    Otrzymujesz tę wiadomość, ponieważ najwyraźniej ociągasz się z zapoznawaniem się z "{{ package.title }}".
-    Aby nadrobić zaległości, wejdz w link:
+    Otrzymujesz tę wiadomość, ponieważ najwyraźniej masz jeszcze do zrobienia jedno lub kilka wdrożeń. "{{ package.title }}".
+    Aby zapoznać się jakie to są wdrożenia, kliknij link:
   </p>
 </div>
 <footer class="main__footer">
@@ -24,7 +24,7 @@
   </p>
   <p class="main__paragraph">
     <small>
-      Mail wysłany za pomocą przycisku "Przypomnienie". Prosimy nie odpowiadać, a wszystkie pytania kierować
+      Mail wysłany automatycznie. Prosimy na niego nie odpowiadać, a wszelkie pytania kierować
       do osoby odpowiedzialnej za program wdrożeniowy w firmie.
     </small>
   </p>
