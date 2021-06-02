@@ -1,0 +1,14 @@
+{% extends "templated_email/main_email_template.html" %}
+{% block content %}
+<header class="main__header">
+    <p class="main__paragraph">Usunięcie katalogu formularzy</p>
+</header>
+<div class="main__message">
+    <p class="main__paragraph">
+        Dzień dobry{% if user.first_name and user.first_name|length %} {{ user.first_name }}{% endif %},
+    </p>
+    <p class="main__paragraph">
+        Otrzymujesz tą wiadomość, ponieważ z twojej listy katalogów został usunięty "{{ package }}".
+    </p>
+</div>
+{% endblock %}

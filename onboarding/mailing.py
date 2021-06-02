@@ -123,7 +123,24 @@ def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
 
 
 def send_remove_user_from_package_email(EMAIL_HOST_USER, user, package):
-    pass
+    subject = f'Anulowanie {package}'
+        html_message = render_to_string(
+        'templated_email/remove_package_from_one_user.html',
+        {
+            "user": user,
+            "package": package
+        }
+    )
+    plain_message = strip_tags(html_message)
+    from_email = EMAIL_HOST_USER
+
+    mail.send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [user.email],
+        html_message=html_message,
+    )
 
 
 def send_remove_acc_email(EMAIL_HOST_USER, user_email):
