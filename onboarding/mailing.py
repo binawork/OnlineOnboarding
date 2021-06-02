@@ -43,6 +43,8 @@ def send_password_reset_email(user, current_site):
 
 
 def send_activation_email_for_user_created_by_hr(user, current_site):
+    image_frame = choice(["ona_zolte_tlo_600_x_230.jpg", "say_cheese_600_x_230.jpg", "on_laka_600_x_230.jpg", "on_las_600_x_230.jpg", "ona_blond_usmiech_600_x_230.jpg", "ona_usmiech_600_x_230.jpg"])
+
     subject = 'Rejestracja'  # eng. "password change"
     html_message = render_to_string(
         'templated_email/register_user_by_hr.html',
