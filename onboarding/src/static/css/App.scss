@@ -1,6 +1,20 @@
 .App {
   &__main {
-    padding-left: 280px!important;
+    // LeftMenu width = 363px
+    padding-left: 363px!important;
+  }
+  .hamburger {
+    border-radius: 50%;
+  }
+  .hamburger-wrapper {
+      position: fixed;
+      top: 11px;
+      right: 18px;
+      z-index: 10;
+      position: fixed;
+      background: #310059;
+      border-radius: 50%;
+      padding: 6px;
   }
 }
 

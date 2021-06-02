@@ -1,16 +1,43 @@
+@import "./utilities/variables.scss";
+@import "./utilities/mixins.scss";
+
 .LeftMenu {
-  top: 56px!important;
-  max-width: 280px!important;
+  top: 0!important;
+  max-width: 363px!important;
   width: 100%!important;
+  background: $dark-transparent;
+  &__header {
+    width: 259px;
+    height: 53px;
+    margin-bottom: 72px;
+  }
+  &__item {
+    padding: 10px;
+    padding-left: 52px;
+    &:not(:last-of-type) {
+      margin: 10px 0;
+    }
+  }
   &__link {
-    padding: 8px 1rem!important;
     font-size: 1rem!important;
-    &--main {
-      padding-left: 0!important;
+    color: #fff;
+    &:hover {
+      @include text-hover;
+    }
+    &--active {
+      @include text-active;
     }
   }
   &__list {
+    padding: 0;
     list-style: none;
+  }
+  &__logo {
+    width: 100%;
+    height: 100%;
+  }
+  &__nav {
+    padding: 56px 0 56px 52px;
   }
   &__overflow {
     scrollbar-width: thin;
@@ -34,10 +61,10 @@
   &__pseudo-wrapper {
     width: 100%;
     z-index: 1;
-    background: var(--light);
+    background: center bottom url("/onboarding/static/images/background.jpg");
     &::before {
       content: '';
-      position:absolute;
+      position: absolute;
       z-index: -1;
       width: 200vw;
       height: 100vh;
@@ -45,7 +72,8 @@
     }
   }
   &__sublist {
-    padding-left: 2rem!important;
+    padding-left: 0!important;
+    list-style: none;
   }
   &__wrapper {
     height: 100%;

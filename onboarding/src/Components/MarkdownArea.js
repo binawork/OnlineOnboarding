@@ -4,6 +4,7 @@ import $ from "jquery";
 import "summernote/dist/summernote-bs4.min.css";
 import "summernote/dist/summernote-bs4.min.js";
 import "summernote/lang/summernote-pl-PL";
+import "../static/css/Markdown.scss";
 
 try {
   window.$ = window.jQuery = require("jquery");
@@ -60,7 +61,7 @@ const MarkdownArea = ({ id, content, contentChange, simple=false, placeholder, h
   });
 
   return (
-    <div draggable="false" style={{cursor: "auto"}}>
+    <div className="Markdown" draggable="false" style={{cursor: "auto"}}>
       <div id={"summernote" + id}></div>
     </div>
   );

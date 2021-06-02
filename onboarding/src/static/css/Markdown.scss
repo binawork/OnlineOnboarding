@@ -1,0 +1,38 @@
+.Markdown {
+  /* Overwrite summernote classes */
+  // Change summernote placeholder
+  .note-placeholder {
+    font-style: italic;
+  }
+  // Change summernote background
+  .btn-light.focus, .btn-light:focus, .btn-light:hover {
+    background: none;
+  }
+  .btn-light:not(:disabled):not(.disabled).active, .btn-light:not(:disabled):not(.disabled):active, .show>.btn-light.dropdown-toggle {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+  .card {
+    background: none;
+  }
+  .card-header.note-toolbar {
+    background: none;
+  }
+  .note-editor.note-airframe .note-statusbar, .note-editor.note-frame .note-statusbar {
+    background: none;
+  }
+  .note-editor.note-frame .note-editing-area .note-codable, .note-editor.note-frame .note-editing-area .note-editable {
+    background: none;
+  }
+  // Change summernote borders
+  .btn-group>.btn-group>.btn, .btn-group>.btn{
+    border: none;
+  }
+  .card-header {
+    border-bottom: 2px solid #fff;
+  }
+  .note-editor.note-airframe, .note-editor.note-frame {
+    border: 2px solid #fff;
+    border-radius: 10px;
+  }
+}
