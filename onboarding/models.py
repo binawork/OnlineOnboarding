@@ -139,6 +139,11 @@ class PackagesUsers(models.Model):
     package_sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='package_sender')
     send_on = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'package'], name='unique package for each user')
+        ]
+
 
 class Page(models.Model):
     """
