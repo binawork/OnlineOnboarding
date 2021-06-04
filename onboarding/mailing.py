@@ -123,12 +123,15 @@ def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
 
 
 def send_remove_user_from_package_email(EMAIL_HOST_USER, user, package):
+    image_frame = choice(["recykling_600_x_230.jpg", "skasowane_600_x_230.jpg"])
+
     subject = f'Anulowanie {package}'
     html_message = render_to_string(
         'templated_email/remove_package_from_one_user.html',
         {
             "user": user,
-            "package": package
+            "package": package,
+            'image_frame': image_frame
         }
     )
     plain_message = strip_tags(html_message)
