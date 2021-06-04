@@ -54,6 +54,7 @@ def send_activation_email_for_user_created_by_hr(user, current_site):
             'user': user,
             'token': default_token_generator.make_token(user),
             'protocol': 'http',
+            'image_frame': image_frame,
         }
     )
 
