@@ -39,7 +39,7 @@ from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializ
 
 from .permissions import IsHrUser
 from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email,\
-    send_remove_acc_email, send_password_reset_email
+    send_remove_user_from_package_email, send_remove_acc_email, send_password_reset_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm, HrSignUpFormEng, CustomSetPasswordForm
 
@@ -374,8 +374,8 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
 
             queryset = Answer.objects.filter(section__page__package_id=package_id, owner_id=user_id)
             queryset.update(owner=None)
-            
-            # send_remove_user_from_package_email(EMAIL_HOST_USER, user, package)
+
+            send_remove_user_from_package_email(EMAIL_HOST_USER, User.objects.get(pk=user_id), Package.objects.get(id=package_id) )
 
         return Response(status=status.HTTP_204_NO_CONTENT)  # status.HTTP_404_NOT_FOUND
 
