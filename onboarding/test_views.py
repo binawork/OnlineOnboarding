@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, skip
 
 from django.test import Client, TestCase
 import os
@@ -121,6 +121,8 @@ class PackagesUsersTests(TestCase):
             self.fail("Package has to be unique for each user (company A)")
         except:
             pass
+        else:
+            self.fail("Package has to be unique for each user (company A)")
 
         self.package_1_B.users.add(self.user_2_B, through_defaults={'package_sender': self.user_1_B})
         self.package_2_B.users.add(self.user_2_B, through_defaults={'package_sender': self.user_1_B})
@@ -148,6 +150,32 @@ class PackagesUsersTests(TestCase):
             self.package_2_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
         except:
             self.fail("User-Package relation which does not exists should be created! (company A)")
+
+    @skip("IntegrityError  might not be exception of'ask for forgiveness' principle")
+    def test_else_statement_should_not_run(self):
+        self.package_1_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
+        self.package_2_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
+
+        try:
+            self.package_1_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
+        except:  # IntegrityError
+            pass
+        else:
+            self.fail("'else' statement should not be executed when one tries to add not unique package for user! (company A)")
+
+    @skip("IntegrityError  might not be exception of'ask for forgiveness' principle")
+    def test_false_statement_should_not_run(self):
+        self.package_1_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
+        self.package_2_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
+
+        fail_case = True
+        try:
+            self.package_1_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
+        except:  # IntegrityError
+            fail_case = False
+
+        if fail_case:
+            self.fail("'fail-case' statement should not be executed when one tries to add not unique package for user! (company A)")
 
     """def test_foreign_user_can_not_be_added(self):
         client = Client()
