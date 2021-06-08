@@ -1,14 +1,14 @@
 {% extends "templated_email/main_email_template.html" %}
 {% block content %}
 <header class="main__header">
-  <p class="main__paragraph">Aktywacja konta w OnboardingOnline</p>
+  <p class="main__paragraph">Aktywacja konta w Online Onboarding</p>
 </header>
 <div class="main__message">
   <p class="main__paragraph">
-    Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
+    Dzień dobry {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
   </p>
   <p class="main__paragraph">
-    Aby aktywować konto skorzystaj z podanego poniżej linku.
+    Aby aktywować konto w aplikacji skorzystaj z podanego poniżej linku.
   </p>
 </div>
 <footer class="main__footer">

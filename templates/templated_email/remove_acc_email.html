@@ -1,15 +1,14 @@
 {% extends "templated_email/main_email_template.html" %}
 {% block content %}
 <header class="main__header">
-    <p class="main__paragraph">Kasacja konta w Online Onboarding</p>
+    <p class="main__paragraph">Konta w Online Onboarding</p>
 </header>
 <div class="main__message">
     <p class="main__paragraph">
-        Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ username }}{% endif %},
+        Dzień dobry {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ username }}{% endif %},
     </p>
     <p class="main__paragraph">
-        Otrzymujesz tą wiadomość, ponieważ na twoim koncie została użyta opcja kasacji konta.
-        Twoje dane zostały usunięte z naszej bazy.
+        Otrzymujesz tą wiadomość, ponieważ twoje konto użytkownika zostało usunięte. Twoje dane zostały również usunięte z naszej bazy.
     </p>
 </div>
 {% endblock %}
