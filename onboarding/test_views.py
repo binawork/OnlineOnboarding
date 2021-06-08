@@ -240,6 +240,27 @@ class PackagesUsersTests(TestCase):
         users = User.objects.filter(id__in=user_ids, is_hr=False).exclude(id__in=package.users.all())
         self.assertFalse(users.exists())
 
+    def test_exclude_users_in_none_package(self):
+        p_id = None
+        user_ids = [self.user_1_A.pk, self.user_2_A.pk]
+
+        try:
+            package = Package.objects.prefetch_related('users').get(pk=p_id)
+        except:
+            pass
+        else:
+            users = User.objects.filter(id__in=user_ids, is_hr=False).exclude(id__in=package.users.all())
+            self.assertTrue(users.exists())
+
+        self.package_1_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
+        try:
+            package = Package.objects.prefetch_related('users').get(pk=p_id)
+        except:
+            pass
+        else:
+            users = User.objects.filter(id__in=user_ids, is_hr=False).exclude(id__in=package.users.all())
+            self.assertFalse(users.exists())
+
     """def test_foreign_user_can_not_be_added(self):
         client = Client()
         logged_user = client.login(username=self.username_1, password=self.password_1)
