@@ -381,22 +381,26 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         :param request: user id in request.data.users
         :param pk: package primary key
         """
-        package = Package.objects.get(id=pk)
+        package = None
+        try:
+            package = Package.objects.prefetch_related('users').get(pk=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         pkg_company = package.owner
         hr_user = User.objects.get(id=request.user.id)
-        users = User.objects.filter(id__in=request.data["users"])
+        # check if the hr_user is from the same company as the package (form)
+        # to which he /she wants to add a new user
+        if hr_user.company_id == pkg_company.id:
+            pass
+        else:
+            raise ValueError("""Możesz dodawać tylko do formularzy firmy, do
+                której należysz.""")
+
+        users = User.objects.filter(id__in=request.data["users"], is_hr=False, company=hr_user.company).exclude(id__in=package.users.all())
         # serializer = PackageAddUsersSerializer
 
         for user in users:
-
-            # check if the hr_user is from the same company as the package (form)
-            # to which he /she wants to add a new user
-            if hr_user.company_id == pkg_company.id:
-                pass
-            else:
-                raise ValueError("""Możesz dodawać tylko do formularzy firmy, do
-                    której należysz.""")
-
             # check if the hr_user is from the same company as the user
             # he /she wants to add to the package (form)
             if hr_user.company_id == user.company_id:
@@ -405,12 +409,11 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
                 raise ValueError("""Możesz dodawać do formularzy tylko tych
                     użytowników, którzy są z tej samej firmy.""")
 
-            if user not in package.users.all():
-                package.users.add(user, through_defaults={'package_sender': hr_user})
-                send_add_user_to_package_email(
-                    EMAIL_HOST_USER,
-                    user,
-                    package)
+            package.users.add(user, through_defaults={'package_sender': hr_user})
+            send_add_user_to_package_email(
+                EMAIL_HOST_USER,
+                user,
+                package)
 
         serializer = PackageSerializer(package)
         return Response(serializer.data)

@@ -111,6 +111,7 @@ class PackagesUsersTests(TestCase):
 
         cls.package_2_B = Package.objects.create(owner=cls.company_B, title='Package 2 B', description='Description 2 B')
         cls.package_2_B.save()
+        cls.max_package_id = cls.package_2_B.pk
 
     def test_packages_users_is_unique(self):
         self.package_1_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
@@ -241,7 +242,7 @@ class PackagesUsersTests(TestCase):
         self.assertFalse(users.exists())
 
     def test_exclude_users_in_none_package(self):
-        p_id = None
+        p_id = None  # self.max_package_id + 1
         user_ids = [self.user_1_A.pk, self.user_2_A.pk]
 
         try:
@@ -249,7 +250,7 @@ class PackagesUsersTests(TestCase):
         except:
             pass
         else:
-            users = User.objects.filter(id__in=user_ids, is_hr=False).exclude(id__in=package.users.all())
+            users = User.objects.filter(id__in=user_ids, is_hr=False, company=self.user_1_A.company).exclude(id__in=package.users.all())
             self.assertTrue(users.exists())
 
         self.package_1_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
@@ -258,7 +259,7 @@ class PackagesUsersTests(TestCase):
         except:
             pass
         else:
-            users = User.objects.filter(id__in=user_ids, is_hr=False).exclude(id__in=package.users.all())
+            users = User.objects.filter(id__in=user_ids, is_hr=False, company=self.user_1_A.company).exclude(id__in=package.users.all())
             self.assertFalse(users.exists())
 
     """def test_foreign_user_can_not_be_added(self):
