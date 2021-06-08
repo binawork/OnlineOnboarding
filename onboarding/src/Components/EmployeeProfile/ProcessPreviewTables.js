@@ -33,7 +33,7 @@ function ProcessPreviewTables(props) {
     		return;// todo: maybe inform about error;
 
         let i, j, packageId, pId, isFinished, countFinished = 0, countPages;
-        const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
+        const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie", finishedMsg = "Skończone", passedMsg = "Zaliczone";
 
         for(i = props.groupedPackages.sent.length - 1; i >= 0; i--){
             packageId = parseInt(props.groupedPackages.sent[i].id, 10);
@@ -41,6 +41,10 @@ function ProcessPreviewTables(props) {
 
             if( !result.hasOwnProperty(packageId) ){
                 props.groupedPackages.sent[i].progress = "0" + props.groupedPackages.sent[i].progress.substring(1);// "0/" + groupedPackages.sent[i].pagesCount;
+                j = props.groupedPackages.sent[i].pages.length - 1;
+                for(; j >= 0; j--)
+                    props.groupedPackages.sent[i].pages[j].notStarted = true;
+
                 continue;
             }
 
@@ -65,14 +69,19 @@ function ProcessPreviewTables(props) {
                     countPages++;
                     if(result[packageId].pages[pId].finished){
                         props.groupedPackages.sent[i].pages[j].finished = result[packageId].pages[pId].date;
-                        props.groupedPackages.sent[i].pages[j].finishMsg = finishedMsg;
+                        if(result[packageId].pages[pId].confirmed)
+                            props.groupedPackages.sent[i].pages[j].finishMsg = passedMsg;
+                        else
+                            props.groupedPackages.sent[i].pages[j].finishMsg = finishedMsg;
                         props.groupedPackages.sent[i].pages[j].percentage = 100;
                     } else {
                         props.groupedPackages.sent[i].pages[j].finished = props.groupedPackages.sent[i].pages[j].finishMsg = inProgressMsg;
                         props.groupedPackages.sent[i].pages[j].percentage = 50;
                         isFinished = false;
+                        props.groupedPackages.sent[i].pages[j].inProgress = true;
                     }
-                }
+                } else
+                    props.groupedPackages.sent[i].pages[j].notStarted = true;
             }
 
             if(isFinished && countPages == props.groupedPackages.sent[i].pagesCount){

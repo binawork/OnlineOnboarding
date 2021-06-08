@@ -197,7 +197,7 @@ function revertProgressAnswers(progressAnswers){
 
 		pageId = answer.section.page;
 		if( !progress[packageId].pages.hasOwnProperty(pageId) )
-			progress[packageId].pages[pageId] = {finished: true, date: finishDate, title: "", answers: {}};
+			progress[packageId].pages[pageId] = {finished: true, confirmed: true, date: finishDate, title: "", answers: {}};
 		else if(finishDate > progress[packageId].pages[pageId].date){
 			progress[packageId].pages[pageId].date = finishDate;
 		}
@@ -219,8 +219,10 @@ function revertProgressAnswers(progressAnswers){
 			progress[packageId].pages[pageId].finished &= data.finished;
 		}
 
-		if( answer.hasOwnProperty("confirmed") )
-			data.confirmed = answer.confirmed;
+		if( answer.hasOwnProperty("confirmed") ){
+			data.confirmed = answer.confirmed === 'true' || answer.confirmed === true;
+			progress[packageId].pages[pageId].confirmed &= data.confirmed;
+		}
 		/*if( answer.hasOwnProperty("data") )
 			data.data = answer.data;*/
 
@@ -649,6 +651,42 @@ export function sendAcceptance(employeeId, pageId, acceptCallback, button){
 			}
 		).catch(function(err){
 			acceptCallback(err.message, true, button);
+		});
+}
+
+/**
+ * Requests server to set employee's answers as not finished and sends an e-mail to ask employee to reanswer them;
+ * @param employeeId: an id of employee whose answers will have to be send again;
+ * @param pageId: id of the form/page the answers belongs to;
+ * @param retryCallback: callback function with arguments
+ *        message - string of message to be displayed,
+ *        isError - boolean if error occurred or not,
+ *        elementTarget - DOM of button to be unblock and all its button siblings when error occurred (optional);
+ * @param button: DOM object of button to be unblock when the answer is not ok (optional);
+ */
+export function sendRetry(employeeId, pageId, retryCallback, button){
+	let data, token = getCookie("csrftoken"), path = getPath(),
+		fetchProps = {method:"PATCH", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
+
+	data = {user: employeeId};
+	fetchProps.body = JSON.stringify(data);
+
+	path += "api/answer/" + pageId + "/resend/";
+	fetch(path, fetchProps)
+		.then(res => {
+				if(!res.ok) {
+					throw Error("Wystąpił błąd podczas wysyłania!");
+				}
+				return (res.status !== 204) ? res.json() : res;// 204: HTTP_204_NO_CONTENT;
+		}).then(
+			(result) => {
+				retryCallback("Dokumenty/ Formularze zostały wysłane do pracownika.", false);
+			},
+			(error) => {
+				retryCallback("Formularza/Dokumentów nie udało się wysłać.", true, button);
+			}
+		).catch(function(err){
+			retryCallback(err.message, true, button);
 		});
 }
 

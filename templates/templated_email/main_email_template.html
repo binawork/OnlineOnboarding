@@ -7,8 +7,8 @@
 </head>
 <body>
   <header class="header">
-    <img class="header__bar" src="{% static 'images/belka_top_logo.jpg' %}" alt="">
-    <img class="header__image" src="{% static 'images/kadr_600_230_rece.jpg' %}" alt="Logo OnlineOnboarding">
+    <img class="header__bar" src="{% static 'images/belka_top_logo.jpg' %}" alt="Logo OnlineOnboarding">
+    <img class="header__image" src="{% static 'images/email/' %}{{ image_frame|default:'kadr_600_230_rece.jpg' }}" alt="">
   </header>
   <main class="main">
     {% block content %}{% endblock %}
