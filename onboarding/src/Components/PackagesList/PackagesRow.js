@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { dateToString } from "../utils";
-import "../../static/css/packages.css";
+import "../../static/css/utilities/packages.scss";
 import Tag from "../Tag";
 
 function PackagesRow({ row, removeAsk, lastRow }) {

@@ -87,7 +87,7 @@ function FormsSentTableRow(props) {
                         </a>
                     </td>
                     <td className="form-progress">
-                        <ProgressBar color={ finishMsg === "Skończone" ? "green" : "yellow" } backgroundSize={ percentage } />
+                        <ProgressBar color={ page.percentage === 100 ? "green" : "yellow" } backgroundSize={ percentage } />
                         <small className="ml-1">{ finishMsg }</small>
                     </td>
                     <td/>
@@ -122,9 +122,9 @@ function FormsSentTableRow(props) {
                         { props.row.progress } { tag }
                     </div>
                 </td>
-                <td className="table__data">{props.row.send_date}</td>
-                <td className="table__data">{props.row.finish_date}</td>
-                <td className="table__data" style={{ textAlign: "end", width: "120px" }}>
+                <td>{props.row.send_date}</td>
+                <td>{props.row.finish_date}</td>
+                <td style={{ textAlign: "end", width: "120px" }}>
                     { buttonObj }
                     { buttonRm }
                 </td>

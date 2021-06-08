@@ -5,26 +5,18 @@
 </header>
 <div class="main__message">
   <p class="main__paragraph">
-    Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
+    Dzień dobry {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
   </p>
   <p class="main__paragraph">
-    Otrzymujesz tę wiadomość, ponieważ najwyraźniej ociągasz się z zapoznawaniem się z {{ package.title }}.
-    Aby nadrobić zaległości, wejdz w link:
+    {% if is_page %} Otrzymujesz tę wiadomość, ponieważ najwyraźniej masz jeszcze do zrobienia wdrożenie: "{{ package.title }}".
+    {% else %} Otrzymujesz tę wiadomość, ponieważ najwyraźniej masz jeszcze do zrobienia jedno lub kilka wdrożeń w "{{ package.title }}".{% endif %}
   </p>
 </div>
 <footer class="main__footer">
-  <p class="main__paragraph main__paragraph--bigger">
-    <strong>
-      {% autoescape off %}
-        <a href="http://{{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}">
-          {{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}
-        </a>
-      {% endautoescape %}
-    </strong>
-  </p>
+{#  <p class="main__paragraph main__paragraph--bigger">  </p>#}
   <p class="main__paragraph">
     <small>
-      Mail wysłany za pomocą przycisku "Przypomnienie". Prosimy nie odpowiadać, a wszystkie pytania kierować
+      Mail wysłany automatycznie. Prosimy na niego nie odpowiadać, a wszelkie pytania kierować
       do osoby odpowiedzialnej za program wdrożeniowy w firmie.
     </small>
   </p>
