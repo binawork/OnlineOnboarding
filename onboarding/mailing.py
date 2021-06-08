@@ -39,13 +39,13 @@ def send_activation_email_for_user_created_by_hr(user, current_site):
     return redirect('/password_reset/done/')
 
 
-def send_reminder_email(subject, EMAIL_HOST_USER, employee, package, current_site):
+def send_reminder_email(EMAIL_HOST_USER, employee, package):
+    subject = "Przypomnienie"
     html_message = render_to_string(
         'templated_email/button_reminder.html',
         {
             'user': employee,
             'package': package,
-            'domain': current_site.domain,
         }
     )
     plain_message = strip_tags(html_message)
@@ -81,6 +81,20 @@ def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
         [to],
         html_message=html_message,
     )
+
+
+def send_reask_user_for_page_email(EMAIL_HOST_USER, user, page, do_remind=False, is_Polish=True):
+    subject = "Prośba o wypełnienie \"{page}\""
+    html_message = render_to_string(
+        'templated_email/ask_user_for_page.html',
+        {
+            "user": user,
+            "title": page.title
+        }
+    )
+    plain_message = strip_tags(html_message)
+
+    mail.send_mail(subject, plain_message, EMAIL_HOST_USER, [user.email], html_message=html_message)
 
 
 def send_remove_acc_email(EMAIL_HOST_USER, user_email):

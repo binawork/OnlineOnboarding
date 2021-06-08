@@ -74,15 +74,17 @@ function EmployeeProfilePage() {
         }
     }, [groupedPackages]);*/
 
-    const goBackToMainProfilePage = (e) => {
+    const goBackToMainProfilePage = (e, performUpdate) => {
         e.preventDefault();
         setAnswersPage(null);
+        if(performUpdate)
+            setCount(count + 1);
     };
 
 
     return(
         <div className="page-inner">
-            <PageAddressBar page={ `Proces wdrażania pracownika ${singleUser.name} ${singleUser.last_name}` } previousPages={[ {title: "Lista pracowników", url: "/users_list"} ]} />
+            <PageAddressBar page={ `Proces wdrażania pracownika ${singleUser.first_name} ${singleUser.last_name}` } previousPages={[ {title: "Lista pracowników", url: "/users_list"} ]} />
             <div className="page-section">
                 <EmployeeProfileUser user={ singleUser } goBackToMainProfilePage={ goBackToMainProfilePage } sentAndFinished={ sentAndFinished } />
                 <ProcessPreviewTables 

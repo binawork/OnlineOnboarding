@@ -88,14 +88,14 @@ function PackagesListTable({ setPackagesList }) {
     return (
         <div className="page-section">
         <hr />
-            <button className="btn btn-success mb-3" onClick={() => setShowAddCatalogueBox(true)}>+ Dodaj katalog</button>
+            <button className="btn btn-success mb-3" onClick={() => setShowAddCatalogueBox(true)}>+ Dodaj wdrożenie</button>
             { showAddCatalogueInput &&
                 <div className="modal modal-alert fade show d-flex flex-column justify-content-center" style={{ backdropFilter: "brightness(55%)"}} onClick={() => setShowAddCatalogueBox(false)}>
                     <div className="modal-dialog"  onClick={ e => e.stopPropagation() }>
                         <div className="modal-content">
                             <i className="bi bi-x-circle close-icon" onClick={() => setShowAddCatalogueBox(false)} style={{cursor: "pointer"}} />
                             <div className="card-header">
-                                Dodaj nowy katalog wdrożeń (np. BHP, Szkolenia produktowe, Osoby kluczowe etc.)
+                                Dodaj tytuł wdrożenia (np. BHP, Szkolenia produktowe, Osoby kluczowe etc.)
                             </div>
                             <div className="card-body">
                                 <PackagesAddNew handleUpdate={ updatePackages } setShowAddCatalogueBox={ setShowAddCatalogueBox } popUpAddPackageError={ popUpAddPackageError } />

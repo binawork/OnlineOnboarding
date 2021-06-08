@@ -8,20 +8,11 @@
     Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
   </p>
   <p class="main__paragraph">
-    Otrzymujesz tę wiadomość, ponieważ najwyraźniej ociągasz się z zapoznawaniem się z {{ package.title }}.
-    Aby nadrobić zaległości, wejdz w link:
+    Otrzymujesz tę wiadomość, ponieważ najwyraźniej ociągasz się z zapoznawaniem się z "{{ package.title }}".
   </p>
 </div>
 <footer class="main__footer">
-  <p class="main__paragraph main__paragraph--bigger">
-    <strong>
-      {% autoescape off %}
-        <a href="http://{{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}">
-          {{ domain }}{% url 'reminder' employee_id=user.id package_id=package.id %}
-        </a>
-      {% endautoescape %}
-    </strong>
-  </p>
+{#  <p class="main__paragraph main__paragraph--bigger">  </p>#}
   <p class="main__paragraph">
     <small>
       Mail wysłany za pomocą przycisku "Przypomnienie". Prosimy nie odpowiadać, a wszystkie pytania kierować

@@ -38,7 +38,7 @@ from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializ
 
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email, send_remove_acc_email
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email, send_remove_acc_email, send_reask_user_for_page_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm, HrSignUpFormEng, CustomSetPasswordForm
 
@@ -161,18 +161,14 @@ def password_reset_request(request):
 # should send information to front about send reminder or not?
 @login_required()
 def reminder(request, employee_id, package_id):
-    current_site = get_current_site(request)
-    subject = 'Przypomnienie'
     employee = User.objects.get(id=employee_id)
     package = Package.objects.get(id=package_id)
     if request.user.company == employee.company:
         send_reminder_email(
-            subject,
             EMAIL_HOST_USER,
             employee,
-            package,
-            current_site)
-    return HttpResponse(current_site)
+            package)
+    return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 
 @login_required
@@ -786,6 +782,45 @@ class AnswerViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         answers.update(confirmed=True)
+
+        serializer = AnswersProgressStatusSerializer(answers, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated, IsHrUser], serializer_class=AnswersProgressStatusSerializer)
+    def resend(self, request, pk):
+        """
+        Endpoint to reject answers of employee or to reask him to fill.
+        :param request:
+        :param pk: id of page for answers which have to be confirmed
+        :return:
+        """
+        # if not request.user.is_hr:
+        #     return Response(status=status.HTTP_403_FORBIDDEN)
+
+        user_id = request.data.get('user', None)
+        if user_id is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.filter(id=user_id, company=request.user.company)
+        if not user.exists():
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        user = user.first()
+        page = Page.objects.get(id=pk)
+        answers = Answer.objects.select_related('section__page').filter(section__page_id=pk,
+                                                                        owner=user,
+                                                                        finished=True)
+        if answers.count() < 1:
+            # employee didn't answer any question? Send reminding email and return 'no body';
+            send_reminder_email(EMAIL_HOST_USER, user, page)
+            # send_reask_user_for_page_email(EMAIL_HOST_USER, user, page, do_remind=True)
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        answers.update(confirmed=False, finished=False)
+
+        # sending e-mail:
+        send_reask_user_for_page_email(EMAIL_HOST_USER, user, page)
 
         serializer = AnswersProgressStatusSerializer(answers, many=True)
         return Response(serializer.data)
