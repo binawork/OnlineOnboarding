@@ -38,7 +38,8 @@ from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializ
 
 
 from .permissions import IsHrUser
-from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email, send_remove_acc_email, send_reask_user_for_page_email
+from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email,\
+    send_remove_user_from_package_email, send_remove_acc_email, send_password_reset_email, send_reask_user_for_page_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm, HrSignUpFormEng, CustomSetPasswordForm
 
@@ -118,33 +119,13 @@ def password_reset_request(request):
         if password_reset_form.is_valid():
             data = password_reset_form.cleaned_data['email']
             associated_users = User.objects.filter(Q(email=data))
+
             if associated_users.exists():
                 current_site = get_current_site(request)
+
                 for user in associated_users:
-                    subject = 'Zmiana hasła' # eng. "password change"
-                    html_message = render_to_string(
-                        'templated_email/password_reset_email.html',
-                        {
-                            'email': user.email,
-                            'domain': current_site.domain, # to fix: should it be in local_settings.py bec. it is another on a server?
-                            'site_name': 'Website',
-                            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                            'user': user,
-                            'token': default_token_generator.make_token(user),
-                            'protocol': 'http',
-                        }
-                    )
-                    plain_message = strip_tags(html_message)
-                    from_email = EMAIL_HOST_USER
                     try:
-                        mail.send_mail(
-                                        subject,
-                                        plain_message,
-                                        from_email,
-                                        [user.email],
-                                        html_message=html_message,
-                                        fail_silently=False
-                        )
+                        send_password_reset_email(user, current_site)
                     except BadHeaderError:
                         return HttpResponse('Invalid header found.')
                     return redirect('/password_reset/done/')
@@ -389,6 +370,8 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
 
             queryset = Answer.objects.filter(section__page__package_id=package_id, owner_id=user_id)
             queryset.update(owner=None)
+
+            send_remove_user_from_package_email(EMAIL_HOST_USER, User.objects.get(pk=user_id), Package.objects.get(id=package_id) )
 
         return Response(status=status.HTTP_204_NO_CONTENT)  # status.HTTP_404_NOT_FOUND
 
@@ -812,7 +795,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
                                                                         finished=True)
         if answers.count() < 1:
             # employee didn't answer any question? Send reminding email and return 'no body';
-            send_reminder_email(EMAIL_HOST_USER, user, page)
+            send_reminder_email(EMAIL_HOST_USER, user, page, True)
             # send_reask_user_for_page_email(EMAIL_HOST_USER, user, page, do_remind=True)
 
             return Response(status=status.HTTP_204_NO_CONTENT)

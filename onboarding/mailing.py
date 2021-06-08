@@ -8,9 +8,43 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import BadHeaderError
 from OnlineOnboarding.settings import EMAIL_HOST_USER
+from random import choice
+
+
+def send_password_reset_email(user, current_site):
+    image_frame = choice(["korytarz_600_x_230.jpg", "linie_600_x_230.jpg", "swiatlo_600_x_230.jpg", "woda_krople_600_x_230.jpg"])
+
+    subject = 'Zmiana hasła' # eng. "password change"
+    html_message = render_to_string(
+        'templated_email/password_reset_email.html',
+        {
+            'email': user.email,
+            'domain': current_site.domain, # to fix: should it be in local_settings.py bec. it is another on a server?
+            # 'site_name': 'Website',
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'user': user,
+            'token': default_token_generator.make_token(user),
+            'protocol': 'http',
+            'image_frame': image_frame,
+        }
+    )
+
+    plain_message = strip_tags(html_message)
+    from_email = EMAIL_HOST_USER
+
+    mail.send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [user.email],
+        html_message=html_message,
+        fail_silently=False
+    )
 
 
 def send_activation_email_for_user_created_by_hr(user, current_site):
+    image_frame = choice(["ona_zolte_tlo_600_x_230.jpg", "say_cheese_600_x_230.jpg", "on_laka_600_x_230.jpg", "on_las_600_x_230.jpg", "ona_blond_usmiech_600_x_230.jpg", "ona_usmiech_600_x_230.jpg"])
+
     subject = 'Rejestracja'  # eng. "password change"
     html_message = render_to_string(
         'templated_email/register_user_by_hr.html',
@@ -20,6 +54,7 @@ def send_activation_email_for_user_created_by_hr(user, current_site):
             'user': user,
             'token': default_token_generator.make_token(user),
             'protocol': 'http',
+            'image_frame': image_frame,
         }
     )
 
@@ -39,13 +74,17 @@ def send_activation_email_for_user_created_by_hr(user, current_site):
     return redirect('/password_reset/done/')
 
 
-def send_reminder_email(EMAIL_HOST_USER, employee, package):
+def send_reminder_email(EMAIL_HOST_USER, employee, package, is_page=False):
+    image_frame = choice(["napis_do_something_600_x_230.jpg", "napis_go_up_600_x_230.jpg", "napis_work_harder_600_x_230.jpg"])
+
     subject = "Przypomnienie"
     html_message = render_to_string(
         'templated_email/button_reminder.html',
         {
             'user': employee,
             'package': package,
+            'is_page': is_page,
+            'image_frame': image_frame,
         }
     )
     plain_message = strip_tags(html_message)
@@ -61,13 +100,15 @@ def send_reminder_email(EMAIL_HOST_USER, employee, package):
 
 
 def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
+    image_frame = choice(["budzik_reka_600_x_230.jpg", "budzik_tlo_600_x_230.jpg", "zegarek_reka_600_x_230.jpg"])
 
     subject = f'Dodano użytkownika {user} do {package}'
     html_message = render_to_string(
         'templated_email/add_user_to_form.html',
         {
             "user": user,
-            "package": package
+            "package": package,
+            'image_frame': image_frame
         }
     )
     plain_message = strip_tags(html_message)
@@ -79,6 +120,30 @@ def send_add_user_to_package_email(EMAIL_HOST_USER, user, package):
         plain_message,
         from_email,
         [to],
+        html_message=html_message,
+    )
+
+
+def send_remove_user_from_package_email(EMAIL_HOST_USER, user, package):
+    image_frame = choice(["recykling_600_x_230.jpg", "skasowane_600_x_230.jpg"])
+
+    subject = f'Anulowanie {package}'
+    html_message = render_to_string(
+        'templated_email/remove_package_from_one_user.html',
+        {
+            "user": user,
+            "package": package,
+            'image_frame': image_frame
+        }
+    )
+    plain_message = strip_tags(html_message)
+    from_email = EMAIL_HOST_USER
+
+    mail.send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [user.email],
         html_message=html_message,
     )
 
