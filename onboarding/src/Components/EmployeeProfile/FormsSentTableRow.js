@@ -87,7 +87,7 @@ function FormsSentTableRow(props) {
                         </a>
                     </td>
                     <td className="form-progress">
-                        <ProgressBar color={ finishMsg === "Skończone" ? "green" : "yellow" } backgroundSize={ percentage } />
+                        <ProgressBar color={ page.percentage === 100 ? "green" : "yellow" } backgroundSize={ percentage } />
                         <small className="ml-1">{ finishMsg }</small>
                     </td>
                     <td/>
