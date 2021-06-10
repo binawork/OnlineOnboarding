@@ -1,0 +1,14 @@
+{% extends "templated_email/main_email_template.html" %}
+{% block content %}
+<header class="main__header">
+    <p class="main__paragraph">Wysłano odpowiedź na formularz</p>
+</header>
+<div class="main__message">
+    <p class="main__paragraph">
+        Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
+    </p>
+    <p class="main__paragraph">
+        Pracownik "{{ employee }}" właśnie wysłał formularz "{{ form }}". Zaloguj się aby zobaczyć zmiany.
+    </p>
+</div>
+{% endblock %}

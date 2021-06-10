@@ -39,7 +39,7 @@ from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializ
 
 from .permissions import IsHrUser
 from .mailing import send_activation_email_for_user_created_by_hr, send_reminder_email, send_add_user_to_package_email,\
-    send_remove_user_from_package_email, send_remove_acc_email, send_password_reset_email, send_reask_user_for_page_email
+    send_remove_user_from_package_email, send_remove_acc_email, send_password_reset_email, send_reask_user_for_page_email, answer_send_notification_email
 from .tokens import account_activation_token
 from .forms import HrSignUpForm, HrSignUpFormEng, CustomSetPasswordForm
 
@@ -381,21 +381,26 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
         :param request: user id in request.data.users
         :param pk: package primary key
         """
-        package = Package.objects.get(id=pk)
+        package = None
+        try:
+            package = Package.objects.prefetch_related('users').get(pk=pk)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         pkg_company = package.owner
         hr_user = User.objects.get(id=request.user.id)
-        users = User.objects.filter(id__in=request.data["users"])
+        # check if the hr_user is from the same company as the package (form)
+        # to which he /she wants to add a new user
+        if hr_user.company_id == pkg_company.id:
+            pass
+        else:
+            raise ValueError("""Możesz dodawać tylko do formularzy firmy, do
+                której należysz.""")
+
+        users = User.objects.filter(id__in=request.data["users"], is_hr=False, company=hr_user.company).exclude(id__in=package.users.all())
         # serializer = PackageAddUsersSerializer
 
         for user in users:
-            # check if the hr_user is from the same company as the package (form)
-            # to which he /she wants to add a new user
-            if hr_user.company_id == pkg_company.id:
-                pass
-            else:
-                raise ValueError("""Możesz dodawać tylko do formularzy firmy, do
-                    której należysz.""")
-
             # check if the hr_user is from the same company as the user
             # he /she wants to add to the package (form)
             if hr_user.company_id == user.company_id:
@@ -404,23 +409,11 @@ class PackagesUsersViewSet(viewsets.ModelViewSet):
                 raise ValueError("""Możesz dodawać do formularzy tylko tych
                     użytowników, którzy są z tej samej firmy.""")
 
-#mail notification has to be rewrited: it's bugged in here and in 'dev' branch
-        # for user in users:
-        #     send_add_user_to_package_email(
-        #         EMAIL_HOST_USER,
-        #         user,
-        #         package
-        #     )
-
-        users |= User.objects.filter(id=hr_user.id)
-        for user in users:
-            if user not in package.users.all():
-                package.users.add(user)
-                if user.is_hr != True:
-                    send_add_user_to_package_email(
-                        EMAIL_HOST_USER,
-                        user,
-                        package)
+            package.users.add(user, through_defaults={'package_sender': hr_user})
+            send_add_user_to_package_email(
+                EMAIL_HOST_USER,
+                user,
+                package)
 
         serializer = PackageSerializer(package)
         return Response(serializer.data)
@@ -732,6 +725,24 @@ class AnswerViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         serializer = AnswersProgressStatusSerializer(answers, many=True)
+
+        if request.method == 'PATCH':
+            """
+            Mail notification - sends an email to hr user after the employee
+            completes an assigment.
+            """
+            page_check = Page.objects.select_related('package').get(pk=pk, package__users=self.request.user)
+            package_user = None
+            if page_check:
+                package_user = PackagesUsers.objects.filter(user=self.request.user, package=page_check.package)
+
+            if package_user is not None and package_user.count() > 0:
+                package_user = package_user.first()
+                if package_user.package_sender is not None:
+                    answer_send_notification_email(EMAIL_HOST_USER,
+                                                   package_user.package_sender,
+                                                   self.request.user,
+                                                   page_check)
 
         return Response(serializer.data)
 
