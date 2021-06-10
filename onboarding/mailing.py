@@ -183,23 +183,26 @@ def send_remove_acc_email(EMAIL_HOST_USER, user_email):
     )
 
 def answer_send_notification_email(EMAIL_HOST_USER, hr_user, employee, form):
-        subject = 'Użytkownik {} wysłał formularz {}.'.format(employee, form)
+    image_frame = choice(["napis_done_is_better_600_x_230.jpg", "puchar_600_x_230.jpg", "statuetki_600_x_230.jpg"])
+    subject = 'Użytkownik {} wysłał formularz {}.'.format(employee, form)
 
-        html_message = render_to_string(
-            'templated_email/answer_notification.html',
-            {
-                'user': hr_user,
-                'employee': employee,
-                'form': form,
-            }
-        )
-        plain_message = strip_tags(html_message)
-        from_email = EMAIL_HOST_USER
-        to = hr_user.email
-        mail.send_mail(
-            subject,
-            plain_message,
-            from_email,
-            [to],
-            html_message=html_message,
-        )
+    html_message = render_to_string(
+        'templated_email/answer_notification.html',
+        {
+            'user': hr_user,
+            'employee': employee,
+            'form': form,
+            'image_frame': image_frame,
+        }
+    )
+    plain_message = strip_tags(html_message)
+    from_email = EMAIL_HOST_USER
+    to = hr_user.email
+    mail.send_mail(
+        subject,
+        plain_message,
+        from_email,
+        [to],
+        html_message=html_message,
+    )
+

@@ -8,7 +8,7 @@
         Witaj {% if user.first_name and user.first_name|length %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %},
     </p>
     <p class="main__paragraph">
-        Pracownik właśnie wysłał formularz. Zaloguj się aby zobaczyć zmiany.
+        Pracownik "{{ employee }}" właśnie wysłał formularz "{{ form }}". Zaloguj się aby zobaczyć zmiany.
     </p>
 </div>
 {% endblock %}
