@@ -3,7 +3,7 @@ from unittest import TestCase, skip
 from django.test import Client, TestCase
 import os
 
-from onboarding.models import User, Company, Package, PackagesUsers
+from onboarding.models import User, Company, Package, PackagesUsers, Page
 
 
 class RegisterTests(TestCase):
@@ -261,6 +261,25 @@ class PackagesUsersTests(TestCase):
         else:
             users = User.objects.filter(id__in=user_ids, is_hr=False, company=self.user_1_A.company).exclude(id__in=package.users.all())
             self.assertFalse(users.exists())
+
+    def test_package_sender_selection_by_page_and_user(self):
+        """
+        Testing request for package_sender by self.user_2_A, and page;
+        """
+        page = Page.objects.create(package=self.package_1_A, owner=self.company_A, title="Title 1", description="Description 1", order=1)
+        self.package_1_A.users.add(self.user_2_A, through_defaults={'package_sender': self.user_1_A})
+
+        try:
+            page_check = Page.objects.select_related('package').get(pk=page.pk, package__users=self.user_2_A)
+            package_user = PackagesUsers.objects.filter(user=self.user_2_A, package=page_check.package)
+        except:
+            self.fail("User - package relation missed but it should be for \"{}\" - \"{}\"!".format(self.user_2_A, self.package_1_A) )
+        else:
+            if package_user.count() < 1:
+                self.fail("User - package relation missed but it should be for \"{}\" - \"{}\"!".format(self.user_2_A, self.package_1_A) )
+            else:
+                package_user = package_user.first()
+                self.assertEqual(self.user_1_A, package_user.package_sender)
 
     """def test_foreign_user_can_not_be_added(self):
         client = Client()
