@@ -727,35 +727,24 @@ class AnswerViewSet(viewsets.ModelViewSet):
         serializer = AnswersProgressStatusSerializer(answers, many=True)
 
         if request.method == 'PATCH':
-            '''
+            """
             Mail notification - sends an email to hr user after the employee
             completes an assigment.
-            '''
-            page_id = Page.objects.get(id=pk)
-            package_id = Package.objects.get(id=page_id.package_id)
-            packagesusers = PackagesUsers.objects.extra(where=[
-            "package_id='{}'".format(package_id.id)])
-            for p in packagesusers:
-                if p.user.is_hr is True:
-                    hr_user = p.user
-            page_name = Page.objects.get(id=pk)
-            answer_send_notification_email(EMAIL_HOST_USER, hr_user.email,
-                self.request.user.email, page_name.title, hr_user)
+            """
+            page_check = Page.objects.select_related('package').get(pk=pk, package__users=self.request.user)
+            package_user = None
+            if page_check:
+                package_user = PackagesUsers.objects.filter(user=self.request.user, package=page_check.package)
 
+            if package_user is not None and package_user.count() > 0:
+                package_user = package_user.first()
+                if package_user.package_sender is not None:
+                    answer_send_notification_email(EMAIL_HOST_USER,
+                                                   package_user.package_sender,
+                                                   self.request.user,
+                                                   page_check)
 
-#Version which is sending an email to all HR users in the company;
-#Beware! It need tuning (ValueError: Invalid address - email adress is a list,
-#at least for a single user).
-            # page_name = Page.objects.get(id=pk)
-            # hr_email = []
-            # hr_users_list = User.objects.filter(company = self.request.user.company,
-            #     is_hr = True)
-            # for hr_user in hr_users_list:
-            #     hr_email.append(hr_user.email)
-            # answer_send_notification_email(EMAIL_HOST_USER, hr_email,
-            #     self.request.user.email, page_name.title)
-
-            return Response(serializer.data)
+        return Response(serializer.data)
 
     @action(detail=True, methods=['get'])
     def page_progress(self, request, pk):
