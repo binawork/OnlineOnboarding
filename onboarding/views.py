@@ -70,9 +70,9 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 
 def signup(request):
+    request_environ = request.__dict__.get('environ', {})
     if request.method == 'POST':
-        request_as_dict = request.__dict__
-        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+        if request_environ.get('HTTP_ACCEPT_LANGUAGE', "").find('pl') != -1:
             signup_form = HrSignUpForm(request.POST)
         else:
             signup_form = HrSignUpFormEng(request.POST)
@@ -101,8 +101,7 @@ def signup(request):
             )
             return render(request, 'registration/register_done.html')
     else:
-        request_as_dict = request.__dict__
-        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+        if request_environ.get('HTTP_ACCEPT_LANGUAGE', "").find('pl') != -1:
             signup_form = HrSignUpForm()
         else:
             signup_form = HrSignUpFormEng()
@@ -707,11 +706,16 @@ class AnswerViewSet(viewsets.ModelViewSet):
         :return: answers list by section id
         """
 
+        notify_HR = False
         if request.method == 'PATCH':
             answers = Answer.objects.filter(section__page__id=pk,
                                             owner=self.request.user)  # id__in=request.data['answers']
             if answers.count() < 1:
                 return Response(status=status.HTTP_404_NOT_FOUND)
+
+            answer = answers.first()
+            notify_HR = not answer.finished
+
             answers.update(finished=True)
 
         elif request.method == "GET":
@@ -726,7 +730,7 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
         serializer = AnswersProgressStatusSerializer(answers, many=True)
 
-        if request.method == 'PATCH':
+        if request.method == 'PATCH' and notify_HR:
             """
             Mail notification - sends an email to hr user after the employee
             completes an assigment.
