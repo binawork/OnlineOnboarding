@@ -70,9 +70,9 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 
 def signup(request):
+    request_environ = request.__dict__.get('environ', {})
     if request.method == 'POST':
-        request_as_dict = request.__dict__
-        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+        if request_environ.get('HTTP_ACCEPT_LANGUAGE', "").find('pl') != -1:
             signup_form = HrSignUpForm(request.POST)
         else:
             signup_form = HrSignUpFormEng(request.POST)
@@ -101,8 +101,7 @@ def signup(request):
             )
             return render(request, 'registration/register_done.html')
     else:
-        request_as_dict = request.__dict__
-        if request_as_dict['environ']['HTTP_ACCEPT_LANGUAGE'].find('pl') != -1:
+        if request_environ.get('HTTP_ACCEPT_LANGUAGE', "").find('pl') != -1:
             signup_form = HrSignUpForm()
         else:
             signup_form = HrSignUpFormEng()
