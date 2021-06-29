@@ -85,11 +85,20 @@ class PackageViewTests(TestCase):
             'company_name': "Company Inc.",
         })
 
-        user = User.objects.get(username=email)
-        user.is_active = True
+        cls.company = None
+
+        try:
+            user = User.objects.get(username=email)
+            user.is_active = True
+            cls.company = Company.objects.all().first()
+        except User.DoesNotExist:
+            company = Company.objects.create(name='Company Inc.')
+            user = create_user(email, "John", "Doe", "secret_0", True)
+            user.company = company
+            cls.company = company
+
         user.save()
         cls.user = user
-        cls.company = Company.objects.all().first()
 
         user_1 = User.objects.create(username='james@example.com')
         user_1.set_password('secret_1')
