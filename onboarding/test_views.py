@@ -1,7 +1,7 @@
 from unittest import TestCase, skip
 
 from django.test import Client, TestCase
-import os
+import os, time
 
 from onboarding.models import User, Company, Package, PackagesUsers, Page
 
@@ -118,6 +118,21 @@ class PackageViewTests(TestCase):
 
         response = self.client.get('/api/package/')
         self.assertEqual(200, response.status_code)
+
+    def test_performance_get_request(self):
+        logged_user = self.client.login(username=self.user.username, password='secret_0')
+        # logged_user = self.client.force_login(self.user)  didn't work;
+        self.assertTrue(logged_user)
+
+        t_end = time.time() + 4
+        count = 0
+        while time.time() < t_end:
+            response = self.client.get('/api/package/')
+            count = count + 1
+
+        # print("Package access count:  ", count)
+        self.assertTrue(count > 400, msg="Request performance is slow: < 100 per second!")
+        # self.assertEqual(200, response.status_code)
 
 
 class PackagesUsersTests(TestCase):
