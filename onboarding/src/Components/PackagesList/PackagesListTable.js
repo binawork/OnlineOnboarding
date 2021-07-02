@@ -86,53 +86,35 @@ function PackagesListTable({ setPackagesList }) {
     };
 
     return (
-        <div className="page-section">
-        <hr />
-            <button className="btn btn-success mb-3" onClick={() => setShowAddCatalogueBox(true)}>+ Dodaj wdrożenie</button>
+        <div className="Packages page-section pt-5">
+            <button className="Packages__button btn mb-5" onClick={() => setShowAddCatalogueBox(true)}>
+                + Dodaj tytuł wdrożenia
+            </button>
             { showAddCatalogueInput &&
-                <div className="modal modal-alert fade show d-flex flex-column justify-content-center" style={{ backdropFilter: "brightness(55%)"}} onClick={() => setShowAddCatalogueBox(false)}>
-                    <div className="modal-dialog"  onClick={ e => e.stopPropagation() }>
-                        <div className="modal-content">
-                            <i className="bi bi-x-circle close-icon" onClick={() => setShowAddCatalogueBox(false)} style={{cursor: "pointer"}} />
-                            <div className="card-header">
-                                Dodaj tytuł wdrożenia (np. BHP, Szkolenia produktowe, Osoby kluczowe etc.)
-                            </div>
-                            <div className="card-body">
-                                <PackagesAddNew handleUpdate={ updatePackages } setShowAddCatalogueBox={ setShowAddCatalogueBox } popUpAddPackageError={ popUpAddPackageError } />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <PackagesAddNew 
+                    handleUpdate={ updatePackages }
+                    setShowAddCatalogueBox={ setShowAddCatalogueBox }
+                    popUpAddPackageError={ popUpAddPackageError } />
             }
-            <div className="card card-fluid">
-                <div className="card-header">
-                    Lista twoich katalogów
-                </div>
-                <div className="card-body">
-                    { error && <p>{ error }</p> }
-                    { isLoading && <p>Ładowanie...</p> }
-                    { packages && (
-                        <div className="table-responsive">
-                            <table className="table table-striped table-hover">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Nazwa</th>{/* sortowanie po * */}
-                                    <th className="PackagesList__table-header--hide" scope="col"></th>
-                                    <th scope="col" style={{width: "25%"}}>Edytowany</th>
-                                    <th scope="col" style={{width: "15%"}}>Działanie</th>
-                                </tr>
-                                </thead>
-                                <tbody id="form_table_data_container">
-                                    { packagesRows }
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </div>
+            <div className="Packages__list card-fluid">
+                <h2 className="Packages__header">
+                    Lista twoich wdrożeń
+                </h2>
+                <h3 className="Packages__subheader">
+                    { packages && packages.length > 0 ? "Tytuły" : <span>Te pole jest jeszcze puste.<br />Wypełni się one w momencie tworzenia wdrożeń.</span> }
+                </h3>
+                { error && <p>{ error }</p> }
+                { isLoading && <p>Ładowanie...</p> }
+                { packages && (
+                    <div className="PackagesList__wrapper table-responsive">
+                        <ul className="PackagesList table table-striped table-hover">
+                                { packagesRows }
+                        </ul>
+                    </div>
+                )}
                 { packageIdModal.modal }
             </div>
         </div>
     )
 }
 export default PackagesListTable;
-

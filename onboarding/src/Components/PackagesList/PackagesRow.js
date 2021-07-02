@@ -1,36 +1,38 @@
+import "../../static/css/utilities/packages.scss";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { dateToString } from "../utils";
-import "../../static/css/utilities/packages.scss";
 import Tag from "../Tag";
+import bookIcon from "../../static/icons/book.svg";
+import bookOpenedIcon from "../../static/icons/book-opened.svg";
+import trashIcon from "../../static/icons/trash.svg";
 
 function PackagesRow({ row, removeAsk, lastRow }) {
     const [styleRow, setStyleRow] = useState(null);
     const [showPages, setShowPages] = useState(false);
     const [rotate, setCaretIcon] = useState(false);
     const [showStyle, setShowStyle] = useState("none");
+    const date = dateToString(row.last_edit);
 
-    const pagesRows = row.pages.map((page) => 
-        <tr key={ page.id } style={{ display: showStyle }}>
-            <td colSpan="3">
-                <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
-                <Link
-                    to={{
-                        pathname: `/form/${page.id}`,
-                        state: {
-                            packageId: row.id,
-                            packageTitle: row.name,
-                            formId: page.id,
-                            formName: page.title,
-                            description: page.description,
-                            link: page.link,
-                        },
-                    }}
-                >
-                    { page.title }
-                </Link>
-            </td>
-        </tr>
+    const pagesRows = row.pages.map((page) =>
+        <li className="PackagesChapter" key={ page.id } style={{ display: showStyle }}>
+            <img class="PackagesChapter__icon" src={ bookOpenedIcon } alt="#" />
+            <Link
+                to={{
+                    pathname: `/form/${page.id}`,
+                    state: {
+                        packageId: row.id,
+                        packageTitle: row.name,
+                        formId: page.id,
+                        formName: page.title,
+                        description: page.description,
+                        link: page.link,
+                    },
+                }}
+            >
+                { page.title }
+            </Link>
+        </li>
     )
 
     useEffect(() => {
@@ -44,48 +46,47 @@ function PackagesRow({ row, removeAsk, lastRow }) {
     const toggleShowPages = function(){
         setCaretIcon(!rotate);
         setShowPages(!showPages);
-        setShowStyle(showStyle === "none" ? "table-row" : "none");
+        setShowStyle(showStyle === "none" ? "flex" : "none");
     };
 
     return(
         <>
-            <tr className={ styleRow || "" }>
-                <td className="PackagesList__data--name" style={{ paddingLeft: row.pages.length === 0 ? "38px" : "" }}>
-                    <div>
-                        <button 
-                            className={`caret-icon ${rotate ? "caret-icon--rotate" : ""}`}
-                            onClick={ toggleShowPages }
-                            style={{ display: row.pages.length > 0 ? "inline-block" : "none" }}
-                        >
-                            <i className="fas fa-caret-right"></i>
-                        </button> 
-                        <i className="fa fa-folder folder-icon"></i>
-                        <Link to={{ 
-                            pathname: `/package/${row.id}`,
-                            state: {
-                                packageData: {
-                                    id: row.id,
-                                    title: row.name,
-                                    description: row.description
-                                },
-                                pages: row.pages
-                            }
-                        }}
-                            className="link mr-4" 
-                            title="Kliknij, aby przejść do edycji zawartości katalogu"
-                        >{ row.name }</Link>
-                    </div>
-                    <small><i>{ row.description }</i></small>
-                </td>
-                <td className="PackagesList__tag--hide">
-                    <Tag title={`Liczba plików: ${ row.pages.length || 0 }`} color={"grey"} />
-                </td>
-                <td className="PackagesList__data--date">{ dateToString(row.last_edit) }</td>
-                <td  className="PackagesList__data--nowrap d-flex flex-column">
-                    <Link to={ `/send_package/${row.id}` } className="btn btn-secondary mb-1">
+            <li className={`PackagesItem ${styleRow || ""}`}>
+                <div className="PackagesItem__title-wrapper">
+                    <button 
+                        className={`PackagesItem__caret caret-icon ${rotate ? "caret-icon--rotate" : ""}`}
+                        onClick={ toggleShowPages }
+                        style={{ display: row.pages.length > 0 ? "inline-block" : "none" }}
+                    >
+                        <i className="fas fa-caret-right"></i>
+                    </button>
+                    <img src={ bookIcon } alt="#" />
+
+                    <Link to={{ 
+                        pathname: `/package/${row.id}`,
+                        state: {
+                            packageData: {
+                                id: row.id,
+                                title: row.name,
+                                description: row.description
+                            },
+                            pages: row.pages
+                        }}}
+                        className="PackagesItem__link link" 
+                        title="Kliknij, aby przejść do edycji zawartości katalogu"
+                    >
+                        <h4 className="PackagesItem__title">{ row.name }</h4>
+                    </Link>
+                </div>
+                <div className="PackagesItem__tag-wrapper px-1">
+                    <Tag title={`Liczba rozdziałów: ${ row.pages.length || 0 }`} color={"grey"} />
+                </div>
+                <div className="PackagesItem__date px-1">{ date }</div>
+                <div className="PackagesItem__buttons-wrapper">
+                    <Link to={ `/send_package/${row.id}` } className="PackagesItem__button PackagesItem__button--first btn">
                         Wyślij pracownikowi
                     </Link>
-                    <div>
+                    <div className="PackagesItem__buttons-box">
                         <Link to={{ 
                                 pathname: `/package/${row.id}`,
                                 state: {
@@ -97,19 +98,23 @@ function PackagesRow({ row, removeAsk, lastRow }) {
                                     pages: row.pages
                                 }
                             }}
-                            className="btn btn-secondary mr-1"
-                            style={{ width: "calc(50% - 2px)" }}
+                            className="PackagesItem__button btn"
                         >Edytuj</Link>
                         <button 
                             value={ row.id }
-                            className="btn btn-warning"
-                            onClick={ removeAsk }
-                            style={{ width: "calc(50% - 2px)" }}
-                        >Usuń</button>
+                            className="PackagesItem__button PackagesItem__button--fit btn"
+                            onClick={ removeAsk }>
+                            <img src={ trashIcon } alt="#" />
+                        </button>
                     </div>
-                </td>
-            </tr>
-            { showPages && pagesRows }
+                </div>
+                { showPages && (
+                    <ul className="PackagesSublist">
+                        <hr className="PackagesSublist__line" />
+                        { pagesRows }
+                    </ul>
+                )}
+            </li>
         </>
     )
 }

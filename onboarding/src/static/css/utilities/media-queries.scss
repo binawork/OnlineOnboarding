@@ -1,8 +1,8 @@
 /* 
 ##Device = Most of the Smartphones Mobiles (Portrait)
-##Screen = B/w 320px to 479px
+##Screen = to 479x800px
 */
-@media (min-width: 320px) and (max-width: 479px) {
+@media (max-height: 800px) and (max-width: 479px) {
     body {
         background: center no-repeat url("/onboarding/static/images/backgrounds/480x800.jpg") fixed;
         background-size: cover;
@@ -11,9 +11,9 @@
 
 /* 
   ##Device = Low Resolution Tablets, Mobiles
-  ##Screen = B/w 481px to 767px
+  ##Screen = to 480px
 */
-@media (min-width: 480px) and (max-width: 719px) {
+@media (max-width: 480px) {
     body {
         background: center no-repeat url("/onboarding/static/images/backgrounds/480x800.jpg") fixed;
         background-size: cover;
@@ -23,9 +23,9 @@
 
 /* 
   ##Device = Tablets, Ipads (portrait)
-  ##Screen = B/w 768px to 1024px
+  ##Screen = B/w 481px to 720px
 */
-@media (min-width: 720px) and (max-width: 1023px) {
+@media (min-width: 481px) and (max-width: 720px) and (min-height: 801px) and (max-height: 1280px) {
     body {
         background: center no-repeat url("/onboarding/static/images/backgrounds/720x1280.jpg") fixed;
         background-size: cover;
@@ -35,9 +35,9 @@
 
 /* 
   ##Device = Laptops, Desktops
-  ##Screen = B/w 1025px to 1280px
+  ##Screen = B/w 721px to 1279px
 */
-@media (min-width: 1024px) and (max-width: 1279px) {
+@media (min-width: 721px) and (max-width: 1279px) {
     body {
         background: center no-repeat url("/onboarding/static/images/backgrounds/1280x800_16_10.jpg") fixed;
         background-size: cover;
@@ -55,6 +55,10 @@
     }
 }
 
+/* 
+  ##Device = Desktops
+  ##Screen = 1920px to 2047px
+*/
 @media  (min-width: 1920px) and (max-width: 2047px) {
     body {
         background: center no-repeat url("/onboarding/static/images/backgrounds/1280x800_16_10.jpg") fixed;
@@ -64,7 +68,7 @@
 
 /* 
   ##Device = Desktops
-  ##Screen = 1280px to higher resolution desktops
+  ##Screen = 2048px to higher resolution desktops
 */
 @media (min-width: 2048px) {
     body {

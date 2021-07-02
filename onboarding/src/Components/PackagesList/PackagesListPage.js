@@ -8,7 +8,7 @@ function PackagesListPage({ setPackagesList }) {
 
     return(
         <div className="page-inner">
-            <PageAddressBar page = { "Twoje wdrożenia" } />
+            <PageAddressBar page = { "Stwórz wdrożenie" } />
             <PackagesListTable setPackagesList={ setPackagesList } />
         </div>
     )
