@@ -173,25 +173,21 @@ const QnAList = () => {
         <></>
       )}
       <footer className="QnA__footer card-body">
-				<div className="QnA__button-background mr-3">
-          <button
-            className="QnA__button btn"
-            onClick={handleSaveAll}
-            title="Zapisane Q&A pojawi się automatycznie u pracowników"
-            disabled={qaList.length ? false : true}
-          >
-            Zapisz
-          </button>
-				</div>
-				<div className="QnA__button-background">
-          <button
-            className="QnA__button btn"
-            onClick={handleShowPreview}
-            disabled={qaList.length ? false : true}
-          >
-            {editMode ? "Podgląd" : "Edytuj"}
-          </button>
-				</div>
+        <button
+          className="QnA__button btn mr-3"
+          onClick={handleSaveAll}
+          title="Zapisane Q&A pojawi się automatycznie u pracowników"
+          disabled={qaList.length ? false : true}
+        >
+          Zapisz
+        </button>
+        <button
+          className="QnA__button btn"
+          onClick={handleShowPreview}
+          disabled={qaList.length ? false : true}
+        >
+          {editMode ? "Podgląd" : "Edytuj"}
+        </button>
       </footer>
 
       {autosave && (

@@ -41,7 +41,7 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   return (
     <aside 
       className={`LeftMenu app-aside
-        app-aside-expand-md app-aside-light 
+        app-aside-expand-lg app-aside-light 
         ${showAside ? "show" : ""}`}
       style={{zIndex: "9"}}>
       <div className={`${showAside ? "LeftMenu__pseudo-wrapper " : ""}w-100 h-100`} onClick={() => setToggleAside(false)}>

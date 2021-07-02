@@ -44,7 +44,7 @@ function App() {
   return (
     <HashRouter>
       <div className="App">
-        <div className="hamburger-wrapper d-md-none d-lg-none d-xl-none">
+        <div className="hamburger-wrapper d-lg-none d-xl-none">
           <button 
             className={`hamburger hamburger-squeeze ${showAside ? "active" : ""}`}
             type="button"
