@@ -69,6 +69,18 @@ def create_user(username, name, last_name, password, is_hr):
 
 
 class LoginLimitTests(TestCase):
+    """ Class testing the limit (here 2) of login in by the same user.
+
+    One user is registered in and his credentials are used to attempt another logins
+    like from another devices.
+
+    A login() method from Client() class is not used because it has another logic -
+    - it doesn't create a session which is needed to limit logins.
+
+    All POST requests include the same credentials which simulates e.g.
+    the same user but another devices.
+    """
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -114,176 +126,176 @@ class LoginLimitTests(TestCase):
         logged_user = self.client.login(username=self.username_1, password=self.password_1)
         self.assertTrue(logged_user)
 
-        client_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
-        logged_user_2 = client_2.login(username=self.username_1, password=self.password_1)
+        logged_user_2 = client_session_2.login(username=self.username_1, password=self.password_1)
         self.assertTrue(logged_user_2)
 
     def test_double_login_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
-        client_2 = Client()
-        response_2 = client_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        client_session_2 = Client()
+        response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
         self.client.get('/accounts/logout/')
-        client_2.get('/accounts/logout/')
+        client_session_2.get('/accounts/logout/')
 
     @skip("client.login()  has another logic than  client.post('...login/')")
     def test_triple_login(self):
         logged_user = self.client.login(username=self.username_1, password=self.password_1)
         self.assertTrue(logged_user)
 
-        client_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
-        client_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
-        logged_user_2 = client_2.login(username=self.username_1, password=self.password_1)
+        logged_user_2 = client_session_2.login(username=self.username_1, password=self.password_1)
         self.assertTrue(logged_user_2)
 
-        logged_user_3 = client_3.login(username=self.username_1, password=self.password_1)
+        logged_user_3 = client_session_3.login(username=self.username_1, password=self.password_1)
         self.assertFalse(logged_user_3)
 
     def test_triple_login_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
-        client_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
-        client_3 = Client()
+        client_session_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_3 = Client()
 
-        response_2 = client_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
         self.client.get('/accounts/logout/')
-        client_2.get('/accounts/logout/')
+        client_session_2.get('/accounts/logout/')
 
     def test_double_login_first_logout_3rd_login_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
-        client_2 = Client()
-        client_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_2 = Client()
+        client_session_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
-        response_2 = client_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
         self.client.get('/accounts/logout/')
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
         # self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
-        client_2.get('/accounts/logout/')
-        client_3.get('/accounts/logout/')
+        client_session_2.get('/accounts/logout/')
+        client_session_3.get('/accounts/logout/')
 
     def test_double_login_3rd_login_first_logout_3rd_relogin_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
-        client_2 = Client()
-        client_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_2 = Client()
+        client_session_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
-        response_2 = client_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
         self.client.get('/accounts/logout/')
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
-        client_2.get('/accounts/logout/')
-        client_3.get('/accounts/logout/')
+        client_session_2.get('/accounts/logout/')
+        client_session_3.get('/accounts/logout/')
 
     def test_double_login_second_logout_3rd_login_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
-        client_2 = Client()
-        client_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_2 = Client()
+        client_session_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
-        response_2 = client_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
-        client_2.get('/accounts/logout/')
+        client_session_2.get('/accounts/logout/')
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
         self.client.get('/accounts/logout/')
-        client_3.get('/accounts/logout/')
+        client_session_3.get('/accounts/logout/')
 
     def test_double_login_3rd_login_second_logout_3rd_relogin_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
-        client_2 = Client()
-        client_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_2 = Client()
+        client_session_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
-        response_2 = client_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
-        client_2.get('/accounts/logout/')
+        client_session_2.get('/accounts/logout/')
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
         self.client.get('/accounts/logout/')
-        client_3.get('/accounts/logout/')
+        client_session_3.get('/accounts/logout/')
 
     def test_double_login_3rd_login_twice_fail_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
-        client_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
-        client_3 = Client()
+        client_session_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_3 = Client()
 
-        response_2 = client_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
         self.client.get('/accounts/logout/')
-        client_2.get('/accounts/logout/')
+        client_session_2.get('/accounts/logout/')
 
     def test_double_login_3rd_and_4th_login_fail_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
-        client_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
-        client_3 = Client()
-        client_4 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
+        client_session_3 = Client()
+        client_session_4 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
-        response_2 = client_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response_2.status_code >= 400)
 
-        response_3 = client_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
-        response_4 = client_4.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
+        response_4 = client_session_4.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertTrue(response_4.status_code >= 400)
         self.assertTemplateUsed(response_4, 'registration/login_limit_exceeded.html')
 
         self.client.get('/accounts/logout/')
-        client_2.get('/accounts/logout/')
+        client_session_2.get('/accounts/logout/')
 
 
 class PackagesUsersTests(TestCase):
