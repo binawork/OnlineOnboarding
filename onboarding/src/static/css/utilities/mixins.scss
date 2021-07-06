@@ -57,31 +57,40 @@
     padding: var(--border);
     border-radius: 10px;
     -webkit-mask:
-    linear-gradient(#fff,#fff) top /calc(100% - 2*var(--width)) var(--border),
+      linear-gradient(#fff,#fff) top /calc(100% - 2*var(--width)) var(--border),
       linear-gradient(#fff,#fff) bottom /calc(100% - 2*var(--width)) var(--border),
       linear-gradient(#fff,#fff) left /var(--border) calc(100% - 2*var(--width)),
       linear-gradient(#fff,#fff) right /var(--border) calc(100% - 2*var(--width)),
       linear-gradient(#fff,#fff) content-box,
       linear-gradient(#fff,#fff);
-      -webkit-mask-composite:destination-out;
+    -webkit-mask-composite:destination-out;
     -webkit-mask-repeat:no-repeat;
     mask:
-    linear-gradient(#fff,#fff) top /calc(100% - 2*var(--width)) var(--border),
+      linear-gradient(#fff,#fff) top /calc(100% - 2*var(--width)) var(--border),
       linear-gradient(#fff,#fff) bottom /calc(100% - 2*var(--width)) var(--border),
       linear-gradient(#fff,#fff) left /var(--border) calc(100% - 2*var(--width)),
       linear-gradient(#fff,#fff) right /var(--border) calc(100% - 2*var(--width)),
       linear-gradient(#fff,#fff) content-box,
       linear-gradient(#fff,#fff);
-      mask-composite: exclude;
-      mask-repeat: no-repeat;
-      z-index: -1;
-    }
+    mask-composite: exclude;
+    mask-repeat: no-repeat;
+    z-index: -1;
   }
+}
 @mixin input {
   background: none;
   border: 0.5px solid rgba(255, 255, 255, 0.87);
   border-radius: 10px;
   margin-bottom: 1rem;
+}
+@mixin list-item-card {
+  max-width: 1177px;
+  width: 100%;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  padding: 1rem 2rem;
+  font-weight: 400;
 }
 @mixin text-active {
   font-weight: 500;

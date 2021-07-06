@@ -32,7 +32,7 @@ function ModalWarning(props) {
     let link, useLink = false;
     if(props.link && props.link.to){
         useLink = true;
-        link = (<NavLink to={ props.link.to } className="btn btn-warning" ref={ linkButton }>
+        link = (<NavLink to={ props.link.to } className="Modal__button btn" ref={ linkButton }>
         { acceptText }</NavLink>);
     }
 
