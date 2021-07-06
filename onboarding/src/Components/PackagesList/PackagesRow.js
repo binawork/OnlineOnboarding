@@ -16,7 +16,7 @@ function PackagesRow({ row, removeAsk, lastRow }) {
 
     const pagesRows = row.pages.map((page) =>
         <li className="PackagesChapter" key={ page.id } style={{ display: showStyle }}>
-            <img class="PackagesChapter__icon" src={ bookOpenedIcon } alt="#" />
+            <img className="PackagesChapter__icon" src={ bookOpenedIcon } alt="#" />
             <Link
                 to={{
                     pathname: `/form/${page.id}`,
