@@ -76,6 +76,7 @@ class LoginLimitTests(TestCase):
 
     A login() method from Client() class is not used because it has another logic -
     - it doesn't create a session which is needed to limit logins.
+    A method .post() is used here instead;
 
     All POST requests include the same credentials which simulates e.g.
     the same user but another devices.
@@ -113,25 +114,12 @@ class LoginLimitTests(TestCase):
         cls.user = user
 
     def test_single_login(self):
-        logged_user = self.client.login(username=self.username_1, password=self.password_1)
-        self.assertTrue(logged_user)
-
-    def test_single_login_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
         self.client.get('/accounts/logout/')
 
     def test_double_login(self):
-        logged_user = self.client.login(username=self.username_1, password=self.password_1)
-        self.assertTrue(logged_user)
-
-        client_session_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
-
-        logged_user_2 = client_session_2.login(username=self.username_1, password=self.password_1)
-        self.assertTrue(logged_user_2)
-
-    def test_double_login_post(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
@@ -142,6 +130,7 @@ class LoginLimitTests(TestCase):
         self.client.get('/accounts/logout/')
         client_session_2.get('/accounts/logout/')
 
+    """
     @skip("client.login()  has another logic than  client.post('...login/')")
     def test_triple_login(self):
         logged_user = self.client.login(username=self.username_1, password=self.password_1)
@@ -155,8 +144,9 @@ class LoginLimitTests(TestCase):
 
         logged_user_3 = client_session_3.login(username=self.username_1, password=self.password_1)
         self.assertFalse(logged_user_3)
+    """
 
-    def test_triple_login_post(self):
+    def test_triple_login(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
@@ -173,7 +163,7 @@ class LoginLimitTests(TestCase):
         self.client.get('/accounts/logout/')
         client_session_2.get('/accounts/logout/')
 
-    def test_double_login_first_logout_3rd_login_post(self):
+    def test_double_login_first_logout_3rd_login(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
@@ -192,7 +182,7 @@ class LoginLimitTests(TestCase):
         client_session_2.get('/accounts/logout/')
         client_session_3.get('/accounts/logout/')
 
-    def test_double_login_3rd_login_first_logout_3rd_relogin_post(self):
+    def test_double_login_3rd_login_first_logout_3rd_relogin(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
@@ -214,7 +204,7 @@ class LoginLimitTests(TestCase):
         client_session_2.get('/accounts/logout/')
         client_session_3.get('/accounts/logout/')
 
-    def test_double_login_second_logout_3rd_login_post(self):
+    def test_double_login_second_logout_3rd_login(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
@@ -232,7 +222,7 @@ class LoginLimitTests(TestCase):
         self.client.get('/accounts/logout/')
         client_session_3.get('/accounts/logout/')
 
-    def test_double_login_3rd_login_second_logout_3rd_relogin_post(self):
+    def test_double_login_3rd_login_second_logout_3rd_relogin(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
@@ -254,7 +244,7 @@ class LoginLimitTests(TestCase):
         self.client.get('/accounts/logout/')
         client_session_3.get('/accounts/logout/')
 
-    def test_double_login_3rd_login_twice_fail_post(self):
+    def test_double_login_3rd_login_twice_fail(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
@@ -275,7 +265,7 @@ class LoginLimitTests(TestCase):
         self.client.get('/accounts/logout/')
         client_session_2.get('/accounts/logout/')
 
-    def test_double_login_3rd_and_4th_login_fail_post(self):
+    def test_double_login_3rd_and_4th_login_fail(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
         self.assertFalse(response.status_code >= 400)
 
