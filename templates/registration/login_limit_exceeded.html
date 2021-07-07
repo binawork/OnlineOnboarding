@@ -6,13 +6,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
     <!-- Begin SEO tag -->
-    <title>Reset hasła | Onboarding</title>
-    <meta property="og:title" content="Password reset complete">
+    <title>{% if is_polish %}Limit logowania{% else %}Login limit{% endif %} | Onboarding</title>
+    <meta property="og:title" content="Login limit">
     <meta property="og:locale" content="en_US">
-    <meta name="description" content="Onboarding password reset complete">
-    <meta property="og:description" content="Password reset page - OnlineOnboarding">
+    <meta name="description" content="Onboarding login limit">
+    <meta property="og:description" content="Login limit page - OnlineOnboarding">
     <meta property="og:url" content="https://onlineonboarding.net">
-    <meta property="og:site_name" content="Onboarding: password reset complete">
+    <meta property="og:site_name" content="Onboarding: login limit">
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="144x144" href="assets/apple-touch-icon.png">
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
@@ -49,14 +49,23 @@
             <g fill="none" fill-rule="evenodd">
               <use class="fill-warning" xlink:href="#a"></use>
             </g>
-          </svg> <span class="sr-only"></span>
+          </svg> <span class="sr-only">{% if is_polish %}Komunikat o ograniczeniu logowania{% endif %}</span>
         </h1>
-        <p> Powrót na stronę logowania <a href="{% url 'login' %}?next=/manage/">Zaloguj</a>
-        </p>
+        <p>{% if is_polish %}
+          Powrót na <a href="{% url 'index' %}">stronę główną</a>
+        {% else %}
+          Back to <a href="{% url 'index' %}">main page</a>
+        {% endif %}</p>
       </header>
       <div class="auth-form">
-        <p class="text-center">Hasło zostało zmienione! <!-- The password has been changed! --></p>
-        <a class="text-center btn-block" href="{% url 'login' %}?next=/manage/">Zaloguj się ponownie<!-- log in again --></a>
+       {% if is_polish %}
+        <p class="text-center">Logowanie się nie powiodło, ponieważ próbujesz się zalogować na konto, które jest już używane przez innych użytkowników.</p>
+        <p class="text-center">Limit logowania został wyczerpany.</p>
+        <p class="text-center">Skontaktuj się z administratorem Twojego konta lub wyloguj się z innych urządzeń.</p>
+       {% else %}
+        <p class="text-center">Sorry, the login failed as too many people are using your account at the moment.</p>
+        <p class="text-center">Log off from other devices or  contact with your administrator.</p>
+       {% endif %}
       </div>
       <!-- copyright -->
       <footer class="auth-footer"> &copy; {% now "Y" %} All Rights Reserved. <!-- <a href="#">Privacy</a> and <a href="#">Terms</a> -->
