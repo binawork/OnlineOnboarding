@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'onboarding.apps.SystemConfig',
+    'onboarding',
 
     # authentication
     'rest_framework.authtoken',

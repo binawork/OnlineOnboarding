@@ -2,7 +2,6 @@ import os
 from django.db import models
 from django.contrib.postgres.fields import JSONField  # Used to generate JSON in answers
 from django.contrib.auth.models import AbstractUser
-from django.contrib.sessions.models import Session
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
@@ -104,17 +103,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
-
-
-class UserSessions(models.Model):
-    """
-    Model listing all sessions for user
-    """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "{} - {}".format(self.user, self.session)
 
 
 class ContactRequestDetail(models.Model):

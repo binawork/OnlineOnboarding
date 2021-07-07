@@ -22,7 +22,6 @@ urlpatterns = [
 
 # password reset
 urlpatterns += [
-    path('accounts/login/', views.CustomLoginView.as_view(), name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
         template_name='registration/password_reset_done.html'),
