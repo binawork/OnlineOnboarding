@@ -34,10 +34,6 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
     }
   }
 
-  const handleLogout = () => {
-    sessionStorage.clear();
-  }
-
   return (
     <aside 
       className={`LeftMenu app-aside
@@ -93,17 +89,6 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                   path="/q_and_a"
                   title="Q&A"
                   setToggleAside={ setToggleAside } />
-                <LeftMenuItem
-                  path="/my_profile"
-                  title="Mój profil"
-                  setToggleAside={ setToggleAside } />
-                <li className="LeftMenu__item menu-item">
-                  <a
-                      className="LeftMenu__link menu-link"
-                      href="/accounts/logout/"
-                      onClick={ handleLogout }
-                  >Wyloguj</a>
-                </li>
               </ul>
             </nav>
           </div>
