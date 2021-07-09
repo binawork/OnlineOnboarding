@@ -44,3 +44,4 @@ WelcomePage.propTypes = {
 };
 
 export default WelcomePage;
+
