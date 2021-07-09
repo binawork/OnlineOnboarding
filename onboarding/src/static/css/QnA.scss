@@ -5,9 +5,6 @@
   flex-direction: column;
   &__button {
     @include button;
-    &-background {
-      @include button-background;
-    }
     &--add {
       color: #fff;
       &:hover {

@@ -7,16 +7,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: center no-repeat url("/onboarding/static/images/background.jpg") fixed;
+  background: center no-repeat url("/onboarding/static/images/backgrounds/background.jpg") fixed;
   z-index: 99999;
   &__button {
-    @include button-background;
     @include button;
+    font-size: 1.4rem;
+    font-weight: 600;
+    height: max-content;
+    line-height: 1;
+    &-wrapper {
+      margin: 0 auto 1rem;
+    }
   }
   &__card {
     @include card;
     max-width: 640px;
-    display: flex;
     flex-direction: column;
     text-align: center;
     z-index: 1;

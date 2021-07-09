@@ -1,7 +1,19 @@
 @import "./variables.scss";
 
-@mixin button-background {
+@mixin button {
+  background: rgb(15, 15, 39);
+  border: 0.5px solid #fff;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 14px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  white-space: nowrap;
+  z-index: unset!important;
   &::before {
     content: "";
     position: absolute;
@@ -15,19 +27,8 @@
     border-radius: 10px;
     z-index: -1;
   }
-}
-@mixin button {
-  background: rgb(15, 15, 39);
-  border: 0.5px solid #fff;
-  box-sizing: border-box;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 14px;
-  position: relative;
-  display: flex;
-  align-items: center;
   &:hover {
-    background: rgba(15, 15, 39, 0.749);
+    background: rgba(15, 15, 39, 0.75);
     border: 2px solid #fff;
     box-sizing: border-box;
     border-radius: 10px;
@@ -38,6 +39,7 @@
   --border: 2px;   /* thickness of the border */
   --width: 18px;  /* width of border */
   background-color: $dark-transparent;
+  border-radius: 10px;
   padding: 18px!important;
   position: relative;
   box-sizing: border-box;

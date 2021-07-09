@@ -1,0 +1,47 @@
+@import "./utilities/mixins.scss";
+
+.Modal {
+    background: linear-gradient(180deg, rgba(64, 132, 136, 0.96) 0%, rgba(84, 0, 111, 0.96) 100%);
+    &__close-icon {
+        position: absolute;
+        top: 6px;
+        right: 5px;
+    }
+    &__content {
+        @include card;
+        flex-direction: column;
+        padding: 3rem!important;
+        margin: 0 2rem;
+    }
+    &__dialog {
+        max-width: 800px;
+        min-width: 260px;
+        width: 100%;
+        margin: 1.75rem auto;
+        pointer-events: auto;
+    }
+    &__button {
+        @include button;
+        justify-self: flex-end;
+        align-self: flex-end;
+    }
+    &__input {
+        width: 100%;
+        padding: .375rem .75rem;
+        margin-bottom: 2rem;
+        background-color: transparent;
+        border: 2px solid #fff;
+        border-radius: 10px;
+        color: #fff;
+        outline: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .Modal {
+        &__content {
+            padding: 2rem!important;
+            margin: 0;
+        }
+    }
+}
