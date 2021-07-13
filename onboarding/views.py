@@ -1,10 +1,10 @@
 from abc import ABC
 from django.core import mail
 from django.core.mail import BadHeaderError
-from django.contrib.auth import login, get_user_model
-from django.contrib.auth.views import PasswordResetConfirmView
+# from django.contrib.auth import login, get_user_model
+from django.contrib.auth.views import PasswordResetConfirmView, LoginView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.tokens import default_token_generator
+# from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
@@ -25,13 +25,14 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 
 from OnlineOnboarding.settings import EMAIL_HOST_USER
-from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer
+from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer, UserSessions
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import UserSerializer, UserAvatarSerializer, LogInUserSerializer, UserJobDataSerializer,\
     UserUpdateSerializer, UsersListSerializer, UserProgressSerializer, UserProgressLimitedSerializer
 from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
-from .serializers import PackageSerializer, PackageForHrSerializer, PageSerializer, SectionSerializer, SectionAnswersSerializer, PackageAddUsersSerializer
+from .serializers import PackageSerializer, PackageForHrSerializer, PageSerializer, SectionSerializer,\
+    SectionAnswersSerializer, PackageAddUsersSerializer
 from .serializers import CompanyQuestionAndAnswerSerializer, PackagesUsers, ContactFormTestSerializer
 from .serializers import PackagePagesSerializer, PackagePagesForHrSerializer, PackagePagesForUsersSerializer
 from .serializers import AnswerSerializer, CompanySerializer,CompanyFileSerializer, WhenPackageSendToEmployeeSerializer
@@ -110,6 +111,26 @@ def signup(request):
                     'bootstrap/auth-signup.html',
                     {'form': signup_form},
     )
+
+
+class CustomLoginView(LoginView):
+    def form_valid(self, form):
+        """
+        Extra check the number of sessions
+        """
+        username = form.get_user()
+        user_sessions = UserSessions.objects.select_related('user').filter(user=username)
+
+        count = user_sessions.count()
+        if count >= 2:
+            request_environ = self.request.__dict__.get('environ', {})
+            context = {'is_polish': False}
+            if request_environ.get('HTTP_ACCEPT_LANGUAGE', "").find('pl') != -1:
+                context['is_polish'] = True
+
+            return render(self.request, 'registration/login_limit_exceeded.html', context, status=status.HTTP_403_FORBIDDEN)  # status=status.HTTP_403_FORBIDDEN
+
+        return super(CustomLoginView, self).form_valid(form)
 
 
 def password_reset_request(request):
@@ -276,8 +297,6 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(status=201)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
 
     @action(detail=False)
     def remove_user(self, request):

@@ -184,7 +184,8 @@ function ProcessPreviewTables(props) {
             setSentPackages(props.groupedPackages.sent);
             let abortFun = getProgress(props.employeeId, progressCallback);
             return abortFun;
-        }
+        } else
+            setLoading(false);
     }, [props.groupedPackages]);
 
     /*useEffect(() => {
