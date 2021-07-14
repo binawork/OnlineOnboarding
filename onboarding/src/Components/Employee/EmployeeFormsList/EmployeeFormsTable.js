@@ -58,6 +58,8 @@ function EmployeeFormsTable({ employeeForms, setPackagesList }) {
     useEffect(() => {
         if(employeeForms.hasOwnProperty("packages") && employeeForms.packages.length > 0){
             return getProgress(0, progressCallback);
+        } else if(employeeForms.msg === "") {
+            setMessage("Brak przypisanych wdrożeń.")
         }
     }, [employeeForms]);
 
