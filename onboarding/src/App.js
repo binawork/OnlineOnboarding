@@ -17,6 +17,7 @@ import EmployeeProfilePage from "./Components/EmployeeProfile/EmployeeProfilePag
 import CompanyInfoPage from "./Components/CompanyInfo/CompanyInfoPage";
 import ModalWarning from "./Components/ModalWarning";
 // import FormsManagerCheckPage from "./Components/FormsManagerCheckPage"; // where manager checks how form was filled;
+import "./static/css/utilities/icons.scss";
 import "./static/css/App.scss";
 
 function App() {
