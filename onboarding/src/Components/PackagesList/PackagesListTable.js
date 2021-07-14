@@ -86,7 +86,7 @@ function PackagesListTable({ setPackagesList }) {
     };
 
     return (
-        <div className="Packages page-section pt-5">
+        <div className="Packages page-section">
             <button className="Packages__button btn mb-5" onClick={() => setShowAddCatalogueBox(true)}>
                 + Dodaj tytuł wdrożenia
             </button>

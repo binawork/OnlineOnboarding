@@ -84,3 +84,14 @@
     }
   }
 }
+@media(max-width: 420px) {
+  .App {
+    &__buttons-wrapper {
+      width: 100vw;
+      right: 0;
+      flex-direction: column-reverse;
+      align-items: center;
+      row-gap: 6px;
+    }
+  }
+}
