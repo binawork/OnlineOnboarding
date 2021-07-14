@@ -5,7 +5,7 @@ import "../static/css/PageAddressBar.scss";
 
 function PageAddressBar({ page, previousPages=[] }) {
     return(
-        <header className="PageAddressBar page-title-bar p-0">
+        <header className="PageAddressBar page-title-bar">
             <ol className="breadcrumb m-0">
                 <li className="breadcrumb-item">
                     <NavLink

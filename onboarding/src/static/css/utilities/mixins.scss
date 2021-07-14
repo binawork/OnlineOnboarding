@@ -1,7 +1,9 @@
 @import "./variables.scss";
 
 @mixin button {
+  padding: 7px 32px;
   background: rgb(15, 15, 39);
+  color: #fff;
   border: 0.5px solid #fff;
   box-sizing: border-box;
   border-radius: 10px;
@@ -33,6 +35,10 @@
     box-sizing: border-box;
     border-radius: 10px;
     font-weight: 900
+  }
+  &:focus {
+    outline: 1px dotted;
+    background: rgba(15, 15, 39, 0.75);
   }
 }
 @mixin card {
@@ -78,6 +84,7 @@
   }
 }
 @mixin input {
+  height: 34px;
   background: none;
   border: 0.5px solid rgba(255, 255, 255, 0.87);
   border-radius: 10px;
@@ -101,4 +108,7 @@
   font-weight: 500;
   color: #fff;
   text-decoration: none;
+}
+@mixin animate-new-package-row {
+  animation: newRowColor 3s ease-in-out;
 }

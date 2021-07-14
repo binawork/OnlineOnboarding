@@ -1,24 +1,209 @@
+@import "./utilities/mixins.scss";
+
+.FormTable-wrapper {
+  @include list-item-card;
+  width: unset;
+  margin-left: 108px;
+  position: relative;
+  font-size: 12px;
+  &__header {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0 0 16px;
+  }
+  &__line {
+    border: 0;
+    border-bottom: 1px dashed #fff;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+  }
+}
+
 .FormTable {
+  &__button {
+    @include button;
+    max-width: fit-content;
+    padding: 10px 20px;
+    height: 32px;
+    font-size: 12px;
+    &--smaller {
+      padding: 6px 15px;
+    }
+  }
+  &__buttons-box {
+    display: flex;
+
+  }
   &__data {
+    border-top: 1px dashed #fff!important;
+    &--date {
+      min-width: 162px;
+    }
+    &--name {
+      min-width: 200px;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 14px;
+      padding-left: 0!important;
+    }
     &--nowrap {
       white-space: nowrap;
     }
-    &-name {
-      min-width: 200px;
+  }
+  &__header {
+    padding: 16px 12px;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    border-bottom: 1px dashed #fff!important;
+    &:first-of-type {
+      font-style: italic;
+      width: 50%;
     }
-    &-date {
-      min-width: 162px;
+    // &:nth-of-type(2) {
+    //   width: 35%;
+    // }
+    // &:last-of-type {
+    //   width: 15%;
+    // }
+  }
+  &__icon {
+    padding-right: 12px;
+  }
+  &__row {
+    &:hover {
+      background: #0f0f29bf!important;
+      color: #fff;
+    }
+    &--darken {
+      @include animate-new-package-row;
     }
   }
-  &__package-description {
+}
+
+.FormTableAddNew {
+  @include list-item-card;
+  width: unset;
+  margin-bottom: 40px;
+  margin-left: 108px;
+  position: relative;
+  &::before {
+    content: '';
+    background: url('../icons/vector.svg') no-repeat;
+    width: 60px;
+    height: 71px;
+    position: absolute;
+    top: -44px;
+    left: -62px;
+  }
+  &__button {
+    @include button;
+    height: 32px;
+    font-size: 12px;
+  }
+  &__header {
+    margin: 0;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    &-wrapper {
+      width: 100%;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+  }
+  &__input {
+    @include input;
+    margin: 0;
+    width: 100%;
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      column-gap: 18px;
+    }
+  }
+}
+
+.FormPackageEdit {
+  @include list-item-card;
+  margin-bottom: 40px;
+  &__button{
+    @include button;
+    height: 32px;
+    font-size: 12px;
+  }
+  &__content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #fff;
+    margin-bottom: 22px;
+  }
+  &__description {
+    margin-bottom: 5px;
     display: block;
+    font-size: 10px;
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 48px;
+    }
+    &-box {
+      display: flex;
+      column-gap: 18px;
+    }
+    &-input {
+      @include input;
+      margin: 0;
+    }
+  }
+  &__header {
+    margin: 9px 0;
+    font-size: 14px;
+    font-weight: 700;
+    &-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-right: 18px;
+    }
+  }
+  &__icon {
+    padding-right: 20px;
+  }
+  &__input {
+    @include input;
+    margin: 0;
   }
 }
 
 @media(max-width: 460px) {
-  .FormTable {
-    &__package-description {
-      display: none;
+  .FormPackageEdit {
+    &__button {
+      padding: 7px 10px;
     }
+    &__description-wrapper {
+      padding: 0;
+    }
+  }
+  .FormTableAddNew {
+    margin-left: 21px;
+    &::before {
+      background: url('../icons/vector2.svg') no-repeat;
+      width: 16px;
+      left: -17px;
+    }
+    &__button {
+      padding: 7px 10px;
+    }
+  }
+  .FormTable-wrapper {
+    margin-left: 21px;
   }
 }
