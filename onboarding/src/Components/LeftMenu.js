@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import LeftMenuItem from "./LeftMenuItem";
 import ModeButton from "./ModeButton";
 import "../static/css/LeftMenu.scss";
-import logo from "/onboarding/static/images/logo_onboarding_single.svg";
+import logo from "/onboarding/src/static/icons/onboardingstep-logo.svg";
 
 const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   const location = useLocation();
@@ -67,7 +67,7 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                         <LeftMenuItem
                           key={`package-${element.id}`}
                           path={`/package/${element.id}`}
-                          title={`Katalog ${ element.title }`}
+                          title={`${ element.title }`}
                           setToggleAside={ setToggleAside } />
                       ))}
                     </ul>
