@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import LeftMenuItem from "./LeftMenuItem";
 import ModeButton from "./ModeButton";
 import "../static/css/LeftMenu.scss";
-import logo from "/onboarding/src/static/icons/onboardingstep-logo.svg";
+import logo from "../static/icons/onboardingstep-logo.svg";
 
 const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   const location = useLocation();

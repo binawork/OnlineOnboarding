@@ -81,8 +81,9 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
       removeForm(popUpRemoveConfirmation, id);
     };
     const removeAsk = (e) => {
+        const id = parseInt(e.target.dataset.id);
         setPageIdModal({
-          id: e.target.dataset.id,
+          id: id,
           modal: (
             <ModalWarning
               handleAccept={removePackage}
@@ -90,7 +91,7 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
               title={"Usunięcie formularza"}
               message={"Czy na pewno chcesz usunąć formularz?"}
               show={true}
-              id={e.target.dataset.id}
+              id={id}
             />
           ),
         });
