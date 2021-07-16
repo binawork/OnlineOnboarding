@@ -53,9 +53,9 @@ function App() {
         "Tu w przyszłości pojawi się pomoc dotycząca korzystania z aplikacji OnboardingStep."  
       )
     } else if(elName === "hello") {
-      dropdownClass
-        ? setDropdownClass("")
-        : setDropdownClass("active");
+      setDropdownClass("active");
+    } else if(elName === "inactivate") {
+      setDropdownClass("")
     } else if(elName === "profile") {
       setToggleAside(false);
       setDropdownClass("");
@@ -138,8 +138,8 @@ function App() {
             </div>
           </div>
           <div className="App__buttons-wrapper">
-            <div className="App__button-profile-wrapper">
-              <button className="App__button btn" onClick={ () => handleClick("hello") } onBlur={ () => handleClick("hello") }>{ `Witaj ${loggedUser.first_name}` }</button>
+            <div className="App__button-profile-wrapper" onBlur={ () => handleClick("inactivate") }>
+              <button className="App__button btn" onClick={ () => handleClick("hello") }  >{ `Witaj ${loggedUser.first_name}` }</button>
               <ul className={`dropdown ${dropdownClass}`}>
                 <Link className="dropdown__link" to="/my_profile" onClick={ () => handleClick("profile") }>
                   <li className="dropdown__item dropdown__item--profile">
