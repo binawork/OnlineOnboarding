@@ -77,12 +77,13 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
       });
     };
     const removePackage = function(id){
-        hideModal();
-        removeForm(popUpRemoveConfirmation, id);
+      hideModal();
+      removeForm(popUpRemoveConfirmation, id);
     };
     const removeAsk = (e) => {
+        const id = parseInt(e.target.dataset.id);
         setPageIdModal({
-          id: e.target.value,
+          id: id,
           modal: (
             <ModalWarning
               handleAccept={removePackage}
@@ -90,7 +91,7 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
               title={"Usunięcie formularza"}
               message={"Czy na pewno chcesz usunąć formularz?"}
               show={true}
-              id={e.target.value}
+              id={id}
             />
           ),
         });
@@ -102,69 +103,61 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
         { errorMessage && <p>{ errorMessage }</p> }
         { packageData && (
           <>
-          <div className="card card-fluid">
-            <div className="card-header">Edytuj katalog</div>
-            <div className="card-body">
-              <FormPackageEdit 
-                title={ packageData?.title }
-                description={ packageData?.description }
-                packageId={ packageId }
-                setPackageTitleInAddressBar={ setPackageTitleInAddressBar }
-                handleEditTitle={ handleEditTitle }
-              />
-            </div>
-          </div>
-          <div className="card card-fluid">
-            <div className="card-header">Stwórz formularz, który wyślesz do pracownika</div>
-            <div className="card-body">
-              <small style={{ paddingLeft: "12px" }}>Nazwa formularza</small>
-              <FormTableAddNew
-                id={ packageId }
-                handleUpdate={ updatePackages }
-                getOrder={ getOrder }
-                companyId={ companyId }
-              />
-            </div>
-          </div>
-          <div className="card card-fluid">
-            <div className="card-header">Lista formularzy</div>
-            <div className="card-body">
-            { pages && 
-              <div className="table-responsive">
-                <table className="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col" style={{ width: "50%" }}>Nazwa formularza</th>
-                            <th scope="col" style={{ width: "25%" }}>Edytowany</th>
-                            <th scope="col" style={{ width: "15%" }}>Działanie</th>
-                        </tr>
-                    </thead>
-                  <tbody id="form_table_data_container">
-                  { pages.map(row => 
-                      <FormTableRow
-                          key={ row.id }
-                          packageId={ packageId }
-                          packageTitle={packageAndForms?.title}
-                          row={{
-                            name: row.title,
-                            last_edit: row.updated_on,
-                            description: row.description,
-                            link: row.link,
-                            id: row.id,
-                          }}
-                          handleRemoveAsk={ removeAsk }
-                          handleUpdate={ updatePackages }
-                          lastRow={ newRowId === row.id }
-                      />
-                    )
-                  }
-                  </tbody>
-                </table>
+            <FormPackageEdit 
+              title={ packageData?.title }
+              description={ packageData?.description }
+              packageId={ packageId }
+              setPackageTitleInAddressBar={ setPackageTitleInAddressBar }
+              handleEditTitle={ handleEditTitle }
+            />
+            <FormTableAddNew
+              id={ packageId }
+              handleUpdate={ updatePackages }
+              getOrder={ getOrder }
+              companyId={ companyId }
+            />
+            <section className="FormTable-wrapper">
+              <header className="FormTable-wrapper__header-wrapper">
+                <h2 className="FormTable-wrapper__header"><i>Lista rozdziałów</i></h2>
+              </header>
+              <hr className="FormTable-wrapper__line" />
+              <div className="">
+              { pages && 
+                <div className="table-responsive">
+                  <table className="FormTable table table-striped table-hover">
+                      <thead>
+                          <tr>
+                              <th scope="col" className="FormTable__header">Nazwa rozdziału</th>
+                              <th scope="col" className="FormTable__header">Edytowany</th>
+                              <th scope="col" className="FormTable__header"></th>
+                          </tr>
+                      </thead>
+                    <tbody id="form_table_data_container">
+                    { pages.map(row => 
+                        <FormTableRow
+                            key={ row.id }
+                            packageId={ packageId }
+                            packageTitle={packageAndForms?.title}
+                            row={{
+                              name: row.title,
+                              last_edit: row.updated_on,
+                              description: row.description,
+                              link: row.link,
+                              id: row.id,
+                            }}
+                            handleRemoveAsk={ removeAsk }
+                            handleUpdate={ updatePackages }
+                            lastRow={ newRowId === row.id }
+                        />
+                      )
+                    }
+                    </tbody>
+                  </table>
+                </div>
+              }
               </div>
-            }
-            </div>
-            {pageIdModal.modal}
-          </div>
+              {pageIdModal.modal}
+            </section>
           </>
         )}
       </div>

@@ -25,15 +25,12 @@ const WelcomePage = () => {
           Zapraszamy Cię na proces onboardingu w naszej organizacji!
         </p>
         <p className="state-description">Kliknij poniższy przycisk</p>
-        <form>
-          <div className="form-group w-75 mx-auto">
-            <button 
-              className="WelcomePage__button btn px-4" 
-              style={{fontSize: "1.4rem", fontWeight: "600", height: "max-content", lineHeight: "1"}} 
-              onClick={ handleClick } 
-            >Zaczynamy</button>
-          </div>
-        </form>
+        <div className="WelcomePage__button-wrapper">
+          <button 
+            className="WelcomePage__button btn"
+            onClick={ handleClick } 
+          >Zaczynamy</button>
+        </div>
       </div>
     </article>
   );

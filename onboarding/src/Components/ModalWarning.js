@@ -32,14 +32,16 @@ function ModalWarning(props) {
     let link, useLink = false;
     if(props.link && props.link.to){
         useLink = true;
-        link = (<NavLink to={ props.link.to } className="btn btn-warning" ref={ linkButton }>
+        link = (<NavLink to={ props.link.to } className="Modal__button" ref={ linkButton }>
+        {/* link = (<NavLink to={ props.link.to } className="Modal__button btn" ref={ linkButton }> */}
         { acceptText }</NavLink>);
     }
 
 
     let cancelButton = <></>;
     if(props.handleCancel)
-        cancelButton = <button type="button" onClick={ props.handleCancel } className="Modal__button btn">Anuluj</button>;
+        cancelButton = <button type="button" onClick={ props.handleCancel } className="Modal__button">Anuluj</button>;
+        // cancelButton = <button type="button" onClick={ props.handleCancel } className="Modal__button btn">Anuluj</button>;
 
     const accept = () => {
         props.handleAccept(props.id);
@@ -47,7 +49,8 @@ function ModalWarning(props) {
 
     return(
         <section className={`Modal ${ state.className }`} onClick={ props.handleCancel } data-backdrop="static" tabIndex="-1" role="dialog" aria-labelledby="modalAlertWarningLabel" aria-hidden="false">
-            <div className="Modal__dialog modal-dialog w-100" role="document">
+            <div className="Modal__dialog w-100" role="document">
+            {/* <div className="Modal__dialog modal-dialog w-100" role="document"> */}
                 {/* -- .modal-content -- */}
                 <div className="Modal__content">
                     <div className="Modal__header modal-header">
@@ -61,7 +64,8 @@ function ModalWarning(props) {
                      {useLink ? (
                          link
                      ) : (
-                         <button type="button" onClick={ accept } className="Modal__button btn" data-dismiss="modal" autoFocus>
+                         <button type="button" onClick={ accept } className="Modal__button" data-dismiss="modal" autoFocus>
+                         {/* <button type="button" onClick={ accept } className="Modal__button btn" data-dismiss="modal" autoFocus> */}
                              { acceptText }
                          </button>
                      )} { cancelButton }

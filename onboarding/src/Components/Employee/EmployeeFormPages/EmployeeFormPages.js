@@ -46,7 +46,7 @@ const EmployeeFormPages = ({ setPage, userId }) => {
 
   return (
     <div className="page-inner">
-      <PageAddressBar page={ `Katalog: ${packageObj?.title || ""}`} />
+      <PageAddressBar page={ `${packageObj?.title || ""}`} />
       <div className="page-section">
         <div className="card card-fluid">
           <div className="card-header">Lista formularzy</div>

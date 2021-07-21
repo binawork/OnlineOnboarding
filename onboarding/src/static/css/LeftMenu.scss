@@ -17,6 +17,9 @@
     &:not(:last-of-type) {
       margin: 10px 0;
     }
+    .LeftMenu__item {
+      padding-left: 26px;
+    }
   }
   &__link {
     font-size: 1rem!important;
@@ -37,7 +40,7 @@
     height: 100%;
   }
   &__nav {
-    padding: 56px 0 56px 52px;
+    padding: 56px 0 56px 50px;
   }
   &__overflow {
     scrollbar-width: thin;
@@ -80,5 +83,20 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+}
+
+@media(max-width: 420px) {
+  .LeftMenu {
+    &__header {
+      margin-bottom: 30px;
+    }
+    &__item {
+      padding: 10px;
+      padding-left: 0;
+    }
+    &__logo {
+      width: 160px;
+    }
   }
 }
