@@ -138,7 +138,7 @@ function App() {
             </div>
           </div>
           <div className="App__buttons-wrapper">
-            <div className="App__button-profile-wrapper" onBlur={ () => handleClick("inactivate") }>
+            <div className="App__button-profile-wrapper" tabIndex="0" onBlur={ () => handleClick("inactivate") }>
               <button className="App__button btn" onClick={ () => handleClick("hello") }  >{ `Witaj ${loggedUser.first_name}` }</button>
               <ul className={`dropdown ${dropdownClass}`}>
                 <Link className="dropdown__link" to="/my_profile" onClick={ () => handleClick("profile") }>
