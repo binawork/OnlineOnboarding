@@ -4,7 +4,9 @@ import "../static/css/ProgressBar.scss";
 
 function ProgressBar({ color, backgroundSize }) {
   return (
-    <span className={`ProgressBar${color ? ` ProgressBar--${color}` : ""}`} style={{ backgroundSize: backgroundSize }}></span>
+    <div className="ProgressBar__wrapper">
+      <span className={`ProgressBar${color ? ` ProgressBar--${color}` : ""}`} style={{ backgroundSize: backgroundSize }}></span>
+    </div>
   );
 }
 

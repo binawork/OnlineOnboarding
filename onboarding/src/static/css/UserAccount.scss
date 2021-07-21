@@ -13,9 +13,6 @@
   }
   &__button {
     @include button;
-    &-background {
-      @include button-background;
-    }
     &-wrapper {
       padding: 24px;
     }

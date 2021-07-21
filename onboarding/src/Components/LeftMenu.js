@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import LeftMenuItem from "./LeftMenuItem";
 import ModeButton from "./ModeButton";
 import "../static/css/LeftMenu.scss";
-import logo from "/onboarding/static/images/logo_onboarding_single.svg";
+import logo from "../static/icons/onboardingstep-logo.svg";
 
 const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
   const location = useLocation();
@@ -34,14 +34,10 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
     }
   }
 
-  const handleLogout = () => {
-    sessionStorage.clear();
-  }
-
   return (
     <aside 
       className={`LeftMenu app-aside
-        app-aside-expand-md app-aside-light 
+        app-aside-expand-lg app-aside-light 
         ${showAside ? "show" : ""}`}
       style={{zIndex: "9"}}>
       <div className={`${showAside ? "LeftMenu__pseudo-wrapper " : ""}w-100 h-100`} onClick={() => setToggleAside(false)}>
@@ -71,7 +67,7 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                         <LeftMenuItem
                           key={`package-${element.id}`}
                           path={`/package/${element.id}`}
-                          title={`Katalog ${ element.title }`}
+                          title={`${ element.title }`}
                           setToggleAside={ setToggleAside } />
                       ))}
                     </ul>
@@ -93,17 +89,6 @@ const LeftMenu = ({ packagesList, showAside, setToggleAside }) => {
                   path="/q_and_a"
                   title="Q&A"
                   setToggleAside={ setToggleAside } />
-                <LeftMenuItem
-                  path="/my_profile"
-                  title="Mój profil"
-                  setToggleAside={ setToggleAside } />
-                <li className="LeftMenu__item menu-item">
-                  <a
-                      className="LeftMenu__link menu-link"
-                      href="/accounts/logout/"
-                      onClick={ handleLogout }
-                  >Wyloguj</a>
-                </li>
               </ul>
             </nav>
           </div>

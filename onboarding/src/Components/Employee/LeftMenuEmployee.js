@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import LeftMenuItem from "../LeftMenuItem";
 import ModeButton from "../ModeButton";
 import "../../static/css/LeftMenu.scss";
-import logo from "/onboarding/static/images/logo_onboarding_single.svg";
+import logo from "/onboarding/src/static/icons/onboardingstep-logo.svg";
 
 function LeftMenuEmployee({ packagesList, showAside, setToggleAside }) {
   const location = useLocation();
@@ -71,7 +71,7 @@ function LeftMenuEmployee({ packagesList, showAside, setToggleAside }) {
                           <LeftMenuItem
                             key={`package-${element.id}`}
                             path={`/package/${element.id}`}
-                            title={`Katalog ${ element.title }`}
+                            title={`${ element.title }`}
                             setToggleAside={ setToggleAside } />
                         ))}
                       </ul>

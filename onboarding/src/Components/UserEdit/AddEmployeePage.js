@@ -14,7 +14,8 @@ function AddEmployeePage() {
         position: "", 
         department: "", 
         location: "", 
-        avatar: "/onboarding/static/images/unknown-profile.jpg"
+        avatar: ""
+        // avatar: "/onboarding/static/images/unknown-profile.jpg"
     };
 
     return (

@@ -3,6 +3,7 @@ import { savePackageDetails } from "../hooks/PackagePage";
 import { clickButtonAfterPressingEnter } from "../utils";
 import ModalWarning from "../ModalWarning";
 import SaveIcon from "../../static/icons/SaveIcon";
+import bookIcon from "../../static/icons/book.svg";
 
 function FormPackageEdit({ title, description, packageId, setPackageTitleInAddressBar, handleEditTitle }) {
     const [saveModal, setSaveModal] = useState(<></>);
@@ -25,7 +26,7 @@ function FormPackageEdit({ title, description, packageId, setPackageTitleInAddre
 
     const handleWindowResize = () => {
         setButtonEdit(window.innerWidth > 460
-            ? "Edytuj"
+            ? "Zmień tytuł"
             : <i className="bi bi-pencil-square" />
         );
         setButtonSave(window.innerWidth > 460
@@ -49,7 +50,7 @@ function FormPackageEdit({ title, description, packageId, setPackageTitleInAddre
         setSaveModal(
             <ModalWarning
                 handleAccept={hideModal}
-                title={"Zmiana danych katalogu"}
+                title={"Zmiana danych wdrożenia"}
                 message={message}
                 show={true}
                 acceptText={"Ok"}
@@ -66,75 +67,28 @@ function FormPackageEdit({ title, description, packageId, setPackageTitleInAddre
     }
 
     return(
-        <div>
-            <div className="row mb-4">
-                <div className="col d-flex align-items-center  pr-0">
-                    <div className="has-clearable w-100">
+        <section className="FormPackageEdit">
+            <div className="FormPackageEdit__content-wrapper">
+                <div className="FormPackageEdit__header-wrapper">
+                    <img className="FormPackageEdit__icon" src={ bookIcon } alt="#" />
                     { editTitle
                         ? <input
                             type="text"
                             value={ packageTitle }
                             onChange = { handleInputTitle }
                             onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-save-form-name") } 
-                            className="form-control"
-                            placeholder="Nazwa katalogu" />
-                        : <b className="font-weight-light font-size-lg" style={{ paddingLeft: "12px" }}>
+                            className="FormPackageEdit__input form-control"
+                            placeholder="Nazwa wdrożenia" />
+                        : <h1 className="FormPackageEdit__header">
                             { packageTitle }
-                          </b>
+                        </h1>
                     }
-                    </div>
                 </div>
-                <div className="col-auto">
-                    <div className="dropdown">
-                    { editTitle
-                        ? (
-                            <button 
-                                id="btn-save-form-name"
-                                className="btn btn-secondary"
-                                data-display="static"
-                                aria-expanded="false"
-                                title="Zapisz"
-                                onClick = { handleSave }
-                            >
-                                { buttonSave }
-                            </button>
-                        ) : (
-                            <button
-                                id="btn-save-form-name"
-                                className="btn btn-secondary"
-                                data-display="static"
-                                aria-expanded="false"
-                                title="Edytuj"
-                                onClick = { () => setEditTitle(true) }
-                            >
-                                { buttonEdit }
-                            </button>
-                        )
-                    }
-                    </div>
-                </div>
-            </div>
-            <div className="row mb-4">
-                <div className="col d-flex align-items-center  pr-0">
-                    <div className="has-clearable w-100">
-                        <small className="FormTable__package-description" style={{ paddingLeft: "12px" }}>
-                            Opis katalogu (tu możesz opisać w kilku słowach zawartość tego katalogu, np. wytyczne do tworzonych treści, zawartości etc.)
-                        </small>
-                        <input
-                            type="text"
-                            value={ packageDescription }
-                            onChange={ handleInputDesc }
-                            onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-save-form-description") }
-                            className="form-control"
-                            placeholder="Opis katalogu"
-                        />
-                    </div>
-                </div>
-                <div className="col-auto d-flex align-items-end">
-                    <div className="dropdown">
-                        <button
-                            id="btn-save-form-description"
-                            className="btn btn-secondary"
+                { editTitle
+                    ? (
+                        <button 
+                            id="btn-save-form-name"
+                            className="FormPackageEdit__button"
                             data-display="static"
                             aria-expanded="false"
                             title="Zapisz"
@@ -142,11 +96,46 @@ function FormPackageEdit({ title, description, packageId, setPackageTitleInAddre
                         >
                             { buttonSave }
                         </button>
-                    </div>
-                </div>
-                { saveModal }
+                    ) : (
+                        <button
+                            id="btn-save-form-name"
+                            className="FormPackageEdit__button btn"
+                            data-display="static"
+                            aria-expanded="false"
+                            title="Edytuj"
+                            onClick = { () => setEditTitle(true) }
+                        >
+                            { buttonEdit }
+                        </button>
+                    )
+                }
             </div>
-        </div>
+            <div className="FormPackageEdit__description-wrapper">
+                <i className="FormPackageEdit__description">
+                    Opis wdrożenia (tu możesz opisać w kilku słowach zawartość tego wdrożenia, np. wytyczne do tworzonych treści, zawartości etc.)
+                </i>
+                <div className="FormPackageEdit__description-box">
+                    <input
+                        type="text"
+                        value={ packageDescription }
+                        onChange={ handleInputDesc }
+                        onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-save-form-description") }
+                        className="FormPackageEdit__description-input form-control"
+                        placeholder="Opis wdrożenia" />
+                    <button
+                        id="btn-save-form-description"
+                        className="FormPackageEdit__button btn"
+                        data-display="static"
+                        aria-expanded="false"
+                        title="Zapisz"
+                        onClick = { handleSave }
+                    >
+                        { buttonSave }
+                    </button>
+                </div>
+            </div>
+            { saveModal }
+        </section>
     )
 }
 

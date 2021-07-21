@@ -1,20 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
+import '../static/css/Modal.scss';
 
 // Alert Warning Modal
 function ModalWarning(props) {
     const linkButton = useRef();
-
+    
     useEffect(() => {
         if(props.link) {
             linkButton.current?.focus();
         }
     }, [])
 
-    let state = {className: "modal modal-alert fade", style: {}, border: {} };
+    let state = {className: "modal modal-alert fade", border: {} };
     if(props.show)
-        state = {className: "modal modal-alert fade show d-flex align-items-center", style: { backdropFilter: "brightness(60%)"}, border:{border:"1px solid #FFF"} };
+        state = {className: "modal modal-alert fade show d-flex align-items-center" };
 
     let message = "Powiadomienie", title = "Tytuł";
     if(typeof props.message === "string")
@@ -31,25 +32,28 @@ function ModalWarning(props) {
     let link, useLink = false;
     if(props.link && props.link.to){
         useLink = true;
-        link = (<NavLink to={ props.link.to } className="btn btn-warning" ref={ linkButton }>
+        link = (<NavLink to={ props.link.to } className="Modal__button" ref={ linkButton }>
+        {/* link = (<NavLink to={ props.link.to } className="Modal__button btn" ref={ linkButton }> */}
         { acceptText }</NavLink>);
     }
 
 
     let cancelButton = <></>;
     if(props.handleCancel)
-        cancelButton = <button type="button" onClick={ props.handleCancel } className="btn btn-light">Anuluj</button>;
+        cancelButton = <button type="button" onClick={ props.handleCancel } className="Modal__button">Anuluj</button>;
+        // cancelButton = <button type="button" onClick={ props.handleCancel } className="Modal__button btn">Anuluj</button>;
 
     const accept = () => {
         props.handleAccept(props.id);
     }
 
     return(
-        <div className={ state.className } style={ state.style } data-backdrop="static" tabIndex="-1" role="dialog" aria-labelledby="modalAlertWarningLabel" aria-hidden="false">
-            <div className="modal-dialog w-100" role="document">
+        <section className={`Modal ${ state.className }`} onClick={ props.handleCancel } data-backdrop="static" tabIndex="-1" role="dialog" aria-labelledby="modalAlertWarningLabel" aria-hidden="false">
+            <div className="Modal__dialog w-100" role="document">
+            {/* <div className="Modal__dialog modal-dialog w-100" role="document"> */}
                 {/* -- .modal-content -- */}
-                <div className="modal-content" style={ state.border }>
-                    <div className="modal-header">
+                <div className="Modal__content">
+                    <div className="Modal__header modal-header">
                         <h5 id="modalAlertWarningLabel" className="modal-title">
                           <i className="fa fa-bullhorn text-warning mr-1"></i> { title } </h5>
                     </div>
@@ -60,12 +64,15 @@ function ModalWarning(props) {
                      {useLink ? (
                          link
                      ) : (
-                         <button type="button" onClick={ accept } className="btn btn-warning" data-dismiss="modal" autoFocus>{ acceptText }</button>
+                         <button type="button" onClick={ accept } className="Modal__button" data-dismiss="modal" autoFocus>
+                         {/* <button type="button" onClick={ accept } className="Modal__button btn" data-dismiss="modal" autoFocus> */}
+                             { acceptText }
+                         </button>
                      )} { cancelButton }
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 

@@ -1,31 +1,29 @@
 @keyframes newRowColor {
-  0% {
-      background: none;
-  }
-  25% {
-      background: #f7c46c8c;
-      color: #333;
-  }
-  75% {
-      background: #f7c46c8c;
-      color: #333;
-  }
-  100% {
-      background: none;
-  }
+    0% {
+        background: none;
+    }
+    25% {
+        background: rgba(15, 15, 41, 0.75);
+    }
+    75% {
+        background: rgba(15, 15, 41, 0.75);
+    }
+    100% {
+        background: none;
+    }
 }
 
 @keyframes showAndHide {
-  0% {
-      opacity: 0;
-  }
-  10% {
-      opacity: 1;
-  }
-  90% {
-      opacity: 1;
-  }
-  100% {
-      opacity: 0;
-  }
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

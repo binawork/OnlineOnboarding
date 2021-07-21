@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { addPage } from "../hooks/PackagePage";
 import ModalWarning from "../ModalWarning";
 import { clickButtonAfterPressingEnter } from "../utils";
+import bookOpenedIcon from "../../static/icons/book-opened.svg";
 
 function FormTableAddNew(props) {
     const [title, setTitle] = useState("");
@@ -49,41 +50,35 @@ function FormTableAddNew(props) {
     }
 
     return(
-        <div className="row mb-4">
-            <div className="col pr-0">
-                <div className="has-clearable">
-                    <button
-                        type="button"
-                        className="close"
-                        aria-label="Close">
-                        <span aria-hidden="true"/>
-                    </button>
-                    <input
-                        type="text"
-                        value={ title }
-                        onChange={ handleInputTitle }
-                        onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-add-page") }
-                        className="form-control"
-                        placeholder="Nowa nazwa formularza" />
-                </div>
-            </div>
-            <div className="col-auto">
-                <div className="dropdown">
-                    <button
-                        id="btn-add-page"
-                        className="btn btn-secondary"
-                        data-display="static"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        title="Dodaj"
-                        onClick={ handleClick }
-                    >
-                        { button }
-                    </button>
-                </div>
+        <section className="FormTableAddNew">
+            <header className="FormTableAddNew__header-wrapper">
+                <img className="FormTable__icon" src={ bookOpenedIcon } alt="#" />
+                <h2 className="FormTableAddNew__header">
+                    <i>Stwórz rozdział wdrożenia</i>
+                </h2>
+            </header>
+            <div className="FormTableAddNew__input-wrapper">
+                <input
+                    type="text"
+                    value={ title }
+                    onChange={ handleInputTitle }
+                    onKeyUp={ (e) => clickButtonAfterPressingEnter(e, "btn-add-page") }
+                    className="FormTableAddNew__input form-control"
+                    placeholder="Nazwa rozdziału" />
+                <button
+                    id="btn-add-page"
+                    className="FormTableAddNew__button btn"
+                    data-display="static"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    title="Dodaj"
+                    onClick={ handleClick }
+                >
+                    { button }
+                </button>
             </div>
             { packageModal }
-        </div>
+        </section>
     )
 }
 export default FormTableAddNew;

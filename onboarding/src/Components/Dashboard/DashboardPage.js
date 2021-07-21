@@ -13,7 +13,7 @@ function DashboardPage({ loggedUserId }) {
   const [employees, setEmployees] = useState([]);
   const progressStats = ProgressStats({count: employees.length});
 
-
+  
   if(employees.length > 0 && Object.keys(progressStats).length > 0){
     // setEmployees( joinProgressToUsers(employees, progressStats) );/ / "Uncaught Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.";
     joinProgressToUsers(employees, progressStats);
@@ -34,7 +34,7 @@ function DashboardPage({ loggedUserId }) {
       .then((res) => res.json())
       .then(
         (result) => {
-          if (result === []) {
+          if (result.length === 1 && result[0].id === loggedUserId) {
             setIsEmployee(false);
           } else {
             setIsEmployee(true);
@@ -53,9 +53,8 @@ function DashboardPage({ loggedUserId }) {
   document.title= "Onboarding: pulpit";
 
   return (
-    <div className="page-inner">
-      <PageAddressBar page={""} /> {/* placeholder */}
-      <div className="page-section">
+    <div className="Dashboard page-inner">
+      {/* <PageAddressBar page={""} /> */}
         {" "}
         {/* placeholder */}
         {isLoaded ? (
@@ -64,38 +63,31 @@ function DashboardPage({ loggedUserId }) {
               return <Employee employee={employee} key={uuidv4()} />;
             })
           ) : (
-            <div className="card card-fluid p-4">
-              <div className="card-body">
+            <section className="Dashboard__card">
+              <p className="Dashboard__text">
                 Nie masz jeszcze wdrażanych pracowników (żeby wdrażać
                 musisz mieć stworzony profil pracownika i podpięty pod
-                niego content wdrożenia)
-              </div>
-              <div className="card-body">
+                niego content wdrożenia).
+              </p>
+              <div className="Dashboard__buttons-wrapper">
                 <Link
                   to="/add_user"
-                  className="menu-link"
+                  className="Dashboard__button btn menu-link"
                 >
-                  <button className="btn btn-secondary mr-5">
                     Stwórz profil pracownika
-                  </button>
                 </Link>
                 <Link
                   to="/packages"
-                  className="menu-link"
+                  className="Dashboard__button btn menu-link"
                 >
-                  <button className="btn btn-secondary">
                     Stwórz content wdrożenia
-                  </button>
                 </Link>
               </div>
-            </div>
+            </section>
           )
         ) : (
-          <div className="card card-fluid p-4">
-            <div className="card-body">Loading...</div>
-          </div>
+          <p className="">Ładowanie...</p>
         )}
-      </div>
     </div>
   );
 }

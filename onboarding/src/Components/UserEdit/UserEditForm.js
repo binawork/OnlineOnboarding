@@ -25,7 +25,8 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     const [imageLink, updateImageLink] = useState("");
 
     useEffect(() => {
-        user.avatar = validateURL(user.avatar, "/onboarding/static/images/unknown-profile.jpg");
+        user.avatar = validateURL(user.avatar, "");
+        // user.avatar = validateURL(user.avatar, "/onboarding/static/images/unknown-profile.jpg");
         updateImageLink(user.avatar || "");
     },[user.avatar]);
 
@@ -41,7 +42,8 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
     	}
     };
 
-    let imageBox = <img src={ user.avatar || "/onboarding/static/images/unknown-profile.jpg" } alt="avatar" />;
+    let imageBox = user.avatar ? <img src={ user.avatar } alt="avatar" /> : null;
+    // let imageBox = <img src={ user.avatar || "/onboarding/static/images/unknown-profile.jpg" } alt="avatar" />;
     if(enableUploadAvatar){
         imageBox = (
             <>
@@ -63,6 +65,8 @@ function UserEditForm({ user, enableUploadAvatar, buttonTitle, modalTitle, editL
                     onChange={ changeAvatar } />
             </>
         );
+    } else {
+        imageBox = <img src={ user.avatar || "/onboarding/static/images/unknown-profile.jpg" } alt="avatar" />;
     }
 
     const updateImage = function(response){
