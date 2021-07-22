@@ -88,7 +88,7 @@ export function savePageDetails(handleSuccess, pageId, title, link, description)
 	fetch(url + "api/page/" + pageId + "/", fetchProps)
 		.then(res => {
 			if(!res.ok) {
-				throw Error("Błąd: Nie udało się zapisać danych formularza.");
+				throw Error("Błąd: Nie udało się zapisać danych rozdziału.");
 			}
 			return tryFetchJson(res);
 		})

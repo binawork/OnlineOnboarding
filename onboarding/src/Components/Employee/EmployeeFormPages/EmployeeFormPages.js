@@ -49,13 +49,13 @@ const EmployeeFormPages = ({ setPage, userId }) => {
       <PageAddressBar page={ `${packageObj?.title || ""}`} />
       <div className="page-section">
         <div className="card card-fluid">
-          <div className="card-header">Lista formularzy</div>
+          <div className="card-header">Lista rozdziałów</div>
           <div className="card-body">
             <table className="table table-striped table-hover">
               <thead>
                 <tr>
                   <th scope="col" style={{ width: "50%" }}>
-                    Nazwa formularza
+                    Nazwa rozdziału
                   </th>
                 </tr>
               </thead>
