@@ -64,12 +64,10 @@ function SectionAnswers({ inputAnswer, editAnswer, removeAnswer, sectionId, sect
         </table>
       </div>
 
-      <hr />
-      <div className="input-group-append">
-        <button className="btn btn-secondary" onClick={ addAnswer } style={{ zIndex: "0" }}>
+      <hr className="FormSection__line" />
+        <button className="FormSection__button btn" onClick={ addAnswer } style={{ zIndex: "0" }}>
           Dodaj odpowiedź
         </button>
-      </div>
     </>
   );
 }

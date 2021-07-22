@@ -7,8 +7,8 @@ function FormsSectionsPreview({ section }) {
     keyId = `answ-${keyId}-${section.id}-${i}`;
 
     return (
-      <tr key={ keyId }>
-        <td className="d-flex justify-content-between align-items-center pr-0">
+      <tr key={ keyId } className="FormsEdit__tr">
+        <td className="FormsEdit__td d-flex justify-content-between align-items-center pr-0">
           <div className="w-100">
               <div
                   className={`custom-control custom-control-inline custom-${
@@ -32,25 +32,24 @@ function FormsSectionsPreview({ section }) {
 
   return (
     <div>
-      <section className="card my-3">
-        <header className="card-header">
-          <div>{ section.title }</div>
+      <section className="FormSection my-3">
+        <header className="">
+          <h2 className="FormSection__header">{ section.title }</h2>
         </header>
-        <div className="card-body">
+        <div className="FormSection__main">
           {(section.description && section.description !== "<br>")
-            ? ( <>{ parse(section.description) }<hr /></>)
+            ? ( <div className="FormSection__header FormSection__header--dashed mb-3">{ parse(section.description) }</div>)
             : null
           }
           {section.type === "oa" ? (
-            <div className="form-group">
-              <textarea
-                className="form-control"
-                placeholder="Wpisz odpowiedź"
-                rows="4"
-              ></textarea>
-            </div>
+            <textarea
+              className="FormSection__input form-control"
+              placeholder="Wpisz odpowiedź"
+              rows="4"
+              disabled
+            ></textarea>
           ) : (
-            <table className="table table-striped table-hover">
+            <table className="table table-striped table-hover m-0">
               <tbody>{ answersList }</tbody>
             </table>
           )}
