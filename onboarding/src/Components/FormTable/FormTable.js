@@ -67,7 +67,7 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
         modal: (
           <ModalWarning
             handleAccept={idle}
-            title={"Usunięcie formularza"}
+            title={"Usunięcie rozdziału"}
             message={message}
             id={0}
             show={true}
@@ -88,8 +88,8 @@ function FormTable({ companyId, setPackageTitleInAddressBar, handleEditTitle }) 
             <ModalWarning
               handleAccept={removePackage}
               handleCancel={hideModal}
-              title={"Usunięcie formularza"}
-              message={"Czy na pewno chcesz usunąć formularz?"}
+              title={"Usunięcie rozdziału"}
+              message={"Czy na pewno chcesz usunąć rozdział?"}
               show={true}
               id={id}
             />

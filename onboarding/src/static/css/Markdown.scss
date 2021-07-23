@@ -2,7 +2,9 @@
   /* Overwrite summernote classes */
   // Change summernote placeholder
   .note-placeholder {
-    font-style: italic;
+    font-size: .875rem;
+    font-family: inherit;
+    font-weight: 400;
   }
   // Change summernote background
   .btn-light.focus, .btn-light:focus, .btn-light:hover {

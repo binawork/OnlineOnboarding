@@ -2,7 +2,7 @@
 
 @mixin button {
   padding: 7px 32px;
-  background: rgb(15, 15, 39);
+  background: $button-color;
   color: #fff;
   border: 0.5px solid #fff;
   box-sizing: border-box;
@@ -30,7 +30,7 @@
     z-index: -1;
   }
   &:hover {
-    background: rgba(15, 15, 39, 0.75);
+    background: $button-hover-color;
     border: 2px solid #fff;
     box-sizing: border-box;
     border-radius: 10px;
@@ -38,7 +38,7 @@
   }
   &:focus {
     outline: 1px dotted;
-    background: rgba(15, 15, 39, 0.75);
+    background: $button-hover-color;
   }
 }
 @mixin card {
@@ -85,7 +85,7 @@
 }
 @mixin input {
   height: 34px;
-  background: none;
+  background-color: transparent!important;
   border: 0.5px solid rgba(255, 255, 255, 0.87);
   border-radius: 10px;
   margin-bottom: 1rem;

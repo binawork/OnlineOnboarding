@@ -60,7 +60,7 @@ function FormTableRow(props) {
               data-id={ props.row.id }
               onClick={ props.handleRemoveAsk }
               >
-              <img className="FormTable__button-icon" src={ trashIcon } data-id={ props.row.id } alt="#" />
+              <img className="FormTable__button-icon" src={ trashIcon } data-id={ props.row.id } alt="Usuń" />
             </button>
           </div>
         </td>

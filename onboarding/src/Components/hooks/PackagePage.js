@@ -99,7 +99,7 @@ export function addPage(handleSuccess, title, packageId, order, owner, popUpAddP
 	fetch(url + "api/page/", fetchProps)
 		.then(res => {
 			if(!res.ok) {
-				throw Error("Błąd: Nie udało się dodać nowego formularza!")
+				throw Error("Błąd: Nie udało się dodać nowego rozdziału!")
 			}
 			return res.json()
 		})
@@ -132,11 +132,11 @@ export function removeForm(handleSuccess, pageId){
 	fetch(url + "api/page/" + pageId + "/", fetchProps)
 		.then(res => {
 			if(!res.ok) {
-				throw Error("Nie udało się usunąć formularza!");
+				throw Error("Nie udało się usunąć rozdziału!");
 			}
 			return tryFetchJson(res) 
 		}).then((result) => {
-				handleSuccess("Formularz został usunięty.");
+				handleSuccess("Rozdział został usunięty.");
 		}).catch((error) => {
 		handleSuccess(error.message);
 	});

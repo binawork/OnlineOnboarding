@@ -13,6 +13,7 @@ function FormAddSection({
 }) {
   const [showLegend, setShowLegend] = useState(false);
   const [showButtons, setShowButtons] = useState();
+  const [iconButtons, setIconButtons] = useState(false);
   const [buttonOpen, setButtonOpen] = useState();
   const [buttonSingleAnsw, setButtonSingleAnsw] = useState();
   const [buttonMultiAnsw, setButtonMultiAnsw] = useState();
@@ -24,7 +25,7 @@ function FormAddSection({
   }, []);
 
   const handleWindowResize = () => {
-    setShowButtons(window.innerWidth > 810
+    setIconButtons(window.innerWidth > 810
       ? true
       : false
     )
@@ -73,59 +74,58 @@ function FormAddSection({
   }
 
   return (
+    <>
     <div className="FormAddSection">
-      <div className={ `FormAddSection__wrapper card ${showButtons
+      <div className={ `FormAddSection__wrapper ${showButtons
             ? "FormAddSection__wrapper--resize"
             : ""}` 
           }>
-        <div className="FormAddSection__header card-header">Dodaj pytanie</div>
-        <div className="FormAddSection__body card-body align-items-center">
+        <header className="FormAddSection__header">+ Dodaj</header>
+        <div className="FormAddSection__body">
           <div className={ `${showButtons
-            ? ""
+            ? "w-100"
             : "FormAddSection__button-add--hide"}` 
           }>
-            <div className="FormAddSection__col col">
               <button
-                className="FormAddSection__button-add btn btn-secondary"
+                className="FormAddSection__button FormAddSection__button-add btn"
                 onClick={(e) => handleAddSection(e, "oa")}
                 title="Pytanie otwarte"
               >
                 { buttonOpen }
               </button>
-            </div>
           </div>
           <div className={ `${showButtons
-            ? ""
+            ? "w-100"
             : "FormAddSection__button-add--hide"}` 
           }>
-            <div className="FormAddSection__col col">
               <button
-                className="FormAddSection__button-add btn btn-secondary"
+                className="FormAddSection__button FormAddSection__button-add btn"
                 onClick={(e) => handleAddSection(e, "osa")}
                 title="Jednokrotny wybór"
               >
                 { buttonSingleAnsw }
               </button>
-            </div>
           </div>
           <div className={ `${showButtons
-            ? ""
+            ? "w-100"
             : "FormAddSection__button-add--hide"}`
           }>
-            <div className="FormAddSection__col col">
               <button
-                className="FormAddSection__button-add btn btn-secondary"
+                className="FormAddSection__button FormAddSection__button-add btn"
                 onClick={(e) => handleAddSection(e, "msa")}
                 title="Wielokrotny wybór"
               >
                 { buttonMultiAnsw }
               </button>
-            </div>
           </div>
           <div className="FormAddSection__plus form-group" title="Dodaj pytanie">
             <div className="FormAddSection__plus-wrapper col">
               <button className="FormAddSection__plus-button" type="button" onClick={ handleShowButtons }>
-                <i className="FormAddSection__plus-icon bi bi-plus-circle"></i>
+                { showButtons
+                  ? <i className="FormAddSection__plus-icon bi bi-dash-circle"></i>
+                  : <i className="FormAddSection__plus-icon bi bi-plus-circle"></i>
+                }
+                
               </button>
             </div>
           </div>
@@ -135,17 +135,17 @@ function FormAddSection({
         <div className="FormAddSection__buttons-box input-group-append">
           <button
             type="submit"
-            className="FormAddSection__button FormAddSection__button--save btn btn-success"
+            className="FormAddSection__button FormAddSection__button--save btn"
             title="Zapisz pytania"
           >
-            <span className={`${showButtons ? "" : "FormAddSection__button-content"}`}>Zapisz pytania</span>
+            <span className={`${iconButtons ? "" : "FormAddSection__button-content"}`}>Zapisz pytania</span>
           </button>
           <button
-            className="FormAddSection__button FormAddSection__button--preview btn btn-success"
+            className="FormAddSection__button FormAddSection__button--preview btn"
             onClick={ handleChangeMode }
             title="Podgląd"
           >
-            <span className={`${showButtons ? "" : "FormAddSection__button-content"}`}>
+            <span className={`${iconButtons ? "" : "FormAddSection__button-content"}`}>
               { editMode
                 ? "Podgląd"
                 : "Edytuj"
@@ -155,19 +155,20 @@ function FormAddSection({
         </div>
         <button
           type="button"
-          className="FormAddSection__button FormAddSection__button--legend btn btn-success"
+          className="FormAddSection__button FormAddSection__button--legend btn"
           title="Legenda"
           onClick={() => setShowLegend(!showLegend)}
         >
-            <span className={`${showButtons ? "" : "FormAddSection__button-content"}`}>
+            <span className={`${iconButtons ? "" : "FormAddSection__button-content"}`}>
               Legenda
             </span>
         </button>
       </div>
+    </div>
       { showLegend && 
-        <div className="AnswersLegend--fixed d-flex justify-content-center align-items-center" onClick={() => setShowLegend(!showLegend)}>
-          <section className="card card-fluid p-3 AnswersLegend">
-            <div className="card-body">
+        <div className="Modal modal modal-alert fade show d-flex align-items-center" onClick={() => setShowLegend(!showLegend)}>
+          <section className="Modal__dialog">
+            <div className="Modal__content">
               <header>
                 <p className="text-uppercase text-center">Legenda</p>
                 <p className="text-center">Przesuwając suwak w prawo w szablonie odpowiedzi zaznaczasz prawidłowe odpowiedzi. Dzięki temu szybciej ocenisz feedback.</p>
@@ -192,7 +193,7 @@ function FormAddSection({
           </section>
         </div>
       }
-    </div>
+      </>
   );
 }
 

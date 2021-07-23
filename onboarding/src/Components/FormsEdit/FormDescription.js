@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { savePageDetails } from "../hooks/FormsEdit";
 import ModalWarning from "../ModalWarning";
 import { isValidUrl } from "../utils";
+import bookOpenedIcon from "../../static/icons/book-opened.svg";
 
 const FormDescription = ({ formId, formData }) => {
   const location = useLocation();
@@ -33,7 +34,7 @@ const FormDescription = ({ formId, formData }) => {
     setSaveModal(
       <ModalWarning
         handleAccept={hideModal}
-        title={"Zmiana danych formularza"}
+        title={"Zmiana danych rozdziału"}
         message={message}
         show={true}
         acceptText={"Ok"}
@@ -59,60 +60,63 @@ const FormDescription = ({ formId, formData }) => {
   };
 
   return (
-    <form onSubmit={ handleSave }>
-      <section className="page-section">
-        <div className="card card-fluid">
-          <header className="card-header">Formularz</header>
-          <div className="card-body">
-            <div className="form-group">
-              <label htmlFor="title">Nazwa formularza</label>
-              <div className="input-group">
-                <input
-                  id="title"
-                  type="text"
-                  className="form-control"
-                  placeholder="Nazwa formularza"
-                  value={ formData ? formName : "Ładowanie..." }
-                  onChange={ (e) => setFormName(e.target.value) }
-                  maxLength="200"
-                  required
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="link">Link do wideo / dokumentu</label>
-              <div className="input-group">
-                <input
-                  id="link"
-                  type="url"
-                  className="form-control"
-                  placeholder="https://example.com"
-                  value={ formData ? link : "Ładowanie..." }
-                  onChange={ (e) => setLink(e.target.value) }
-                  maxLength="200"
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="desc">Opis</label>
-              <textarea
-                id="desc"
-                className="form-control"
-                placeholder="Opis"
-                rows="4"
-                value={ formData ? description : "Ładowanie..." }
-                onChange={ (e) => setDescription(e.target.value) }
-                maxLength="1500"
-              ></textarea>
-            </div>
-            <div className="form-group">
-              <div className="input-group-append">
-                <button className="btn btn-success" type="submit" style={{ zIndex: "0" }}>
-                  Zapisz opis
-                </button>
-              </div>
-            </div>
+    <form className="FormDescription" onSubmit={ handleSave }>
+      <header className="FormDescription__header">
+        <p className="FormDescription__text">
+          <i>Tytuł rozdziału:</i>
+        </p>
+        <div className="FormDescription__title-wrapper">
+          <img className="FormDescription__icon" src={ bookOpenedIcon } alt="#" />
+          {/* TODO: stan normalny i stan edycji nazwy rozdziału */}
+          <input
+            id="title"
+            type="text"
+            className="FormDescription__input form-control m-0"
+            placeholder="Tytuł"
+            value={ formData ? formName : "Ładowanie..." }
+            onChange={ (e) => setFormName(e.target.value) }
+            maxLength="200"
+            required
+            />
+            {/* TODO */}
+            {/* <h1 className="FormDescription__title">{ formData ? formName : "Ładowanie..." }</h1> */}
+            {/* <button className="FormDescription__button">Edytuj</button> */}
+        </div>
+      </header>
+
+      <section className="FormDescription__content">
+        <label className="FormDescription__label" htmlFor="link">Link do wideo / dokumentu</label>
+        <div className="FormDescription__content-box">
+          <input
+              id="link"
+              type="url"
+              className="FormDescription__input form-control"
+              placeholder="https://example.com"
+              value={ formData ? link : "Ładowanie..." }
+              onChange={ (e) => setLink(e.target.value) }
+              maxLength="200"
+            />
+            {/* TODO: funkcjonalność przycisku */}
+            <button className="FormDescription__button btn">
+              Dołącz plik
+            </button>
           </div>
+        <label className="FormDescription__label" htmlFor="desc">Tekst (liczba znaków: 1500)</label>
+        <textarea
+          id="desc"
+          className="FormDescription__input form-control"
+          placeholder="Tekst"
+          rows="4"
+          value={ formData ? description : "Ładowanie..." }
+          onChange={ (e) => setDescription(e.target.value) }
+          maxLength="1500"
+        ></textarea>
+        <div className="FormDescription__button-wrapper">
+          <button className="FormDescription__button FormDescription__button--right btn" type="submit">
+            Zapisz opis
+            {/* Po dodaniu funkcjonalności edycji samego tytułu zmienić treść przycisku na:  */}
+            {/* Zapisz tekst */}
+          </button>
         </div>
       </section>
       { saveModal }

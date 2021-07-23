@@ -1,3 +1,5 @@
+@import "./utilities/mixins.scss";
+
 .app {
   overflow: visible;
   &-main {
@@ -5,7 +7,78 @@
   }
 }
 
+.FormDescription {
+  margin-bottom: 24px;
+  &__button {
+    @include button;
+    max-width: 142px;
+    width: 100%;
+    padding: 10px 20px;
+    height: 32px;
+    font-size: 12px;
+    font-weight: 300;
+  }
+  &__input {
+    @include input;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
+  // header
+  &__header {
+    @include list-item-card;
+    margin-bottom: 48px;
+  }
+  &__text {
+    padding-bottom: 7px;
+    font-size: 12px;
+    line-height: 14px;
+    border-bottom: 1px dashed #fff;
+  }
+  &__title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 18px;
+  }
+
+  // content
+  &__button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  &__content {
+    margin-left: 91px;
+  }
+  &__content-box {
+    display: flex;
+    column-gap: 24px;
+  }
+  &__label {
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    margin-bottom: 12px;
+  }
+}
+
 .FormsEdit {
+  &__column {
+    padding-top: 26px;
+  }
+  &__header {
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #fff;
+  }
   &__thr {
     font-size: smaller;
   }
@@ -16,6 +89,10 @@
     text-align: center;
   }
   &__tr {
+    &:hover {
+      background: #0f0f29bf!important;
+      color: #fff;
+    }
     vertical-align: middle!important;
     &--middle {
       vertical-align: middle!important;
@@ -24,6 +101,7 @@
   }
   &__td {
     vertical-align: middle!important;
+    border-top: none!important;
     &--middle {
       vertical-align: middle!important;
       text-align: center;
@@ -36,15 +114,35 @@
   position: -webkit-sticky;
   position: sticky;
   top: 100px;
+  &__body {
+    padding: 21px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 12px;
+  }
+  &__button {
+    @include button;
+    width: 100%;
+    padding: 7px 13px;
+    font-weight: 300;
+    font-size: 12px;
+  }
   &__button--save {
     margin-right: .25rem;
   }
-  &__button-add {
+  &__button-add--hide {
     width: 100%;
-    margin-bottom: .5rem;
   }
   &__buttons-box {
     margin-bottom: .5rem;
+  }
+  &__header {
+    padding: 10px 21px;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    border-bottom: 1px dashed #fff;
   }
   &__plus {
     display: none;
@@ -69,7 +167,48 @@
     }
   }
   &__wrapper {
-    margin: 1rem 0;
+    @include list-item-card;
+    padding: 0;
+  }
+}
+
+.FormSection {
+  @include card;
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+  &__button {
+    @include button;
+  }
+  &__button-icon {
+    &--bigger {
+      height: 21px;
+    }
+  }
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  &__header {
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #fff;
+    margin-bottom: 24px;
+    &--dashed {
+      border-bottom: 1px dashed #fff;
+    }
+  }
+  &__input {
+    @include input;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+  &__line {
+    width: 100%;
+    border-bottom: 1px dashed #fff;
+    margin-top: 0;
   }
 }
 
@@ -77,7 +216,6 @@
   .FormAddSection {
     &__button {
       margin: 0 0 8px 0!important;
-      padding: 6px 4px;
       width: 100%;
     }
     &__buttons-box {
@@ -89,11 +227,6 @@
       -ms-flex-direction: column;
       flex-direction: column;
       margin: 0;
-    }    
-    &__wrapper {
-      width: -webkit-fit-content;
-      width: -moz-fit-content;
-      width: fit-content;
     }
   }
 }
@@ -119,6 +252,7 @@
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
+      flex-direction: column;
       padding: 0!important;
     }
     &__button {
@@ -129,13 +263,22 @@
       border-radius: 50%!important;
       margin: 0 .8rem 0 0!important;
       &--preview {
-        background-image: url('../icons/eye.svg');
+        background: url('../icons/eye.svg') no-repeat center $button-color;
+        &:hover {
+          background: url('../icons/eye.svg') no-repeat center $button-hover-color;
+        }
       }
       &--legend {
-        background-image: url('../icons/map.svg');
+        background: url('../icons/map.svg') no-repeat center $button-color;
+        &:hover {
+          background: url('../icons/map.svg') no-repeat center $button-hover-color;
+        }
       }
       &--save {
-        background-image: url('../icons/save.svg');
+        background: url('../icons/save.svg') no-repeat center $button-color;
+        &:hover {
+          background: url('../icons/save.svg') no-repeat center $button-hover-color;
+        }
       }
       &-content {
         display: none;
@@ -143,6 +286,7 @@
     }
     &__button-add {
       margin-bottom: 0;
+      margin-right: 0!important;
       width: 40px;
       height: 40px!important;
       border-radius: 50%!important;
@@ -198,12 +342,14 @@
       &-icon {
         display: flex;
         align-items: center;
+        color: #fff;
       }
       &-wrapper {
         padding: 0!important;
       }
     } 
     &__wrapper {
+      @include button;
       position: absolute!important;
       z-index: 12;
       right: 0!important;
@@ -213,16 +359,14 @@
       margin: 0 .5rem!important;
       bottom: 4.5px;
       border-radius: 50px!important;
-      background: var(--yellow)!important;
-      -webkit-transition: width .3s linear;
-      -o-transition: width .3s linear;
-      transition: width .3s linear;
+      -webkit-transition: all .3s linear;
+      -o-transition: all .3s linear;
+      transition: all .3s linear;
       &--resize {
-        width: 196px;
-        -webkit-transition: width .3s linear;
-        -o-transition: width .3s linear;
-        transition: width .3s linear;
-
+        height: 196px;
+        -webkit-transition: all .3s linear;
+        -o-transition: all .3s linear;
+        transition: all .3s linear;
       }
     }
   }
@@ -232,7 +376,24 @@
   .FormAddSection {
     padding-left: 0!important;
   }
+  .FormDescription {
+    &__content {
+      margin-left: 0;
+    }
+  }
 }
+@media(max-width: 450px) {
+  .FormDescription {
+    &__content-box {
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    &__header {
+      padding: 1rem;
+    }
+  }
+}
+
 
 /* Change default switcher's styles */
 /* .FormsEdit__switcher-indicator::before {

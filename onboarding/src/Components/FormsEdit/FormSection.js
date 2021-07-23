@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from "react";
+import uuid from "uuid";
 import MarkdownArea from "../MarkdownArea";
 import SectionAnswers from "./SectionAnswers";
 import { Draggable } from "react-beautiful-dnd";
 import FormSectionsAPI from "../hooks/FormSectionsAPI";
-import uuid from "uuid";
 import FormsSectionsPreview from "./FormsSectionsPreview";
+import trashIcon from "../../static/icons/trash.svg";
 
 function FormSection({
   sections,
@@ -152,28 +153,24 @@ function FormSection({
         >
           {(provided) => (
             <section
-              className="card my-3"
+              className="FormSection my-3"
               {...provided.draggableProps}
               ref={provided.innerRef}
             >
-              <header className="card-header" {...provided.dragHandleProps}>
+              <header className="FormSection__header" {...provided.dragHandleProps}>
                 <span className="drag-indicator"></span>{" "}
                 {cardHeader(section.type)}
               </header>
-              <div className="card-body">
-                <div className="form-group">
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Tytuł"
-                      value={section.title}
-                      onChange={(e) => changeTitle(e, section.id)}
-                      autoFocus={typeof section.id === "string" ? true : false}
-                      required
-                    />
-                  </div>
-                </div>
+              <div className="FormSection__main">
+                <input
+                  type="text"
+                  className="FormSection__input form-control"
+                  placeholder="Tytuł"
+                  value={section.title}
+                  onChange={(e) => changeTitle(e, section.id)}
+                  autoFocus={typeof section.id === "string" ? true : false}
+                  required
+                />
                 <MarkdownArea
                   id={section.id}
                   content={section.description}
@@ -181,17 +178,17 @@ function FormSection({
                     changeDescription(content, section.id)
                   }
                   simple={false}
+                  placeholder="Tekst"
                 />
-                <hr />
+                <hr className="FormSection__line" />
 
                 {section.type === "oa" ? (
-                  <div className="form-group">
-                    <textarea
-                      className="form-control"
-                      placeholder="Odpowiedź pracownika"
-                      rows="4"
-                    ></textarea>
-                  </div>
+                  <textarea
+                    className="FormSection__input form-control"
+                    placeholder="Odpowiedź pracownika"
+                    rows="4"
+                    disabled
+                  ></textarea>
                 ) : (
                   <SectionAnswers
                     inputAnswer={ inputAnswer }
@@ -205,7 +202,7 @@ function FormSection({
                   />
                 )}
               </div>
-              <footer className="card-footer d-flex justify-content-end p-2">
+              <footer className="FormSection__footer">
                 <button
                   className="btn"
                   onClick={(e) => handleCopySection(e, index + 1, section)}
@@ -218,9 +215,7 @@ function FormSection({
                   className="btn text-danger"
                   onClick={(e) => handleDeleteSection(e, index + 1, section.id)}
                 >
-                  <i className="fa fa-trash-o fa-lg" title="Usuń">
-                    &#61944;
-                  </i>
+                  <img className="FormSection__button-icon FormSection__button-icon--bigger" src={ trashIcon } alt="Usuń" />
                 </button>
               </footer>
             </section>
