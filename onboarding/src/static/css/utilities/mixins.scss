@@ -4,7 +4,7 @@
   padding: 7px 32px;
   background: $button-color;
   color: #fff;
-  border: 0.5px solid #fff;
+  border: 1px solid #fff;
   box-sizing: border-box;
   border-radius: 10px;
   font-weight: 500;
@@ -31,10 +31,21 @@
   }
   &:hover {
     background: $button-hover-color;
-    border: 2px solid #fff;
     box-sizing: border-box;
-    border-radius: 10px;
-    font-weight: 900
+    color: #fff;
+    // border-radius: 10px;
+    // font-weight: 900;
+    &::after {
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      content: "";
+      position: absolute;
+      top: -1;
+      left: -1;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      
+    }
   }
   &:focus {
     outline: 1px dotted;

@@ -37,4 +37,11 @@
     border: 2px solid #fff;
     border-radius: 10px;
   }
+  // Change summernote icons
+  .btn i:not(.note-icon-font)::before, .btn span, .dropdown-toggle:after {
+    color: #fff;
+  }
+  .note-editable {
+    color: #fff!important;
+  }
 }
