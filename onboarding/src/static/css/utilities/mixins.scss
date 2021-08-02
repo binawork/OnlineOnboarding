@@ -28,23 +28,27 @@
     filter: blur(10px);
     border-radius: 10px;
     z-index: -1;
+    transition: all .3s ease-in-out;
+  }
+  &::after {
+    opacity: 0;
+    transition: all .3s ease-in-out;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    border: 2px solid #fff;
+    border-radius: 10px;
   }
   &:hover {
     background: $button-hover-color;
     box-sizing: border-box;
     color: #fff;
-    // border-radius: 10px;
-    // font-weight: 900;
     &::after {
-      width: calc(100% + 2px);
-      height: calc(100% + 2px);
-      content: "";
-      position: absolute;
-      top: -1;
-      left: -1;
-      border: 2px solid #fff;
-      border-radius: 10px;
-      
+      opacity: 1;
+      transition: all .3s ease-in-out;
     }
   }
   &:focus {

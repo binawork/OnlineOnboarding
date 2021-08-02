@@ -36,12 +36,7 @@ function UsersList({ loggedUserId }) {
 
     return (
       <div className="page-section">
-        <div className="card card-fluid">
-          <div className="card-header">Lista pracowników</div>
-          <div className="card-body">
-            <UserListSearch users={ users } setSearchResult={ setSearchResult }/>
-          </div>
-        </div>
+        <UserListSearch users={ users } setSearchResult={ setSearchResult }/>
         { !loaded && <p>Ładowanie...</p> }
         { error && <p>Wystąpił błąd podczas ładowania danych</p> }
         { loaded && users.length !== 0

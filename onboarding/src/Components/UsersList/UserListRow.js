@@ -42,106 +42,100 @@ function UserListRow(props) {
         };
 
     return(
-        <div className="card mb-2">
-            <div className="card-body w-100">
-                <div className="UsersList__row row align-items-center m-0">
-                    <div className="UsersList__row-data col d-flex align-items-center">
-                        <div className="UsersList__column col d-flex align-items-center">
-                            <div className="UsersList__avatar-box">
-                                <Link to={{ pathname: `/employee/${props.user.id}`, state: { user: props.user } }} className="user-avatar user-avatar-xl">
-                                    <img src={ avatar } alt="avatar" />
-                                </Link>
-                            </div>
-
-                            <div className="">
-                                <h3 className="card-title">
-                                    <Link to={{ pathname: `/employee/${props.user.id}`, state: { user: props.user } }}>
-                                        { props.user.name }
-                                    </Link>
-                                </h3>
-                                <p className="card-subtitle text-muted">
-                                    { props.user.email }
-                                </p>
-                                { props.user.position &&
-                                    props.user.position !== "-" &&
-                                    <>
-                                    <small className="text-muted">
-                                        { props.user.position }
-                                    </small>
-                                    <br />
-                                    </>
-                                }
-                                { props.user.tel && (
-                                    <small className="text-muted">
-                                        { props.user.tel }
-                                    </small>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="UsersList__column col d-flex flex-column flex-xl-row">
-                            <div className="col">
-                                <p className="card-title mb-2">
-                                    <small className="text-muted">Dział: </small>
-                                    { props.user.department
-                                        ? props.user.department
-                                        : <small className="text-muted"><i>brak</i></small>
-                                    }
-                                </p>
-                                <p className="UsersList__element--margin-bottom card-title">
-                                    <small className="text-muted">Lokalizacja: </small>
-                                    { props.user.location
-                                        ? props.user.location
-                                        : <small className="text-muted"><i>brak</i></small>
-                                    }
-                                </p>
-                            </div>
-
-                            <div className="col">
-                                <p className="card-title mb-2 text-nowrap">
-                                    <small className="text-muted">Wysłane katalogi: </small>
-                                    { props.user.sent
-                                        ? props.user.sent
-                                        : <small className="text-muted"><i>brak</i></small>
-                                    }
-                                </p>
-                                <p className="card-title mb-0 text-nowrap">
-                                    <small className="text-muted">Skończone katalogi: </small>
-                                    { props.user.finished
-                                        ? props.user.finished
-                                        : <small className="text-muted"><i>brak</i></small>
-                                    }
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="UsersList__row-buttons col-auto d-flex flex-column">
-                        <Link to={{ pathname: `/employee/${props.user.id}`, state: { user: props.user } }}
-                            className="btn btn-secondary mb-1" 
-                            data-toggle="tooltip"
-                        >
-                            Dodaj katalog
+        <div className="UserListRow">
+            <div className="UserListRow__employee-info">
+                <div className="UserListRow__column col">
+                    <div className="UserListRow__avatar-box">
+                        <Link to={{ pathname: `/employee/${props.user.id}`, state: { user: props.user } }} className="user-avatar user-avatar-xl">
+                            <img className="UserListRow__avatar" src={ avatar } alt="avatar" />
                         </Link>
-                        <div className="d-flex">
-                            <Link to={{ pathname: `/edit_employee/${props.user.id}`, state: { user: props.user } }}
-                                className="UsersList__row-buttons--bottom btn btn-secondary mr-1" 
-                                data-toggle="tooltip"
-                            >
-                                Edytuj profil
-                            </Link>
-                            <button
-                                type="button"
-                                value={ props.user.id }
-                                onClick={ removeAsk }
-                                className="UsersList__row-buttons--bottom btn btn-warning"
-                                data-toggle="tooltip"
-                                disabled={ loadingSave ? true : false }
-                            >
-                                Usuń
-                            </button>
-                        </div>
                     </div>
+
+                    <div className="">
+                        <h3 className="UserListRow__header">
+                            <Link to={{ pathname: `/employee/${props.user.id}`, state: { user: props.user } }}>
+                                { props.user.name }
+                            </Link>
+                        </h3>
+                        { props.user.position &&
+                            props.user.position !== "-" &&
+                            <p className="card-subtitle">
+                                { props.user.position }
+                            </p>
+                        }
+                        <small className="">
+                            { props.user.email }
+                        </small>
+                        <br />
+                        { props.user.tel && (
+                            <small className="">
+                                { props.user.tel }
+                            </small>
+                        )}
+                    </div>
+                </div>
+
+                <div className="UserListRow__column col">
+                    <div className="col">
+                        <p className="UserListRow__data">
+                            Dział:
+                            { props.user.department
+                                ? <b> { props.user.department }</b>
+                                : <i> brak</i>
+                            }
+                        </p>
+                        <p className="UserListRow__data UserListRow__data--margin">
+                            Lokalizacja:
+                            { props.user.location
+                                ? <b> { props.user.location }</b>
+                                : <i> brak</i>
+                            }
+                        </p>
+                    </div>
+
+                    <div className="col">
+                        <p className="UserListRow__data text-nowrap">
+                            Wysłane katalogi:
+                            { props.user.sent
+                                ? <b> { props.user.sent }</b>
+                                : <b> 0</b>
+                            }
+                        </p>
+                        <p className="UserListRow__data text-nowrap">
+                            Skończone katalogi: 
+                            { props.user.finished
+                                ? <b> { props.user.finished }</b>
+                                : <b> 0</b>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="UserListRow__buttons">
+                <Link to={{ pathname: `/employee/${props.user.id}`, state: { user: props.user } }}
+                    className="UserListRow__button UserListRow__button--top btn mb-2" 
+                    data-toggle="tooltip"
+                >
+                    Dodaj katalog
+                </Link>
+                <div className="UserListRow__buttons-bottom">
+                    <Link to={{ pathname: `/edit_employee/${props.user.id}`, state: { user: props.user } }}
+                        className="UserListRow__button btn mr-2" 
+                        data-toggle="tooltip"
+                    >
+                        Edytuj profil
+                    </Link>
+                    <button
+                        type="button"
+                        value={ props.user.id }
+                        onClick={ removeAsk }
+                        className="UserListRow__button btn"
+                        data-toggle="tooltip"
+                        disabled={ loadingSave ? true : false }
+                    >
+                        Usuń
+                    </button>
                 </div>
             </div>
             {employeeIdModal.modal}
