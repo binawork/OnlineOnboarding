@@ -34,9 +34,16 @@ function AddUserTable(props) {
       setUserTable(usersWithoutPackage);
     }, [usersInPackage, users]);
 
+    const updateUsersInPackage = function(employeeId){
+        let newUsersInPackage = [...usersInPackage];
+        newUsersInPackage.push(parseInt(employeeId, 10));// without parseInt()  indexOf()  makes wrong filtering;
+
+        setUsersInPackage(newUsersInPackage);
+    };
+
     const sendToEmployee = (e) => {
       let employeeId = e.target.value; // id of user on row of button;
-      assignEmployeeToPackage(props.showModal, employeeId, props.packageId, setUsersInPackage);
+      assignEmployeeToPackage(props.showModal, employeeId, props.packageId, updateUsersInPackage);
     };
 
     return (
