@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
-const CompanyInfoLogo = ({ logo, companyName, setLogo, setImageFile }) => {
+const CompanyInfoLogo = ({ logo, companyName, setCompanyName, setLogo, setImageFile }) => {
   const logoRef = useRef("");
+  const [editName, setEditName] = useState(companyName ? false : true);
 
   const handleLogo = () => {
     if (logoRef.current.files.length > 0) {
@@ -15,32 +16,56 @@ const CompanyInfoLogo = ({ logo, companyName, setLogo, setImageFile }) => {
       setImageFile(logoRef.current.files[0]);
     }
   };
+  const handleCompanyChange = (e) => {
+    setCompanyName(e.target.value);
+  }
+  const handleClick = (e) => {
+    e.preventDefault();
+    setEditName(!editName);
+    // TODO: zapisywanie nazwy
+  }
 
   return (
-    <div className="media mb-4 d-flex align-items-center">
+    <header className="CompanyInfo__header-wrapper">
       <div className="CompanyInfo__logo user-avatar user-avatar-xl fileinput-button">
-        <div className="fileinput-button-label"> Zmień logo </div>
-        {logo ? <img alt="logo" src={logo} /> : <></>}
-        <div
-          style={{
-            border: "2px solid #dadada",
-            borderRadius: "50%",
-            width: "80px",
-            height: "80px",
-          }}
-        ></div>
+        <div className={`UserAccount__icon-wrapper ${logo ? "fileinput-button-label" : ""}`}>
+          <i className="UserAccount__download-icon bi bi-download"></i>
+        </div>
+        { logo && (
+          <img
+            className="UserAccount__avatar"
+            src={ logo }
+            alt="avatar" /> 
+        )}
         <input
-          id="fileupload-logo"
+          className="UserAccount__avatar-input"
+          id="fileupload-avatar"
           type="file"
-          name="logo"
-          ref={logoRef}
-          onChange={handleLogo}
-        />
+          name="avatar"
+          ref={ logoRef }
+          onChange={ handleLogo } />
       </div>
-      <p className="m-0" style={{ fontSize: "1.5rem" }}>
-        <b>{companyName}</b>
-      </p>
-    </div>
+      <div className="CompanyInfo__name-wrapper">
+        <div className="CompanyInfo__name">
+          <small className="CompanyInfo__text">
+            { editName ? "Dodaj nazwę organizacji" : "Nazwa organizacji" }
+          </small>
+          {
+            editName 
+              ? <input className="CompanyInfo__input form-control" value={ companyName } onChange={ handleCompanyChange } />
+              : (
+                <h1 className="CompanyInfo__header">
+                  { companyName }
+                </h1>
+              )
+          }
+        </div>
+        {/* TODO */}
+        {/* <button className="CompanyInfo__button" onClick={ handleClick }>
+          { editName ? "Zapisz" : "Zmień" }
+        </button> */}
+      </div>
+    </header>
   );
 };
 

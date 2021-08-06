@@ -4,6 +4,7 @@ import CompanyInfoLogo from "./CompanyInfoLogo";
 
 function CompanyInfoEdit({
   companyName,
+  setCompanyName,
   logo,
   mission,
   link,
@@ -15,25 +16,17 @@ function CompanyInfoEdit({
   handleAboutCompany,
 }) {
   return (
-    <div className="card-body col-xl-6 col-lg-8 col-12">
-      <div className="pb-3">
-        <h4 className="card-title"> Logo firmy </h4>
-        <h6 className="card-subtitle text-muted">
-          Kliknij w kółko, żeby zmienić logo
-        </h6>
-        <p className="card-text">
-          <small>JPG, GIF, PNG &lt; 2 MB</small>
-        </p>
-      </div>
+    <div className="CompanyInfo__main">
       <CompanyInfoLogo
         logo={logo}
         companyName={companyName}
+        setCompanyName={setCompanyName}
         setLogo={setLogo}
         setImageFile={setImageFile}
       />
 
-      <div className="">
-        <label className="text-muted" htmlFor="company-mission">Misja firmy</label>
+      <div className="CompanyInfo__card">
+        <label className="CompanyInfo__label" htmlFor="company-mission">Misja firmy</label>
         <MarkdownArea
           id={"company-mission"}
           content={mission}
@@ -41,12 +34,12 @@ function CompanyInfoEdit({
           simple={false}
           placeholder={"Misja firmy"}
         />
-        <hr />
-        <div className="form-group">
-          <label className="text-muted" htmlFor="about-company">Link do filmiku</label>
+      </div>
+        <div className="CompanyInfo__card form-group">
+          <label className="CompanyInfo__label" htmlFor="about-company">Link do filmiku</label>
           <input
             type="url"
-            className="form-control"
+            className="CompanyInfo__input form-control"
             id="video-link"
             placeholder="Link, np. https://www.youtube.com/..."
             aria-label="Link do wideo o firmie"
@@ -54,8 +47,8 @@ function CompanyInfoEdit({
             onChange={handleLink}
           />
         </div>
-        <hr />
-        <label className="text-muted" htmlFor="about-company">Inne informacje o firmie</label>
+      <div className="CompanyInfo__card">
+        <label className="CompanyInfo__label" htmlFor="about-company">Inne informacje o firmie</label>
         <MarkdownArea
           id="about-company"
           content={aboutCompany}

@@ -5,6 +5,21 @@
   padding: 91px 0 48px;
   font-size: .8rem;
   color: #fff;
+  display: flex;
+  align-items: center;
+  column-gap: 22px;
+  &__arrow {
+    width: 16px;
+    margin-right: 2px;
+  }
+  &__button {
+    @include button;
+    height: 32px;
+    padding-left: 10px; 
+    padding-right: 15px; 
+    font-weight: 300;
+    font-size: 12px;
+  }
   &__item {
     &--active {
       @include text-active;
