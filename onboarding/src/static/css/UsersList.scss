@@ -1,81 +1,149 @@
-.UsersList {
+@import "./utilities/mixins.scss";
+
+.UserListRow {
+  @include list-item-card;
+  padding: 30px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
   &__avatar-box {
+    width: 78px;
     margin-right: 1rem;
   }
-  &__column {
-    min-width: 200px;
-  }
-  &__element--margin-bottom {
-    margin-bottom: 0;
-  }
-  &__row-buttons--bottom {
+  &__button {
+    @include button;
+    padding: 7px 14px;
+    font-weight: 300;
     white-space: nowrap;
   }
-}
-
-@media(max-width: 1200px) {
-  .UsersList__element--margin-bottom {
-    margin-bottom: .5rem;
+  &__buttons {
+    display: flex;
+    flex-direction: column;
   }
-  
+  &__buttons-bottom {
+    display: flex;
+  }
+  &__column {
+    display: flex;
+  }
+  &__data {
+    font-size: 12px;
+    margin-bottom: 1.5rem;
+    &:nth-of-type(2) {
+      margin-bottom: 0rem;
+    }
+  }
+  &__header {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  &__employee-info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
 }
 
-@media(max-width: 1064px) {
-  .UsersList {
+.UsersListSearch {
+  margin-bottom: 60px;
+  &__content {
+    max-width: 700px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 46px;
+  }
+  &__input {
+    @include input;
+  }
+  &__inputs-wrapper {
+    max-width: 327px;
+    width: 100%;
+  }
+}
+
+@media(max-width: 1240px) {
+  .UserListRow {
     &__avatar-box {
-      margin-right: 0;
       margin-bottom: .5rem;
     }
     &__column {
-      margin-bottom: 1rem;
       flex-direction: column;
     }
-    &__row {
-      flex-direction: column;
-      width: 100%;
-      margin: 0;
-      &-buttons {
-        width: 55%;
-        &--bottom {
-          width: 100%;
-        }
-      }
+    &__data--margin {
+      margin-bottom: 1.5rem!important;
     }
   }
-  
 }
+@media(max-width: 1104px) {
+  .UserListRow {
+    &__button {
+      margin-right: 0!important;
+      margin-bottom: .5rem!important;
 
-@media(max-width: 850px) {
-  .UsersList {
-    &__row-data {
+    }
+    &__buttons-bottom {
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+}
+@media(max-width: 992px) {
+  .UserListRow {
+    &__column {
+      flex-direction: row;
+    }
+  }
+}
+@media(max-width: 800px) {
+  .UserListRow {
+    &__column {
+      flex-direction: column;
+    }
+  }
+}
+@media(max-width: 630px) {
+  .UserListRow{
+    flex-direction: column;
+    &__button {
+      margin-bottom: 0!important;
+      margin-right: .5rem!important;
+    }
+    &__buttons {
+      flex-direction: row;
+    }
+    &__buttons-bottom {
+      flex-direction: row;
+    }
+    &__employee-info {
+      margin-bottom: 1rem;
+    }
+  }
+}
+@media(max-width: 450px) {
+  .UserListRow {
+    &__avatar-box {
+      margin-right: 0;
+    }
+    &__button--top {
+      margin-bottom: .5rem!important;
+    }
+    &__buttons {
       flex-direction: column;
     }
     &__column {
+      align-items: center;
       text-align: center;
-      justify-content: center;
+      margin-bottom: 1rem;
     }
-  }
-}
-
-@media(max-width: 575px) {
-  .UsersList__row-buttons {
-    width: 80%;
-  }
-  .UsersListSearch {
-    &__label-box {
-      padding: 0!important;
-      margin-bottom: 1rem!important;
+    &__data, &__data--margin {
+      margin-bottom: .5rem;
     }
-  }
-}
-
-@media(max-width: 416px) {
-  .UsersList__row {
-    &-buttons {
-      width: 100%;
-      &--bottom:last-child {
-        width: 75%;
-      }
+    &__data--margin {
+      margin-bottom: .5rem!important;
+    }
+    &__employee-info {
+      flex-direction: column;
     }
   }
 }
