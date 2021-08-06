@@ -262,20 +262,32 @@
       background-position: center;
       border-radius: 50%!important;
       margin: 0 .8rem 0 0!important;
+      &:hover::after {
+        border-radius: 50%;
+      }
       &--preview {
         background: url('../icons/eye.svg') no-repeat center $button-color;
+        &:focus {
+          background: url('../icons/eye.svg') no-repeat center $button-color;
+        }
         &:hover {
           background: url('../icons/eye.svg') no-repeat center $button-hover-color;
         }
       }
       &--legend {
         background: url('../icons/map.svg') no-repeat center $button-color;
+        &:focus {
+          background: url('../icons/map.svg') no-repeat center $button-color;
+        }
         &:hover {
           background: url('../icons/map.svg') no-repeat center $button-hover-color;
         }
       }
       &--save {
         background: url('../icons/save.svg') no-repeat center $button-color;
+        &:focus {
+          background: url('../icons/save.svg') no-repeat center $button-color;
+        }
         &:hover {
           background: url('../icons/save.svg') no-repeat center $button-hover-color;
         }
