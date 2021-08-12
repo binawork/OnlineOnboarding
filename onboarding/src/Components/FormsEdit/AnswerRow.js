@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Switcher from "../Switcher";
+import trashIcon from "../../static/icons/trash.svg";
 
 /**
  *
@@ -71,18 +72,16 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, set
     <tr className="FormsEdit__tr">
       <td className="FormsEdit__td">
         {editing === true ? (
-          <div className="input-group">
-            <input
-              key={`edit-answ-input-${domIdIndex}`}
-              className="form-control"
-              id={`edit-${domIdIndex}`}
-              name={name}
-              type="text"
-              value={title}
-              onChange={editAnswer}
-              onKeyDown={onEnter}
-            />
-          </div>
+          <input
+            key={`edit-answ-input-${domIdIndex}`}
+            className="FormSection__input form-control"
+            id={`edit-${domIdIndex}`}
+            name={name}
+            type="text"
+            value={title}
+            onChange={editAnswer}
+            onKeyDown={onEnter}
+          />
         ) : (
           <div
             className={`custom-control custom-control-inline custom-${
@@ -131,12 +130,12 @@ const AnswerRow = ({ sectionId, answerId, index, changeAnswer, removeAnswer, set
           </button>
         )}
         <button
-          className="btn text-danger"
+          className="btn"
           name={name}
           onClick={deleteAnswer}
           title="Usuń"
         >
-          <i className="fa fa-trash-o fa-md">&#61944;</i>
+          <img className="FormSection__button-icon" src={ trashIcon } alt="Usuń" />
         </button>
       </td>
     </tr>

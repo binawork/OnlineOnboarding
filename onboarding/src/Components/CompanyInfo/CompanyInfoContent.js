@@ -9,6 +9,7 @@ function CompanyInfoContent({ company }) {
   const [isEditMode, toggleEditMode] = useState(true);
   const [error, setError] = useState(null);
   const [imageFile, setImageFile] = useState("");
+  const [companyName, setCompanyName] = useState(company.name || "");
   const [logo, setLogo] = useState(company.company_logo || "");
   const [mission, setMission] = useState(storage?.mission || company.mission || "");
   const [link, setLink] = useState(storage?.link || company.link || "");
@@ -67,7 +68,8 @@ function CompanyInfoContent({ company }) {
     <>
       {isEditMode ? (
         <CompanyInfoEdit
-          companyName={company.name}
+          companyName={companyName}
+          setCompanyName={setCompanyName}
           logo={logo}
           mission={mission}
           link={link}
@@ -87,18 +89,18 @@ function CompanyInfoContent({ company }) {
           aboutCompany={aboutCompany}
         />
       )}
-      <div className="CompanyInfo__footer card-body rounded-bottom border-top d-flex align-items-center">
-        <div className="CompanyInfo__buttons d-flex flex-nowrap">
-          <button className="btn btn-success mr-3" onClick={handleSave}>
-            Zapisz
-          </button>
-          <button className="btn btn-success" onClick={handleShow}>
-            {isEditMode ? "Podgląd" : "Edytuj"}
-          </button>
-        </div>
+      <div className="CompanyInfo__footer">
         <i className="CompanyInfo__warning text-warning">
           { storage && Object.keys(storage).length !== 0 && 'Masz niezapisane zmiany! Kliknij "Zapisz", aby je zachować.' }
         </i>
+        <div className="CompanyInfo__buttons">
+          <button className="CompanyInfo__button btn" onClick={handleSave}>
+            Zapisz
+          </button>
+          <button className="CompanyInfo__button btn" onClick={handleShow}>
+            {isEditMode ? "Podgląd" : "Edytuj"}
+          </button>
+        </div>
       </div>
       {showSaveModal ? (
         <ModalWarning

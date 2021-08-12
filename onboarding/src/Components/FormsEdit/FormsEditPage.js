@@ -77,7 +77,7 @@ function FormsEditPage() {
   return (
     <div className="page-inner">
       <PageAddressBar 
-        page={ `Formularz: ${location.state?.title || formData?.title || ""}` } 
+        page={ `Rozdział: ${location.state?.title || formData?.title || ""}` } 
         previousPages={[ 
           {title: "Twoje wdrożenia", url: "/packages"}, 
           {title: `Katalog: ${packageTitle || ""}`, 
@@ -86,15 +86,15 @@ function FormsEditPage() {
         ]} 
       />
       <FormDescription formId={ formId } formData={ formData } />
-      <section className="FormsEdit__sections page-section">
-        <header className="FormsEdit__header card-header">Sekcje formularza</header>
+      <section className="FormsEdit__sections">
+        <header className="FormsEdit__header">Sekcja pytań i odpowiedzi</header>
         <form onSubmit={ handleSave }>
           <div className="row">
             <DragDropContext onDragEnd={(result) => onDragEnd(result, sections, setSections)}>
               <Droppable droppableId="dp1">
                 {(provided) => (
                   <div
-                    className="col"
+                    className="FormsEdit__column col"
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
@@ -114,7 +114,7 @@ function FormsEditPage() {
                 )}
               </Droppable>
             </DragDropContext>
-            <div className="col-auto pl-0">
+            <div className="FormsEdit__column col-auto pl-0">
               <FormAddSection
                 setSections={ setSections }
                 sections={ sections }
@@ -131,7 +131,7 @@ function FormsEditPage() {
       {showSaveModal && (
         <ModalWarning
           handleAccept={ hideModal }
-          title={ "Zapisywanie sekcji formularza" }
+          title={ "Zapisywanie sekcji rozdziału" }
           message={
             errorMessage
               ? "Nie udało się zapisać"

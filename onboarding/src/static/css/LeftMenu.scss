@@ -3,7 +3,7 @@
 
 .LeftMenu {
   top: 0!important;
-  max-width: 363px!important;
+  max-width: $left-menu-width!important;
   width: 100%!important;
   background: $dark-transparent;
   &__header {

@@ -2,9 +2,9 @@
 
 @mixin button {
   padding: 7px 32px;
-  background: rgb(15, 15, 39);
+  background: $button-color;
   color: #fff;
-  border: 0.5px solid #fff;
+  border: 1px solid #fff;
   box-sizing: border-box;
   border-radius: 10px;
   font-weight: 500;
@@ -28,17 +28,32 @@
     filter: blur(10px);
     border-radius: 10px;
     z-index: -1;
+    transition: all .3s ease-in-out;
+  }
+  &::after {
+    opacity: 0;
+    transition: all .3s ease-in-out;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    border: 2px solid #fff;
+    border-radius: 10px;
   }
   &:hover {
-    background: rgba(15, 15, 39, 0.75);
-    border: 2px solid #fff;
+    background: $button-hover-color;
     box-sizing: border-box;
-    border-radius: 10px;
-    font-weight: 900
+    color: #fff;
+    &::after {
+      opacity: 1;
+      transition: all .3s ease-in-out;
+    }
   }
   &:focus {
     outline: 1px dotted;
-    background: rgba(15, 15, 39, 0.75);
+    background: $button-hover-color;
   }
 }
 @mixin card {
@@ -85,7 +100,7 @@
 }
 @mixin input {
   height: 34px;
-  background: none;
+  background-color: transparent!important;
   border: 0.5px solid rgba(255, 255, 255, 0.87);
   border-radius: 10px;
   margin-bottom: 1rem;

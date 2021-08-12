@@ -41,7 +41,7 @@ function FormTableAddNew(props) {
         setPackageModal(
             <ModalWarning
                 handleAccept={ hidePopUp }
-                title={ "Dodanie formularza" }
+                title={ "Dodanie rozdziału" }
                 message={ message }
                 id={ 0 }
                 show={ true }

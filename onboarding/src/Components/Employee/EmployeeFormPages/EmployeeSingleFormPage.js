@@ -69,7 +69,7 @@ const EmployeeSingleFormPage = ({ page, userId }) => {
   useEffect(() => {
     let abortCont = new AbortController();
     if(!page) {
-      useFetchGetSync("api/page/", formId, "Wystąpił błąd podczas pobierania formularza!", abortCont)
+      useFetchGetSync("api/page/", formId, "Wystąpił błąd podczas pobierania rozdziału!", abortCont)
         .then( (res) => {
           if(res.error)
             throw Error(res.error);
@@ -111,7 +111,7 @@ const EmployeeSingleFormPage = ({ page, userId }) => {
   return (
     <div className="page-inner">
       <PageAddressBar 
-        page={ `Formularz: ${form?.title || ""}` } 
+        page={ `Rozdział: ${form?.title || ""}` } 
         previousPages={[ 
           {title: `Katalog: ${packageTitle || ""}`, 
             url: `/package/${form?.package}`
