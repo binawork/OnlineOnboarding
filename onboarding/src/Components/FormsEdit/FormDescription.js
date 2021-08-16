@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { savePageDetails } from "../hooks/FormsEdit";
 import ModalWarning from "../ModalWarning";
@@ -6,11 +6,14 @@ import { isValidUrl } from "../utils";
 import bookOpenedIcon from "../../static/icons/book-opened.svg";
 
 const FormDescription = ({ formId, formData }) => {
+  const formFilesRef = useRef([]);
   const location = useLocation();
   const [formName, setFormName] = useState("");
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
   const [saveModal, setSaveModal ] = useState(<></>);
+  const [formFiles, updateFormFiles] = useState([]);
+
 
   useEffect(() => {
     if(location.state && !formName) {
@@ -97,9 +100,8 @@ const FormDescription = ({ formId, formData }) => {
               maxLength="200"
             />
             {/* TODO: funkcjonalność przycisku */}
-            <button className="FormDescription__button btn">
-              Dołącz plik
-            </button>
+            <label className="FormDescription__button btn" htmlFor="filesUpload">Dołącz plik</label>
+            <input style={{ visibility: "hidden" }} id="filesUpload" type="file" ref={ formFilesRef } onChange={(e)=>{e.preventDefault()}} />{/* Dołącz plik</button> */}
           </div>
         <label className="FormDescription__label" htmlFor="desc">Tekst (liczba znaków: 1500)</label>
         <textarea
