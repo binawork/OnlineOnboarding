@@ -17,59 +17,59 @@ function EmployeeProfileUser({ user, goBackToMainProfilePage, sentAndFinished })
 
 
     return(
-        <div className="card card-fluid">
-            <div className="card-header"> Status procesu </div>
-                <div className="EmployeeProfileUser d-flex card-body">
-                    <div className="EmployeeProfileUser__data EmployeeProfileUser__data--fit d-flex">
-                        <div className="EmployeeProfileUser__data-avatar">
-                            <a className="user-avatar user-avatar-xl" onClick={ goBackToMainProfilePage } style={{ cursor: "pointer" }}><img src={ avatar } alt="avatar" /></a>
-                        </div>
-                        <div className="EmployeeProfileUser__data-personal">
-                            <h3 className="card-title mb-1">
-                                <a onClick={ goBackToMainProfilePage } style={{ cursor: "pointer" }}>
-                                    { `${user.first_name} ${user.last_name}` }
-                                </a>
-                            </h3>
-                            <p className="mb-1">{ user.email }</p>
-                            <p className="mb-0">{ user.tel }</p>
-                        </div>
+        <div className="EmployeeProfileUser UserListRow">
+            <div className="UserListRow__employee-info">
+                <div className="UserListRow__column col">
+                    <div className="UserListRow__avatar-box">
+                        <a className="user-avatar user-avatar-xl" onClick={ goBackToMainProfilePage } style={{ cursor: "pointer" }}>
+                            <img className="UserListRow__avatar" src={ avatar } alt="avatar" />
+                        </a>
+                    </div>
+                    <div className="UserListRow__personal-box">
+                        <h3 className="UserListRow__header">
+                            <a onClick={ goBackToMainProfilePage } style={{ cursor: "pointer" }}>
+                                { `${user.first_name} ${user.last_name}` }
+                            </a>
+                        </h3>
+                        { user.position && user.position !== "-" && (
+                            <p className="card-subtitle">
+                                { user.position }
+                            </p>
+                        )}
+                        <small className="">{ user.email }</small>
+                        { user.tel &&  <small className="">{ user.tel }</small> }
+                    </div>
+                </div>
+
+                <div className="UserListRow__column EmployeeProfileUser__column col">
+                    <div className="col">
+                        <p className="UserListRow__data">
+                            Dział:
+                            { user.department
+                                ? <b> { user.department }</b>
+                                : <i> brak</i>
+                            }
+                        </p>
+                        <p className="UserListRow__data UserListRow__data--margin">
+                            Lokalizacja:
+                            { user.location
+                                ? <b> { user.location }</b>
+                                : <i> brak</i>
+                            }
+                        </p>
                     </div>
 
-                    <div className="EmployeeProfileUser__data d-flex">
-                        <div className="EmployeeProfileUser__data-labour">
-                            <h3 className="card-title">
-                                <small className="text-muted">Dział: </small>
-                                { user.department 
-                                    ? user.department 
-                                    : <small className="text-muted"><i>brak</i></small> 
-                                }
-                            </h3>
-                            <h3 className="card-title">
-                                <small className="text-muted">Lokalizacja: </small> 
-                                { user.location 
-                                    ? user.location 
-                                    : <small className="text-muted"><i>brak</i></small> 
-                                }
-                            </h3>
-                            <h3 className="card-title">
-                                <small className="text-muted">Stanowisko: </small> 
-                                { user.position 
-                                    ? user.position 
-                                    : <small className="text-muted"><i>brak</i></small> 
-                                }
-                            </h3>
-                        </div>
-
-                        <div className="EmployeeProfileUser__data-progress">
-                            <h3 className="card-title text-nowrap">
-                                <small className="text-muted">Wysłane katalogi:</small> { sent }
-                            </h3>
-                            <h3 className="card-title text-nowrap m-0">
-                                <small className="text-muted">Skończone katalogi: </small>
-                                { finished }
-                            </h3>
-                        </div>
+                    <div className="col">
+                        <p className="UserListRow__data text-nowrap">
+                            Wysłane katalogi:
+                            <b> { sent }</b>
+                        </p>
+                        <p className="UserListRow__data text-nowrap">
+                            Skończone katalogi: 
+                            <b> { finished }</b>
+                        </p>
                     </div>
+                </div>
             </div>
         </div>
     )

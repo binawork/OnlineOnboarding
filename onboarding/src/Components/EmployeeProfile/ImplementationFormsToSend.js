@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FormsToSendTableRow from "./FormsToSendTableRow";
 import { assignEmployeeToPackage } from "../hooks/EmployeeForms";
-
+import cloudIcon from "../../static/icons/cloud-arrow-up.svg";
 
 function ImplementationFormsToSend(props) {
     const [idsChecked, setIdsChecked] = useState([]);
@@ -46,35 +46,36 @@ function ImplementationFormsToSend(props) {
 
 
     return(
-        <div className="card card-fluid">
-            <div className="card-header">
-                <i className="bi bi-cloud-upload mr-2" style={{fontSize: "18px"}}/>
-                Wyślij katalog do pracownika
+        <section className="EmployeeProfileTable__section">
+            <header className="EmployeeProfileTable__header">
+                <img src={ cloudIcon } alt="#" />
+                <h2 className="EmployeeProfileTable__title">Wyślij katalog do pracownika</h2>
+            </header>
+            { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
+            { props.isLoading && <p>Ładowanie...</p> }
+            { !props.isLoading && !props.isError && (
+                <div className="EmployeeProfileTable__wrapper table-responsive">
+                    <table className="EmployeeProfileTable table table-striped table-hover">
+                        <thead><tr>
+                            <th className="EmployeeProfileTable__head" scope="col"></th>
+                            <th className="EmployeeProfileTable__head" scope="col"></th>
+                            <th className="EmployeeProfileTable__head" scope="col"></th>
+                            <th className="EmployeeProfileTable__head" scope="col"></th>
+                            <th className="EmployeeProfileTable__head" scope="col">Utworzony</th>
+                            <th className="EmployeeProfileTable__head" scope="col">Liczba zadań</th>
+                            <th className="EmployeeProfileTable__head" scope="col">Ostatnia edycja</th>
+                            <th className="EmployeeProfileTable__head" scope="col"></th>
+                        </tr></thead>
+                        <tbody id="form_table_data_container">
+                            { forms }
+                        </tbody>
+                    </table>
+                </div>
+            )}
+            <div className="EmployeeProfileTable__button-wrapper" style={{display: numberChecked > 0 ? "" : "none"}}>
+                <button className="EmployeeProfileTable__button btn" onClick={ sendCheckedPackages }>Wyślij zaznaczone</button>
             </div>
-            <div className="card-body">
-                { props.isError && <p>Wystąpił błąd podczas ładowania</p> }
-                { props.isLoading && <p>Ładowanie...</p> }
-                { !props.isLoading && !props.isError && (
-                    <div className="table-responsive">
-                        <table className="table table-striped table-hover">
-                            <thead><tr>
-                                <th scope="col">Katalog</th>
-                                <th scope="col">Liczba zadań</th>
-                                <th scope="col">Utworzony</th>
-                                <th scope="col">Ostatnia edycja</th>
-                                <th scope="col">Działanie</th>
-                            </tr></thead>
-                            <tbody id="form_table_data_container">
-                                { forms }
-                                <tr style={{display: numberChecked>0 ? "" : "none"}}>
-                                    <td colSpan="5" style={{ textAlign: "end" }}><button className="btn btn-secondary" onClick={ sendCheckedPackages }>Wyślij zaznaczone</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                )}
-            </div>
-        </div>
+        </section>
     )
 }
 export default ImplementationFormsToSend;

@@ -7,6 +7,7 @@ import { getUserById } from "../hooks/Users";
 // import { userWithPackages } from "../hooks/Packages";
 import EmployeeForms/*, { getProgress }*/ from "../hooks/EmployeeForms";
 import "../../static/css/EmployeeProfile.scss";
+import "../../static/css/UsersList.scss";
 
 function EmployeeProfilePage() {
     document.title = "Onboarding: podgląd procesu pracownika";

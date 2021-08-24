@@ -9,6 +9,8 @@
   &__avatar-box {
     width: 78px;
     margin-right: 1rem;
+    display: flex;
+    align-items: center;
   }
   &__button {
     @include button;
@@ -41,6 +43,12 @@
     width: 100%;
     display: flex;
     align-items: center;
+  }
+  &__personal-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 6px;
   }
 }
 
