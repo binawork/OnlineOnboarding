@@ -10,7 +10,7 @@ from django.contrib.auth import views as auth_views
 
 from .views import PackageViewSet, PageViewSet, SectionViewSet, UserViewSet, AnswerViewSet, CompanyViewSet, \
     ContactFormViewSet, CompanyQuestionAndAnswerViewSet, UserAvatarUpload, UserProgressOnPageView,\
-    UserProgressOnPackageView, PackagePagesViewSet, CustomPasswordResetConfirmView, \
+    UserProgressOnPackageView, PackagePagesViewSet, CustomPasswordResetConfirmView, PageFileViewSet, \
     WhenPackageSendToEmployeeView, PackagesUsersViewSet, CompanyLogoViewSet, UserProgressView, SectionAnswersViewSet
 
 # base
@@ -71,6 +71,7 @@ router.register(r'api/answer', AnswerViewSet, basename='Answer')
 router.register(r'api/contact_form', ContactFormViewSet, basename='contact_form')
 router.register(r'api/q_and_a', CompanyQuestionAndAnswerViewSet,
     basename='contact_form')
+router.register(r'api/page_file', PageFileViewSet, basename='page_file')
 router.register(r'api/package_pages', PackagePagesViewSet, basename='PackagePages')
 # router.register(r'api/package_pages/list_by_company_employee', PackagePagesViewSet, basename='PackagePages')
 # router.register(r'api/package_pages/<employee_id>/list_by_company_employee/', PackagePagesViewSet, basename='PackagePages')

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from onboarding.models import ContactRequestDetail, Package, Page, Section, User, PackagesUsers
+from onboarding.models import ContactRequestDetail, Package, Page, PageFile, Section, User, PackagesUsers
 from onboarding.models import Answer, Company, CompanyQuestionAndAnswer
 from . import mock_password
 
@@ -289,6 +289,40 @@ class PageLimitedSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'package': {'required': False},
         }
+
+
+# FILES for PAGE
+class PageFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PageFile
+        fields = '__all__'
+        read_only_fields = ('name', 'company', 'size')
+
+    def validate(self, validated_data):
+        validated_data['name'] = validated_data['data_file'].name
+        validated_data['size'] = validated_data['data_file'].size / 1024.0
+        return validated_data
+
+
+#class PageFileMetaDataSerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = PageFile
+#        fields = (
+#            'id',
+#            'page',
+#            'name',
+#            'company',
+#            'description',
+#            'size'
+#        )
+#        read_only_fields = ('company', 'size')
+
+
+class PageDataFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PageFile
+        fields = ('data_file',)
+        read_only_fields = ('data_file',)  # [f.name for f in PageFile._meta.get_fields()]
 
 
 # PACKAGE with PAGEs
