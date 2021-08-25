@@ -296,9 +296,13 @@ class PageFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = PageFile
         fields = '__all__'
-        read_only_fields = ('name', 'company', 'size')
+        read_only_fields = ('name', 'content_type', 'company', 'size')
 
     def validate(self, validated_data):
+        try:
+            validated_data['content_type'] = validated_data['data_file'].content_type
+        except (KeyError, AttributeError):
+            pass
         validated_data['name'] = validated_data['data_file'].name
         validated_data['size'] = validated_data['data_file'].size / 1024.0
         return validated_data
