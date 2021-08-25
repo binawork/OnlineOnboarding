@@ -124,7 +124,7 @@ MEDIA_URL = "/media/"
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/onboarding/static/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/manage'
 LOGIN_REDIRECT_URL = '/manage'
 
 # On a server:
