@@ -570,7 +570,7 @@ export async function finishEmployeesAnswers(pageId, handleMessage){
 /**
  * Employee assignment to package/combo;
  */
-export function assignEmployeeToPackage(handleMessage, employeeId, packageId, setUsersInPackage){
+export function assignEmployeeToPackage(handleMessage, employeeId, packageId, updateUsersInPackage){
 	let data, token = getCookie("csrftoken"), path = getPath(),
 		fetchProps = {method:"POST", headers:{"Accept":"application/json", "Content-Type":"application/json", "X-CSRFToken": token}, body: null};
 
@@ -596,7 +596,7 @@ export function assignEmployeeToPackage(handleMessage, employeeId, packageId, se
 					if(typeof result.detail === 'string')
 					msg += result.detail;
 					handleMessage(msg);
-					if(setUsersInPackage) setUsersInPackage(result.users);
+					if(updateUsersInPackage) updateUsersInPackage(employeeId);
 				},
 				(error) => {
 					handleMessage(error.message);
