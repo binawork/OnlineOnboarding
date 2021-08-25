@@ -609,9 +609,29 @@ class PageFileViewSet(viewsets.ModelViewSet):
         """
         :return: url path for file with id = pk
         """
-        data_file = PageFile.objects.get(pk=pk)
-        serializer = PageDataFileSerializer(data_file)
-        return Response(serializer.data)
+        try:
+            data_file = PageFile.objects.get(pk=pk)
+        except PageFile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            file_open = data_file.data_file.storage.open(data_file.data_file.name)
+        except AttributeError:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        content_type = ""
+        try:
+            content_type = data_file.content_type
+        except AttributeError:
+            pass
+
+        response = HttpResponse(file_open, content_type=content_type)
+        try:
+            response['Content-Length'] = data_file.data_file.size
+        except AttributeError:
+            response['Content-Length'] = data_file.size * 1024
+        response['Content-Disposition'] = f"attachment; filename={data_file.name}"
+        return response
 
 
 class PackagePagesViewSet(viewsets.ModelViewSet):
