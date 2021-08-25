@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { savePageDetails } from "../hooks/FormsEdit";
+import { savePageDetails, getFilesForPage, removePageFile } from "../hooks/FormsEdit";
 import ModalWarning from "../ModalWarning";
 import { isValidUrl } from "../utils";
 import bookOpenedIcon from "../../static/icons/book-opened.svg";
+import trashIcon from "../../static/icons/trash.svg";
+
 
 const FormDescription = ({ formId, formData }) => {
   const formFilesRef = useRef([]);
@@ -25,9 +27,40 @@ const FormDescription = ({ formId, formData }) => {
         formData.title && setFormName(formData.title);
         formData.description && setDescription(formData.description);
         formData.link && setLink(formData.link);
-      };
-    };
+      }
+    }
   }, [formData]);
+
+  useEffect(() => {
+    let abortCont = getFilesForPage(formId, arrayOfFilesToTable, arrayOfFilesToTable);
+    return () => abortCont.abort();
+  }, [formId]);
+
+
+  const arrayOfFilesToTable = (files) => {
+    let tableFiles = [];
+    if(typeof files === 'string' || files instanceof String){
+      tableFiles.push(<tr key={ 0 }><td colSpan={ 4 }>{ files }</td></tr>);
+      updateFormFiles(tableFiles);
+      return;
+    }
+
+    let row, button, link;
+    files.forEach((element) => {
+      button = <button value={ element.id } className="PackagesItem__button btn" onClick={ popUpAskForDeleteFile }><img src={ trashIcon } alt="Remove file" /></button>
+      link = <a href={ element.data_file }>{ element.name }</a>
+      row = <tr key={ element.id }><td>{ link }</td><td>{ element.description }</td><td>{ element.size } kB</td><td>{ button }</td></tr>
+      tableFiles.push(row);
+    });
+    updateFormFiles(tableFiles);
+  };
+
+  const updateFiles = function(fileId){
+    setSaveModal(<></>);
+
+    if(fileId > 0)
+      getFilesForPage(formId, arrayOfFilesToTable, arrayOfFilesToTable);
+  };
 
   const hideModal = () => {
     setSaveModal(<></>);
@@ -42,6 +75,34 @@ const FormDescription = ({ formId, formData }) => {
         show={true}
         acceptText={"Ok"}
         id={0}
+      />
+    );
+  };
+
+  const popUpAskForDeleteFile = function(e){
+    e.preventDefault();
+    setSaveModal(
+      <ModalWarning
+        handleAccept={ handleRemoveFile }
+        handleCancel={ hideModal }
+        title={"Usunięcie pliku"}
+        message={ "Czy na pewno chcesz by plik został usunięty?" }
+        show={true}
+        acceptText={"Ok"}
+        id={ parseInt(e.target.value, 10) }
+      />
+    );
+  };
+
+  const popUpDeleteFileInformation = (message, fileId) => {
+    setSaveModal(
+      <ModalWarning
+        handleAccept={ updateFiles }
+        title={"Usunięcie pliku"}
+        message={message}
+        show={true}
+        acceptText={"Ok"}
+        id={ fileId }
       />
     );
   };
@@ -61,6 +122,11 @@ const FormDescription = ({ formId, formData }) => {
       popUpSaveFormDetails("Błąd: Wprowadzono nieprawidłowy adres url")
     }
   };
+
+  const handleRemoveFile = (fileId) => {
+    removePageFile(fileId, popUpDeleteFileInformation);
+  };
+
 
   return (
     <form className="FormDescription" onSubmit={ handleSave }>
@@ -103,6 +169,11 @@ const FormDescription = ({ formId, formData }) => {
             <label className="FormDescription__button btn" htmlFor="filesUpload">Dołącz plik</label>
             <input style={{ visibility: "hidden" }} id="filesUpload" type="file" ref={ formFilesRef } onChange={(e)=>{e.preventDefault()}} />{/* Dołącz plik</button> */}
           </div>
+          { formFiles.length > 0 && (
+              <table className="table table-striped table-hover"><tbody>
+              { formFiles }
+              </tbody></table>
+          ) }
         <label className="FormDescription__label" htmlFor="desc">Tekst (liczba znaków: 1500)</label>
         <textarea
           id="desc"
