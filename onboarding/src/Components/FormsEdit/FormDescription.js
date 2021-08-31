@@ -40,16 +40,16 @@ const FormDescription = ({ formId, formData }) => {
   const arrayOfFilesToTable = (files) => {
     let tableFiles = [];
     if(typeof files === 'string' || files instanceof String){
-      tableFiles.push(<tr key={ 0 }><td colSpan={ 4 }>{ files }</td></tr>);
+      tableFiles.push(<div key={ 0 }>{ files }</div>);
       updateFormFiles(tableFiles);
       return;
     }
 
     let row, button, link;
     files.forEach((element) => {
-      button = <button value={ element.id } className="PackagesItem__button btn" onClick={ popUpAskForDeleteFile }><img src={ trashIcon } alt="Remove file" /></button>
-      link = <a href={ element.data_file }>{ element.name }</a>
-      row = <tr key={ element.id }><td>{ link }</td><td>{ element.description }</td><td>{ element.size } kB</td><td>{ button }</td></tr>
+      button = <button value={ element.id } className="btn" onClick={ popUpAskForDeleteFile }><img src={ trashIcon } alt="Remove file" /></button>
+      link = <a href={ element.data_file }>{ element.name } ({ element.size } kB)</a>
+      row = <div key={ element.id }>{ link } | { button }</div>
       tableFiles.push(row);
     });
     updateFormFiles(tableFiles);
@@ -170,9 +170,9 @@ const FormDescription = ({ formId, formData }) => {
             <input style={{ visibility: "hidden" }} id="filesUpload" type="file" ref={ formFilesRef } onChange={(e)=>{e.preventDefault()}} />{/* Dołącz plik</button> */}
           </div>
           { formFiles.length > 0 && (
-              <table className="table table-striped table-hover"><tbody>
+              <div className="table table-striped">
               { formFiles }
-              </tbody></table>
+              </div>
           ) }
         <label className="FormDescription__label" htmlFor="desc">Tekst (liczba znaków: 1500)</label>
         <textarea
