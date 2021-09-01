@@ -33,7 +33,7 @@ function ProcessPreviewTables(props) {
     		return;// todo: maybe inform about error;
 
         let i, j, packageId, pId, isFinished, countFinished = 0, countPages;
-        const notStartedMsg = "Nie rozpoczął", inProgressMsg = "W trakcie", finishedMsg = "Skończone", passedMsg = "Zaliczone";
+        const notStartedMsg = "Nie ukończył", inProgressMsg = "W trakcie", finishedMsg = "Skończone", passedMsg = "Zaliczone";
 
         for(i = props.groupedPackages.sent.length - 1; i >= 0; i--){
             packageId = parseInt(props.groupedPackages.sent[i].id, 10);
