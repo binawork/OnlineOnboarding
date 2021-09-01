@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../static/css/UsersList.scss";
 
 function UserListSearch({ users, setSearchResult }) {
     const [searchName, setSearchName] = useState("");

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Tag from "../Tag";
 import ProgressBar from "../ProgressBar";
+import bookIcon from "../../static/icons/book.svg";
+import bookOpenedIcon from "../../static/icons/book-opened.svg";
+import caretIcon from "../../static/icons/caret.svg";
 
 /**
  * Prints row of sent package progress and dates.
@@ -48,9 +51,9 @@ function FormsSentTableRow(props) {
         props.setAnswersPage(page);
     }
 
-    let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.id } className="btn btn-secondary mb-2 w-100" onClick={ remind }>Przypomnienie</button>,
-        buttonRm = <button value={ props.row.id } className="btn btn-warning w-100 text-nowrap" onClick={ handleSentCancel }>Usuń z wysłanych</button>;
+    let checkBox = <input className="EmployeeProfileTable__checkbox" type="checkbox" onClick={ countChecked } />,
+        buttonObj = <button value={ props.row.id } className="EmployeeProfileTable__button btn mb-2 w-100" onClick={ remind }>Przypomnienie</button>,
+        buttonRm = <button value={ props.row.id } className="EmployeeProfileTable__button btn w-100 text-nowrap" onClick={ handleSentCancel }>Usuń z wysłanych</button>;
     let pages, tag=<></>;
 
     if(props.row.hasOwnProperty("percentage") ){// "green", "yellow", "amaranthine"
@@ -79,20 +82,25 @@ function FormsSentTableRow(props) {
                 percentage = page.percentage + "%";
 
             return (
-                <tr key={ i } style={ toggleObj.style }>
-                    <td className="text-nowrap">
-                        <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}/>
+                <tr className="EmployeeProfileTable__row EmployeeProfileTable__row--sublist" key={ i } style={ toggleObj.style }>
+                    <td className="EmployeeProfileTable__data"></td>
+                    <td className={`EmployeeProfileTable__data ${i == 0 && "EmployeeProfileTable__data--sublist-first"}`}></td>
+                    <td className={`EmployeeProfileTable__data ${i == 0 && "EmployeeProfileTable__data--sublist-first"}`}>
+                        <img className="EmployeeProfileTable__image--book-opened" src={ bookOpenedIcon } alt="#" />
+                    </td>
+                    <td className={`EmployeeProfileTable__data ${i == 0 && "EmployeeProfileTable__data--sublist-first"}`} colSpan="2">
                         <a href="" title="Kliknij, aby przejść do odpowiedzi pracownika" onClick={ (e) => handleShowAnswers(e, page) }>
                             { page.title }
                         </a>
                     </td>
-                    <td className="form-progress">
-                        <ProgressBar color={ page.percentage === 100 ? "green" : "yellow" } backgroundSize={ percentage } />
-                        <small className="ml-1">{ finishMsg }</small>
+                    <td className={`EmployeeProfileTable__data ${i == 0 && "EmployeeProfileTable__data--sublist-first"}`} colSpan="2">
+                        <div className="EmployeeProfileTable__progress-bar">
+                            <ProgressBar color={ page.percentage === 100 ? "green" : "yellow" } backgroundSize={ percentage } />
+                            <small className="ml-1">{ finishMsg }</small>
+                        </div>
                     </td>
-                    <td/>
-                    <td>{ page.finished }</td>
-                    <td/>
+                    {/* <td className="EmployeeProfileTable__data ">{ page.finished }</td> */}
+                    <td className="EmployeeProfileTable__data"/>
                 </tr>
             );
         });
@@ -101,30 +109,34 @@ function FormsSentTableRow(props) {
 
     return(
         <>
-            <tr>
-                <td style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
-                    <span className="text-nowrap">
-                        { toggleObj.hasContent && (
-                            <button 
-                                className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`}
-                                onClick={ showPages }
-                                type="button">
-                                <i className="fas fa-caret-right"/>
-                            </button> 
-                        )}
-                        { checkBox }
-                        <i className="fa fa-folder" style={{width: "24px", color: "#F7C46C", marginRight: "2px"}}/>
-                    </span>
+            <tr className="EmployeeProfileTable__row">
+                <td className="EmployeeProfileTable__data">
+                    { checkBox }
+                </td>
+                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small">
+                    { toggleObj.hasContent && (
+                        <button 
+                            className={`caret-icon ${toggleObj.rotate ? "caret-icon--rotate" : ""}`}
+                            onClick={ showPages }
+                            type="button">
+                            <img src={ caretIcon } alt="#" />
+                        </button> 
+                    )}
+                </td>
+                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small">
+                    <img className="EmployeeProfileTable__image--book" src={ bookIcon } alt="#" />
+                </td>
+                <td className="EmployeeProfileTable__data">
                     <span>{props.row.form}</span>
                 </td>
-                <td>
-                    <div className="package-progress">
+                <td className="EmployeeProfileTable__data">{props.row.send_date}</td>
+                <td className="EmployeeProfileTable__data">
+                    <div className="EmployeeProfileTable__progress text-nowrap">
                         { props.row.progress } { tag }
                     </div>
                 </td>
-                <td>{props.row.send_date}</td>
-                <td>{props.row.finish_date}</td>
-                <td style={{ textAlign: "end", width: "120px" }}>
+                <td className="EmployeeProfileTable__data">{props.row.finish_date}</td>
+                <td className="EmployeeProfileTable__data" style={{ textAlign: "end", width: "120px" }}>
                     { buttonObj }
                     { buttonRm }
                 </td>
