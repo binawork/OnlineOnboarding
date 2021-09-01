@@ -139,6 +139,82 @@ export function getFilesForPage(pageId, setterForFilesState, showErrorCallback){
 }
 
 /**
+ * Requests files for page and works on them by callback function
+ *
+ * @param pageId - an id of page for which we want to reqests and get files;
+ * @param files -
+ * @param showResult -
+ * @param showError -
+ * @param showProgress -
+ * @returns {*} - abort function for all requests for files;
+ */
+export function addNewFiles(pageId, files, showResult, showError, showProgress){
+	var xhrsAll = [];
+	let xhr, url, token = getCookie('csrftoken');
+
+	url = getPath();
+	url = url + "api/page_file/";
+
+	let i, count = files.length, formData;
+
+	for(i = 0; i < count; i++){
+		xhr = new XMLHttpRequest();
+		formData = new FormData();
+		formData.append("data_file", files[i]);
+		formData.append("page", pageId);
+		formData.append("description", "");
+		let fileName = files[i].name;
+		//formData.append("csrftoken": token);
+
+		xhr.onreadystatechange = function(){
+			if(this.readyState == 4 && this.status >= 200 && this.status < 300){
+				let response;
+				try {
+					response = JSON.parse(this.responseText);
+				}catch(e){
+					response = "";}
+				showResult(i, response);
+
+			} else if(this.readyState == 4){
+				showError(i, this.responseText, this.status);// this.status >= 400 ...;
+			}
+		};
+		xhr.onprogress = function(e){
+			if(e.lengthComputable){
+				showProgress(fileName, e.loaded, e.total);
+			}
+		}
+
+		xhr.open("POST", url, true);/* async: true (asynchronous) or false (synchronous); */
+
+		xhr.setRequestHeader("Accept", "application/json");
+		//xhr.setRequestHeader("Content-Type", "multipart/form-data");/ / "Multipart form parse error - Invalid boundary in multipart: None"!!!
+		xhr.setRequestHeader("X-CSRFToken", token);
+		xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+		xhrsAll.push(xhr);
+
+		xhr.send(formData);
+	}
+
+	//await Promise.all(files.map((file) => {
+	//		let formData = new FormData();
+	//		formData.append("data_file", file);
+	//		formData.append("page": pageId);
+	//		//formData.append("csrftoken": token);
+	//		fetchProps.body = formData;
+
+	//		return fetch(url, fetchProps);
+	//	}
+	//));
+
+	return function(){
+		let i = xhrsAll.length;
+		for(; i >= 0; i--)
+			xhrsAll.abort();
+	};
+}
+
+/**
  * Removes file of pages in packages.
  * @param pageFileId - id of file to be removed;
  * @param removeCallback - callback function to be called when request is finished;
