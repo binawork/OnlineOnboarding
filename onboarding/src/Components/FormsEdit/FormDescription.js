@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { savePageDetails, getFilesForPage, removePageFile } from "../hooks/FormsEdit";
+import { savePageDetails, getFilesForPage, removePageFile, addNewFiles } from "../hooks/FormsEdit";
 import ModalWarning from "../ModalWarning";
 import { isValidUrl } from "../utils";
 import bookOpenedIcon from "../../static/icons/book-opened.svg";
@@ -8,13 +8,16 @@ import trashIcon from "../../static/icons/trash.svg";
 
 
 const FormDescription = ({ formId, formData }) => {
-  const formFilesRef = useRef([]);
+  const formFilesRef = useRef();
   const location = useLocation();
   const [formName, setFormName] = useState("");
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
   const [saveModal, setSaveModal ] = useState(<></>);
   const [formFiles, updateFormFiles] = useState([]);
+  const [filesToSend, appendFileToSend] = useState([]);
+  const [filesToSendTable, updateFileToSendTable] = useState([]);
+  const [uploadingFilesProgress, updateUploadingProgress] = useState(true);
 
 
   useEffect(() => {
@@ -32,9 +35,11 @@ const FormDescription = ({ formId, formData }) => {
   }, [formData]);
 
   useEffect(() => {
-    let abortCont = getFilesForPage(formId, arrayOfFilesToTable, arrayOfFilesToTable);
-    return () => abortCont.abort();
-  }, [formId]);
+    if(uploadingFilesProgress === true){
+      let abortCont = getFilesForPage(formId, arrayOfFilesToTable, arrayOfFilesToTable);
+      return () => abortCont.abort();
+    }
+  }, [formId, uploadingFilesProgress]);
 
 
   const arrayOfFilesToTable = (files) => {
@@ -55,12 +60,48 @@ const FormDescription = ({ formId, formData }) => {
     updateFormFiles(tableFiles);
   };
 
+  const openedFilesToTable = (openedFiles) => {
+    let openedFilesDOM = [], rmButton;
+    openedFiles.forEach((file, index) => {
+      if(!file.name || !file.size)
+        return;
+
+      rmButton = <button value={ file.name } className="btn" onClick={ removeFromOpened }><img src={ trashIcon } alt="Remove file" /></button>
+      openedFilesDOM.push(<div key={ index }>{ file.name } ({ (file.size/1024.0).toFixed(2) } kB) | { rmButton }</div>);
+    });
+    updateFileToSendTable(openedFilesDOM);
+  };
+
+
   const updateFiles = function(fileId){
     setSaveModal(<></>);
 
     if(fileId > 0)
       getFilesForPage(formId, arrayOfFilesToTable, arrayOfFilesToTable);
   };
+
+  const openFile = function(e){
+    e.preventDefault();
+    if(typeof formFilesRef.current.files !== 'undefined' && formFilesRef.current.files.length > 0){
+      let newFilesList = [...filesToSend, formFilesRef.current.files[0]];
+      appendFileToSend(newFilesList);
+      openedFilesToTable(newFilesList);
+    }
+  };
+
+  const removeFromOpened = (e) => {
+    e.preventDefault();
+    let fileName = e.target.value;
+    if(typeof fileName === 'undefined')// when <img /> is clicked, this happen;
+      fileName = e.target.parentNode.value;
+
+    if(typeof fileName !== 'undefined'){
+      let newFilesList = filesToSend.filter((file) => file.name !== fileName);
+      appendFileToSend(newFilesList);
+      openedFilesToTable(newFilesList);
+    }
+  };
+
 
   const hideModal = () => {
     setSaveModal(<></>);
@@ -81,6 +122,10 @@ const FormDescription = ({ formId, formData }) => {
 
   const popUpAskForDeleteFile = function(e){
     e.preventDefault();
+    let fileId = e.target.value;
+    if(typeof fileId === 'undefined')// when <img /> is clicked, this happen;
+      fileId = e.target.parentNode.value;
+
     setSaveModal(
       <ModalWarning
         handleAccept={ handleRemoveFile }
@@ -89,7 +134,7 @@ const FormDescription = ({ formId, formData }) => {
         message={ "Czy na pewno chcesz by plik został usunięty?" }
         show={true}
         acceptText={"Ok"}
-        id={ parseInt(e.target.value, 10) }
+        id={ parseInt(fileId, 10) }
       />
     );
   };
@@ -119,13 +164,43 @@ const FormDescription = ({ formId, formData }) => {
         description
         ); // pack as one argument;
     } else {
-      popUpSaveFormDetails("Błąd: Wprowadzono nieprawidłowy adres url")
+      popUpSaveFormDetails("Błąd: Wprowadzono nieprawidłowy adres url");
+    }
+
+    if(filesToSend.length > 0){
+      let filesToSendCopy = [];
+      for(let i = 0; i < filesToSend.length; i++)
+        filesToSendCopy.push(filesToSend[i]);
+
+      addNewFiles(formId, filesToSendCopy, function(){}, function(){}, showProgress);
+      showProgress(false);
     }
   };
 
   const handleRemoveFile = (fileId) => {
     removePageFile(fileId, popUpDeleteFileInformation);
   };
+
+  const showProgress = function(fileIndex, loaded, totalBytes){
+    if(fileIndex === false){
+      updateFileToSendTable([]);
+      return;
+    }
+
+    let progressCopy = {};
+    if(uploadingFilesProgress !== true)
+      progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) )
+
+    progressCopy[fileIndex] = {loaded: loaded, total: totalBytes};
+    let filesToSendNewTable = [], percentage;
+    Object.keys(progressCopy).forEach( (fileName) => {
+      percentage = progressCopy[fileName].loaded / progressCopy[fileName].total * 100.0;
+      percentage = parseFloat(percentage).toFixed(2);
+      filesToSendNewTable.push(<div key={ fileName }>{ fileName } | { percentage }%</div>);
+	});
+	updateFileToSendTable(filesToSendNewTable);
+  };
+
 
 
   return (
@@ -155,6 +230,7 @@ const FormDescription = ({ formId, formData }) => {
 
       <section className="FormDescription__content">
         <label className="FormDescription__label" htmlFor="link">Link do wideo / dokumentu</label>
+        {/* (Limit na rozdział: 10MB - potrzebujesz więcej? < a >Dowiedz się jak...</ a >) */}
         <div className="FormDescription__content-box">
           <input
               id="link"
@@ -165,15 +241,15 @@ const FormDescription = ({ formId, formData }) => {
               onChange={ (e) => setLink(e.target.value) }
               maxLength="200"
             />
-            {/* TODO: funkcjonalność przycisku */}
+
             <label className="FormDescription__button btn" htmlFor="filesUpload">Dołącz plik</label>
-            <input style={{ visibility: "hidden" }} id="filesUpload" type="file" ref={ formFilesRef } onChange={(e)=>{e.preventDefault()}} />{/* Dołącz plik</button> */}
+            <input style={{ visibility: "hidden" }} id="filesUpload" type="file" ref={ formFilesRef } onChange={ openFile } />{/* Dołącz plik</button> */}
           </div>
-          { formFiles.length > 0 && (
               <div className="table table-striped">
+              { filesToSendTable }
               { formFiles }
               </div>
-          ) }
+
         <label className="FormDescription__label" htmlFor="desc">Tekst (liczba znaków: 1500)</label>
         <textarea
           id="desc"
