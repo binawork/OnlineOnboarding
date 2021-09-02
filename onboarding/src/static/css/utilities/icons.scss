@@ -13,24 +13,12 @@
   &:focus {
     outline: none;
   }
-  & > svg {
+  & > svg, > img {
     transition: all .1s linear;
   }
-  &--rotate > svg {
+  &--rotate > svg,
+  &--rotate > img {
     transform: rotate(90deg);
     transition: transform .1s linear;
   }
 }
-
-// .close-icon {
-//   position: absolute;
-//   right: 0;
-//   top: -24px;
-// }
-
-// .folder-icon {
-//   width: 24px!important;
-//   /* height: 16px!important; */
-//   color: #F7C46C;
-//   // margin-right: 2px!important;
-// }

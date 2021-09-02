@@ -51,12 +51,14 @@ function UserListRow(props) {
                         </Link>
                     </div>
 
-                    <div className="">
-                        <h3 className="UserListRow__header">
-                            <Link to={{ pathname: `/employee/${props.user.id}`, state: { user: props.user } }}>
-                                { props.user.name }
-                            </Link>
-                        </h3>
+                    <div className="UserListRow__personal-box">
+                        { props.user.name && (
+                            <h3 className="UserListRow__header">
+                                <Link to={{ pathname: `/employee/${props.user.id}`, state: { user: props.user } }}>
+                                    { props.user.name }
+                                </Link>
+                            </h3>
+                        )}
                         { props.user.position &&
                             props.user.position !== "-" &&
                             <p className="card-subtitle">
@@ -66,7 +68,6 @@ function UserListRow(props) {
                         <small className="">
                             { props.user.email }
                         </small>
-                        <br />
                         { props.user.tel && (
                             <small className="">
                                 { props.user.tel }

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import bookIcon from "../../static/icons/book.svg";
+import bookOpenedIcon from "../../static/icons/book-opened.svg";
+import caretIcon from "../../static/icons/caret.svg";
 
 function FormsToSendTableRow(props){
     const [toggleObj, switchVisibility] = useState({style:{ display: "none" },
@@ -24,7 +27,7 @@ function FormsToSendTableRow(props){
 
 
     let checkBox = <input type="checkbox" onClick={ countChecked } style={{ width: "24px", marginRight: "2px" }} />,
-        buttonObj = <button value={ props.row.id } className="btn btn-secondary" onClick={ sendPackage }>Wyślij</button>,
+        buttonObj = <button value={ props.row.id } className="EmployeeProfileTable__button btn w-100" onClick={ sendPackage }>Wyślij</button>,
         pages;
 
     if(props.empty){
@@ -35,12 +38,19 @@ function FormsToSendTableRow(props){
     if(toggleObj.hasContent){
         pages = props.row.pages.map((page, i) => {
             return (
-                <tr key={ i } style={ toggleObj.style }>
-                    <td colSpan="3">
-                        <i className="fas fa-file" style={{ width: "24px", margin: "0 2px 0 52px" }}></i>
+                <tr className="EmployeeProfileTable__row EmployeeProfileTable__row--sublist" key={ i } style={ toggleObj.style }>
+                    <td className="EmployeeProfileTable__data"></td>
+                    <td className={`EmployeeProfileTable__data ${i == 0 && "EmployeeProfileTable__data--sublist-first"}`}></td>
+                    <td className={`EmployeeProfileTable__data ${i == 0 && "EmployeeProfileTable__data--sublist-first"}`}>
+                        <img className="EmployeeProfileTable__image--book-opened" src={ bookOpenedIcon } alt="#" />
+                    </td>
+                    <td className={`EmployeeProfileTable__data ${i == 0 && "EmployeeProfileTable__data--sublist-first"}`} colSpan="3">
                         { page.title }
                     </td>
-                    <td colSpan="2">{ page.updated_on }</td>
+                    <td className={`EmployeeProfileTable__data ${i == 0 && "EmployeeProfileTable__data--sublist-first"}`}>
+                        { page.updated_on }
+                    </td>
+                    <td className="EmployeeProfileTable__data"></td>
                 </tr>
             );
         });
@@ -49,26 +59,30 @@ function FormsToSendTableRow(props){
 
     return(
         <>
-            <tr>
-                <td style={!toggleObj.hasContent ? { verticalAlign: "middle", paddingLeft: "38px" } : { verticalAlign: "middle" }}>
-                    <span className="text-nowrap">
-                        { toggleObj.hasContent && (
-                            <button 
-                                className={`caret-icon ${toggleObj.rotate ? "caret-rotate" : ""}`}
-                                onClick={ showPages }
-                                type="button">
-                                <i className="fas fa-caret-right"></i>
-                            </button> 
-                        )}
-                        { checkBox }
-                        <i className="fa fa-folder" style={{ width: "24px", color: "#F7C46C", marginRight: "2px" }}></i>
-                    </span>
-                    {props.row.name}
+            <tr className="EmployeeProfileTable__row">
+                <td className="EmployeeProfileTable__data">
+                    { checkBox }
                 </td>
-                <td style={{ verticalAlign: "middle" }}>{props.row.pagesCount}</td>
-                <td style={{ verticalAlign: "middle" }}>{props.row.created}</td>
-                <td style={{ verticalAlign: "middle" }}>{props.row.last_edit}</td>
-                <td style={{ verticalAlign: "middle", textAlign: "end" }}>{ buttonObj }</td>
+                <td className="EmployeeProfileTable__data">
+                    { toggleObj.hasContent && (
+                        <button 
+                            className={`caret-icon ${toggleObj.rotate ? "caret-icon--rotate" : ""}`}
+                            onClick={ showPages }
+                            type="button">
+                            <img src={ caretIcon } alt="#" />
+                        </button> 
+                    )}
+                </td>
+                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small">
+                    <img className="EmployeeProfileTable__image--book" src={ bookIcon } alt="#" />
+                </td>
+                <td className="EmployeeProfileTable__data">
+                    <span>{props.row.name}</span>
+                </td>
+                <td className="EmployeeProfileTable__data">{props.row.created}</td>
+                <td className="EmployeeProfileTable__data">{props.row.pagesCount}</td>
+                <td className="EmployeeProfileTable__data">{props.row.last_edit}</td>
+                <td className="EmployeeProfileTable__data">{ buttonObj }</td>
             </tr>
             { pages }
         </>
