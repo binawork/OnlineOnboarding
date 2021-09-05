@@ -173,7 +173,7 @@ export function addNewFiles(pageId, files, showResult, showError, showProgress){
 					response = JSON.parse(this.responseText);
 				}catch(e){
 					response = "";}
-				showResult(i, response);
+				showResult(fileName, response);
 
 			} else if(this.readyState == 4){
 				showError(i, this.responseText, this.status);// this.status >= 400 ...;

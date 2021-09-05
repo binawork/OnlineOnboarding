@@ -152,6 +152,11 @@ const FormDescription = ({ formId, formData }) => {
     );
   };
 
+  const handleRemoveFile = (fileId) => {
+    removePageFile(fileId, popUpDeleteFileInformation);
+  };
+
+
   const handleSave = (e) => {
     e.preventDefault();
     const isValid = isValidUrl(link);
@@ -172,34 +177,64 @@ const FormDescription = ({ formId, formData }) => {
       for(let i = 0; i < filesToSend.length; i++)
         filesToSendCopy.push(filesToSend[i]);
 
-      addNewFiles(formId, filesToSendCopy, function(){}, function(){}, showProgress);
+      addNewFiles(formId, filesToSendCopy, messageWhenOneFileUploaded, function(){}, showProgress);
       showProgress(false);
     }
   };
 
-  const handleRemoveFile = (fileId) => {
-    removePageFile(fileId, popUpDeleteFileInformation);
-  };
-
   const showProgress = function(fileIndex, loaded, totalBytes){
+    let filesToSendNewTable = [];
     if(fileIndex === false){
-      updateFileToSendTable([]);
+      let fName;
+      for(let i = 0; i < filesToSend.length; i++){
+        fName = filesToSend[i].name;
+        filesToSendNewTable.push(<div key={ fName } file={ fName }>{ fName } | 0.0%</div>);
+      }
+
+      updateFileToSendTable(filesToSendNewTable);
       return;
     }
 
-    let progressCopy = {};
+    let progressCopy = {};console.log(uploadingFilesProgress);
     if(uploadingFilesProgress !== true)
-      progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) )
+      progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) );
+
 
     progressCopy[fileIndex] = {loaded: loaded, total: totalBytes};
-    let filesToSendNewTable = [], percentage;
-    Object.keys(progressCopy).forEach( (fileName) => {
+    let percentage = percentage = loaded / totalBytes * 100.0;
+    filesToSendNewTable = filesToSendTable.map((fileJSX) => {
+      if(fileJSX.file === fileIndex)
+        return <div key={ fileId } file={ fileIndex }>{ fileIndex } | { percentage }%</div>
+
+      return fileJSX;
+    });
+console.log("progressCopy: ", progressCopy, filesToSendNewTable);
+
+    /*Object.keys(progressCopy).forEach( (fileName) => {
       percentage = progressCopy[fileName].loaded / progressCopy[fileName].total * 100.0;
       percentage = parseFloat(percentage).toFixed(2);
       filesToSendNewTable.push(<div key={ fileName }>{ fileName } | { percentage }%</div>);
-	});
-	updateFileToSendTable(filesToSendNewTable);
+	});*/
+    updateFileToSendTable(filesToSendNewTable);
+    updateUploadingProgress(progressCopy);
   };
+
+  const messageWhenOneFileUploaded = function(fileName, response){
+    let button = <button value={ response.id } className="btn" onClick={ popUpAskForDeleteFile }><img src={ trashIcon } alt="Remove file" /></button>
+    let link = <a href={ response.data_file }>{ response.name } ({ (response.size/1024.0).toFixed(2) } kB)</a>
+    let row = <div key={ response.id }>{ link } | { button }</div>
+
+    formFiles.push(row);
+    updateFormFiles(formFiles);
+
+    let progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) );
+
+    if(progressCopy.hasOwnProperty(fileName) )
+      delete progressCopy[fileName];
+console.log(progressCopy);
+	updateUploadingProgress(progressCopy);
+  };
+  
 
 
 
