@@ -1,5 +1,5 @@
 
-const dFormat = new Intl.DateTimeFormat(undefined, {year: 'numeric', month: 'long', day: 'numeric', weekday:'long'});
+const dFormat = new Intl.DateTimeFormat(undefined, {year: 'numeric', month: 'numeric', day: 'numeric', weekday:'short'});
 
 export function getPath(){
 	var url = "";
@@ -73,6 +73,7 @@ export function dateToString(str){
 	try {
 		date = new Date( Date.parse(str) );
 		formatted = dFormat.format(date);
+		formatted = formatted[0].toUpperCase() + formatted.slice(1)
 	}catch(e){
 		//console.log(e);
 		formatted = str;
