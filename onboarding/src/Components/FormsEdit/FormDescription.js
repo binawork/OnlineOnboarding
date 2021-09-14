@@ -17,7 +17,7 @@ const FormDescription = ({ formId, formData }) => {
   const [formFiles, updateFormFiles] = useState([]);
   const [filesToSend, appendFileToSend] = useState([]);
   const [filesToSendTable, updateFileToSendTable] = useState([]);
-  const [uploadingFilesProgress, updateUploadingProgress] = useState(true);
+  const [uploadingFilesProgress, updateUploadingProgress] = useState(true);// array of progresses of files or true if there is no files and list can be updated;
 
 
   useEffect(() => {
@@ -195,7 +195,7 @@ const FormDescription = ({ formId, formData }) => {
       return;
     }
 
-    let progressCopy = {};console.log(uploadingFilesProgress);
+    let progressCopy = {};
     if(uploadingFilesProgress !== true)
       progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) );
 
@@ -208,7 +208,6 @@ const FormDescription = ({ formId, formData }) => {
 
       return fileJSX;
     });
-console.log("progressCopy: ", progressCopy, filesToSendNewTable);
 
     /*Object.keys(progressCopy).forEach( (fileName) => {
       percentage = progressCopy[fileName].loaded / progressCopy[fileName].total * 100.0;
@@ -231,7 +230,7 @@ console.log("progressCopy: ", progressCopy, filesToSendNewTable);
 
     if(progressCopy.hasOwnProperty(fileName) )
       delete progressCopy[fileName];
-console.log(progressCopy);
+
 	updateUploadingProgress(progressCopy);
   };
   
