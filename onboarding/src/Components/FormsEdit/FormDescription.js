@@ -17,7 +17,7 @@ const FormDescription = ({ formId, formData }) => {
   const [formFiles, updateFormFiles] = useState([]);
   const [filesToSend, appendFileToSend] = useState([]);
   const [filesToSendTable, updateFileToSendTable] = useState([]);
-  const [uploadingFilesProgress, updateUploadingProgress] = useState(true);// array of progresses of files or true if there is no files and list can be updated;
+  const [uploadingFilesProgress, updateUploadingProgress] = useState(0);// array of progresses of files or true if there is no files and list can be updated;
 
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const FormDescription = ({ formId, formData }) => {
   }, [formData]);
 
   useEffect(() => {
-    if(uploadingFilesProgress === true){
+    if(uploadingFilesProgress === 0){
       let abortCont = getFilesForPage(formId, arrayOfFilesToTable, arrayOfFilesToTable);
       return () => abortCont.abort();
     }
@@ -177,34 +177,36 @@ const FormDescription = ({ formId, formData }) => {
       for(let i = 0; i < filesToSend.length; i++)
         filesToSendCopy.push(filesToSend[i]);
 
-      addNewFiles(formId, filesToSendCopy, messageWhenOneFileUploaded, function(){}, showProgress);
       showProgress(false);
+      addNewFiles(formId, filesToSendCopy, messageWhenOneFileUploaded, function(){}, showProgress);
     }
   };
 
   const showProgress = function(fileIndex, loaded, totalBytes){
-    let filesToSendNewTable = [];
+    let filesToSendNewTable = [], progressCopy = {};
     if(fileIndex === false){
       let fName;
       for(let i = 0; i < filesToSend.length; i++){
         fName = filesToSend[i].name;
+        progressCopy[fName] = {loaded: 0, total: 0};// filesToSend[i].size;
         filesToSendNewTable.push(<div key={ fName } file={ fName }>{ fName } | 0.0%</div>);
       }
 
+      updateUploadingProgress(filesToSend.length);
       updateFileToSendTable(filesToSendNewTable);
       return;
     }
 
-    let progressCopy = {};
-    if(uploadingFilesProgress !== true)
-      progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) );
+    //if(uploadingFilesProgress !== true)
+    //  progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) );
 
 
     progressCopy[fileIndex] = {loaded: loaded, total: totalBytes};
+updateUploadingProgress(progressCopy);
     let percentage = percentage = loaded / totalBytes * 100.0;
     filesToSendNewTable = filesToSendTable.map((fileJSX) => {
       if(fileJSX.file === fileIndex)
-        return <div key={ fileId } file={ fileIndex }>{ fileIndex } | { percentage }%</div>
+        return percentage < 100.0 ? <div key={ fileId } file={ fileIndex }>{ fileIndex } | { percentage }%</div> : <></>
 
       return fileJSX;
     });
@@ -215,7 +217,7 @@ const FormDescription = ({ formId, formData }) => {
       filesToSendNewTable.push(<div key={ fileName }>{ fileName } | { percentage }%</div>);
 	});*/
     updateFileToSendTable(filesToSendNewTable);
-    updateUploadingProgress(progressCopy);
+    //updateUploadingProgress(progressCopy);
   };
 
   const messageWhenOneFileUploaded = function(fileName, response){
@@ -228,10 +230,9 @@ const FormDescription = ({ formId, formData }) => {
 
     let progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) );
 
-    if(progressCopy.hasOwnProperty(fileName) )
-      delete progressCopy[fileName];
-
-	updateUploadingProgress(progressCopy);
+    //if(progressCopy.hasOwnProperty(fileName) )
+    //  delete progressCopy[fileName];
+	updateUploadingProgress(uploadingFilesProgress - 1);
   };
   
 
