@@ -17,7 +17,7 @@ const FormDescription = ({ formId, formData }) => {
   const [formFiles, updateFormFiles] = useState([]);
   const [filesToSend, appendFileToSend] = useState([]);
   const [filesToSendTable, updateFileToSendTable] = useState([]);
-  const [uploadingFilesProgress, updateUploadingProgress] = useState(0);// array of progresses of files or true if there is no files and list can be updated;
+  const [uploadingFilesProgress, updateUploadingProgress] = useState(true);// array of progresses of files or true if there is no files and list can be updated;
 
 
   useEffect(() => {
@@ -35,9 +35,20 @@ const FormDescription = ({ formId, formData }) => {
   }, [formData]);
 
   useEffect(() => {
-    if(uploadingFilesProgress === 0){
+    if(uploadingFilesProgress === true){
       let abortCont = getFilesForPage(formId, arrayOfFilesToTable, arrayOfFilesToTable);
+      updateFileToSendTable([]);// remove list of un-uploaded files;
       return () => abortCont.abort();
+    } else if(updateUploadingProgress && Object.keys(updateUploadingProgress).length > 0){
+
+      let filesToSendNewTable = [], percentage;
+      Object.keys(updateUploadingProgress).forEach( (fileName) => {
+        percentage = progressCopy[fileName].loaded / progressCopy[fileName].total * 100.0;
+        percentage = parseFloat(percentage).toFixed(2);
+        filesToSendNewTable.push(<div key={ fileName } file={ fileName }>{ fileName } | { percentage }%</div>);
+      });
+
+      updateFileToSendTable(filesToSendNewTable);
     }
   }, [formId, uploadingFilesProgress]);
 
@@ -177,47 +188,30 @@ const FormDescription = ({ formId, formData }) => {
       for(let i = 0; i < filesToSend.length; i++)
         filesToSendCopy.push(filesToSend[i]);
 
-      showProgress(false);
+      showProgress();
       addNewFiles(formId, filesToSendCopy, messageWhenOneFileUploaded, function(){}, showProgress);
     }
   };
 
-  const showProgress = function(fileIndex, loaded, totalBytes){
-    let filesToSendNewTable = [], progressCopy = {};
-    if(fileIndex === false){
+  const showProgress = function(fileName, loaded, totalBytes){
+    let progressCopy = {};
+    if(fileName === undefined || fileName === null){
       let fName;
       for(let i = 0; i < filesToSend.length; i++){
         fName = filesToSend[i].name;
         progressCopy[fName] = {loaded: 0, total: 0};// filesToSend[i].size;
-        filesToSendNewTable.push(<div key={ fName } file={ fName }>{ fName } | 0.0%</div>);
       }
 
-      updateUploadingProgress(filesToSend.length);
-      updateFileToSendTable(filesToSendNewTable);
+      updateUploadingProgress(progressCopy);
       return;
     }
 
-    //if(uploadingFilesProgress !== true)
-    //  progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) );
 
+    if(uploadingFilesProgress !== true)
+      progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) );
 
-    progressCopy[fileIndex] = {loaded: loaded, total: totalBytes};
-updateUploadingProgress(progressCopy);
-    let percentage = percentage = loaded / totalBytes * 100.0;
-    filesToSendNewTable = filesToSendTable.map((fileJSX) => {
-      if(fileJSX.file === fileIndex)
-        return percentage < 100.0 ? <div key={ fileId } file={ fileIndex }>{ fileIndex } | { percentage }%</div> : <></>
-
-      return fileJSX;
-    });
-
-    /*Object.keys(progressCopy).forEach( (fileName) => {
-      percentage = progressCopy[fileName].loaded / progressCopy[fileName].total * 100.0;
-      percentage = parseFloat(percentage).toFixed(2);
-      filesToSendNewTable.push(<div key={ fileName }>{ fileName } | { percentage }%</div>);
-	});*/
-    updateFileToSendTable(filesToSendNewTable);
-    //updateUploadingProgress(progressCopy);
+    progressCopy[fileName] = {loaded: loaded, total: totalBytes};
+    updateUploadingProgress(progressCopy);
   };
 
   const messageWhenOneFileUploaded = function(fileName, response){
@@ -230,9 +224,13 @@ updateUploadingProgress(progressCopy);
 
     let progressCopy = JSON.parse(JSON.stringify(uploadingFilesProgress) );
 
-    //if(progressCopy.hasOwnProperty(fileName) )
-    //  delete progressCopy[fileName];
-	updateUploadingProgress(uploadingFilesProgress - 1);
+    if(progressCopy.hasOwnProperty(fileName) )
+      delete progressCopy[fileName];
+
+    if(Object.keys(progressCopy).length < 1)
+      updateUploadingProgress(true);
+    else
+      updateUploadingProgress(progressCopy);
   };
   
 
