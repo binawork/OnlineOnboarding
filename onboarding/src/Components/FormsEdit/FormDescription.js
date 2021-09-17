@@ -36,8 +36,8 @@ const FormDescription = ({ formId, formData }) => {
 
   useEffect(() => {
     if(uploadingFilesProgress === true){
-      let abortCont = getFilesForPage(formId, arrayOfFilesToTable, arrayOfFilesToTable);
       updateFileToSendTable([]);// remove list of un-uploaded files;
+      let abortCont = getFilesForPage(formId, arrayOfFilesToTable, arrayOfFilesToTable);
       return () => abortCont.abort();
     } else if(updateUploadingProgress && Object.keys(updateUploadingProgress).length > 0){
 
@@ -190,6 +190,7 @@ const FormDescription = ({ formId, formData }) => {
 
       showProgress();
       addNewFiles(formId, filesToSendCopy, messageWhenOneFileUploaded, function(){}, showProgress);
+      appendFileToSend([]);
     }
   };
 
