@@ -222,7 +222,7 @@ class PageFile(models.Model):
     name = models.CharField(max_length=100)
     content_type = models.CharField(max_length=200, null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    description = models.TextField(max_length=700, help_text='Enter a description about file', null=True, blank=True)
+    # description = models.TextField(max_length=700, help_text='Enter a description about file', null=True, blank=True)
     size = models.DecimalField(max_digits=6, decimal_places=2)
     # updated_on = models.DateTimeField(auto_now=True)
 

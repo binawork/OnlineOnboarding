@@ -19,7 +19,6 @@ class Migration(migrations.Migration):
                 ('data_file', models.FileField(upload_to=onboarding.models.page_file_upload_to, validators=[onboarding.models.validate_file_extension])),
                 ('name', models.CharField(max_length=100)),
                 ('content_type', models.CharField(blank=True, max_length=200, null=True)),
-                ('description', models.TextField(blank=True, help_text='Enter a description about file', max_length=700, null=True)),
                 ('size', models.DecimalField(decimal_places=2, max_digits=6)),
                 ('company', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='onboarding.company')),
                 ('page', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='onboarding.page')),
