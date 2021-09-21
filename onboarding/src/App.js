@@ -62,6 +62,10 @@ function App() {
     }
   }
 
+  const preventOnBlur = function(e){
+    e.preventDefault();// will delay onBlur event after onClick;
+  };
+
   const showModal = (modalTitle, message) => {
       setModal(<ModalWarning handleAccept={ hideModal } title={ modalTitle } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
   };
@@ -138,8 +142,8 @@ function App() {
             </div>
           </div>
           <div className="App__buttons-wrapper">
-            <div className="App__button-profile-wrapper" tabIndex="0" onBlur={ () => handleClick("inactivate") }>
-              <button className="App__button btn" onClick={ () => handleClick("hello") }  >{ `Witaj ${loggedUser.first_name}` }</button>
+            <div className="App__button-profile-wrapper">
+              <button className="App__button btn" onClick={ () => handleClick("hello") } onBlur={ () => handleClick("inactivate") } >{ `Witaj ${loggedUser.first_name}` }</button>
               <ul className={`dropdown ${dropdownClass}`}>
                 <Link className="dropdown__link" to="/my_profile" onClick={ () => handleClick("profile") }>
                   <li className="dropdown__item dropdown__item--profile">
@@ -149,6 +153,7 @@ function App() {
                 <a
                     className="dropdown__link"
                     href="/accounts/logout/"
+                    onMouseDown={ preventOnBlur }
                     onClick={ handleLogout }
                 >
                   <li className="dropdown__item">
