@@ -63,7 +63,7 @@ function FormsToSendTableRow(props){
                 <td className="EmployeeProfileTable__data">
                     { checkBox }
                 </td>
-                <td className="EmployeeProfileTable__data">
+                <td className="EmployeeProfileTable__data" onClick={ showPages }>
                     { toggleObj.hasContent && (
                         <button 
                             className={`caret-icon ${toggleObj.rotate ? "caret-icon--rotate" : ""}`}
@@ -73,15 +73,15 @@ function FormsToSendTableRow(props){
                         </button> 
                     )}
                 </td>
-                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small">
+                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small" onClick={ showPages }>
                     <img className="EmployeeProfileTable__image--book" src={ bookIcon } alt="#" />
                 </td>
-                <td className="EmployeeProfileTable__data">
+                <td className="EmployeeProfileTable__data" onClick={ showPages }>
                     <span>{props.row.name}</span>
                 </td>
-                <td className="EmployeeProfileTable__data">{props.row.created}</td>
-                <td className="EmployeeProfileTable__data">{props.row.pagesCount}</td>
-                <td className="EmployeeProfileTable__data">{props.row.last_edit}</td>
+                <td className="EmployeeProfileTable__data" onClick={ showPages }>{props.row.created}</td>
+                <td className="EmployeeProfileTable__data" onClick={ showPages }>{props.row.pagesCount}</td>
+                <td className="EmployeeProfileTable__data" onClick={ showPages }>{props.row.last_edit}</td>
                 <td className="EmployeeProfileTable__data">{ buttonObj }</td>
             </tr>
             { pages }

@@ -33,32 +33,36 @@ function EmployeeAnswers({ pageId, employeeId, setMessage, buttonsOptions, updat
 
         for(i = 0; i < count; i++){
             newSectionsView.push(
-                <section key={ i } className="card my-3">
-                    <header className="card-header">
-                        <div>{sections[i].title}</div>
-                    </header>
-                    { sections[i].description && <div className="EmployeeAnswersView__section-desc card-body">{ parse(sections[i].description) }</div> }
-                    <div className="card-body">
-                        <p><i>
-                            <small>
-                                {sections[i].type == "oa"
-                                    ? "Pytanie otwarte"
-                                    : sections[i].type == "osa"
-                                        ? "Jednokrotny wybór"
-                                        : sections[i].type == "msa"
-                                            ? "Wielokrotny wybór"
-                                            : ""
+                <section key={ i } className="EmployeeAnswers__question">
+                    <header className="EmployeeAnswers__header">
+                        <i>
+                            {sections[i].type == "oa"
+                                ? "Pytanie otwarte"
+                                : sections[i].type == "osa"
+                                    ? "Jednokrotny wybór"
+                                    : sections[i].type == "msa"
+                                    ? "Wielokrotny wybór"
+                                    : ""
                                 }
-                            </small>
-                        </i></p>
-                        {sections[i].type == "oa" ? (
-                            <OpenAnswer data={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id)?.data } />
-                        ) : (
-                            <SectionAnswers sectionData={ sections[i].data }
-                                            answerData={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id)?.data }
-                                            sectionType={ sections[i].type }
-                                            employeeDidAnswer={ areAnswered } />
-                        )}
+                        </i>
+                    </header>
+                    <div className="EmployeeAnswers__card">
+                        { sections[i].description &&
+                            <div className="EmployeeAnswers__description">
+                                { parse(sections[i].description) }
+                            </div>
+                        }
+                        <hr className="EmployeeAnswers__line"/>
+                        <div className="EmployeeAnswers__answer">
+                            { sections[i].type == "oa" ? (
+                                <OpenAnswer data={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id)?.data } />
+                            ) : (
+                                <SectionAnswers sectionData={ sections[i].data }
+                                                answerData={ sectionsAnswersResult.answers.find(a => a.section === sectionsAnswersResult.sections[i].id)?.data }
+                                                sectionType={ sections[i].type }
+                                                employeeDidAnswer={ areAnswered } />
+                            )}
+                        </div>
                     </div>
                 </section>
             );
@@ -76,7 +80,7 @@ function EmployeeAnswers({ pageId, employeeId, setMessage, buttonsOptions, updat
             updateButtons({...buttonsOptions, display: newSectionsView.length > 0 && !count, answered: true, confirmed: count, msg: "Wyślij ponownie"},
                           areSaved);
 
-            setMessage("");
+            setMessage("Odpowiedzi pracownika");
         }
     };
 
@@ -152,10 +156,10 @@ function EmployeeAnswers({ pageId, employeeId, setMessage, buttonsOptions, updat
         { buttonsOptions.display &&
             <div className="w-100 d-flex justify-content-end flex-wrap">
                 { buttonsOptions.answered &&
-                    <button type="button" className="btn btn-success mb-2 text-nowrap js-hide-button" onClick={ acceptAnswers }>Zaakceptuj</button>
+                    <button type="button" className="EmployeeAnswersView__button btn mb-2 text-nowrap js-hide-button" onClick={ acceptAnswers }>Zaakceptuj</button>
                 }
                 { !buttonsOptions.confirmed &&
-                    <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap js-hide-button" onClick={ resendAnswers }>
+                    <button type="button" className="EmployeeAnswersView__button btn ml-3 mb-2 text-nowrap js-hide-button" onClick={ resendAnswers }>
                         { buttonsOptions.msg }
                     </button>
                 }

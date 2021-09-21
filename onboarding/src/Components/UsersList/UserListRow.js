@@ -66,11 +66,11 @@ function UserListRow(props) {
                             </p>
                         }
                         <small className="">
-                            { props.user.email }
+                            { props.user.tel }
                         </small>
                         { props.user.tel && (
                             <small className="">
-                                { props.user.tel }
+                                { props.user.email }
                             </small>
                         )}
                     </div>
@@ -118,7 +118,7 @@ function UserListRow(props) {
                     className="UserListRow__button UserListRow__button--top btn mb-2" 
                     data-toggle="tooltip"
                 >
-                    Dodaj katalog
+                    Wyślij wdrożenie
                 </Link>
                 <div className="UserListRow__buttons-bottom">
                     <Link to={{ pathname: `/edit_employee/${props.user.id}`, state: { user: props.user } }}

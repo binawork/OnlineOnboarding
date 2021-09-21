@@ -1,7 +1,8 @@
 import React from "react";
+import bookIcon from "../../static/icons/book.svg";
+import bookOpenedIcon from "../../static/icons/book-opened.svg";
 
-
-function PageCard({ page }) {
+function PageCard({ page, packageOfAnswers }) {
     let pageTitle, pageDesc="", link="", exists = true;
 
     if(page){
@@ -21,28 +22,42 @@ function PageCard({ page }) {
     }
 
     return(
-        <div className="card card-fluid">
-            <div className="card-header"> Formularz </div>
-            <div className="card-body">
-                <div className="align-items-center">
-                    <h2 className="card-title">
-                        <small className="text-muted">Nazwa: </small>
-                        { pageTitle }
-                    </h2>
-                    <h3 className="card-title">
-                        <small className="text-muted">Opis: </small>
-                        { pageDesc }
-                    </h3>
-                </div>
-                { link.length > 0 &&
-                    <div className="row align-items-center">
-                        <div className="col-auto">
-                            <a href={ link } target="_blank">{ link }</a>
-                        </div>
-                    </div>
-                }
+        <>
+        <section className="EmployeeAnswersView__card">
+            <div className="align-items-center">
+                <img className="EmployeeAnswersView__book" src={ bookIcon } alt="#" />
+                <i className="">Tytuł wdrożenia: </i>
+                <h1 className="EmployeeAnswersView__title">
+                    { packageOfAnswers.name }
+                </h1>
+            { packageOfAnswers.description &&
+                <p className="EmployeeAnswersView__text">
+                    <i className="">Opis: </i>
+                    { packageOfAnswers.description }
+                </p>
+            }
             </div>
-        </div>
+        </section>
+        <section className="EmployeeAnswersView__card EmployeeAnswersView__card--smaller">
+            <img className="EmployeeAnswersView__book" src={ bookOpenedIcon } alt="#" />
+            <i className="">Rozdział: </i>
+            <h2 className="EmployeeAnswersView__title">
+                { pageTitle }
+            </h2>
+            { pageDesc &&
+                <p className="EmployeeAnswersView__text">
+                    <i className="">Opis: </i>
+                    { pageDesc }
+                </p>
+            }
+            { link.length > 0 &&
+                <p className="EmployeeAnswersView__text">
+                    <i className="">Link: </i>
+                    <a href={ link } target="_blank">{ link }</a>
+                </p>
+            }
+        </section>
+        </>
     )
 }
 

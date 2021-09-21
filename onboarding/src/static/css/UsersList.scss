@@ -2,13 +2,14 @@
 
 .UserListRow {
   @include list-item-card;
-  padding: 30px;
+  padding: 15px;
   margin-bottom: 24px;
   display: flex;
   align-items: center;
   &__avatar-box {
     width: 78px;
     margin-right: 1rem;
+    margin-bottom: .5rem;
     display: flex;
     align-items: center;
   }
@@ -27,17 +28,21 @@
   }
   &__column {
     display: flex;
+    width: 100%;
   }
   &__data {
     font-size: 12px;
-    margin-bottom: 1.5rem;
-    &:nth-of-type(2) {
-      margin-bottom: 0rem;
-    }
+    margin-bottom: 4px;
+  }
+  &__data-wrapper {
+    display: flex;
+    column-gap: 45px;
+    width: fit-content;
+    justify-content: space-between;
   }
   &__header {
     font-size: 18px;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
   }
   &__employee-info {
     width: 100%;
@@ -45,10 +50,12 @@
     align-items: center;
   }
   &__personal-box {
+    width: 100%;
+  }
+  &__progress {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 6px;
+    align-items: center;
+    column-gap: 20px;
   }
 }
 
@@ -70,19 +77,6 @@
   }
 }
 
-@media(max-width: 1240px) {
-  .UserListRow {
-    &__avatar-box {
-      margin-bottom: .5rem;
-    }
-    &__column {
-      flex-direction: column;
-    }
-    &__data--margin {
-      margin-bottom: 1.5rem!important;
-    }
-  }
-}
 @media(max-width: 1104px) {
   .UserListRow {
     &__button {
@@ -96,14 +90,7 @@
     }
   }
 }
-@media(max-width: 992px) {
-  .UserListRow {
-    &__column {
-      flex-direction: row;
-    }
-  }
-}
-@media(max-width: 800px) {
+@media(max-width: 650px) {
   .UserListRow {
     &__column {
       flex-direction: column;
@@ -112,7 +99,6 @@
 }
 @media(max-width: 630px) {
   .UserListRow{
-    flex-direction: column;
     &__button {
       margin-bottom: 0!important;
       margin-right: .5rem!important;
@@ -122,9 +108,6 @@
     }
     &__buttons-bottom {
       flex-direction: row;
-    }
-    &__employee-info {
-      margin-bottom: 1rem;
     }
   }
 }
@@ -142,13 +125,16 @@
     &__column {
       align-items: center;
       text-align: center;
-      margin-bottom: 1rem;
     }
     &__data, &__data--margin {
       margin-bottom: .5rem;
     }
     &__data--margin {
       margin-bottom: .5rem!important;
+    }
+    &__data-wrapper {
+      width: 100%;
+      flex-direction: column;
     }
     &__employee-info {
       flex-direction: column;

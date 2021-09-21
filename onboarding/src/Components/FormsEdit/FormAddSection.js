@@ -165,35 +165,13 @@ function FormAddSection({
         </button>
       </div>
     </div>
-      { showLegend && 
-        <div className="Modal modal modal-alert fade show d-flex align-items-center" onClick={() => setShowLegend(!showLegend)}>
-          <section className="Modal__dialog">
-            <div className="Modal__content">
-              <header>
-                <p className="text-uppercase text-center">Legenda</p>
-                <p className="text-center">Przesuwając suwak w prawo w szablonie odpowiedzi zaznaczasz prawidłowe odpowiedzi. Dzięki temu szybciej ocenisz feedback.</p>
-                <div className="d-flex flex-column align-items-center mb-3">
-                  <label className="switcher-control switcher-control-success mb-2">
-                    <span className="switcher-input" />
-                    <span className="switcher-indicator border border-white" style={{ cursor: "auto" }}></span>
-                  </label>
-                  <label className="switcher-control switcher-control-success">
-                    <input type="checkbox" className="switcher-input" defaultChecked />
-                    <span className="switcher-indicator" style={{ cursor: "auto" }}></span>
-                  </label>
-                </div>
-              </header>
-              <div className="AnswersLegend__example-form">
-                <p className="mb-1">Przykładowy formularz odpowiedzi:</p>
-                <div className="border border-white p-3">
-                  <AnswersLegend />
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      }
-      </>
+    { showLegend && 
+      <AnswersLegend 
+        isSimple={ false }
+        showLegend={ showLegend }
+        setShowLegend={ setShowLegend } />
+    }
+    </>
   );
 }
 
