@@ -128,7 +128,7 @@ class CustomLoginView(LoginView):
             if request_environ.get('HTTP_ACCEPT_LANGUAGE', "").find('pl') != -1:
                 context['is_polish'] = True
 
-            return render(self.request, 'registration/login_limit_exceeded.html', context, status=status.HTTP_403_FORBIDDEN)  # status=status.HTTP_403_FORBIDDEN
+            return render(self.request, 'registration/login_limit_exceeded.html', context, status=status.HTTP_403_FORBIDDEN)  # status=status.HTTP_401_UNAUTHORIZED
 
         return super(CustomLoginView, self).form_valid(form)
 

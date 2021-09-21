@@ -115,17 +115,20 @@ class LoginLimitTests(TestCase):
 
     def test_single_login(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response.status_code >= 400)
+        self.assertEqual(response.status_code, 302, msg="Response status code was not 302 - found (previously \"Moved temporarily\")!")
+        # self.assertFalse(response.status_code >= 400)
 
         self.client.get('/accounts/logout/')
 
     def test_double_login(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response.status_code >= 400)
+        self.assertEqual(response.status_code, 302, msg="Response status code was not 302 - found (previously \"Moved temporarily\")!")
+        # self.assertFalse(response.status_code >= 400)
 
         client_session_2 = Client()
         response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_2.status_code, 302, msg="Response status code was not 302 - found (previously \"Moved temporarily\")!")
+        # self.assertFalse(response_2.status_code >= 400)
 
         self.client.get('/accounts/logout/')
         client_session_2.get('/accounts/logout/')
@@ -148,16 +151,18 @@ class LoginLimitTests(TestCase):
 
     def test_triple_login(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response.status_code >= 400)
+        self.assertEqual(response.status_code, 302, msg="Response status code was not 302!")
+        # self.assertFalse(response.status_code >= 400)
 
         client_session_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
         client_session_3 = Client()
 
         response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_2.status_code, 302, msg="Response status code was not 302! (2-nd device)")
+        # self.assertFalse(response_2.status_code >= 400)
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertTrue(response_3.status_code >= 400)
+        self.assertTrue(response_3.status_code == 401 or response_3.status_code == 403)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
         self.client.get('/accounts/logout/')
@@ -165,101 +170,115 @@ class LoginLimitTests(TestCase):
 
     def test_double_login_first_logout_3rd_login(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response.status_code >= 400)
+        self.assertEqual(response.status_code, 302, msg="Response status code was not 302!")
+        # self.assertFalse(response.status_code >= 400)
 
         client_session_2 = Client()
         client_session_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
         response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_2.status_code, 302, msg="Response status code was not 302! (2-nd device)")
+        # self.assertFalse(response_2.status_code >= 400)
 
         self.client.get('/accounts/logout/')
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
-        # self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
+        self.assertEqual(response_3.status_code, 302, msg="Response status code was not 302! (3-rd device)")
+        # self.assertFalse(response_3.status_code >= 400)
 
         client_session_2.get('/accounts/logout/')
         client_session_3.get('/accounts/logout/')
 
     def test_double_login_3rd_login_first_logout_3rd_relogin(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response.status_code >= 400)
+        self.assertEqual(response.status_code, 302, msg="Response status code was not 302!")
+        # self.assertFalse(response.status_code >= 400)
 
         client_session_2 = Client()
         client_session_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
         response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_2.status_code, 302, msg="Response status code was not 302! (2-nd device)")
+        # self.assertFalse(response_2.status_code >= 400)
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertTrue(response_3.status_code >= 400)
+        self.assertTrue(response_3.status_code == 401 or response_3.status_code == 403)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
         self.client.get('/accounts/logout/')
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_3.status_code, 302, msg="Response status code was not 302! (3-rd device)")
+        # self.assertFalse(response_3.status_code >= 400)
 
         client_session_2.get('/accounts/logout/')
         client_session_3.get('/accounts/logout/')
 
     def test_double_login_second_logout_3rd_login(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response.status_code >= 400)
+        self.assertEqual(response.status_code, 302, msg="Response status code was not 302!")
+        # self.assertFalse(response.status_code >= 400)
 
         client_session_2 = Client()
         client_session_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
         response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_2.status_code, 302, msg="Response status code was not 302! (2-nd device)")
+        # self.assertFalse(response_2.status_code >= 400)
 
         client_session_2.get('/accounts/logout/')
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_3.status_code, 302, msg="Response status code was not 302! (3-rd device)")
+        # self.assertFalse(response_3.status_code >= 400)
 
         self.client.get('/accounts/logout/')
         client_session_3.get('/accounts/logout/')
 
     def test_double_login_3rd_login_second_logout_3rd_relogin(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response.status_code >= 400)
+        self.assertEqual(response.status_code, 302, msg="Response status code was not 302!")
+        # self.assertFalse(response.status_code >= 400)
 
         client_session_2 = Client()
         client_session_3 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
         response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_2.status_code, 302, msg="Response status code was not 302! (2-nd device)")
+        # self.assertFalse(response_2.status_code >= 400)
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertTrue(response_3.status_code >= 400)
+        self.assertTrue(response_3.status_code == 401 or response_3.status_code == 403)
+        # self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
         client_session_2.get('/accounts/logout/')
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_3.status_code, 302, msg="Response status code was not 302! (3-rd device)")
+        # self.assertFalse(response_3.status_code >= 400)
 
         self.client.get('/accounts/logout/')
         client_session_3.get('/accounts/logout/')
 
     def test_double_login_3rd_login_twice_fail(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response.status_code >= 400)
+        self.assertEqual(response.status_code, 302, msg="Response status code was not 302!")
+        # self.assertFalse(response.status_code >= 400)
 
         client_session_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
         client_session_3 = Client()
 
         response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_2.status_code, 302, msg="Response status code was not 302! (2-nd device)")
+        # self.assertFalse(response_2.status_code >= 400)
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertTrue(response_3.status_code >= 400)
+        self.assertTrue(response_3.status_code == 401 or response_3.status_code == 403)  # self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertTrue(response_3.status_code >= 400)
+        self.assertTrue(response_3.status_code == 401 or response_3.status_code == 403)  # self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
         self.client.get('/accounts/logout/')
@@ -267,21 +286,23 @@ class LoginLimitTests(TestCase):
 
     def test_double_login_3rd_and_4th_login_fail(self):
         response = self.client.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response.status_code >= 400)
+        self.assertEqual(response.status_code, 302, msg="Response status code was not 302!")
+        # self.assertFalse(response.status_code >= 400)
 
         client_session_2 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
         client_session_3 = Client()
         client_session_4 = Client(HTTP_ACCEPT_LANGUAGE='en-US,en;q=0.5')
 
         response_2 = client_session_2.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertFalse(response_2.status_code >= 400)
+        self.assertEqual(response_2.status_code, 302, msg="Response status code was not 302! (2-nd device)")
+        # self.assertFalse(response_2.status_code >= 400)
 
         response_3 = client_session_3.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertTrue(response_3.status_code >= 400)
+        self.assertTrue(response_3.status_code == 401 or response_3.status_code == 403)  # self.assertTrue(response_3.status_code >= 400)
         self.assertTemplateUsed(response_3, 'registration/login_limit_exceeded.html')
 
         response_4 = client_session_4.post('/accounts/login/', data={'username': self.username_1, 'password': self.password_1})
-        self.assertTrue(response_4.status_code >= 400)
+        self.assertTrue(response_4.status_code == 401 or response_4.status_code == 403)  # self.assertTrue(response_4.status_code >= 400)
         self.assertTemplateUsed(response_4, 'registration/login_limit_exceeded.html')
 
         self.client.get('/accounts/logout/')
