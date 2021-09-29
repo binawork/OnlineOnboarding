@@ -4,6 +4,7 @@ import AddUserTableRow from "./AddUserTableRow";
 //import UserListSearch from "../UserListSearch";
 import { assignEmployeeToPackage } from "../hooks/EmployeeForms";
 import UserListSearch from "../UserListSearch";
+import ProgressStats, { joinProgressToUsers } from "../hooks/ProgressStats";
 
 function AddUserTable(props) {
     const [error, showError] = useState(false);
@@ -12,6 +13,11 @@ function AddUserTable(props) {
     const [usersInPackage, setUsersInPackage] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
     const [userTable, setUserTable] = useState([]);
+    const progressStats = ProgressStats({count: users.length});
+    
+    if(users.length > 0 && Object.keys(progressStats).length > 0){
+        joinProgressToUsers(users, progressStats);
+    }
 
     useEffect(() => {
       if(props.packageCurrent) {
