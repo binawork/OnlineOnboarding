@@ -61,7 +61,7 @@ function EmployeeProfileUser({ user, goBackToMainProfilePage, sentAndFinished })
                             <div className="">
                                 <p className="UserListRow__data">
                                     e-mail:
-                                    { user.location
+                                    { user.email
                                         ? <b> { user.email }</b>
                                         : <i> brak</i>
                                     }
