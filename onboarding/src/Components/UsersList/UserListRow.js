@@ -135,7 +135,7 @@ function UserListRow(props) {
                         </div>
 
                         <div className="UserListRow__progress UserListRow__progress--absolute">
-                            <ProgressBar color="blue" backgroundSize={ `${percentage}%` } />
+                            <ProgressBar color="blue" backgroundSize={ `${ props.user.percentage || 0 }%` } />
                             <p className="UserListRow__data text-nowrap m-0">
                                 { props.user.finished || 0 }/{ props.user.sent || 0 }
                             </p>
