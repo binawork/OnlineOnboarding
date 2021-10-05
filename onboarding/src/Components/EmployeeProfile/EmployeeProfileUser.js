@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { validateURL } from "../utils";
 import "../../static/css/EmployeeProfile.scss";
 import ProgressBar from "../ProgressBar";

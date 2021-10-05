@@ -101,33 +101,32 @@ function FormsSentTableRow(props) {
 
     return(
         <>
-            <tr className="EmployeeProfileTable__row">
+            <tr className="EmployeeProfileTable__row" onClick={ showPages } style={{ cursor: toggleObj.hasContent && 'pointer' }}>
                 <td className="EmployeeProfileTable__data">
                     { checkBox }
                 </td>
-                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small" onClick={ showPages }>
+                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small">
                     { toggleObj.hasContent && (
                         <button 
                             className={`caret-icon ${toggleObj.rotate ? "caret-icon--rotate" : ""}`}
-                            onClick={ showPages }
                             type="button">
                             <img src={ caretIcon } alt="#" />
                         </button> 
                     )}
                 </td>
-                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small" onClick={ showPages }>
+                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small">
                     <img className="EmployeeProfileTable__image--book" src={ bookIcon } alt="#" />
                 </td>
-                <td className="EmployeeProfileTable__data" onClick={ showPages }>
+                <td className="EmployeeProfileTable__data">
                     <span>{props.row.form}</span>
                 </td>
-                <td className="EmployeeProfileTable__data" onClick={ showPages }>{props.row.send_date}</td>
-                <td className="EmployeeProfileTable__data" onClick={ showPages }>
+                <td className="EmployeeProfileTable__data">{props.row.send_date}</td>
+                <td className="EmployeeProfileTable__data">
                     <div className="EmployeeProfileTable__progress text-nowrap">
                         { props.row.progress }
                     </div>
                 </td>
-                <td className="EmployeeProfileTable__data" onClick={ showPages }>{props.row.finish_date}</td>
+                <td className="EmployeeProfileTable__data">{props.row.finish_date}</td>
                 <td className="EmployeeProfileTable__data" style={{ textAlign: "end", width: "120px" }}>
                     { buttonObj }
                     { buttonRm }
