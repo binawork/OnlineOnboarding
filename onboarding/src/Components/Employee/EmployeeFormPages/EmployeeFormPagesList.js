@@ -5,7 +5,7 @@ import ProgressBar from "../../ProgressBar";
 
 
 const EmployeeFormPagesList = ({ pagesList, setPage, progress }) => {
-  const notStartedMsg = "Nie rozpoczęte", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
+  const notStartedMsg = "Nie rozpoczęte", inProgressMsg = "W trakcie", finishedMsg = "Skończone", passedMsg = "Zaliczone";
 
   const pages = pagesList.map((page) => {
     let progressForPage = <ProgressBar backgroundSize={ "0%" } />, progressMsg = "Nie pobrano",
@@ -28,7 +28,11 @@ const EmployeeFormPagesList = ({ pagesList, setPage, progress }) => {
           percentage = "100%";
           // finishMsg = finishedMsg;
           progressForPage = <ProgressBar color={ "green" } backgroundSize={ percentage } />
-          progressMsg = <small className="ml-1">{ finishedMsg }</small>
+          if(localPage.confirmed)
+            progressMsg = <small className="ml-1">{ passedMsg }</small>
+          else
+            progressMsg = <small className="ml-1">{ finishedMsg }</small>
+
           page.isFinished = true;
         } else {
           percentage = "50%";
