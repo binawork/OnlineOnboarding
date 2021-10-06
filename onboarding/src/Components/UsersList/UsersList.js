@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserListSearch from "../UserListSearch";
 import Users, { employeeRemove } from "../hooks/Users";
-import { usersWithPackages } from "../hooks/ProgressStats";
+import ProgressStats, { joinProgressToUsers, usersWithPackages } from "../hooks/ProgressStats";
 import ModalWarning from "../ModalWarning";
 import UserListRow from "./UserListRow";
 
@@ -12,6 +12,11 @@ function UsersList({ loggedUserId }) {
     const [countUpdate, update] = useState(0);
     const [users, setUsers] = useState([]);
     const [searchResult, setSearchResult] = useState([]);
+    const progressStats = ProgressStats({count: users.length});
+
+    if(users.length > 0 && Object.keys(progressStats).length > 0){
+        joinProgressToUsers(users, progressStats);
+    }
   
     const usersForPackages = usersWithPackages({count: 0});// [{userId: , packageIds: []}, ...];
     if(usersForPackages.length !== 0) {

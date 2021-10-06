@@ -5,7 +5,7 @@ import AddUserTable from "./AddUserTable";
 import { singleCombo } from "../hooks/Packages";
 import ModalWarning from "../ModalWarning";
 import { useParams } from "react-router-dom";
-
+import "../../static/css/UsersList.scss";
 
 function AddUserTablePage({ loggedUserId }) {
     document.title = "Onboarding: wyślij pracownikowi";
@@ -26,7 +26,7 @@ function AddUserTablePage({ loggedUserId }) {
 
     return(
         <div className="page-inner">
-            <PageAddressBar page = { `Wyślij katalog ${packageObj ? `"${packageObj.title}"` : ""}` } />
+            <PageAddressBar page = { `Wyślij wdrożenie ${packageObj ? `"${packageObj.title}"` : ""}` } />
             <AddUserTable 
                 loggedUserId={ loggedUserId }
                 packageId={ packageId }

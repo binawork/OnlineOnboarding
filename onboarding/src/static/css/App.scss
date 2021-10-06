@@ -20,15 +20,20 @@
     padding-left: 363px!important;
   }
   .hamburger {
+    @include button;
+    width: fit-content;
+    padding: 19px 10px;
     border-radius: 50%;
+    &::after {
+      border-radius: 50%;
+    }
   }
   .hamburger-wrapper {
       position: fixed;
-      top: 11px;
+      top: 27px;
       right: 18px;
       z-index: 10;
       position: fixed;
-      background: #310059;
       border-radius: 50%;
       padding: 6px;
   }

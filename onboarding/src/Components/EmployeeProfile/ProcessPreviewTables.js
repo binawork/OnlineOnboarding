@@ -198,7 +198,11 @@ function ProcessPreviewTables(props) {
         <>
             {
                 props.answersPage
-                    ? <EmployeeAnswersViewPage employeeId={ props.employeeId } page={ props.answersPage } goBackToMainProfilePage={ props.goBackToMainProfilePage } />
+                    ? <EmployeeAnswersViewPage 
+                        employeeId={ props.employeeId } 
+                        page={ props.answersPage } 
+                        goBackToMainProfilePage={ props.goBackToMainProfilePage } 
+                        sentPackages={ sentPackages } />
                     : (
                         <>
                         <ImplementationFormsSent 

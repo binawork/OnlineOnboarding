@@ -59,21 +59,20 @@ function FormsToSendTableRow(props){
 
     return(
         <>
-            <tr className="EmployeeProfileTable__row">
-                <td className="EmployeeProfileTable__data">
+            <tr className="EmployeeProfileTable__row" onClick={ showPages } style={{ cursor: toggleObj.hasContent && 'pointer' }}>
+                <td className="EmployeeProfileTable__data" onClick={e => e.stopPropagation()}>
                     { checkBox }
                 </td>
                 <td className="EmployeeProfileTable__data">
                     { toggleObj.hasContent && (
                         <button 
                             className={`caret-icon ${toggleObj.rotate ? "caret-icon--rotate" : ""}`}
-                            onClick={ showPages }
                             type="button">
                             <img src={ caretIcon } alt="#" />
                         </button> 
                     )}
                 </td>
-                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small">
+                <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small" >
                     <img className="EmployeeProfileTable__image--book" src={ bookIcon } alt="#" />
                 </td>
                 <td className="EmployeeProfileTable__data">
@@ -82,7 +81,7 @@ function FormsToSendTableRow(props){
                 <td className="EmployeeProfileTable__data">{props.row.created}</td>
                 <td className="EmployeeProfileTable__data">{props.row.pagesCount}</td>
                 <td className="EmployeeProfileTable__data">{props.row.last_edit}</td>
-                <td className="EmployeeProfileTable__data">{ buttonObj }</td>
+                <td className="EmployeeProfileTable__data" onClick={e => e.stopPropagation()}>{ buttonObj }</td>
             </tr>
             { pages }
         </>

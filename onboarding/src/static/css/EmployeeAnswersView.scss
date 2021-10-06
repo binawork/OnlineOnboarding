@@ -1,6 +1,49 @@
 @import './utilities/variables.scss';
+@import './utilities/mixins.scss';
 
 .EmployeeAnswersView {
+  position: relative;
+  &__arrow {
+    width: 16px;
+    margin-right: 2px;
+  }
+  &__book {
+    position: absolute;
+    top: 13px;
+    left: 26px;
+  }
+  &__button {
+    @include button;
+    &--back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      &::before {
+        content: none;
+      }
+    }
+  }
+  &__card {
+    @include list-item-card;
+    width: unset;
+    padding-left: 74px;
+    position: relative;
+    margin-bottom: 30px;
+    &--smaller {
+      margin-bottom: 40px;
+      margin-left: 108px;
+      position: relative;
+      &::before {
+        content: '';
+        background: url('../icons/vector.svg') no-repeat bottom;
+        width: 60px;
+        height: 63px;
+        position: absolute;
+        top: -33px;
+        left: -62px;
+      }
+    }
+  }
   &__input {
     margin-right: 8px;
   }
@@ -24,17 +67,17 @@
       border-radius: 50%;
     }
     & > .EmployeeAnswersView__input:checked {
-      background-color: #41B883;
+      background-color: #00FF47;
     }
     &--red > .EmployeeAnswersView__input:checked {
-      background-color: orangered;
+      background-color: #FF0000;
     }
     &--dot > .EmployeeAnswersView__answer::before {
       content: "";
       width: 12px;
       height: 12px;
       position: absolute;
-      background: #41B883;
+      background: #00FF47;
       border-radius: 50%;
       left: -25px;
       top: 2px;
@@ -43,32 +86,49 @@
   &__li {
     list-style: none;
   }
-  &__section-desc a {
-    background-color: var(--light)!important;
+  &__text {
+    margin-bottom: 8px;
+  }
+  &__title {
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+}
+
+.EmployeeAnswers {
+  margin-left: 108px;
+  &__answer {
+    margin-left: 44px;
+  }
+  &__card {
+    @include card;
+    flex-direction: column;
+    margin: 3px 0 30px;
+  }
+  &__description {
+    margin-left: 44px;
+    a {
+      background-color: var(--light)!important;
+    }
+  }
+  &__header {
+    margin-left: 62px;
+    font-size: 10px;
+  }
+  &__line {
+    width: 100%;
+    border-color: #fff;
   }
 }
 
 /* AnswersLegend */
 .AnswersLegend {
-  max-width: 615px;
-  width: 100%;
-  background-color: #3E3E57;
-  &--fixed {
-    position: fixed;
-    /* Height of navbar: 56px */
-    top: 56px;
-    left: $left-menu-width;
-    width: calc(100% - $left-menu-width);
-    height: calc(100% - 56px);
-    z-index: 5;
-    backdrop-filter: brightness(60%);
-    overflow-y: auto;
-  }
   &__dot {
     display: inline-block;
     width: 12px;
     height: 12px;
-    background: #41B883;
+    background: #00FF47;
     border-radius: 50%;
     margin: 0 21px 0 9px;
   }
@@ -80,10 +140,10 @@
     border: 1px solid var(--dark);
     border-radius: 50%;
     &--red {
-      background-color: orangered;
+      background-color: #FF0000;
     }
     &--green {
-      background-color: #41B883;
+      background-color: #00FF47;
     }
     &--square {
       border-radius: 4px;
@@ -97,24 +157,26 @@
   }
 }
 @media(max-height: 880px) {
-  .AnswersLegend__example-form {
-    display: none;
+  .AnswersLegend {
+    * {
+      font-size: small;
+    }
+  }
+}
+@media(max-height: 790px) and (max-width: 780px) {
+  .AnswersLegend {
+    flex-direction: column;
   }
 }
 @media(max-width: 992px) {
   .AnswersLegend {
-    &__example-form {
-      display: none;
-    }
-    &--fixed {
-      left: 0;
-      width: 100%;
+    * {
+      font-size: small;
     }
   }
 }
 @media(max-width: 360px) {
   .AnswersLegend {
-    font-size: small;
     &__example {
       flex-direction: column-reverse;
     }

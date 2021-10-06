@@ -2,6 +2,7 @@
 
 .Modal {
     background: linear-gradient(180deg, rgba(64, 132, 136, 0.96) 0%, rgba(84, 0, 111, 0.96) 100%);
+    overflow: auto;
     &__close-icon {
         position: absolute;
         top: 6px;

@@ -21,6 +21,7 @@ function EmployeeProfilePage() {
     const [loadingPackages, setLoadingPackages] = useState(true);
     const [sentAndFinished, setSentAndFinished] = useState({sent: -1, finished: -1});
     const [singleUser, setSingleUser] = useState({
+        id: 0,
         avatar: "",
         department: "",
         email: "",
@@ -51,6 +52,7 @@ function EmployeeProfilePage() {
     useEffect(() => {
         if(user){
             location.state ? setSingleUser(user) : setSingleUser({
+                id: employeeId,
                 ...singleUser,
                 ...user,
                 name: user.first_name || "",
@@ -86,7 +88,7 @@ function EmployeeProfilePage() {
     return(
         <div className="page-inner">
             <PageAddressBar page={ `Proces wdrażania pracownika ${singleUser.first_name} ${singleUser.last_name}` } previousPages={[ {title: "Lista pracowników", url: "/users_list"} ]} />
-            <div className="page-section">
+            <div className="page-section position-relative">
                 <EmployeeProfileUser user={ singleUser } goBackToMainProfilePage={ goBackToMainProfilePage } sentAndFinished={ sentAndFinished } />
                 <ProcessPreviewTables 
                     employeeId={ employeeId }

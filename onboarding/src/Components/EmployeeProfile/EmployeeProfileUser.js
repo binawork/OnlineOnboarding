@@ -1,6 +1,7 @@
 import React from "react";
 import { validateURL } from "../utils";
 import "../../static/css/EmployeeProfile.scss";
+import ProgressBar from "../ProgressBar";
 
 function EmployeeProfileUser({ user, goBackToMainProfilePage, sentAndFinished }) {
     let avatar = "/onboarding/static/images/unknown-profile.jpg";
@@ -8,18 +9,20 @@ function EmployeeProfileUser({ user, goBackToMainProfilePage, sentAndFinished })
         user.avatar = validateURL(user.avatar, "/onboarding/static/images/unknown-profile.jpg");
         avatar = user.avatar;
     }
-
+    
     let sent = sentAndFinished.sent, finished = sentAndFinished.finished;
+    let percentage = "0";
     if(sent < 0)
         sent = user.sent;
     if(finished < 0)
-        finished = user.finished ? user.finished : "0";
-
+        finished = user.finished ? user.finished : 0;
+    if(sent != 0)
+        percentage = (parseInt(finished) / sent * 100).toString();
 
     return(
         <div className="EmployeeProfileUser UserListRow">
             <div className="UserListRow__employee-info">
-                <div className="UserListRow__column col">
+                <div className="UserListRow__column">
                     <div className="UserListRow__avatar-box">
                         <a className="user-avatar user-avatar-xl" onClick={ goBackToMainProfilePage } style={{ cursor: "pointer" }}>
                             <img className="UserListRow__avatar" src={ avatar } alt="avatar" />
@@ -31,43 +34,53 @@ function EmployeeProfileUser({ user, goBackToMainProfilePage, sentAndFinished })
                                 { `${user.first_name} ${user.last_name}` }
                             </a>
                         </h3>
-                        { user.position && user.position !== "-" && (
-                            <p className="card-subtitle">
-                                { user.position }
-                            </p>
-                        )}
-                        <small className="">{ user.email }</small>
-                        { user.tel &&  <small className="">{ user.tel }</small> }
-                    </div>
-                </div>
-
-                <div className="UserListRow__column EmployeeProfileUser__column col">
-                    <div className="col">
                         <p className="UserListRow__data">
-                            Dział:
-                            { user.department
-                                ? <b> { user.department }</b>
+                            Stanowisko:
+                            { user.position
+                                ? <b> { user.position }</b>
                                 : <i> brak</i>
                             }
                         </p>
-                        <p className="UserListRow__data UserListRow__data--margin">
-                            Lokalizacja:
-                            { user.location
-                                ? <b> { user.location }</b>
-                                : <i> brak</i>
-                            }
-                        </p>
-                    </div>
-
-                    <div className="col">
-                        <p className="UserListRow__data text-nowrap">
-                            Wysłane katalogi:
-                            <b> { sent }</b>
-                        </p>
-                        <p className="UserListRow__data text-nowrap">
-                            Skończone katalogi: 
-                            <b> { finished }</b>
-                        </p>
+                        <div className="UserListRow__data-wrapper">
+                            <div className="">
+                                <p className="UserListRow__data">
+                                    Dział:
+                                    { user.department
+                                        ? <b> { user.department }</b>
+                                        : <i> brak</i>
+                                    }
+                                </p>
+                                <p className="UserListRow__data">
+                                    Lokalizacja:
+                                    { user.location
+                                        ? <b> { user.location }</b>
+                                        : <i> brak</i>
+                                    }
+                                </p>
+                            </div>
+                            <div className="">
+                                <p className="UserListRow__data">
+                                    e-mail:
+                                    { user.email
+                                        ? <b> { user.email }</b>
+                                        : <i> brak</i>
+                                    }
+                                </p>
+                                <p className="UserListRow__data">
+                                    tel.:
+                                    { user.tel
+                                        ? <b> { user.tel }</b>
+                                        : <i> brak</i>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        <div className="UserListRow__progress">
+                            <ProgressBar color="blue" backgroundSize={ `${percentage}%` } />
+                            <p className="UserListRow__data text-nowrap m-0">
+                                { finished }/{ sent }
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

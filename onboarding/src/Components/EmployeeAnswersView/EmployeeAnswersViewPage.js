@@ -5,12 +5,7 @@ import PageCard from "./PageCard";
 import ModalWarning from "../ModalWarning";
 import { sendRetry, sendAcceptance } from "../hooks/EmployeeForms";
 import "../../static/css/EmployeeAnswersView.scss";
-
-const buttonBackStyle = {
-    display: "flex",
-    alignItems: "center",
-    borderRadius: "2rem"
-}
+import arrow from "../../static/icons/arrow-left.svg";
 
 /**
  * Loads page with answers for a page answered by employee.
@@ -29,7 +24,7 @@ function EmployeeAnswersViewPage(props){
     const [buttonsOptions, setButtons] = useState({display: false, answered: false, confirmed: false, msg: "Wyślij przypomnienie", target: null});
     const [performUpdate, updateForms] = useState(false);
     const employeeId = props.employeeId;
-
+    const packageOfAnswers = props.sentPackages.filter(el => el.id == props.page.package)[0];
 
     const updateButtonsOptions = function(newButtonsOptions, areSaved){
         setButtons(newButtonsOptions);
@@ -149,44 +144,40 @@ function EmployeeAnswersViewPage(props){
 
 
     return(
-        <div>
-            <div className="d-flex justify-content-between mb-3">
+        <section className="EmployeeAnswersView">
+            <div className="d-flex justify-content-end mb-5">
                 <button 
-                    className="btn btn-outline-warning button-back mr-1" 
-                    style={ buttonBackStyle } 
+                    className="EmployeeAnswersView__button EmployeeAnswersView__button--back btn" 
                     onClick={(e) => props.goBackToMainProfilePage(e, performUpdate) }
                 >
-                    <i className="bi bi-arrow-left-circle back-icon"></i>&nbsp;Wstecz
+                    <img className="EmployeeAnswersView__arrow" src={ arrow } alt="#" />
+                    Wstecz
                 </button>
                 <button 
-                    className="btn btn-outline-warning" 
+                    className="EmployeeAnswersView__button btn" 
                     onClick={ () => setShowLegend(!showLegend) }
                 >Legenda</button>
             </div>
             { showLegend && 
-                <section className="card card-fluid p-3 AnswersLegend">
-                    <div className="card-body">
-                        <header>
-                            <p className="text-uppercase text-center">Legenda</p>
-                        </header>
-                        <AnswersLegend />
-                    </div>
-                </section>
+                <AnswersLegend 
+                    isSimple={ true }
+                    showLegend={ showLegend }
+                    setShowLegend={ setShowLegend } />
             }
-            <PageCard page={ props.page } />
-            { loadingMessage.length > 0 &&
-                <div className="card card-fluid text-black bg-warning">
-                  <div className="card-body"><div className="p-3">{ loadingMessage }</div></div>
-                </div>
-            }
-            <EmployeeAnswers pageId={ props.page.id }
-                             employeeId={ employeeId }
-                             setMessage={ setMessage }
-                             buttonsOptions={ buttonsOptions } updateButtons={ updateButtonsOptions }
-                             acceptAnswersAsk={ acceptAnswersAsk }
-                             resendAnswersAsk={ resendAnswersAsk } />
+            <PageCard employeeId={ employeeId } page={ props.page } packageOfAnswers={ packageOfAnswers } />
+            <section className="EmployeeAnswers">
+                { loadingMessage.length > 0 &&
+                    <p className="mb-4"><i>{ loadingMessage }</i></p>
+                }
+                <EmployeeAnswers pageId={ props.page.id }
+                                employeeId={ employeeId }
+                                setMessage={ setMessage }
+                                buttonsOptions={ buttonsOptions } updateButtons={ updateButtonsOptions }
+                                acceptAnswersAsk={ acceptAnswersAsk }
+                                resendAnswersAsk={ resendAnswersAsk } />
+            </section>
             { confirmationModal.modal }
-        </div>
+        </section>
     )
 }
 
