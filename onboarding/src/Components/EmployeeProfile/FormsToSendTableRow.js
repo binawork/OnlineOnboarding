@@ -60,7 +60,7 @@ function FormsToSendTableRow(props){
     return(
         <>
             <tr className="EmployeeProfileTable__row" onClick={ showPages } style={{ cursor: toggleObj.hasContent && 'pointer' }}>
-                <td className="EmployeeProfileTable__data">
+                <td className="EmployeeProfileTable__data" onClick={e => e.stopPropagation()}>
                     { checkBox }
                 </td>
                 <td className="EmployeeProfileTable__data">
@@ -81,7 +81,7 @@ function FormsToSendTableRow(props){
                 <td className="EmployeeProfileTable__data">{props.row.created}</td>
                 <td className="EmployeeProfileTable__data">{props.row.pagesCount}</td>
                 <td className="EmployeeProfileTable__data">{props.row.last_edit}</td>
-                <td className="EmployeeProfileTable__data">{ buttonObj }</td>
+                <td className="EmployeeProfileTable__data" onClick={e => e.stopPropagation()}>{ buttonObj }</td>
             </tr>
             { pages }
         </>

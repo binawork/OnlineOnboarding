@@ -102,7 +102,7 @@ function FormsSentTableRow(props) {
     return(
         <>
             <tr className="EmployeeProfileTable__row" onClick={ showPages } style={{ cursor: toggleObj.hasContent && 'pointer' }}>
-                <td className="EmployeeProfileTable__data">
+                <td className="EmployeeProfileTable__data" onClick={e => e.stopPropagation()}>
                     { checkBox }
                 </td>
                 <td className="EmployeeProfileTable__data EmployeeProfileTable__data--small">
@@ -127,7 +127,7 @@ function FormsSentTableRow(props) {
                     </div>
                 </td>
                 <td className="EmployeeProfileTable__data">{props.row.finish_date}</td>
-                <td className="EmployeeProfileTable__data" style={{ textAlign: "end", width: "120px" }}>
+                <td className="EmployeeProfileTable__data" style={{ textAlign: "end", width: "120px" }} onClick={e => e.stopPropagation()}>
                     { buttonObj }
                     { buttonRm }
                 </td>
