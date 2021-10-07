@@ -14,17 +14,30 @@
   }
   &__line {
     border: 0;
-    border-bottom: 1px dashed #fff;
+    border-bottom: 1px solid #fff;
     position: absolute;
     top: 30px;
     left: 0;
     width: 100%;
   }
+  &--arrow {
+    &::before {
+      content: '';
+      background: url('../icons/vector.svg') no-repeat;
+      width: 60px;
+      height: 71px;
+      position: absolute;
+      top: -44px;
+      left: -62px;
+    }
+  }
 }
 
 .FormTable {
+  margin-bottom: 0;
   &__button {
     @include button;
+    max-width: -moz-max-content;
     max-width: fit-content;
     padding: 10px 20px;
     height: 32px;
@@ -51,6 +64,9 @@
     }
     &--nowrap {
       white-space: nowrap;
+    }
+    &--progress {
+      min-width: 200px;
     }
   }
   &__header {
@@ -205,5 +221,12 @@
   }
   .FormTable-wrapper {
     margin-left: 21px;
+    &--arrow {
+      &::before {
+        background: url('../icons/vector2.svg') no-repeat;
+        width: 16px;
+        left: -17px;
+      }
+    }
   }
 }
