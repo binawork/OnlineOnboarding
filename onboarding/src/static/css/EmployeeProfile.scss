@@ -29,6 +29,7 @@
   &__data {
     border-top: none!important;
     &--small {
+      width: -moz-max-content;
       width: fit-content;
     }
     &--sublist-first {
@@ -77,6 +78,7 @@
     margin-bottom: 48px;
   }
   .caret-icon {
+    width: -moz-max-content;
     width: fit-content;
     margin-right: 0;
   }

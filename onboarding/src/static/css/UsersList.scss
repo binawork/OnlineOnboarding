@@ -40,6 +40,7 @@
     display: flex;
     column-gap: 45px;
     width: fit-content;
+    width: -moz-max-content;
     justify-content: space-between;
   }
   &__header {

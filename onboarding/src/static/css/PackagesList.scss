@@ -49,6 +49,7 @@
       margin-bottom: 10px;
     }
     &--fit {
+      width: -moz-max-content;
       width: fit-content;
     }
     &:hover {
