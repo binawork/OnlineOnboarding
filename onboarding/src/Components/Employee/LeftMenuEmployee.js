@@ -35,13 +35,9 @@ function LeftMenuEmployee({ packagesList, showAside, setToggleAside }) {
     }
   }
 
-  const handleLogout = () => {
-    sessionStorage.clear();
-  }
-
   return (
     <aside
-      className={`LeftMenu app-aside app-aside-expand-md
+      className={`LeftMenu app-aside app-aside-expand-lg
       app-aside-light ${showAside ? "show" : ""}`}
       style={{zIndex: "9"}}
     >
@@ -88,13 +84,6 @@ function LeftMenuEmployee({ packagesList, showAside, setToggleAside }) {
                   path="/company"
                   title="O firmie"
                   setToggleAside={ setToggleAside } />
-                <li className="LeftMenu__item menu-item">
-                  <a
-                      className="LeftMenu__link menu-link"
-                      href="/accounts/logout/"
-                      onClick={ handleLogout }
-                  >Wyloguj</a>
-                </li>
               </ul>
             </nav>
           </div>
