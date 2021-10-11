@@ -72,7 +72,7 @@ const SectionForm = ({ section, answerId, answerData, setAnswer, readOnly }) => 
                     defaultChecked={ isChecked }
                     disabled={ readOnly !== null && typeof readOnly !== 'undefined' ? readOnly : true }
                 />
-                <label className="custom-control-label w-100" style={{cursor: "pointer"}} htmlFor={section.id + "-" + i}>
+                <label className="custom-control-label" style={{cursor: "pointer"}} htmlFor={section.id + "-" + i}>
                    {section.data[i].title}
                 </label>
               </>);
@@ -84,11 +84,11 @@ const SectionForm = ({ section, answerId, answerData, setAnswer, readOnly }) => 
   return (
     <>
       {inputs.map( (element) => (
-    <tr key={ uuidv4() }>
-      <td className="d-flex justify-content-between align-items-center pr-0">
+    <tr key={ uuidv4() } className="FormsEdit__tr">
+      <td className="FormsEdit__td d-flex justify-content-between align-items-center pr-0">
         <div className="w-100">
           <div
-            className={`w-100 custom-control custom-control-inline custom-${selection.isRadio ? "radio" : "checkbox"}`}>
+            className={`custom-control custom-control-inline custom-${selection.isRadio ? "radio" : "checkbox"}`}>
             { element }
           </div>
         </div>

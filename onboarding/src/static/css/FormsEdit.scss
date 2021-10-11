@@ -23,7 +23,12 @@
     margin: 0;
     margin-bottom: 20px;
   }
-
+  &__description {
+    font-weight: 400;
+    font-size: 12px;
+    padding-top: 1rem;
+    margin: 0;
+  }
   // header
   &__header {
     @include list-item-card;

@@ -20,10 +20,10 @@ const OpenAnswer = ({ id, index, data, changeOpenAnswerText, readOnly }) => {
   };
 
   return (
-    <div key={id} className="form-group">
+    <div key={id}>
       <textarea
         id={id}
-        className="form-control"
+        className="FormSection__input form-control"
         placeholder="Wpisz odpowiedź"
         rows="4"
         value={answerText}

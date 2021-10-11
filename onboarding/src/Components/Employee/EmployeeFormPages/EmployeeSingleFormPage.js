@@ -6,7 +6,8 @@ import PageAddressBar from "../../PageAddressBar";
 import { useFetchGetSync } from "../../hooks/useFetch";
 import { getProgressForPage } from "../../hooks/ProgressStats";
 import { linkToVideo } from "../../utils.js";
-
+import bookOpenedIcon from "../../../static/icons/book-opened.svg";
+import "../../../static/css/FormsEdit.scss";
 
 const EmployeeSingleFormPage = ({ page, userId }) => {
   const [form, setForm] = useState(page);
@@ -118,27 +119,34 @@ const EmployeeSingleFormPage = ({ page, userId }) => {
           } 
         ]} 
       />
-      <div className="page-section">
-        <div className="card card-fluid">
-          <div className="card-header">{form?.title}</div>
-          <div className="card-body">{form?.description}</div>
-
-          <div className="card-body">
-            { pageLinkVideo.isVideo ? (
-                <div className="embed-responsive embed-responsive-21by9">
-                  <iframe className="embed-responsive-item"
-                          src={ pageLinkVideo.link }
-                          allow="autoplay; encrypted-media"
-                          allowFullScreen
-                          title="video"
-                  />
-                </div>
-              ): (<>{ pageLinkVideo.link }</>)
-            }
-          </div>
+      <header className="FormDescription__header">
+        <p className="FormDescription__text">
+          <i>Tytuł rozdziału:</i>
+        </p>
+        <div className="FormDescription__title-wrapper">
+          <img className="FormDescription__icon" src={ bookOpenedIcon } alt="#" />
+          <h1 className="FormDescription__title">{ form?.title ? form.title : "Ładowanie..." }</h1>
+        </div>
+        <p className="FormDescription__description">
+          <i>{ form?.description }</i>
+        </p>
+      </header>
+      <section className="FormsEdit__sections">
+        <div className="card-body">
+          { pageLinkVideo.isVideo ? (
+              <div className="embed-responsive embed-responsive-21by9">
+                <iframe className="embed-responsive-item"
+                        src={ pageLinkVideo.link }
+                        allow="autoplay; encrypted-media"
+                        allowFullScreen
+                        title="video"
+                />
+              </div>
+            ): (<>{ pageLinkVideo.link }</>)
+          }
         </div>
         <EmployeeSections pageId={ parseInt(formId) } userId={ userId } status={ status } makeReadOnly={ makeReadOnly } />
-      </div>
+      </section>
     </div>
   );
 };
