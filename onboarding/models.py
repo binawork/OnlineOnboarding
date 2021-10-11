@@ -6,6 +6,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 
 def upload_to(instance, filename):
@@ -18,6 +19,39 @@ def upload_to(instance, filename):
     base, extension = os.path.splitext(filename.lower())
     milliseconds = now.microsecond // 1000
     return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+
+
+def page_file_upload_to(instance, filename):
+    """
+    :param instance: object of PageFile model
+    :param filename: name (with extension) of the file being uploaded
+    """
+    company_id = instance.company
+    return f"company/{company_id}/{instance.page}/{filename}"
+
+
+def validate_file_extension(value):
+    # valid_extensions = ['.doc', '.docx', '.pdf', '.jpg', '.xls', '.pptx']
+    content_type = ""
+    try:
+        if content_type in value.file:
+            content_type = value.file.content_type
+        else:
+            content_type = value.content_type
+
+        whitelist = ['application/msword', 'application/pdf', 'application/vnd.ms-excel',
+                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                 'application/rtf', 'application/vnd.ms-powerpoint',
+                 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                 'text/plain',
+                 'image/png', 'image/bmp', 'image/gif', 'image/jpe', 'image/jpeg', 'image/jpeg', 'image/svg+xml', 'image/x-icon']
+    except (AttributeError, KeyError):
+        content_type = os.path.splitext(value.name)[1]
+        whitelist = ['.doc', '.docx', '.pdf', '.xls', '.pptx', '.jpg', '.png', '.gif', '.txt']
+
+    if not content_type in whitelist:
+        raise ValidationError('Unsupported file extension.')
 
 
 class Company(models.Model):
@@ -172,6 +206,37 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class PageFile(models.Model):
+    """
+    Stores files for respective Page (many-to-one).
+    data_file - the file which is to be storred
+    name - keeps original name of the file
+    content_type - content type of data_file guessed by file extension by DJango
+    company - Company that owns this file
+    size - number of kilobytes of uploaded file
+    """
+    data_file = models.FileField(upload_to=page_file_upload_to, validators=[validate_file_extension])
+    page = models.ForeignKey(Page, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    content_type = models.CharField(max_length=200, null=True, blank=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    # description = models.TextField(max_length=700, help_text='Enter a description about file', null=True, blank=True)
+    size = models.DecimalField(max_digits=6, decimal_places=2)
+    # updated_on = models.DateTimeField(auto_now=True)
+
+    # class Meta:
+    #     constraints = [
+    #         models.UniqueConstraint(fields=['data_file', 'company'], name='unique file for each company')
+    #     ]
+
+    def delete(self):
+        self.data_file.storage.delete(self.data_file.name)
+        super().delete()
+
+    def __str__(self):
+        return f"file: {self.name}"
 
 
 class Section(models.Model):

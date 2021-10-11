@@ -25,12 +25,13 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 
 from OnlineOnboarding.settings import EMAIL_HOST_USER
-from onboarding.models import Package, ContactRequestDetail, Page, Section, Answer, UserSessions
+from onboarding.models import Package, ContactRequestDetail, Page, PageFile, Section, Answer, UserSessions
 from onboarding.models import User, Company, CompanyQuestionAndAnswer
 
 from .serializers import UserSerializer, UserAvatarSerializer, LogInUserSerializer, UserJobDataSerializer,\
     UserUpdateSerializer, UsersListSerializer, UserProgressSerializer, UserProgressLimitedSerializer
-from .serializers import PageSerializer, SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer
+from .serializers import PageSerializer, PageFileSerializer, PageDataFileSerializer,\
+    SectionSerializer, AnswersProgressStatusSerializer, PackageUsersSerializer  # PageFileMetaDataSerializer,\
 from .serializers import PackageSerializer, PackageForHrSerializer, PageSerializer, SectionSerializer,\
     SectionAnswersSerializer, PackageAddUsersSerializer
 from .serializers import CompanyQuestionAndAnswerSerializer, PackagesUsers, ContactFormTestSerializer
@@ -572,6 +573,65 @@ class PageViewSet(viewsets.ModelViewSet):
         serializer = PageSerializer(page, many=True)
 
         return Response(serializer.data)
+
+    @action(detail=True, methods=['get'], serializer_class=PackagePagesForUsersSerializer)
+    def files(self, request, pk):
+        """
+        :param request: user
+        :return: all files for Page
+        """
+        files = PageFile.objects.filter(page=pk, company=self.request.user.company)
+        serializer = PageFileSerializer(files, many=True)
+        return Response(serializer.data)
+
+
+class PageFileViewSet(viewsets.ModelViewSet):
+    """
+    Model View Set for files of pages
+    """
+    serializer_class = PageFileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user is not None:
+            queryset = PageFile.objects.filter(company=user.company)
+        else:
+            queryset = PageFile.objects.none()
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(company=self.request.user.company)
+
+    @action(detail=True)
+    def download(self, request, pk):
+        """
+        :return: url path for file with id = pk
+        """
+        try:
+            data_file = PageFile.objects.get(pk=pk)
+        except PageFile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            file_open = data_file.data_file.storage.open(data_file.data_file.name)
+        except AttributeError:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        content_type = ""
+        try:
+            content_type = data_file.content_type
+        except AttributeError:
+            pass
+
+        response = HttpResponse(file_open, content_type=content_type)
+        try:
+            response['Content-Length'] = data_file.data_file.size
+        except AttributeError:
+            response['Content-Length'] = data_file.size * 1024
+        response['Content-Disposition'] = f"attachment; filename={data_file.name}"
+        return response
 
 
 class PackagePagesViewSet(viewsets.ModelViewSet):
