@@ -104,7 +104,7 @@ function EmployeeApp() {
             </div>
             <div className="App__buttons-wrapper">
             <div className="App__button-profile-wrapper">
-              <button className="App__button" onClick={ () => handleClick("hello") } onBlur={ () => handleClick("inactivate") } >{ `Witaj ${loggedUser.first_name}` }</button>
+              <button className="App__button btn" onClick={ () => handleClick("hello") } onBlur={ () => handleClick("inactivate") } >{ `Witaj ${loggedUser.first_name}` }</button>
               <ul className={`dropdown ${dropdownClass}`}>
                 <Link className="dropdown__link" to="/my_profile" onClick={ () => handleClick("profile") }>
                   <li className="dropdown__item dropdown__item--profile">
