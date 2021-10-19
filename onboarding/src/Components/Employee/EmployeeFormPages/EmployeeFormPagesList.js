@@ -5,19 +5,20 @@ import ProgressBar from "../../ProgressBar";
 import bookOpenedIcon from "../../../static/icons/book-opened.svg";
 
 const EmployeeFormPagesList = ({ pagesList, setPage, progress }) => {
-  const notStartedMsg = "Nie rozpoczęte", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
+  // const notStartedMsg = "Nie rozpoczęte", inProgressMsg = "W trakcie", finishedMsg = "Skończone";
 
   const pages = pagesList.map((page) => {
-    let progressForPage = <ProgressBar backgroundSize={ "0%" } />, progressMsg = "Nie pobrano",
+    let progressForPage = <ProgressBar backgroundSize={ "0%" } />, 
+        // progressMsg = "Nie pobrano",
         pageId = parseInt(page.id, 10);
 
     page = {...page, saved: false, isFinished: false, isChecked: progress !== false, readOnly: true};
-    if(page.isChecked)
-        progressMsg = <small className="ml-1">{ notStartedMsg }</small>
+    // if(page.isChecked)
+    //     progressMsg = <small className="ml-1">{ notStartedMsg }</small>
 
     if(progress.hasOwnProperty("pages") ){
       progressForPage = <ProgressBar color="blue" backgroundSize={ "0%" } />
-      progressMsg = <small className="ml-1">{ notStartedMsg }</small>
+      // progressMsg = <small className="ml-1">{ notStartedMsg }</small>
 
       let localPage, percentage;//, finishMsg = notStartedMsg;
       if(progress.pages.hasOwnProperty(pageId) ){
