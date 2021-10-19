@@ -23,7 +23,12 @@
     margin: 0;
     margin-bottom: 20px;
   }
-
+  &__description {
+    font-weight: 400;
+    font-size: 12px;
+    padding-top: 1rem;
+    margin: 0;
+  }
   // header
   &__header {
     @include list-item-card;
@@ -153,7 +158,7 @@
       font-size: 1.5rem;
       &::before {
         height: -webkit-fit-content;
-        height: -moz-fit-content;
+        height: -moz-max-content;
         height: fit-content;
       }
     }

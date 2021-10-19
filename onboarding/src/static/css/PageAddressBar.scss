@@ -2,7 +2,7 @@
 @import "./utilities/mixins.scss";
 
 .PageAddressBar {
-  padding: 91px 0 48px;
+  padding: 91px 0 48px!important;
   font-size: .8rem;
   color: #fff;
   display: flex;

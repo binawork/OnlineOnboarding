@@ -21,6 +21,7 @@
   }
   .hamburger {
     @include button;
+    width: -moz-max-content;
     width: fit-content;
     padding: 19px 10px;
     border-radius: 50%;

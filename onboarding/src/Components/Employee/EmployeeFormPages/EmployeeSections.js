@@ -15,10 +15,13 @@ const EmployeeSections = ({ pageId, userId, status, makeReadOnly }) => {
     const [sectionsView, setView] = useState({view: [], init: false});
     const [confirmationModal, setModal] = useState({msg: [""], modal: <></>});
 
+    const sortByOrder = (arr) => {
+        return arr.sort((a,b) => a.order - b.order);
+    }
 
     useEffect(() => {
         getEmployeesSectionsAndAnswers(pageId, userId, setErrorMessage, function(result, areSaved){
-            //console.log(result);
+            result.sections = sortByOrder(result.sections)
             isLoadingSaved({load: false, saved: areSaved});
             setSectionsAnswers(result);
         });
@@ -180,35 +183,28 @@ const EmployeeSections = ({ pageId, userId, status, makeReadOnly }) => {
                 sections = sectionsAnswers.sections, answers = sectionsAnswers.answers_cp;
 
             for(i = 0; i < count; i++){
-                sectionsView2.push(<section key={uuidv4()} className="card my-3">
-                        <header className="card-header">
+                sectionsView2.push(
+                    <section key={uuidv4()} className="FormSection my-3">
+                        <header className="FormSection__header">
                             <div>{sections[i].title}</div>
                         </header>
-                        <div className="card-body">
-                            {sections[i].description ? parse(sections[i].description): <></>}
-                            <p className="mt-2"><i>
-                                <small>
-                                    {sections[i].type == "oa"
-                                        ? "Pytanie otwarte"
-                                        : sections[i].type == "osa"
-                                            ? "Jednokrotny wybór"
-                                            : sections[i].type == "msa"
-                                                ? "Wielokrotny wybór"
-                                                : ""
-                                    }
-                                </small>
-                            </i></p>
+                        <div className="FormSection__main">
+                            {(sections[i].description && sections[i].description !== "<br>")
+                                ? ( <div className="FormSection__header FormSection__header--dashed mb-3">{ parse(sections[i].description) }</div>)
+                                : null
+                            }
                             {sections[i].type == "oa" ? (
                                 <OpenAnswer id={ sections[i].id } index={ i } data={ answers[i].data } changeOpenAnswerText={ changeOpenAnswerText } readOnly={ status.readOnly } />
                             ) : (
-                                <table className="table table-striped table-hover"><tbody>
+                                <table className="table table-striped table-hover m-0"><tbody>
                                     <SectionForm section={ sections[i] }
                                             answerId={ i }
                                             answerData={ answers[i].data } setAnswer={ setAnswer } readOnly={ status.readOnly } />
                                 </tbody></table>
                             )}
                         </div>
-                </section>);
+                    </section>
+                );
             }
             setView({view: sectionsView2, init: true});
         }
@@ -226,12 +222,12 @@ const EmployeeSections = ({ pageId, userId, status, makeReadOnly }) => {
                 <>
                     { sectionsView.view }
                     <div className="w-100 d-flex justify-content-end flex-wrap">
-                        <button type="submit" className="btn btn-success mb-2 text-nowrap"
+                        <button type="submit" className="FormDescription__button mr-2 text-nowrap"
                                 disabled={ status.readOnly !== null && typeof status.readOnly !== 'undefined' ? status.readOnly : true }>
                             Zapisz odpowiedzi
                         </button>
                         { !status.readOnly && (
-                            <button type="button" className="btn btn-success ml-3 mb-2 text-nowrap" onClick={ finishAnswers }>
+                            <button type="button" className="FormDescription__button text-nowrap" onClick={ finishAnswers }>
                                 Wyślij odpowiedzi
                             </button>
                         )}

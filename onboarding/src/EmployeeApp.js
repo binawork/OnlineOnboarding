@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { HashRouter, Route, Switch } from "react-router-dom";
-import "./static/css/App.scss";
+import { HashRouter, Link, Route, Switch } from "react-router-dom";
 import EmployeeSingleFormPage from "./Components/Employee/EmployeeFormPages/EmployeeSingleFormPage";
 import LoggedUser from "./Components/hooks/LoggedUser";
 import LeftMenuEmployee from "./Components/Employee/LeftMenuEmployee";
@@ -10,6 +9,8 @@ import CompanyInfoPage from "./Components/Employee/CompanyInfoPage";
 import QnAList from "./Components/Employee/QnA/QnAList";
 import EmployeeAccount from "./Components/Employee/EmployeeAccount/EmployeeAccount";
 import WelcomePage from "./Components/Employee/WelcomePage";
+import ModalWarning from "./Components/ModalWarning";
+import "./static/css/App.scss";
 
 function EmployeeApp() {
   const [countUpdate, updateUser] = useState(0);
@@ -17,12 +18,42 @@ function EmployeeApp() {
   const [showAside, setToggleAside] = useState(false);
   const [page, setPage] = useState(null);
   const [packagesList, setPackagesList] = useState([]);
+  const [dropdownClass, setDropdownClass] = useState("");
+  const [modal, setModal] = useState(<></>);
 
   useEffect(() => {
     if(packagesList?.length > 0)
       sessionStorage.setItem("packages_list", JSON.stringify(packagesList))
     else setPackagesList(JSON.parse(sessionStorage.getItem("packages_list")));
   }, [packagesList]);
+
+  const preventOnBlur = function(e){
+    e.preventDefault();// will delay onBlur event after onClick;
+  };
+  const handleLogout = () => {
+    sessionStorage.clear();
+  }
+  const showModal = (modalTitle, message) => {
+      setModal(<ModalWarning handleAccept={ hideModal } title={ modalTitle } message={ message } id={ 0 } show={ true } acceptText={ "Ok" } />);
+  };
+  const hideModal = function(){
+      setModal(<></>);
+  };
+  const handleClick = (elName) => {
+    if(elName === "help") {
+      showModal(
+        "Pomoc",
+        "Tu w przyszłości pojawi się pomoc dotycząca korzystania z aplikacji OnboardingStep."  
+      )
+    } else if(elName === "hello") {
+      setDropdownClass("active");
+    } else if(elName === "inactivate") {
+      setDropdownClass("")
+    } else if(elName === "profile") {
+      setToggleAside(false);
+      setDropdownClass("");
+    }
+  }
   
   return (
     <HashRouter>
@@ -71,7 +102,32 @@ function EmployeeApp() {
                 </Switch>
               </div>
             </div>
+            <div className="App__buttons-wrapper">
+            <div className="App__button-profile-wrapper">
+              <button className="App__button btn" onClick={ () => handleClick("hello") } onBlur={ () => handleClick("inactivate") } >{ `Witaj ${loggedUser.first_name}` }</button>
+              <ul className={`dropdown ${dropdownClass}`}>
+                <Link className="dropdown__link" to="/my_profile" onClick={ () => handleClick("profile") }>
+                  <li className="dropdown__item dropdown__item--profile">
+                    Profil
+                  </li>
+                </Link>
+                <a
+                    className="dropdown__link"
+                    href="/accounts/logout/"
+                    onMouseDown={ preventOnBlur }
+                    onClick={ handleLogout }
+                >
+                  <li className="dropdown__item">
+                    Wyloguj
+                  </li>
+                </a>
+              </ul>
+            </div>
+            {/* <button className="App__button btn">Raporty</button> */}
+            <button className="App__button" onClick={ () => handleClick('help') }>Pomoc</button>
+          </div>
           </main>
+          { modal }
         </div>
       )}
     </HashRouter>

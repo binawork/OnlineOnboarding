@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import EmployeeFormsRow from "./EmployeeFormsRow";
 import { getProgress } from "../../hooks/EmployeeForms";
+import "../../../static/css/PackagesList.scss";
+import "../../../static/css/utilities/icons.scss";
 
 /**
  *  Prints header and table with listed packages for employee;
@@ -19,7 +21,7 @@ function EmployeeFormsTable({ employeeForms, setPackagesList }) {
             return;
         if(typeof msg === 'string' && msg.length > 0){
             setMessage(msg);
-    		return;
+            return;
         }
 
         let employeeFormsCp, i, packageId;
@@ -64,23 +66,15 @@ function EmployeeFormsTable({ employeeForms, setPackagesList }) {
     }, [employeeForms]);
 
     return(
-        <div className="page-section">
-            <div className="card card-fluid">
-                <div className="card-body">
-                    <table className="table table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col" style={{width: "80%"}}>Lista zadań</th>
-                            <th scope="col" style={{width: "20%"}}>Postęp</th>
-                        </tr>
-                        </thead>
-                        <tbody id="form_table_data_container">
-                        { employeeFormsList.length > 0 ? (
-                            employeeFormsList
-                        ) : <tr><td>{ message }</td><td /></tr> }
-                        </tbody>
-                    </table>
-                </div>
+        <div className="Packages page-section">
+            <div className="Packages__list card-fluid">
+                {employeeFormsList.length > 0 ? (
+                    <div className="PackagesList__wrapper table-responsive">
+                        <ul className="PackagesList table table-striped table-hover">
+                            {employeeFormsList}
+                        </ul>
+                    </div>
+                ) : <p>{message}</p>}
             </div>
         </div>
     )

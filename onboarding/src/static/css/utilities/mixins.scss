@@ -55,6 +55,9 @@
     outline: 1px dotted;
     background: $button-hover-color;
   }
+  &:disabled {
+    opacity: .65;
+  }
 }
 @mixin card {
   --border: 2px;   /* thickness of the border */

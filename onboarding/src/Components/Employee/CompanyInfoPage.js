@@ -4,7 +4,7 @@ import parse from "html-react-parser";
 import CompanyInfoAPI from "../hooks/CompanyInfoAPI";
 import PageAddressBar from "../PageAddressBar";
 import { linkToVideo } from "../utils.js";
-
+import "../../static/css/CompanyInfo.scss";
 
 const CompanyInfoPage = ({ loggedUser }) => {
   const [loading, setLoading] = useState(true);
@@ -42,73 +42,70 @@ const CompanyInfoPage = ({ loggedUser }) => {
         videoLink = false;
   }
 
-
   return (
     <div className="page-inner">
-      <PageAddressBar page="Informacje o firmie" />
-      <div className="page-section">
-        <div className="card card-fluid">
-          <div className="card-header">Informacje o firmie</div>
-          {loading ? (
-            <div className="card-body">Ładowanie...</div>
-          ) : error ? (
-            <div className="card-body">{error}</div>
-          ) : (
-            <div className="card-body">
-              <div className="media mb-5 d-flex align-items-center">
-                {logo ? (
-                  <div className="user-avatar user-avatar-xl fileinput-button mr-4">
-                    <img alt="logo" src={logo} />
-                  </div>
-                ) : (
-                  <></>
-                )}
-                <p className="m-0" style={{ fontSize: "1.5rem" }}>
-                  <b>{companyName}</b>
-                </p>
+      <PageAddressBar page="O firmie" />
+      {loading ? (
+        <div className="">Ładowanie...</div>
+      ) : error ? (
+        <div className="">{error}</div>
+      ) : (
+        <div className="CompanyInfoPreview">
+          <header className="CompanyInfo__header-wrapper">
+            {logo ? (
+              <div className="CompanyInfo__logo user-avatar user-avatar-xxl fileinput-button">
+                <img className="UserAccount__avatar" alt="logo" src={logo} />
               </div>
-              <div className="mb-5 w-100 col-xl-6 col-lg-8 col-12">
-                <section className="mb-3">{parse(mission)}</section>
-                {link !== "" ? (
-                  videoLink ? (
-                    <div
-                      className="position-relative"
-                      style={{
-                        overflow: "hidden",
-                        paddingTop: "56.25%",
-                        background: "rgba(255, 255, 255, 0.2)",
-                      }}
-                    >
-                      <p
-                        className="position-absolute"
-                        style={{ top: "10px", left: "10px" }}
-                      >
-                        Ładowanie...
-                      </p>
-                      <iframe
-                        className="w-100 h-100 position-absolute"
-                        style={{ top: "0", left: "0" }}
-                        src={videoLink}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        title="video"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-                  ) : (
-                    <a href={link} target="_blank">
-                      LINK
-                    </a>
-                  )
-                ) : (
-                  <></>
-                )}
-                <section className="mt-3">{parse(aboutCompany)}</section>
-              </div>
+            ) : (
+              <></>
+            )}
+            <div className="CompanyInfo__name CompanyInfoPreview__name">
+              <small className="CompanyInfo__text">
+                Nazwa organizacji
+              </small>
+              <h1 className="CompanyInfo__header">
+                <b>{companyName}</b>
+              </h1>
             </div>
+          </header>
+
+          <section className="CompanyInfo__card CompanyInfoPreview__card">
+            <h2 className="CompanyInfo__card-header">Nasza misja</h2>
+            {parse(mission)}
+          </section>
+
+          {link !== "" ? (
+            videoLink ? (
+              <div className="CompanyInfoPreview__frame-wrapper">
+                <p
+                  className="position-absolute"
+                  style={{ top: "10px", left: "10px" }}
+                >
+                  Ładowanie...
+                </p>
+                <iframe
+                  className="CompanyInfoPreview__frame"
+                  src={ videoLink }
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  title="video"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            ) : (
+              <a href={ link } target="_blank" rel="noopener noreferrer">
+                { link }
+              </a>
+            )
+          ) : (
+            <></>
           )}
+
+          <section className="CompanyInfo__card CompanyInfoPreview__card">
+            {parse(aboutCompany)}
+          </section>
         </div>
-      </div>
+      )}
     </div>
   );
 };

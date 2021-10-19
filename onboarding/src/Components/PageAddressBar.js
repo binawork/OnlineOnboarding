@@ -13,7 +13,7 @@ function PageAddressBar({ page, previousPages=[] }) {
 
     return(
         <header className="PageAddressBar page-title-bar">
-            <button className="PageAddressBar__button btn" onClick={ handleBack }>
+            <button className="PageAddressBar__button" onClick={ handleBack }>
                 <img className="PageAddressBar__arrow" src={ arrow } alt="#" />
                 Wstecz
             </button>
