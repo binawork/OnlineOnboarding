@@ -28,7 +28,7 @@
     "bootstrap": "^4.5.2",
     "jquery": "^3.5.1",
     "netlify": "^4.3.11",
-    "npm": "^6.14.8",
+    "npm": "^9.4.1",
     "popper.js": "^1.16.1",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
